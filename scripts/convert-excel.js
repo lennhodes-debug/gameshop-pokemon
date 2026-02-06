@@ -108,10 +108,23 @@ const consoles = consolesRaw.map((row) => {
 
 const allProducts = [...games, ...consoles];
 
+// Add image paths for products that have downloaded box art
+const imagesDir = path.join(__dirname, '..', 'public', 'images', 'products');
+let imageCount = 0;
+const productsWithImages = allProducts.map(p => {
+  const imgFile = `${p.slug}.webp`;
+  const imgPath = path.join(imagesDir, imgFile);
+  if (fs.existsSync(imgPath)) {
+    imageCount++;
+    return { ...p, image: `/images/products/${imgFile}` };
+  }
+  return { ...p, image: null };
+});
+
 // Ensure output directory exists
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
-fs.writeFileSync(outputPath, JSON.stringify(allProducts, null, 2), 'utf8');
+fs.writeFileSync(outputPath, JSON.stringify(productsWithImages, null, 2), 'utf8');
 
-console.log(`Converted ${games.length} games + ${consoles.length} consoles = ${allProducts.length} products`);
+console.log(`Converted ${games.length} games + ${consoles.length} consoles = ${allProducts.length} products (${imageCount} with images)`);
 console.log(`Output: ${outputPath}`);

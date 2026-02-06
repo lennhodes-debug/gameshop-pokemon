@@ -15,6 +15,7 @@ export interface Product {
   weight: number;
   isConsole: boolean;
   isPremium: boolean;
+  image?: string | null;
 }
 
 export function getAllProducts(): Product[] {

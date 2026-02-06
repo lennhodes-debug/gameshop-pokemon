@@ -2,6 +2,7 @@
 
 import { useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, cn } from '@/lib/utils';
@@ -83,29 +84,40 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         )}
 
-        {/* Image placeholder with platform gradient */}
+        {/* Product image */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-48 bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center overflow-hidden`}>
-            {/* Animated shimmer on hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-
-            {/* Subtle grid pattern */}
-            <div
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-                backgroundSize: '20px 20px',
-              }}
-            />
-
-            {/* Platform text */}
-            <span className="text-white/[0.15] text-6xl font-black select-none group-hover:scale-110 transition-transform duration-500">
-              {platformLabel}
-            </span>
+          <div className={`relative h-48 ${product.image ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+            {product.image ? (
+              <>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+                />
+                {/* Subtle shimmer on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+              </>
+            ) : (
+              <>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                <div
+                  className="absolute inset-0 opacity-[0.06]"
+                  style={{
+                    backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+                    backgroundSize: '20px 20px',
+                  }}
+                />
+                <span className="text-white/[0.15] text-6xl font-black select-none group-hover:scale-110 transition-transform duration-500">
+                  {platformLabel}
+                </span>
+              </>
+            )}
 
             {/* Platform label */}
             <div className="absolute top-3 left-3">
-              <span className="px-2.5 py-1 rounded-lg bg-black/20 backdrop-blur-sm text-white text-[11px] font-semibold tracking-wide">
+              <span className={`px-2.5 py-1 rounded-lg ${product.image ? 'bg-slate-900/70' : 'bg-black/20'} backdrop-blur-sm text-white text-[11px] font-semibold tracking-wide`}>
                 {product.platform}
               </span>
             </div>

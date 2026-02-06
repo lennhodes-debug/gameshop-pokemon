@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import Image from 'next/image';
 import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
@@ -62,34 +63,49 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         }}
         className="relative group perspective-1000"
       >
-        <div className={`aspect-square rounded-3xl bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center overflow-hidden relative`}>
-          {/* Decorative elements */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
-          {/* Dot grid overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
-              backgroundSize: '16px 16px',
-            }}
-          />
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-8 border border-white/[0.06] rounded-full"
-          />
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-16 border border-dashed border-white/[0.04] rounded-full"
-          />
-          <span className="text-white/[0.12] text-[120px] font-black select-none relative z-10">
-            {platformLabel}
-          </span>
+        <div className={`aspect-square rounded-3xl ${product.image ? 'bg-white border border-slate-100' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
+          {product.image ? (
+            <>
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain p-8 group-hover:scale-105 transition-transform duration-500"
+                priority
+              />
+              {/* Subtle shimmer on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+            </>
+          ) : (
+            <>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+              <div
+                className="absolute inset-0 opacity-[0.06]"
+                style={{
+                  backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
+                  backgroundSize: '16px 16px',
+                }}
+              />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-8 border border-white/[0.06] rounded-full"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-16 border border-dashed border-white/[0.04] rounded-full"
+              />
+              <span className="text-white/[0.12] text-[120px] font-black select-none relative z-10">
+                {platformLabel}
+              </span>
+            </>
+          )}
 
           {/* Badges */}
           <div className="absolute top-4 left-4 flex gap-2">
-            <span className="px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-sm text-white text-xs font-semibold">
+            <span className={`px-3 py-1.5 rounded-xl ${product.image ? 'bg-slate-900/70' : 'bg-black/20'} backdrop-blur-sm text-white text-xs font-semibold`}>
               {product.platform}
             </span>
           </div>
