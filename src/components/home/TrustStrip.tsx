@@ -49,16 +49,20 @@ export default function TrustStrip() {
           {trustItems.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-200/50 transition-all duration-300"
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200/50 transition-all duration-300 gradient-border"
             >
-              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center text-emerald-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+              <motion.div
+                className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center text-emerald-600 mb-4"
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
                 {item.icon}
-              </div>
+              </motion.div>
               <h3 className="font-bold text-slate-900 mb-1 text-sm lg:text-base">{item.title}</h3>
               <p className="text-sm text-slate-500">{item.description}</p>
             </motion.div>

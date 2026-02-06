@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollProgress from '@/components/layout/ScrollProgress';
 import { CartProvider } from '@/components/cart/CartProvider';
 
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#f8fafc] text-slate-900 antialiased">
+        <ScrollProgress />
         <CartProvider>
           <Header />
           <main className="min-h-screen">{children}</main>

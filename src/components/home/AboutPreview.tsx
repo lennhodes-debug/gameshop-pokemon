@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import Button from '@/components/ui/Button';
 
@@ -42,28 +42,48 @@ const stats = [
 ];
 
 export default function AboutPreview() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const orbScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.9]);
+  const textX = useTransform(scrollYProgress, [0, 1], ['-3%', '0%']);
+  const statsX = useTransform(scrollYProgress, [0, 1], ['3%', '0%']);
+
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden">
+    <section ref={sectionRef} className="relative py-24 lg:py-32 overflow-hidden">
       {/* Dark background with aurora */}
       <div className="absolute inset-0 bg-[#050810]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_60%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.08),transparent_50%)]" />
 
-      {/* Animated orb */}
+      {/* Dot grid */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(16,185,129,0.8) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+
+      {/* Animated orb with parallax */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.08, 0.05] }}
+        style={{ scale: orbScale }}
+        animate={{ opacity: [0.05, 0.08, 0.05] }}
         transition={{ duration: 8, repeat: Infinity }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500 blur-[150px]"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Text */}
+          {/* Text with horizontal parallax */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
+            style={{ x: textX }}
           >
             <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6">
               Over ons
@@ -93,8 +113,8 @@ export default function AboutPreview() {
             </Link>
           </motion.div>
 
-          {/* Stats grid */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Stats grid with horizontal parallax */}
+          <motion.div className="grid grid-cols-2 gap-4" style={{ x: statsX }}>
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -111,7 +131,7 @@ export default function AboutPreview() {
                 <div className="text-sm text-slate-400">{stat.label}</div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

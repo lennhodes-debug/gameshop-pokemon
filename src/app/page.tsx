@@ -5,14 +5,18 @@ import PlatformGrid from '@/components/home/PlatformGrid';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import AboutPreview from '@/components/home/AboutPreview';
 import FaqPreview from '@/components/home/FaqPreview';
+import SectionDivider from '@/components/ui/SectionDivider';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
       <TrustStrip />
+      <SectionDivider />
       <GameMarquee />
+      <SectionDivider />
       <PlatformGrid />
+      <SectionDivider />
       <FeaturedProducts />
       <AboutPreview />
       <FaqPreview />

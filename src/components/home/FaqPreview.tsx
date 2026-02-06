@@ -33,10 +33,10 @@ export default function FaqPreview() {
     <section className="bg-[#f8fafc] py-16 lg:py-24">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
           <span className="inline-block px-3 py-1 rounded-full bg-sky-50 text-sky-600 text-xs font-semibold uppercase tracking-wider mb-4">
@@ -55,7 +55,7 @@ export default function FaqPreview() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
+          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8 gradient-border"
         >
           <Accordion items={faqItems} />
         </motion.div>

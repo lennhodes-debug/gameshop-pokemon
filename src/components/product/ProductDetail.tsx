@@ -1,12 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import { useCart } from '@/components/cart/CartProvider';
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 interface ProductDetailProps {
   product: Product;
@@ -18,6 +18,26 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
 
+  const imageRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [5, -5]), { stiffness: 200, damping: 25 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-5, 5]), { stiffness: 200, damping: 25 });
+  const [imageHovered, setImageHovered] = useState(false);
+
+  const handleImageMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!imageRef.current) return;
+    const rect = imageRef.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  const handleImageMouseLeave = useCallback(() => {
+    setImageHovered(false);
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  }, [mouseX, mouseY]);
+
   const handleAdd = () => {
     addItem(product);
     setAdded(true);
@@ -26,16 +46,33 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-      {/* Image */}
+      {/* Image with 3D tilt */}
       <motion.div
+        ref={imageRef}
+        onMouseMove={handleImageMouseMove}
+        onMouseEnter={() => setImageHovered(true)}
+        onMouseLeave={handleImageMouseLeave}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative group"
+        style={{
+          rotateX: imageHovered ? rotateX : 0,
+          rotateY: imageHovered ? rotateY : 0,
+          transformStyle: 'preserve-3d',
+        }}
+        className="relative group perspective-1000"
       >
         <div className={`aspect-square rounded-3xl bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center overflow-hidden relative`}>
           {/* Decorative elements */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+          {/* Dot grid overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
+              backgroundSize: '16px 16px',
+            }}
+          />
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}

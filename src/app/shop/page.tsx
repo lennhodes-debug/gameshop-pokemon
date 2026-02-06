@@ -86,10 +86,11 @@ function ShopContent() {
   return (
     <div className="pt-20 lg:pt-24">
       {/* Header */}
-      <div className="bg-gradient-to-br from-navy-900 via-navy-800 to-navy-700 py-12 lg:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">Shop</h1>
-          <p className="text-slate-300">
+      <div className="relative bg-[#050810] py-12 lg:py-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_70%)]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-2">Shop</h1>
+          <p className="text-slate-400">
             {filtered.length} {filtered.length === 1 ? 'product' : 'producten'} gevonden
           </p>
         </div>
@@ -179,10 +180,11 @@ export default function ShopPage() {
   return (
     <Suspense fallback={
       <div className="pt-20 lg:pt-24">
-        <div className="bg-gradient-to-br from-navy-900 via-navy-800 to-navy-700 py-12 lg:py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">Shop</h1>
-            <p className="text-slate-300">Laden...</p>
+        <div className="relative bg-[#050810] py-12 lg:py-16 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_70%)]" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-2">Shop</h1>
+            <p className="text-slate-400">Laden...</p>
           </div>
         </div>
       </div>

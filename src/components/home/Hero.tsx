@@ -1,12 +1,24 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Button from '@/components/ui/Button';
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const ringY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden">
       {/* Multi-layer aurora background */}
       <div className="absolute inset-0 bg-[#050810]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(16,185,129,0.15),transparent)]" />
@@ -72,8 +84,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Decorative spinning ring */}
-      <div className="absolute right-[5%] top-1/2 -translate-y-1/2 hidden xl:block">
+      {/* Decorative spinning ring with parallax */}
+      <motion.div className="absolute right-[5%] top-1/2 -translate-y-1/2 hidden xl:block" style={{ y: ringY }}>
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
@@ -86,10 +98,10 @@ export default function Hero() {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-emerald-400/40" />
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 h-1.5 w-1.5 rounded-full bg-cyan-400/30" />
         </motion.div>
-      </div>
+      </motion.div>
 
-      {/* Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
+      {/* Content with parallax */}
+      <motion.div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40" style={{ y: textY, opacity, scale }}>
         <div className="max-w-3xl">
           {/* Badge */}
           <motion.div
@@ -203,7 +215,7 @@ export default function Hero() {
             ))}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Bottom gradient fade to page */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#f8fafc] to-transparent" />
