@@ -1,10 +1,7 @@
-import type { Metadata } from 'next';
-import Accordion from '@/components/ui/Accordion';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Veelgestelde vragen',
-  description: 'Antwoorden op veelgestelde vragen over Gameshop Enter.',
-};
+import { motion } from 'framer-motion';
+import Accordion from '@/components/ui/Accordion';
 
 const faqItems = [
   {
@@ -44,34 +41,55 @@ const faqItems = [
 export default function FaqPage() {
   return (
     <div className="pt-20 lg:pt-24">
-      <div className="bg-gradient-to-br from-navy-900 via-navy-800 to-navy-700 py-12 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl lg:text-5xl font-bold text-white mb-4">Veelgestelde vragen</h1>
-          <p className="text-lg text-slate-300 max-w-2xl">
-            Antwoorden op de meest gestelde vragen over onze producten en service
-          </p>
+      <div className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_70%)]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
+              FAQ
+            </span>
+            <h1 className="text-3xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">Veelgestelde vragen</h1>
+            <p className="text-lg text-slate-400 max-w-2xl">
+              Antwoorden op de meest gestelde vragen over onze producten en service
+            </p>
+          </motion.div>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
+        >
           <Accordion items={faqItems} />
-        </div>
+        </motion.div>
 
-        <div className="mt-12 text-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
           <p className="text-slate-600 mb-4">
             Staat je vraag er niet bij? Neem dan gerust contact met ons op.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
-            <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-semibold">
               gameshopenter@gmail.com
             </a>
             <span className="hidden sm:block text-slate-300">|</span>
-            <a href="tel:0641126067" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            <a href="tel:0641126067" className="text-emerald-600 hover:text-emerald-700 font-semibold">
               06-41126067
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

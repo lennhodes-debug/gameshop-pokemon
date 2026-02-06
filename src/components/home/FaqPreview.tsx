@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import Accordion from '@/components/ui/Accordion';
 import Button from '@/components/ui/Button';
 
@@ -29,29 +32,50 @@ export default function FaqPreview() {
   return (
     <section className="bg-[#f8fafc] py-16 lg:py-24">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <span className="inline-block px-3 py-1 rounded-full bg-sky-50 text-sky-600 text-xs font-semibold uppercase tracking-wider mb-4">
+            FAQ
+          </span>
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
             Veelgestelde vragen
           </h2>
           <p className="text-lg text-slate-500">
             Heb je een vraag? Wellicht vind je het antwoord hier
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
+        >
           <Accordion items={faqItems} />
-        </div>
+        </motion.div>
 
-        <div className="text-center mt-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-center mt-8"
+        >
           <Link href="/faq">
             <Button variant="ghost" className="text-slate-600 hover:text-slate-900">
-              Bekijk alle veelgestelde vragen
-              <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              Bekijk alle vragen
+              <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
