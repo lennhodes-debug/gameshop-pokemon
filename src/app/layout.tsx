@@ -3,6 +3,9 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ScrollProgress from '@/components/layout/ScrollProgress';
+import SmoothScroll from '@/components/layout/SmoothScroll';
+import CustomCursor from '@/components/ui/CustomCursor';
+import PageTransition from '@/components/ui/PageTransition';
 import { CartProvider } from '@/components/cart/CartProvider';
 
 export const metadata: Metadata = {
@@ -39,12 +42,17 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#f8fafc] text-slate-900 antialiased">
+        <CustomCursor />
         <ScrollProgress />
-        <CartProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </CartProvider>
+        <SmoothScroll>
+          <CartProvider>
+            <Header />
+            <main className="min-h-screen">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+          </CartProvider>
+        </SmoothScroll>
       </body>
     </html>
   );

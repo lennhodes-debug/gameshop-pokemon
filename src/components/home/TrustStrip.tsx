@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
+import { useCallback, useRef, useState } from 'react';
 
 const trustItems = [
   {
@@ -11,6 +12,8 @@ const trustItems = [
     ),
     title: '100% Origineel',
     description: 'Persoonlijk getest op werking',
+    gradient: 'from-emerald-500 to-teal-500',
+    glow: 'rgba(16,185,129,0.2)',
   },
   {
     icon: (
@@ -20,6 +23,8 @@ const trustItems = [
     ),
     title: 'Zorgvuldig verpakt',
     description: 'Veilig verzonden via PostNL',
+    gradient: 'from-cyan-500 to-blue-500',
+    glow: 'rgba(6,182,212,0.2)',
   },
   {
     icon: (
@@ -29,6 +34,8 @@ const trustItems = [
     ),
     title: 'Gratis verzending',
     description: 'Bij bestellingen boven 100 euro',
+    gradient: 'from-violet-500 to-purple-500',
+    glow: 'rgba(139,92,246,0.2)',
   },
   {
     icon: (
@@ -38,8 +45,72 @@ const trustItems = [
     ),
     title: '14 dagen bedenktijd',
     description: 'Niet tevreden? Retourneren kan',
+    gradient: 'from-amber-500 to-orange-500',
+    glow: 'rgba(245,158,11,0.2)',
   },
 ];
+
+function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+
+  const spotX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const spotY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const spotBg = useMotionTemplate`radial-gradient(250px circle at ${spotX}% ${spotY}%, ${item.glow}, transparent 70%)`;
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); mouseX.set(0.5); mouseY.set(0.5); }}
+      initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+      whileHover={{ y: -6, transition: { duration: 0.2 } }}
+      className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-200/80 transition-all duration-300 overflow-hidden"
+    >
+      {/* Spotlight on hover */}
+      {hovered && (
+        <motion.div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{ background: spotBg }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        />
+      )}
+
+      {/* Animated icon container */}
+      <motion.div
+        className={`relative h-14 w-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}
+        style={{ boxShadow: hovered ? `0 8px 30px ${item.glow}` : undefined }}
+        whileHover={{ scale: 1.1, rotate: 5 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+      >
+        {item.icon}
+        {/* Pulse ring */}
+        <motion.div
+          className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${item.gradient}`}
+          animate={{ scale: [1, 1.4, 1.4], opacity: [0.3, 0, 0] }}
+          transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
+        />
+      </motion.div>
+
+      <h3 className="relative z-10 font-bold text-slate-900 mb-1 text-sm lg:text-base">{item.title}</h3>
+      <p className="relative z-10 text-sm text-slate-500">{item.description}</p>
+    </motion.div>
+  );
+}
 
 export default function TrustStrip() {
   return (
@@ -47,25 +118,7 @@ export default function TrustStrip() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {trustItems.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200/50 transition-all duration-300 gradient-border"
-            >
-              <motion.div
-                className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center text-emerald-600 mb-4"
-                whileHover={{ scale: 1.15, rotate: 5 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
-                {item.icon}
-              </motion.div>
-              <h3 className="font-bold text-slate-900 mb-1 text-sm lg:text-base">{item.title}</h3>
-              <p className="text-sm text-slate-500">{item.description}</p>
-            </motion.div>
+            <TrustCard key={index} item={item} index={index} />
           ))}
         </div>
       </div>

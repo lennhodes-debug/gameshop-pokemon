@@ -3,7 +3,7 @@
 import { useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
@@ -17,14 +17,32 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 300, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 300, damping: 30 });
-  const shineX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 300, damping: 30 });
-  const shineY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 300, damping: 30 });
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [10, -10]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-10, 10]), { stiffness: 300, damping: 30 });
+
+  // Holographic rainbow gradient that follows cursor
+  const holoX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const holoY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const holoBackground = useMotionTemplate`
+    radial-gradient(600px circle at ${holoX}% ${holoY}%,
+      rgba(16,185,129,0.12) 0%,
+      rgba(6,182,212,0.08) 25%,
+      rgba(139,92,246,0.06) 50%,
+      transparent 80%)
+  `;
+  const shineBackground = useMotionTemplate`
+    radial-gradient(300px circle at ${holoX}% ${holoY}%,
+      rgba(255,255,255,0.2) 0%,
+      transparent 60%)
+  `;
+  const edgeLightBackground = useMotionTemplate`
+    linear-gradient(90deg, transparent, rgba(16,185,129,0.4) ${holoX}%, transparent)
+  `;
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -47,6 +65,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     addItem(product);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 1500);
   };
 
   return (
@@ -61,32 +81,43 @@ export default function ProductCard({ product }: ProductCardProps) {
           rotateY: isHovered ? rotateY : 0,
           transformStyle: 'preserve-3d',
         }}
-        whileHover={{ y: -6, transition: { duration: 0.3, ease: 'easeOut' } }}
-        className="relative group bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:border-emerald-200/40 transition-all duration-500"
+        whileHover={{ y: -8, transition: { duration: 0.3, ease: 'easeOut' } }}
+        className="relative group bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm hover:shadow-[0_20px_60px_-15px_rgba(16,185,129,0.15)] hover:border-emerald-300/30 transition-all duration-500"
       >
-        {/* Spotlight glow effect */}
+        {/* Holographic rainbow glow */}
         {isHovered && (
           <motion.div
-            className="absolute inset-0 z-10 pointer-events-none"
-            style={{
-              background: `radial-gradient(400px circle at ${shineX.get()}% ${shineY.get()}%, rgba(16,185,129,0.08), transparent 60%)`,
-            }}
+            className="absolute inset-0 z-10 pointer-events-none rounded-2xl"
+            style={{ background: holoBackground }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           />
         )}
 
-        {/* Shine overlay */}
+        {/* Holographic shine overlay */}
         {isHovered && (
           <motion.div
-            className="absolute inset-0 z-10 pointer-events-none opacity-30"
-            style={{
-              background: `radial-gradient(200px circle at ${shineX.get()}% ${shineY.get()}%, rgba(255,255,255,0.15), transparent 60%)`,
-            }}
+            className="absolute inset-0 z-10 pointer-events-none rounded-2xl"
+            style={{ background: shineBackground }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          />
+        )}
+
+        {/* Top edge light that follows cursor */}
+        {isHovered && (
+          <motion.div
+            className="absolute top-0 left-0 right-0 h-[2px] z-20 pointer-events-none"
+            style={{ background: edgeLightBackground }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           />
         )}
 
         {/* Product image */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-48 ${product.image ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+          <div className={`relative h-52 ${product.image ? 'bg-gradient-to-b from-slate-50 to-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
             {product.image ? (
               <>
                 <Image
@@ -94,10 +125,10 @@ export default function ProductCard({ product }: ProductCardProps) {
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+                  className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                {/* Subtle shimmer on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+                {/* Diagonal shimmer sweep on hover */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-all duration-1000 ease-in-out" />
               </>
             ) : (
               <>
@@ -115,9 +146,9 @@ export default function ProductCard({ product }: ProductCardProps) {
               </>
             )}
 
-            {/* Platform label */}
+            {/* Platform label with glass effect */}
             <div className="absolute top-3 left-3">
-              <span className={`px-2.5 py-1 rounded-lg ${product.image ? 'bg-slate-900/70' : 'bg-black/20'} backdrop-blur-sm text-white text-[11px] font-semibold tracking-wide`}>
+              <span className={`px-2.5 py-1 rounded-lg ${product.image ? 'bg-slate-900/70 backdrop-blur-md' : 'bg-black/20 backdrop-blur-sm'} text-white text-[11px] font-semibold tracking-wide`}>
                 {product.platform}
               </span>
             </div>
@@ -149,17 +180,46 @@ export default function ProductCard({ product }: ProductCardProps) {
             </p>
           )}
 
-          <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100">
             <span className="text-xl font-extrabold text-slate-900 tracking-tight">
               {formatPrice(product.price)}
             </span>
             <motion.button
               onClick={handleAddToCart}
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="h-9 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold shadow-md shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30 transition-shadow duration-300"
+              whileTap={{ scale: 0.92 }}
+              className={cn(
+                "relative h-9 px-4 rounded-xl text-white text-xs font-bold overflow-hidden transition-all duration-300",
+                addedToCart
+                  ? "bg-emerald-500 shadow-lg shadow-emerald-500/30"
+                  : "bg-gradient-to-r from-emerald-500 to-teal-500 shadow-md shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30"
+              )}
             >
-              + Winkelmand
+              <AnimatePresence mode="wait">
+                {addedToCart ? (
+                  <motion.span
+                    key="check"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    className="flex items-center gap-1"
+                  >
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Toegevoegd
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="add"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    + Winkelmand
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </motion.button>
           </div>
         </div>

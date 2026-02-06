@@ -2,12 +2,14 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { getAllProducts } from '@/lib/products';
 
 export default function GameMarquee() {
   const products = getAllProducts();
-  const row1 = products.slice(0, 20).map((p) => p.name);
-  const row2 = products.slice(20, 40).map((p) => p.name);
+  const productsWithImages = products.filter(p => p.image);
+  const row1 = productsWithImages.slice(0, 15);
+  const row2 = productsWithImages.slice(15, 30);
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -19,38 +21,54 @@ export default function GameMarquee() {
   const x2 = useTransform(scrollYProgress, [0, 1], ['-5%', '0%']);
 
   return (
-    <section ref={sectionRef} className="relative bg-white py-10 overflow-hidden">
-      {/* Top/bottom fade edges */}
-      <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-white to-transparent z-10" />
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent z-10" />
-      {/* Left/right fade edges */}
-      <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
-      <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
+    <section ref={sectionRef} className="relative bg-white py-8 overflow-hidden">
+      {/* Fade edges */}
+      <div className="absolute top-0 bottom-0 left-0 w-40 bg-gradient-to-r from-white to-transparent z-10" />
+      <div className="absolute top-0 bottom-0 right-0 w-40 bg-gradient-to-l from-white to-transparent z-10" />
 
       <div className="space-y-4">
-        {/* Row 1 - left to right with parallax */}
+        {/* Row 1 - cover art cards scrolling left */}
         <motion.div className="relative overflow-hidden" style={{ x: x1 }}>
-          <div className="flex animate-marquee whitespace-nowrap">
-            {[...row1, ...row1].map((name, i) => (
-              <span key={i} className="flex items-center flex-shrink-0">
-                <span className="mx-3 text-slate-200 text-lg font-bold tracking-tight select-none hover:text-emerald-300 transition-colors duration-300 cursor-default">
-                  {name}
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300/30 flex-shrink-0" />
-              </span>
+          <div className="flex animate-marquee whitespace-nowrap gap-4">
+            {[...row1, ...row1].map((product, i) => (
+              <div
+                key={`${product.sku}-${i}`}
+                className="flex-shrink-0 group relative w-20 h-28 rounded-xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-50 shadow-sm hover:shadow-lg transition-shadow duration-300"
+              >
+                {product.image && (
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="80px"
+                    className="object-contain p-1.5 group-hover:scale-110 transition-transform duration-500"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
             ))}
           </div>
         </motion.div>
-        {/* Row 2 - right to left with parallax */}
+
+        {/* Row 2 - cover art cards scrolling right */}
         <motion.div className="relative overflow-hidden" style={{ x: x2 }}>
-          <div className="flex animate-marquee-reverse whitespace-nowrap">
-            {[...row2, ...row2].map((name, i) => (
-              <span key={i} className="flex items-center flex-shrink-0">
-                <span className="mx-3 text-slate-100 text-lg font-bold tracking-tight select-none hover:text-teal-300 transition-colors duration-300 cursor-default">
-                  {name}
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-teal-300/20 flex-shrink-0" />
-              </span>
+          <div className="flex animate-marquee-reverse whitespace-nowrap gap-4">
+            {[...row2, ...row2].map((product, i) => (
+              <div
+                key={`${product.sku}-${i}`}
+                className="flex-shrink-0 group relative w-20 h-28 rounded-xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-50 shadow-sm hover:shadow-lg transition-shadow duration-300"
+              >
+                {product.image && (
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="80px"
+                    className="object-contain p-1.5 group-hover:scale-110 transition-transform duration-500"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
             ))}
           </div>
         </motion.div>
