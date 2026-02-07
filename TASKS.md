@@ -141,7 +141,7 @@
 
 ### D. Overige pagina's
 
-#### [ ] Taak 14 — Winkelwagen: upsell sectie toevoegen
+#### [x] Taak 14 — Winkelwagen: upsell sectie toevoegen
 **Bestanden:** `src/app/winkelwagen/page.tsx`
 **Wat:**
 - Onder de winkelwagen items een "Misschien ook interessant" sectie toevoegen.
@@ -284,7 +284,7 @@
 | 11 | `[x]` | done | shop/page.tsx |
 | 12 | `[x]` | done | ProductDetail.tsx |
 | 13 | `[x]` | done | Filters.tsx |
-| 14 | `[ ]` | — | winkelwagen/page.tsx |
+| 14 | `[x]` | done | winkelwagen/page.tsx |
 | 15 | `[ ]` | — | afrekenen/page.tsx |
 | 16 | `[ ]` | — | inkoop/page.tsx |
 | 17 | `[ ]` | — | contact/page.tsx |

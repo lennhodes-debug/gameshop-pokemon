@@ -1,10 +1,12 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { getAllProducts } from '@/lib/products';
 
 export default function WinkelwagenPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCart();
@@ -13,6 +15,19 @@ export default function WinkelwagenPage() {
   const total = subtotal + shipping;
   const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+
+  const suggestions = useMemo(() => {
+    if (items.length === 0) return [];
+    const cartSkus = new Set(items.map((i) => i.product.sku));
+    const cartPlatforms = Array.from(new Set(items.map((i) => i.product.platform)));
+    const all = getAllProducts();
+    const candidates = all.filter(
+      (p) => !cartSkus.has(p.sku) && cartPlatforms.includes(p.platform) && !!p.image
+    );
+    // Shuffle deterministically based on cart contents
+    const shuffled = candidates.sort((a, b) => a.sku.localeCompare(b.sku));
+    return shuffled.slice(0, 4);
+  }, [items]);
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -218,6 +233,49 @@ export default function WinkelwagenPage() {
                 </svg>
                 Winkelwagen legen
               </motion.button>
+
+              {/* Upsell suggestions */}
+              {suggestions.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-10"
+                >
+                  <h3 className="text-lg font-extrabold text-slate-900 tracking-tight mb-4">Misschien ook interessant</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {suggestions.map((product) => {
+                      const c = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
+                      return (
+                        <Link key={product.sku} href={`/shop/${product.sku}`}>
+                          <motion.div
+                            whileHover={{ scale: 1.03, y: -2 }}
+                            className="bg-white rounded-xl border border-slate-100 overflow-hidden hover:shadow-md hover:border-slate-200 transition-all duration-300"
+                          >
+                            <div className="aspect-square bg-slate-50 relative">
+                              <Image
+                                src={product.image!}
+                                alt={product.name}
+                                fill
+                                sizes="(max-width: 640px) 50vw, 25vw"
+                                className="object-contain p-3"
+                              />
+                            </div>
+                            <div className="p-3">
+                              <p className="text-xs font-bold text-slate-900 line-clamp-1">{product.name}</p>
+                              <p className="text-[10px] text-slate-500 mt-0.5 flex items-center gap-1">
+                                <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${c.from} ${c.to}`} />
+                                {product.platform}
+                              </p>
+                              <p className="text-sm font-extrabold text-slate-900 mt-1.5">{formatPrice(product.price)}</p>
+                            </div>
+                          </motion.div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
             </div>
 
             {/* Order summary */}
