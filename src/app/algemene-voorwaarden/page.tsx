@@ -19,7 +19,7 @@ export default function AlgemeneVoorwaardenPage() {
           <div>
             <h2 className="text-xl font-bold text-slate-900 mb-4">Artikel 1 - Identiteit</h2>
             <p className="text-slate-600 leading-relaxed">
-              Gameshop Enter is een online webshop gespecialiseerd in originele Nintendo games en consoles. E-mail: gameshopenter@gmail.com. Telefoon: 06-41126067. KvK: 93642474.
+              Gameshop Enter is een online webshop gespecialiseerd in originele Nintendo games en consoles. E-mail: gameshopenter@gmail.com. KvK: 93642474.
             </p>
           </div>
           <div>

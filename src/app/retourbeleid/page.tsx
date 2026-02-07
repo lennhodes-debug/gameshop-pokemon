@@ -23,7 +23,7 @@ export default function RetourbeleidPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-4">Voorwaarden voor retournering</h2>
             <ul className="list-disc pl-6 text-slate-600 space-y-2">
               <li>Het product dient in dezelfde staat te worden geretourneerd als bij ontvangst</li>
-              <li>Meld je retourzending vooraf aan via e-mail of WhatsApp</li>
+              <li>Meld je retourzending vooraf aan via e-mail</li>
               <li>De retourzending dient binnen 14 dagen na de melding te worden verzonden</li>
               <li>De kosten voor het retourneren zijn voor rekening van de koper</li>
             </ul>
@@ -31,7 +31,7 @@ export default function RetourbeleidPage() {
           <div>
             <h2 className="text-xl font-bold text-slate-900 mb-4">Hoe retourneren?</h2>
             <ol className="list-decimal pl-6 text-slate-600 space-y-2">
-              <li>Neem contact op via <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium">gameshopenter@gmail.com</a> of WhatsApp (06-41126067)</li>
+              <li>Neem contact op via <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium">gameshopenter@gmail.com</a></li>
               <li>Vermeld je bestelnummer en het product dat je wilt retourneren</li>
               <li>Verpak het product zorgvuldig en verzend het naar het opgegeven adres</li>
               <li>Na ontvangst en controle wordt het aankoopbedrag binnen 14 dagen teruggestort</li>
@@ -46,8 +46,7 @@ export default function RetourbeleidPage() {
           <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
             <p className="text-sm text-slate-700">
               Vragen over het retourbeleid? Neem contact op via{' '}
-              <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium">gameshopenter@gmail.com</a>{' '}
-              of bel/WhatsApp naar 06-41126067.
+              <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium">gameshopenter@gmail.com</a>.
             </p>
           </div>
         </motion.div>

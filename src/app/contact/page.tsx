@@ -15,22 +15,13 @@ const contactMethods = [
     glow: 'shadow-emerald-500/20',
   },
   {
-    icon: 'M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z',
-    label: 'Telefoon',
-    value: '06-41126067',
-    href: 'tel:0641126067',
-    response: 'Ma-Za 9:00 - 21:00',
+    icon: 'M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z',
+    label: 'Contactformulier',
+    value: 'Stuur een bericht',
+    href: '#contactform',
+    response: 'Reactie binnen 24 uur',
     gradient: 'from-cyan-500 to-blue-500',
     glow: 'shadow-cyan-500/20',
-  },
-  {
-    icon: 'M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z',
-    label: 'WhatsApp',
-    value: 'Direct chatten',
-    href: 'https://wa.me/31641126067',
-    response: 'Snelste reactie',
-    gradient: 'from-green-500 to-emerald-500',
-    glow: 'shadow-green-500/20',
   },
 ];
 
@@ -63,48 +54,63 @@ export default function ContactPage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.12 } },
+            }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
+            <motion.span
+              variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const } } }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6"
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Contact
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-5">
+            </motion.span>
+            <motion.h1
+              variants={{ hidden: { opacity: 0, y: 30, filter: 'blur(10px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
+              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-5"
+            >
               Neem{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
                 contact
               </span>{' '}
               op
-            </h1>
-            <p className="text-lg lg:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed">
-              Heb je een vraag, opmerking of hulp nodig? Wij staan voor je klaar en reageren zo snel mogelijk.
-            </p>
+            </motion.h1>
+            <motion.p
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const } } }}
+              className="text-lg lg:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed"
+            >
+              Heb je een vraag, opmerking of hulp nodig? Wij staan voor je klaar en reageren binnen 24 uur.
+            </motion.p>
           </motion.div>
         </div>
       </div>
 
       {/* Contact methods cards */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
-        <div className="grid sm:grid-cols-3 gap-4">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
+        <div className="grid sm:grid-cols-2 gap-4">
           {contactMethods.map((method, i) => (
             <motion.a
               key={method.label}
               href={method.href}
-              target={method.href.startsWith('http') ? '_blank' : undefined}
-              rel={method.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.6, delay: 0.4 + i * 0.15, ease: [0.16, 1, 0.3, 1] as const }}
+              whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
+              whileTap={{ scale: 0.98 }}
               className={`group bg-white rounded-2xl border border-slate-100 p-6 shadow-lg ${method.glow} hover:shadow-xl transition-all duration-300 text-center`}
             >
-              <div className={`inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br ${method.gradient} items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+              <motion.div
+                className={`inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br ${method.gradient} items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                whileHover={{ rotate: [0, -5, 5, 0] }}
+                transition={{ duration: 0.5 }}
+              >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d={method.icon} />
                 </svg>
-              </div>
+              </motion.div>
               <h3 className="font-bold text-slate-900 mb-1">{method.label}</h3>
               <p className="text-emerald-600 font-semibold text-sm mb-2 group-hover:text-emerald-700 transition-colors">{method.value}</p>
               <p className="text-xs text-slate-400">{method.response}</p>
@@ -118,10 +124,10 @@ export default function ContactPage() {
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Left column: info */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, x: -30, filter: 'blur(8px)' }}
+            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }}
             className="lg:col-span-2"
           >
             <h2 className="text-2xl font-extrabold text-slate-900 mb-6 tracking-tight">
@@ -135,8 +141,6 @@ export default function ContactPage() {
             <div className="space-y-4 mb-8">
               <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Reactietijden</h3>
               {[
-                { channel: 'WhatsApp', time: 'Binnen 1-2 uur', color: 'bg-green-500' },
-                { channel: 'Telefoon', time: 'Direct (werkdagen)', color: 'bg-cyan-500' },
                 { channel: 'E-mail', time: 'Binnen 24 uur', color: 'bg-emerald-500' },
                 { channel: 'Contactformulier', time: 'Binnen 24 uur', color: 'bg-teal-500' },
               ].map((item) => (
@@ -183,11 +187,12 @@ export default function ContactPage() {
 
           {/* Right column: form */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0, x: 30, filter: 'blur(8px)' }}
+            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] as const }}
             className="lg:col-span-3"
+            id="contactform"
           >
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8">
               <h2 className="text-xl font-extrabold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>

@@ -24,7 +24,7 @@ const reviews = [
   },
   {
     name: 'Emma B.',
-    text: 'Fantastische webshop! Snelle reactie op WhatsApp en eerlijke prijzen.',
+    text: 'Fantastische webshop! Snelle reactie op berichten en eerlijke prijzen.',
     rating: 5,
     product: 'Animal Crossing: New Horizons',
   },

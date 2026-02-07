@@ -9,7 +9,10 @@ import BackToTop from '@/components/ui/BackToTop';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
 
+const siteUrl = 'https://gameshopenter.nl';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     template: '%s | Gameshop Enter',
@@ -17,16 +20,61 @@ export const metadata: Metadata = {
   description:
     'Gameshop Enter is de online Nintendo specialist van Nederland. 100% originele games en consoles, persoonlijk getest. Meer dan 3000 tevreden klanten en 1360+ reviews met een 5.0 score.',
   keywords: [
-    'Nintendo',
-    'games',
-    'consoles',
-    'Switch',
-    'GameCube',
-    'N64',
-    'retro games',
-    'origineel',
-    'Nederland',
+    'Nintendo games kopen',
+    'retro games Nederland',
+    'Nintendo Switch games',
+    'GameCube games',
+    'Nintendo 64 games',
+    'Super Nintendo games',
+    'Game Boy games',
+    'originele Nintendo consoles',
+    'tweedehands games',
+    'retro gaming Nederland',
   ],
+  authors: [{ name: 'Gameshop Enter' }],
+  creator: 'Gameshop Enter',
+  publisher: 'Gameshop Enter',
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'nl_NL',
+    url: siteUrl,
+    siteName: 'Gameshop Enter',
+    title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
+    description:
+      'De online Nintendo specialist van Nederland. 346+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Gameshop Enter - Nintendo Specialist',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
+    description:
+      'De online Nintendo specialist van Nederland. 346+ originele games & consoles, persoonlijk getest.',
+    images: ['/images/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
 };
 
 export default function RootLayout({
@@ -43,6 +91,43 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#f8fafc] text-slate-900 antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Store',
+              name: 'Gameshop Enter',
+              description: 'De online Nintendo specialist van Nederland. 100% originele games en consoles, persoonlijk getest.',
+              url: 'https://gameshopenter.nl',
+              logo: 'https://gameshopenter.nl/images/logo.png',
+              image: 'https://gameshopenter.nl/images/og-image.png',
+              email: 'gameshopenter@gmail.com',
+              founder: {
+                '@type': 'Person',
+                name: 'Lenn Hodes',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: '5.0',
+                reviewCount: '1360',
+                bestRating: '5',
+              },
+              priceRange: '€',
+              currenciesAccepted: 'EUR',
+              paymentAccepted: 'iDEAL, Creditcard, PayPal, Bancontact, Apple Pay',
+              areaServed: {
+                '@type': 'Country',
+                name: 'NL',
+              },
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: 'https://gameshopenter.nl/shop?q={search_term_string}',
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
         <ScrollProgress />
         <SmoothScroll>
           <CartProvider>

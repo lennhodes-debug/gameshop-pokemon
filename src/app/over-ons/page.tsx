@@ -440,8 +440,8 @@ export default function OverOnsPage() {
               <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">gameshopenter@gmail.com</a></dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Telefoon / WhatsApp</dt>
-              <dd><a href="tel:0641126067" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">06-41126067</a></dd>
+              <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Webshop</dt>
+              <dd className="text-slate-900 font-medium">Uitsluitend online — geen afhalen</dd>
             </div>
           </div>
 
