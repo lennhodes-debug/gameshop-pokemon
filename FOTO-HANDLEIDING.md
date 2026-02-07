@@ -32,11 +32,11 @@
 
 | Type | Formaat | Resolutie | Kwaliteit | Achtergrond | Locatie |
 |---|---|---|---|---|---|
-| Product covers (games) | WebP | 500x500 px | 85% | N.v.t. (box art) | `public/images/products/` |
-| Product covers (consoles) | WebP | 500x500 px | 85% | Wit/transparant | `public/images/products/` |
-| Nintendo tijdlijn consoles | WebP | max 1920x1080 px | 85% | Wit/transparant | `public/images/nintendo/` |
-| Nintendo tijdlijn games | WebP | max 1920x1080 px | 85% | N.v.t. | `public/images/nintendo/` |
-| Overige afbeeldingen | WebP | max 1920x1080 px | 85% | Wit bij voorkeur | `public/images/` |
+| Product covers (games) | WebP | 500x500 px | 82%, effort 6 | Wit (contain-fit) | `public/images/products/` |
+| Product covers (consoles) | WebP | 500x500 px | 82%, effort 6 | Wit (contain-fit) | `public/images/products/` |
+| PlatformGrid consoles | WebP | max 800x600 px | 85%, effort 6 | Transparant | `public/images/nintendo/` |
+| Nintendo tijdlijn consoles | WebP | max 800x600 px | 85%, effort 6 | Transparant | `public/images/nintendo/` |
+| Nintendo tijdlijn games | WebP | max 800x600 px | 85% | N.v.t. | `public/images/nintendo/` |
 
 ---
 
@@ -301,7 +301,47 @@ Open de afbeelding en stel jezelf deze vragen:
 
 ---
 
-## 5. Hulp Commando's
+## 5. Image Optimalisatie Pipeline
+
+### Automatische Scripts (in `scripts/` map)
+
+| Script | Doel | Commando |
+|---|---|---|
+| `normalize-images.js` | Alle producten naar 500x500 wit | `node scripts/normalize-images.js` |
+| `optimize-images.js` | Compressie optimalisatie (q82, effort 6) | `node scripts/optimize-images.js` |
+| `check-images.js` | Controle op 500x500 conformiteit | `node scripts/check-images.js` |
+| `check-missing.js` | Producten zonder afbeelding opsporen | `node scripts/check-missing.js` |
+| `audit-images.js` | Volledige audit (corruptie, grootte) | `node scripts/audit-images.js` |
+| `remove-white-bg.js` | Witte achtergrond verwijderen (alpha) | `node scripts/remove-white-bg.js` |
+
+### Optimale Sharp Instellingen
+
+**Product covers (500x500 wit):**
+```javascript
+sharp(input)
+  .resize(500, 500, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 1 } })
+  .webp({ quality: 82, effort: 6, smartSubsample: true })
+  .toFile(output);
+```
+
+**Console/PlatformGrid fotos (transparant):**
+```javascript
+sharp(input)
+  .resize(800, 600, { fit: 'inside', withoutEnlargement: true })
+  .webp({ quality: 85, effort: 6, smartSubsample: true })
+  .toFile(output);
+```
+
+### Workflow na nieuwe afbeeldingen
+1. Download en converteer nieuwe afbeeldingen
+2. `node scripts/normalize-images.js` — uniforme maat
+3. `node scripts/optimize-images.js` — compressie
+4. `node scripts/check-images.js` — verificatie
+5. `npm run build` — test dat alles werkt
+
+---
+
+## 6. Hulp Commando's
 
 ### Controleer bestandsgrootte
 ```bash
