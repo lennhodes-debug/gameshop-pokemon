@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import { Product } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, cn } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -184,9 +184,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
 
           <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-            <span className="text-xl font-extrabold text-slate-900 tracking-tight">
-              {formatPrice(product.price)}
-            </span>
+            <div>
+              <span className="text-xl font-extrabold text-slate-900 tracking-tight">
+                {formatPrice(product.price)}
+              </span>
+              {product.price >= FREE_SHIPPING_THRESHOLD && (
+                <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
+              )}
+            </div>
             <motion.button
               onClick={handleAddToCart}
               whileHover={{ scale: 1.05 }}

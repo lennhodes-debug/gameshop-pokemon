@@ -36,6 +36,30 @@ const faqItems = [
     question: 'Hoe kan ik contact opnemen?',
     answer: 'Je kunt ons bereiken via e-mail op gameshopenter@gmail.com. Wij streven ernaar om binnen 24 uur te reageren op alle berichten. Je kunt ook het contactformulier op onze contactpagina gebruiken.',
   },
+  {
+    question: 'Bieden jullie garantie op producten?',
+    answer: 'Alle producten worden persoonlijk getest voordat ze worden aangeboden. Mocht er onverhoopt toch iets mis zijn, neem dan binnen 14 dagen contact met ons op. Wij zoeken altijd naar een passende oplossing, of dat nu een vervanging of terugbetaling is.',
+  },
+  {
+    question: 'Kan ik games bij jullie inruilen?',
+    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor honderden Nintendo games en consoles. Stuur ons een e-mail met welke producten je wilt verkopen en wij maken een eerlijk bod op basis van de actuele marktwaarde.',
+  },
+  {
+    question: 'Hoeveel platforms bieden jullie aan?',
+    answer: 'Wij bieden producten aan voor 12 Nintendo platforms: Switch, Nintendo 3DS, Nintendo DS, Game Boy, Game Boy Color, Game Boy Advance, Nintendo 64, Super Nintendo, NES, GameCube, Wii en Wii U.',
+  },
+  {
+    question: 'Hoe weet ik of een product compleet is?',
+    answer: 'Bij elk product vermelden wij duidelijk de compleetheid. "Compleet in doos (CIB)" betekent dat de game inclusief doos en handleiding wordt geleverd. "Losse cartridge" of "Los" betekent dat alleen de game zelf wordt geleverd, zonder doos of handleiding.',
+  },
+  {
+    question: 'Worden producten ook naar België verzonden?',
+    answer: 'Op dit moment verzenden wij uitsluitend binnen Nederland via PostNL. Verzending naar België is momenteel niet beschikbaar, maar we hopen dit in de toekomst aan te bieden.',
+  },
+  {
+    question: 'Verkopen jullie ook accessoires?',
+    answer: 'Ja, naast games en consoles bieden wij ook originele Nintendo accessoires aan, zoals controllers, kabels en andere randapparatuur. Alle accessoires zijn getest op werking.',
+  },
 ];
 
 const faqJsonLd = {

@@ -79,6 +79,7 @@ function SortSelect({ value, onChange }: { value: string; onChange: (v: string) 
         onChange={(e) => onChange(e.target.value)}
         className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all appearance-none pr-8 hover:border-slate-300"
       >
+        <option value="newest">Nieuw binnen</option>
         <option value="name-asc">Naam A-Z</option>
         <option value="name-desc">Naam Z-A</option>
         <option value="price-asc">Prijs laag → hoog</option>
@@ -125,16 +126,50 @@ export default function Filters({
         <SortSelect value={sortBy} onChange={onSortChange} />
       </div>
 
-      {/* Platform pills */}
-      <PillGroup
-        label="Platform"
-        options={[
-          { value: '', label: 'Alle platforms' },
-          ...platforms.map((p) => ({ value: p, label: p })),
-        ]}
-        value={selectedPlatform}
-        onChange={onPlatformChange}
-      />
+      {/* Platform pills — grouped */}
+      <div>
+        <span className="block text-xs font-semibold text-slate-500 mb-2 tracking-wide uppercase">Platform</span>
+        <div className="flex flex-wrap gap-1.5">
+          {[
+            { value: '', label: 'Alle platforms' },
+            ...(() => {
+              const handheld = ['Game Boy', 'Game Boy Color', 'Game Boy Advance', 'Nintendo DS', 'Nintendo 3DS'];
+              const home = ['NES', 'Super Nintendo', 'Nintendo 64', 'GameCube', 'Wii', 'Wii U', 'Switch'];
+              const ordered = [
+                ...home.filter(p => platforms.includes(p)),
+                ...handheld.filter(p => platforms.includes(p)),
+                ...platforms.filter(p => !home.includes(p) && !handheld.includes(p)),
+              ];
+              return ordered.map(p => ({ value: p, label: p }));
+            })(),
+          ].map((opt) => {
+            const isActive = selectedPlatform === opt.value;
+            return (
+              <motion.button
+                key={opt.value}
+                onClick={() => onPlatformChange(isActive && opt.value !== '' ? '' : opt.value)}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className={cn(
+                  'relative px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-300 overflow-hidden',
+                  isActive
+                    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/25'
+                    : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-300 hover:text-emerald-700 hover:bg-emerald-50/50'
+                )}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="pill-bg-Platform"
+                    className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">{opt.label}</span>
+              </motion.button>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Toggle more filters */}
       <motion.button

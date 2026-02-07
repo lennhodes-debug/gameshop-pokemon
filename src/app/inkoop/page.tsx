@@ -119,12 +119,14 @@ export default function InkoopPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4"
+            className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-4"
           >
             {[
-              { step: '1', title: 'Zoek je game', desc: 'Vind je game in de lijst en bekijk de inkoopprijs' },
-              { step: '2', title: 'Stuur een bericht', desc: 'Mail ons via gameshopenter@gmail.com met je aanbod' },
-              { step: '3', title: 'Verstuur & ontvang', desc: 'Stuur je games op via PostNL en ontvang je geld' },
+              { step: '1', title: 'Zoek je game', desc: 'Vind je game of console in de lijst hieronder' },
+              { step: '2', title: 'Bekijk de inkoopprijs', desc: 'De prijs geldt voor producten in goede staat' },
+              { step: '3', title: 'Stuur ons een e-mail', desc: 'Mail naar gameshopenter@gmail.com met je aanbod' },
+              { step: '4', title: 'Verzend je product', desc: 'Stuur het op via PostNL, goed verpakt' },
+              { step: '5', title: 'Ontvang je geld', desc: 'Betaling binnen 2 werkdagen na ontvangst' },
             ].map((item) => (
               <div key={item.step} className="flex items-start gap-3 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
                 <span className="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold">

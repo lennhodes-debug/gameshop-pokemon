@@ -173,6 +173,36 @@ export default function ContactPage() {
               </div>
             </div>
 
+            {/* Bereikbaarheid */}
+            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100 mt-6">
+              <h3 className="text-sm font-bold text-slate-900 mb-3">Bereikbaarheid</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Ma - Vr</span>
+                  <span className="text-slate-700 font-medium">09:00 - 21:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Za - Zo</span>
+                  <span className="text-slate-700 font-medium">10:00 - 18:00</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Snelle vragen */}
+            <div className="mt-6 space-y-3">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Snelle antwoorden</h3>
+              {[
+                { q: 'Kan ik mijn bestelling afhalen?', a: 'Nee, wij zijn een online webshop. Alle bestellingen worden verzonden via PostNL.' },
+                { q: 'Hoe lang duurt de levering?', a: 'Bestellingen worden binnen 1-3 werkdagen bezorgd via PostNL.' },
+                { q: 'Kan ik games bij jullie verkopen?', a: 'Ja! Bekijk onze inkooppagina voor prijzen en stuur ons een e-mail.' },
+              ].map((item) => (
+                <div key={item.q} className="p-3 rounded-xl bg-white border border-slate-100">
+                  <p className="text-xs font-semibold text-slate-700">{item.q}</p>
+                  <p className="text-xs text-slate-500 mt-1">{item.a}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="mt-5 p-4 bg-amber-50 border border-amber-200/60 rounded-xl">
               <div className="flex items-start gap-2.5">
                 <svg className="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

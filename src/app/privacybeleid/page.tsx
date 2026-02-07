@@ -32,6 +32,24 @@ export default function PrivacybeleidPage() {
             </ul>
           </div>
           <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">Cookies</h2>
+            <p className="text-slate-600 leading-relaxed">
+              Onze website maakt gebruik van functionele cookies die noodzakelijk zijn voor de werking van de webshop, zoals het onthouden van je winkelwagen. Wij gebruiken geen tracking cookies of cookies van derden voor advertentiedoeleinden.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">Bewaartermijn</h2>
+            <p className="text-slate-600 leading-relaxed">
+              Wij bewaren je persoonsgegevens niet langer dan noodzakelijk voor het doel waarvoor ze zijn verzameld. Bestelgegevens worden bewaard voor de wettelijk verplichte termijn van 7 jaar (fiscale bewaarplicht).
+            </p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">Je rechten</h2>
+            <p className="text-slate-600 leading-relaxed">
+              Je hebt het recht om je persoonsgegevens in te zien, te corrigeren of te laten verwijderen. Neem hiervoor contact met ons op via e-mail. Wij reageren binnen 30 dagen op je verzoek.
+            </p>
+          </div>
+          <div>
             <h2 className="text-xl font-bold text-slate-900 mb-4">Contact</h2>
             <p className="text-slate-600 leading-relaxed">
               Voor vragen over ons privacybeleid kun je contact opnemen via{' '}

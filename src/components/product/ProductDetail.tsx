@@ -256,14 +256,17 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Description */}
           {product.description && (
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="text-slate-600 leading-relaxed mb-8 text-lg"
+              className="mb-8"
             >
-              {product.description}
-            </motion.p>
+              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">Beschrijving</h2>
+              <p className="text-slate-600 leading-relaxed text-lg">
+                {product.description}
+              </p>
+            </motion.div>
           )}
 
           {/* Add to cart button */}

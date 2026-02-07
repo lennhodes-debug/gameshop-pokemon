@@ -50,12 +50,24 @@ export default function AfrekenPage() {
     betaalmethode: 'ideal',
   });
 
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+
   const subtotal = getTotal();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
 
   const updateField = (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const validateField = (field: keyof FormData) => {
+    const value = form[field];
+    if (field === 'postcode' && value && !/^\d{4}\s?[a-zA-Z]{2}$/.test(value)) {
+      setErrors((prev) => ({ ...prev, postcode: 'Voer een geldige postcode in (bijv. 1234 AB)' }));
+    } else if (field === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      setErrors((prev) => ({ ...prev, email: 'Voer een geldig e-mailadres in' }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -199,7 +211,8 @@ export default function AfrekenPage() {
                   </div>
                   <div className="sm:col-span-2">
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">E-mailadres *</label>
-                    <input type="email" required value={form.email} onChange={(e) => updateField('email', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="jan@voorbeeld.nl" />
+                    <input type="email" required value={form.email} onChange={(e) => updateField('email', e.target.value)} onBlur={() => validateField('email')} className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${errors.email ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300'}`} placeholder="jan@voorbeeld.nl" />
+                    {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                   </div>
                 </div>
               </motion.div>
@@ -221,7 +234,8 @@ export default function AfrekenPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">Postcode *</label>
-                    <input type="text" required pattern="[0-9]{4}\s?[a-zA-Z]{2}" value={form.postcode} onChange={(e) => updateField('postcode', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="1234 AB" />
+                    <input type="text" required pattern="[0-9]{4}\s?[a-zA-Z]{2}" value={form.postcode} onChange={(e) => updateField('postcode', e.target.value)} onBlur={() => validateField('postcode')} className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${errors.postcode ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300'}`} placeholder="1234 AB" />
+                    {errors.postcode && <p className="text-xs text-red-500 mt-1">{errors.postcode}</p>}
                   </div>
                   <div className="sm:col-span-2">
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">Plaats *</label>

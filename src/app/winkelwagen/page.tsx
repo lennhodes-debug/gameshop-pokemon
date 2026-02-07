@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { getFeaturedProducts } from '@/lib/products';
+import ProductCard from '@/components/shop/ProductCard';
 
 export default function WinkelwagenPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCart();
@@ -13,6 +16,12 @@ export default function WinkelwagenPage() {
   const total = subtotal + shipping;
   const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+
+  const suggestions = useMemo(() => {
+    if (items.length === 0) return [];
+    const cartSkus = new Set(items.map(i => i.product.sku));
+    return getFeaturedProducts().filter(p => !cartSkus.has(p.sku)).slice(0, 4);
+  }, [items]);
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -294,6 +303,23 @@ export default function WinkelwagenPage() {
               </div>
             </motion.div>
           </div>
+        )}
+
+        {/* Upsell section */}
+        {items.length > 0 && suggestions.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-12"
+          >
+            <h2 className="text-xl font-extrabold text-slate-900 tracking-tight mb-6">Misschien ook interessant</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {suggestions.map((product) => (
+                <ProductCard key={product.sku} product={product} />
+              ))}
+            </div>
+          </motion.div>
         )}
       </div>
     </div>
