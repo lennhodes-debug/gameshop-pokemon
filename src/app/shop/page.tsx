@@ -70,6 +70,11 @@ function ShopContent() {
         case 'price-asc': return a.price - b.price;
         case 'price-desc': return b.price - a.price;
         case 'name-desc': return b.name.localeCompare(a.name);
+        case 'newest': {
+          const numA = parseInt(a.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0;
+          const numB = parseInt(b.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0;
+          return numB - numA;
+        }
         default: return a.name.localeCompare(b.name);
       }
     });

@@ -115,7 +115,7 @@
 
 ### C. Shop & Product pagina's
 
-#### [ ] Taak 11 — Shop pagina: "Nieuw binnen" sorteeroptie toevoegen
+#### [x] Taak 11 — Shop pagina: "Nieuw binnen" sorteeroptie toevoegen
 **Bestanden:** `src/app/shop/page.tsx`
 **Wat:**
 - Voeg een extra sorteeroptie toe: "Nieuw binnen" (sorteer op SKU nummer aflopend, hogere nummers = nieuwer).
@@ -281,7 +281,7 @@
 | 8 | `[ ]` | — | AboutPreview.tsx |
 | 9 | `[ ]` | — | FaqPreview.tsx |
 | 10 | `[ ]` | — | NewsletterCTA.tsx |
-| 11 | `[ ]` | — | shop/page.tsx |
+| 11 | `[x]` | done | shop/page.tsx |
 | 12 | `[ ]` | — | ProductDetail.tsx |
 | 13 | `[ ]` | — | Filters.tsx |
 | 14 | `[ ]` | — | winkelwagen/page.tsx |

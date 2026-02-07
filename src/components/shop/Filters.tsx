@@ -83,6 +83,7 @@ function SortSelect({ value, onChange }: { value: string; onChange: (v: string) 
         <option value="name-desc">Naam Z-A</option>
         <option value="price-asc">Prijs laag → hoog</option>
         <option value="price-desc">Prijs hoog → laag</option>
+        <option value="newest">Nieuw binnen</option>
       </select>
     </div>
   );
