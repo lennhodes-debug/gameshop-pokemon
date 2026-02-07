@@ -3,24 +3,40 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { getAllProducts, getAllPlatforms } from '@/lib/products';
-
-const ITEMS_PER_PAGE = 50;
+import { getAllProducts } from '@/lib/products';
 
 export default function InkoopPage() {
   const [search, setSearch] = useState('');
   const [platform, setPlatform] = useState('');
   const [category, setCategory] = useState('');
   const [sortBy, setSortBy] = useState('name-asc');
-  const [page, setPage] = useState(1);
 
   const allProducts = getAllProducts();
-  const platforms = getAllPlatforms().map((p) => p.name);
+
+  // Get products with inkoop prices
+  const inkoopProducts = useMemo(() => {
+    return allProducts.filter((p) => p.inkoopPrijs && p.inkoopPrijs > 0);
+  }, [allProducts]);
+
+  // Platform list from inkoop products only
+  const platforms = useMemo(() => {
+    const map = new Map<string, number>();
+    inkoopProducts.forEach((p) => {
+      map.set(p.platform, (map.get(p.platform) || 0) + 1);
+    });
+    return Array.from(map.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([name]) => name);
+  }, [inkoopProducts]);
 
   const filtered = useMemo(() => {
-    let results = allProducts.filter((p) => p.inkoopPrijs && p.inkoopPrijs > 0);
+    let results = inkoopProducts;
 
-    if (search) {
+    // When searching, search ALL products with inkoop price
+    // When not searching, only show featured (top 100 games + key consoles)
+    if (!search) {
+      results = results.filter((p) => p.inkoopFeatured);
+    } else {
       const q = search.toLowerCase();
       results = results.filter(
         (p) =>
@@ -44,18 +60,9 @@ export default function InkoopPage() {
     });
 
     return results;
-  }, [allProducts, search, platform, category, sortBy]);
+  }, [inkoopProducts, search, platform, category, sortBy]);
 
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
-
-  const resetFilters = () => {
-    setSearch('');
-    setPlatform('');
-    setCategory('');
-    setSortBy('name-asc');
-    setPage(1);
-  };
+  const featuredCount = inkoopProducts.filter((p) => p.inkoopFeatured).length;
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -93,7 +100,7 @@ export default function InkoopPage() {
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-4"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {filtered.length} producten met inkoopprijs
+              {featuredCount} populaire titels
             </motion.span>
 
             <h1 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight mb-3">
@@ -136,11 +143,7 @@ export default function InkoopPage() {
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         {/* Info banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-5 border border-emerald-100 mb-8"
-        >
+        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-5 border border-emerald-100 mb-8">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center">
               <svg className="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -150,25 +153,20 @@ export default function InkoopPage() {
             <div>
               <h3 className="font-bold text-slate-800 text-sm">Hoe werken onze inkoopprijzen?</h3>
               <p className="text-slate-600 text-sm mt-1">
-                Onze inkoopprijzen zijn gebaseerd op de actuele marktwaarde (PriceCharting). De genoemde prijzen gelden voor games in{' '}
+                Onze inkoopprijzen zijn gebaseerd op de actuele marktwaarde. De genoemde prijzen gelden voor games in{' '}
                 <span className="font-semibold">goede staat</span>. Bij beschadigingen of ontbrekende onderdelen kan de prijs lager uitvallen.
                 Neem contact op via{' '}
                 <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-semibold underline">
                   gameshopenter@gmail.com
-                </a>
-                {' '}voor een persoonlijk bod.
+                </a>{' '}
+                voor een persoonlijk bod.
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Search & Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="space-y-4 mb-8"
-        >
+        <div className="space-y-4 mb-8">
           {/* Search */}
           <div className="relative">
             <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -177,8 +175,8 @@ export default function InkoopPage() {
             <input
               type="text"
               value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              placeholder="Zoek op game, platform of SKU..."
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Zoek je game op naam of platform..."
               className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none text-slate-800 placeholder:text-slate-400 transition-all bg-white"
             />
             {search && (
@@ -193,12 +191,17 @@ export default function InkoopPage() {
             )}
           </div>
 
+          {search && (
+            <p className="text-sm text-slate-500">
+              Zoekresultaten uit <span className="font-semibold text-emerald-600">alle {inkoopProducts.length}</span> producten
+            </p>
+          )}
+
           {/* Filter row */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* Platform */}
             <select
               value={platform}
-              onChange={(e) => { setPlatform(e.target.value); setPage(1); }}
+              onChange={(e) => setPlatform(e.target.value)}
               className="px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium text-slate-700 bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
             >
               <option value="">Alle platforms</option>
@@ -207,10 +210,9 @@ export default function InkoopPage() {
               ))}
             </select>
 
-            {/* Category */}
             <select
               value={category}
-              onChange={(e) => { setCategory(e.target.value); setPage(1); }}
+              onChange={(e) => setCategory(e.target.value)}
               className="px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium text-slate-700 bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
             >
               <option value="">Games & Consoles</option>
@@ -218,10 +220,9 @@ export default function InkoopPage() {
               <option value="consoles">Alleen consoles</option>
             </select>
 
-            {/* Sort */}
             <select
               value={sortBy}
-              onChange={(e) => { setSortBy(e.target.value); setPage(1); }}
+              onChange={(e) => setSortBy(e.target.value)}
               className="px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium text-slate-700 bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
             >
               <option value="name-asc">Naam A-Z</option>
@@ -232,7 +233,7 @@ export default function InkoopPage() {
 
             {(search || platform || category) && (
               <button
-                onClick={resetFilters}
+                onClick={() => { setSearch(''); setPlatform(''); setCategory(''); setSortBy('name-asc'); }}
                 className="text-sm text-red-500 hover:text-red-600 font-semibold flex items-center gap-1"
               >
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -246,17 +247,12 @@ export default function InkoopPage() {
               <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
             </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Price table */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white rounded-2xl border-2 border-slate-100 overflow-hidden shadow-sm"
-        >
+        <div className="bg-white rounded-2xl border-2 border-slate-100 overflow-hidden shadow-sm">
           {/* Table header */}
-          <div className="hidden sm:grid sm:grid-cols-[1fr_160px_160px_160px] bg-slate-50 border-b border-slate-200 px-6 py-3">
+          <div className="hidden sm:grid sm:grid-cols-[1fr_150px_140px_140px] bg-slate-50 border-b border-slate-200 px-6 py-3">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Product</span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Platform</span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Marktwaarde</span>
@@ -266,14 +262,14 @@ export default function InkoopPage() {
           {/* Table body */}
           <div className="divide-y divide-slate-100">
             <AnimatePresence mode="popLayout">
-              {paginated.map((product, idx) => (
+              {filtered.map((product, idx) => (
                 <motion.div
                   key={product.sku}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: idx * 0.01 }}
-                  className="grid grid-cols-1 sm:grid-cols-[1fr_160px_160px_160px] items-center px-4 sm:px-6 py-3 hover:bg-slate-50/80 transition-colors group"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: Math.min(idx * 0.01, 0.5) }}
+                  className="grid grid-cols-1 sm:grid-cols-[1fr_150px_140px_140px] items-center px-4 sm:px-6 py-3 hover:bg-slate-50/80 transition-colors group"
                 >
                   {/* Product info */}
                   <div className="flex items-center gap-3">
@@ -333,49 +329,21 @@ export default function InkoopPage() {
           </div>
 
           {/* Empty state */}
-          {paginated.length === 0 && (
+          {filtered.length === 0 && (
             <div className="px-6 py-16 text-center">
               <svg className="mx-auto h-12 w-12 text-slate-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
               <p className="text-slate-500 font-medium">Geen resultaten gevonden</p>
-              <p className="text-slate-400 text-sm mt-1">Probeer een andere zoekterm of filter</p>
+              <p className="text-slate-400 text-sm mt-1">Probeer een andere zoekterm of neem contact op voor een persoonlijk bod</p>
             </div>
           )}
-        </motion.div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-8 flex items-center justify-center gap-2">
-            <button
-              onClick={() => setPage(Math.max(1, page - 1))}
-              disabled={page === 1}
-              className="px-4 py-2 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            >
-              Vorige
-            </button>
-            <span className="px-4 text-sm text-slate-500">
-              Pagina <span className="font-semibold text-slate-700">{page}</span> van <span className="font-semibold text-slate-700">{totalPages}</span>
-            </span>
-            <button
-              onClick={() => setPage(Math.min(totalPages, page + 1))}
-              disabled={page === totalPages}
-              className="px-4 py-2 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            >
-              Volgende
-            </button>
-          </div>
-        )}
+        </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-12 bg-gradient-to-r from-[#0a1628] to-[#0d1f3c] rounded-2xl p-8 text-center border border-white/10"
-        >
+        <div className="mt-12 bg-gradient-to-r from-[#0a1628] to-[#0d1f3c] rounded-2xl p-8 text-center border border-white/10">
           <h2 className="text-2xl font-bold text-white mb-3">
-            Game niet in de lijst?
+            Game niet gevonden?
           </h2>
           <p className="text-slate-400 mb-6 max-w-lg mx-auto">
             Heb je een game die niet in onze lijst staat? Stuur ons een bericht en we maken je een persoonlijk bod.
@@ -389,7 +357,7 @@ export default function InkoopPage() {
             </svg>
             Mail je aanbod
           </a>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

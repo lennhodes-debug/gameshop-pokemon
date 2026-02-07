@@ -18,6 +18,7 @@ export interface Product {
   image?: string | null;
   inkoopPrijs?: number | null;
   pcUsedPrice?: number | null;
+  inkoopFeatured?: boolean;
 }
 
 export function getAllProducts(): Product[] {
