@@ -11,9 +11,9 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
 
 export const PLATFORM_COLORS: Record<string, { from: string; to: string }> = {
   'Nintendo Switch': { from: 'from-red-500', to: 'to-red-700' },
-  'GameCube': { from: 'from-indigo-500', to: 'to-purple-700' },
+  'GameCube': { from: 'from-indigo-500', to: 'to-blue-700' },
   'Nintendo 64': { from: 'from-green-500', to: 'to-emerald-700' },
-  'Game Boy Advance': { from: 'from-violet-500', to: 'to-purple-700' },
+  'Game Boy Advance': { from: 'from-blue-500', to: 'to-indigo-700' },
   'Super Nintendo': { from: 'from-gray-500', to: 'to-gray-700' },
   'Nintendo 3DS': { from: 'from-sky-500', to: 'to-blue-700' },
   'NES': { from: 'from-gray-600', to: 'to-gray-800' },

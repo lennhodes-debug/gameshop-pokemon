@@ -371,7 +371,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/sw-022-super-mario-3d-world-bowsers-fury.webp"
   },
   {
     "sku": "SW-023",
@@ -422,7 +422,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/sw-025-super-mario-rpg.webp"
   },
   {
     "sku": "SW-026",
@@ -813,7 +813,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/sw-048-xenoblade-chronicles-definitive-edition.webp"
   },
   {
     "sku": "SW-049",
@@ -2734,7 +2734,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/gb-001-pokmon-red.webp"
   },
   {
     "sku": "GB-002",
@@ -2768,7 +2768,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/gb-003-pokmon-yellow.webp"
   },
   {
     "sku": "GB-004",
@@ -4145,7 +4145,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/n64-009-goldeneye-007.webp"
   },
   {
     "sku": "N64-010",

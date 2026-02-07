@@ -34,8 +34,8 @@ const trustItems = [
     ),
     title: 'Gratis verzending',
     description: 'Bij bestellingen boven 100 euro',
-    gradient: 'from-violet-500 to-purple-500',
-    glow: 'rgba(139,92,246,0.2)',
+    gradient: 'from-sky-500 to-blue-500',
+    glow: 'rgba(14,165,233,0.2)',
   },
   {
     icon: (

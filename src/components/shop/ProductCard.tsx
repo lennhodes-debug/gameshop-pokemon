@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     radial-gradient(600px circle at ${holoX}% ${holoY}%,
       rgba(16,185,129,0.12) 0%,
       rgba(6,182,212,0.08) 25%,
-      rgba(139,92,246,0.06) 50%,
+      rgba(6,182,212,0.06) 50%,
       transparent 80%)
   `;
   const shineBackground = useMotionTemplate`

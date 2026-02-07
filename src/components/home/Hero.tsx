@@ -27,8 +27,8 @@ export default function Hero() {
     <section ref={sectionRef} className="relative h-[110vh] overflow-hidden">
       {/* === SKY LAYER === */}
       <motion.div className="absolute inset-0" style={{ y: skyY }}>
-        {/* Base sky gradient - dusk purple/blue to warm orange horizon */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e2e] via-[#1a1145] via-40% to-[#2d1b4e]" />
+        {/* Base sky gradient - deep blue night sky */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070d1f] via-[#0c1a30] via-40% to-[#0e2240]" />
 
         {/* Aurora / Northern lights effect */}
         <div className="absolute inset-0">
@@ -43,7 +43,7 @@ export default function Hero() {
           <motion.div
             className="absolute top-[10%] right-[5%] w-[40%] h-[30%] rounded-full opacity-[0.06]"
             style={{
-              background: 'radial-gradient(ellipse, rgba(139,92,246,0.5) 0%, rgba(59,130,246,0.3) 40%, transparent 70%)',
+              background: 'radial-gradient(ellipse, rgba(6,182,212,0.4) 0%, rgba(16,185,129,0.2) 40%, transparent 70%)',
             }}
             animate={{ x: [0, -30, 20, 0], scale: [1, 0.9, 1.1, 1] }}
             transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
@@ -81,8 +81,8 @@ export default function Hero() {
         <svg viewBox="0 0 1440 400" className="w-full" preserveAspectRatio="none" style={{ height: '55vh' }}>
           <defs>
             <linearGradient id="mtn-far" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1a1040" />
-              <stop offset="100%" stopColor="#0d0820" />
+              <stop offset="0%" stopColor="#0c1a30" />
+              <stop offset="100%" stopColor="#071018" />
             </linearGradient>
           </defs>
           <path d="M0,200 L80,160 L160,180 L280,90 L360,130 L440,70 L520,120 L640,50 L720,100 L800,60 L920,130 L1000,80 L1080,110 L1200,40 L1280,100 L1360,70 L1440,120 L1440,400 L0,400 Z" fill="url(#mtn-far)" opacity="0.7" />
@@ -94,9 +94,9 @@ export default function Hero() {
         <svg viewBox="0 0 1440 400" className="w-full" preserveAspectRatio="none" style={{ height: '45vh' }}>
           <defs>
             <linearGradient id="mtn-mid" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#14103a" />
-              <stop offset="60%" stopColor="#0c0825" />
-              <stop offset="100%" stopColor="#080515" />
+              <stop offset="0%" stopColor="#091525" />
+              <stop offset="60%" stopColor="#060e1a" />
+              <stop offset="100%" stopColor="#050a12" />
             </linearGradient>
           </defs>
           <path d="M0,220 L100,170 L200,200 L320,110 L420,160 L500,90 L600,140 L720,70 L840,130 L920,80 L1020,150 L1120,100 L1200,140 L1320,60 L1440,110 L1440,400 L0,400 Z" fill="url(#mtn-mid)" opacity="0.85" />
@@ -147,8 +147,8 @@ export default function Hero() {
         <svg viewBox="0 0 1440 300" className="w-full" preserveAspectRatio="none" style={{ height: '35vh' }}>
           <defs>
             <linearGradient id="mtn-near" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0a0818" />
-              <stop offset="100%" stopColor="#050410" />
+              <stop offset="0%" stopColor="#060d18" />
+              <stop offset="100%" stopColor="#040810" />
             </linearGradient>
           </defs>
           <path d="M0,180 L120,140 L240,170 L380,100 L480,150 L560,80 L680,130 L760,90 L880,150 L960,110 L1080,160 L1180,120 L1300,80 L1440,140 L1440,300 L0,300 Z" fill="url(#mtn-near)" />
