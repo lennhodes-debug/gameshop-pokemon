@@ -22,7 +22,7 @@
 
 ### A. Data fixes (snel, hoge prioriteit)
 
-#### [ ] Taak 1 — Over Ons pagina: "346" → "846" en timeline updaten
+#### [x] Taak 1 — Over Ons pagina: "346" → "846" en timeline updaten
 **Bestanden:** `src/app/over-ons/page.tsx`
 **Wat:**
 - Regel 72: `"346+ producten"` → `"846+ producten"` (in timeline 2024 beschrijving)
@@ -164,7 +164,7 @@
 - Stappen toevoegen: 1. Zoek je game 2. Bekijk de inkoopprijs 3. Stuur ons een e-mail 4. Verzend het product 5. Ontvang je geld.
 - Voeg het e-mailadres (gameshopenter@gmail.com) prominent toe.
 
-#### [ ] Taak 17 — Contact pagina: openingstijden toevoegen
+#### [x] Taak 17 — Contact pagina: openingstijden toevoegen
 **Bestanden:** `src/app/contact/page.tsx`
 **Wat:**
 - Voeg reactietijden/beschikbaarheid informatie toe.
@@ -172,7 +172,7 @@
 - Voeg een klein FAQ sectietje toe met 2-3 snelle vragen.
 - Check of het formulier alle velden juist heeft.
 
-#### [ ] Taak 18 — FAQ pagina: meer vragen toevoegen
+#### [x] Taak 18 — FAQ pagina: meer vragen toevoegen
 **Bestanden:** `src/app/faq/page.tsx`
 **Wat:**
 - Voeg 4-6 extra FAQ items toe, bijv.:
@@ -184,7 +184,7 @@
   - "Worden producten ook naar Belgie verzonden?"
 - Update het FAQPage schema (faqJsonLd) zodat de nieuwe vragen ook in Google verschijnen.
 
-#### [ ] Taak 19 — 404 pagina: suggesties toevoegen
+#### [x] Taak 19 — 404 pagina: suggesties toevoegen
 **Bestanden:** `src/app/not-found.tsx`
 **Wat:**
 - Voeg 3-4 populaire productcategorieen toe als suggesties.
@@ -203,7 +203,7 @@
 
 ### E. Layout & navigatie
 
-#### [ ] Taak 21 — Footer: inkoop link + social links toevoegen
+#### [x] Taak 21 — Footer: inkoop link + social links toevoegen
 **Bestanden:** `src/components/layout/Footer.tsx`
 **Wat:**
 - Voeg "Games verkopen" (inkoop) link toe onder "Shop" sectie.
@@ -223,7 +223,7 @@
 
 ### F. SEO & Performance
 
-#### [ ] Taak 23 — Sitemap: meer pagina's toevoegen
+#### [x] Taak 23 — Sitemap: meer pagina's toevoegen
 **Bestanden:** `src/app/sitemap.ts`
 **Wat:**
 - Check of alle pagina's in de sitemap staan (inclusief /inkoop, /contact, /faq, /over-ons).
@@ -231,7 +231,7 @@
 - Voeg priority en changefreq toe aan belangrijke pagina's.
 - Product pagina's moeten allemaal in de sitemap staan.
 
-#### [ ] Taak 24 — Robots.txt: optimaliseren
+#### [x] Taak 24 — Robots.txt: optimaliseren
 **Bestanden:** `src/app/robots.ts`
 **Wat:**
 - Check of robots.txt correct geconfigureerd is.
@@ -271,7 +271,7 @@
 
 | Taak | Status | Chat | Bestanden |
 |------|--------|------|-----------|
-| 1 | `[ ]` | — | over-ons/page.tsx |
+| 1 | `[x]` | done | over-ons/page.tsx |
 | 2 | `[ ]` | — | Hero.tsx |
 | 3 | `[ ]` | — | TrustStrip.tsx |
 | 4 | `[ ]` | — | ReviewsStrip.tsx |
@@ -287,14 +287,14 @@
 | 14 | `[x]` | done | winkelwagen/page.tsx |
 | 15 | `[x]` | done | afrekenen/page.tsx |
 | 16 | `[x]` | done | inkoop/page.tsx |
-| 17 | `[ ]` | — | contact/page.tsx |
-| 18 | `[ ]` | — | faq/page.tsx |
-| 19 | `[ ]` | — | not-found.tsx |
+| 17 | `[x]` | done | contact/page.tsx |
+| 18 | `[x]` | done | faq/page.tsx |
+| 19 | `[x]` | done | not-found.tsx |
 | 20 | `[ ]` | — | privacybeleid + retourbeleid + voorwaarden |
-| 21 | `[ ]` | — | Footer.tsx |
+| 21 | `[x]` | done | Footer.tsx |
 | 22 | `[ ]` | — | Header.tsx |
-| 23 | `[ ]` | — | sitemap.ts |
-| 24 | `[ ]` | — | robots.ts |
+| 23 | `[x]` | done | sitemap.ts |
+| 24 | `[x]` | done | robots.ts |
 | 25 | `[ ]` | — | layout.tsx |
 | 26 | `[ ]` | — | Badge.tsx |
 | 27 | `[ ]` | — | ProductCard.tsx |

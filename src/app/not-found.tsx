@@ -87,12 +87,40 @@ export default function NotFound() {
             </Link>
           </motion.div>
 
+          {/* Popular categories */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="mt-14"
+          >
+            <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-4">Populaire categorieen</p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {[
+                { href: '/shop?platform=Nintendo+Switch', label: 'Nintendo Switch' },
+                { href: '/shop?platform=GameCube', label: 'GameCube' },
+                { href: '/shop?platform=Nintendo+64', label: 'Nintendo 64' },
+                { href: '/shop?platform=Game+Boy', label: 'Game Boy' },
+                { href: '/inkoop', label: 'Games verkopen' },
+              ].map((cat) => (
+                <Link key={cat.href} href={cat.href}>
+                  <motion.span
+                    whileHover={{ scale: 1.05, y: -1 }}
+                    className="inline-block px-4 py-2 rounded-xl bg-white/[0.06] border border-white/[0.1] text-slate-300 text-sm font-medium hover:bg-white/[0.1] hover:text-white transition-all"
+                  >
+                    {cat.label}
+                  </motion.span>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
           {/* Decorative controller hint */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="mt-16 text-slate-600 text-xs font-medium tracking-wider uppercase"
+            className="mt-10 text-slate-600 text-xs font-medium tracking-wider uppercase"
           >
             Press Start to Continue
           </motion.p>
