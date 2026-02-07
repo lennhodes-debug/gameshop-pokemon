@@ -132,7 +132,7 @@ Nintendo {console} product photo transparent
 node -e "
 const sharp = require('sharp');
 sharp('input.jpg')
-  .resize(500, 500, { fit: 'inside', withoutEnlargement: true })
+  .resize(500, 500, { fit: 'contain', background: {r:255,g:255,b:255,alpha:1} })
   .webp({ quality: 85 })
   .toFile('public/images/products/sw-164-game-naam.webp');
 "
@@ -142,6 +142,9 @@ python3 -c "
 from PIL import Image
 img = Image.open('input.jpg').convert('RGB')
 img.thumbnail((500, 500), Image.LANCZOS)
+# Pad naar 500x500 met witte achtergrond
+from PIL import ImageOps
+img = ImageOps.pad(img, (500, 500), color=(255,255,255))
 img.save('public/images/products/sw-164-game-naam.webp', 'WEBP', quality=85)
 "
 ```
@@ -327,13 +330,23 @@ fs.readdirSync(dir)
   .forEach(async f => {
     const out = f.replace(/\.(jpg|jpeg|png)$/i, '.webp');
     await sharp(path.join(dir, f))
-      .resize(500, 500, { fit: 'inside', withoutEnlargement: true })
+      .resize(500, 500, { fit: 'contain', background: {r:255,g:255,b:255,alpha:1} })
       .webp({ quality: 85 })
       .toFile(path.join('public/images/products', out));
     console.log('Geconverteerd:', out);
   });
 "
 ```
+
+### Normalisatie script (alle fotos naar 500x500 wit)
+Gebruik `scripts/normalize-images.js` om ALLE bestaande productafbeeldingen te normaliseren:
+```bash
+node scripts/normalize-images.js
+# Resize alle afbeeldingen naar exact 500x500 met witte achtergrond
+# Gebruikt sharp contain-fit + white background
+# WebP quality 85
+```
+**LET OP:** Gebruik altijd `fit: 'contain'` met witte achtergrond, NOOIT `fit: 'inside'` (dat behoudt de originele aspect ratio zonder padding).
 
 ### Controleer of alle producten een afbeelding hebben
 ```bash
