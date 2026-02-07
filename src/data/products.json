@@ -2391,7 +2391,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-079-undertale.webp",
+    "image": "/images/products/sw-120-undertale.webp",
     "inkoopPrijs": 11,
     "pcUsedPrice": 27.62,
     "inkoopFeatured": true
@@ -15741,7 +15741,7 @@
     "weight": 0.8,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-018-super-nintendo.webp",
+    "image": "/images/products/con-041-super-nintendo.webp",
     "pcUsedPrice": 73.78,
     "inkoopPrijs": 30,
     "inkoopFeatured": true
@@ -16051,7 +16051,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/con-018-super-nintendo.webp",
+    "image": "/images/products/acc-012-super-nintendo-stroomadapter.webp",
     "pcUsedPrice": 11.35,
     "inkoopPrijs": 5
   },
