@@ -39,7 +39,7 @@ interface EraData {
 
 const ERA_IMAGES: Record<string, EraImages> = {
   nes: {
-    console: '/images/products/con-019-nes.webp',
+    console: '/images/nintendo/nes-console.webp',
     games: [
       { name: 'Super Mario Bros', image: '/images/products/nes-001-super-mario-bros.webp' },
       { name: 'The Legend of Zelda', image: '/images/products/nes-054-the-legend-of-zelda.webp' },
@@ -48,7 +48,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   gameboy: {
-    console: '/images/products/con-014-game-boy-classic.webp',
+    console: '/images/nintendo/gameboy-console.webp',
     games: [
       { name: 'Tetris', image: '/images/products/gb-015-tetris.webp' },
       { name: 'Pokemon Red', image: '/images/products/gb-001-pokmon-red.webp' },
@@ -57,7 +57,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   snes: {
-    console: '/images/products/con-018-super-nintendo.webp',
+    console: '/images/nintendo/snes-console.webp',
     games: [
       { name: 'Super Mario World', image: '/images/products/snes-002-super-mario-world.webp' },
       { name: 'Zelda: A Link to the Past', image: '/images/products/snes-001-zelda-a-link-to-the-past.webp' },
@@ -66,7 +66,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   n64: {
-    console: '/images/products/con-017-nintendo-64-grijs.webp',
+    console: '/images/nintendo/n64-console.webp',
     games: [
       { name: 'Super Mario 64', image: '/images/products/n64-001-super-mario-64.webp' },
       { name: 'Zelda: Ocarina of Time', image: '/images/products/n64-002-zelda-ocarina-of-time.webp' },
@@ -75,7 +75,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   gamecube: {
-    console: '/images/products/con-016-gamecube-paars.webp',
+    console: '/images/nintendo/gamecube-console.webp',
     games: [
       { name: 'Super Smash Bros. Melee', image: '/images/products/gc-005-super-smash-bros-melee.webp' },
       { name: 'Zelda: The Wind Waker', image: '/images/products/gc-003-zelda-the-wind-waker.webp' },
@@ -84,7 +84,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   ds: {
-    console: '/images/products/con-010-nintendo-ds-lite.webp',
+    console: '/images/nintendo/ds-console.webp',
     games: [
       { name: 'Mario Kart DS', image: '/images/products/ds-010-mario-kart-ds.webp' },
       { name: 'Pokemon HeartGold', image: '/images/products/ds-006-pokmon-heartgold.webp' },
@@ -93,7 +93,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   wii: {
-    console: '/images/products/con-020-nintendo-wii-wit.webp',
+    console: '/images/nintendo/wii-console.webp',
     games: [
       { name: 'Wii Sports', image: '/images/products/wii-008-wii-sports.webp' },
       { name: 'Super Mario Galaxy', image: '/images/products/wii-002-super-mario-galaxy.webp' },
@@ -102,7 +102,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   '3ds': {
-    console: '/images/products/con-005-nintendo-3ds-blauw.webp',
+    console: '/images/nintendo/3ds-console.webp',
     games: [
       { name: 'Pokemon X', image: '/images/products/3ds-004-pokmon-x.webp' },
       { name: 'Zelda: A Link Between Worlds', image: '/images/products/3ds-003-zelda-a-link-between-worlds.webp' },
@@ -111,7 +111,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   wiiu: {
-    console: '/images/products/con-021-nintendo-wii-u-32gb.webp',
+    console: '/images/nintendo/wiiu-console.webp',
     games: [
       { name: 'Splatoon', image: '/images/products/wiiu-007-splatoon.webp' },
       { name: 'Mario Kart 8', image: '/images/products/wiiu-004-mario-kart-8.webp' },
@@ -120,7 +120,7 @@ const ERA_IMAGES: Record<string, EraImages> = {
     ],
   },
   switch: {
-    console: '/images/products/con-001-nintendo-switch-oled-wit.webp',
+    console: '/images/nintendo/switch-console.webp',
     games: [
       { name: 'Zelda: Breath of the Wild', image: '/images/products/sw-012-zelda-breath-of-the-wild.webp' },
       { name: 'Super Mario Odyssey', image: '/images/products/sw-018-super-mario-odyssey.webp' },
@@ -609,42 +609,42 @@ function IntroSection() {
 
       {/* Zwevende console afbeeldingen */}
       <FloatingConsole
-        src="/images/products/con-019-nes.webp"
+        src="/images/nintendo/nes-console.webp"
         alt="NES"
         className="top-[12%] left-[5%] sm:left-[8%] opacity-60 hidden sm:block"
         delay={0}
         size={72}
       />
       <FloatingConsole
-        src="/images/products/con-014-game-boy-classic.webp"
+        src="/images/nintendo/gameboy-console.webp"
         alt="Game Boy"
         className="top-[18%] right-[6%] sm:right-[12%] opacity-50 hidden sm:block"
         delay={1.5}
         size={64}
       />
       <FloatingConsole
-        src="/images/products/con-018-super-nintendo.webp"
+        src="/images/nintendo/snes-console.webp"
         alt="SNES"
         className="bottom-[22%] left-[6%] sm:left-[12%] opacity-50 hidden md:block"
         delay={3}
         size={80}
       />
       <FloatingConsole
-        src="/images/products/con-017-nintendo-64-grijs.webp"
+        src="/images/nintendo/n64-console.webp"
         alt="N64"
         className="bottom-[28%] right-[4%] sm:right-[8%] opacity-50 hidden md:block"
         delay={2}
         size={72}
       />
       <FloatingConsole
-        src="/images/products/con-016-gamecube-paars.webp"
+        src="/images/nintendo/gamecube-console.webp"
         alt="GameCube"
         className="top-[40%] left-[2%] sm:left-[4%] opacity-40 hidden lg:block"
         delay={4}
         size={60}
       />
       <FloatingConsole
-        src="/images/products/con-001-nintendo-switch-oled-wit.webp"
+        src="/images/nintendo/switch-console.webp"
         alt="Switch"
         className="top-[35%] right-[3%] sm:right-[5%] opacity-40 hidden lg:block"
         delay={2.5}
@@ -734,13 +734,13 @@ function IntroSection() {
           className="flex items-center justify-center gap-3 sm:gap-4 mb-12"
         >
           {[
-            { src: '/images/products/con-019-nes.webp', label: '1983' },
-            { src: '/images/products/con-014-game-boy-classic.webp', label: '1989' },
-            { src: '/images/products/con-018-super-nintendo.webp', label: '1990' },
-            { src: '/images/products/con-017-nintendo-64-grijs.webp', label: '1996' },
-            { src: '/images/products/con-016-gamecube-paars.webp', label: '2001' },
-            { src: '/images/products/con-020-nintendo-wii-wit.webp', label: '2006' },
-            { src: '/images/products/con-001-nintendo-switch-oled-wit.webp', label: '2017' },
+            { src: '/images/nintendo/nes-console.webp', label: '1983' },
+            { src: '/images/nintendo/gameboy-console.webp', label: '1989' },
+            { src: '/images/nintendo/snes-console.webp', label: '1990' },
+            { src: '/images/nintendo/n64-console.webp', label: '1996' },
+            { src: '/images/nintendo/gamecube-console.webp', label: '2001' },
+            { src: '/images/nintendo/wii-console.webp', label: '2006' },
+            { src: '/images/nintendo/switch-console.webp', label: '2017' },
           ].map((item, i) => (
             <motion.div
               key={item.label}
@@ -1178,16 +1178,16 @@ function ConsoleShowcase() {
   const isInView = useInView(ref, { once: true, margin: '-10%' });
 
   const consoles = [
-    { name: 'NES', year: 1983, image: '/images/products/con-019-nes.webp', sold: '61,91 mln', rgb: '239, 68, 68' },
-    { name: 'Game Boy', year: 1989, image: '/images/products/con-014-game-boy-classic.webp', sold: '118,69 mln', rgb: '155, 188, 15' },
-    { name: 'SNES', year: 1990, image: '/images/products/con-018-super-nintendo.webp', sold: '49,10 mln', rgb: '168, 85, 247' },
-    { name: 'N64', year: 1996, image: '/images/products/con-017-nintendo-64-grijs.webp', sold: '32,93 mln', rgb: '34, 197, 94' },
-    { name: 'GameCube', year: 2001, image: '/images/products/con-016-gamecube-paars.webp', sold: '21,74 mln', rgb: '129, 140, 248' },
-    { name: 'DS', year: 2004, image: '/images/products/con-010-nintendo-ds-lite.webp', sold: '154,02 mln', rgb: '56, 189, 248' },
-    { name: 'Wii', year: 2006, image: '/images/products/con-020-nintendo-wii-wit.webp', sold: '101,63 mln', rgb: '34, 211, 238' },
-    { name: '3DS', year: 2011, image: '/images/products/con-005-nintendo-3ds-blauw.webp', sold: '75,94 mln', rgb: '244, 63, 94' },
-    { name: 'Wii U', year: 2012, image: '/images/products/con-021-nintendo-wii-u-32gb.webp', sold: '13,56 mln', rgb: '59, 130, 246' },
-    { name: 'Switch', year: 2017, image: '/images/products/con-001-nintendo-switch-oled-wit.webp', sold: '143+ mln', rgb: '239, 68, 68' },
+    { name: 'NES', year: 1983, image: '/images/nintendo/nes-console.webp', sold: '61,91 mln', rgb: '239, 68, 68' },
+    { name: 'Game Boy', year: 1989, image: '/images/nintendo/gameboy-console.webp', sold: '118,69 mln', rgb: '155, 188, 15' },
+    { name: 'SNES', year: 1990, image: '/images/nintendo/snes-console.webp', sold: '49,10 mln', rgb: '168, 85, 247' },
+    { name: 'N64', year: 1996, image: '/images/nintendo/n64-console.webp', sold: '32,93 mln', rgb: '34, 197, 94' },
+    { name: 'GameCube', year: 2001, image: '/images/nintendo/gamecube-console.webp', sold: '21,74 mln', rgb: '129, 140, 248' },
+    { name: 'DS', year: 2004, image: '/images/nintendo/ds-console.webp', sold: '154,02 mln', rgb: '56, 189, 248' },
+    { name: 'Wii', year: 2006, image: '/images/nintendo/wii-console.webp', sold: '101,63 mln', rgb: '34, 211, 238' },
+    { name: '3DS', year: 2011, image: '/images/nintendo/3ds-console.webp', sold: '75,94 mln', rgb: '244, 63, 94' },
+    { name: 'Wii U', year: 2012, image: '/images/nintendo/wiiu-console.webp', sold: '13,56 mln', rgb: '59, 130, 246' },
+    { name: 'Switch', year: 2017, image: '/images/nintendo/switch-console.webp', sold: '143+ mln', rgb: '239, 68, 68' },
   ];
 
   return (
@@ -1332,9 +1332,9 @@ function OutroSection() {
           className="flex items-center justify-center gap-6 sm:gap-10 mb-14"
         >
           {[
-            { src: '/images/products/con-017-nintendo-64-grijs.webp', label: 'N64' },
-            { src: '/images/products/con-001-nintendo-switch-oled-wit.webp', label: 'Switch' },
-            { src: '/images/products/con-014-game-boy-classic.webp', label: 'Game Boy' },
+            { src: '/images/nintendo/n64-console.webp', label: 'N64' },
+            { src: '/images/nintendo/switch-console.webp', label: 'Switch' },
+            { src: '/images/nintendo/gameboy-console.webp', label: 'Game Boy' },
           ].map((item, i) => (
             <motion.div
               key={item.label}
