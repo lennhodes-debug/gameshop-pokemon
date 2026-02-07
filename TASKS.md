@@ -22,7 +22,7 @@
 
 ### A. Data fixes (snel, hoge prioriteit)
 
-#### [ ] Taak 1 — Over Ons pagina: "346" → "846" en timeline updaten
+#### [x] Taak 1 — Over Ons pagina: "346" → "846" en timeline updaten
 **Bestanden:** `src/app/over-ons/page.tsx`
 **Wat:**
 - Regel 72: `"346+ producten"` → `"846+ producten"` (in timeline 2024 beschrijving)
@@ -43,7 +43,7 @@
 
 ### B. Homepage componenten
 
-#### [ ] Taak 2 — Hero: subtitel en CTA tekst verbeteren
+#### [x] Taak 2 — Hero: subtitel en CTA tekst verbeteren
 **Bestanden:** `src/components/home/Hero.tsx`
 **Wat:**
 - Huidige subtitel is generiek. Maak het specifieker en overtuigender.
@@ -51,14 +51,14 @@
 - Check of de CTA buttons goed leesbaar en aantrekkelijk zijn.
 - Zorg dat de stats kloppen (moet 846+ zijn — dit is al gefixed, controleer alleen).
 
-#### [ ] Taak 3 — TrustStrip: meer overtuigende teksten
+#### [x] Taak 3 — TrustStrip: meer overtuigende teksten
 **Bestanden:** `src/components/home/TrustStrip.tsx`
 **Wat:**
 - Lees de huidige 4 trust items. Verbeter de beschrijvingen zodat ze concreter en overtuigender zijn.
 - Voeg specifiekere details toe: bijv. "Alle 846 producten persoonlijk getest" ipv generieke tekst.
 - Behoud dezelfde structuur (4 items), alleen tekst verbeteren.
 
-#### [ ] Taak 4 — ReviewsStrip: meer en betere reviews toevoegen
+#### [x] Taak 4 — ReviewsStrip: meer en betere reviews toevoegen
 **Bestanden:** `src/components/home/ReviewsStrip.tsx`
 **Wat:**
 - Huidige reviews bekijken en controleren of er genoeg variatie is.
@@ -67,7 +67,7 @@
 - Alle reviews in het Nederlands, realistische namen.
 - Voeg Marktplaats link toe als bron: "Bekijk al onze 1360+ reviews op Marktplaats" met link onderaan.
 
-#### [ ] Taak 5 — FeaturedProducts: sectie header verbeteren
+#### [x] Taak 5 — FeaturedProducts: sectie header verbeteren
 **Bestanden:** `src/components/home/FeaturedProducts.tsx`
 **Wat:**
 - De sectie titel en beschrijving aantrekkelijker maken.
@@ -75,14 +75,14 @@
 - Voeg een subtitel toe die de selectie uitlegt.
 - Check of de "Bekijk alles" link goed werkt.
 
-#### [ ] Taak 6 — GameMarquee: meer rijen + snelheid tunen
+#### [x] Taak 6 — GameMarquee: meer rijen + snelheid tunen
 **Bestanden:** `src/components/home/GameMarquee.tsx`
 **Wat:**
 - Momenteel 2 rijen van 18 producten. Als er meer producten met afbeeldingen zijn, gebruik er meer (bijv. 24 per rij).
 - Check of de marquee snelheid goed aanvoelt (niet te snel, niet te langzaam).
 - De section header "Onze collectie in beeld" eventueel verbeteren.
 
-#### [ ] Taak 7 — PlatformGrid: productaantallen tonen per platform
+#### [x] Taak 7 — PlatformGrid: productaantallen tonen per platform
 **Bestanden:** `src/components/home/PlatformGrid.tsx`
 **Wat:**
 - Lees hoe de platforms worden getoond. Check of de platform namen en kleuren kloppen.
@@ -90,21 +90,21 @@
 - Dit moet dynamisch zijn vanuit de product data, niet hardcoded.
 - Import `getAllPlatforms` uit `@/lib/products` en gebruik de count.
 
-#### [ ] Taak 8 — AboutPreview: tekst en CTA verbeteren
+#### [x] Taak 8 — AboutPreview: tekst en CTA verbeteren
 **Bestanden:** `src/components/home/AboutPreview.tsx`
 **Wat:**
 - De "Over ons" preview tekst aantrekkelijker maken.
 - Zorg dat de stats kloppen (846+ producten — al gefixed, controleer).
 - De CTA naar de over-ons pagina duidelijker en uitnodigender maken.
 
-#### [ ] Taak 9 — FaqPreview: vragen updaten
+#### [x] Taak 9 — FaqPreview: vragen updaten
 **Bestanden:** `src/components/home/FaqPreview.tsx`
 **Wat:**
 - Check de 5 FAQ vragen op de homepage.
 - Zorg dat antwoorden up-to-date zijn (846 producten, niet 346).
 - Overweeg of de 5 meest gestelde vragen de juiste zijn voor de homepage.
 
-#### [ ] Taak 10 — NewsletterCTA: tekst en design polish
+#### [x] Taak 10 — NewsletterCTA: tekst en design polish
 **Bestanden:** `src/components/home/NewsletterCTA.tsx`
 **Wat:**
 - Tekst verbeteren: "Blijf op de hoogte" is generiek.
@@ -115,14 +115,14 @@
 
 ### C. Shop & Product pagina's
 
-#### [ ] Taak 11 — Shop pagina: "Nieuw binnen" sorteeroptie toevoegen
+#### [x] Taak 11 — Shop pagina: "Nieuw binnen" sorteeroptie toevoegen
 **Bestanden:** `src/app/shop/page.tsx`
 **Wat:**
 - Voeg een extra sorteeroptie toe: "Nieuw binnen" (sorteer op SKU nummer aflopend, hogere nummers = nieuwer).
 - Voeg dit toe aan het switch statement in de sort logica.
 - Case: `'newest'` → sorteer op SKU nummer (parse het nummer uit de SKU string, bijv. SW-001 → 1).
 
-#### [ ] Taak 12 — Product detail: beschrijving sectie verbeteren
+#### [x] Taak 12 — Product detail: beschrijving sectie verbeteren
 **Bestanden:** `src/components/product/ProductDetail.tsx`
 **Wat:**
 - De product beschrijving sectie visueel aantrekkelijker maken.
@@ -130,7 +130,7 @@
 - Zorg dat de specificatietabel goed werkt (recent toegevoegd).
 - Check of de badges (conditie, compleetheid, CIB) goed leesbaar zijn.
 
-#### [ ] Taak 13 — Shop filters: Game Boy varianten groeperen
+#### [x] Taak 13 — Shop filters: Game Boy varianten groeperen
 **Bestanden:** `src/components/shop/Filters.tsx`
 **Wat:**
 - Check of alle platform filters correct werken.
@@ -141,7 +141,7 @@
 
 ### D. Overige pagina's
 
-#### [ ] Taak 14 — Winkelwagen: upsell sectie toevoegen
+#### [x] Taak 14 — Winkelwagen: upsell sectie toevoegen
 **Bestanden:** `src/app/winkelwagen/page.tsx`
 **Wat:**
 - Onder de winkelwagen items een "Misschien ook interessant" sectie toevoegen.
@@ -149,7 +149,7 @@
 - Gebruik `getRelatedProducts` uit `@/lib/products` of filter op platform.
 - Alleen tonen als er items in de wagen zitten.
 
-#### [ ] Taak 15 — Afrekenen: formulier validatie verbeteren
+#### [x] Taak 15 — Afrekenen: formulier validatie verbeteren
 **Bestanden:** `src/app/afrekenen/page.tsx`
 **Wat:**
 - Check de formulier validatie: postcode format (4 cijfers + 2 letters), e-mail, verplichte velden.
@@ -157,14 +157,14 @@
 - Nederlandse postcode regex: `/^\d{4}\s?[A-Za-z]{2}$/`
 - Check of de betaalmethoden goed worden getoond.
 
-#### [ ] Taak 16 — Inkoop pagina: uitleg verbeteren
+#### [x] Taak 16 — Inkoop pagina: uitleg verbeteren
 **Bestanden:** `src/app/inkoop/page.tsx`
 **Wat:**
 - De uitleg bovenaan de pagina verbeteren: leg duidelijker uit hoe het inkoopproces werkt.
 - Stappen toevoegen: 1. Zoek je game 2. Bekijk de inkoopprijs 3. Stuur ons een e-mail 4. Verzend het product 5. Ontvang je geld.
 - Voeg het e-mailadres (gameshopenter@gmail.com) prominent toe.
 
-#### [ ] Taak 17 — Contact pagina: openingstijden toevoegen
+#### [x] Taak 17 — Contact pagina: openingstijden toevoegen
 **Bestanden:** `src/app/contact/page.tsx`
 **Wat:**
 - Voeg reactietijden/beschikbaarheid informatie toe.
@@ -172,7 +172,7 @@
 - Voeg een klein FAQ sectietje toe met 2-3 snelle vragen.
 - Check of het formulier alle velden juist heeft.
 
-#### [ ] Taak 18 — FAQ pagina: meer vragen toevoegen
+#### [x] Taak 18 — FAQ pagina: meer vragen toevoegen
 **Bestanden:** `src/app/faq/page.tsx`
 **Wat:**
 - Voeg 4-6 extra FAQ items toe, bijv.:
@@ -184,14 +184,14 @@
   - "Worden producten ook naar Belgie verzonden?"
 - Update het FAQPage schema (faqJsonLd) zodat de nieuwe vragen ook in Google verschijnen.
 
-#### [ ] Taak 19 — 404 pagina: suggesties toevoegen
+#### [x] Taak 19 — 404 pagina: suggesties toevoegen
 **Bestanden:** `src/app/not-found.tsx`
 **Wat:**
 - Voeg 3-4 populaire productcategorieen toe als suggesties.
 - Bijv. snelle links: "Nintendo Switch games", "GameCube games", "Retro consoles", "Alle producten".
 - Maak het speelser/gamified — het "Game Over" thema is al goed.
 
-#### [ ] Taak 20 — Juridische pagina's: inhoud uitbreiden
+#### [x] Taak 20 — Juridische pagina's: inhoud uitbreiden
 **Bestanden:** `src/app/privacybeleid/page.tsx`, `src/app/retourbeleid/page.tsx`, `src/app/algemene-voorwaarden/page.tsx`
 **Wat:**
 - Check of deze pagina's voldoende inhoud hebben.
@@ -203,7 +203,7 @@
 
 ### E. Layout & navigatie
 
-#### [ ] Taak 21 — Footer: inkoop link + social links toevoegen
+#### [x] Taak 21 — Footer: inkoop link + social links toevoegen
 **Bestanden:** `src/components/layout/Footer.tsx`
 **Wat:**
 - Voeg "Games verkopen" (inkoop) link toe onder "Shop" sectie.
@@ -211,7 +211,7 @@
 - Check of alle bestaande links correct zijn.
 - Voeg het jaar automatisch toe (is al dynamisch, controleer).
 
-#### [ ] Taak 22 — Header: actieve staat mobiel menu verbeteren
+#### [x] Taak 22 — Header: actieve staat mobiel menu verbeteren
 **Bestanden:** `src/components/layout/Header.tsx`
 **Wat:**
 - Check of het mobiele menu goed werkt.
@@ -223,7 +223,7 @@
 
 ### F. SEO & Performance
 
-#### [ ] Taak 23 — Sitemap: meer pagina's toevoegen
+#### [x] Taak 23 — Sitemap: meer pagina's toevoegen
 **Bestanden:** `src/app/sitemap.ts`
 **Wat:**
 - Check of alle pagina's in de sitemap staan (inclusief /inkoop, /contact, /faq, /over-ons).
@@ -231,14 +231,14 @@
 - Voeg priority en changefreq toe aan belangrijke pagina's.
 - Product pagina's moeten allemaal in de sitemap staan.
 
-#### [ ] Taak 24 — Robots.txt: optimaliseren
+#### [x] Taak 24 — Robots.txt: optimaliseren
 **Bestanden:** `src/app/robots.ts`
 **Wat:**
 - Check of robots.txt correct geconfigureerd is.
 - Zorg dat de sitemap URL correct is: `https://gameshopenter.nl/sitemap.xml`
 - Blokkeer onnodige paden (bijv. /api/ als die bestaan).
 
-#### [ ] Taak 25 — Layout metadata: uitbreiden
+#### [x] Taak 25 — Layout metadata: uitbreiden
 **Bestanden:** `src/app/layout.tsx`
 **Wat:**
 - Check of alle OpenGraph tags correct zijn.
@@ -250,7 +250,7 @@
 
 ### G. UI Componenten
 
-#### [ ] Taak 26 — Badge component: nieuwe varianten
+#### [x] Taak 26 — Badge component: nieuwe varianten
 **Bestanden:** `src/components/ui/Badge.tsx`
 **Wat:**
 - Check welke varianten er zijn (condition, completeness, premium, console).
@@ -258,7 +258,7 @@
 - Voeg een "sale" variant toe (rood/oranje) voor eventuele toekomstige aanbiedingen.
 - Zorg dat alle kleuren goed leesbaar zijn op zowel lichte als donkere achtergronden.
 
-#### [ ] Taak 27 — ProductCard: prijsweergave verbeteren
+#### [x] Taak 27 — ProductCard: prijsweergave verbeteren
 **Bestanden:** `src/components/shop/ProductCard.tsx`
 **Wat:**
 - Als een product premium is (>= 100 euro), toon dan "Gratis verzending" als klein label bij de prijs.
@@ -271,16 +271,16 @@
 
 | Taak | Status | Chat | Bestanden |
 |------|--------|------|-----------|
-| 1 | `[ ]` | — | over-ons/page.tsx |
-| 2 | `[ ]` | — | Hero.tsx |
-| 3 | `[ ]` | — | TrustStrip.tsx |
-| 4 | `[ ]` | — | ReviewsStrip.tsx |
-| 5 | `[ ]` | — | FeaturedProducts.tsx |
-| 6 | `[ ]` | — | GameMarquee.tsx |
-| 7 | `[ ]` | — | PlatformGrid.tsx |
-| 8 | `[ ]` | — | AboutPreview.tsx |
-| 9 | `[ ]` | — | FaqPreview.tsx |
-| 10 | `[ ]` | — | NewsletterCTA.tsx |
+| 1 | `[x]` | Done | over-ons/page.tsx |
+| 2 | `[x]` | Done | Hero.tsx |
+| 3 | `[x]` | Done | TrustStrip.tsx |
+| 4 | `[x]` | Done | ReviewsStrip.tsx |
+| 5 | `[x]` | Done | FeaturedProducts.tsx |
+| 6 | `[x]` | Done | GameMarquee.tsx |
+| 7 | `[x]` | Done | PlatformGrid.tsx |
+| 8 | `[x]` | Done | AboutPreview.tsx |
+| 9 | `[x]` | Done | FaqPreview.tsx |
+| 10 | `[x]` | Done | NewsletterCTA.tsx |
 | 11 | `[ ]` | — | shop/page.tsx |
 | 12 | `[ ]` | — | ProductDetail.tsx |
 | 13 | `[ ]` | — | Filters.tsx |
