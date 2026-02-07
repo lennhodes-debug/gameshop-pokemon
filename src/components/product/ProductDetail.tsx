@@ -7,6 +7,7 @@ import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
+import { useToast } from '@/components/ui/Toast';
 import { useState, useRef, useCallback } from 'react';
 
 interface ProductDetailProps {
@@ -15,6 +16,7 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItem } = useCart();
+  const { addToast } = useToast();
   const [added, setAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
@@ -54,6 +56,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const handleAdd = () => {
     addItem(product);
     setAdded(true);
+    addToast(`${product.name} toegevoegd aan winkelwagen`);
     setTimeout(() => setAdded(false), 2000);
   };
 

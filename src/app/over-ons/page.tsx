@@ -53,13 +53,13 @@ const timeline = [
   },
   {
     year: '2024',
-    title: '1000+ tevreden klanten',
-    description: 'Een mijlpaal: meer dan 1000 positieve beoordelingen op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar meer dan 346 producten over 12 platforms.',
+    title: '3000+ tevreden klanten',
+    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ positieve reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar meer dan 346 producten over 12 platforms.',
   },
   {
     year: 'Nu',
     title: 'De Nintendo specialist',
-    description: 'Gameshop Enter is uitgegroeid tot de Nintendo specialist van Nederland. Met meer dan 1386 tevreden klanten, een perfecte score, en een passie die alleen maar sterker wordt.',
+    description: 'Gameshop Enter is uitgegroeid tot de Nintendo specialist van Nederland. Met meer dan 3000 tevreden klanten, 1360+ reviews, een perfecte score, en een passie die alleen maar sterker wordt.',
   },
 ];
 
@@ -104,12 +104,12 @@ const values = [
 ];
 
 const stats = [
-  { value: 1386, suffix: '+', label: 'Tevreden klanten' },
+  { value: 3000, suffix: '+', label: 'Tevreden klanten' },
+  { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
   { value: 346, suffix: '+', label: 'Producten' },
   { value: 12, suffix: '', label: 'Nintendo platforms' },
   { value: 6, suffix: '+', label: 'Jaar ervaring' },
-  { value: 100, suffix: '%', label: 'Origineel' },
 ];
 
 export default function OverOnsPage() {
@@ -337,7 +337,7 @@ export default function OverOnsPage() {
               Klaar om te shoppen?
             </h2>
             <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
-              Ontdek ons complete assortiment van meer dan 346 originele Nintendo-producten
+              Ontdek ons complete assortiment van meer dan 346 originele Nintendo producten
             </p>
             <Link href="/shop">
               <Button size="lg">

@@ -8,6 +8,7 @@ import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
+import { useToast } from '@/components/ui/Toast';
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const { addToast } = useToast();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -66,6 +68,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     e.stopPropagation();
     addItem(product);
     setAddedToCart(true);
+    addToast(`${product.name} toegevoegd aan winkelwagen`);
     setTimeout(() => setAddedToCart(false), 1500);
   };
 

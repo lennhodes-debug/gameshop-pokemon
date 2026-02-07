@@ -1,0 +1,59 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+
+export default function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const pathLength = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  useEffect(() => {
+    const handleScroll = () => setVisible(window.scrollY > 500);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 20 }}
+          whileHover={{ scale: 1.1, y: -2 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={scrollToTop}
+          className="fixed bottom-6 left-6 z-50 h-12 w-12 rounded-2xl bg-white/90 backdrop-blur-lg border border-slate-200 shadow-lg shadow-slate-200/50 flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:border-emerald-200 hover:shadow-emerald-100/50 transition-colors"
+        >
+          {/* Circular progress ring */}
+          <svg className="absolute inset-0 w-12 h-12 -rotate-90" viewBox="0 0 48 48">
+            <motion.circle
+              cx="24"
+              cy="24"
+              r="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="text-emerald-400"
+              style={{
+                pathLength,
+                strokeDasharray: '1',
+                strokeDashoffset: '0',
+              }}
+              strokeLinecap="round"
+            />
+          </svg>
+
+          <svg className="h-5 w-5 relative" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+          </svg>
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+}

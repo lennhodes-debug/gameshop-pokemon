@@ -196,7 +196,7 @@ export default function Hero() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.1]">
               <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span className="text-white/70 text-xs font-medium">1386+ tevreden klanten</span>
+              <span className="text-white/70 text-xs font-medium">3000+ tevreden klanten</span>
               <span className="text-white/30">|</span>
               <span className="text-emerald-400 text-xs font-bold">5.0</span>
               <div className="flex gap-0.5">

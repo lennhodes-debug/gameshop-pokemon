@@ -35,10 +35,10 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
 }
 
 const stats = [
-  { value: 1386, suffix: '+', label: 'Tevreden klanten' },
+  { value: 3000, suffix: '+', label: 'Tevreden klanten' },
+  { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
   { value: 346, suffix: '+', label: 'Producten' },
-  { value: 14, suffix: ' dagen', label: 'Bedenktijd' },
 ];
 
 export default function AboutPreview() {
@@ -98,7 +98,7 @@ export default function AboutPreview() {
               getest op werking.
             </p>
             <p className="text-slate-500 leading-relaxed mb-8">
-              Met meer dan 1386 tevreden klanten en een perfecte 5.0 score op
+              Met meer dan 3000 tevreden klanten, 1360+ reviews en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
               Ons assortiment omvat alles van klassieke NES en Super Nintendo
               titels tot de nieuwste Nintendo Switch games.

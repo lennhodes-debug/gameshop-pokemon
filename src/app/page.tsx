@@ -5,6 +5,7 @@ import PlatformGrid from '@/components/home/PlatformGrid';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import AboutPreview from '@/components/home/AboutPreview';
 import FaqPreview from '@/components/home/FaqPreview';
+import NewsletterCTA from '@/components/home/NewsletterCTA';
 import SectionDivider from '@/components/ui/SectionDivider';
 
 export default function HomePage() {
@@ -19,6 +20,7 @@ export default function HomePage() {
       <SectionDivider />
       <FeaturedProducts />
       <AboutPreview />
+      <NewsletterCTA />
       <FaqPreview />
     </>
   );
