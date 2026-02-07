@@ -14,6 +14,7 @@ const footerLinks = {
   ],
   info: [
     { href: '/over-ons', label: 'Over ons' },
+    { href: '/nintendo', label: 'Het verhaal van Nintendo' },
     { href: '/inkoop', label: 'Games verkopen' },
     { href: '/faq', label: 'Veelgestelde vragen' },
     { href: '/contact', label: 'Contact' },

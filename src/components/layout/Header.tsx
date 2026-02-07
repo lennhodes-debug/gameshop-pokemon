@@ -11,9 +11,9 @@ import { useCart } from '@/components/cart/CartProvider';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
+  { href: '/nintendo', label: 'Nintendo' },
   { href: '/inkoop', label: 'Inkoop' },
   { href: '/over-ons', label: 'Over ons' },
-  { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
 ];
 
