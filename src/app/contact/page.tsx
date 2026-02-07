@@ -147,7 +147,7 @@ export default function ContactPage() {
               ].map((item) => (
                 <div key={item.dag} className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700 last:border-0">
                   <span className="text-sm text-slate-600 dark:text-slate-300 font-medium">{item.dag}</span>
-                  <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600' : 'text-slate-400'}`}>{item.tijd}</span>
+                  <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>{item.tijd}</span>
                 </div>
               ))}
               <p className="text-xs text-slate-400">Reactie op e-mails binnen 24 uur op werkdagen</p>
@@ -290,12 +290,12 @@ export default function ContactPage() {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-1.5">Bericht</label>
+                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht</label>
                     <textarea
                       id="message"
                       required
                       rows={5}
-                      className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all resize-none"
+                      className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all resize-none"
                       placeholder="Typ je bericht..."
                     />
                   </div>
