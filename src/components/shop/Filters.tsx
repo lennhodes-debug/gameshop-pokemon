@@ -126,12 +126,18 @@ export default function Filters({
         <SortSelect value={sortBy} onChange={onSortChange} />
       </div>
 
-      {/* Platform pills */}
+      {/* Platform pills — Game Boy variants grouped */}
       <PillGroup
         label="Platform"
         options={[
           { value: '', label: 'Alle platforms' },
-          ...platforms.map((p) => ({ value: p, label: p })),
+          ...platforms
+            .filter((p) => !p.startsWith('Game Boy'))
+            .map((p) => ({ value: p, label: p })),
+          { value: 'Game Boy (alle)', label: 'Game Boy (alle)' },
+          ...platforms
+            .filter((p) => p.startsWith('Game Boy'))
+            .map((p) => ({ value: p, label: p })),
         ]}
         value={selectedPlatform}
         onChange={onPlatformChange}

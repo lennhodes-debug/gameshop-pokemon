@@ -55,7 +55,13 @@ function ShopContent() {
       );
     }
 
-    if (platform) results = results.filter((p) => p.platform === platform);
+    if (platform) {
+      if (platform === 'Game Boy (alle)') {
+        results = results.filter((p) => p.platform.startsWith('Game Boy'));
+      } else {
+        results = results.filter((p) => p.platform === platform);
+      }
+    }
     if (genre) results = results.filter((p) => p.genre === genre);
     if (condition) results = results.filter((p) => p.condition === condition);
 

@@ -130,7 +130,7 @@
 - Zorg dat de specificatietabel goed werkt (recent toegevoegd).
 - Check of de badges (conditie, compleetheid, CIB) goed leesbaar zijn.
 
-#### [ ] Taak 13 — Shop filters: Game Boy varianten groeperen
+#### [x] Taak 13 — Shop filters: Game Boy varianten groeperen
 **Bestanden:** `src/components/shop/Filters.tsx`
 **Wat:**
 - Check of alle platform filters correct werken.
@@ -283,7 +283,7 @@
 | 10 | `[ ]` | — | NewsletterCTA.tsx |
 | 11 | `[x]` | done | shop/page.tsx |
 | 12 | `[x]` | done | ProductDetail.tsx |
-| 13 | `[ ]` | — | Filters.tsx |
+| 13 | `[x]` | done | Filters.tsx |
 | 14 | `[ ]` | — | winkelwagen/page.tsx |
 | 15 | `[ ]` | — | afrekenen/page.tsx |
 | 16 | `[ ]` | — | inkoop/page.tsx |
