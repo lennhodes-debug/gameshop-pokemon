@@ -149,7 +149,7 @@
 - Gebruik `getRelatedProducts` uit `@/lib/products` of filter op platform.
 - Alleen tonen als er items in de wagen zitten.
 
-#### [ ] Taak 15 — Afrekenen: formulier validatie verbeteren
+#### [x] Taak 15 — Afrekenen: formulier validatie verbeteren
 **Bestanden:** `src/app/afrekenen/page.tsx`
 **Wat:**
 - Check de formulier validatie: postcode format (4 cijfers + 2 letters), e-mail, verplichte velden.
@@ -285,7 +285,7 @@
 | 12 | `[x]` | done | ProductDetail.tsx |
 | 13 | `[x]` | done | Filters.tsx |
 | 14 | `[x]` | done | winkelwagen/page.tsx |
-| 15 | `[ ]` | — | afrekenen/page.tsx |
+| 15 | `[x]` | done | afrekenen/page.tsx |
 | 16 | `[ ]` | — | inkoop/page.tsx |
 | 17 | `[ ]` | — | contact/page.tsx |
 | 18 | `[ ]` | — | faq/page.tsx |
