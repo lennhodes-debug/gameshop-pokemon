@@ -3278,7 +3278,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/gba-008-mario-kart-super-circuit.webp"
   },
   {
     "sku": "GBA-009",
@@ -4570,7 +4570,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/snes-009-super-metroid.webp"
   },
   {
     "sku": "SNES-010",
