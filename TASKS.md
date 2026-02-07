@@ -157,7 +157,7 @@
 - Nederlandse postcode regex: `/^\d{4}\s?[A-Za-z]{2}$/`
 - Check of de betaalmethoden goed worden getoond.
 
-#### [ ] Taak 16 — Inkoop pagina: uitleg verbeteren
+#### [x] Taak 16 — Inkoop pagina: uitleg verbeteren
 **Bestanden:** `src/app/inkoop/page.tsx`
 **Wat:**
 - De uitleg bovenaan de pagina verbeteren: leg duidelijker uit hoe het inkoopproces werkt.
@@ -286,7 +286,7 @@
 | 13 | `[x]` | done | Filters.tsx |
 | 14 | `[x]` | done | winkelwagen/page.tsx |
 | 15 | `[x]` | done | afrekenen/page.tsx |
-| 16 | `[ ]` | — | inkoop/page.tsx |
+| 16 | `[x]` | done | inkoop/page.tsx |
 | 17 | `[ ]` | — | contact/page.tsx |
 | 18 | `[ ]` | — | faq/page.tsx |
 | 19 | `[ ]` | — | not-found.tsx |
