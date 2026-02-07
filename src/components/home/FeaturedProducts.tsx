@@ -66,7 +66,7 @@ export default function FeaturedProducts() {
           <MagneticButton strength={0.15}>
             <Link
               href="/shop"
-              className="hidden sm:flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors group"
+              className="hidden sm:flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors group"
             >
               Bekijk alles
               <motion.svg

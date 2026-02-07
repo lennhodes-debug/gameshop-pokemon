@@ -38,7 +38,7 @@ export default function WinkelwagenPage() {
           <motion.div
             animate={{ x: [0, 20, -10, 0], y: [0, -15, 5, 0] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-10 right-[15%] w-48 h-48 rounded-full bg-emerald-500/8 blur-[60px]"
+            className="absolute top-10 right-[15%] w-48 h-48 rounded-full bg-emerald-500/[0.08] blur-[60px]"
           />
         </div>
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

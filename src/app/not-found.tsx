@@ -94,7 +94,7 @@ export default function NotFound() {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="mt-14"
           >
-            <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-4">Populaire categorieen</p>
+            <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-4">Populaire categorieën</p>
             <div className="flex flex-wrap items-center justify-center gap-2">
               {[
                 { href: '/shop?platform=Nintendo+Switch', label: 'Nintendo Switch' },
@@ -122,7 +122,7 @@ export default function NotFound() {
             transition={{ delay: 1, duration: 1 }}
             className="mt-10 text-slate-600 text-xs font-medium tracking-wider uppercase"
           >
-            Press Start to Continue
+            Druk op Start om door te gaan
           </motion.p>
         </div>
       </div>

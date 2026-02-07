@@ -192,7 +192,7 @@ export default function Filters({
                 label="Genre"
                 options={[
                   { value: '', label: 'Alle genres' },
-                  ...genres.slice(0, 10).map((g) => ({ value: g, label: g })),
+                  ...genres.map((g) => ({ value: g, label: g })),
                 ]}
                 value={selectedGenre}
                 onChange={onGenreChange}

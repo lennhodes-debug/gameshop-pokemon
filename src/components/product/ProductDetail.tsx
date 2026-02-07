@@ -135,13 +135,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   />
                 )}
                 {/* Shimmer sweep */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-all duration-1000 ease-in-out" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 dark:via-white/20 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-all duration-1000 ease-in-out" />
               </>
             ) : (
               <>
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
                 <div
-                  className="absolute inset-0 opacity-[0.06]"
+                  className="absolute inset-0 opacity-[0.12]"
                   style={{
                     backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
                     backgroundSize: '16px 16px',
@@ -152,7 +152,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
                   className="absolute inset-8 border border-white/[0.06] rounded-full"
                 />
-                <span className="text-white/[0.12] text-[120px] font-black select-none relative z-10">
+                <span className="text-white/30 text-[120px] font-black select-none relative z-10">
                   {platformLabel}
                 </span>
               </>
