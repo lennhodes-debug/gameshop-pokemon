@@ -1,0 +1,177 @@
+[
+  {
+    "name": "Pokémon Shining Pearl",
+    "slug": "sw-002-pokmon-shining-pearl",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Pokémon Scarlet",
+    "slug": "sw-005-pokmon-scarlet",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Pokémon Violet",
+    "slug": "sw-006-pokmon-violet",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Arms",
+    "slug": "sw-036-arms",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Kirby en de Vergeten Wereld",
+    "slug": "sw-037-kirby-en-de-vergeten-wereld",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Splatoon 2",
+    "slug": "sw-041-splatoon-2",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Splatoon 3",
+    "slug": "sw-042-splatoon-3",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "WarioWare: Get It Together!",
+    "slug": "sw-061-warioware-get-it-together",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Cuphead",
+    "slug": "sw-078-cuphead",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Undertale",
+    "slug": "sw-079-undertale",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Dragon Ball FighterZ",
+    "slug": "sw-090-dragon-ball-fighterz",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Overcooked! All You Can Eat",
+    "slug": "sw-097-overcooked-all-you-can-eat",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Borderlands Legendary Collection",
+    "slug": "sw-108-borderlands-legendary-collection",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Naruto Storm Trilogy",
+    "slug": "sw-109-naruto-storm-trilogy",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Cars 3: Vol Gas voor de Winst",
+    "slug": "sw-110-cars-3-vol-gas-voor-de-winst",
+    "platform": "Nintendo Switch"
+  },
+  {
+    "name": "Pokémon X",
+    "slug": "3ds-004-pokmon-x",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Y",
+    "slug": "3ds-005-pokmon-y",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Sun",
+    "slug": "3ds-006-pokmon-sun",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Moon",
+    "slug": "3ds-007-pokmon-moon",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Ultra Sun",
+    "slug": "3ds-008-pokmon-ultra-sun",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Ultra Moon",
+    "slug": "3ds-009-pokmon-ultra-moon",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Alpha Sapphire",
+    "slug": "3ds-010-pokmon-alpha-sapphire",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon Omega Ruby",
+    "slug": "3ds-011-pokmon-omega-ruby",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Kirby Triple Deluxe",
+    "slug": "3ds-017-kirby-triple-deluxe",
+    "platform": "Nintendo 3DS"
+  },
+  {
+    "name": "Pokémon SoulSilver",
+    "slug": "ds-005-pokmon-soulsilver",
+    "platform": "Nintendo DS"
+  },
+  {
+    "name": "Pokémon HeartGold",
+    "slug": "ds-006-pokmon-heartgold",
+    "platform": "Nintendo DS"
+  },
+  {
+    "name": "Pokémon Pearl",
+    "slug": "ds-009-pokmon-pearl",
+    "platform": "Nintendo DS"
+  },
+  {
+    "name": "Professor Layton: Geheimzinnige Dorp",
+    "slug": "ds-016-professor-layton-geheimzinnige-dorp",
+    "platform": "Nintendo DS"
+  },
+  {
+    "name": "Zelda: Oracle of Ages",
+    "slug": "gb-012-zelda-oracle-of-ages",
+    "platform": "Game Boy Color"
+  },
+  {
+    "name": "Zelda: Oracle of Seasons",
+    "slug": "gb-013-zelda-oracle-of-seasons",
+    "platform": "Game Boy Color"
+  },
+  {
+    "name": "Zelda: ALttP / Four Swords",
+    "slug": "gba-007-zelda-alttp-four-swords",
+    "platform": "Game Boy Advance"
+  },
+  {
+    "name": "Conker's Bad Fur Day",
+    "slug": "n64-013-conkers-bad-fur-day",
+    "platform": "Nintendo 64"
+  },
+  {
+    "name": "Kirby's Fun Pak",
+    "slug": "snes-013-kirbys-fun-pak",
+    "platform": "Super Nintendo"
+  },
+  {
+    "name": "Splatoon",
+    "slug": "wiiu-007-splatoon",
+    "platform": "Wii U"
+  },
+  {
+    "name": "DK Country: Tropical Freeze",
+    "slug": "wiiu-008-dk-country-tropical-freeze",
+    "platform": "Wii U"
+  }
+]
