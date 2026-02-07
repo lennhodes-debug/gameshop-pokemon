@@ -14,9 +14,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-001-pokmon-brilliant-diamond.webp",
-    "inkoopPrijs": 12.5,
-    "pcUsedPrice": 31.3
+    "image": "/images/products/sw-001-pokmon-brilliant-diamond.webp"
   },
   {
     "sku": "SW-002",
@@ -33,9 +31,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-002-pokmon-shining-pearl.webp",
-    "inkoopPrijs": 12.5,
-    "pcUsedPrice": 30.93
+    "image": "/images/products/sw-002-pokmon-shining-pearl.webp"
   },
   {
     "sku": "SW-003",
@@ -52,9 +48,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-003-pokmon-sword.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.87
+    "image": "/images/products/sw-003-pokmon-sword.webp"
   },
   {
     "sku": "SW-004",
@@ -71,9 +65,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-004-pokmon-shield.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.61
+    "image": "/images/products/sw-004-pokmon-shield.webp"
   },
   {
     "sku": "SW-005",
@@ -90,9 +82,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-005-pokmon-scarlet.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.65
+    "image": "/images/products/sw-005-pokmon-scarlet.webp"
   },
   {
     "sku": "SW-006",
@@ -109,9 +99,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-006-pokmon-violet.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.99
+    "image": "/images/products/sw-006-pokmon-violet.webp"
   },
   {
     "sku": "SW-007",
@@ -128,9 +116,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-007-pokmon-lets-go-pikachu.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-007-pokmon-lets-go-pikachu.webp"
   },
   {
     "sku": "SW-008",
@@ -147,9 +133,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-008-pokmon-lets-go-eevee.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-008-pokmon-lets-go-eevee.webp"
   },
   {
     "sku": "SW-009",
@@ -166,9 +150,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-009-pokmon-legends-arceus.webp",
-    "inkoopPrijs": 14.5,
-    "pcUsedPrice": 36.61
+    "image": "/images/products/sw-009-pokmon-legends-arceus.webp"
   },
   {
     "sku": "SW-010",
@@ -185,9 +167,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-010-pokmon-mystery-dungeon-rescue-team-dx.webp",
-    "inkoopPrijs": 15,
-    "pcUsedPrice": 37.15
+    "image": "/images/products/sw-010-pokmon-mystery-dungeon-rescue-team-dx.webp"
   },
   {
     "sku": "SW-011",
@@ -204,9 +184,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-011-new-pokmon-snap.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 29.91
+    "image": "/images/products/sw-011-new-pokmon-snap.webp"
   },
   {
     "sku": "SW-012",
@@ -223,9 +201,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-012-zelda-breath-of-the-wild.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-012-zelda-breath-of-the-wild.webp"
   },
   {
     "sku": "SW-013",
@@ -242,9 +218,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-013-zelda-tears-of-the-kingdom.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-013-zelda-tears-of-the-kingdom.webp"
   },
   {
     "sku": "SW-014",
@@ -261,9 +235,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-014-zelda-links-awakening.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-014-zelda-links-awakening.webp"
   },
   {
     "sku": "SW-015",
@@ -280,9 +252,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-015-zelda-skyward-sword-hd.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-015-zelda-skyward-sword-hd.webp"
   },
   {
     "sku": "SW-016",
@@ -299,9 +269,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-016-hyrule-warriors-age-of-calamity.webp",
-    "inkoopPrijs": 17,
-    "pcUsedPrice": 42.09
+    "image": "/images/products/sw-016-hyrule-warriors-age-of-calamity.webp"
   },
   {
     "sku": "SW-017",
@@ -318,9 +286,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-017-hyrule-warriors-definitive-edition.webp",
-    "inkoopPrijs": 18,
-    "pcUsedPrice": 45.05
+    "image": "/images/products/sw-017-hyrule-warriors-definitive-edition.webp"
   },
   {
     "sku": "SW-018",
@@ -337,9 +303,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-018-super-mario-odyssey.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 29.19
+    "image": "/images/products/sw-018-super-mario-odyssey.webp"
   },
   {
     "sku": "SW-019",
@@ -356,9 +320,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-019-mario-kart-8-deluxe.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 30.61
+    "image": "/images/products/sw-019-mario-kart-8-deluxe.webp"
   },
   {
     "sku": "SW-020",
@@ -375,9 +337,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-020-super-mario-bros-wonder.webp",
-    "inkoopPrijs": 13,
-    "pcUsedPrice": 32.51
+    "image": "/images/products/sw-020-super-mario-bros-wonder.webp"
   },
   {
     "sku": "SW-021",
@@ -394,9 +354,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-021-new-super-mario-bros-u-deluxe.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 29.82
+    "image": "/images/products/sw-021-new-super-mario-bros-u-deluxe.webp"
   },
   {
     "sku": "SW-022",
@@ -413,9 +371,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-022-super-mario-3d-world-bowsers-fury.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-022-super-mario-3d-world-bowsers-fury.webp"
   },
   {
     "sku": "SW-023",
@@ -432,9 +388,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-023-super-mario-3d-all-stars.webp",
-    "inkoopPrijs": 23.5,
-    "pcUsedPrice": 58.6
+    "image": "/images/products/sw-023-super-mario-3d-all-stars.webp"
   },
   {
     "sku": "SW-024",
@@ -451,9 +405,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-024-super-mario-maker-2.webp",
-    "inkoopPrijs": 12.5,
-    "pcUsedPrice": 30.75
+    "image": "/images/products/sw-024-super-mario-maker-2.webp"
   },
   {
     "sku": "SW-025",
@@ -470,9 +422,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-025-super-mario-rpg.webp",
-    "inkoopPrijs": 9.5,
-    "pcUsedPrice": 23.21
+    "image": "/images/products/sw-025-super-mario-rpg.webp"
   },
   {
     "sku": "SW-026",
@@ -489,9 +439,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-026-paper-mario-the-origami-king.webp",
-    "inkoopPrijs": 9,
-    "pcUsedPrice": 22.28
+    "image": "/images/products/sw-026-paper-mario-the-origami-king.webp"
   },
   {
     "sku": "SW-027",
@@ -508,9 +456,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-027-mario-rabbids-kingdom-battle.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.03
+    "image": "/images/products/sw-027-mario-rabbids-kingdom-battle.webp"
   },
   {
     "sku": "SW-028",
@@ -527,9 +473,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-028-mario-rabbids-sparks-of-hope.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.54
+    "image": "/images/products/sw-028-mario-rabbids-sparks-of-hope.webp"
   },
   {
     "sku": "SW-029",
@@ -546,9 +490,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-029-mario-tennis-aces.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.28
+    "image": "/images/products/sw-029-mario-tennis-aces.webp"
   },
   {
     "sku": "SW-030",
@@ -565,9 +507,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-030-mario-golf-super-rush.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.3
+    "image": "/images/products/sw-030-mario-golf-super-rush.webp"
   },
   {
     "sku": "SW-031",
@@ -584,9 +524,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-031-mario-strikers-battle-league.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-031-mario-strikers-battle-league.webp"
   },
   {
     "sku": "SW-032",
@@ -603,9 +541,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-032-super-mario-party.webp",
-    "inkoopPrijs": 9.5,
-    "pcUsedPrice": 24.22
+    "image": "/images/products/sw-032-super-mario-party.webp"
   },
   {
     "sku": "SW-033",
@@ -622,9 +558,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-033-mario-party-superstars.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 30.4
+    "image": "/images/products/sw-033-mario-party-superstars.webp"
   },
   {
     "sku": "SW-034",
@@ -641,9 +575,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-034-luigis-mansion-3.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-034-luigis-mansion-3.webp"
   },
   {
     "sku": "SW-035",
@@ -660,9 +592,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-035-super-smash-bros-ultimate.webp",
-    "inkoopPrijs": 14,
-    "pcUsedPrice": 35.33
+    "image": "/images/products/sw-035-super-smash-bros-ultimate.webp"
   },
   {
     "sku": "SW-036",
@@ -679,9 +609,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-036-arms.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 16.2
+    "image": "/images/products/sw-036-arms.webp"
   },
   {
     "sku": "SW-037",
@@ -698,9 +626,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-037-kirby-en-de-vergeten-wereld.webp",
-    "inkoopPrijs": 13,
-    "pcUsedPrice": 33.1
+    "image": "/images/products/sw-037-kirby-en-de-vergeten-wereld.webp"
   },
   {
     "sku": "SW-038",
@@ -717,9 +643,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-038-kirby-star-allies.webp",
-    "inkoopPrijs": 15,
-    "pcUsedPrice": 37.74
+    "image": "/images/products/sw-038-kirby-star-allies.webp"
   },
   {
     "sku": "SW-039",
@@ -736,9 +660,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-039-kirbys-return-to-dream-land-deluxe.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-039-kirbys-return-to-dream-land-deluxe.webp"
   },
   {
     "sku": "SW-040",
@@ -755,9 +677,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-040-donkey-kong-country-tropical-freeze.webp",
-    "inkoopPrijs": 13,
-    "pcUsedPrice": 32.25
+    "image": "/images/products/sw-040-donkey-kong-country-tropical-freeze.webp"
   },
   {
     "sku": "SW-041",
@@ -774,9 +694,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-041-splatoon-2.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.4
+    "image": "/images/products/sw-041-splatoon-2.webp"
   },
   {
     "sku": "SW-042",
@@ -793,9 +711,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-042-splatoon-3.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.72
+    "image": "/images/products/sw-042-splatoon-3.webp"
   },
   {
     "sku": "SW-043",
@@ -812,9 +728,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-043-metroid-dread.webp",
-    "inkoopPrijs": 12.5,
-    "pcUsedPrice": 31.09
+    "image": "/images/products/sw-043-metroid-dread.webp"
   },
   {
     "sku": "SW-044",
@@ -831,9 +745,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-044-fire-emblem-three-houses.webp",
-    "inkoopPrijs": 16.5,
-    "pcUsedPrice": 41.34
+    "image": "/images/products/sw-044-fire-emblem-three-houses.webp"
   },
   {
     "sku": "SW-045",
@@ -850,9 +762,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-045-fire-emblem-engage.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 29.91
+    "image": "/images/products/sw-045-fire-emblem-engage.webp"
   },
   {
     "sku": "SW-046",
@@ -869,9 +779,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-046-pikmin-3-deluxe.webp",
-    "inkoopPrijs": 14.5,
-    "pcUsedPrice": 36.44
+    "image": "/images/products/sw-046-pikmin-3-deluxe.webp"
   },
   {
     "sku": "SW-047",
@@ -888,9 +796,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-047-pikmin-4.webp",
-    "inkoopPrijs": 13.5,
-    "pcUsedPrice": 33.91
+    "image": "/images/products/sw-047-pikmin-4.webp"
   },
   {
     "sku": "SW-048",
@@ -907,9 +813,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-048-xenoblade-chronicles-definitive-edition.webp",
-    "inkoopPrijs": 16,
-    "pcUsedPrice": 40.44
+    "image": "/images/products/sw-048-xenoblade-chronicles-definitive-edition.webp"
   },
   {
     "sku": "SW-049",
@@ -926,9 +830,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-049-xenoblade-chronicles-2.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 29.03
+    "image": "/images/products/sw-049-xenoblade-chronicles-2.webp"
   },
   {
     "sku": "SW-050",
@@ -945,9 +847,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-050-xenoblade-chronicles-3.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.43
+    "image": "/images/products/sw-050-xenoblade-chronicles-3.webp"
   },
   {
     "sku": "SW-051",
@@ -964,9 +864,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-051-bayonetta-2.webp",
-    "inkoopPrijs": 10,
-    "pcUsedPrice": 24.98
+    "image": "/images/products/sw-051-bayonetta-2.webp"
   },
   {
     "sku": "SW-052",
@@ -983,9 +881,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-052-bayonetta-3.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 20.94
+    "image": "/images/products/sw-052-bayonetta-3.webp"
   },
   {
     "sku": "SW-053",
@@ -1002,9 +898,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-053-astral-chain.webp",
-    "inkoopPrijs": 15,
-    "pcUsedPrice": 37.33
+    "image": "/images/products/sw-053-astral-chain.webp"
   },
   {
     "sku": "SW-054",
@@ -1021,9 +915,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-054-yoshis-crafted-world.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-054-yoshis-crafted-world.webp"
   },
   {
     "sku": "SW-055",
@@ -1040,9 +932,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-055-captain-toad-treasure-tracker.webp",
-    "inkoopPrijs": 9,
-    "pcUsedPrice": 22.97
+    "image": "/images/products/sw-055-captain-toad-treasure-tracker.webp"
   },
   {
     "sku": "SW-056",
@@ -1059,9 +949,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-056-animal-crossing-new-horizons.webp",
-    "inkoopPrijs": 13,
-    "pcUsedPrice": 33.03
+    "image": "/images/products/sw-056-animal-crossing-new-horizons.webp"
   },
   {
     "sku": "SW-057",
@@ -1078,9 +966,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-057-nintendo-switch-sports.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 29.25
+    "image": "/images/products/sw-057-nintendo-switch-sports.webp"
   },
   {
     "sku": "SW-058",
@@ -1097,9 +983,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-058-ring-fit-adventure.webp",
-    "inkoopPrijs": 9.5,
-    "pcUsedPrice": 23.61
+    "image": "/images/products/sw-058-ring-fit-adventure.webp"
   },
   {
     "sku": "SW-059",
@@ -1116,9 +1000,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-059-1-2-switch.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.85
+    "image": "/images/products/sw-059-1-2-switch.webp"
   },
   {
     "sku": "SW-060",
@@ -1135,9 +1017,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-060-clubhouse-games-51-classics.webp",
-    "inkoopPrijs": 14,
-    "pcUsedPrice": 34.99
+    "image": "/images/products/sw-060-clubhouse-games-51-classics.webp"
   },
   {
     "sku": "SW-061",
@@ -1154,9 +1034,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-061-warioware-get-it-together.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.04
+    "image": "/images/products/sw-061-warioware-get-it-together.webp"
   },
   {
     "sku": "SW-062",
@@ -1173,9 +1051,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-062-dragon-quest-xi-s.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 30.35
+    "image": "/images/products/sw-062-dragon-quest-xi-s.webp"
   },
   {
     "sku": "SW-063",
@@ -1192,9 +1068,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-063-octopath-traveler.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.21
+    "image": "/images/products/sw-063-octopath-traveler.webp"
   },
   {
     "sku": "SW-064",
@@ -1211,9 +1085,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-064-octopath-traveler-ii.webp",
-    "inkoopPrijs": 12.5,
-    "pcUsedPrice": 30.78
+    "image": "/images/products/sw-064-octopath-traveler-ii.webp"
   },
   {
     "sku": "SW-065",
@@ -1230,9 +1102,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-065-triangle-strategy.webp",
-    "inkoopPrijs": 8,
-    "pcUsedPrice": 20.27
+    "image": "/images/products/sw-065-triangle-strategy.webp"
   },
   {
     "sku": "SW-066",
@@ -1249,9 +1119,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-066-shin-megami-tensei-v.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 13.37
+    "image": "/images/products/sw-066-shin-megami-tensei-v.webp"
   },
   {
     "sku": "SW-067",
@@ -1268,9 +1136,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-067-monster-hunter-rise.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 10.01
+    "image": "/images/products/sw-067-monster-hunter-rise.webp"
   },
   {
     "sku": "SW-068",
@@ -1287,9 +1153,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-068-dark-souls-remastered.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.39
+    "image": "/images/products/sw-068-dark-souls-remastered.webp"
   },
   {
     "sku": "SW-069",
@@ -1306,9 +1170,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-069-the-witcher-3.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.28
+    "image": "/images/products/sw-069-the-witcher-3.webp"
   },
   {
     "sku": "SW-070",
@@ -1325,9 +1187,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-070-skyrim.webp",
-    "inkoopPrijs": 13.5,
-    "pcUsedPrice": 33.55
+    "image": "/images/products/sw-070-skyrim.webp"
   },
   {
     "sku": "SW-071",
@@ -1344,9 +1204,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-071-hogwarts-legacy.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.05
+    "image": "/images/products/sw-071-hogwarts-legacy.webp"
   },
   {
     "sku": "SW-072",
@@ -1363,9 +1221,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-072-diablo-iii-eternal-collection.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.22
+    "image": "/images/products/sw-072-diablo-iii-eternal-collection.webp"
   },
   {
     "sku": "SW-073",
@@ -1382,9 +1238,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-073-stardew-valley.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.94
+    "image": "/images/products/sw-073-stardew-valley.webp"
   },
   {
     "sku": "SW-074",
@@ -1401,9 +1255,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-074-minecraft.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 15.6
+    "image": "/images/products/sw-074-minecraft.webp"
   },
   {
     "sku": "SW-075",
@@ -1420,9 +1272,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-075-hades.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-075-hades.webp"
   },
   {
     "sku": "SW-076",
@@ -1439,9 +1289,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-076-hollow-knight.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 26.88
+    "image": "/images/products/sw-076-hollow-knight.webp"
   },
   {
     "sku": "SW-077",
@@ -1458,9 +1306,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-077-celeste.webp",
-    "inkoopPrijs": 9.5,
-    "pcUsedPrice": 23.52
+    "image": "/images/products/sw-077-celeste.webp"
   },
   {
     "sku": "SW-078",
@@ -1477,9 +1323,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-078-cuphead.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.41
+    "image": "/images/products/sw-078-cuphead.webp"
   },
   {
     "sku": "SW-079",
@@ -1496,9 +1340,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-079-undertale.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-079-undertale.webp"
   },
   {
     "sku": "SW-080",
@@ -1515,9 +1357,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-080-dead-cells.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 16.73
+    "image": "/images/products/sw-080-dead-cells.webp"
   },
   {
     "sku": "SW-081",
@@ -1534,9 +1374,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-081-ori-and-the-blind-forest.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-081-ori-and-the-blind-forest.webp"
   },
   {
     "sku": "SW-082",
@@ -1553,9 +1391,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-082-ori-and-the-will-of-the-wisps.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.24
+    "image": "/images/products/sw-082-ori-and-the-will-of-the-wisps.webp"
   },
   {
     "sku": "SW-083",
@@ -1572,9 +1408,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-083-crash-bandicoot-n-sane-trilogy.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 18.42
+    "image": "/images/products/sw-083-crash-bandicoot-n-sane-trilogy.webp"
   },
   {
     "sku": "SW-084",
@@ -1591,9 +1425,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-084-spyro-reignited-trilogy.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.34
+    "image": "/images/products/sw-084-spyro-reignited-trilogy.webp"
   },
   {
     "sku": "SW-085",
@@ -1610,9 +1442,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-085-sonic-frontiers.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 16.6
+    "image": "/images/products/sw-085-sonic-frontiers.webp"
   },
   {
     "sku": "SW-086",
@@ -1629,9 +1459,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-086-rayman-legends.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 14.24
+    "image": "/images/products/sw-086-rayman-legends.webp"
   },
   {
     "sku": "SW-087",
@@ -1648,9 +1476,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-087-doom.webp",
-    "inkoopPrijs": 8,
-    "pcUsedPrice": 19.49
+    "image": "/images/products/sw-087-doom.webp"
   },
   {
     "sku": "SW-088",
@@ -1667,9 +1493,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-088-doom-eternal.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-088-doom-eternal.webp"
   },
   {
     "sku": "SW-089",
@@ -1686,9 +1510,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-089-mortal-kombat-11.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.99
+    "image": "/images/products/sw-089-mortal-kombat-11.webp"
   },
   {
     "sku": "SW-090",
@@ -1705,9 +1527,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-090-dragon-ball-fighterz.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.41
+    "image": "/images/products/sw-090-dragon-ball-fighterz.webp"
   },
   {
     "sku": "SW-091",
@@ -1724,9 +1544,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-091-gta-the-trilogy.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-091-gta-the-trilogy.webp"
   },
   {
     "sku": "SW-092",
@@ -1743,9 +1561,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-092-crash-team-racing.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.09
+    "image": "/images/products/sw-092-crash-team-racing.webp"
   },
   {
     "sku": "SW-093",
@@ -1762,9 +1578,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-093-lego-star-wars-skywalker-saga.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.18
+    "image": "/images/products/sw-093-lego-star-wars-skywalker-saga.webp"
   },
   {
     "sku": "SW-094",
@@ -1781,9 +1595,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-094-lego-harry-potter-collection.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 10.27
+    "image": "/images/products/sw-094-lego-harry-potter-collection.webp"
   },
   {
     "sku": "SW-095",
@@ -1800,9 +1612,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-095-lego-marvel-super-heroes-2.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 9.41
+    "image": "/images/products/sw-095-lego-marvel-super-heroes-2.webp"
   },
   {
     "sku": "SW-096",
@@ -1819,9 +1629,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-096-lego-city-undercover.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.76
+    "image": "/images/products/sw-096-lego-city-undercover.webp"
   },
   {
     "sku": "SW-097",
@@ -1838,9 +1646,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-097-overcooked-all-you-can-eat.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.51
+    "image": "/images/products/sw-097-overcooked-all-you-can-eat.webp"
   },
   {
     "sku": "SW-098",
@@ -1857,9 +1663,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-098-just-dance-2023.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-098-just-dance-2023.webp"
   },
   {
     "sku": "SW-099",
@@ -1876,9 +1680,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-099-immortals-fenyx-rising.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 9.37
+    "image": "/images/products/sw-099-immortals-fenyx-rising.webp"
   },
   {
     "sku": "SW-100",
@@ -1895,9 +1697,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-100-rocket-league-collectors-edition.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-100-rocket-league-collectors-edition.webp"
   },
   {
     "sku": "SW-101",
@@ -1914,9 +1714,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-101-fifa-18.webp",
-    "inkoopPrijs": 2,
-    "pcUsedPrice": 4.41
+    "image": "/images/products/sw-101-fifa-18.webp"
   },
   {
     "sku": "SW-102",
@@ -1933,9 +1731,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-102-ni-no-kuni.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.31
+    "image": "/images/products/sw-102-ni-no-kuni.webp"
   },
   {
     "sku": "SW-103",
@@ -1952,9 +1748,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-103-tales-of-vesperia.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 14.64
+    "image": "/images/products/sw-103-tales-of-vesperia.webp"
   },
   {
     "sku": "SW-104",
@@ -1971,9 +1765,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-104-bravely-default-ii.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.04
+    "image": "/images/products/sw-104-bravely-default-ii.webp"
   },
   {
     "sku": "SW-105",
@@ -1990,9 +1782,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-105-final-fantasy-xx-2-remaster.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.83
+    "image": "/images/products/sw-105-final-fantasy-xx-2-remaster.webp"
   },
   {
     "sku": "SW-106",
@@ -2009,9 +1799,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-106-collection-of-mana.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.61
+    "image": "/images/products/sw-106-collection-of-mana.webp"
   },
   {
     "sku": "SW-107",
@@ -2028,9 +1816,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-107-starlink-battle-for-atlas.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-107-starlink-battle-for-atlas.webp"
   },
   {
     "sku": "SW-108",
@@ -2047,9 +1833,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-108-borderlands-legendary-collection.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 14.5
+    "image": "/images/products/sw-108-borderlands-legendary-collection.webp"
   },
   {
     "sku": "SW-109",
@@ -2066,9 +1850,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-109-naruto-storm-trilogy.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.9
+    "image": "/images/products/sw-109-naruto-storm-trilogy.webp"
   },
   {
     "sku": "SW-110",
@@ -2085,9 +1867,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-110-cars-3-vol-gas-voor-de-winst.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.99
+    "image": "/images/products/sw-110-cars-3-vol-gas-voor-de-winst.webp"
   },
   {
     "sku": "SW-111",
@@ -2104,9 +1884,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-111-dragon-quest-builders-2.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.53
+    "image": "/images/products/sw-111-dragon-quest-builders-2.webp"
   },
   {
     "sku": "SW-112",
@@ -2123,9 +1901,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-112-mario-sonic-olympische-spelen.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-112-mario-sonic-olympische-spelen.webp"
   },
   {
     "sku": "SW-113",
@@ -2142,9 +1918,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-113-pikmin-12.webp",
-    "inkoopPrijs": 16,
-    "pcUsedPrice": 39.8
+    "image": "/images/products/sw-113-pikmin-12.webp"
   },
   {
     "sku": "SW-114",
@@ -2161,9 +1935,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-114-fire-emblem-warriors.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 16.67
+    "image": "/images/products/sw-114-fire-emblem-warriors.webp"
   },
   {
     "sku": "SW-115",
@@ -2180,9 +1952,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/sw-115-cadence-of-hyrule.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/sw-115-cadence-of-hyrule.webp"
   },
   {
     "sku": "3DS-001",
@@ -2199,9 +1969,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-001-zelda-majoras-mask-3d.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/3ds-001-zelda-majoras-mask-3d.webp"
   },
   {
     "sku": "3DS-002",
@@ -2218,9 +1986,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-002-zelda-ocarina-of-time-3d.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/3ds-002-zelda-ocarina-of-time-3d.webp"
   },
   {
     "sku": "3DS-003",
@@ -2237,9 +2003,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-003-zelda-a-link-between-worlds.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/3ds-003-zelda-a-link-between-worlds.webp"
   },
   {
     "sku": "3DS-004",
@@ -2256,9 +2020,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-004-pokmon-x.webp",
-    "inkoopPrijs": 14,
-    "pcUsedPrice": 35.1
+    "image": "/images/products/3ds-004-pokmon-x.webp"
   },
   {
     "sku": "3DS-005",
@@ -2275,9 +2037,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-005-pokmon-y.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.73
+    "image": "/images/products/3ds-005-pokmon-y.webp"
   },
   {
     "sku": "3DS-006",
@@ -2294,9 +2054,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-006-pokmon-sun.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 18.15
+    "image": "/images/products/3ds-006-pokmon-sun.webp"
   },
   {
     "sku": "3DS-007",
@@ -2313,9 +2071,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-007-pokmon-moon.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 20.78
+    "image": "/images/products/3ds-007-pokmon-moon.webp"
   },
   {
     "sku": "3DS-008",
@@ -2332,9 +2088,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-008-pokmon-ultra-sun.webp",
-    "inkoopPrijs": 16.5,
-    "pcUsedPrice": 41.59
+    "image": "/images/products/3ds-008-pokmon-ultra-sun.webp"
   },
   {
     "sku": "3DS-009",
@@ -2351,9 +2105,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-009-pokmon-ultra-moon.webp",
-    "inkoopPrijs": 16,
-    "pcUsedPrice": 39.89
+    "image": "/images/products/3ds-009-pokmon-ultra-moon.webp"
   },
   {
     "sku": "3DS-010",
@@ -2370,9 +2122,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-010-pokmon-alpha-sapphire.webp",
-    "inkoopPrijs": 15.5,
-    "pcUsedPrice": 39.06
+    "image": "/images/products/3ds-010-pokmon-alpha-sapphire.webp"
   },
   {
     "sku": "3DS-011",
@@ -2389,9 +2139,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-011-pokmon-omega-ruby.webp",
-    "inkoopPrijs": 14,
-    "pcUsedPrice": 35.39
+    "image": "/images/products/3ds-011-pokmon-omega-ruby.webp"
   },
   {
     "sku": "3DS-012",
@@ -2408,9 +2156,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-012-super-mario-3d-land.webp",
-    "inkoopPrijs": 2,
-    "pcUsedPrice": 4.87
+    "image": "/images/products/3ds-012-super-mario-3d-land.webp"
   },
   {
     "sku": "3DS-013",
@@ -2427,9 +2173,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-013-mario-kart-7.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 9.42
+    "image": "/images/products/3ds-013-mario-kart-7.webp"
   },
   {
     "sku": "3DS-014",
@@ -2446,9 +2190,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-014-super-smash-bros-for-3ds.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.55
+    "image": "/images/products/3ds-014-super-smash-bros-for-3ds.webp"
   },
   {
     "sku": "3DS-015",
@@ -2465,9 +2207,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-015-animal-crossing-new-leaf.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.19
+    "image": "/images/products/3ds-015-animal-crossing-new-leaf.webp"
   },
   {
     "sku": "3DS-016",
@@ -2484,9 +2224,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-016-luigis-mansion-2.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/3ds-016-luigis-mansion-2.webp"
   },
   {
     "sku": "3DS-017",
@@ -2503,9 +2241,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-017-kirby-triple-deluxe.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 16.46
+    "image": "/images/products/3ds-017-kirby-triple-deluxe.webp"
   },
   {
     "sku": "3DS-018",
@@ -2522,9 +2258,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-018-fire-emblem-awakening.webp",
-    "inkoopPrijs": 10,
-    "pcUsedPrice": 25.49
+    "image": "/images/products/3ds-018-fire-emblem-awakening.webp"
   },
   {
     "sku": "3DS-019",
@@ -2541,9 +2275,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-019-metroid-samus-returns.webp",
-    "inkoopPrijs": 15.5,
-    "pcUsedPrice": 38.71
+    "image": "/images/products/3ds-019-metroid-samus-returns.webp"
   },
   {
     "sku": "3DS-020",
@@ -2560,9 +2292,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-020-detective-pikachu.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 15.97
+    "image": "/images/products/3ds-020-detective-pikachu.webp"
   },
   {
     "sku": "3DS-021",
@@ -2579,9 +2309,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-021-kid-icarus-uprising.webp",
-    "inkoopPrijs": 11,
-    "pcUsedPrice": 27.23
+    "image": "/images/products/3ds-021-kid-icarus-uprising.webp"
   },
   {
     "sku": "3DS-022",
@@ -2598,9 +2326,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-022-star-fox-64-3d.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 9.55
+    "image": "/images/products/3ds-022-star-fox-64-3d.webp"
   },
   {
     "sku": "3DS-023",
@@ -2617,9 +2343,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-023-dk-country-returns-3d.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 9.36
+    "image": "/images/products/3ds-023-dk-country-returns-3d.webp"
   },
   {
     "sku": "3DS-024",
@@ -2636,9 +2360,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-024-tomodachi-life.webp",
-    "inkoopPrijs": 15,
-    "pcUsedPrice": 37.36
+    "image": "/images/products/3ds-024-tomodachi-life.webp"
   },
   {
     "sku": "3DS-025",
@@ -2655,9 +2377,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-025-new-super-mario-bros-2.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.84
+    "image": "/images/products/3ds-025-new-super-mario-bros-2.webp"
   },
   {
     "sku": "DS-001",
@@ -2674,9 +2394,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/ds-001-pokmon-black.webp",
-    "inkoopPrijs": 19,
-    "pcUsedPrice": 47.14
+    "image": "/images/products/ds-001-pokmon-black.webp"
   },
   {
     "sku": "DS-002",
@@ -2693,9 +2411,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/ds-002-pokmon-white.webp",
-    "inkoopPrijs": 18.5,
-    "pcUsedPrice": 45.99
+    "image": "/images/products/ds-002-pokmon-white.webp"
   },
   {
     "sku": "DS-003",
@@ -2712,9 +2428,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/ds-003-pokmon-black-2.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-003-pokmon-black-2.webp"
   },
   {
     "sku": "DS-004",
@@ -2731,9 +2445,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/ds-004-pokmon-white-2.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-004-pokmon-white-2.webp"
   },
   {
     "sku": "DS-005",
@@ -2750,9 +2462,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-005-pokmon-soulsilver.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-005-pokmon-soulsilver.webp"
   },
   {
     "sku": "DS-006",
@@ -2769,9 +2479,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-006-pokmon-heartgold.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-006-pokmon-heartgold.webp"
   },
   {
     "sku": "DS-007",
@@ -2788,9 +2496,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-007-pokmon-platinum.webp",
-    "inkoopPrijs": 33,
-    "pcUsedPrice": 83.06
+    "image": "/images/products/ds-007-pokmon-platinum.webp"
   },
   {
     "sku": "DS-008",
@@ -2807,9 +2513,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-008-pokmon-diamond.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 20.76
+    "image": "/images/products/ds-008-pokmon-diamond.webp"
   },
   {
     "sku": "DS-009",
@@ -2826,9 +2530,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-009-pokmon-pearl.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.51
+    "image": "/images/products/ds-009-pokmon-pearl.webp"
   },
   {
     "sku": "DS-010",
@@ -2845,9 +2547,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-010-mario-kart-ds.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.68
+    "image": "/images/products/ds-010-mario-kart-ds.webp"
   },
   {
     "sku": "DS-011",
@@ -2864,9 +2564,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-011-new-super-mario-bros.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 10.36
+    "image": "/images/products/ds-011-new-super-mario-bros.webp"
   },
   {
     "sku": "DS-012",
@@ -2883,9 +2581,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-012-super-mario-64-ds.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.22
+    "image": "/images/products/ds-012-super-mario-64-ds.webp"
   },
   {
     "sku": "DS-013",
@@ -2902,9 +2598,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-013-mario-luigi-bowsers-inside-story.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-013-mario-luigi-bowsers-inside-story.webp"
   },
   {
     "sku": "DS-014",
@@ -2921,9 +2615,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-014-zelda-phantom-hourglass.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-014-zelda-phantom-hourglass.webp"
   },
   {
     "sku": "DS-015",
@@ -2940,9 +2632,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-015-zelda-spirit-tracks.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/ds-015-zelda-spirit-tracks.webp"
   },
   {
     "sku": "DS-016",
@@ -2959,9 +2649,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-016-professor-layton-geheimzinnige-dorp.webp",
-    "inkoopPrijs": 1.5,
-    "pcUsedPrice": 3.67
+    "image": "/images/products/ds-016-professor-layton-geheimzinnige-dorp.webp"
   },
   {
     "sku": "DS-017",
@@ -2978,9 +2666,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-017-animal-crossing-wild-world.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 13.81
+    "image": "/images/products/ds-017-animal-crossing-wild-world.webp"
   },
   {
     "sku": "DS-018",
@@ -2997,9 +2683,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-018-advance-wars-dual-strike.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 18.21
+    "image": "/images/products/ds-018-advance-wars-dual-strike.webp"
   },
   {
     "sku": "DS-019",
@@ -3016,9 +2700,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-019-kirby-super-star-ultra.webp",
-    "inkoopPrijs": 27.5,
-    "pcUsedPrice": 68.29
+    "image": "/images/products/ds-019-kirby-super-star-ultra.webp"
   },
   {
     "sku": "DS-020",
@@ -3035,9 +2717,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-020-castlevania-dawn-of-sorrow.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 30.49
+    "image": "/images/products/ds-020-castlevania-dawn-of-sorrow.webp"
   },
   {
     "sku": "GB-001",
@@ -3054,9 +2734,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-001-pokmon-red.webp",
-    "inkoopPrijs": 15.5,
-    "pcUsedPrice": 38.5
+    "image": "/images/products/gb-001-pokmon-red.webp"
   },
   {
     "sku": "GB-002",
@@ -3073,9 +2751,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-002-pokmon-blue.webp",
-    "inkoopPrijs": 18,
-    "pcUsedPrice": 44.84
+    "image": "/images/products/gb-002-pokmon-blue.webp"
   },
   {
     "sku": "GB-003",
@@ -3092,9 +2768,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-003-pokmon-yellow.webp",
-    "inkoopPrijs": 17,
-    "pcUsedPrice": 42.28
+    "image": "/images/products/gb-003-pokmon-yellow.webp"
   },
   {
     "sku": "GB-004",
@@ -3111,9 +2785,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-004-pokmon-gold.webp",
-    "inkoopPrijs": 15,
-    "pcUsedPrice": 37.68
+    "image": "/images/products/gb-004-pokmon-gold.webp"
   },
   {
     "sku": "GB-005",
@@ -3130,9 +2802,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-005-pokmon-silver.webp",
-    "inkoopPrijs": 16,
-    "pcUsedPrice": 40.17
+    "image": "/images/products/gb-005-pokmon-silver.webp"
   },
   {
     "sku": "GB-006",
@@ -3149,9 +2819,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-006-pokmon-crystal.webp",
-    "inkoopPrijs": 36,
-    "pcUsedPrice": 90.24
+    "image": "/images/products/gb-006-pokmon-crystal.webp"
   },
   {
     "sku": "GB-007",
@@ -3168,9 +2836,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-007-pokmon-pinball.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.73
+    "image": "/images/products/gb-007-pokmon-pinball.webp"
   },
   {
     "sku": "GB-008",
@@ -3187,9 +2853,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-008-super-mario-land.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.21
+    "image": "/images/products/gb-008-super-mario-land.webp"
   },
   {
     "sku": "GB-009",
@@ -3206,9 +2870,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-009-super-mario-land-2.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-009-super-mario-land-2.webp"
   },
   {
     "sku": "GB-010",
@@ -3225,9 +2887,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-010-zelda-links-awakening.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-010-zelda-links-awakening.webp"
   },
   {
     "sku": "GB-011",
@@ -3244,9 +2904,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-011-zelda-links-awakening-dx.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-011-zelda-links-awakening-dx.webp"
   },
   {
     "sku": "GB-012",
@@ -3263,9 +2921,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-012-zelda-oracle-of-ages.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-012-zelda-oracle-of-ages.webp"
   },
   {
     "sku": "GB-013",
@@ -3282,9 +2938,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-013-zelda-oracle-of-seasons.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-013-zelda-oracle-of-seasons.webp"
   },
   {
     "sku": "GB-014",
@@ -3301,9 +2955,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-014-kirbys-dream-land.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-014-kirbys-dream-land.webp"
   },
   {
     "sku": "GB-015",
@@ -3320,9 +2972,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-015-tetris.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 10.32
+    "image": "/images/products/gb-015-tetris.webp"
   },
   {
     "sku": "GB-016",
@@ -3339,9 +2989,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-016-donkey-kong.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 15.58
+    "image": "/images/products/gb-016-donkey-kong.webp"
   },
   {
     "sku": "GB-017",
@@ -3358,9 +3006,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-017-wario-land-3.webp",
-    "inkoopPrijs": 9,
-    "pcUsedPrice": 21.91
+    "image": "/images/products/gb-017-wario-land-3.webp"
   },
   {
     "sku": "GB-018",
@@ -3377,9 +3023,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-018-ducktales.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-018-ducktales.webp"
   },
   {
     "sku": "GB-019",
@@ -3396,9 +3040,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-019-donkey-kong-country.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.13
+    "image": "/images/products/gb-019-donkey-kong-country.webp"
   },
   {
     "sku": "GB-020",
@@ -3415,9 +3057,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-020-pokmon-tcg.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.34
+    "image": "/images/products/gb-020-pokmon-tcg.webp"
   },
   {
     "sku": "GB-021",
@@ -3434,9 +3074,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-021-tom-jerry.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-021-tom-jerry.webp"
   },
   {
     "sku": "GB-022",
@@ -3453,9 +3091,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-022-the-blues-brothers.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-022-the-blues-brothers.webp"
   },
   {
     "sku": "GB-023",
@@ -3472,9 +3108,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-023-super-hunchback.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.2
+    "image": "/images/products/gb-023-super-hunchback.webp"
   },
   {
     "sku": "GB-024",
@@ -3491,9 +3125,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-024-mysterium.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gb-024-mysterium.webp"
   },
   {
     "sku": "GB-025",
@@ -3510,9 +3142,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-025-metroid-ii-return-of-samus.webp",
-    "inkoopPrijs": 20,
-    "pcUsedPrice": 50.43
+    "image": "/images/products/gb-025-metroid-ii-return-of-samus.webp"
   },
   {
     "sku": "GBA-001",
@@ -3529,9 +3159,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-001-pokmon-ruby.webp",
-    "inkoopPrijs": 18,
-    "pcUsedPrice": 44.84
+    "image": "/images/products/gba-001-pokmon-ruby.webp"
   },
   {
     "sku": "GBA-002",
@@ -3548,9 +3176,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-002-pokmon-sapphire.webp",
-    "inkoopPrijs": 19,
-    "pcUsedPrice": 47.94
+    "image": "/images/products/gba-002-pokmon-sapphire.webp"
   },
   {
     "sku": "GBA-003",
@@ -3567,9 +3193,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-003-pokmon-emerald.webp",
-    "inkoopPrijs": 54.5,
-    "pcUsedPrice": 135.82
+    "image": "/images/products/gba-003-pokmon-emerald.webp"
   },
   {
     "sku": "GBA-004",
@@ -3586,9 +3210,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-004-pokmon-firered.webp",
-    "inkoopPrijs": 37,
-    "pcUsedPrice": 92.94
+    "image": "/images/products/gba-004-pokmon-firered.webp"
   },
   {
     "sku": "GBA-005",
@@ -3605,9 +3227,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-005-pokmon-leafgreen.webp",
-    "inkoopPrijs": 28.5,
-    "pcUsedPrice": 70.69
+    "image": "/images/products/gba-005-pokmon-leafgreen.webp"
   },
   {
     "sku": "GBA-006",
@@ -3624,9 +3244,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-006-zelda-the-minish-cap.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gba-006-zelda-the-minish-cap.webp"
   },
   {
     "sku": "GBA-007",
@@ -3643,9 +3261,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-007-zelda-alttp-four-swords.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gba-007-zelda-alttp-four-swords.webp"
   },
   {
     "sku": "GBA-008",
@@ -3662,9 +3278,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-008-mario-kart-super-circuit.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.59
+    "image": "/images/products/gba-008-mario-kart-super-circuit.webp"
   },
   {
     "sku": "GBA-009",
@@ -3681,9 +3295,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-009-mario-luigi-superstar-saga.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.36
+    "image": "/images/products/gba-009-mario-luigi-superstar-saga.webp"
   },
   {
     "sku": "GBA-010",
@@ -3700,9 +3312,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-010-metroid-fusion.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.09
+    "image": "/images/products/gba-010-metroid-fusion.webp"
   },
   {
     "sku": "GBA-011",
@@ -3719,9 +3329,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-011-metroid-zero-mission.webp",
-    "inkoopPrijs": 36,
-    "pcUsedPrice": 90.54
+    "image": "/images/products/gba-011-metroid-zero-mission.webp"
   },
   {
     "sku": "GBA-012",
@@ -3738,9 +3346,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-012-golden-sun.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.06
+    "image": "/images/products/gba-012-golden-sun.webp"
   },
   {
     "sku": "GBA-013",
@@ -3757,9 +3363,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-013-golden-sun-the-lost-age.webp",
-    "inkoopPrijs": 9.5,
-    "pcUsedPrice": 24.02
+    "image": "/images/products/gba-013-golden-sun-the-lost-age.webp"
   },
   {
     "sku": "GBA-014",
@@ -3776,9 +3380,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-014-advance-wars.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.48
+    "image": "/images/products/gba-014-advance-wars.webp"
   },
   {
     "sku": "GBA-015",
@@ -3795,9 +3397,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-015-advance-wars-2.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gba-015-advance-wars-2.webp"
   },
   {
     "sku": "GBA-016",
@@ -3814,9 +3414,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-016-fire-emblem.webp",
-    "inkoopPrijs": 16,
-    "pcUsedPrice": 39.46
+    "image": "/images/products/gba-016-fire-emblem.webp"
   },
   {
     "sku": "GBA-017",
@@ -3833,9 +3431,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-017-fire-emblem-sacred-stones.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gba-017-fire-emblem-sacred-stones.webp"
   },
   {
     "sku": "GBA-018",
@@ -3852,9 +3448,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-018-castlevania-aria-of-sorrow.webp",
-    "inkoopPrijs": 33,
-    "pcUsedPrice": 81.97
+    "image": "/images/products/gba-018-castlevania-aria-of-sorrow.webp"
   },
   {
     "sku": "GBA-019",
@@ -3871,9 +3465,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-019-wario-land-4.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 14.82
+    "image": "/images/products/gba-019-wario-land-4.webp"
   },
   {
     "sku": "GBA-020",
@@ -3890,9 +3482,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-020-kirby-the-amazing-mirror.webp",
-    "inkoopPrijs": 14.5,
-    "pcUsedPrice": 36.72
+    "image": "/images/products/gba-020-kirby-the-amazing-mirror.webp"
   },
   {
     "sku": "GBA-021",
@@ -3909,9 +3499,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-021-final-fantasy-tactics-advance.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.05
+    "image": "/images/products/gba-021-final-fantasy-tactics-advance.webp"
   },
   {
     "sku": "GBA-022",
@@ -3928,9 +3516,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-022-harvest-moon-fomt.webp",
-    "inkoopPrijs": 9,
-    "pcUsedPrice": 21.92
+    "image": "/images/products/gba-022-harvest-moon-fomt.webp"
   },
   {
     "sku": "GBA-023",
@@ -3947,9 +3533,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-023-yoshis-island-gba.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gba-023-yoshis-island-gba.webp"
   },
   {
     "sku": "GBA-024",
@@ -3966,9 +3550,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-024-sonic-advance.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.1
+    "image": "/images/products/gba-024-sonic-advance.webp"
   },
   {
     "sku": "GBA-025",
@@ -3985,9 +3567,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-025-mega-man-battle-network.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.66
+    "image": "/images/products/gba-025-mega-man-battle-network.webp"
   },
   {
     "sku": "GC-001",
@@ -4004,9 +3584,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-001-pokmon-xd-gale-of-darkness.webp",
-    "inkoopPrijs": 83.5,
-    "pcUsedPrice": 208.62
+    "image": "/images/products/gc-001-pokmon-xd-gale-of-darkness.webp"
   },
   {
     "sku": "GC-002",
@@ -4023,9 +3601,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-002-pokmon-colosseum.webp",
-    "inkoopPrijs": 22.5,
-    "pcUsedPrice": 56.11
+    "image": "/images/products/gc-002-pokmon-colosseum.webp"
   },
   {
     "sku": "GC-003",
@@ -4042,9 +3618,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-003-zelda-the-wind-waker.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gc-003-zelda-the-wind-waker.webp"
   },
   {
     "sku": "GC-004",
@@ -4061,9 +3635,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-004-zelda-twilight-princess.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gc-004-zelda-twilight-princess.webp"
   },
   {
     "sku": "GC-005",
@@ -4080,9 +3652,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-005-super-smash-bros-melee.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.72
+    "image": "/images/products/gc-005-super-smash-bros-melee.webp"
   },
   {
     "sku": "GC-006",
@@ -4099,9 +3669,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-006-mario-kart-double-dash.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.45
+    "image": "/images/products/gc-006-mario-kart-double-dash.webp"
   },
   {
     "sku": "GC-007",
@@ -4118,9 +3686,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-007-super-mario-sunshine.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.79
+    "image": "/images/products/gc-007-super-mario-sunshine.webp"
   },
   {
     "sku": "GC-008",
@@ -4137,9 +3703,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-008-luigis-mansion.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gc-008-luigis-mansion.webp"
   },
   {
     "sku": "GC-009",
@@ -4156,9 +3720,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-009-paper-mario-ttyd.webp",
-    "inkoopPrijs": 21.5,
-    "pcUsedPrice": 53.39
+    "image": "/images/products/gc-009-paper-mario-ttyd.webp"
   },
   {
     "sku": "GC-010",
@@ -4175,9 +3737,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-010-mario-party-4.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.26
+    "image": "/images/products/gc-010-mario-party-4.webp"
   },
   {
     "sku": "GC-011",
@@ -4194,9 +3754,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-011-mario-party-5.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.39
+    "image": "/images/products/gc-011-mario-party-5.webp"
   },
   {
     "sku": "GC-012",
@@ -4213,9 +3771,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-012-mario-party-6.webp",
-    "inkoopPrijs": 23.5,
-    "pcUsedPrice": 58.19
+    "image": "/images/products/gc-012-mario-party-6.webp"
   },
   {
     "sku": "GC-013",
@@ -4232,9 +3788,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-013-mario-party-7.webp",
-    "inkoopPrijs": 29,
-    "pcUsedPrice": 72.92
+    "image": "/images/products/gc-013-mario-party-7.webp"
   },
   {
     "sku": "GC-014",
@@ -4251,9 +3805,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/gc-014-fire-emblem-path-of-radiance.webp",
-    "inkoopPrijs": 64,
-    "pcUsedPrice": 159.75
+    "image": "/images/products/gc-014-fire-emblem-path-of-radiance.webp"
   },
   {
     "sku": "GC-015",
@@ -4270,9 +3822,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-015-metroid-prime.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 18.25
+    "image": "/images/products/gc-015-metroid-prime.webp"
   },
   {
     "sku": "GC-016",
@@ -4289,9 +3839,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-016-metroid-prime-2-echoes.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 28.19
+    "image": "/images/products/gc-016-metroid-prime-2-echoes.webp"
   },
   {
     "sku": "GC-017",
@@ -4308,9 +3856,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-017-pikmin.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 14.3
+    "image": "/images/products/gc-017-pikmin.webp"
   },
   {
     "sku": "GC-018",
@@ -4327,9 +3873,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-018-pikmin-2.webp",
-    "inkoopPrijs": 13.5,
-    "pcUsedPrice": 33.6
+    "image": "/images/products/gc-018-pikmin-2.webp"
   },
   {
     "sku": "GC-019",
@@ -4346,9 +3890,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-019-f-zero-gx.webp",
-    "inkoopPrijs": 13.5,
-    "pcUsedPrice": 34.02
+    "image": "/images/products/gc-019-f-zero-gx.webp"
   },
   {
     "sku": "GC-020",
@@ -4365,9 +3907,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-020-kirby-air-ride.webp",
-    "inkoopPrijs": 37.5,
-    "pcUsedPrice": 93.24
+    "image": "/images/products/gc-020-kirby-air-ride.webp"
   },
   {
     "sku": "GC-021",
@@ -4384,9 +3924,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-021-animal-crossing.webp",
-    "inkoopPrijs": 39,
-    "pcUsedPrice": 97.13
+    "image": "/images/products/gc-021-animal-crossing.webp"
   },
   {
     "sku": "GC-022",
@@ -4403,9 +3941,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-022-sonic-adventure-2-battle.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 14.14
+    "image": "/images/products/gc-022-sonic-adventure-2-battle.webp"
   },
   {
     "sku": "GC-023",
@@ -4422,9 +3958,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-023-resident-evil-4.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 18.11
+    "image": "/images/products/gc-023-resident-evil-4.webp"
   },
   {
     "sku": "GC-024",
@@ -4441,9 +3975,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-024-eternal-darkness.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/gc-024-eternal-darkness.webp"
   },
   {
     "sku": "GC-025",
@@ -4460,9 +3992,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gc-025-star-fox-adventures.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 16.5
+    "image": "/images/products/gc-025-star-fox-adventures.webp"
   },
   {
     "sku": "N64-001",
@@ -4479,9 +4009,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-001-super-mario-64.webp",
-    "inkoopPrijs": 8.5,
-    "pcUsedPrice": 21.39
+    "image": "/images/products/n64-001-super-mario-64.webp"
   },
   {
     "sku": "N64-002",
@@ -4498,9 +4026,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-002-zelda-ocarina-of-time.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/n64-002-zelda-ocarina-of-time.webp"
   },
   {
     "sku": "N64-003",
@@ -4517,9 +4043,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-003-zelda-majoras-mask.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/n64-003-zelda-majoras-mask.webp"
   },
   {
     "sku": "N64-004",
@@ -4536,9 +4060,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-004-mario-kart-64.webp",
-    "inkoopPrijs": 13.5,
-    "pcUsedPrice": 33.96
+    "image": "/images/products/n64-004-mario-kart-64.webp"
   },
   {
     "sku": "N64-005",
@@ -4555,9 +4077,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-005-super-smash-bros.webp",
-    "inkoopPrijs": 17,
-    "pcUsedPrice": 42.17
+    "image": "/images/products/n64-005-super-smash-bros.webp"
   },
   {
     "sku": "N64-006",
@@ -4574,9 +4094,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-006-pokmon-stadium.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 15.8
+    "image": "/images/products/n64-006-pokmon-stadium.webp"
   },
   {
     "sku": "N64-007",
@@ -4593,9 +4111,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-007-pokmon-stadium-2.webp",
-    "inkoopPrijs": 31,
-    "pcUsedPrice": 77.47
+    "image": "/images/products/n64-007-pokmon-stadium-2.webp"
   },
   {
     "sku": "N64-008",
@@ -4612,9 +4128,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-008-pokmon-snap.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 13.49
+    "image": "/images/products/n64-008-pokmon-snap.webp"
   },
   {
     "sku": "N64-009",
@@ -4631,9 +4145,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-009-goldeneye-007.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/n64-009-goldeneye-007.webp"
   },
   {
     "sku": "N64-010",
@@ -4650,9 +4162,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-010-donkey-kong-64.webp",
-    "inkoopPrijs": 10,
-    "pcUsedPrice": 25.22
+    "image": "/images/products/n64-010-donkey-kong-64.webp"
   },
   {
     "sku": "N64-011",
@@ -4669,9 +4179,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-011-banjo-kazooie.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 15.07
+    "image": "/images/products/n64-011-banjo-kazooie.webp"
   },
   {
     "sku": "N64-012",
@@ -4688,9 +4196,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-012-banjo-tooie.webp",
-    "inkoopPrijs": 24.5,
-    "pcUsedPrice": 61
+    "image": "/images/products/n64-012-banjo-tooie.webp"
   },
   {
     "sku": "N64-013",
@@ -4707,9 +4213,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-013-conkers-bad-fur-day.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/n64-013-conkers-bad-fur-day.webp"
   },
   {
     "sku": "N64-014",
@@ -4726,9 +4230,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-014-paper-mario.webp",
-    "inkoopPrijs": 43,
-    "pcUsedPrice": 108.08
+    "image": "/images/products/n64-014-paper-mario.webp"
   },
   {
     "sku": "N64-015",
@@ -4745,9 +4247,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-015-mario-party.webp",
-    "inkoopPrijs": 12,
-    "pcUsedPrice": 30.21
+    "image": "/images/products/n64-015-mario-party.webp"
   },
   {
     "sku": "N64-016",
@@ -4764,9 +4264,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-016-mario-party-2.webp",
-    "inkoopPrijs": 19,
-    "pcUsedPrice": 46.87
+    "image": "/images/products/n64-016-mario-party-2.webp"
   },
   {
     "sku": "N64-017",
@@ -4783,9 +4281,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-017-mario-party-3.webp",
-    "inkoopPrijs": 34,
-    "pcUsedPrice": 85.23
+    "image": "/images/products/n64-017-mario-party-3.webp"
   },
   {
     "sku": "N64-018",
@@ -4802,9 +4298,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-018-diddy-kong-racing.webp",
-    "inkoopPrijs": 6.5,
-    "pcUsedPrice": 15.77
+    "image": "/images/products/n64-018-diddy-kong-racing.webp"
   },
   {
     "sku": "N64-019",
@@ -4821,9 +4315,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-019-star-fox-64.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/n64-019-star-fox-64.webp"
   },
   {
     "sku": "N64-020",
@@ -4840,9 +4332,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-020-kirby-64.webp",
-    "inkoopPrijs": 46,
-    "pcUsedPrice": 115.17
+    "image": "/images/products/n64-020-kirby-64.webp"
   },
   {
     "sku": "N64-021",
@@ -4859,9 +4349,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-021-f-zero-x.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 13.25
+    "image": "/images/products/n64-021-f-zero-x.webp"
   },
   {
     "sku": "N64-022",
@@ -4878,9 +4366,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-022-perfect-dark.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 16.87
+    "image": "/images/products/n64-022-perfect-dark.webp"
   },
   {
     "sku": "N64-023",
@@ -4897,9 +4383,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-023-wave-race-64.webp",
-    "inkoopPrijs": 3,
-    "pcUsedPrice": 8.03
+    "image": "/images/products/n64-023-wave-race-64.webp"
   },
   {
     "sku": "N64-024",
@@ -4916,9 +4400,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-024-harvest-moon-64.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/n64-024-harvest-moon-64.webp"
   },
   {
     "sku": "N64-025",
@@ -4935,9 +4417,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/n64-025-mystical-ninja-goemon.webp",
-    "inkoopPrijs": 10,
-    "pcUsedPrice": 24.47
+    "image": "/images/products/n64-025-mystical-ninja-goemon.webp"
   },
   {
     "sku": "SNES-001",
@@ -4954,9 +4434,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-001-zelda-a-link-to-the-past.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-001-zelda-a-link-to-the-past.webp"
   },
   {
     "sku": "SNES-002",
@@ -4973,9 +4451,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-002-super-mario-world.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 15.31
+    "image": "/images/products/snes-002-super-mario-world.webp"
   },
   {
     "sku": "SNES-003",
@@ -4992,9 +4468,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-003-super-mario-kart.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.37
+    "image": "/images/products/snes-003-super-mario-kart.webp"
   },
   {
     "sku": "SNES-004",
@@ -5011,9 +4485,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-004-super-mario-all-stars.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 14.81
+    "image": "/images/products/snes-004-super-mario-all-stars.webp"
   },
   {
     "sku": "SNES-005",
@@ -5030,9 +4502,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-005-yoshis-island.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-005-yoshis-island.webp"
   },
   {
     "sku": "SNES-006",
@@ -5049,9 +4519,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-006-donkey-kong-country.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.24
+    "image": "/images/products/snes-006-donkey-kong-country.webp"
   },
   {
     "sku": "SNES-007",
@@ -5068,9 +4536,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-007-donkey-kong-country-2.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 26.61
+    "image": "/images/products/snes-007-donkey-kong-country-2.webp"
   },
   {
     "sku": "SNES-008",
@@ -5087,9 +4553,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-008-donkey-kong-country-3.webp",
-    "inkoopPrijs": 10,
-    "pcUsedPrice": 24.99
+    "image": "/images/products/snes-008-donkey-kong-country-3.webp"
   },
   {
     "sku": "SNES-009",
@@ -5106,9 +4570,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-009-super-metroid.webp",
-    "inkoopPrijs": 28,
-    "pcUsedPrice": 69.91
+    "image": "/images/products/snes-009-super-metroid.webp"
   },
   {
     "sku": "SNES-010",
@@ -5125,9 +4587,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-010-street-fighter-ii-turbo.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.1
+    "image": "/images/products/snes-010-street-fighter-ii-turbo.webp"
   },
   {
     "sku": "SNES-011",
@@ -5144,9 +4604,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-011-mega-man-x.webp",
-    "inkoopPrijs": 27.5,
-    "pcUsedPrice": 68.65
+    "image": "/images/products/snes-011-mega-man-x.webp"
   },
   {
     "sku": "SNES-012",
@@ -5163,9 +4621,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-012-super-castlevania-iv.webp",
-    "inkoopPrijs": 18.5,
-    "pcUsedPrice": 46.6
+    "image": "/images/products/snes-012-super-castlevania-iv.webp"
   },
   {
     "sku": "SNES-013",
@@ -5182,9 +4638,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-013-kirbys-fun-pak.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-013-kirbys-fun-pak.webp"
   },
   {
     "sku": "SNES-014",
@@ -5201,9 +4655,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-014-f-zero.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 9.02
+    "image": "/images/products/snes-014-f-zero.webp"
   },
   {
     "sku": "SNES-015",
@@ -5220,9 +4672,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-015-star-fox.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-015-star-fox.webp"
   },
   {
     "sku": "SNES-016",
@@ -5239,9 +4689,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-016-turtles-in-time.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-016-turtles-in-time.webp"
   },
   {
     "sku": "SNES-017",
@@ -5258,9 +4706,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-017-contra-iii.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-017-contra-iii.webp"
   },
   {
     "sku": "SNES-018",
@@ -5277,9 +4723,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/snes-018-terranigma.webp",
-    "inkoopPrijs": 15.5,
-    "pcUsedPrice": 38.78
+    "image": "/images/products/snes-018-terranigma.webp"
   },
   {
     "sku": "SNES-019",
@@ -5296,9 +4740,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/snes-019-secret-of-mana.webp",
-    "inkoopPrijs": 10.5,
-    "pcUsedPrice": 25.72
+    "image": "/images/products/snes-019-secret-of-mana.webp"
   },
   {
     "sku": "SNES-020",
@@ -5315,9 +4757,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/snes-020-chrono-trigger.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/snes-020-chrono-trigger.webp"
   },
   {
     "sku": "NES-001",
@@ -5334,9 +4774,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-001-super-mario-bros.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.92
+    "image": "/images/products/nes-001-super-mario-bros.webp"
   },
   {
     "sku": "NES-002",
@@ -5353,9 +4791,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-002-super-mario-bros-2.webp",
-    "inkoopPrijs": 7,
-    "pcUsedPrice": 17.34
+    "image": "/images/products/nes-002-super-mario-bros-2.webp"
   },
   {
     "sku": "NES-003",
@@ -5372,9 +4808,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-003-super-mario-bros-3.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.04
+    "image": "/images/products/nes-003-super-mario-bros-3.webp"
   },
   {
     "sku": "NES-004",
@@ -5391,9 +4825,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-004-zelda.webp",
-    "inkoopPrijs": 18.5,
-    "pcUsedPrice": 45.64
+    "image": "/images/products/nes-004-zelda.webp"
   },
   {
     "sku": "NES-005",
@@ -5410,9 +4842,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-005-zelda-ii.webp",
-    "inkoopPrijs": 16.5,
-    "pcUsedPrice": 41.85
+    "image": "/images/products/nes-005-zelda-ii.webp"
   },
   {
     "sku": "NES-006",
@@ -5429,9 +4859,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-006-metroid.webp",
-    "inkoopPrijs": 21,
-    "pcUsedPrice": 52.14
+    "image": "/images/products/nes-006-metroid.webp"
   },
   {
     "sku": "NES-007",
@@ -5448,9 +4876,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-007-kirbys-adventure.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/nes-007-kirbys-adventure.webp"
   },
   {
     "sku": "NES-008",
@@ -5467,9 +4893,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-008-mega-man-2.webp",
-    "inkoopPrijs": 11.5,
-    "pcUsedPrice": 29.31
+    "image": "/images/products/nes-008-mega-man-2.webp"
   },
   {
     "sku": "NES-009",
@@ -5486,9 +4910,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-009-castlevania.webp",
-    "inkoopPrijs": 14.5,
-    "pcUsedPrice": 35.72
+    "image": "/images/products/nes-009-castlevania.webp"
   },
   {
     "sku": "NES-010",
@@ -5505,9 +4927,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-010-contra.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/nes-010-contra.webp"
   },
   {
     "sku": "NES-011",
@@ -5524,9 +4944,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-011-punch-out.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/nes-011-punch-out.webp"
   },
   {
     "sku": "NES-012",
@@ -5543,9 +4961,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-012-duck-hunt.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 14.01
+    "image": "/images/products/nes-012-duck-hunt.webp"
   },
   {
     "sku": "NES-013",
@@ -5562,9 +4978,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-013-tetris.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.59
+    "image": "/images/products/nes-013-tetris.webp"
   },
   {
     "sku": "NES-014",
@@ -5581,9 +4995,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-014-donkey-kong.webp",
-    "inkoopPrijs": 9.5,
-    "pcUsedPrice": 23.68
+    "image": "/images/products/nes-014-donkey-kong.webp"
   },
   {
     "sku": "NES-015",
@@ -5600,9 +5012,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/nes-015-ninja-gaiden.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/nes-015-ninja-gaiden.webp"
   },
   {
     "sku": "WII-001",
@@ -5619,9 +5029,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-001-mario-kart-wii.webp",
-    "inkoopPrijs": 5,
-    "pcUsedPrice": 12.96
+    "image": "/images/products/wii-001-mario-kart-wii.webp"
   },
   {
     "sku": "WII-002",
@@ -5638,9 +5046,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-002-super-mario-galaxy.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 10.61
+    "image": "/images/products/wii-002-super-mario-galaxy.webp"
   },
   {
     "sku": "WII-003",
@@ -5657,9 +5063,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-003-super-mario-galaxy-2.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.67
+    "image": "/images/products/wii-003-super-mario-galaxy-2.webp"
   },
   {
     "sku": "WII-004",
@@ -5676,9 +5080,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-004-new-super-mario-bros-wii.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.56
+    "image": "/images/products/wii-004-new-super-mario-bros-wii.webp"
   },
   {
     "sku": "WII-005",
@@ -5695,9 +5097,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-005-zelda-twilight-princess.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wii-005-zelda-twilight-princess.webp"
   },
   {
     "sku": "WII-006",
@@ -5714,9 +5114,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-006-zelda-skyward-sword.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wii-006-zelda-skyward-sword.webp"
   },
   {
     "sku": "WII-007",
@@ -5733,9 +5131,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-007-super-smash-bros-brawl.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.25
+    "image": "/images/products/wii-007-super-smash-bros-brawl.webp"
   },
   {
     "sku": "WII-008",
@@ -5752,9 +5148,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-008-wii-sports.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 10.14
+    "image": "/images/products/wii-008-wii-sports.webp"
   },
   {
     "sku": "WII-009",
@@ -5771,9 +5165,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-009-wii-sports-resort.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.45
+    "image": "/images/products/wii-009-wii-sports-resort.webp"
   },
   {
     "sku": "WII-010",
@@ -5790,9 +5182,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-010-mario-party-8.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.23
+    "image": "/images/products/wii-010-mario-party-8.webp"
   },
   {
     "sku": "WII-011",
@@ -5809,9 +5199,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-011-mario-party-9.webp",
-    "inkoopPrijs": 7.5,
-    "pcUsedPrice": 19.35
+    "image": "/images/products/wii-011-mario-party-9.webp"
   },
   {
     "sku": "WII-012",
@@ -5828,9 +5216,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-012-pokpark-wii.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wii-012-pokpark-wii.webp"
   },
   {
     "sku": "WII-013",
@@ -5847,9 +5233,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-013-dk-country-returns.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 9.62
+    "image": "/images/products/wii-013-dk-country-returns.webp"
   },
   {
     "sku": "WII-014",
@@ -5866,9 +5250,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-014-xenoblade-chronicles.webp",
-    "inkoopPrijs": 6,
-    "pcUsedPrice": 15.4
+    "image": "/images/products/wii-014-xenoblade-chronicles.webp"
   },
   {
     "sku": "WII-015",
@@ -5885,9 +5267,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-015-fire-emblem-radiant-dawn.webp",
-    "inkoopPrijs": 32,
-    "pcUsedPrice": 80.29
+    "image": "/images/products/wii-015-fire-emblem-radiant-dawn.webp"
   },
   {
     "sku": "WII-016",
@@ -5904,9 +5284,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-016-kirbys-adventure-wii.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wii-016-kirbys-adventure-wii.webp"
   },
   {
     "sku": "WII-017",
@@ -5923,9 +5301,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-017-metroid-prime-3.webp",
-    "inkoopPrijs": 2.5,
-    "pcUsedPrice": 6.36
+    "image": "/images/products/wii-017-metroid-prime-3.webp"
   },
   {
     "sku": "WII-018",
@@ -5942,9 +5318,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wii-018-metroid-other-m.webp",
-    "inkoopPrijs": 3,
-    "pcUsedPrice": 7.17
+    "image": "/images/products/wii-018-metroid-other-m.webp"
   },
   {
     "sku": "WIIU-001",
@@ -5961,9 +5335,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-001-zelda-breath-of-the-wild.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wiiu-001-zelda-breath-of-the-wild.webp"
   },
   {
     "sku": "WIIU-002",
@@ -5980,9 +5352,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-002-zelda-wind-waker-hd.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wiiu-002-zelda-wind-waker-hd.webp"
   },
   {
     "sku": "WIIU-003",
@@ -5999,9 +5369,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-003-zelda-twilight-princess-hd.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wiiu-003-zelda-twilight-princess-hd.webp"
   },
   {
     "sku": "WIIU-004",
@@ -6018,9 +5386,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-004-mario-kart-8.webp",
-    "inkoopPrijs": 4,
-    "pcUsedPrice": 9.45
+    "image": "/images/products/wiiu-004-mario-kart-8.webp"
   },
   {
     "sku": "WIIU-005",
@@ -6037,9 +5403,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-005-super-smash-bros.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wiiu-005-super-smash-bros.webp"
   },
   {
     "sku": "WIIU-006",
@@ -6056,9 +5420,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-006-super-mario-3d-world.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.39
+    "image": "/images/products/wiiu-006-super-mario-3d-world.webp"
   },
   {
     "sku": "WIIU-007",
@@ -6075,9 +5437,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-007-splatoon.webp",
-    "inkoopPrijs": 1.5,
-    "pcUsedPrice": 4.04
+    "image": "/images/products/wiiu-007-splatoon.webp"
   },
   {
     "sku": "WIIU-008",
@@ -6094,9 +5454,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-008-dk-country-tropical-freeze.webp",
-    "inkoopPrijs": 5.5,
-    "pcUsedPrice": 13.75
+    "image": "/images/products/wiiu-008-dk-country-tropical-freeze.webp"
   },
   {
     "sku": "WIIU-009",
@@ -6113,9 +5471,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-009-pikmin-3.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.73
+    "image": "/images/products/wiiu-009-pikmin-3.webp"
   },
   {
     "sku": "WIIU-010",
@@ -6132,9 +5488,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-010-bayonetta-2.webp",
-    "inkoopPrijs": 3.5,
-    "pcUsedPrice": 8.57
+    "image": "/images/products/wiiu-010-bayonetta-2.webp"
   },
   {
     "sku": "WIIU-011",
@@ -6151,9 +5505,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-011-xenoblade-chronicles-x.webp",
-    "inkoopPrijs": 4.5,
-    "pcUsedPrice": 11.42
+    "image": "/images/products/wiiu-011-xenoblade-chronicles-x.webp"
   },
   {
     "sku": "WIIU-012",
@@ -6170,9 +5522,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-012-yoshis-woolly-world.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/wiiu-012-yoshis-woolly-world.webp"
   },
   {
     "sku": "CON-001",
@@ -6189,9 +5539,7 @@
     "weight": 0.4,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-001-nintendo-switch-oled-wit.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-001-nintendo-switch-oled-wit.webp"
   },
   {
     "sku": "CON-002",
@@ -6208,9 +5556,7 @@
     "weight": 0.4,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-002-nintendo-switch-oled-neon.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-002-nintendo-switch-oled-neon.webp"
   },
   {
     "sku": "CON-003",
@@ -6227,9 +5573,7 @@
     "weight": 0.4,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-003-nintendo-switch-v2-grijs.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-003-nintendo-switch-v2-grijs.webp"
   },
   {
     "sku": "CON-004",
@@ -6246,9 +5590,7 @@
     "weight": 0.4,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-004-nintendo-switch-v2-neon.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-004-nintendo-switch-v2-neon.webp"
   },
   {
     "sku": "CON-005",
@@ -6265,9 +5607,7 @@
     "weight": 0.3,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-005-nintendo-switch-lite-geel.webp",
-    "inkoopPrijs": 39,
-    "pcUsedPrice": 97.99
+    "image": "/images/products/con-005-nintendo-switch-lite-geel.webp"
   },
   {
     "sku": "CON-006",
@@ -6284,9 +5624,7 @@
     "weight": 0.3,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-006-nintendo-switch-lite-turquoise.webp",
-    "inkoopPrijs": 40,
-    "pcUsedPrice": 99.83
+    "image": "/images/products/con-006-nintendo-switch-lite-turquoise.webp"
   },
   {
     "sku": "CON-007",
@@ -6303,9 +5641,7 @@
     "weight": 0.3,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-007-nintendo-switch-lite-grijs.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-007-nintendo-switch-lite-grijs.webp"
   },
   {
     "sku": "CON-008",
@@ -6322,9 +5658,7 @@
     "weight": 0.3,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-008-new-nintendo-2ds-xl.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-008-new-nintendo-2ds-xl.webp"
   },
   {
     "sku": "CON-009",
@@ -6341,9 +5675,7 @@
     "weight": 0.3,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-009-new-nintendo-3ds-xl.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-009-new-nintendo-3ds-xl.webp"
   },
   {
     "sku": "CON-010",
@@ -6360,9 +5692,7 @@
     "weight": 0.2,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-010-nintendo-ds-lite.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-010-nintendo-ds-lite.webp"
   },
   {
     "sku": "CON-011",
@@ -6379,9 +5709,7 @@
     "weight": 0.2,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-011-nintendo-dsi.webp",
-    "inkoopPrijs": 37.5,
-    "pcUsedPrice": 93.7
+    "image": "/images/products/con-011-nintendo-dsi.webp"
   },
   {
     "sku": "CON-012",
@@ -6398,9 +5726,7 @@
     "weight": 0.15,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-012-game-boy-advance-sp.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-012-game-boy-advance-sp.webp"
   },
   {
     "sku": "CON-013",
@@ -6417,9 +5743,7 @@
     "weight": 0.15,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-013-game-boy-color.webp",
-    "inkoopPrijs": 31,
-    "pcUsedPrice": 77.36
+    "image": "/images/products/con-013-game-boy-color.webp"
   },
   {
     "sku": "CON-014",
@@ -6436,9 +5760,7 @@
     "weight": 0.3,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-014-game-boy-classic.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-014-game-boy-classic.webp"
   },
   {
     "sku": "CON-015",
@@ -6455,9 +5777,7 @@
     "weight": 0.8,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-015-gamecube-zwart.webp",
-    "inkoopPrijs": 23,
-    "pcUsedPrice": 57.3
+    "image": "/images/products/con-015-gamecube-zwart.webp"
   },
   {
     "sku": "CON-016",
@@ -6474,9 +5794,7 @@
     "weight": 0.8,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-016-gamecube-paars.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-016-gamecube-paars.webp"
   },
   {
     "sku": "CON-017",
@@ -6493,9 +5811,7 @@
     "weight": 1,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-017-nintendo-64-grijs.webp",
-    "inkoopPrijs": 35.5,
-    "pcUsedPrice": 88.92
+    "image": "/images/products/con-017-nintendo-64-grijs.webp"
   },
   {
     "sku": "CON-018",
@@ -6512,9 +5828,7 @@
     "weight": 0.8,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-018-super-nintendo.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-018-super-nintendo.webp"
   },
   {
     "sku": "CON-019",
@@ -6531,9 +5845,7 @@
     "weight": 1,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-019-nes.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-019-nes.webp"
   },
   {
     "sku": "CON-020",
@@ -6550,9 +5862,7 @@
     "weight": 0.8,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-020-nintendo-wii-wit.webp",
-    "inkoopPrijs": null,
-    "pcUsedPrice": null
+    "image": "/images/products/con-020-nintendo-wii-wit.webp"
   },
   {
     "sku": "CON-021",
@@ -6569,8 +5879,6 @@
     "weight": 1.2,
     "isConsole": true,
     "isPremium": true,
-    "image": "/images/products/con-021-nintendo-wii-u-32gb.webp",
-    "inkoopPrijs": 56,
-    "pcUsedPrice": 139.99
+    "image": "/images/products/con-021-nintendo-wii-u-32gb.webp"
   }
 ]

@@ -16,6 +16,8 @@ export interface Product {
   isConsole: boolean;
   isPremium: boolean;
   image?: string | null;
+  inkoopPrijs?: number | null;
+  pcUsedPrice?: number | null;
 }
 
 export function getAllProducts(): Product[] {
