@@ -222,10 +222,10 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mt-4 flex items-center gap-3 overflow-hidden"
             >
-              <span className="text-sm text-slate-500 flex-shrink-0">
+              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0">
                 <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
               </span>
-              <div className="h-4 w-px bg-slate-200" />
+              <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
               <button
                 onClick={clearFilters}
                 className="text-sm text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
@@ -253,8 +253,8 @@ function ShopContent() {
             className="mt-14 flex flex-col items-center gap-4"
           >
             {/* Page info */}
-            <p className="text-sm text-slate-500">
-              Pagina <span className="font-semibold text-slate-700">{page}</span> van <span className="font-semibold text-slate-700">{totalPages}</span>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Pagina <span className="font-semibold text-slate-700 dark:text-slate-200">{page}</span> van <span className="font-semibold text-slate-700 dark:text-slate-200">{totalPages}</span>
             </p>
 
             <div className="flex items-center gap-2">
@@ -263,7 +263,7 @@ function ShopContent() {
                 disabled={page === 1}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -276,7 +276,7 @@ function ShopContent() {
                   .map((p, idx, arr) => (
                     <span key={p} className="flex items-center">
                       {idx > 0 && arr[idx - 1] !== p - 1 && (
-                        <span className="px-1.5 text-slate-300 text-sm">...</span>
+                        <span className="px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
                       )}
                       <motion.button
                         onClick={() => setPage(p)}
@@ -285,7 +285,7 @@ function ShopContent() {
                         className={`h-10 w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
                           p === page
                             ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25'
-                            : 'text-slate-600 hover:bg-slate-100'
+                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                         }`}
                       >
                         {p}
@@ -299,7 +299,7 @@ function ShopContent() {
                 disabled={page === totalPages}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

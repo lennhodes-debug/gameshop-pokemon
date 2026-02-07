@@ -60,7 +60,7 @@ export default function FloatingActions() {
                     <Link
                       href="/shop"
                       onClick={() => setExpanded(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white shadow-lg text-sm font-medium text-slate-700"
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-slate-800 shadow-lg text-sm font-medium text-slate-700 dark:text-slate-200"
                     >
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -73,7 +73,7 @@ export default function FloatingActions() {
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0, opacity: 0, y: 10 }}
                     onClick={scrollToTop}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white shadow-lg text-sm font-medium text-slate-700"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-slate-800 shadow-lg text-sm font-medium text-slate-700 dark:text-slate-200"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />

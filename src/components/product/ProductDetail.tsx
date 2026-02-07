@@ -77,23 +77,23 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex items-center gap-2 text-sm text-slate-500 mb-8"
+        className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8"
       >
         <Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link>
-        <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
         <Link href="/shop" className="hover:text-emerald-600 transition-colors">Shop</Link>
-        <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
         <Link href={`/shop?platform=${encodeURIComponent(product.platform)}`} className="hover:text-emerald-600 transition-colors">
           {product.platform}
         </Link>
-        <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
-        <span className="text-slate-700 font-medium truncate max-w-[200px]">{product.name}</span>
+        <span className="text-slate-700 dark:text-slate-200 font-medium truncate max-w-[200px]">{product.name}</span>
       </motion.nav>
 
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
@@ -113,7 +113,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           }}
           className="relative group perspective-1000"
         >
-          <div className={`aspect-square rounded-3xl ${product.image ? 'bg-gradient-to-br from-slate-50 via-white to-slate-50 border border-slate-100' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative shadow-xl shadow-slate-200/50`}>
+          <div className={`aspect-square rounded-3xl ${product.image ? 'bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50`}>
             {product.image ? (
               <>
                 <Image
@@ -207,7 +207,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mb-3"
+            className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3"
           >
             {product.name}
           </motion.h1>
@@ -217,15 +217,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.35 }}
-            className="flex items-center gap-3 text-sm text-slate-500 mb-6"
+            className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mb-6"
           >
             <span className="flex items-center gap-1.5">
               <span className={`h-2 w-2 rounded-full bg-gradient-to-r ${colors.from} ${colors.to}`} />
               {product.platform}
             </span>
-            <span className="h-1 w-1 rounded-full bg-slate-300" />
+            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" />
             <span>{product.genre}</span>
-            <span className="h-1 w-1 rounded-full bg-slate-300" />
+            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" />
             <span className="font-mono text-xs text-slate-400">{product.sku}</span>
           </motion.div>
 
@@ -236,7 +236,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             transition={{ delay: 0.4 }}
             className="flex items-baseline gap-3 mb-8"
           >
-            <span className="text-5xl font-extrabold text-slate-900 tracking-tight">
+            <span className="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               {formatPrice(product.price)}
             </span>
             {freeShipping && (
@@ -244,7 +244,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, type: 'spring' }}
-                className="inline-flex items-center gap-1 text-sm text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg"
+                className="inline-flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 rounded-lg"
               >
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
@@ -260,15 +260,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="mb-8 rounded-2xl bg-slate-50/80 border border-slate-100 p-6"
+              className="mb-8 rounded-2xl bg-slate-50/80 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 p-6"
             >
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-3 flex items-center gap-2">
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide mb-3 flex items-center gap-2">
                 <svg className="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                 </svg>
                 Beschrijving
               </h2>
-              <p className="text-slate-600 leading-relaxed text-base">
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base">
                 {product.description}
               </p>
             </motion.div>
@@ -372,14 +372,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.65 + i * 0.05 }}
-                className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:bg-slate-50 hover:border-slate-200 transition-all duration-300"
+                className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
               >
-                <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
                   {item.icon}
                 </div>
                 <div>
-                  <span className="font-bold text-slate-900 text-sm block">{item.title}</span>
-                  <span className="text-slate-500 text-xs">{item.desc}</span>
+                  <span className="font-bold text-slate-900 dark:text-white text-sm block">{item.title}</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">{item.desc}</span>
                 </div>
               </motion.div>
             ))}
@@ -394,15 +394,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         transition={{ duration: 0.6, delay: 0.4 }}
         className="mt-16"
       >
-        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-6">Specificaties</h2>
-        <div className="rounded-2xl border border-slate-200 overflow-hidden">
+        <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">Specificaties</h2>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           {specs.map((spec, i) => (
             <div
               key={spec.label}
-              className={`flex items-center justify-between px-6 py-4 ${i % 2 === 0 ? 'bg-slate-50/50' : 'bg-white'} ${i < specs.length - 1 ? 'border-b border-slate-100' : ''}`}
+              className={`flex items-center justify-between px-6 py-4 ${i % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/50' : 'bg-white dark:bg-slate-900'} ${i < specs.length - 1 ? 'border-b border-slate-100 dark:border-slate-700' : ''}`}
             >
-              <span className="text-sm font-medium text-slate-500">{spec.label}</span>
-              <span className="text-sm font-semibold text-slate-900">{spec.value}</span>
+              <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{spec.label}</span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">{spec.value}</span>
             </div>
           ))}
         </div>

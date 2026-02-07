@@ -144,7 +144,7 @@ export default function FaqPage() {
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
+          className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8"
         >
           <Accordion items={faqItems} />
         </motion.div>
@@ -156,12 +156,12 @@ export default function FaqPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12 text-center"
         >
-          <p className="text-slate-600 mb-4">
+          <p className="text-slate-600 dark:text-slate-300 mb-4">
             Staat je vraag er niet bij? Neem dan gerust contact met ons op.
           </p>
           <motion.a
             href="mailto:gameshopenter@gmail.com"
-            className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold text-sm transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

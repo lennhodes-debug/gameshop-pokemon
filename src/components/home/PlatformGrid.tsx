@@ -56,7 +56,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => { setHovered(false); mouseX.set(0.5); mouseY.set(0.5); }}
           whileHover={{ y: -6, transition: { duration: 0.2 } }}
-          className="group relative overflow-hidden rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200/50 transition-all duration-500"
+          className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-500"
         >
           {/* Spotlight effect on hover */}
           {hovered && (
@@ -106,11 +106,11 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
 
           <div className="p-4 flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-slate-900 text-sm">{platform.name}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">{platform.count} producten</p>
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">{platform.name}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{platform.count} producten</p>
             </div>
             <motion.div
-              className="h-8 w-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500 transition-colors duration-300"
+              className="h-8 w-8 rounded-full bg-slate-50 dark:bg-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-300 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-500/10 group-hover:text-emerald-500 transition-colors duration-300"
               whileHover={{ scale: 1.1 }}
             >
               <svg className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -128,7 +128,7 @@ export default function PlatformGrid() {
   const platforms = getAllPlatforms();
 
   return (
-    <section className="relative bg-[#f8fafc] py-16 lg:py-24 overflow-hidden">
+    <section className="relative bg-[#f8fafc] dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/[0.03] rounded-full blur-[120px]" />
 
@@ -140,13 +140,13 @@ export default function PlatformGrid() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 lg:mb-16"
         >
-          <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
             {platforms.length} Platforms
           </span>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
             <TextReveal text="Shop per platform" delay={0.1} />
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Van klassieke retro consoles tot de nieuwste Nintendo Switch
           </p>
         </motion.div>

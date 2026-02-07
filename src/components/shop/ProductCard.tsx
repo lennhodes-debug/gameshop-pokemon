@@ -88,7 +88,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           transformStyle: 'preserve-3d',
         }}
         whileHover={{ y: -8, transition: { duration: 0.3, ease: 'easeOut' } }}
-        className="relative group bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm hover:shadow-[0_20px_60px_-15px_rgba(16,185,129,0.15)] hover:border-emerald-300/30 transition-all duration-500"
+        className="relative group bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden shadow-sm hover:shadow-[0_20px_60px_-15px_rgba(16,185,129,0.15)] hover:border-emerald-300/30 dark:hover:border-emerald-500/30 transition-all duration-500"
       >
         {/* Holographic rainbow glow */}
         {isHovered && (
@@ -123,7 +123,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Product image */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-52 ${product.image ? 'bg-gradient-to-b from-slate-50 to-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+          <div className={`relative h-52 ${product.image ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
             {product.image ? (
               <>
                 <Image
@@ -175,7 +175,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           <Link href={`/shop/${product.sku}`}>
-            <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 group-hover:text-emerald-600 transition-colors duration-300">
+            <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug mb-1 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
               {product.name}
             </h3>
           </Link>
@@ -186,9 +186,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             </p>
           )}
 
-          <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700">
             <div>
-              <span className="text-xl font-extrabold text-slate-900 tracking-tight">
+              <span className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {formatPrice(product.price)}
               </span>
               {product.price >= FREE_SHIPPING_THRESHOLD && (

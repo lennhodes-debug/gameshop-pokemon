@@ -22,7 +22,7 @@ export default function FeaturedProducts() {
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
 
   return (
-    <section ref={sectionRef} className="relative bg-white py-16 lg:py-24 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-white dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
       {/* Subtle animated background */}
       <motion.div
         className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.03] rounded-full blur-[150px]"
@@ -46,7 +46,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-xs font-semibold uppercase tracking-wider mb-4"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-semibold uppercase tracking-wider mb-4"
             >
               <motion.span
                 animate={{ rotate: [0, 15, -15, 0] }}
@@ -58,10 +58,10 @@ export default function FeaturedProducts() {
               </motion.span>
               Populair
             </motion.span>
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               <TextReveal text="Toppers uit de collectie" delay={0.1} />
             </h2>
-            <p className="text-slate-500 mt-2 text-sm lg:text-base">Premium games en consoles die je niet wilt missen</p>
+            <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm lg:text-base">Premium games en consoles die je niet wilt missen</p>
           </div>
           <MagneticButton strength={0.15}>
             <Link

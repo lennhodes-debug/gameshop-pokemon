@@ -194,20 +194,20 @@ export default function InkoopPage() {
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         {/* Info banner */}
-        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-5 border border-emerald-100 mb-8">
+        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/50 dark:to-teal-950/50 rounded-2xl p-5 border border-emerald-100 dark:border-emerald-800 mb-8">
           <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-              <svg className="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center">
+              <svg className="h-5 w-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <div>
-              <h3 className="font-bold text-slate-800 text-sm">Hoe werken onze inkoopprijzen?</h3>
-              <p className="text-slate-600 text-sm mt-1">
+              <h3 className="font-bold text-slate-800 dark:text-white text-sm">Hoe werken onze inkoopprijzen?</h3>
+              <p className="text-slate-600 dark:text-slate-300 text-sm mt-1">
                 Onze inkoopprijzen zijn gebaseerd op de actuele marktwaarde. De genoemde prijzen gelden voor games in{' '}
                 <span className="font-semibold">goede staat</span>. Bij beschadigingen of ontbrekende onderdelen kan de prijs lager uitvallen.
                 Neem contact op via{' '}
-                <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-semibold underline">
+                <a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 font-semibold underline">
                   gameshopenter@gmail.com
                 </a>{' '}
                 voor een persoonlijk bod.
@@ -228,12 +228,12 @@ export default function InkoopPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Zoek je game op naam of platform..."
-              className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none text-slate-800 placeholder:text-slate-400 transition-all bg-white"
+              className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none text-slate-800 dark:text-white placeholder:text-slate-400 transition-all bg-white dark:bg-slate-800"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -243,8 +243,8 @@ export default function InkoopPage() {
           </div>
 
           {search && (
-            <p className="text-sm text-slate-500">
-              Zoekresultaten uit <span className="font-semibold text-emerald-600">alle {inkoopProducts.length}</span> producten
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Zoekresultaten uit <span className="font-semibold text-emerald-600 dark:text-emerald-400">alle {inkoopProducts.length}</span> producten
             </p>
           )}
 
@@ -253,7 +253,7 @@ export default function InkoopPage() {
             <select
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
-              className="px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium text-slate-700 bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
             >
               <option value="">Alle platforms</option>
               {platforms.map((p) => (
@@ -264,7 +264,7 @@ export default function InkoopPage() {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium text-slate-700 bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
             >
               <option value="">Games & Consoles</option>
               <option value="games">Alleen games</option>
@@ -274,7 +274,7 @@ export default function InkoopPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-medium text-slate-700 bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
+              className="px-4 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all cursor-pointer"
             >
               <option value="name-asc">Naam A-Z</option>
               <option value="name-desc">Naam Z-A</option>
@@ -294,25 +294,25 @@ export default function InkoopPage() {
               </button>
             )}
 
-            <span className="ml-auto text-sm text-slate-500">
-              <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
+            <span className="ml-auto text-sm text-slate-500 dark:text-slate-400">
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filtered.length}</span> resultaten
             </span>
           </div>
         </div>
 
         {/* Price table */}
-        <div className="bg-white rounded-2xl border-2 border-slate-100 overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-slate-100 dark:border-slate-700 overflow-hidden shadow-sm">
           {/* Table header */}
-          <div className="hidden sm:grid sm:grid-cols-[40px_1fr_150px_140px_140px] bg-slate-50 border-b border-slate-200 px-6 py-3">
+          <div className="hidden sm:grid sm:grid-cols-[40px_1fr_150px_140px_140px] bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-6 py-3">
             <span></span>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Product</span>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Platform</span>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Marktwaarde</span>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Wij bieden</span>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Product</span>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center">Platform</span>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center">Marktwaarde</span>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center">Wij bieden</span>
           </div>
 
           {/* Table body */}
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-100 dark:divide-slate-700">
             <AnimatePresence mode="popLayout">
               {filtered.map((product, idx) => (
                 <motion.div
@@ -321,12 +321,12 @@ export default function InkoopPage() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay: Math.min(idx * 0.01, 0.5) }}
-                  className={`grid grid-cols-1 sm:grid-cols-[40px_1fr_150px_140px_140px] items-center px-4 sm:px-6 py-3 hover:bg-slate-50/80 transition-colors group cursor-pointer ${selected.has(product.sku) ? 'bg-emerald-50/60' : ''}`}
+                  className={`grid grid-cols-1 sm:grid-cols-[40px_1fr_150px_140px_140px] items-center px-4 sm:px-6 py-3 hover:bg-slate-50/80 dark:hover:bg-slate-700/50 transition-colors group cursor-pointer ${selected.has(product.sku) ? 'bg-emerald-50/60 dark:bg-emerald-900/30' : ''}`}
                   onClick={() => toggleSelected(product.sku)}
                 >
                   {/* Checkbox */}
                   <div className="hidden sm:flex items-center">
-                    <div className={`h-5 w-5 rounded-md border-2 flex items-center justify-center transition-all ${selected.has(product.sku) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 group-hover:border-emerald-400'}`}>
+                    <div className={`h-5 w-5 rounded-md border-2 flex items-center justify-center transition-all ${selected.has(product.sku) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 dark:border-slate-600 group-hover:border-emerald-400'}`}>
                       {selected.has(product.sku) && (
                         <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -337,7 +337,7 @@ export default function InkoopPage() {
 
                   {/* Product info */}
                   <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
+                    <div className="relative h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600">
                       {product.image ? (
                         <Image
                           src={product.image}
@@ -355,7 +355,7 @@ export default function InkoopPage() {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-slate-800 text-sm truncate group-hover:text-emerald-700 transition-colors">
+                      <p className="font-semibold text-slate-800 dark:text-white text-sm truncate group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                         {product.name}
                       </p>
                       <p className="text-xs text-slate-400 sm:hidden">{product.platform}</p>
@@ -364,7 +364,7 @@ export default function InkoopPage() {
 
                   {/* Platform */}
                   <div className="hidden sm:flex justify-center">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
                       {product.platform}
                     </span>
                   </div>
@@ -372,7 +372,7 @@ export default function InkoopPage() {
                   {/* Market value */}
                   <div className="hidden sm:flex justify-center">
                     {product.pcUsedPrice ? (
-                      <span className="text-sm text-slate-500">
+                      <span className="text-sm text-slate-500 dark:text-slate-400">
                         &euro;{product.pcUsedPrice.toFixed(2).replace('.', ',')}
                       </span>
                     ) : (
@@ -383,12 +383,12 @@ export default function InkoopPage() {
                   {/* Trade-in price */}
                   <div className="flex sm:justify-center items-center gap-2 mt-2 sm:mt-0">
                     <span className="sm:hidden text-xs text-slate-400">Inkoopprijs:</span>
-                    <span className="inline-flex items-center px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold text-sm border border-emerald-100">
+                    <span className="inline-flex items-center px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 font-bold text-sm border border-emerald-100 dark:border-emerald-800">
                       &euro;{(product.inkoopPrijs || 0).toFixed(2).replace('.', ',')}
                     </span>
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleSelected(product.sku); }}
-                      className={`sm:hidden ml-auto px-3 py-1 rounded-lg text-xs font-bold transition-all ${selected.has(product.sku) ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-700'}`}
+                      className={`sm:hidden ml-auto px-3 py-1 rounded-lg text-xs font-bold transition-all ${selected.has(product.sku) ? 'bg-emerald-500 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-900 hover:text-emerald-700 dark:hover:text-emerald-400'}`}
                     >
                       {selected.has(product.sku) ? 'Geselecteerd' : 'Selecteer'}
                     </button>
@@ -404,8 +404,8 @@ export default function InkoopPage() {
               <svg className="mx-auto h-12 w-12 text-slate-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
-              <p className="text-slate-500 font-medium">Geen resultaten gevonden</p>
-              <p className="text-slate-400 text-sm mt-1">Probeer een andere zoekterm of neem contact op voor een persoonlijk bod</p>
+              <p className="text-slate-500 dark:text-slate-400 font-medium">Geen resultaten gevonden</p>
+              <p className="text-slate-400 dark:text-slate-500 text-sm mt-1">Probeer een andere zoekterm of neem contact op voor een persoonlijk bod</p>
             </div>
           )}
         </div>
@@ -438,7 +438,7 @@ export default function InkoopPage() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: 'spring', bounce: 0.2 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t-2 border-emerald-200 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border-t-2 border-emerald-200 dark:border-emerald-800 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
@@ -446,11 +446,11 @@ export default function InkoopPage() {
                   <span className="h-8 w-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center">
                     {selected.size}
                   </span>
-                  <span className="text-sm font-semibold text-slate-700">
+                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
                     {selected.size === 1 ? 'product' : 'producten'} geselecteerd
                   </span>
                 </div>
-                <div className="h-6 w-px bg-slate-200 hidden sm:block" />
+                <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block" />
                 <span className="text-lg font-extrabold text-emerald-600 hidden sm:block">
                   &euro;{selectedTotal.toFixed(2).replace('.', ',')}
                 </span>
@@ -461,7 +461,7 @@ export default function InkoopPage() {
                 </span>
                 <button
                   onClick={() => setSelected(new Set())}
-                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all"
                 >
                   Wissen
                 </button>

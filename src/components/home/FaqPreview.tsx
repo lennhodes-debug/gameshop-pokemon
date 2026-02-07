@@ -30,7 +30,7 @@ const faqItems = [
 
 export default function FaqPreview() {
   return (
-    <section className="bg-[#f8fafc] py-16 lg:py-24">
+    <section className="bg-[#f8fafc] dark:bg-slate-900 py-16 lg:py-24">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
@@ -39,13 +39,13 @@ export default function FaqPreview() {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
-          <span className="inline-block px-3 py-1 rounded-full bg-sky-50 text-sky-600 text-xs font-semibold uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-semibold uppercase tracking-wider mb-4">
             FAQ
           </span>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
             Veelgestelde vragen
           </h2>
-          <p className="text-lg text-slate-500">
+          <p className="text-lg text-slate-500 dark:text-slate-400">
             Heb je een vraag? Wellicht vind je het antwoord hier
           </p>
         </motion.div>
@@ -55,7 +55,7 @@ export default function FaqPreview() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8 gradient-border"
+          className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 gradient-border"
         >
           <Accordion items={faqItems} />
         </motion.div>
@@ -68,7 +68,7 @@ export default function FaqPreview() {
           className="text-center mt-8"
         >
           <Link href="/faq">
-            <Button variant="ghost" className="text-slate-600 hover:text-slate-900">
+            <Button variant="ghost" className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
               Bekijk alle vragen
               <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

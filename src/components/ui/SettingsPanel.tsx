@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRetroSound } from '@/hooks/useRetroSound';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 export default function SettingsPanel() {
   const [open, setOpen] = useState(false);
   const { isMuted, setMuted, play } = useRetroSound();
+  const { theme, toggleTheme } = useTheme();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [animationsEnabled, setAnimationsEnabled] = useState(true);
 
@@ -41,12 +43,14 @@ export default function SettingsPanel() {
     }
   };
 
+  const isDark = theme === 'dark';
+
   return (
     <>
       {/* Trigger button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 left-4 z-50 h-10 w-10 rounded-full bg-white/80 backdrop-blur border border-slate-200 shadow-lg flex items-center justify-center text-slate-500 hover:text-emerald-600 transition-colors"
+        className="fixed bottom-6 left-4 z-50 h-10 w-10 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-slate-200 dark:border-slate-700 shadow-lg flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
         aria-label="Instellingen"
       >
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -60,24 +64,24 @@ export default function SettingsPanel() {
         {open && (
           <>
             <motion.div
-              className="fixed inset-0 z-[60] bg-black/30"
+              className="fixed inset-0 z-[60] bg-black/30 dark:bg-black/50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
             />
             <motion.div
-              className="fixed top-0 right-0 bottom-0 z-[70] w-80 bg-white shadow-2xl p-6 overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 z-[70] w-80 bg-white dark:bg-slate-900 shadow-2xl p-6 overflow-y-auto"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             >
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-lg font-bold text-slate-900">Instellingen</h2>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white">Instellingen</h2>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -86,16 +90,49 @@ export default function SettingsPanel() {
               </div>
 
               <div className="space-y-6">
+                {/* Dark mode toggle */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">Donkere modus</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">Schakel tussen licht en donker</p>
+                  </div>
+                  <button
+                    onClick={toggleTheme}
+                    className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                      isDark ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}
+                    role="switch"
+                    aria-checked={isDark}
+                    aria-label="Donkere modus"
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 flex items-center justify-center ${
+                        isDark ? 'translate-x-5' : ''
+                      }`}
+                    >
+                      {isDark ? (
+                        <svg className="h-3 w-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                        </svg>
+                      ) : (
+                        <svg className="h-3 w-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </span>
+                  </button>
+                </div>
+
                 {/* Geluidseffecten */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">Geluidseffecten</p>
-                    <p className="text-xs text-slate-400">Retro 8-bit geluiden</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">Geluidseffecten</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">Retro 8-bit geluiden</p>
                   </div>
                   <button
                     onClick={toggleSound}
                     className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-                      soundEnabled ? 'bg-emerald-500' : 'bg-slate-300'
+                      soundEnabled ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'
                     }`}
                     role="switch"
                     aria-checked={soundEnabled}
@@ -111,13 +148,13 @@ export default function SettingsPanel() {
                 {/* Animaties */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">Animaties</p>
-                    <p className="text-xs text-slate-400">Pagina transities en effecten</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">Animaties</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">Pagina transities en effecten</p>
                   </div>
                   <button
                     onClick={toggleAnimations}
                     className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-                      animationsEnabled ? 'bg-emerald-500' : 'bg-slate-300'
+                      animationsEnabled ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'
                     }`}
                     role="switch"
                     aria-checked={animationsEnabled}
@@ -130,9 +167,9 @@ export default function SettingsPanel() {
                   </button>
                 </div>
 
-                <hr className="border-slate-100" />
+                <hr className="border-slate-100 dark:border-slate-800" />
 
-                <p className="text-[10px] text-slate-300 text-center">
+                <p className="text-[10px] text-slate-300 dark:text-slate-600 text-center">
                   Gameshop Enter v2.0
                 </p>
               </div>

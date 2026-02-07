@@ -17,7 +17,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mb-8"
+        className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8"
       >
         Gerelateerde producten
       </motion.h2>
