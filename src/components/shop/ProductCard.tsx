@@ -181,7 +181,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Link>
 
           {product.description && (
-            <p className="text-xs text-slate-400 line-clamp-1 mb-3">
+            <p className="text-xs text-slate-400 dark:text-slate-500 line-clamp-1 mb-3">
               {product.description}
             </p>
           )}
@@ -192,7 +192,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 {formatPrice(product.price)}
               </span>
               {product.price >= FREE_SHIPPING_THRESHOLD && (
-                <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
+                <span className="block text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Gratis verzending</span>
               )}
             </div>
             <motion.button

@@ -277,7 +277,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Bottom gradient to page content */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] dark:from-slate-900 to-transparent z-10" />
 
       {/* Scroll indicator */}
       <motion.div

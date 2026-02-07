@@ -259,8 +259,9 @@ function ShopContent() {
 
             <div className="flex items-center gap-2">
               <motion.button
-                onClick={() => setPage(Math.max(1, page - 1))}
+                onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 disabled={page === 1}
+                aria-label="Vorige pagina"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
@@ -279,7 +280,7 @@ function ShopContent() {
                         <span className="px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
                       )}
                       <motion.button
-                        onClick={() => setPage(p)}
+                        onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className={`h-10 w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
@@ -295,8 +296,9 @@ function ShopContent() {
               </div>
 
               <motion.button
-                onClick={() => setPage(Math.min(totalPages, page + 1))}
+                onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 disabled={page === totalPages}
+                aria-label="Volgende pagina"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"

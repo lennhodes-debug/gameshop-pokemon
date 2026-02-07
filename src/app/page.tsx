@@ -4,13 +4,13 @@ import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import SectionDivider from '@/components/ui/SectionDivider';
 
-// Lazy load componenten die niet boven de fold staan
-const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'), { ssr: false });
-const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'), { ssr: false });
-const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'), { ssr: false });
-const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'), { ssr: false });
-const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'), { ssr: false });
-const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'), { ssr: false });
+// Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
+const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
+const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
+const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
+const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
+const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
+const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
 
 export default function HomePage() {
   return (

@@ -7,7 +7,7 @@ import Logo from './Logo';
 const footerLinks = {
   shop: [
     { href: '/shop', label: 'Alle producten' },
-    { href: '/shop?platform=Switch', label: 'Nintendo Switch' },
+    { href: '/shop?platform=Nintendo+Switch', label: 'Nintendo Switch' },
     { href: '/shop?platform=GameCube', label: 'GameCube' },
     { href: '/shop?platform=Nintendo+64', label: 'Nintendo 64' },
     { href: '/shop?platform=Super+Nintendo', label: 'Super Nintendo' },
@@ -16,7 +16,6 @@ const footerLinks = {
   info: [
     { href: '/over-ons', label: 'Over ons' },
     { href: '/nintendo', label: 'Het verhaal van Nintendo' },
-    { href: '/inkoop', label: 'Games verkopen' },
     { href: '/faq', label: 'Veelgestelde vragen' },
     { href: '/contact', label: 'Contact' },
   ],
@@ -170,7 +169,7 @@ export default function Footer() {
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-sm">
-              {new Date().getFullYear()} Gameshop Enter. Alle rechten voorbehouden.
+              &copy; {new Date().getFullYear()} Gameshop Enter. Alle rechten voorbehouden.
             </p>
             <p className="text-slate-600 text-xs">
               Uitsluitend online webshop — verzending via PostNL

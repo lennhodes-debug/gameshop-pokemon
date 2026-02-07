@@ -87,7 +87,7 @@ export default function NewsletterCTA() {
             Mis geen enkele aanwinst
           </h2>
           <p className="text-lg text-white/70 mb-10 max-w-lg mx-auto">
-            Ontvang exclusieve kortingscodes, word als eerste geinformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
+            Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
           </p>
 
           {submitted ? (
