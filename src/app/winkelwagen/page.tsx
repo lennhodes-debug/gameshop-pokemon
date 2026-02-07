@@ -257,13 +257,15 @@ export default function WinkelwagenPage() {
                   </div>
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.02, y: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full mt-6 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all"
-                >
-                  Afrekenen
-                </motion.button>
+                <Link href="/afrekenen">
+                  <motion.span
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="block w-full mt-6 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all text-center"
+                  >
+                    Afrekenen
+                  </motion.span>
+                </Link>
 
                 {/* Payment methods */}
                 <div className="mt-5 flex items-center justify-center gap-2">
