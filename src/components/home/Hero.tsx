@@ -2,169 +2,298 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { getAllProducts } from '@/lib/products';
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.3 } },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const } },
-};
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const products = getAllProducts().filter(p => p.image);
-  const showcaseProducts = products.slice(0, 6);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const cardsY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+  // Multi-layer parallax
+  const skyY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
+  const starsY = useTransform(scrollYProgress, [0, 1], ['0%', '5%']);
+  const mountainFarY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+  const mountainMidY = useTransform(scrollYProgress, [0, 1], ['0%', '35%']);
+  const mountainNearY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const cloudsY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '60%']);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const textScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.95]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden bg-[#030608]">
-      {/* Gradient orbs - subtle */}
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-emerald-500/[0.07] blur-[120px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-500/[0.05] blur-[120px]" />
+    <section ref={sectionRef} className="relative h-[110vh] overflow-hidden">
+      {/* === SKY LAYER === */}
+      <motion.div className="absolute inset-0" style={{ y: skyY }}>
+        {/* Base sky gradient - dusk purple/blue to warm orange horizon */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e2e] via-[#1a1145] via-40% to-[#2d1b4e]" />
 
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-[0.015]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }}
-      />
+        {/* Aurora / Northern lights effect */}
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute top-[5%] left-[10%] w-[60%] h-[40%] rounded-full opacity-[0.08]"
+            style={{
+              background: 'radial-gradient(ellipse, rgba(16,185,129,0.6) 0%, rgba(6,182,212,0.3) 40%, transparent 70%)',
+            }}
+            animate={{ x: [0, 40, -20, 0], scale: [1, 1.1, 0.95, 1] }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute top-[10%] right-[5%] w-[40%] h-[30%] rounded-full opacity-[0.06]"
+            style={{
+              background: 'radial-gradient(ellipse, rgba(139,92,246,0.5) 0%, rgba(59,130,246,0.3) 40%, transparent 70%)',
+            }}
+            animate={{ x: [0, -30, 20, 0], scale: [1, 0.9, 1.1, 1] }}
+            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </div>
 
-      <motion.div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40" style={{ y, opacity }}>
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left: Text */}
-          <motion.div variants={stagger} initial="hidden" animate="show">
-            {/* Trust badge */}
-            <motion.div variants={fadeUp} className="mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08]">
-                <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                <span className="text-slate-400 text-xs font-medium">1386+ tevreden klanten</span>
-                <span className="text-xs text-slate-600">|</span>
-                <span className="text-emerald-400 text-xs font-semibold">5.0</span>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="h-2.5 w-2.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
+        {/* Warm horizon glow */}
+        <div className="absolute bottom-[20%] left-0 right-0 h-[35%] bg-gradient-to-t from-[#ff6b3520] via-[#ff8c4210] to-transparent" />
+        <div className="absolute bottom-[25%] left-[20%] right-[20%] h-[20%] bg-gradient-to-t from-[#fbbf2415] to-transparent rounded-full blur-[60px]" />
+      </motion.div>
+
+      {/* === STARS === */}
+      <motion.div className="absolute inset-0" style={{ y: starsY }}>
+        {[
+          { t: '8%', l: '15%', s: 2, d: 3 }, { t: '12%', l: '45%', s: 1.5, d: 4 },
+          { t: '5%', l: '72%', s: 2, d: 2.5 }, { t: '18%', l: '88%', s: 1, d: 5 },
+          { t: '15%', l: '32%', s: 1.5, d: 3.5 }, { t: '22%', l: '58%', s: 1, d: 4.5 },
+          { t: '7%', l: '8%', s: 1.5, d: 3 }, { t: '25%', l: '78%', s: 2, d: 2 },
+          { t: '10%', l: '92%', s: 1, d: 5.5 }, { t: '3%', l: '52%', s: 1.5, d: 4 },
+          { t: '28%', l: '22%', s: 1, d: 3.2 }, { t: '16%', l: '65%', s: 2, d: 2.8 },
+          { t: '20%', l: '5%', s: 1, d: 4.2 }, { t: '6%', l: '38%', s: 1.5, d: 3.8 },
+        ].map((star, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{ top: star.t, left: star.l, width: star.s, height: star.s }}
+            animate={{ opacity: [0.2, 0.8, 0.2] }}
+            transition={{ duration: star.d, repeat: Infinity, delay: i * 0.3 }}
+          />
+        ))}
+      </motion.div>
+
+      {/* === FAR MOUNTAINS (darkest, most blurred) === */}
+      <motion.div className="absolute bottom-0 left-0 right-0" style={{ y: mountainFarY }}>
+        <svg viewBox="0 0 1440 400" className="w-full" preserveAspectRatio="none" style={{ height: '55vh' }}>
+          <defs>
+            <linearGradient id="mtn-far" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#1a1040" />
+              <stop offset="100%" stopColor="#0d0820" />
+            </linearGradient>
+          </defs>
+          <path d="M0,200 L80,160 L160,180 L280,90 L360,130 L440,70 L520,120 L640,50 L720,100 L800,60 L920,130 L1000,80 L1080,110 L1200,40 L1280,100 L1360,70 L1440,120 L1440,400 L0,400 Z" fill="url(#mtn-far)" opacity="0.7" />
+        </svg>
+      </motion.div>
+
+      {/* === MID MOUNTAINS === */}
+      <motion.div className="absolute bottom-0 left-0 right-0" style={{ y: mountainMidY }}>
+        <svg viewBox="0 0 1440 400" className="w-full" preserveAspectRatio="none" style={{ height: '45vh' }}>
+          <defs>
+            <linearGradient id="mtn-mid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#14103a" />
+              <stop offset="60%" stopColor="#0c0825" />
+              <stop offset="100%" stopColor="#080515" />
+            </linearGradient>
+          </defs>
+          <path d="M0,220 L100,170 L200,200 L320,110 L420,160 L500,90 L600,140 L720,70 L840,130 L920,80 L1020,150 L1120,100 L1200,140 L1320,60 L1440,110 L1440,400 L0,400 Z" fill="url(#mtn-mid)" opacity="0.85" />
+        </svg>
+      </motion.div>
+
+      {/* === FLOATING CLOUDS (parallax layer) === */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: cloudsY }}>
+        {/* Cloud 1 - large, slow */}
+        <motion.div
+          className="absolute top-[30%] -left-[10%]"
+          animate={{ x: ['0%', '120%'] }}
+          transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="w-[300px] h-[60px] bg-white/[0.04] rounded-full blur-[30px]" />
+        </motion.div>
+
+        {/* Cloud 2 */}
+        <motion.div
+          className="absolute top-[25%] left-[40%]"
+          animate={{ x: ['0%', '100%'] }}
+          transition={{ duration: 90, repeat: Infinity, ease: 'linear', delay: 20 }}
+        >
+          <div className="w-[200px] h-[40px] bg-white/[0.03] rounded-full blur-[25px]" />
+        </motion.div>
+
+        {/* Cloud 3 - between mountains */}
+        <motion.div
+          className="absolute top-[45%] -right-[5%]"
+          animate={{ x: ['-120%', '0%'] }}
+          transition={{ duration: 70, repeat: Infinity, ease: 'linear', delay: 10 }}
+        >
+          <div className="w-[250px] h-[50px] bg-white/[0.05] rounded-full blur-[20px]" />
+        </motion.div>
+
+        {/* Cloud wisps near peaks */}
+        <motion.div
+          className="absolute top-[38%] left-[20%]"
+          animate={{ x: [0, 60, 0], opacity: [0.03, 0.06, 0.03] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div className="w-[180px] h-[30px] bg-white/[0.04] rounded-full blur-[15px]" />
+        </motion.div>
+      </motion.div>
+
+      {/* === NEAR MOUNTAINS (foreground, darkest) === */}
+      <motion.div className="absolute bottom-0 left-0 right-0" style={{ y: mountainNearY }}>
+        <svg viewBox="0 0 1440 300" className="w-full" preserveAspectRatio="none" style={{ height: '35vh' }}>
+          <defs>
+            <linearGradient id="mtn-near" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0a0818" />
+              <stop offset="100%" stopColor="#050410" />
+            </linearGradient>
+          </defs>
+          <path d="M0,180 L120,140 L240,170 L380,100 L480,150 L560,80 L680,130 L760,90 L880,150 L960,110 L1080,160 L1180,120 L1300,80 L1440,140 L1440,300 L0,300 Z" fill="url(#mtn-near)" />
+        </svg>
+      </motion.div>
+
+      {/* === MAGICAL SPARKLES / FIREFLIES === */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[
+          { t: '55%', l: '15%', d: 4, del: 0 },
+          { t: '50%', l: '35%', d: 5, del: 1 },
+          { t: '60%', l: '55%', d: 3.5, del: 2 },
+          { t: '48%', l: '75%', d: 4.5, del: 0.5 },
+          { t: '58%', l: '90%', d: 5.5, del: 1.5 },
+          { t: '52%', l: '25%', d: 4, del: 3 },
+          { t: '45%', l: '65%', d: 3, del: 2.5 },
+          { t: '62%', l: '45%', d: 5, del: 0.8 },
+        ].map((spark, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-emerald-300"
+            style={{ top: spark.t, left: spark.l }}
+            animate={{
+              y: [0, -20, -10, -30, 0],
+              opacity: [0, 0.6, 0.3, 0.8, 0],
+              scale: [0.5, 1, 0.8, 1.2, 0.5],
+            }}
+            transition={{ duration: spark.d, repeat: Infinity, delay: spark.del, ease: 'easeInOut' }}
+          />
+        ))}
+      </div>
+
+      {/* === CONTENT OVERLAY === */}
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{ y: textY, opacity: textOpacity, scale: textScale }}
+      >
+        <div className="text-center px-4 max-w-4xl mx-auto">
+          {/* Trust badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mb-6"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.1]">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="text-white/70 text-xs font-medium">1386+ tevreden klanten</span>
+              <span className="text-white/30">|</span>
+              <span className="text-emerald-400 text-xs font-bold">5.0</span>
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="h-2.5 w-2.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
               </div>
-            </motion.div>
-
-            <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.08] tracking-tight mb-6">
-              De Nintendo{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
-                specialist
-              </span>{' '}
-              van Nederland
-            </motion.h1>
-
-            <motion.p variants={fadeUp} className="text-base lg:text-lg text-slate-400 leading-relaxed mb-8 max-w-lg">
-              Originele games & consoles, persoonlijk getest op werking. Van klassieke retro tot de nieuwste Switch titels.
-            </motion.p>
-
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/shop"
-                className="group inline-flex items-center justify-center h-12 px-6 rounded-xl bg-white text-slate-900 text-sm font-semibold hover:bg-slate-100 transition-colors"
-              >
-                Bekijk alle producten
-                <svg className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-              <Link
-                href="/over-ons"
-                className="inline-flex items-center justify-center h-12 px-6 rounded-xl border border-white/[0.12] text-white text-sm font-semibold hover:bg-white/[0.05] transition-colors"
-              >
-                Over Gameshop Enter
-              </Link>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div variants={fadeUp} className="flex gap-8 mt-12 pt-8 border-t border-white/[0.06]">
-              {[
-                { value: '346+', label: 'Producten' },
-                { value: '12', label: 'Platforms' },
-                { value: '100%', label: 'Origineel' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="text-lg font-bold text-white">{stat.value}</div>
-                  <div className="text-xs text-slate-500 mt-0.5">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Right: Floating product cards */}
-          <motion.div
-            className="relative hidden lg:block h-[480px]"
-            style={{ y: cardsY }}
+          {/* Main heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white leading-[1.05] tracking-tight mb-6"
           >
-            {showcaseProducts.map((product, i) => {
-              const positions = [
-                { top: '0%', left: '10%', rotate: -3, delay: 0.1 },
-                { top: '5%', left: '55%', rotate: 2, delay: 0.2 },
-                { top: '35%', left: '0%', rotate: 1, delay: 0.3 },
-                { top: '38%', left: '48%', rotate: -2, delay: 0.4 },
-                { top: '65%', left: '15%', rotate: 3, delay: 0.5 },
-                { top: '62%', left: '58%', rotate: -1, delay: 0.6 },
-              ];
-              const pos = positions[i];
+            <span className="block">Gameshop</span>
+            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-cyan-300 to-emerald-400">
+              Enter
+            </span>
+          </motion.h1>
 
-              return (
-                <motion.div
-                  key={product.sku}
-                  className="absolute w-[180px]"
-                  style={{ top: pos.top, left: pos.left }}
-                  initial={{ opacity: 0, y: 40, rotate: 0 }}
-                  animate={{ opacity: 1, y: 0, rotate: pos.rotate }}
-                  transition={{ duration: 0.8, delay: pos.delay, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  whileHover={{ y: -8, rotate: 0, scale: 1.05, transition: { duration: 0.3 } }}
-                >
-                  <Link href={`/shop/${product.sku}`} className="block">
-                    <div className="relative bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-3 hover:border-emerald-500/20 hover:bg-white/[0.06] transition-all duration-300">
-                      <div className="relative h-32 rounded-xl overflow-hidden bg-white/[0.03] mb-2">
-                        {product.image && (
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            sizes="180px"
-                            className="object-contain p-2"
-                          />
-                        )}
-                      </div>
-                      <p className="text-white text-xs font-medium truncate">{product.name}</p>
-                      <p className="text-emerald-400 text-xs font-bold mt-0.5">
-                        {new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(product.price)}
-                      </p>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            className="text-lg sm:text-xl text-white/60 leading-relaxed mb-10 max-w-xl mx-auto"
+          >
+            De Nintendo specialist van Nederland. Originele games & consoles,
+            persoonlijk getest op werking.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link
+              href="/shop"
+              className="group inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] transition-all duration-300"
+            >
+              Ontdek de collectie
+              <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <Link
+              href="/over-ons"
+              className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.08] backdrop-blur-sm border border-white/[0.12] text-white font-bold text-sm hover:bg-white/[0.12] transition-all duration-300"
+            >
+              Over ons
+            </Link>
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            className="flex justify-center gap-12 mt-16"
+          >
+            {[
+              { value: '346+', label: 'Games & Consoles' },
+              { value: '12', label: 'Platforms' },
+              { value: '100%', label: 'Origineel' },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-xl font-bold text-white">{stat.value}</div>
+                <div className="text-[11px] text-white/40 mt-1 uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent" />
+      {/* Bottom gradient to page content */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent z-10" />
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
+          <motion.div
+            className="w-1 h-2 rounded-full bg-white/40"
+            animate={{ y: [0, 12, 0], opacity: [0.4, 0.8, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </div>
+      </motion.div>
     </section>
   );
 }
