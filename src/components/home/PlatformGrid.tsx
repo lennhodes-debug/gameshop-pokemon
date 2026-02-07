@@ -102,7 +102,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
                   alt={label}
                   width={160}
                   height={80}
-                  className="h-20 w-auto object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)] group-hover:scale-110 transition-transform duration-300"
+                  className="h-16 w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-300"
                 />
               ) : (
                 <div className="h-20 w-20" />
