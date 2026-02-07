@@ -264,7 +264,7 @@ export default function Hero() {
             className="flex justify-center gap-12 mt-16"
           >
             {[
-              { value: '346+', label: 'Games & Consoles' },
+              { value: '846+', label: 'Games & Consoles' },
               { value: '12', label: 'Platforms' },
               { value: '100%', label: 'Origineel' },
             ].map((stat) => (

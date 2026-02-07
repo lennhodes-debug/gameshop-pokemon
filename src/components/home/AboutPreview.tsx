@@ -38,7 +38,7 @@ const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 346, suffix: '+', label: 'Producten' },
+  { value: 846, suffix: '+', label: 'Producten' },
 ];
 
 export default function AboutPreview() {

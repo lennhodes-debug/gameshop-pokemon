@@ -1,4 +1,4 @@
-import { getAllProducts, getProductBySku, getProductsByPlatform } from '@/lib/products';
+import { getAllProducts, getProductBySku, getRelatedProducts } from '@/lib/products';
 import ProductDetail from '@/components/product/ProductDetail';
 import RelatedProducts from '@/components/product/RelatedProducts';
 import { notFound } from 'next/navigation';
@@ -64,9 +64,7 @@ export default function ProductPage({ params }: Props) {
     notFound();
   }
 
-  const related = getProductsByPlatform(product.platform)
-    .filter((p) => p.sku !== product.sku)
-    .slice(0, 4);
+  const related = getRelatedProducts(product, 4);
 
   const productJsonLd = {
     '@context': 'https://schema.org',

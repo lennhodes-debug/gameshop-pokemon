@@ -60,6 +60,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const specs = [
+    { label: 'Platform', value: product.platform },
+    { label: 'Genre', value: product.genre },
+    { label: 'Type', value: product.type },
+    { label: 'Conditie', value: product.condition },
+    { label: 'Compleetheid', value: isCIB ? 'Compleet in doos (CIB)' : product.completeness },
+    { label: 'SKU', value: product.sku },
+    { label: 'Gewicht', value: `${product.weight} kg` },
+  ];
+
   return (
     <div>
       {/* Breadcrumbs */}
@@ -368,6 +378,28 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Product Specifications */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="mt-16"
+      >
+        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-6">Specificaties</h2>
+        <div className="rounded-2xl border border-slate-200 overflow-hidden">
+          {specs.map((spec, i) => (
+            <div
+              key={spec.label}
+              className={`flex items-center justify-between px-6 py-4 ${i % 2 === 0 ? 'bg-slate-50/50' : 'bg-white'} ${i < specs.length - 1 ? 'border-b border-slate-100' : ''}`}
+            >
+              <span className="text-sm font-medium text-slate-500">{spec.label}</span>
+              <span className="text-sm font-semibold text-slate-900">{spec.value}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
     </div>
   );
 }
