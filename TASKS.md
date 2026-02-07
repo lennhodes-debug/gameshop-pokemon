@@ -498,7 +498,7 @@
 
 ### K. 🌙 Dark Mode met Neon Retro Thema
 
-#### [ ] Taak 53 — ThemeProvider context opzetten
+#### [x] Taak 53 — ThemeProvider context opzetten
 **Bestanden:** `src/components/providers/ThemeProvider.tsx` (nieuw), `src/app/layout.tsx`
 **Wat:**
 - React Context voor theme state: `'light' | 'dark' | 'retro'`.
@@ -524,7 +524,7 @@
 - Kleine "click" geluid (via useRetroSound) bij theme switch.
 - Toegankelijk: aria-label, keyboard support (Space/Enter).
 
-#### [ ] Taak 55 — Tailwind dark mode kleurenpalet definiëren
+#### [x] Taak 55 — Tailwind dark mode kleurenpalet definiëren
 **Bestanden:** `tailwind.config.ts`, `src/app/globals.css`
 **Wat:**
 - Configureer Tailwind voor class-based dark mode: `darkMode: 'class'`.
@@ -773,9 +773,9 @@
 | 50 | ✅ | ✨ Floating actions mobiel | FloatingActions.tsx |
 | 51 | ✅ | ✨ Skeleton loading states | Skeleton.tsx |
 | 52 | ✅ | ✨ CountUp animaties | CountUp.tsx |
-| 53 | `[ ]` | 🌙 ThemeProvider context | ThemeProvider.tsx + layout.tsx |
+| 53 | ✅ | 🌙 ThemeProvider context | ThemeProvider.tsx + layout.tsx |
 | 54 | `[ ]` | 🌙 Theme toggle switch | ThemeToggle.tsx |
-| 55 | `[ ]` | 🌙 Dark mode kleurenpalet | tailwind.config.ts + globals.css |
+| 55 | ✅ | 🌙 Dark mode kleurenpalet | tailwind.config.ts + globals.css |
 | 56 | `[ ]` | 🌙 Header & Footer dark | Header.tsx + Footer.tsx |
 | 57 | `[ ]` | 🌙 Hero dark mode | Hero.tsx |
 | 58 | `[ ]` | 🌙 Shop & ProductCard dark | shop/page.tsx + ProductCard.tsx |

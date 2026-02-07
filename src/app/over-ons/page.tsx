@@ -69,14 +69,14 @@ const timeline = [
   {
     year: '2024',
     title: '3000+ tevreden klanten',
-    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 500+ producten over 12 Nintendo platforms.',
+    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 846+ producten over 12 Nintendo platforms.',
     icon: '⭐',
     color: 'from-amber-400 to-yellow-500',
   },
   {
     year: '2025',
     title: 'Meer dan 846 producten online',
-    description: 'Het assortiment groeide explosief naar 846+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide productbeschrijvingen en een volledig inkoopsysteem voor klanten die hun games willen verkopen.',
+    description: 'Het assortiment groeide explosief naar 846+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide beschrijvingen en een volledig inkoopsysteem voor klanten die hun games willen verkopen.',
     icon: '🌐',
     color: 'from-teal-500 to-emerald-500',
   },

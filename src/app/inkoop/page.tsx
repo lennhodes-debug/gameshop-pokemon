@@ -10,6 +10,16 @@ export default function InkoopPage() {
   const [platform, setPlatform] = useState('');
   const [category, setCategory] = useState('');
   const [sortBy, setSortBy] = useState('name-asc');
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+
+  const toggleSelected = (sku: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(sku)) next.delete(sku);
+      else next.add(sku);
+      return next;
+    });
+  };
 
   const allProducts = getAllProducts();
 
@@ -64,6 +74,18 @@ export default function InkoopPage() {
 
   const featuredCount = inkoopProducts.filter((p) => p.inkoopFeatured).length;
 
+  const selectedProducts = useMemo(() => {
+    return inkoopProducts.filter((p) => selected.has(p.sku));
+  }, [inkoopProducts, selected]);
+
+  const selectedTotal = selectedProducts.reduce((sum, p) => sum + (p.inkoopPrijs || 0), 0);
+
+  const generateMailto = () => {
+    const lines = selectedProducts.map((p) => `- ${p.name} (${p.platform}) — €${(p.inkoopPrijs || 0).toFixed(2).replace('.', ',')}`);
+    const body = `Hallo Gameshop Enter,\n\nIk wil graag de volgende games/consoles verkopen:\n\n${lines.join('\n')}\n\nGeschat totaal: €${selectedTotal.toFixed(2).replace('.', ',')}\n\nMijn gegevens:\nNaam: \nAdres: \nTelefoon/email: \n\nMet vriendelijke groet`;
+    return `mailto:gameshopenter@gmail.com?subject=${encodeURIComponent('Inkoop aanvraag — ' + selectedProducts.length + ' producten')}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <div className="pt-16 lg:pt-20">
       {/* Hero */}
@@ -114,30 +136,57 @@ export default function InkoopPage() {
             </p>
           </motion.div>
 
-          {/* How it works */}
+          {/* How it works — 5 steps */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-4"
+            className="mt-6"
           >
-            {[
-              { step: '1', title: 'Zoek je game', desc: 'Vind je game of console in de lijst hieronder' },
-              { step: '2', title: 'Bekijk de inkoopprijs', desc: 'De prijs geldt voor producten in goede staat' },
-              { step: '3', title: 'Stuur ons een e-mail', desc: 'Mail naar gameshopenter@gmail.com met je aanbod' },
-              { step: '4', title: 'Verzend je product', desc: 'Stuur het op via PostNL, goed verpakt' },
-              { step: '5', title: 'Ontvang je geld', desc: 'Betaling binnen 2 werkdagen na ontvangst' },
-            ].map((item) => (
-              <div key={item.step} className="flex items-start gap-3 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                <span className="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold">
-                  {item.step}
-                </span>
-                <div>
-                  <h3 className="text-white font-semibold text-sm">{item.title}</h3>
-                  <p className="text-slate-400 text-xs mt-0.5">{item.desc}</p>
+            <h2 className="text-white font-bold text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
+              <svg className="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Zo werkt het
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
+              {[
+                { step: '1', title: 'Zoek je game', desc: 'Vind je game in de lijst hieronder' },
+                { step: '2', title: 'Bekijk de prijs', desc: 'Selecteer games en zie direct het totaal' },
+                { step: '3', title: 'Stuur een e-mail', desc: 'Klik op "Verstuur aanvraag" of mail naar gameshopenter@gmail.com' },
+                { step: '4', title: 'Verzend het product', desc: 'Stuur je games naar ons op via PostNL' },
+                { step: '5', title: 'Ontvang je geld', desc: 'Betaling binnen 2 werkdagen na ontvangst' },
+              ].map((item) => (
+                <div key={item.step} className="flex sm:flex-col items-start sm:items-center sm:text-center gap-3 sm:gap-2 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                  <span className="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold">
+                    {item.step}
+                  </span>
+                  <div>
+                    <h3 className="text-white font-semibold text-sm">{item.title}</h3>
+                    <p className="text-slate-400 text-xs mt-0.5">{item.desc}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Prominent email */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="mt-4 flex flex-wrap items-center gap-3"
+          >
+            <a
+              href="mailto:gameshopenter@gmail.com?subject=Inkoop%20aanvraag"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-sm font-semibold hover:bg-emerald-500/25 transition-colors"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+              gameshopenter@gmail.com
+            </a>
+            <span className="text-slate-500 text-xs">Reactie binnen 24 uur, ma t/m vr</span>
           </motion.div>
         </div>
       </div>
@@ -254,7 +303,8 @@ export default function InkoopPage() {
         {/* Price table */}
         <div className="bg-white rounded-2xl border-2 border-slate-100 overflow-hidden shadow-sm">
           {/* Table header */}
-          <div className="hidden sm:grid sm:grid-cols-[1fr_150px_140px_140px] bg-slate-50 border-b border-slate-200 px-6 py-3">
+          <div className="hidden sm:grid sm:grid-cols-[40px_1fr_150px_140px_140px] bg-slate-50 border-b border-slate-200 px-6 py-3">
+            <span></span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Product</span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Platform</span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Marktwaarde</span>
@@ -271,8 +321,20 @@ export default function InkoopPage() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay: Math.min(idx * 0.01, 0.5) }}
-                  className="grid grid-cols-1 sm:grid-cols-[1fr_150px_140px_140px] items-center px-4 sm:px-6 py-3 hover:bg-slate-50/80 transition-colors group"
+                  className={`grid grid-cols-1 sm:grid-cols-[40px_1fr_150px_140px_140px] items-center px-4 sm:px-6 py-3 hover:bg-slate-50/80 transition-colors group cursor-pointer ${selected.has(product.sku) ? 'bg-emerald-50/60' : ''}`}
+                  onClick={() => toggleSelected(product.sku)}
                 >
+                  {/* Checkbox */}
+                  <div className="hidden sm:flex items-center">
+                    <div className={`h-5 w-5 rounded-md border-2 flex items-center justify-center transition-all ${selected.has(product.sku) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 group-hover:border-emerald-400'}`}>
+                      {selected.has(product.sku) && (
+                        <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+
                   {/* Product info */}
                   <div className="flex items-center gap-3">
                     <div className="relative h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
@@ -324,6 +386,12 @@ export default function InkoopPage() {
                     <span className="inline-flex items-center px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold text-sm border border-emerald-100">
                       &euro;{(product.inkoopPrijs || 0).toFixed(2).replace('.', ',')}
                     </span>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleSelected(product.sku); }}
+                      className={`sm:hidden ml-auto px-3 py-1 rounded-lg text-xs font-bold transition-all ${selected.has(product.sku) ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-700'}`}
+                    >
+                      {selected.has(product.sku) ? 'Geselecteerd' : 'Selecteer'}
+                    </button>
                   </div>
                 </motion.div>
               ))}
@@ -361,6 +429,56 @@ export default function InkoopPage() {
           </a>
         </div>
       </div>
+
+      {/* Sticky selection bar */}
+      <AnimatePresence>
+        {selected.size > 0 && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ type: 'spring', bounce: 0.2 }}
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t-2 border-emerald-200 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="h-8 w-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center">
+                    {selected.size}
+                  </span>
+                  <span className="text-sm font-semibold text-slate-700">
+                    {selected.size === 1 ? 'product' : 'producten'} geselecteerd
+                  </span>
+                </div>
+                <div className="h-6 w-px bg-slate-200 hidden sm:block" />
+                <span className="text-lg font-extrabold text-emerald-600 hidden sm:block">
+                  &euro;{selectedTotal.toFixed(2).replace('.', ',')}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-extrabold text-emerald-600 sm:hidden">
+                  &euro;{selectedTotal.toFixed(2).replace('.', ',')}
+                </span>
+                <button
+                  onClick={() => setSelected(new Set())}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                  Wissen
+                </button>
+                <a
+                  href={generateMailto()}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                  Verstuur aanvraag
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

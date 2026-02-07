@@ -137,21 +137,20 @@ export default function ContactPage() {
               Of je nu een vraag hebt over een product, je bestelling wilt opvolgen, of gewoon advies wilt over welke game of console het beste bij je past - we staan klaar om te helpen.
             </p>
 
-            {/* Response times */}
+            {/* Openingstijden */}
             <div className="space-y-4 mb-8">
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Reactietijden</h3>
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Openingstijden</h3>
               {[
-                { channel: 'E-mail', time: 'Binnen 24 uur', color: 'bg-emerald-500' },
-                { channel: 'Contactformulier', time: 'Binnen 24 uur', color: 'bg-teal-500' },
+                { dag: 'Maandag t/m vrijdag', tijd: '09:00 — 17:00', actief: true },
+                { dag: 'Zaterdag', tijd: '10:00 — 14:00', actief: true },
+                { dag: 'Zondag', tijd: 'Gesloten', actief: false },
               ].map((item) => (
-                <div key={item.channel} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${item.color}`} />
-                    <span className="text-sm text-slate-600 font-medium">{item.channel}</span>
-                  </div>
-                  <span className="text-xs text-slate-400 font-medium">{item.time}</span>
+                <div key={item.dag} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                  <span className="text-sm text-slate-600 font-medium">{item.dag}</span>
+                  <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600' : 'text-slate-400'}`}>{item.tijd}</span>
                 </div>
               ))}
+              <p className="text-xs text-slate-400">Reactie op e-mails binnen 24 uur op werkdagen</p>
             </div>
 
             {/* Business details mini */}

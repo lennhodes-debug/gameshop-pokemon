@@ -55,7 +55,13 @@ function ShopContent() {
       );
     }
 
-    if (platform) results = results.filter((p) => p.platform === platform);
+    if (platform) {
+      if (platform === 'Game Boy (alle)') {
+        results = results.filter((p) => p.platform.startsWith('Game Boy'));
+      } else {
+        results = results.filter((p) => p.platform === platform);
+      }
+    }
     if (genre) results = results.filter((p) => p.genre === genre);
     if (condition) results = results.filter((p) => p.condition === condition);
 
@@ -70,6 +76,11 @@ function ShopContent() {
         case 'price-asc': return a.price - b.price;
         case 'price-desc': return b.price - a.price;
         case 'name-desc': return b.name.localeCompare(a.name);
+        case 'newest': {
+          const numA = parseInt(a.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0;
+          const numB = parseInt(b.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0;
+          return numB - numA;
+        }
         default: return a.name.localeCompare(b.name);
       }
     });

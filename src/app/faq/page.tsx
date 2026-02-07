@@ -37,12 +37,16 @@ const faqItems = [
     answer: 'Je kunt ons bereiken via e-mail op gameshopenter@gmail.com. Wij streven ernaar om binnen 24 uur te reageren op alle berichten. Je kunt ook het contactformulier op onze contactpagina gebruiken.',
   },
   {
-    question: 'Bieden jullie garantie op producten?',
-    answer: 'Alle producten worden persoonlijk getest voordat ze worden aangeboden. Mocht er onverhoopt toch iets mis zijn, neem dan binnen 14 dagen contact met ons op. Wij zoeken altijd naar een passende oplossing, of dat nu een vervanging of terugbetaling is.',
+    question: 'Kan ik mijn games aan jullie verkopen?',
+    answer: 'Ja! Via onze inkooppagina kun je de inkoopprijs van je games bekijken. Selecteer de games die je wilt verkopen, bekijk het geschatte totaalbedrag en stuur ons een e-mail met je aanbod. Wij betalen binnen 2 werkdagen na ontvangst van de games.',
   },
   {
-    question: 'Kan ik games bij jullie inruilen?',
-    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor honderden Nintendo games en consoles. Stuur ons een e-mail met welke producten je wilt verkopen en wij maken een eerlijk bod op basis van de actuele marktwaarde.',
+    question: 'Hoe lang duurt de levering?',
+    answer: 'Bestellingen worden binnen 1-2 werkdagen verzonden via PostNL. De levering duurt doorgaans 1-3 werkdagen na verzending. Je ontvangt een track-and-trace code zodra je bestelling is verzonden, zodat je je pakket kunt volgen.',
+  },
+  {
+    question: 'Wat als mijn product niet werkt?',
+    answer: 'Alle producten worden persoonlijk getest op werking voordat ze worden verzonden. Mocht er toch een probleem zijn, neem dan binnen 14 dagen contact met ons op via gameshopenter@gmail.com. Wij zorgen voor een passende oplossing, zoals een vervanging of terugbetaling.',
   },
   {
     question: 'Hoeveel platforms bieden jullie aan?',
@@ -58,7 +62,7 @@ const faqItems = [
   },
   {
     question: 'Verkopen jullie ook accessoires?',
-    answer: 'Ja, naast games en consoles bieden wij ook originele Nintendo accessoires aan, zoals controllers, kabels en andere randapparatuur. Alle accessoires zijn getest op werking.',
+    answer: 'Ja, naast games en consoles bieden wij ook originele Nintendo accessoires aan, zoals controllers, kabels, geheugenkaarten en meer. Bekijk ons volledige aanbod in de shop onder de categorie Accessoires.',
   },
 ];
 

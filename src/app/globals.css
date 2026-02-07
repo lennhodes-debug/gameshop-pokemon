@@ -15,6 +15,19 @@ body {
   overflow-x: hidden;
 }
 
+/* Dark mode custom properties */
+.dark {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a1f35;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --accent: #10b981;
+  --accent-glow: rgba(16, 185, 129, 0.3);
+  --border: rgba(255, 255, 255, 0.06);
+  color-scheme: dark;
+}
+
 /* Selection color */
 ::selection {
   background-color: rgba(16, 185, 129, 0.3);

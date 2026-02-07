@@ -10,6 +10,7 @@ import FloatingActions from '@/components/ui/FloatingActions';
 import SettingsPanel from '@/components/ui/SettingsPanel';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -91,14 +92,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="nl" className="scroll-smooth">
+    <html lang="nl" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('gameshop-theme');if(t==='dark'){document.documentElement.classList.add('dark')}else if(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.classList.add('dark')}}catch(e){}})()` }} />
       </head>
-      <body className="bg-[#f8fafc] text-slate-900 antialiased">
+      <body className="bg-[#f8fafc] dark:bg-[#0a0e1a] text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -138,6 +140,7 @@ export default function RootLayout({
         />
         <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
         <ScrollProgress />
+        <ThemeProvider>
         <SmoothScroll>
           <CartProvider>
             <ToastProvider>
@@ -152,6 +155,7 @@ export default function RootLayout({
             </ToastProvider>
           </CartProvider>
         </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );

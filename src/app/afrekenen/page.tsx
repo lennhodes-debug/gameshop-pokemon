@@ -49,6 +49,28 @@ export default function AfrekenPage() {
     opmerkingen: '',
     betaalmethode: 'ideal',
   });
+  const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
+
+  const validations: Partial<Record<keyof FormData, { test: (v: string) => boolean; message: string }>> = {
+    voornaam: { test: (v) => v.trim().length > 0, message: 'Voornaam is verplicht' },
+    achternaam: { test: (v) => v.trim().length > 0, message: 'Achternaam is verplicht' },
+    email: { test: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Voer een geldig e-mailadres in' },
+    straat: { test: (v) => v.trim().length > 0, message: 'Straat is verplicht' },
+    huisnummer: { test: (v) => v.trim().length > 0, message: 'Huisnummer is verplicht' },
+    postcode: { test: (v) => /^\d{4}\s?[A-Za-z]{2}$/.test(v), message: 'Formaat: 1234 AB' },
+    plaats: { test: (v) => v.trim().length > 0, message: 'Plaats is verplicht' },
+  };
+
+  const getFieldError = (field: keyof FormData): string | null => {
+    if (!touched[field]) return null;
+    const rule = validations[field];
+    if (!rule) return null;
+    return rule.test(form[field]) ? null : rule.message;
+  };
+
+  const handleBlur = (field: keyof FormData) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
@@ -201,19 +223,28 @@ export default function AfrekenPage() {
                   Persoonlijke gegevens
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Voornaam *</label>
-                    <input type="text" required value={form.voornaam} onChange={(e) => updateField('voornaam', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="Jan" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Achternaam *</label>
-                    <input type="text" required value={form.achternaam} onChange={(e) => updateField('achternaam', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="de Vries" />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">E-mailadres *</label>
-                    <input type="email" required value={form.email} onChange={(e) => updateField('email', e.target.value)} onBlur={() => validateField('email')} className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${errors.email ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300'}`} placeholder="jan@voorbeeld.nl" />
-                    {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-                  </div>
+                  {([
+                    { field: 'voornaam' as const, label: 'Voornaam', placeholder: 'Jan', colSpan: false },
+                    { field: 'achternaam' as const, label: 'Achternaam', placeholder: 'de Vries', colSpan: false },
+                    { field: 'email' as const, label: 'E-mailadres', placeholder: 'jan@voorbeeld.nl', colSpan: true, type: 'email' },
+                  ]).map(({ field, label, placeholder, colSpan, type }) => {
+                    const error = getFieldError(field);
+                    return (
+                      <div key={field} className={colSpan ? 'sm:col-span-2' : ''}>
+                        <label className="block text-sm font-semibold text-slate-700 mb-1.5">{label} *</label>
+                        <input
+                          type={type || 'text'}
+                          required
+                          value={form[field]}
+                          onChange={(e) => updateField(field, e.target.value)}
+                          onBlur={() => handleBlur(field)}
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300'}`}
+                          placeholder={placeholder}
+                        />
+                        {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
@@ -224,23 +255,29 @@ export default function AfrekenPage() {
                   Bezorgadres
                 </h2>
                 <div className="grid sm:grid-cols-3 gap-4">
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Straat *</label>
-                    <input type="text" required value={form.straat} onChange={(e) => updateField('straat', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="Kerkstraat" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Huisnummer *</label>
-                    <input type="text" required value={form.huisnummer} onChange={(e) => updateField('huisnummer', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="12a" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Postcode *</label>
-                    <input type="text" required pattern="[0-9]{4}\s?[a-zA-Z]{2}" value={form.postcode} onChange={(e) => updateField('postcode', e.target.value)} onBlur={() => validateField('postcode')} className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${errors.postcode ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300'}`} placeholder="1234 AB" />
-                    {errors.postcode && <p className="text-xs text-red-500 mt-1">{errors.postcode}</p>}
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Plaats *</label>
-                    <input type="text" required value={form.plaats} onChange={(e) => updateField('plaats', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="Amsterdam" />
-                  </div>
+                  {([
+                    { field: 'straat' as const, label: 'Straat', placeholder: 'Kerkstraat', colSpan: 'sm:col-span-2' },
+                    { field: 'huisnummer' as const, label: 'Huisnummer', placeholder: '12a', colSpan: '' },
+                    { field: 'postcode' as const, label: 'Postcode', placeholder: '1234 AB', colSpan: '' },
+                    { field: 'plaats' as const, label: 'Plaats', placeholder: 'Amsterdam', colSpan: 'sm:col-span-2' },
+                  ]).map(({ field, label, placeholder, colSpan }) => {
+                    const error = getFieldError(field);
+                    return (
+                      <div key={field} className={colSpan}>
+                        <label className="block text-sm font-semibold text-slate-700 mb-1.5">{label} *</label>
+                        <input
+                          type="text"
+                          required
+                          value={form[field]}
+                          onChange={(e) => updateField(field, e.target.value)}
+                          onBlur={() => handleBlur(field)}
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300'}`}
+                          placeholder={placeholder}
+                        />
+                        {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
