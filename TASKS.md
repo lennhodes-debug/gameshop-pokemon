@@ -376,7 +376,7 @@
 - Achievements worden opgeslagen in localStorage.
 - Niet opdringerig: max 1 achievement per 30 seconden.
 
-#### [ ] Taak 42 — Interactieve winkelwagen teller animatie
+#### [x] Taak 42 — Interactieve winkelwagen teller animatie
 **Bestanden:** `src/components/layout/CartCounter.tsx` (nieuw)
 **Wat:**
 - De winkelwagen teller in de header krijgt speciale animaties:
@@ -393,18 +393,11 @@
 
 ### J. ✨ Micro-Interacties & Visual Polish
 
-#### [ ] Taak 43 — Product card 3D tilt effect
+#### [x] Taak 43 — Product card 3D tilt effect
 **Bestanden:** `src/components/shop/ProductCard.tsx`
-**Wat:**
-- Bij hover op ProductCard: subtiel 3D perspectief-tilt effect.
-- Muis links = tilt links, muis rechts = tilt rechts (max ±8°).
-- Gebruik `transform: perspective(1000px) rotateX() rotateY()`.
-- Licht-reflectie die meebeweegt met de muis (gradient overlay).
-- Schaduw past mee aan (verschuift tegenovergesteld aan tilt).
-- Op mobiel: geen tilt (te CPU-intensief), alleen hover scale.
-- Smooth in/out transitie (spring physics via Framer Motion).
+**Wat:** Al geimplementeerd — perspective-1000, rotateX/Y met useSpring, holographic glow, shine overlay.
 
-#### [ ] Taak 44 — Add-to-cart confetti burst
+#### [x] Taak 44 — Add-to-cart confetti burst
 **Bestanden:** `src/components/ui/ConfettiBurst.tsx` (nieuw)
 **Wat:**
 - Bij "Toevoegen aan winkelmand" klik: explosie van confetti/particles vanuit de knop.
@@ -415,7 +408,7 @@
 - Gebruik CSS animations (geen canvas) voor battery-friendliness.
 - De confetti vertrekt vanuit de exacte positie van de klik.
 
-#### [ ] Taak 45 — Magnetische CTA knoppen
+#### [x] Taak 45 — Magnetische CTA knoppen
 **Bestanden:** `src/components/ui/MagneticButton.tsx`
 **Wat:**
 - Verbeter het bestaande MagneticButton component:
@@ -425,7 +418,7 @@
   - Bij focus (keyboard nav): glow ring animatie.
   - De tekst in de knop beweegt net iets MINDER dan de knop zelf (parallax binnen de knop).
 
-#### [ ] Taak 46 — Image reveal animatie op product afbeeldingen
+#### [x] Taak 46 — Image reveal animatie op product afbeeldingen
 **Bestanden:** `src/components/ui/ImageReveal.tsx` (nieuw)
 **Wat:**
 - Wanneer een product afbeelding in viewport scrollt:
@@ -437,15 +430,9 @@
 - Lazy load de afbeelding pas als de reveal start (performance).
 - Fallback voor browsers zonder clip-path support: gewone fade-in.
 
-#### [ ] Taak 47 — Scroll progress indicator in header
-**Bestanden:** `src/components/layout/ScrollProgress.tsx` (nieuw)
-**Wat:**
-- Dunne (2px) voortgangsbalk helemaal bovenaan de pagina.
-- Gradient: emerald-500 → teal-500 → cyan-500 (brand kleuren).
-- Vloeiende animatie met `useScroll` van Framer Motion.
-- Bij 100% scroll: kort "glow" pulse effect.
-- Alleen tonen op pagina's met voldoende scroll-content (niet op korte pagina's).
-- De balk zit BOVEN de header (position: fixed, top: 0, z-index: 60).
+#### [x] Taak 47 — Scroll progress indicator in header
+**Bestanden:** `src/components/layout/ScrollProgress.tsx`
+**Wat:** Al geimplementeerd — 3px balk, emerald→teal→cyan gradient, useScroll + useSpring, fixed top z-60.
 
 #### [ ] Taak 48 — Hover preview tooltips op productlinks
 **Bestanden:** `src/components/ui/ProductPreview.tsx` (nieuw)
@@ -459,7 +446,7 @@
 - Niet tonen op mobiel (touch devices).
 - Pre-fetch de product data bij hover voor snelle navigatie.
 
-#### [ ] Taak 49 — Animated price display
+#### [x] Taak 49 — Animated price display
 **Bestanden:** `src/components/ui/AnimatedPrice.tsx` (nieuw)
 **Wat:**
 - Wanneer een prijs in view scrollt: cijfers "rollen" naar de juiste waarde (slot machine effect).
@@ -469,7 +456,7 @@
 - Gebruik op: ProductCard, ProductDetail, winkelwagen totaal.
 - Decimalen (,99) draaien sneller dan hele getallen.
 
-#### [ ] Taak 50 — Floating action buttons op mobiel
+#### [x] Taak 50 — Floating action buttons op mobiel
 **Bestanden:** `src/components/ui/FloatingActions.tsx` (nieuw)
 **Wat:**
 - Op mobiel: floating action button (FAB) rechtsonder met:
@@ -483,7 +470,7 @@
 - Gebruik Framer Motion voor de expand/collapse animatie.
 - Badge op winkelwagen toont aantal items.
 
-#### [ ] Taak 51 — Skeleton loading states voor alle pagina's
+#### [x] Taak 51 — Skeleton loading states voor alle pagina's
 **Bestanden:** `src/components/ui/Skeleton.tsx` (nieuw)
 **Wat:**
 - Herbruikbaar Skeleton component met shimmer animatie.
@@ -496,7 +483,7 @@
   - `ShopGridSkeleton`: 8 ProductCardSkeletons in grid
 - Rounded corners matchen de echte componenten.
 
-#### [ ] Taak 52 — Smooth number counting animaties
+#### [x] Taak 52 — Smooth number counting animaties
 **Bestanden:** `src/components/ui/CountUp.tsx` (nieuw)
 **Wat:**
 - Herbruikbaar CountUp component dat van 0 naar target telt.
@@ -775,17 +762,17 @@
 | 39 | `[ ]` | 🕹️ Retro loaders | RetroLoader.tsx |
 | 40 | `[ ]` | 🕹️ Retro breadcrumbs | RetroBreadcrumb.tsx |
 | 41 | `[ ]` | 🕹️ Achievement toasts | AchievementToast.tsx + useAchievements.ts |
-| 42 | `[ ]` | 🕹️ Cart teller animatie | CartCounter.tsx |
-| 43 | `[ ]` | ✨ ProductCard 3D tilt | ProductCard.tsx |
-| 44 | `[ ]` | ✨ Add-to-cart confetti | ConfettiBurst.tsx |
-| 45 | `[ ]` | ✨ Magnetische knoppen | MagneticButton.tsx |
-| 46 | `[ ]` | ✨ Image reveal animatie | ImageReveal.tsx |
-| 47 | `[ ]` | ✨ Scroll progress bar | ScrollProgress.tsx |
+| 42 | ✅ | 🕹️ Cart teller animatie | CartCounter.tsx |
+| 43 | ✅ | ✨ ProductCard 3D tilt | ProductCard.tsx |
+| 44 | ✅ | ✨ Add-to-cart confetti | ConfettiBurst.tsx |
+| 45 | ✅ | ✨ Magnetische knoppen | MagneticButton.tsx |
+| 46 | ✅ | ✨ Image reveal animatie | ImageReveal.tsx |
+| 47 | ✅ | ✨ Scroll progress bar | ScrollProgress.tsx |
 | 48 | `[ ]` | ✨ Hover preview tooltips | ProductPreview.tsx |
-| 49 | `[ ]` | ✨ Animated price display | AnimatedPrice.tsx |
-| 50 | `[ ]` | ✨ Floating actions mobiel | FloatingActions.tsx |
-| 51 | `[ ]` | ✨ Skeleton loading states | Skeleton.tsx |
-| 52 | `[ ]` | ✨ CountUp animaties | CountUp.tsx |
+| 49 | ✅ | ✨ Animated price display | AnimatedPrice.tsx |
+| 50 | ✅ | ✨ Floating actions mobiel | FloatingActions.tsx |
+| 51 | ✅ | ✨ Skeleton loading states | Skeleton.tsx |
+| 52 | ✅ | ✨ CountUp animaties | CountUp.tsx |
 | 53 | `[ ]` | 🌙 ThemeProvider context | ThemeProvider.tsx + layout.tsx |
 | 54 | `[ ]` | 🌙 Theme toggle switch | ThemeToggle.tsx |
 | 55 | `[ ]` | 🌙 Dark mode kleurenpalet | tailwind.config.ts + globals.css |

@@ -7,6 +7,7 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, Ani
 import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
+import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 
@@ -20,6 +21,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [confetti, setConfetti] = useState<{ x: number; y: number } | null>(null);
 
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -68,6 +70,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     e.stopPropagation();
     addItem(product);
     setAddedToCart(true);
+    setConfetti({ x: e.clientX, y: e.clientY });
     addToast(`${product.name} toegevoegd aan winkelwagen`);
     setTimeout(() => setAddedToCart(false), 1500);
   };
@@ -232,6 +235,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         </div>
       </motion.div>
+      {confetti && (
+        <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />
+      )}
     </div>
   );
 }

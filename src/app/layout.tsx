@@ -6,6 +6,7 @@ import ScrollProgress from '@/components/layout/ScrollProgress';
 import SmoothScroll from '@/components/layout/SmoothScroll';
 import PageTransition from '@/components/ui/PageTransition';
 import BackToTop from '@/components/ui/BackToTop';
+import FloatingActions from '@/components/ui/FloatingActions';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
 
@@ -144,6 +145,7 @@ export default function RootLayout({
               </main>
               <Footer />
               <BackToTop />
+              <FloatingActions />
             </ToastProvider>
           </CartProvider>
         </SmoothScroll>

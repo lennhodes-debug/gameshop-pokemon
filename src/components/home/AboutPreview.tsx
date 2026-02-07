@@ -1,38 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import Button from '@/components/ui/Button';
-
-function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const duration = 2000;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [isInView, target]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString('nl-NL')}{suffix}
-    </span>
-  );
-}
+import CountUp from '@/components/ui/CountUp';
 
 const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
@@ -136,7 +108,7 @@ export default function AboutPreview() {
                 className="glass-card rounded-2xl p-6 lg:p-8 text-center hover:bg-white/[0.06] transition-colors duration-300"
               >
                 <div className="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  <CountUp target={stat.value} suffix={stat.suffix} separator="." />
                 </div>
                 <div className="text-sm text-slate-400">{stat.label}</div>
               </motion.div>
