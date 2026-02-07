@@ -74,7 +74,7 @@
 **Bestanden:** `src/app/shop/page.tsx`
 **Wat:** Sorteeroptie "Nieuw binnen" toegevoegd (sort op SKU nummer aflopend).
 
-#### [ ] Taak 12 — Product detail: beschrijving sectie verbeteren
+#### [x] Taak 12 — Product detail: beschrijving sectie verbeteren
 **Bestanden:** `src/components/product/ProductDetail.tsx`
 **Wat:**
 - De product beschrijving sectie visueel aantrekkelijker maken.
@@ -82,7 +82,7 @@
 - Zorg dat de specificatietabel goed werkt (recent toegevoegd).
 - Check of de badges (conditie, compleetheid, CIB) goed leesbaar zijn.
 
-#### [ ] Taak 13 — Shop filters: Game Boy varianten groeperen
+#### [x] Taak 13 — Shop filters: Game Boy varianten groeperen
 **Bestanden:** `src/components/shop/Filters.tsx`
 **Wat:**
 - Check of alle platform filters correct werken.
@@ -93,7 +93,7 @@
 
 ### D. Overige pagina's
 
-#### [ ] Taak 14 — Winkelwagen: upsell sectie toevoegen
+#### [x] Taak 14 — Winkelwagen: upsell sectie toevoegen
 **Bestanden:** `src/app/winkelwagen/page.tsx`
 **Wat:**
 - Onder de winkelwagen items een "Misschien ook interessant" sectie toevoegen.
@@ -101,7 +101,7 @@
 - Gebruik `getRelatedProducts` uit `@/lib/products` of filter op platform.
 - Alleen tonen als er items in de wagen zitten.
 
-#### [ ] Taak 15 — Afrekenen: formulier validatie verbeteren
+#### [x] Taak 15 — Afrekenen: formulier validatie verbeteren
 **Bestanden:** `src/app/afrekenen/page.tsx`
 **Wat:**
 - Check de formulier validatie: postcode format (4 cijfers + 2 letters), e-mail, verplichte velden.
@@ -109,14 +109,14 @@
 - Nederlandse postcode regex: `/^\d{4}\s?[A-Za-z]{2}$/`
 - Check of de betaalmethoden goed worden getoond.
 
-#### [ ] Taak 16 — Inkoop pagina: uitleg verbeteren
+#### [x] Taak 16 — Inkoop pagina: uitleg verbeteren
 **Bestanden:** `src/app/inkoop/page.tsx`
 **Wat:**
 - De uitleg bovenaan de pagina verbeteren: leg duidelijker uit hoe het inkoopproces werkt.
 - Stappen toevoegen: 1. Zoek je game 2. Bekijk de inkoopprijs 3. Stuur ons een e-mail 4. Verzend het product 5. Ontvang je geld.
 - Voeg het e-mailadres (gameshopenter@gmail.com) prominent toe.
 
-#### [ ] Taak 17 — Contact pagina: openingstijden toevoegen
+#### [x] Taak 17 — Contact pagina: openingstijden toevoegen
 **Bestanden:** `src/app/contact/page.tsx`
 **Wat:**
 - Voeg reactietijden/beschikbaarheid informatie toe.
@@ -124,7 +124,7 @@
 - Voeg een klein FAQ sectietje toe met 2-3 snelle vragen.
 - Check of het formulier alle velden juist heeft.
 
-#### [ ] Taak 18 — FAQ pagina: meer vragen toevoegen
+#### [x] Taak 18 — FAQ pagina: meer vragen toevoegen
 **Bestanden:** `src/app/faq/page.tsx`
 **Wat:**
 - Voeg 4-6 extra FAQ items toe, bijv.:
@@ -136,14 +136,14 @@
   - "Worden producten ook naar Belgie verzonden?"
 - Update het FAQPage schema (faqJsonLd) zodat de nieuwe vragen ook in Google verschijnen.
 
-#### [ ] Taak 19 — 404 pagina: suggesties toevoegen
+#### [x] Taak 19 — 404 pagina: suggesties toevoegen
 **Bestanden:** `src/app/not-found.tsx`
 **Wat:**
 - Voeg 3-4 populaire productcategorieen toe als suggesties.
 - Bijv. snelle links: "Nintendo Switch games", "GameCube games", "Retro consoles", "Alle producten".
 - Maak het speelser/gamified — het "Game Over" thema is al goed.
 
-#### [ ] Taak 20 — Juridische pagina's: inhoud uitbreiden
+#### [x] Taak 20 — Juridische pagina's: inhoud uitbreiden
 **Bestanden:** `src/app/privacybeleid/page.tsx`, `src/app/retourbeleid/page.tsx`, `src/app/algemene-voorwaarden/page.tsx`
 **Wat:**
 - Check of deze pagina's voldoende inhoud hebben.
@@ -155,14 +155,14 @@
 
 ### E. Layout & navigatie
 
-#### [ ] Taak 21 — Footer: inkoop link + social links toevoegen
+#### [x] Taak 21 — Footer: inkoop link + social links toevoegen
 **Bestanden:** `src/components/layout/Footer.tsx`
 **Wat:**
 - Voeg "Games verkopen" (inkoop) link toe onder "Shop" sectie.
 - Voeg Marktplaats profiel link toe bij contact.
 - Check of alle bestaande links correct zijn.
 
-#### [ ] Taak 22 — Header: actieve staat mobiel menu verbeteren
+#### [x] Taak 22 — Header: actieve staat mobiel menu verbeteren
 **Bestanden:** `src/components/layout/Header.tsx`
 **Wat:**
 - Check of het mobiele menu goed werkt.
@@ -174,20 +174,20 @@
 
 ### F. SEO & Performance
 
-#### [ ] Taak 23 — Sitemap: meer pagina's toevoegen
+#### [x] Taak 23 — Sitemap: meer pagina's toevoegen
 **Bestanden:** `src/app/sitemap.ts`
 **Wat:**
 - Check of alle pagina's in de sitemap staan (inclusief /inkoop, /contact, /faq, /over-ons).
 - Voeg `lastModified` dates toe.
 - Voeg priority en changefreq toe aan belangrijke pagina's.
 
-#### [ ] Taak 24 — Robots.txt: optimaliseren
+#### [x] Taak 24 — Robots.txt: optimaliseren
 **Bestanden:** `src/app/robots.ts`
 **Wat:**
 - Check of robots.txt correct geconfigureerd is.
 - Zorg dat de sitemap URL correct is: `https://gameshopenter.nl/sitemap.xml`
 
-#### [ ] Taak 25 — Layout metadata: uitbreiden
+#### [x] Taak 25 — Layout metadata: uitbreiden
 **Bestanden:** `src/app/layout.tsx`
 **Wat:**
 - Check of alle OpenGraph tags correct zijn.
@@ -197,14 +197,14 @@
 
 ### G. UI Componenten
 
-#### [ ] Taak 26 — Badge component: nieuwe varianten
+#### [x] Taak 26 — Badge component: nieuwe varianten
 **Bestanden:** `src/components/ui/Badge.tsx`
 **Wat:**
 - Voeg een "new" variant toe voor nieuwe producten.
 - Voeg een "sale" variant toe (rood/oranje) voor toekomstige aanbiedingen.
 - Zorg dat alle kleuren leesbaar zijn op lichte en donkere achtergronden.
 
-#### [ ] Taak 27 — ProductCard: prijsweergave verbeteren
+#### [x] Taak 27 — ProductCard: prijsweergave verbeteren
 **Bestanden:** `src/components/shop/ProductCard.tsx`
 **Wat:**
 - Als een product premium is (>= €100), toon dan "Gratis verzending" als label bij de prijs.
@@ -745,22 +745,22 @@
 | 9 | ✅ | FaqPreview vragen | FaqPreview.tsx |
 | 10 | ✅ | NewsletterCTA tekst | NewsletterCTA.tsx |
 | 11 | ✅ | Shop sorteeroptie | shop/page.tsx |
-| 12 | `[ ]` | ProductDetail beschrijving | ProductDetail.tsx |
-| 13 | `[ ]` | Shop filters groeperen | Filters.tsx |
-| 14 | `[ ]` | Winkelwagen upsell | winkelwagen/page.tsx |
-| 15 | `[ ]` | Afrekenen validatie | afrekenen/page.tsx |
-| 16 | `[ ]` | Inkoop uitleg | inkoop/page.tsx |
-| 17 | `[ ]` | Contact openingstijden | contact/page.tsx |
-| 18 | `[ ]` | FAQ meer vragen | faq/page.tsx |
-| 19 | `[ ]` | 404 suggesties | not-found.tsx |
-| 20 | `[ ]` | Juridische pagina's | privacybeleid + retourbeleid + voorwaarden |
-| 21 | `[ ]` | Footer links | Footer.tsx |
-| 22 | `[ ]` | Header mobiel menu | Header.tsx |
-| 23 | `[ ]` | Sitemap uitbreiden | sitemap.ts |
-| 24 | `[ ]` | Robots.txt | robots.ts |
-| 25 | `[ ]` | Layout metadata | layout.tsx |
-| 26 | `[ ]` | Badge varianten | Badge.tsx |
-| 27 | `[ ]` | ProductCard prijs | ProductCard.tsx |
+| 12 | ✅ | ProductDetail beschrijving | ProductDetail.tsx |
+| 13 | ✅ | Shop filters groeperen | Filters.tsx |
+| 14 | ✅ | Winkelwagen upsell | winkelwagen/page.tsx |
+| 15 | ✅ | Afrekenen validatie | afrekenen/page.tsx |
+| 16 | ✅ | Inkoop uitleg | inkoop/page.tsx |
+| 17 | ✅ | Contact openingstijden | contact/page.tsx |
+| 18 | ✅ | FAQ meer vragen | faq/page.tsx |
+| 19 | ✅ | 404 suggesties | not-found.tsx |
+| 20 | ✅ | Juridische pagina's | privacybeleid + retourbeleid + voorwaarden |
+| 21 | ✅ | Footer links | Footer.tsx |
+| 22 | ✅ | Header mobiel menu | Header.tsx |
+| 23 | ✅ | Sitemap uitbreiden | sitemap.ts |
+| 24 | ✅ | Robots.txt | robots.ts |
+| 25 | ✅ | Layout metadata | layout.tsx |
+| 26 | ✅ | Badge varianten | Badge.tsx |
+| 27 | ✅ | ProductCard prijs | ProductCard.tsx |
 | 28 | `[ ]` | 🎮 3D Game Boy model | showcase/ConsoleGameBoy.tsx |
 | 29 | `[ ]` | 🎮 3D N64 model | showcase/ConsoleN64.tsx |
 | 30 | `[ ]` | 🎮 3D GameCube & Switch | showcase/ConsoleGameCube.tsx + Switch |
