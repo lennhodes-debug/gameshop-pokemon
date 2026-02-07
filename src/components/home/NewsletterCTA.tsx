@@ -84,10 +84,10 @@ export default function NewsletterCTA() {
           </motion.div>
 
           <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
-            Blijf op de hoogte
+            Mis geen enkele aanwinst
           </h2>
           <p className="text-lg text-white/70 mb-10 max-w-lg mx-auto">
-            Ontvang als eerste updates over nieuwe games, exclusieve aanbiedingen en speciale acties
+            Ontvang exclusieve kortingscodes, word als eerste geinformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
           </p>
 
           {submitted ? (
@@ -102,8 +102,8 @@ export default function NewsletterCTA() {
                 </svg>
               </div>
               <div className="text-left">
-                <span className="text-white font-bold block">Bedankt voor je aanmelding!</span>
-                <span className="text-white/60 text-sm">We houden je op de hoogte.</span>
+                <span className="text-white font-bold block">Je staat op de lijst!</span>
+                <span className="text-white/60 text-sm">Je ontvangt als eerste updates over nieuwe aanwinsten.</span>
               </div>
             </motion.div>
           ) : (

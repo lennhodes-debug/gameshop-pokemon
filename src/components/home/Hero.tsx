@@ -228,8 +228,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.6 }}
             className="text-lg sm:text-xl text-white/60 leading-relaxed mb-10 max-w-xl mx-auto"
           >
-            De Nintendo specialist van Nederland. Originele games & consoles,
-            persoonlijk getest op werking.
+            Van klassieke NES-parels tot de nieuwste Switch-titels — elk product origineel, getest en met liefde verpakt. 846+ games & consoles op voorraad.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -249,10 +248,10 @@ export default function Hero() {
               </svg>
             </Link>
             <Link
-              href="/over-ons"
+              href="/inkoop"
               className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.08] backdrop-blur-sm border border-white/[0.12] text-white font-bold text-sm hover:bg-white/[0.12] transition-all duration-300"
             >
-              Over ons
+              Games verkopen
             </Link>
           </motion.div>
 

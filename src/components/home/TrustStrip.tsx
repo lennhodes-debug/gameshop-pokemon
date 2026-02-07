@@ -11,7 +11,7 @@ const trustItems = [
       </svg>
     ),
     title: '100% Origineel',
-    description: 'Persoonlijk getest op werking',
+    description: 'Alle 846 producten persoonlijk getest',
     gradient: 'from-emerald-500 to-teal-500',
     glow: 'rgba(16,185,129,0.2)',
   },
@@ -22,7 +22,7 @@ const trustItems = [
       </svg>
     ),
     title: 'Zorgvuldig verpakt',
-    description: 'Veilig verzonden via PostNL',
+    description: 'Bubbeltjesfolie + stevige doos via PostNL',
     gradient: 'from-cyan-500 to-blue-500',
     glow: 'rgba(6,182,212,0.2)',
   },
@@ -33,7 +33,7 @@ const trustItems = [
       </svg>
     ),
     title: 'Gratis verzending',
-    description: 'Bij bestellingen boven 100 euro',
+    description: 'Vanaf €100 — anders slechts €3,95',
     gradient: 'from-sky-500 to-blue-500',
     glow: 'rgba(14,165,233,0.2)',
   },
@@ -44,7 +44,7 @@ const trustItems = [
       </svg>
     ),
     title: '14 dagen bedenktijd',
-    description: 'Niet tevreden? Retourneren kan',
+    description: 'Geen gedoe — gewoon terugsturen',
     gradient: 'from-amber-500 to-orange-500',
     glow: 'rgba(245,158,11,0.2)',
   },

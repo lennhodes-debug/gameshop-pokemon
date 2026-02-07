@@ -8,19 +8,19 @@ import Button from '@/components/ui/Button';
 const faqItems = [
   {
     question: 'Zijn alle producten origineel en getest?',
-    answer: 'Ja, alle producten die wij verkopen zijn 100% origineel. Elk product wordt persoonlijk getest op werking voordat het wordt aangeboden. Wij verkopen geen reproducties of namaakproducten.',
+    answer: 'Ja, alle 846+ producten die wij verkopen zijn 100% origineel. Elk product wordt persoonlijk getest op werking voordat het wordt aangeboden. Wij verkopen geen reproducties of namaakproducten.',
   },
   {
     question: 'Hoe worden bestellingen verzonden?',
-    answer: 'Alle bestellingen worden zorgvuldig verpakt en verzonden via PostNL. De verzendkosten bedragen 3,95 euro. Bij bestellingen boven de 100 euro is de verzending gratis.',
+    answer: 'Alle bestellingen worden zorgvuldig verpakt in bubbeltjesfolie en stevige dozen, en verzonden via PostNL. De verzendkosten bedragen €3,95. Bij bestellingen boven de €100 is de verzending gratis.',
   },
   {
-    question: 'Kan ik mijn bestelling afhalen?',
-    answer: 'Nee, Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL.',
+    question: 'Kan ik mijn games bij jullie verkopen?',
+    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor al onze 846+ producten. Stuur ons een e-mail met welke games of consoles je wilt verkopen en wij maken een eerlijk bod.',
   },
   {
     question: 'Wat is het retourbeleid?',
-    answer: 'Je hebt 14 dagen bedenktijd na ontvangst van je bestelling. Binnen deze periode kun je het product retourneren. Het product dient in dezelfde staat te zijn als bij ontvangst.',
+    answer: 'Je hebt 14 dagen bedenktijd na ontvangst van je bestelling. Binnen deze periode kun je het product retourneren in dezelfde staat als bij ontvangst. Neem contact op via gameshopenter@gmail.com.',
   },
   {
     question: 'Welke betaalmethoden accepteren jullie?',

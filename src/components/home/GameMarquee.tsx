@@ -9,8 +9,8 @@ import { getAllProducts } from '@/lib/products';
 export default function GameMarquee() {
   const products = getAllProducts();
   const productsWithImages = products.filter(p => p.image);
-  const row1 = productsWithImages.slice(0, 18);
-  const row2 = productsWithImages.slice(18, 36);
+  const row1 = productsWithImages.slice(0, 24);
+  const row2 = productsWithImages.slice(24, 48);
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -36,7 +36,7 @@ export default function GameMarquee() {
             {productsWithImages.length}+ games met cover art
           </span>
           <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Onze collectie in beeld
+            Ontdek de collectie
           </h2>
         </motion.div>
       </div>

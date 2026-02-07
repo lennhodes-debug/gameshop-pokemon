@@ -141,7 +141,7 @@ export default function PlatformGrid() {
           className="text-center mb-12 lg:mb-16"
         >
           <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-wider mb-4">
-            12 Platforms
+            {platforms.length} Platforms
           </span>
           <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
             <TextReveal text="Shop per platform" delay={0.1} />

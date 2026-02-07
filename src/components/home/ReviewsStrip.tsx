@@ -40,6 +40,42 @@ const reviews = [
     rating: 5,
     product: 'Super Mario Odyssey',
   },
+  {
+    name: 'Mark J.',
+    text: 'GameCube controller werkt als nieuw. Ongelofelijk goede kwaliteit voor tweedehands.',
+    rating: 5,
+    product: 'GameCube Controller',
+  },
+  {
+    name: 'Nienke R.',
+    text: 'Binnen 2 dagen in huis en alles zat keurig in bubbeltjesfolie. Zeer tevreden!',
+    rating: 5,
+    product: 'Super Smash Bros. Ultimate',
+  },
+  {
+    name: 'Daan L.',
+    text: 'Zeldzame N64-game gevonden die ik nergens anders kon vinden. Prijs was ook eerlijk.',
+    rating: 5,
+    product: 'GoldenEye 007',
+  },
+  {
+    name: 'Fleur H.',
+    text: 'Voor mijn zoon een Switch-game besteld. Hij was door het dolle heen. Snelle levering!',
+    rating: 5,
+    product: 'Splatoon 3',
+  },
+  {
+    name: 'Rick P.',
+    text: 'Mijn hele SNES-collectie komt van Gameshop Enter. Altijd origineel, altijd werkend.',
+    rating: 5,
+    product: 'Super Mario World',
+  },
+  {
+    name: 'Anouk de V.',
+    text: 'Vraag gesteld over een product en binnen een uur antwoord gekregen. Klantenservice is top!',
+    rating: 5,
+    product: 'Pokémon HeartGold',
+  },
 ];
 
 function StarRating() {
@@ -101,7 +137,7 @@ export default function ReviewsStrip() {
         {/* Row 1 */}
         <motion.div className="flex gap-4" style={{ x: x1 }}>
           <div className="flex animate-marquee-slow gap-4">
-            {[...reviews.slice(0, 3), ...reviews.slice(0, 3)].map((review, i) => (
+            {[...reviews.slice(0, 6), ...reviews.slice(0, 6)].map((review, i) => (
               <div
                 key={i}
                 className="flex-shrink-0 w-[320px] rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5"
@@ -120,7 +156,7 @@ export default function ReviewsStrip() {
         {/* Row 2 */}
         <motion.div className="flex gap-4" style={{ x: x2 }}>
           <div className="flex animate-marquee-reverse-slow gap-4">
-            {[...reviews.slice(3), ...reviews.slice(3)].map((review, i) => (
+            {[...reviews.slice(6), ...reviews.slice(6)].map((review, i) => (
               <div
                 key={i}
                 className="flex-shrink-0 w-[320px] rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5"
@@ -135,6 +171,27 @@ export default function ReviewsStrip() {
             ))}
           </div>
         </motion.div>
+      </div>
+
+      {/* Marktplaats link */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 text-center">
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-slate-500 text-sm"
+        >
+          Bekijk al onze{' '}
+          <a
+            href="https://www.marktplaats.nl/u/gameshop-enter/100074714/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+          >
+            1.360+ reviews op Marktplaats
+          </a>
+        </motion.p>
       </div>
     </section>
   );
