@@ -122,7 +122,7 @@
 - Voeg dit toe aan het switch statement in de sort logica.
 - Case: `'newest'` → sorteer op SKU nummer (parse het nummer uit de SKU string, bijv. SW-001 → 1).
 
-#### [ ] Taak 12 — Product detail: beschrijving sectie verbeteren
+#### [x] Taak 12 — Product detail: beschrijving sectie verbeteren
 **Bestanden:** `src/components/product/ProductDetail.tsx`
 **Wat:**
 - De product beschrijving sectie visueel aantrekkelijker maken.
@@ -282,7 +282,7 @@
 | 9 | `[ ]` | — | FaqPreview.tsx |
 | 10 | `[ ]` | — | NewsletterCTA.tsx |
 | 11 | `[x]` | done | shop/page.tsx |
-| 12 | `[ ]` | — | ProductDetail.tsx |
+| 12 | `[x]` | done | ProductDetail.tsx |
 | 13 | `[ ]` | — | Filters.tsx |
 | 14 | `[ ]` | — | winkelwagen/page.tsx |
 | 15 | `[ ]` | — | afrekenen/page.tsx |
