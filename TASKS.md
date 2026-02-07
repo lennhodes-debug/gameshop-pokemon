@@ -296,7 +296,7 @@
 
 ### I. 🕹️ Retro Arcade Navigatie & Effecten
 
-#### [ ] Taak 36 — Retro geluidseffecten systeem
+#### [x] Taak 36 — Retro geluidseffecten systeem
 **Bestanden:** `src/hooks/useRetroSound.ts` (nieuw), `src/components/providers/SoundProvider.tsx` (nieuw)
 **Wat:**
 - Custom hook `useRetroSound` met Web Audio API (geen externe library).
@@ -337,7 +337,7 @@
 - Toont producttelling per platform in een "high score" lettertype.
 - Pixel-art font voor labels (gebruik Google Font "Press Start 2P" of CSS pixel font).
 
-#### [ ] Taak 39 — Retro loading states
+#### [x] Taak 39 — Retro loading states
 **Bestanden:** `src/components/ui/RetroLoader.tsx` (nieuw)
 **Wat:**
 - Vervang standaard loading spinners met retro game-stijl loaders:
@@ -349,7 +349,7 @@
 - Smooth animatie, ~2s loop.
 - Gebruik op: product images loading, shop filters, pagina navigatie.
 
-#### [ ] Taak 40 — Retro breadcrumb navigatie
+#### [x] Taak 40 — Retro breadcrumb navigatie
 **Bestanden:** `src/components/ui/RetroBreadcrumb.tsx` (nieuw)
 **Wat:**
 - Breadcrumb component in retro-stijl:
@@ -434,7 +434,7 @@
 **Bestanden:** `src/components/layout/ScrollProgress.tsx`
 **Wat:** Al geimplementeerd — 3px balk, emerald→teal→cyan gradient, useScroll + useSpring, fixed top z-60.
 
-#### [ ] Taak 48 — Hover preview tooltips op productlinks
+#### [x] Taak 48 — Hover preview tooltips op productlinks
 **Bestanden:** `src/components/ui/ProductPreview.tsx` (nieuw)
 **Wat:**
 - Bij hover op een productlink (in gerelateerde producten, upsell, etc.):
@@ -665,7 +665,7 @@
 
 ### L. 🔧 Infrastructuur & Afronding
 
-#### [ ] Taak 64 — Performance audit en lazy loading
+#### [x] Taak 64 — Performance audit en lazy loading
 **Bestanden:** `src/app/page.tsx`, `src/app/layout.tsx`
 **Wat:**
 - Audit alle homepage componenten op bundle size impact.
@@ -703,7 +703,7 @@
 - Alle instellingen opgeslagen in localStorage.
 - "Arcade mode" toggle: zet alles tegelijk aan voor de volle ervaring.
 
-#### [ ] Taak 67 — Easter eggs
+#### [x] Taak 67 — Easter eggs
 **Bestanden:** `src/hooks/useEasterEggs.ts` (nieuw)
 **Wat:**
 - Verborgen Easter eggs voor gamers:
@@ -756,11 +756,11 @@
 | 33 | `[ ]` | 🎮 Particles & glow | showcase/ConsoleParticles.tsx |
 | 34 | `[ ]` | 🎮 Floating cartridges | showcase/FloatingCartridges.tsx |
 | 35 | `[ ]` | 🎮 Showcase → homepage | page.tsx |
-| 36 | `[ ]` | 🕹️ Retro geluiden | useRetroSound.ts + SoundProvider.tsx |
+| 36 | ✅ | 🕹️ Retro geluiden | useRetroSound.ts + SoundProvider.tsx |
 | 37 | `[ ]` | 🕹️ Coin pagina transitie | PageTransition.tsx |
 | 38 | `[ ]` | 🕹️ Arcade platform selector | ArcadePlatformSelector.tsx |
-| 39 | `[ ]` | 🕹️ Retro loaders | RetroLoader.tsx |
-| 40 | `[ ]` | 🕹️ Retro breadcrumbs | RetroBreadcrumb.tsx |
+| 39 | ✅ | 🕹️ Retro loaders | RetroLoader.tsx |
+| 40 | ✅ | 🕹️ Retro breadcrumbs | RetroBreadcrumb.tsx |
 | 41 | `[ ]` | 🕹️ Achievement toasts | AchievementToast.tsx + useAchievements.ts |
 | 42 | ✅ | 🕹️ Cart teller animatie | CartCounter.tsx |
 | 43 | ✅ | ✨ ProductCard 3D tilt | ProductCard.tsx |
@@ -768,7 +768,7 @@
 | 45 | ✅ | ✨ Magnetische knoppen | MagneticButton.tsx |
 | 46 | ✅ | ✨ Image reveal animatie | ImageReveal.tsx |
 | 47 | ✅ | ✨ Scroll progress bar | ScrollProgress.tsx |
-| 48 | `[ ]` | ✨ Hover preview tooltips | ProductPreview.tsx |
+| 48 | ✅ | ✨ Hover preview tooltips | ProductPreview.tsx |
 | 49 | ✅ | ✨ Animated price display | AnimatedPrice.tsx |
 | 50 | ✅ | ✨ Floating actions mobiel | FloatingActions.tsx |
 | 51 | ✅ | ✨ Skeleton loading states | Skeleton.tsx |
@@ -784,10 +784,10 @@
 | 61 | `[ ]` | 🌙 Overige pagina's dark | winkelwagen + afrekenen + inkoop + etc. |
 | 62 | `[ ]` | 🌙 CRT scanline effecten | CRTEffect.tsx + globals.css |
 | 63 | `[ ]` | 🌙 Retro neon grid | RetroGrid.tsx |
-| 64 | `[ ]` | 🔧 Performance & lazy load | page.tsx + layout.tsx |
+| 64 | ✅ | 🔧 Performance & lazy load | page.tsx + layout.tsx |
 | 65 | `[ ]` | 🔧 Accessibility check | meerdere bestanden |
 | 66 | `[ ]` | 🔧 Settings paneel | SettingsPanel.tsx |
-| 67 | `[ ]` | 🔧 Easter eggs | useEasterEggs.ts |
+| 67 | ✅ | 🔧 Easter eggs | useEasterEggs.ts |
 
 ---
 
