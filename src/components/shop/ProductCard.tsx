@@ -197,6 +197,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
             <motion.button
               onClick={handleAddToCart}
+              aria-label={`${product.name} toevoegen aan winkelwagen`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.92 }}
               className={cn(

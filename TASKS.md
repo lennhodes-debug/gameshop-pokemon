@@ -312,7 +312,7 @@
 - Geluiden zijn SUBTIEL en kort (max 300ms), niet irritant.
 - Sla mute-voorkeur op in localStorage.
 
-#### [ ] Taak 37 — Coin-insert pagina transitie animatie
+#### [x] Taak 37 — Coin-insert pagina transitie animatie
 **Bestanden:** `src/components/ui/PageTransition.tsx` (nieuw)
 **Wat:**
 - Wrapper component voor page transitions in layout.tsx.
@@ -361,7 +361,7 @@
 - Automatische breadcrumb generatie uit de URL path.
 - Schema.org BreadcrumbList markup voor SEO.
 
-#### [ ] Taak 41 — Arcade achievement toasts
+#### [x] Taak 41 — Arcade achievement toasts
 **Bestanden:** `src/components/ui/AchievementToast.tsx` (nieuw), `src/hooks/useAchievements.ts` (nieuw)
 **Wat:**
 - "Achievement unlocked!" notificaties in retro game stijl:
@@ -678,7 +678,7 @@
 - Check of Framer Motion tree-shaking correct werkt.
 - Target: First Contentful Paint < 1.5s op 4G.
 
-#### [ ] Taak 65 — Accessibility (a11y) check
+#### [x] Taak 65 — Accessibility (a11y) check
 **Bestanden:** Meerdere (alle interactieve componenten)
 **Wat:**
 - Check alle interactieve elementen op keyboard navigatie.
@@ -690,7 +690,7 @@
 - Animaties respecteren `prefers-reduced-motion`.
 - Screen reader test: navigatie, product selectie, winkelwagen flow.
 
-#### [ ] Taak 66 — Sound en animatie settings pagina
+#### [x] Taak 66 — Sound en animatie settings pagina
 **Bestanden:** `src/components/ui/SettingsPanel.tsx` (nieuw)
 **Wat:**
 - Klein settings paneel (toegankelijk via tandwiel-icoon in footer of header).
@@ -757,11 +757,11 @@
 | 34 | `[ ]` | 🎮 Floating cartridges | showcase/FloatingCartridges.tsx |
 | 35 | `[ ]` | 🎮 Showcase → homepage | page.tsx |
 | 36 | ✅ | 🕹️ Retro geluiden | useRetroSound.ts + SoundProvider.tsx |
-| 37 | `[ ]` | 🕹️ Coin pagina transitie | PageTransition.tsx |
+| 37 | ✅ | 🕹️ Coin pagina transitie | PageTransition.tsx |
 | 38 | `[ ]` | 🕹️ Arcade platform selector | ArcadePlatformSelector.tsx |
 | 39 | ✅ | 🕹️ Retro loaders | RetroLoader.tsx |
 | 40 | ✅ | 🕹️ Retro breadcrumbs | RetroBreadcrumb.tsx |
-| 41 | `[ ]` | 🕹️ Achievement toasts | AchievementToast.tsx + useAchievements.ts |
+| 41 | ✅ | 🕹️ Achievement toasts | AchievementToast.tsx + useAchievements.ts |
 | 42 | ✅ | 🕹️ Cart teller animatie | CartCounter.tsx |
 | 43 | ✅ | ✨ ProductCard 3D tilt | ProductCard.tsx |
 | 44 | ✅ | ✨ Add-to-cart confetti | ConfettiBurst.tsx |
@@ -785,8 +785,8 @@
 | 62 | `[ ]` | 🌙 CRT scanline effecten | CRTEffect.tsx + globals.css |
 | 63 | `[ ]` | 🌙 Retro neon grid | RetroGrid.tsx |
 | 64 | ✅ | 🔧 Performance & lazy load | page.tsx + layout.tsx |
-| 65 | `[ ]` | 🔧 Accessibility check | meerdere bestanden |
-| 66 | `[ ]` | 🔧 Settings paneel | SettingsPanel.tsx |
+| 65 | ✅ | 🔧 Accessibility check | meerdere bestanden |
+| 66 | ✅ | 🔧 Settings paneel | SettingsPanel.tsx |
 | 67 | ✅ | 🔧 Easter eggs | useEasterEggs.ts |
 
 ---

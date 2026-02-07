@@ -113,7 +113,7 @@ export default function Header() {
               </Link>
 
               {/* Cart */}
-              <Link href="/winkelwagen">
+              <Link href="/winkelwagen" aria-label="Winkelwagen">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
@@ -129,6 +129,8 @@ export default function Header() {
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={mobileOpen ? 'Menu sluiten' : 'Menu openen'}
+                aria-expanded={mobileOpen}
                 className="lg:hidden p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

@@ -7,6 +7,7 @@ import SmoothScroll from '@/components/layout/SmoothScroll';
 import PageTransition from '@/components/ui/PageTransition';
 import BackToTop from '@/components/ui/BackToTop';
 import FloatingActions from '@/components/ui/FloatingActions';
+import SettingsPanel from '@/components/ui/SettingsPanel';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
 
@@ -135,17 +136,19 @@ export default function RootLayout({
             }),
           }}
         />
+        <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
         <ScrollProgress />
         <SmoothScroll>
           <CartProvider>
             <ToastProvider>
               <Header />
-              <main className="min-h-screen">
+              <main id="main-content" className="min-h-screen">
                 <PageTransition>{children}</PageTransition>
               </main>
               <Footer />
               <BackToTop />
               <FloatingActions />
+              <SettingsPanel />
             </ToastProvider>
           </CartProvider>
         </SmoothScroll>
