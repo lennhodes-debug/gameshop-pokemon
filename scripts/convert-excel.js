@@ -118,6 +118,16 @@ const productsWithImages = allProducts.map(p => {
     imageCount++;
     return { ...p, image: `/images/products/${imgFile}` };
   }
+  // Try alternate slug with hyphens for special chars (e.g. Pokémon -> pok-mon)
+  const altSlug = p.slug.replace(/pokmon/g, 'pok-mon');
+  if (altSlug !== p.slug) {
+    const altFile = `${altSlug}.webp`;
+    const altPath = path.join(imagesDir, altFile);
+    if (fs.existsSync(altPath)) {
+      imageCount++;
+      return { ...p, image: `/images/products/${altFile}` };
+    }
+  }
   return { ...p, image: null };
 });
 

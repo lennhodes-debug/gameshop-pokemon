@@ -89,19 +89,19 @@ export default function AboutPreview() {
               Over ons
             </span>
             <h2 className="text-3xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-6">
-              Al sinds 2019 de{' '}
+              Al sinds 2018 de{' '}
               <span className="gradient-text">Nintendo specialist</span>
             </h2>
             <p className="text-lg text-slate-400 leading-relaxed mb-6">
-              Gameshop Enter is opgericht met een passie voor Nintendo. Wij
-              bieden uitsluitend originele games en consoles aan, persoonlijk
-              getest op werking.
+              Wat begon met het verkopen van kaarten op Marktplaats groeide uit
+              tot Gameshop Enter: dé Nintendo specialist van Nederland. Alle
+              games en consoles zijn 100% origineel en persoonlijk getest.
             </p>
             <p className="text-slate-500 leading-relaxed mb-8">
-              Met meer dan 3000 tevreden klanten, 1360+ reviews en een perfecte 5.0 score op
+              Met meer dan 3.000 tevreden klanten, 1.360+ reviews en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
-              Ons assortiment omvat alles van klassieke NES en Super Nintendo
-              titels tot de nieuwste Nintendo Switch games.
+              Van klassieke Game Boy en N64 titels tot de nieuwste Switch releases
+              — bij ons vind je het allemaal.
             </p>
             <Link href="/over-ons">
               <Button variant="outline" size="lg">

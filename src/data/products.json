@@ -2785,7 +2785,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/gb-004-pokmon-gold.webp"
   },
   {
     "sku": "GB-005",
@@ -2887,7 +2887,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/gb-010-zelda-links-awakening.webp"
   },
   {
     "sku": "GB-011",
