@@ -39,6 +39,42 @@ const PC_PLATFORM = {
   'Nintendo Switch': 'pal-nintendo-switch',
 };
 
+// NL→EN naam vertalingen voor PriceCharting
+const NAME_MAP = {
+  'Kirby en de Vergeten Wereld': 'Kirby and the Forgotten Land',
+  'Cars 3: Vol Gas voor de Winst': 'Cars 3 Driven to Win',
+  'Mario & Sonic op de Olympische Spelen': 'Mario & Sonic at the Olympic Games Tokyo 2020',
+  'Mario + Rabbids Kingdom Battle': 'Mario + Rabbids Kingdom Battle',
+  'Mario + Rabbids Sparks of Hope': 'Mario + Rabbids Sparks of Hope',
+  'Kirby\'s Fun Pak': 'Kirby Super Star',
+  'Kirby\'s Adventure Wii': 'Kirbys Return to Dream Land',
+  'Contra III': 'Super Probotector',
+  'Turtles in Time': 'Turtles IV Turtles in Time',
+  'Zelda: A Link to the Past': 'Legend of Zelda A Link to the Past',
+  'Zelda: Ocarina of Time': 'Legend of Zelda Ocarina of Time',
+  'Zelda: Skyward Sword': 'Legend of Zelda Skyward Sword',
+  'Zelda: Breath of the Wild': 'Legend of Zelda Breath of the Wild',
+  'Zelda: Tears of the Kingdom': 'Legend of Zelda Tears of the Kingdom',
+  'Zelda: The Wind Waker': 'Legend of Zelda Wind Waker',
+  'Zelda: Twilight Princess': 'Legend of Zelda Twilight Princess',
+  'Zelda: The Minish Cap': 'Legend of Zelda Minish Cap',
+  'Zelda: A Link Between Worlds': 'Legend of Zelda A Link Between Worlds',
+  'Zelda: Phantom Hourglass': 'Legend of Zelda Phantom Hourglass',
+  'Zelda: Spirit Tracks': 'Legend of Zelda Spirit Tracks',
+  'Zelda: Majora\'s Mask 3D': 'Legend of Zelda Majoras Mask 3D',
+  'Zelda: Ocarina of Time 3D': 'Legend of Zelda Ocarina of Time 3D',
+  'Zelda: Link\'s Awakening': 'Legend of Zelda Links Awakening',
+  'Zelda: A Link to the Past / Four Swords': 'Legend of Zelda A Link to the Past Four Swords',
+  'DK Country Returns': 'Donkey Kong Country Returns',
+  'DK Country Returns 3D': 'Donkey Kong Country Returns 3D',
+  'DK Country Tropical Freeze': 'Donkey Kong Country Tropical Freeze',
+  'Zelda': 'Legend of Zelda',
+  'Zelda II': 'Zelda II Adventure of Link',
+  'PokéPark Wii': 'PokePark Wii Pikachus Adventure',
+  'Harvest Moon: FoMT': 'Harvest Moon Friends of Mineral Town',
+  'Zelda: Wind Waker HD': 'Legend of Zelda Wind Waker HD',
+};
+
 // ===== HELPERS =====
 
 function slugify(name) {
@@ -52,9 +88,18 @@ function pcSlugify(name) {
   return name.toLowerCase()
     .replace(/[éèê]/g, 'e').replace(/[áàâ]/g, 'a').replace(/[íìî]/g, 'i')
     .replace(/[óòô]/g, 'o').replace(/[úùû]/g, 'u').replace(/[ñ]/g, 'n')
-    .replace(/[:.'!?&,]/g, '')
+    .replace(/[:.'!?&,()]/g, '')
     .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+function getEnglishName(name) {
+  // Exacte match
+  if (NAME_MAP[name]) return NAME_MAP[name];
+  // Zonder kleur suffix
+  const base = name.replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i, '');
+  if (NAME_MAP[base]) return NAME_MAP[base];
+  return base;
 }
 
 function filename(sku, name) {
@@ -75,39 +120,50 @@ function dl(url, timeout = 8) {
 
 // ===== PRICECHARTING =====
 
-function searchPriceCharting(product) {
-  const pcPlatform = PC_PLATFORM[product.platform];
-  if (!pcPlatform) return [];
-
-  // Bouw PriceCharting slug van game naam
-  const baseName = product.name
-    .replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i, '');
-  const pcSlug = pcSlugify(baseName);
-  const url = `https://www.pricecharting.com/game/${pcPlatform}/${pcSlug}`;
-
+function fetchPcPage(pcPlatform, slug) {
+  const url = `https://www.pricecharting.com/game/${pcPlatform}/${slug}`;
   try {
     const buf = execSync(
       `curl -sL -m 12 -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" "${url}"`,
       { maxBuffer: 5 * 1024 * 1024, timeout: 15000 }
     );
     const html = buf.toString('utf8');
-
-    // Check of pagina bestaat (niet redirect naar search)
-    if (html.includes('class="search-results"') || html.includes('No Products Found')) {
-      return [];
-    }
-
-    // Extract 1600.jpg image URLs (hoogste resolutie, twee hash formaten)
+    if (html.includes('class="search-results"') || html.includes('No Products Found')) return [];
     const re = /https:\/\/storage\.googleapis\.com\/images\.pricecharting\.com\/[^\s"'<>]+\/1600\.jpg/g;
     const urls = [];
     let m;
-    while ((m = re.exec(html)) !== null) {
-      if (!urls.includes(m[0])) urls.push(m[0]);
-    }
+    while ((m = re.exec(html)) !== null) { if (!urls.includes(m[0])) urls.push(m[0]); }
     return urls;
-  } catch {
-    return [];
+  } catch { return []; }
+}
+
+function searchPriceCharting(product) {
+  const pcPlatform = PC_PLATFORM[product.platform];
+  if (!pcPlatform) return [];
+
+  const englishName = getEnglishName(product.name);
+  const slug1 = pcSlugify(englishName);
+
+  // Poging 1: Engels/vertaalde naam
+  let urls = fetchPcPage(pcPlatform, slug1);
+  if (urls.length) return urls;
+
+  // Poging 2: Originele naam (als anders dan Engels)
+  const origSlug = pcSlugify(product.name.replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i, ''));
+  if (origSlug !== slug1) {
+    urls = fetchPcPage(pcPlatform, origSlug);
+    if (urls.length) return urls;
   }
+
+  // Poging 3: Zonder subtitel (alles na ":" of " - " weghalen)
+  const noSub = englishName.replace(/[:]\s*.+$/, '').replace(/\s+-\s+.+$/, '').trim();
+  const slug3 = pcSlugify(noSub);
+  if (slug3 !== slug1 && slug3 !== origSlug && slug3.length > 3) {
+    urls = fetchPcPage(pcPlatform, slug3);
+    if (urls.length) return urls;
+  }
+
+  return [];
 }
 
 // ===== GOOGLE FALLBACK =====
