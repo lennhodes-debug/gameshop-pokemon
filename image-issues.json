@@ -1,0 +1,110 @@
+[
+  {
+    "sku": "ACC-004",
+    "name": "Nintendo DSi / DSi XL Oplader",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Accessoire gebruikt console foto"
+  },
+  {
+    "sku": "ACC-005",
+    "name": "Nintendo DS Lite Oplader",
+    "image": "/images/products/con-010-nintendo-ds-lite.webp",
+    "issue": "Accessoire gebruikt console foto"
+  },
+  {
+    "sku": "ACC-006",
+    "name": "Game Boy Advance SP Oplader",
+    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "issue": "Accessoire gebruikt console foto"
+  },
+  {
+    "sku": "CON-016",
+    "name": "Nintendo DS Lite - Zwart",
+    "image": "/images/products/con-010-nintendo-ds-lite.webp",
+    "issue": "Deelt foto met CON-017, CON-018, ACC-005"
+  },
+  {
+    "sku": "CON-017",
+    "name": "Nintendo DS Lite - Wit",
+    "image": "/images/products/con-010-nintendo-ds-lite.webp",
+    "issue": "Deelt foto met CON-016, CON-018, ACC-005"
+  },
+  {
+    "sku": "CON-018",
+    "name": "Nintendo DS Lite - Grijs",
+    "image": "/images/products/con-010-nintendo-ds-lite.webp",
+    "issue": "Deelt foto met CON-016, CON-017, ACC-005"
+  },
+  {
+    "sku": "ACC-005",
+    "name": "Nintendo DS Lite Oplader",
+    "image": "/images/products/con-010-nintendo-ds-lite.webp",
+    "issue": "Deelt foto met CON-016, CON-017, CON-018"
+  },
+  {
+    "sku": "CON-019",
+    "name": "Nintendo DSi - Blauw",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Deelt foto met CON-020, CON-021, CON-022, CON-023, ACC-004"
+  },
+  {
+    "sku": "CON-020",
+    "name": "Nintendo DSi - Zwart",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Deelt foto met CON-019, CON-021, CON-022, CON-023, ACC-004"
+  },
+  {
+    "sku": "CON-021",
+    "name": "Nintendo DSi - Wit",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Deelt foto met CON-019, CON-020, CON-022, CON-023, ACC-004"
+  },
+  {
+    "sku": "CON-022",
+    "name": "Nintendo DSi XL - Geel",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Deelt foto met CON-019, CON-020, CON-021, CON-023, ACC-004"
+  },
+  {
+    "sku": "CON-023",
+    "name": "Nintendo DSi XL - Rood",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Deelt foto met CON-019, CON-020, CON-021, CON-022, ACC-004"
+  },
+  {
+    "sku": "ACC-004",
+    "name": "Nintendo DSi / DSi XL Oplader",
+    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "issue": "Deelt foto met CON-019, CON-020, CON-021, CON-022, CON-023"
+  },
+  {
+    "sku": "CON-024",
+    "name": "Game Boy Advance SP - Blauw",
+    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "issue": "Deelt foto met CON-025, CON-026, CON-027, ACC-006"
+  },
+  {
+    "sku": "CON-025",
+    "name": "Game Boy Advance SP - Roze",
+    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "issue": "Deelt foto met CON-024, CON-026, CON-027, ACC-006"
+  },
+  {
+    "sku": "CON-026",
+    "name": "Game Boy Advance SP - Grijs",
+    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "issue": "Deelt foto met CON-024, CON-025, CON-027, ACC-006"
+  },
+  {
+    "sku": "CON-027",
+    "name": "Game Boy Advance SP - Zwart",
+    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "issue": "Deelt foto met CON-024, CON-025, CON-026, ACC-006"
+  },
+  {
+    "sku": "ACC-006",
+    "name": "Game Boy Advance SP Oplader",
+    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "issue": "Deelt foto met CON-024, CON-025, CON-026, CON-027"
+  }
+]
