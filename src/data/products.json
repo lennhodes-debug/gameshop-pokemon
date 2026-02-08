@@ -414,7 +414,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-021-donkey-kong.webp",
     "inkoopPrijs": 18,
     "pcUsedPrice": 44.2,
     "inkoopFeatured": true
@@ -454,7 +454,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-023-doom-eternal.webp",
     "inkoopPrijs": 11,
     "pcUsedPrice": 27.62,
     "inkoopFeatured": true
@@ -553,7 +553,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-028-final-fantasy-x.webp",
     "inkoopPrijs": 11,
     "pcUsedPrice": 27.62,
     "inkoopFeatured": true
@@ -1553,7 +1553,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-078-pokemon-eevee.webp",
     "pcUsedPrice": 44.2,
     "inkoopPrijs": 18,
     "inkoopFeatured": true
@@ -1753,7 +1753,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-088-pokemon-pikachu.webp",
     "inkoopPrijs": 18,
     "pcUsedPrice": 44.2,
     "inkoopFeatured": true
@@ -1972,7 +1972,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-099-skyrim.webp",
     "inkoopPrijs": 13,
     "pcUsedPrice": 33.15,
     "inkoopFeatured": true
@@ -2331,7 +2331,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-117-witcher-3.webp",
     "inkoopPrijs": 13,
     "pcUsedPrice": 33.15,
     "inkoopFeatured": true
@@ -2511,7 +2511,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/sw-126-link's-awakening.webp",
     "inkoopPrijs": 13,
     "pcUsedPrice": 33.15,
     "inkoopFeatured": true
@@ -14981,7 +14981,7 @@
     "weight": 0.4,
     "isConsole": true,
     "isPremium": true,
-    "image": null,
+    "image": "/images/products/con-003-switch-lite-blue.webp",
     "pcUsedPrice": 187.85,
     "inkoopPrijs": 75,
     "inkoopFeatured": true
@@ -15001,7 +15001,7 @@
     "weight": 0.4,
     "isConsole": true,
     "isPremium": true,
-    "image": null,
+    "image": "/images/products/con-004-switch-lite-yellow.webp",
     "pcUsedPrice": 187.85,
     "inkoopPrijs": 75,
     "inkoopFeatured": true
