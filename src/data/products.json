@@ -7934,7 +7934,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/gb-006-pokmon-crystal.webp",
+    "image": "/images/products/gbc-001-pokemon-crystal.webp",
     "inkoopPrijs": 32,
     "pcUsedPrice": 80,
     "inkoopFeatured": true
@@ -7954,7 +7954,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-004-pokmon-gold.webp",
+    "image": "/images/products/gbc-002-pokemon-gold.webp",
     "inkoopPrijs": 16,
     "pcUsedPrice": 39.73,
     "inkoopFeatured": true
@@ -7974,7 +7974,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-007-pokmon-pinball.webp",
+    "image": "/images/products/gbc-003-pokemon-pinball.webp",
     "inkoopPrijs": 11,
     "pcUsedPrice": 28.38,
     "inkoopFeatured": true
@@ -7994,7 +7994,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-005-pokmon-silver.webp",
+    "image": "/images/products/gbc-004-pokemon-silver.webp",
     "inkoopPrijs": 16,
     "pcUsedPrice": 39.73,
     "inkoopFeatured": true
@@ -8014,7 +8014,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-020-pokmon-tcg.webp",
+    "image": "/images/products/gbc-005-pokemon-tcg.webp",
     "inkoopPrijs": 11,
     "pcUsedPrice": 28.38,
     "inkoopFeatured": true
