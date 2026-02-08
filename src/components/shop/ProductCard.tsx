@@ -26,8 +26,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [10, -10]), { stiffness: 300, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-10, 10]), { stiffness: 300, damping: 30 });
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [15, -15]), { stiffness: 400, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-15, 15]), { stiffness: 400, damping: 20 });
+  const scale = useSpring(useTransform(useMotionValue(isHovered ? 1 : 0), [0, 1], [1, 1.02]), { stiffness: 300, damping: 25 });
 
   // Holographic rainbow gradient that follows cursor
   const holoX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
@@ -85,10 +86,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         style={{
           rotateX: isHovered ? rotateX : 0,
           rotateY: isHovered ? rotateY : 0,
+          scale: isHovered ? 1.02 : 1,
           transformStyle: 'preserve-3d',
         }}
-        whileHover={{ y: -8, transition: { duration: 0.3, ease: 'easeOut' } }}
-        className="relative group bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden shadow-sm hover:shadow-[0_20px_60px_-15px_rgba(16,185,129,0.15)] hover:border-emerald-300/30 dark:hover:border-emerald-500/30 transition-all duration-500"
+        whileHover={{
+          y: -12,
+          transition: { duration: 0.4, ease: 'easeOut' }
+        }}
+        whileTap={{ scale: 0.98 }}
+        className="relative group bg-white dark:bg-slate-800/95 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden shadow-lg hover:shadow-[0_30px_80px_-15px_rgba(16,185,129,0.25)] hover:border-emerald-400/40 dark:hover:border-emerald-500/40 transition-all duration-500 backdrop-blur-sm"
       >
         {/* Holographic rainbow glow */}
         {isHovered && (
@@ -108,6 +114,18 @@ export default function ProductCard({ product }: ProductCardProps) {
             style={{ background: shineBackground }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+
+        {/* Premium glow aura */}
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 z-[5] pointer-events-none rounded-2xl bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/10 blur-2xl"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1.05 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
           />
         )}
 
@@ -131,10 +149,14 @@ export default function ProductCard({ product }: ProductCardProps) {
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="object-contain p-4 group-hover:scale-115 transition-transform duration-700 ease-out"
+                  priority={false}
                 />
                 {/* Diagonal shimmer sweep on hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-all duration-1000 ease-in-out" />
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/60 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full transition-all duration-1200 ease-in-out"
+                  animate={isHovered ? { x: 200, y: 200 } : { x: -200, y: -200 }}
+                />
               </>
             ) : (
               <>
@@ -198,13 +220,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             <motion.button
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.95 }}
               className={cn(
-                "relative h-9 px-4 rounded-xl text-white text-xs font-bold overflow-hidden transition-all duration-300",
+                "relative h-9 px-4 rounded-lg text-white text-xs font-bold overflow-hidden transition-all duration-300 uppercase tracking-wider",
                 addedToCart
-                  ? "bg-emerald-500 shadow-lg shadow-emerald-500/30"
-                  : "bg-gradient-to-r from-emerald-500 to-teal-500 shadow-md shadow-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/30"
+                  ? "bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/40"
+                  : "bg-gradient-to-r from-emerald-500 via-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/50 hover:from-emerald-400 hover:to-teal-400"
               )}
             >
               <AnimatePresence mode="wait">
