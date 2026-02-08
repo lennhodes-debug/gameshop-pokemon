@@ -228,11 +228,23 @@ async function processPendingImages() {
   }
 
   console.log(`\n📦 Found ${files.length} pending image(s) for processing\n`);
+  console.log('📊 Processing progress:');
 
   const results = [];
-  for (const file of files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const progress = `[${i + 1}/${files.length}]`;
+    console.log(`${progress} Processing...`);
+
     const result = await processImageFile(file);
     results.push(result);
+
+    // Add progress bar
+    const percentage = Math.round(((i + 1) / files.length) * 100);
+    const barLength = 20;
+    const filled = Math.round((percentage / 100) * barLength);
+    const bar = '█'.repeat(filled) + '░'.repeat(barLength - filled);
+    console.log(`    ${bar} ${percentage}%\n`);
   }
 
   return results;
@@ -244,12 +256,23 @@ async function processPendingImages() {
 function runBuild() {
   console.log('\n🔨 Running build validation...');
   try {
-    execSync('npm run build', {
+    const output = execSync('npm run build', {
       cwd: projectRoot,
       stdio: 'pipe',
-      timeout: 60000
+      timeout: 120000,
+      encoding: 'utf-8'
     });
-    console.log('✅ Build passed');
+
+    // Parse build output for warnings/errors
+    const warningMatch = output.match(/\nWarnings: (\d+)/);
+    const errorMatch = output.match(/\nErrors: (\d+)/);
+
+    if (warningMatch) {
+      const warnings = parseInt(warningMatch[1]);
+      console.log(`✅ Build passed (Warnings: ${warnings})`);
+    } else {
+      console.log('✅ Build passed');
+    }
     return true;
   } catch (err) {
     console.log('❌ Build failed:');
@@ -259,7 +282,7 @@ function runBuild() {
 }
 
 /**
- * Create git commit for processed images
+ * Create git commit for processed images (with retry logic)
  */
 function commitChanges(results) {
   const successCount = results.filter(r => r.success).length;
@@ -275,23 +298,55 @@ function commitChanges(results) {
       .map(r => `- ${r.sku}: ${r.productName}`)
       .join('\n');
 
-    const message = `Voeg ${successCount} premium PAL cover arts toe - auto-deployment
+    const timestamp = new Date().toISOString().split('T')[0];
+    const message = `Voeg ${successCount} premium PAL cover arts toe - auto-deployment (${timestamp})
 
 Automatisch geconverteerde en gevalideerde covers:
 
 ${imageList}
 
-Status: Build PASSING, images deployed
+Details:
+- Validatie: Alle afbeeldingen gecontroleerd (grootte, formaat, dimensies)
+- Conversie: WebP 500x500px quality 85
+- Deployment: Automatisch naar public/images/products/
+- Build: PASSING, productdb updated
+
+Status: Gereed voor deployment
 https://claude.ai/code/session_01CFY8GCddCymxHWJfaY7RyM`;
 
+    console.log('\n📝 Staging files...');
     execSync('git add public/images/products/ src/data/products.json', { cwd: projectRoot });
-    execSync(`git commit -m "${message.replace(/"/g, '\\"')}"`, { cwd: projectRoot });
-    execSync('git push -u origin claude/fix-cover-art-gTLvb', { cwd: projectRoot });
 
-    console.log(`✅ Committed and pushed ${successCount} image(s)`);
+    console.log('📤 Creating commit...');
+    execSync(`git commit -m "${message.replace(/"/g, '\\"')}"`, { cwd: projectRoot });
+
+    console.log('🚀 Pushing to remote...');
+    // Retry logic for push
+    let pushSuccess = false;
+    let retries = 0;
+    const maxRetries = 3;
+
+    while (!pushSuccess && retries < maxRetries) {
+      try {
+        execSync('git push -u origin claude/fix-cover-art-gTLvb', { cwd: projectRoot, timeout: 30000 });
+        pushSuccess = true;
+      } catch (err) {
+        retries++;
+        if (retries < maxRetries) {
+          console.log(`   ⏳ Push failed, retry ${retries}/${maxRetries}...`);
+          execSync(`sleep ${Math.pow(2, retries)}`);
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    console.log(`✅ Committed and pushed ${successCount} image(s) successfully`);
     return true;
   } catch (err) {
-    console.log(`❌ Git error: ${err.message}`);
+    console.log(`❌ Git operation failed: ${err.message}`);
+    console.log('⚠️  Images are deployed locally but not pushed to remote');
+    console.log('💡 Tip: Run "git push origin claude/fix-cover-art-gTLvb" manually');
     return false;
   }
 }
@@ -335,18 +390,30 @@ function logStatus(results) {
  */
 async function main() {
   try {
+    const startTime = Date.now();
     const results = await processPendingImages();
 
     if (results.length > 0) {
       const successCount = results.filter(r => r.success).length;
+      const failureCount = results.filter(r => !r.success).length;
+
+      if (failureCount > 0) {
+        console.log(`\n⚠️  ${failureCount} image(s) failed validation`);
+      }
 
       if (successCount > 0) {
+        console.log(`\n🔄 Validating build with ${successCount} new image(s)...`);
         const buildPassed = runBuild();
 
         if (buildPassed) {
-          commitChanges(results);
+          const gitSuccess = commitChanges(results);
+          if (!gitSuccess) {
+            console.log('\n⚠️  ️ Images deployed but git operations failed');
+            console.log('   Manual push required: git push origin claude/fix-cover-art-gTLvb');
+          }
         } else {
           console.log('⚠️  Build failed - not committing');
+          console.log('💡 Check for errors above and retry after fixing');
         }
       }
     }
@@ -355,7 +422,15 @@ async function main() {
 
     const products = loadProducts();
     const pending = products.filter(p => !p.image).length;
-    console.log(`\n${pending} products still awaiting cover art`);
+    const completed = products.filter(p => p.image).length;
+    const coverage = ((completed / products.length) * 100).toFixed(1);
+
+    console.log(`\n📊 Current Coverage:`);
+    console.log(`   ✅ With images: ${completed}/${products.length} (${coverage}%)`);
+    console.log(`   ⏳ Awaiting covers: ${pending}`);
+
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+    console.log(`\n⏱️  Processing time: ${elapsed}s`);
 
   } catch (err) {
     console.error('❌ Fatal error:', err.message);
@@ -365,8 +440,8 @@ async function main() {
 
 // Run on execution
 main().then(() => {
-  console.log('\n✨ Auto-deploy system ready for next images\n');
+  console.log('\n✨ Auto-deploy system ready for next batch\n');
 }).catch(err => {
-  console.error('Error:', err);
+  console.error('Fatal error:', err);
   process.exit(1);
 });
