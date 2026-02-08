@@ -3,6 +3,7 @@ import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import SectionDivider from '@/components/ui/SectionDivider';
+import GamingEraTimeline from '@/components/home/GamingEraTimeline';
 
 // Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
@@ -19,6 +20,8 @@ export default function HomePage() {
       <TrustStrip />
       <SectionDivider />
       <FeaturedProducts />
+      <SectionDivider />
+      <GamingEraTimeline />
       <SectionDivider />
       <GameMarquee />
       <SectionDivider />
