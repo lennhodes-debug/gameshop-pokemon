@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 /**
  * Cover Art Manager — Gameshop Enter
+ * Primaire bron: PriceCharting PAL covers
+ * Fallback: Google Image Search
  *
  * Gebruik:
  *   node scripts/download-cover.js --check              # Toon ontbrekende/kapotte covers
- *   node scripts/download-cover.js --fix                 # Download alle ontbrekende covers automatisch
+ *   node scripts/download-cover.js --fix                 # Download alle ontbrekende covers
  *   node scripts/download-cover.js --fix SW-164          # Download cover voor 1 product
  *   node scripts/download-cover.js --verify SW-001       # Verifieer 1 cover
  *   node scripts/download-cover.js --batch CON-019 CON-020  # Download meerdere
@@ -19,19 +21,23 @@ const sharp = require('sharp');
 
 const PRODUCTS_DIR = path.join(__dirname, '..', 'public', 'images', 'products');
 const PRODUCTS_JSON = path.join(__dirname, '..', 'src', 'data', 'products.json');
-const CONCURRENCY = 5;
+const CONCURRENCY = 3;
 
-const BLOCKED = new Set([
-  'google.com', 'gstatic.com', 'googleapis.com', 'googleusercontent.com',
-  'bing.com', 'facebook.com', 'twitter.com', 'pinterest.com',
-  'reddit.com', 'youtube.com', 'tiktok.com', 'aliexpress.com',
-  'amazon.co.jp', 'amazon.com', 'play-asia.com', 'suruga-ya.com',
-  'mercari.com', 'rakuten.co.jp', 'yahoo.co.jp'
-]);
-
-const PRIORITY = ['amazon.de', 'amazon.nl', 'bol.com', 'nintendo.nl', 'nintendo.de',
-  'amazon.co.uk', 'ebayimg', 'mobygames', 'coverproject', 'gamefaqs',
-  'nintendo', 'igdb', 'rawg', 'giantbomb', 'wikimedia'];
+// PriceCharting PAL platform slugs
+const PC_PLATFORM = {
+  'NES': 'pal-nes',
+  'Super Nintendo': 'pal-super-nintendo',
+  'Nintendo 64': 'pal-nintendo-64',
+  'Game Boy': 'pal-gameboy',
+  'Game Boy Color': 'pal-gameboy-color',
+  'Game Boy Advance': 'pal-gameboy-advance',
+  'GameCube': 'pal-gamecube',
+  'Nintendo DS': 'pal-nintendo-ds',
+  'Nintendo 3DS': 'pal-nintendo-3ds',
+  'Wii': 'pal-wii',
+  'Wii U': 'pal-wii-u',
+  'Nintendo Switch': 'pal-nintendo-switch',
+};
 
 // ===== HELPERS =====
 
@@ -42,24 +48,23 @@ function slugify(name) {
     .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 60);
 }
 
+function pcSlugify(name) {
+  return name.toLowerCase()
+    .replace(/[éèê]/g, 'e').replace(/[áàâ]/g, 'a').replace(/[íìî]/g, 'i')
+    .replace(/[óòô]/g, 'o').replace(/[úùû]/g, 'u').replace(/[ñ]/g, 'n')
+    .replace(/[:.'!?&,]/g, '')
+    .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function filename(sku, name) {
   return `${sku.toLowerCase()}-${slugify(name)}.webp`;
-}
-
-function isBlocked(url) {
-  for (const d of BLOCKED) if (url.includes(d)) return true;
-  return false;
-}
-
-function getPriority(url) {
-  for (let i = 0; i < PRIORITY.length; i++) if (url.includes(PRIORITY[i])) return i;
-  return PRIORITY.length;
 }
 
 function dl(url, timeout = 8) {
   try {
     const buf = execSync(
-      `curl -sL -m ${timeout} -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Accept: image/*" "${url}"`,
+      `curl -sL -m ${timeout} -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" "${url}"`,
       { maxBuffer: 20 * 1024 * 1024, timeout: (timeout + 2) * 1000 }
     );
     return buf;
@@ -68,7 +73,57 @@ function dl(url, timeout = 8) {
   }
 }
 
+// ===== PRICECHARTING =====
+
+function searchPriceCharting(product) {
+  const pcPlatform = PC_PLATFORM[product.platform];
+  if (!pcPlatform) return [];
+
+  // Bouw PriceCharting slug van game naam
+  const baseName = product.name
+    .replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i, '');
+  const pcSlug = pcSlugify(baseName);
+  const url = `https://www.pricecharting.com/game/${pcPlatform}/${pcSlug}`;
+
+  try {
+    const buf = execSync(
+      `curl -sL -m 12 -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" "${url}"`,
+      { maxBuffer: 5 * 1024 * 1024, timeout: 15000 }
+    );
+    const html = buf.toString('utf8');
+
+    // Check of pagina bestaat (niet redirect naar search)
+    if (html.includes('class="search-results"') || html.includes('No Products Found')) {
+      return [];
+    }
+
+    // Extract 1600.jpg image URLs (hoogste resolutie, twee hash formaten)
+    const re = /https:\/\/storage\.googleapis\.com\/images\.pricecharting\.com\/[^\s"'<>]+\/1600\.jpg/g;
+    const urls = [];
+    let m;
+    while ((m = re.exec(html)) !== null) {
+      if (!urls.includes(m[0])) urls.push(m[0]);
+    }
+    return urls;
+  } catch {
+    return [];
+  }
+}
+
+// ===== GOOGLE FALLBACK =====
+
 function searchGoogle(query) {
+  const BLOCKED = new Set([
+    'google.com', 'gstatic.com', 'googleapis.com', 'googleusercontent.com',
+    'bing.com', 'facebook.com', 'twitter.com', 'pinterest.com',
+    'reddit.com', 'youtube.com', 'tiktok.com', 'aliexpress.com',
+    'amazon.co.jp', 'amazon.com', 'play-asia.com', 'suruga-ya.com',
+    'mercari.com', 'rakuten.co.jp', 'yahoo.co.jp'
+  ]);
+  const PRIORITY = ['amazon.de', 'amazon.nl', 'bol.com', 'nintendo.nl',
+    'amazon.co.uk', 'ebayimg', 'mobygames', 'coverproject', 'gamefaqs',
+    'nintendo', 'igdb', 'rawg', 'giantbomb', 'wikimedia'];
+
   const url = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch&tbs=isz:m`;
   try {
     const buf = execSync(
@@ -81,14 +136,27 @@ function searchGoogle(query) {
     let m;
     while ((m = re.exec(html)) !== null) {
       const u = m[0];
-      if (!isBlocked(u) && !urls.includes(u)) urls.push(u);
+      let blocked = false;
+      for (const d of BLOCKED) if (u.includes(d)) { blocked = true; break; }
+      if (!blocked && !urls.includes(u)) urls.push(u);
     }
-    urls.sort((a, b) => getPriority(a) - getPriority(b));
+    urls.sort((a, b) => {
+      let pa = PRIORITY.length, pb = PRIORITY.length;
+      for (let i = 0; i < PRIORITY.length; i++) {
+        if (a.includes(PRIORITY[i])) { pa = i; break; }
+      }
+      for (let i = 0; i < PRIORITY.length; i++) {
+        if (b.includes(PRIORITY[i])) { pb = i; break; }
+      }
+      return pa - pb;
+    });
     return urls;
   } catch {
     return [];
   }
 }
+
+// ===== IMAGE DOWNLOAD & PROCESSING =====
 
 async function tryDownloadImage(urls) {
   for (const url of urls.slice(0, 15)) {
@@ -142,7 +210,7 @@ function findProblems(products) {
 
 // ===== DOWNLOAD LOGICA =====
 
-function buildQuery(product) {
+function buildGoogleQuery(product) {
   const name = product.name.replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i, '');
   const color = product.name.match(/-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i)?.[1] || '';
 
@@ -157,27 +225,47 @@ function buildQuery(product) {
 }
 
 async function downloadCover(product) {
-  const query = buildQuery(product);
-  const urls = searchGoogle(query);
-  if (!urls.length) return { sku: product.sku, ok: false, reason: 'geen URLs gevonden' };
-
-  const buf = await tryDownloadImage(urls);
-  if (!buf) return { sku: product.sku, ok: false, reason: 'geen geldige afbeelding' };
-
   const fn = filename(product.sku, product.name);
   const outPath = path.join(PRODUCTS_DIR, fn);
-  try {
-    const size = await processImage(buf, outPath);
-    return { sku: product.sku, ok: true, file: fn, size, path: `/images/products/${fn}` };
-  } catch (e) {
-    return { sku: product.sku, ok: false, reason: e.message };
+
+  // Stap 1: Probeer PriceCharting (beste bron voor PAL covers)
+  if (!product.isConsole && !product.sku.startsWith('ACC-')) {
+    const pcUrls = searchPriceCharting(product);
+    if (pcUrls.length) {
+      // Eerste image = voorkant box art
+      const buf = await tryDownloadImage(pcUrls.slice(0, 3));
+      if (buf) {
+        try {
+          const size = await processImage(buf, outPath);
+          return { sku: product.sku, ok: true, file: fn, size, path: `/images/products/${fn}`, source: 'pricecharting' };
+        } catch {}
+      }
+    }
   }
+
+  // Stap 2: Fallback naar Google Image Search
+  const query = buildGoogleQuery(product);
+  const googleUrls = searchGoogle(query);
+  if (googleUrls.length) {
+    const buf = await tryDownloadImage(googleUrls);
+    if (buf) {
+      try {
+        const size = await processImage(buf, outPath);
+        return { sku: product.sku, ok: true, file: fn, size, path: `/images/products/${fn}`, source: 'google' };
+      } catch (e) {
+        return { sku: product.sku, ok: false, reason: e.message };
+      }
+    }
+  }
+
+  return { sku: product.sku, ok: false, reason: 'geen geldige afbeelding (PC+Google)' };
 }
 
 // Parallel batch met concurrency limiet
 async function batchDownload(products, concurrency = CONCURRENCY) {
   const results = [];
   let idx = 0;
+  let pcCount = 0, googleCount = 0;
 
   async function worker() {
     while (idx < products.length) {
@@ -186,7 +274,9 @@ async function batchDownload(products, concurrency = CONCURRENCY) {
       process.stdout.write(`[${i + 1}/${products.length}] ${p.sku} "${p.name}"...`);
       const result = await downloadCover(p);
       if (result.ok) {
-        console.log(` OK (${(result.size / 1024).toFixed(1)}KB)`);
+        if (result.source === 'pricecharting') pcCount++;
+        else googleCount++;
+        console.log(` OK (${(result.size / 1024).toFixed(1)}KB) [${result.source}]`);
       } else {
         console.log(` MISLUKT: ${result.reason}`);
       }
@@ -195,6 +285,7 @@ async function batchDownload(products, concurrency = CONCURRENCY) {
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, products.length) }, () => worker()));
+  console.log(`\nBronnen: PriceCharting ${pcCount}, Google ${googleCount}`);
   return results;
 }
 
@@ -292,7 +383,7 @@ async function main() {
 
     if (ok.length) {
       const updated = updateProductsJson(results);
-      console.log(`\n${ok.length} gedownload, ${updated} producten bijgewerkt in products.json`);
+      console.log(`${ok.length} gedownload, ${updated} producten bijgewerkt in products.json`);
     }
     if (fail.length) {
       console.log(`${fail.length} mislukt:`);
@@ -324,7 +415,7 @@ async function main() {
 
     if (ok.length) {
       const updated = updateProductsJson(results);
-      console.log(`\n${ok.length} gedownload, ${updated} producten bijgewerkt in products.json`);
+      console.log(`${ok.length} gedownload, ${updated} producten bijgewerkt in products.json`);
     }
     if (fail.length) {
       console.log(`${fail.length} mislukt:`);
@@ -345,15 +436,14 @@ async function main() {
     return;
   }
 
-  // Enkele SKU met naam
-  if (args.length >= 1 && /^[A-Z]+-\d+$/.test(args[0])) {
+  if (args.length >= 1 && /^[A-Z0-9]+-\d+$/.test(args[0])) {
     const products = loadProducts();
     const p = products.find(x => x.sku === args[0]);
     if (!p) { console.log(`${args[0]} niet gevonden`); return; }
     const result = await downloadCover(p);
     if (result.ok) {
       updateProductsJson([result]);
-      console.log(`OK: ${result.file} (${(result.size/1024).toFixed(1)}KB)`);
+      console.log(`OK: ${result.file} (${(result.size/1024).toFixed(1)}KB) [${result.source}]`);
     } else {
       console.log(`Mislukt: ${result.reason}`);
     }
@@ -361,15 +451,16 @@ async function main() {
   }
 
   console.log(`Cover Art Manager — Gameshop Enter
+  Primaire bron: PriceCharting PAL | Fallback: Google Images
 
 Gebruik:
   --check              Toon ontbrekende/kapotte covers
-  --fix                Download alle ontbrekende covers (parallel)
+  --fix                Download alle ontbrekende covers
   --fix SKU            Download cover voor 1 product
   --batch SKU1 SKU2    Download meerdere covers
   --verify SKU         Verifieer 1 cover
-  --redownload         Herdownload ALLE game covers
-  --redownload nes     Herdownload per platform (nes/snes/n64/gb/gba/gc/ds/3ds/wii/wiiu/switch)
+  --redownload         Herdownload ALLE game covers (PriceCharting + Google)
+  --redownload nes     Herdownload per platform
   SKU                  Download cover voor 1 product`);
 }
 
