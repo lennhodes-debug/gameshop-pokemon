@@ -244,7 +244,17 @@ function ShopContent() {
 
         {/* Products */}
         <div className="mt-8">
-          <ProductGrid products={paginatedProducts} />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${page}-${platform}-${genre}-${condition}-${category}-${completeness}-${sortBy}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
+            >
+              <ProductGrid products={paginatedProducts} />
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Pagination */}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
@@ -22,6 +23,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [confetti, setConfetti] = useState<{ x: number; y: number } | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [flyData, setFlyData] = useState<{ from: DOMRect; to: DOMRect; image: string } | null>(null);
 
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -72,8 +75,17 @@ export default function ProductCard({ product }: ProductCardProps) {
     addItem(product);
     setAddedToCart(true);
     setConfetti({ x: e.clientX, y: e.clientY });
-    addToast(`${product.name} toegevoegd aan winkelwagen`);
+    addToast(`${product.name} toegevoegd aan winkelwagen`, 'success', undefined, product.image || undefined);
     setTimeout(() => setAddedToCart(false), 1500);
+
+    // Fly animation: product image → cart icon
+    const imgEl = cardRef.current?.querySelector('img');
+    const cartEl = document.querySelector('[aria-label="Winkelwagen"]');
+    if (imgEl && cartEl && product.image) {
+      const from = imgEl.getBoundingClientRect();
+      const to = cartEl.getBoundingClientRect();
+      setFlyData({ from, to, image: product.image });
+    }
   };
 
   return (
@@ -144,13 +156,19 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className={`relative h-52 ${product.image ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
             {product.image ? (
               <>
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-slate-100 dark:bg-slate-800">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                  </div>
+                )}
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-contain p-4 group-hover:scale-115 transition-transform duration-700 ease-out"
+                  className={cn("object-contain p-4 group-hover:scale-115 transition-all duration-700 ease-out", imageLoaded ? "opacity-100" : "opacity-0")}
                   priority={false}
+                  onLoad={() => setImageLoaded(true)}
                 />
                 {/* Diagonal shimmer sweep on hover */}
                 <motion.div
@@ -226,7 +244,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 "relative h-9 px-4 rounded-lg text-white text-xs font-bold overflow-hidden transition-all duration-300 uppercase tracking-wider",
                 addedToCart
                   ? "bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/40"
-                  : "bg-gradient-to-r from-emerald-500 via-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/50 hover:from-emerald-400 hover:to-teal-400"
+                  : "bg-gradient-to-r from-emerald-500 via-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/50 hover:from-emerald-400 hover:to-teal-400 animate-cta-attention"
               )}
             >
               <AnimatePresence mode="wait">
@@ -260,6 +278,32 @@ export default function ProductCard({ product }: ProductCardProps) {
       </motion.div>
       {confetti && (
         <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />
+      )}
+      {flyData && typeof document !== 'undefined' && createPortal(
+        <motion.div
+          className="fixed z-[200] pointer-events-none rounded-xl overflow-hidden shadow-2xl shadow-emerald-500/30"
+          initial={{
+            left: flyData.from.left,
+            top: flyData.from.top,
+            width: flyData.from.width,
+            height: flyData.from.height,
+            opacity: 1,
+            borderRadius: 12,
+          }}
+          animate={{
+            left: flyData.to.left + flyData.to.width / 2 - 16,
+            top: flyData.to.top + flyData.to.height / 2 - 16,
+            width: 32,
+            height: 32,
+            opacity: 0,
+            borderRadius: 16,
+          }}
+          transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
+          onAnimationComplete={() => setFlyData(null)}
+        >
+          <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white" />
+        </motion.div>,
+        document.body
       )}
     </div>
   );

@@ -8,29 +8,6 @@ interface ProductGridProps {
   products: Product[];
 }
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.04,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  },
-};
-
 export default function ProductGrid({ products }: ProductGridProps) {
   if (products.length === 0) {
     return (
@@ -55,18 +32,22 @@ export default function ProductGrid({ products }: ProductGridProps) {
   }
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      key={products.map(p => p.sku).join(',')}
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-    >
-      {products.map((product) => (
-        <motion.div key={product.sku} variants={itemVariants} layout>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {products.map((product, index) => (
+        <motion.div
+          key={product.sku}
+          initial={{ opacity: 0, y: 30, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{
+            duration: 0.5,
+            delay: (index % 4) * 0.06,
+            ease: [0.16, 1, 0.3, 1] as const,
+          }}
+        >
           <ProductCard product={product} />
         </motion.div>
       ))}
-    </motion.div>
+    </div>
   );
 }

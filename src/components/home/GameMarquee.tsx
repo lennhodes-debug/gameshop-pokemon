@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useVelocity, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,6 +20,13 @@ export default function GameMarquee() {
 
   const x1 = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
   const x2 = useTransform(scrollYProgress, [0, 1], ['-8%', '0%']);
+
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const skewX = useSpring(
+    useTransform(scrollVelocity, [-2000, 0, 2000], [2, 0, -2]),
+    { stiffness: 100, damping: 30 }
+  );
 
   return (
     <section ref={sectionRef} className="relative bg-white dark:bg-slate-900 py-12 lg:py-16 overflow-hidden">
@@ -47,7 +54,7 @@ export default function GameMarquee() {
 
       <div className="space-y-5">
         {/* Row 1 - scrolling left */}
-        <motion.div className="relative overflow-hidden" style={{ x: x1 }}>
+        <motion.div className="relative overflow-hidden" style={{ x: x1, skewX }}>
           <div className="flex animate-marquee whitespace-nowrap gap-4">
             {[...row1, ...row1].map((product, i) => (
               <Link
@@ -82,7 +89,7 @@ export default function GameMarquee() {
         </motion.div>
 
         {/* Row 2 - scrolling right */}
-        <motion.div className="relative overflow-hidden" style={{ x: x2 }}>
+        <motion.div className="relative overflow-hidden" style={{ x: x2, skewX }}>
           <div className="flex animate-marquee-reverse whitespace-nowrap gap-4">
             {[...row2, ...row2].map((product, i) => (
               <Link

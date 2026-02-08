@@ -291,6 +291,17 @@ html.dark::-webkit-scrollbar-thumb:hover {
   to { stroke-dashoffset: 0; }
 }
 
+@keyframes badge-in {
+  0% { opacity: 0; transform: scale(0.7) translateY(4px); }
+  60% { transform: scale(1.05) translateY(-1px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes cta-attention {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.15); }
+}
+
 .animate-marquee {
   animation: marquee 40s linear infinite;
 }
@@ -378,6 +389,15 @@ html.dark::-webkit-scrollbar-thumb:hover {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation: draw-line 1.5s ease-out forwards;
+}
+
+.animate-badge-in {
+  animation: badge-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-cta-attention {
+  animation: cta-attention 2.5s ease-in-out infinite;
+  animation-delay: 3s;
 }
 
 /* Stagger children */

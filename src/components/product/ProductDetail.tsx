@@ -1,6 +1,7 @@
 'use client';
 
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence, useInView } from 'framer-motion';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/lib/products';
@@ -8,7 +9,33 @@ import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD 
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+
+function AnimatedPrice({ price }: { price: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [displayPrice, setDisplayPrice] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayPrice(eased * price);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, [isInView, price]);
+
+  return (
+    <span ref={ref} className="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums">
+      {formatPrice(displayPrice)}
+    </span>
+  );
+}
 
 interface ProductDetailProps {
   product: Product;
@@ -30,6 +57,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 200, damping: 25 });
   const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 200, damping: 25 });
   const [imageHovered, setImageHovered] = useState(false);
+  const [flyData, setFlyData] = useState<{ from: DOMRect; to: DOMRect; image: string } | null>(null);
 
   // Spotlight effect
   const spotlightX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
@@ -56,8 +84,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const handleAdd = () => {
     addItem(product);
     setAdded(true);
-    addToast(`${product.name} toegevoegd aan winkelwagen`);
+    addToast(`${product.name} toegevoegd aan winkelwagen`, 'success', undefined, product.image || undefined);
     setTimeout(() => setAdded(false), 2000);
+
+    const imgEl = imageRef.current?.querySelector('img');
+    const cartEl = document.querySelector('[aria-label="Winkelwagen"]');
+    if (imgEl && cartEl && product.image) {
+      const from = imgEl.getBoundingClientRect();
+      const to = cartEl.getBoundingClientRect();
+      setFlyData({ from, to, image: product.image });
+    }
   };
 
   const specs = [
@@ -116,6 +152,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className={`aspect-square rounded-3xl ${product.image ? 'bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50`}>
             {product.image ? (
               <>
+                {!imageLoaded && (
+                  <div className="absolute inset-0 rounded-3xl bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-200/50 dark:via-slate-700/50 to-transparent animate-shimmer" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-slate-300 dark:text-slate-600 text-4xl font-black animate-pulse">{platformLabel}</span>
+                    </div>
+                  </div>
+                )}
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -236,9 +280,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             transition={{ delay: 0.4 }}
             className="flex items-baseline gap-3 mb-8"
           >
-            <span className="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              {formatPrice(product.price)}
-            </span>
+            <AnimatedPrice price={product.price} />
             {freeShipping && (
               <motion.span
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -287,7 +329,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               className={`relative w-full sm:w-auto px-8 py-4 rounded-2xl text-white text-base font-bold overflow-hidden transition-all duration-300 ${
                 added
                   ? 'bg-emerald-500 shadow-xl shadow-emerald-500/30'
-                  : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35'
+                  : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 animate-cta-attention'
               }`}
             >
               <AnimatePresence mode="wait">
@@ -408,6 +450,30 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </div>
       </motion.div>
 
+      {flyData && typeof document !== 'undefined' && createPortal(
+        <motion.div
+          className="fixed z-[200] pointer-events-none rounded-xl overflow-hidden shadow-2xl shadow-emerald-500/30"
+          initial={{
+            left: flyData.from.left,
+            top: flyData.from.top,
+            width: flyData.from.width,
+            height: flyData.from.height,
+            opacity: 1,
+          }}
+          animate={{
+            left: flyData.to.left + flyData.to.width / 2 - 16,
+            top: flyData.to.top + flyData.to.height / 2 - 16,
+            width: 32,
+            height: 32,
+            opacity: 0,
+          }}
+          transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
+          onAnimationComplete={() => setFlyData(null)}
+        >
+          <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white" />
+        </motion.div>,
+        document.body
+      )}
     </div>
   );
 }

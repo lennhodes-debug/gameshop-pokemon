@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { getFeaturedProducts } from '@/lib/products';
@@ -12,7 +12,15 @@ import Button from '@/components/ui/Button';
 export default function FeaturedProducts() {
   const products = getFeaturedProducts();
   const containerRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const [carouselWidth, setCarouselWidth] = useState(0);
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      setCarouselWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
+    }
+  }, [products]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -91,7 +99,24 @@ export default function FeaturedProducts() {
           </MagneticButton>
         </motion.div>
 
-        <div ref={containerRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Mobile: draggable carousel */}
+        <motion.div
+          ref={carouselRef}
+          className="flex gap-4 sm:hidden cursor-grab active:cursor-grabbing overflow-hidden"
+          drag="x"
+          dragConstraints={{ right: 0, left: -carouselWidth }}
+          dragElastic={0.1}
+          dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
+        >
+          {products.map((product) => (
+            <motion.div key={product.sku} className="min-w-[280px] flex-shrink-0">
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Desktop: grid */}
+        <div ref={containerRef} className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product, index) => (
             <motion.div
               key={product.sku}

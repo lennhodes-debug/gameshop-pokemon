@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Product } from '@/lib/products';
 import ProductCard from '@/components/shop/ProductCard';
@@ -9,6 +10,15 @@ interface RelatedProductsProps {
 }
 
 export default function RelatedProducts({ products }: RelatedProductsProps) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [carouselWidth, setCarouselWidth] = useState(0);
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      setCarouselWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
+    }
+  }, [products]);
+
   if (products.length === 0) return null;
 
   return (
@@ -21,7 +31,25 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
       >
         Gerelateerde producten
       </motion.h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      {/* Mobile: draggable carousel */}
+      <motion.div
+        ref={carouselRef}
+        className="flex gap-4 sm:hidden cursor-grab active:cursor-grabbing overflow-hidden"
+        drag="x"
+        dragConstraints={{ right: 0, left: -carouselWidth }}
+        dragElastic={0.1}
+        dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
+      >
+        {products.map((product) => (
+          <motion.div key={product.sku} className="min-w-[260px] flex-shrink-0">
+            <ProductCard product={product} />
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Desktop: grid */}
+      <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product, index) => (
           <motion.div
             key={product.sku}
