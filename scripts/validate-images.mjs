@@ -93,13 +93,13 @@ Object.entries(imagesByPrefix).forEach(([prefix, files]) => {
 products.forEach((product, idx) => {
   let hasError = false;
 
-  // Rule 1: Image must exist
+  // Rule 1: Image must exist (or null is OK - just a warning)
   if (!product.image) {
-    errors.push(
-      `${product.sku}: Missing image reference. Name: "${product.name}"`
+    warnings.push(
+      `⚠️  ${product.sku}: Geen afbeelding (nog in bewerking). Name: "${product.name}"`
     );
     stats.missingImage++;
-    hasError = true;
+    // hasError = false -> niet als error, alleen warning
   }
 
   if (!hasError && product.image) {
