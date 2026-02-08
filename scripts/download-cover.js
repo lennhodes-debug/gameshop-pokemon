@@ -8,10 +8,11 @@
  *   node scripts/download-cover.js --fix SW-164          # Download cover voor 1 product
  *   node scripts/download-cover.js --verify SW-001       # Verifieer 1 cover
  *   node scripts/download-cover.js --batch CON-019 CON-020  # Download meerdere
+ *   node scripts/download-cover.js --redownload          # Herdownload ALLE game covers
+ *   node scripts/download-cover.js --redownload nes      # Herdownload per platform
  */
 
-const https = require('https');
-const http = require('http');
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
@@ -23,11 +24,14 @@ const CONCURRENCY = 5;
 const BLOCKED = new Set([
   'google.com', 'gstatic.com', 'googleapis.com', 'googleusercontent.com',
   'bing.com', 'facebook.com', 'twitter.com', 'pinterest.com',
-  'reddit.com', 'youtube.com', 'tiktok.com', 'aliexpress.com'
+  'reddit.com', 'youtube.com', 'tiktok.com', 'aliexpress.com',
+  'amazon.co.jp', 'amazon.com', 'play-asia.com', 'suruga-ya.com',
+  'mercari.com', 'rakuten.co.jp', 'yahoo.co.jp'
 ]);
 
-const PRIORITY = ['amazon', 'ebayimg', 'nintendo', 'mobygames', 'coverproject',
-  'gamefaqs', 'igdb', 'rawg', 'giantbomb', 'wikimedia'];
+const PRIORITY = ['amazon.de', 'amazon.nl', 'bol.com', 'nintendo.nl', 'nintendo.de',
+  'amazon.co.uk', 'ebayimg', 'mobygames', 'coverproject', 'gamefaqs',
+  'nintendo', 'igdb', 'rawg', 'giantbomb', 'wikimedia'];
 
 // ===== HELPERS =====
 
@@ -52,32 +56,25 @@ function getPriority(url) {
   return PRIORITY.length;
 }
 
-function dl(url, timeout = 8000) {
-  return new Promise((resolve, reject) => {
-    const proto = url.startsWith('https') ? https : http;
-    const req = proto.get(url, {
-      headers: { 'User-Agent': 'GameshopEnter/1.0 (gameshopenter@gmail.com)', Accept: 'image/*' },
-      timeout,
-    }, res => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        dl(res.headers.location, timeout).then(resolve).catch(reject);
-        return;
-      }
-      if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}`)); return; }
-      const chunks = [];
-      res.on('data', c => chunks.push(c));
-      res.on('end', () => resolve(Buffer.concat(chunks)));
-      res.on('error', reject);
-    });
-    req.on('error', reject);
-    req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
-  });
+function dl(url, timeout = 8) {
+  try {
+    const buf = execSync(
+      `curl -sL -m ${timeout} -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Accept: image/*" "${url}"`,
+      { maxBuffer: 20 * 1024 * 1024, timeout: (timeout + 2) * 1000 }
+    );
+    return buf;
+  } catch {
+    return null;
+  }
 }
 
-async function searchGoogle(query) {
+function searchGoogle(query) {
   const url = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch&tbs=isz:m`;
   try {
-    const buf = await dl(url, 10000);
+    const buf = execSync(
+      `curl -sL -m 10 -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -H "Accept: text/html" "${url}"`,
+      { maxBuffer: 5 * 1024 * 1024, timeout: 15000 }
+    );
     const html = buf.toString('utf8');
     const urls = [];
     const re = /https?:\/\/[^"'\\&\s]+\.(?:jpg|jpeg|png|webp)/gi;
@@ -96,9 +93,8 @@ async function searchGoogle(query) {
 async function tryDownloadImage(urls) {
   for (const url of urls.slice(0, 15)) {
     try {
-      const buf = await dl(url);
-      if (buf.length < 5000) continue;
-      // Verifieer dat het een afbeelding is
+      const buf = dl(url);
+      if (!buf || buf.length < 5000) continue;
       const meta = await sharp(buf).metadata();
       if (!meta.width || meta.width < 50) continue;
       return buf;
@@ -147,20 +143,22 @@ function findProblems(products) {
 // ===== DOWNLOAD LOGICA =====
 
 function buildQuery(product) {
-  const name = product.name.replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje)$/i, '');
-  const color = product.name.match(/-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje)$/i)?.[1] || '';
+  const name = product.name.replace(/\s*-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i, '');
+  const color = product.name.match(/-\s*(Zwart|Wit|Blauw|Rood|Geel|Grijs|Paars|Groen|Roze|Oranje|Donkerblauw|Doorzichtig|Neon)$/i)?.[1] || '';
 
   if (product.isConsole) {
     return `${name} ${color} console product photo white background`.trim();
   }
-  // Game
+  if (product.sku.startsWith('ACC-')) {
+    return `${name} Nintendo accessory product photo white background`;
+  }
   const platform = product.platform.replace('Nintendo ', '');
-  return `${product.name} ${platform} PAL EUR box art cover`;
+  return `${product.name} ${platform} PAL Europe PEGI box art front cover`;
 }
 
 async function downloadCover(product) {
   const query = buildQuery(product);
-  const urls = await searchGoogle(query);
+  const urls = searchGoogle(query);
   if (!urls.length) return { sku: product.sku, ok: false, reason: 'geen URLs gevonden' };
 
   const buf = await tryDownloadImage(urls);
@@ -214,6 +212,22 @@ function updateProductsJson(results) {
   return updated;
 }
 
+// ===== PLATFORM FILTER =====
+
+const PLATFORM_MAP = {
+  'nes': 'NES', 'snes': 'Super Nintendo', 'n64': 'Nintendo 64',
+  'gb': 'Game Boy', 'gbc': 'Game Boy Color', 'gba': 'Game Boy Advance',
+  'gc': 'GameCube', 'ds': 'Nintendo DS', '3ds': 'Nintendo 3DS',
+  'wii': 'Wii', 'wiiu': 'Wii U', 'switch': 'Nintendo Switch',
+};
+
+const SKU_PREFIX_MAP = {
+  'nes': 'NES-', 'snes': 'SNES-', 'n64': 'N64-',
+  'gb': 'GB-', 'gba': 'GBA-', 'gc': 'GC-',
+  'ds': 'DS-', '3ds': '3DS-', 'wii': 'WII-',
+  'wiiu': 'WIIU-', 'switch': 'SW-',
+};
+
 // ===== CLI =====
 
 async function main() {
@@ -243,6 +257,47 @@ async function main() {
     const stat = fs.statSync(fp);
     console.log(`${sku} "${p.name}"\n  ${p.image}\n  ${(stat.size/1024).toFixed(1)}KB  ${meta.width}x${meta.height}  ${meta.format}`);
     console.log(`  Status: ${meta.width === 500 && meta.height === 500 && stat.size > 3000 ? 'OK' : 'PROBLEEM'}`);
+    return;
+  }
+
+  if (cmd === '--redownload') {
+    const platformKey = args[1];
+    const products = loadProducts();
+
+    let toFix;
+    if (platformKey) {
+      const prefix = SKU_PREFIX_MAP[platformKey.toLowerCase()];
+      const platform = PLATFORM_MAP[platformKey.toLowerCase()];
+      if (!prefix && !platform) {
+        console.log(`Onbekend platform: ${platformKey}`);
+        console.log(`Beschikbaar: ${Object.keys(PLATFORM_MAP).join(', ')}`);
+        return;
+      }
+      toFix = products.filter(p => {
+        if (p.isConsole || p.sku.startsWith('ACC-') || p.sku.startsWith('CON-')) return false;
+        if (prefix && p.sku.startsWith(prefix)) return true;
+        if (platform && p.platform === platform) return true;
+        return false;
+      });
+    } else {
+      toFix = products.filter(p => !p.isConsole && !p.sku.startsWith('ACC-') && !p.sku.startsWith('CON-'));
+    }
+
+    if (!toFix.length) { console.log('Geen producten gevonden'); return; }
+    console.log(`${toFix.length} covers herdownloaden${platformKey ? ` (${platformKey})` : ''} (${CONCURRENCY} parallel)\n`);
+
+    const results = await batchDownload(toFix);
+    const ok = results.filter(r => r.ok);
+    const fail = results.filter(r => !r.ok);
+
+    if (ok.length) {
+      const updated = updateProductsJson(results);
+      console.log(`\n${ok.length} gedownload, ${updated} producten bijgewerkt in products.json`);
+    }
+    if (fail.length) {
+      console.log(`${fail.length} mislukt:`);
+      fail.forEach(f => console.log(`  ${f.sku}: ${f.reason}`));
+    }
     return;
   }
 
@@ -313,6 +368,8 @@ Gebruik:
   --fix SKU            Download cover voor 1 product
   --batch SKU1 SKU2    Download meerdere covers
   --verify SKU         Verifieer 1 cover
+  --redownload         Herdownload ALLE game covers
+  --redownload nes     Herdownload per platform (nes/snes/n64/gb/gba/gc/ds/3ds/wii/wiiu/switch)
   SKU                  Download cover voor 1 product`);
 }
 
