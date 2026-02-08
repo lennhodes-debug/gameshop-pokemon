@@ -539,7 +539,7 @@ function EraGallery({
             className="group relative"
           >
             <div
-              className="relative aspect-square rounded-xl overflow-hidden border transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+              className="relative aspect-square rounded-xl overflow-hidden border transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-current/10 card-3d-tilt"
               style={{
                 borderColor: `rgba(${accentRgb}, 0.1)`,
                 backgroundColor: `rgba(${accentRgb}, 0.02)`,
@@ -1069,15 +1069,18 @@ function GameCoverMarquee() {
         {[...allCovers, ...allCovers].map((cover, i) => (
           <div
             key={`r1-${i}`}
-            className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-white/[0.02] border border-white/[0.05] overflow-hidden relative"
+            className="group flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-white/[0.02] border border-white/[0.05] overflow-hidden relative card-3d-tilt"
           >
             <Image
               src={cover.image}
               alt={cover.name}
               fill
-              className="object-contain p-2"
+              className="object-contain p-2 group-hover:scale-110 transition-transform duration-500"
               sizes="96px"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-1.5">
+              <span className="text-[8px] text-white font-bold leading-tight line-clamp-2">{cover.name}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -1087,15 +1090,18 @@ function GameCoverMarquee() {
         {[...allCovers.reverse(), ...allCovers].map((cover, i) => (
           <div
             key={`r2-${i}`}
-            className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-white/[0.02] border border-white/[0.05] overflow-hidden relative"
+            className="group flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-white/[0.02] border border-white/[0.05] overflow-hidden relative card-3d-tilt"
           >
             <Image
               src={cover.image}
               alt={cover.name}
               fill
-              className="object-contain p-2"
+              className="object-contain p-2 group-hover:scale-110 transition-transform duration-500"
               sizes="96px"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-1.5">
+              <span className="text-[8px] text-white font-bold leading-tight line-clamp-2">{cover.name}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -1219,7 +1225,7 @@ function ConsoleShowcase() {
               className="group"
             >
               <div
-                className="relative rounded-2xl border overflow-hidden p-4 transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl"
+                className="relative rounded-2xl border overflow-hidden p-4 card-3d-tilt"
                 style={{
                   borderColor: `rgba(${c.rgb}, 0.08)`,
                   backgroundColor: `rgba(${c.rgb}, 0.02)`,
