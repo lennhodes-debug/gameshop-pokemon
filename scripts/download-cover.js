@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Cover Art Manager — Gameshop Enter
- * Primaire bron: PriceCharting PAL covers
- * Fallback: Google Image Search
+ * Bronnen (prioriteit): PriceCharting PAL > GameTDB > LibRetro Thumbnails > Google Images
+ * Focus op PAL/EUR versies met PEGI rating
  *
  * Gebruik:
  *   node scripts/download-cover.js --check              # Toon ontbrekende/kapotte covers
@@ -166,6 +166,105 @@ function searchPriceCharting(product) {
   return [];
 }
 
+// ===== GAMETDB =====
+
+// GameTDB platform codes
+const GAMETDB_SYSTEM = {
+  'Wii': 'wii',
+  'Wii U': 'wiiu',
+  'GameCube': 'wii',  // GC covers staan onder wii/cover op GameTDB
+  'Nintendo DS': 'ds',
+  'Nintendo 3DS': '3ds',
+  'Nintendo Switch': 'switch',
+};
+
+function searchGameTDB(product) {
+  const system = GAMETDB_SYSTEM[product.platform];
+  if (!system) return []; // NES, SNES, N64, GB, GBA niet op GameTDB
+
+  const regions = ['NL', 'EN', 'EU', 'DE', 'FR', 'US'];
+  const urls = [];
+
+  // GameTDB gebruikt game IDs, maar we kunnen de cover URL direct proberen
+  // met de slugified naam als zoekterm op hun zoekpagina
+  for (const region of regions) {
+    // Probeer directe URL patronen
+    const name = getEnglishName(product.name);
+    const slug = name.replace(/[^a-zA-Z0-9]/g, '').substring(0, 30);
+    urls.push(`https://art.gametdb.com/${system}/cover/${region}/${slug}.png`);
+  }
+
+  // Probeer ook via hun zoekpagina
+  try {
+    const query = encodeURIComponent(getEnglishName(product.name));
+    const searchUrl = `https://www.gametdb.com/search/${system}/?q=${query}`;
+    const buf = execSync(
+      `curl -sL -m 8 -H "User-Agent: Mozilla/5.0" "${searchUrl}"`,
+      { maxBuffer: 2 * 1024 * 1024, timeout: 10000 }
+    );
+    const html = buf.toString('utf8');
+    // Extract game IDs from search results
+    const idRe = /\/[A-Z0-9]{4,6}\b/g;
+    let m;
+    const ids = new Set();
+    while ((m = idRe.exec(html)) !== null) {
+      const id = m[0].replace('/', '');
+      if (id.length >= 4 && id.length <= 6 && /^[A-Z0-9]+$/.test(id)) {
+        ids.add(id);
+      }
+    }
+    for (const id of [...ids].slice(0, 5)) {
+      for (const region of ['NL', 'EN', 'EU']) {
+        urls.push(`https://art.gametdb.com/${system}/cover/${region}/${id}.png`);
+      }
+    }
+  } catch {}
+
+  return urls;
+}
+
+// ===== LIBRETRO THUMBNAILS =====
+
+const LIBRETRO_SYSTEM = {
+  'NES': 'Nintendo_-_Nintendo_Entertainment_System',
+  'Super Nintendo': 'Nintendo_-_Super_Nintendo_Entertainment_System',
+  'Nintendo 64': 'Nintendo_-_Nintendo_64',
+  'Game Boy': 'Nintendo_-_Game_Boy',
+  'Game Boy Color': 'Nintendo_-_Game_Boy_Color',
+  'Game Boy Advance': 'Nintendo_-_Game_Boy_Advance',
+  'GameCube': 'Nintendo_-_GameCube',
+  'Nintendo DS': 'Nintendo_-_Nintendo_DS',
+  'Nintendo 3DS': 'Nintendo_-_Nintendo_3DS',
+  'Wii': 'Nintendo_-_Wii',
+  'Wii U': 'Nintendo_-_Wii_U',
+  'Nintendo Switch': 'Nintendo_-_Switch',
+};
+
+function searchLibRetro(product) {
+  const system = LIBRETRO_SYSTEM[product.platform];
+  if (!system) return [];
+
+  const name = getEnglishName(product.name);
+  const urls = [];
+
+  // LibRetro gebruikt exacte game namen als bestandsnaam
+  // Probeer verschillende variaties
+  const variations = [
+    name,
+    name.replace(/:/g, ' -'),
+    name.replace(/:/g, ''),
+    name.replace(/'/g, "'"),
+    name.replace(/[&]/g, 'and'),
+  ];
+
+  for (const v of variations) {
+    const encoded = encodeURIComponent(v);
+    urls.push(`https://raw.githubusercontent.com/libretro-thumbnails/${system}/master/Named_Boxarts/${encoded}.png`);
+  }
+
+  return urls;
+}
+
 // ===== GOOGLE FALLBACK =====
 
 function searchGoogle(query) {
@@ -299,7 +398,35 @@ async function downloadCover(product) {
     }
   }
 
-  // Stap 2: Fallback naar Google Image Search
+  // Stap 2: GameTDB (goede PAL/EU covers voor Wii, DS, 3DS, Switch, Wii U)
+  if (!product.isConsole && !product.sku.startsWith('ACC-')) {
+    const gametdbUrls = searchGameTDB(product);
+    if (gametdbUrls.length) {
+      const buf = await tryDownloadImage(gametdbUrls);
+      if (buf) {
+        try {
+          const size = await processImage(buf, outPath);
+          return { sku: product.sku, ok: true, file: fn, size, path: `/images/products/${fn}`, source: 'gametdb' };
+        } catch {}
+      }
+    }
+  }
+
+  // Stap 3: LibRetro Thumbnails (breed, alle platforms)
+  if (!product.isConsole && !product.sku.startsWith('ACC-')) {
+    const libretroUrls = searchLibRetro(product);
+    if (libretroUrls.length) {
+      const buf = await tryDownloadImage(libretroUrls);
+      if (buf) {
+        try {
+          const size = await processImage(buf, outPath);
+          return { sku: product.sku, ok: true, file: fn, size, path: `/images/products/${fn}`, source: 'libretro' };
+        } catch {}
+      }
+    }
+  }
+
+  // Stap 4: Fallback naar Google Image Search
   const query = buildGoogleQuery(product);
   const googleUrls = searchGoogle(query);
   if (googleUrls.length) {
@@ -314,14 +441,14 @@ async function downloadCover(product) {
     }
   }
 
-  return { sku: product.sku, ok: false, reason: 'geen geldige afbeelding (PC+Google)' };
+  return { sku: product.sku, ok: false, reason: 'geen geldige afbeelding (PC+GameTDB+LibRetro+Google)' };
 }
 
 // Parallel batch met concurrency limiet
 async function batchDownload(products, concurrency = CONCURRENCY) {
   const results = [];
   let idx = 0;
-  let pcCount = 0, googleCount = 0;
+  const sourceCounts = {};
 
   async function worker() {
     while (idx < products.length) {
@@ -330,8 +457,7 @@ async function batchDownload(products, concurrency = CONCURRENCY) {
       process.stdout.write(`[${i + 1}/${products.length}] ${p.sku} "${p.name}"...`);
       const result = await downloadCover(p);
       if (result.ok) {
-        if (result.source === 'pricecharting') pcCount++;
-        else googleCount++;
+        sourceCounts[result.source] = (sourceCounts[result.source] || 0) + 1;
         console.log(` OK (${(result.size / 1024).toFixed(1)}KB) [${result.source}]`);
       } else {
         console.log(` MISLUKT: ${result.reason}`);
@@ -341,7 +467,8 @@ async function batchDownload(products, concurrency = CONCURRENCY) {
   }
 
   await Promise.all(Array.from({ length: Math.min(concurrency, products.length) }, () => worker()));
-  console.log(`\nBronnen: PriceCharting ${pcCount}, Google ${googleCount}`);
+  const sourceStr = Object.entries(sourceCounts).map(([k, v]) => `${k}: ${v}`).join(', ');
+  console.log(`\nBronnen: ${sourceStr || 'geen'}`);
   return results;
 }
 
@@ -507,7 +634,7 @@ async function main() {
   }
 
   console.log(`Cover Art Manager — Gameshop Enter
-  Primaire bron: PriceCharting PAL | Fallback: Google Images
+  Bronnen: PriceCharting PAL > GameTDB > LibRetro > Google Images
 
 Gebruik:
   --check              Toon ontbrekende/kapotte covers
