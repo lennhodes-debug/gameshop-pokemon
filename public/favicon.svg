@@ -1,0 +1,11 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="120" y2="120">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="50%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+  </defs>
+  <path d="M60 8 L104 30 Q112 34 112 43 L112 77 Q112 86 104 90 L60 112 L16 90 Q8 86 8 77 L8 43 Q8 34 16 30 Z" fill="url(#logoGrad)"/>
+  <path d="M72 58H62V68H78Q78 80 68 86Q58 92 48 86Q38 80 38 68V52Q38 40 48 34Q58 28 68 34Q73 37 75 42L67 46Q66 43 63 41Q58 38 53 41Q48 44 48 52V68Q48 76 53 79Q58 82 63 79Q68 76 68 68V62" fill="white"/>
+</svg>

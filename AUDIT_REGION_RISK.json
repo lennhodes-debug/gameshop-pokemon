@@ -1,0 +1,59 @@
+{
+  "total_high_risk": 9,
+  "samples": [
+    {
+      "sku": "SW-030",
+      "name": "Fire Emblem Warriors",
+      "platform": "Nintendo Switch",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "SW-106",
+      "name": "Super Mario 3D All-Stars",
+      "platform": "Nintendo Switch",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "SW-128",
+      "name": "Zelda: Tears of the Kingdom",
+      "platform": "Nintendo Switch",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "3DS-012",
+      "name": "Fire Emblem Awakening",
+      "platform": "Nintendo 3DS",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "GBA-066",
+      "name": "Zelda: ALttP / Four Swords",
+      "platform": "Game Boy Advance",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "GC-032",
+      "name": "Paper Mario: TTYD",
+      "platform": "GameCube",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "NES-057",
+      "name": "Zelda",
+      "platform": "NES",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "NES-058",
+      "name": "Zelda II",
+      "platform": "NES",
+      "risk": "HIGH"
+    },
+    {
+      "sku": "WIIU-057",
+      "name": "Zelda: Wind Waker HD",
+      "platform": "Wii U",
+      "risk": "HIGH"
+    }
+  ]
+}

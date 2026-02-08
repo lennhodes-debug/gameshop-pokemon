@@ -1,0 +1,373 @@
+[
+  {
+    "sku": "DS-057",
+    "name": "Professor Layton: Geheimzinnige Dorp",
+    "platform": "Nintendo DS",
+    "issues": [
+      "NO_IMAGE"
+    ]
+  },
+  {
+    "sku": "CON-001",
+    "name": "Nintendo Switch OLED - Wit",
+    "platform": "Nintendo Switch",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-002",
+    "name": "Nintendo Switch V2 - Neon Rood/Blauw",
+    "platform": "Nintendo Switch",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-003",
+    "name": "Nintendo Switch Lite - Lichtblauw",
+    "platform": "Nintendo Switch",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-004",
+    "name": "Nintendo Switch Lite - Lichtgeel",
+    "platform": "Nintendo Switch",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-005",
+    "name": "Nintendo 3DS - Blauw",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-006",
+    "name": "Nintendo 3DS - Rood",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-007",
+    "name": "Nintendo 3DS - Roze",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-008",
+    "name": "Nintendo 3DS - Wit",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-009",
+    "name": "Nintendo 3DS - Zwart",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-010",
+    "name": "Nintendo 2DS - Blauw",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-011",
+    "name": "Nintendo 2DS - Zwart",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-012",
+    "name": "Nintendo 3DS XL - Roze",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-013",
+    "name": "Nintendo 3DS XL - Blauw",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-014",
+    "name": "New Nintendo 3DS XL - Blauw",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE",
+      "NO_IMAGE"
+    ]
+  },
+  {
+    "sku": "CON-015",
+    "name": "New Nintendo 3DS XL - Zwart",
+    "platform": "Nintendo 3DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-016",
+    "name": "Nintendo DS Lite - Zwart",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-017",
+    "name": "Nintendo DS Lite - Wit",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-018",
+    "name": "Nintendo DS Lite - Grijs",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-019",
+    "name": "Nintendo DSi - Blauw",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-020",
+    "name": "Nintendo DSi - Zwart",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-021",
+    "name": "Nintendo DSi - Wit",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-022",
+    "name": "Nintendo DSi XL - Geel",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE",
+      "NO_IMAGE"
+    ]
+  },
+  {
+    "sku": "CON-023",
+    "name": "Nintendo DSi XL - Rood",
+    "platform": "Nintendo DS",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-024",
+    "name": "Game Boy Advance SP - Blauw",
+    "platform": "Game Boy Advance",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-025",
+    "name": "Game Boy Advance SP - Roze",
+    "platform": "Game Boy Advance",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-026",
+    "name": "Game Boy Advance SP - Grijs",
+    "platform": "Game Boy Advance",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-027",
+    "name": "Game Boy Advance SP - Zwart",
+    "platform": "Game Boy Advance",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-028",
+    "name": "Game Boy Color - Geel",
+    "platform": "Game Boy Color",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-029",
+    "name": "Game Boy Color - Blauw",
+    "platform": "Game Boy Color",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-030",
+    "name": "Game Boy Color - Donkerblauw",
+    "platform": "Game Boy Color",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-031",
+    "name": "Game Boy Color - Doorzichtig (Atomic Purple)",
+    "platform": "Game Boy Color",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-032",
+    "name": "Game Boy Color - Rood (Berry)",
+    "platform": "Game Boy Color",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-033",
+    "name": "Game Boy Pocket - Zilver (normaal)",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-034",
+    "name": "Game Boy Pocket - Roze",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-035",
+    "name": "Game Boy Pocket - Groen",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-036",
+    "name": "Game Boy Pocket - Geel",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-037",
+    "name": "Game Boy Pocket - Zwart",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-038",
+    "name": "Game Boy (DMG) - Grijs (origineel)",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-039",
+    "name": "Game Boy (DMG) - Geel (Play It Loud)",
+    "platform": "Game Boy",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-040",
+    "name": "Nintendo 64 - Zwart",
+    "platform": "Nintendo 64",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-041",
+    "name": "Super Nintendo (SNES) - Grijs (origineel)",
+    "platform": "Super Nintendo",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-042",
+    "name": "Nintendo GameCube - Indigo (blauw)",
+    "platform": "GameCube",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-043",
+    "name": "Nintendo Wii - Wit (origineel)",
+    "platform": "Wii",
+    "issues": [
+      "BAD_GENRE",
+      "NO_IMAGE"
+    ]
+  },
+  {
+    "sku": "CON-044",
+    "name": "Nintendo Wii U - Zwart (32GB)",
+    "platform": "Wii U",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  },
+  {
+    "sku": "CON-045",
+    "name": "Nintendo Wii U - Wit (8GB)",
+    "platform": "Wii U",
+    "issues": [
+      "BAD_GENRE"
+    ]
+  }
+]

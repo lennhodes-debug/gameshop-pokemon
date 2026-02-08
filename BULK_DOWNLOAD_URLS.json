@@ -1,0 +1,738 @@
+[
+  {
+    "rank": 1,
+    "sku": "SW-021",
+    "name": "Donkey Kong Country: Tropical Freeze",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Donkey%20Kong%20Country%3A%20Tropical%20Freeze%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Donkey%20Kong%20Country%3A%20Tropical%20Freeze%20PAL"
+  },
+  {
+    "rank": 2,
+    "sku": "SW-023",
+    "name": "Doom Eternal",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Doom%20Eternal%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Doom%20Eternal%20PAL"
+  },
+  {
+    "rank": 3,
+    "sku": "SW-028",
+    "name": "Final Fantasy X/X-2 Remaster",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20X%2FX-2%20Remaster%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Final%20Fantasy%20X%2FX-2%20Remaster%20PAL"
+  },
+  {
+    "rank": 4,
+    "sku": "SW-078",
+    "name": "Pokemon Let's Go Eevee",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Pokemon%20Let's%20Go%20Eevee%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Pokemon%20Let's%20Go%20Eevee%20PAL"
+  },
+  {
+    "rank": 5,
+    "sku": "SW-088",
+    "name": "Pokémon Let's Go Eevee",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Pok%C3%A9mon%20Let's%20Go%20Eevee%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Pok%C3%A9mon%20Let's%20Go%20Eevee%20PAL"
+  },
+  {
+    "rank": 6,
+    "sku": "SW-099",
+    "name": "Skyrim",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Skyrim%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Skyrim%20PAL"
+  },
+  {
+    "rank": 7,
+    "sku": "SW-117",
+    "name": "The Witcher 3",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=The%20Witcher%203%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=The%20Witcher%203%20PAL"
+  },
+  {
+    "rank": 8,
+    "sku": "SW-126",
+    "name": "Zelda: Link's Awakening",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Zelda%3A%20Link's%20Awakening%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Zelda%3A%20Link's%20Awakening%20PAL"
+  },
+  {
+    "rank": 9,
+    "sku": "3DS-065",
+    "name": "Yo-Kai Watch 2",
+    "platform": "Nintendo 3DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Yo-Kai%20Watch%202%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Yo-Kai%20Watch%202%20PAL"
+  },
+  {
+    "rank": 10,
+    "sku": "DS-023",
+    "name": "Mario & Sonic at the Olympic Games",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Mario%20%26%20Sonic%20at%20the%20Olympic%20Games%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Mario%20%26%20Sonic%20at%20the%20Olympic%20Games%20PAL"
+  },
+  {
+    "rank": 11,
+    "sku": "DS-057",
+    "name": "Professor Layton: Geheimzinnige Dorp",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Professor%20Layton%3A%20Geheimzinnige%20Dorp%20PAL"
+  },
+  {
+    "rank": 12,
+    "sku": "DS-066",
+    "name": "WarioWare: Touched!",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=WarioWare%3A%20Touched!%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=WarioWare%3A%20Touched!%20PAL"
+  },
+  {
+    "rank": 13,
+    "sku": "GBA-010",
+    "name": "Drill Dozer",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=Drill%20Dozer%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Drill%20Dozer%20PAL"
+  },
+  {
+    "rank": 14,
+    "sku": "GBA-012",
+    "name": "Final Fantasy I & II: Dawn of Souls",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls%20PAL"
+  },
+  {
+    "rank": 15,
+    "sku": "GBA-038",
+    "name": "Mother 3",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=Mother%203%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Mother%203%20PAL"
+  },
+  {
+    "rank": 16,
+    "sku": "GBA-060",
+    "name": "Super Mario Advance 3",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=Super%20Mario%20Advance%203%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Super%20Mario%20Advance%203%20PAL"
+  },
+  {
+    "rank": 17,
+    "sku": "GBA-065",
+    "name": "Yoshi's Island GBA",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=Yoshi's%20Island%20GBA%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Yoshi's%20Island%20GBA%20PAL"
+  },
+  {
+    "rank": 18,
+    "sku": "GB-015",
+    "name": "Game & Watch Gallery 3",
+    "platform": "Game Boy",
+    "searchUrl": "https://www.pricecharting.com/search?q=Game%20%26%20Watch%20Gallery%203%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Game%20%26%20Watch%20Gallery%203%20PAL"
+  },
+  {
+    "rank": 19,
+    "sku": "GB-019",
+    "name": "Kirby's Dream Land",
+    "platform": "Game Boy",
+    "searchUrl": "https://www.pricecharting.com/search?q=Kirby's%20Dream%20Land%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Kirby's%20Dream%20Land%20PAL"
+  },
+  {
+    "rank": 20,
+    "sku": "GB-026",
+    "name": "Metal Gear Solid",
+    "platform": "Game Boy",
+    "searchUrl": "https://www.pricecharting.com/search?q=Metal%20Gear%20Solid%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Metal%20Gear%20Solid%20PAL"
+  },
+  {
+    "rank": 21,
+    "sku": "GB-053",
+    "name": "Tetris DX",
+    "platform": "Game Boy",
+    "searchUrl": "https://www.pricecharting.com/search?q=Tetris%20DX%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Tetris%20DX%20PAL"
+  },
+  {
+    "rank": 22,
+    "sku": "GC-009",
+    "name": "Eternal Darkness",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=Eternal%20Darkness%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Eternal%20Darkness%20PAL"
+  },
+  {
+    "rank": 23,
+    "sku": "GC-010",
+    "name": "Eternal Darkness: Sanity's Requiem",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Eternal%20Darkness%3A%20Sanity's%20Requiem%20PAL"
+  },
+  {
+    "rank": 24,
+    "sku": "GC-030",
+    "name": "Naruto: Clash of Ninja 2",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=Naruto%3A%20Clash%20of%20Ninja%202%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Naruto%3A%20Clash%20of%20Ninja%202%20PAL"
+  },
+  {
+    "rank": 25,
+    "sku": "GC-042",
+    "name": "Resident Evil 4",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=Resident%20Evil%204%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Resident%20Evil%204%20PAL"
+  },
+  {
+    "rank": 26,
+    "sku": "N64-023",
+    "name": "Kirby 64",
+    "platform": "Nintendo 64",
+    "searchUrl": "https://www.pricecharting.com/search?q=Kirby%2064%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Kirby%2064%20PAL"
+  },
+  {
+    "rank": 27,
+    "sku": "N64-036",
+    "name": "Pilotwings 64",
+    "platform": "Nintendo 64",
+    "searchUrl": "https://www.pricecharting.com/search?q=Pilotwings%2064%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Pilotwings%2064%20PAL"
+  },
+  {
+    "rank": 28,
+    "sku": "N64-048",
+    "name": "Star Fox 64",
+    "platform": "Nintendo 64",
+    "searchUrl": "https://www.pricecharting.com/search?q=Star%20Fox%2064%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Star%20Fox%2064%20PAL"
+  },
+  {
+    "rank": 29,
+    "sku": "SNES-013",
+    "name": "EarthBound",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=EarthBound%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=EarthBound%20PAL"
+  },
+  {
+    "rank": 30,
+    "sku": "SNES-015",
+    "name": "Final Fantasy V",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20V%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Final%20Fantasy%20V%20PAL"
+  },
+  {
+    "rank": 31,
+    "sku": "SNES-016",
+    "name": "Final Fantasy VI",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20VI%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Final%20Fantasy%20VI%20PAL"
+  },
+  {
+    "rank": 32,
+    "sku": "SNES-028",
+    "name": "Mortal Kombat 3",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Mortal%20Kombat%203%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Mortal%20Kombat%203%20PAL"
+  },
+  {
+    "rank": 33,
+    "sku": "SNES-029",
+    "name": "Mortal Kombat II",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Mortal%20Kombat%20II%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Mortal%20Kombat%20II%20PAL"
+  },
+  {
+    "rank": 34,
+    "sku": "SNES-038",
+    "name": "Sim City",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Sim%20City%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Sim%20City%20PAL"
+  },
+  {
+    "rank": 35,
+    "sku": "SNES-052",
+    "name": "Tetris & Dr. Mario",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Tetris%20%26%20Dr.%20Mario%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Tetris%20%26%20Dr.%20Mario%20PAL"
+  },
+  {
+    "rank": 36,
+    "sku": "SNES-056",
+    "name": "Top Gear",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Top%20Gear%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Top%20Gear%20PAL"
+  },
+  {
+    "rank": 37,
+    "sku": "SNES-057",
+    "name": "Turtles in Time",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Turtles%20in%20Time%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Turtles%20in%20Time%20PAL"
+  },
+  {
+    "rank": 38,
+    "sku": "NES-006",
+    "name": "Balloon Fight",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=Balloon%20Fight%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Balloon%20Fight%20PAL"
+  },
+  {
+    "rank": 39,
+    "sku": "NES-022",
+    "name": "Duck Hunt",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=Duck%20Hunt%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Duck%20Hunt%20PAL"
+  },
+  {
+    "rank": 40,
+    "sku": "NES-025",
+    "name": "Final Fantasy",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Final%20Fantasy%20PAL"
+  },
+  {
+    "rank": 41,
+    "sku": "NES-041",
+    "name": "Ninja Gaiden II",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=Ninja%20Gaiden%20II%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Ninja%20Gaiden%20II%20PAL"
+  },
+  {
+    "rank": 42,
+    "sku": "NES-047",
+    "name": "StarTropics",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=StarTropics%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=StarTropics%20PAL"
+  },
+  {
+    "rank": 43,
+    "sku": "WII-018",
+    "name": "Kirby's Epic Yarn",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Kirby's%20Epic%20Yarn%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Kirby's%20Epic%20Yarn%20PAL"
+  },
+  {
+    "rank": 44,
+    "sku": "WII-052",
+    "name": "Wii Fit",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Fit%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Fit%20PAL"
+  },
+  {
+    "rank": 45,
+    "sku": "WII-053",
+    "name": "Wii Fit Plus",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Fit%20Plus%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Fit%20Plus%20PAL"
+  },
+  {
+    "rank": 46,
+    "sku": "WIIU-005",
+    "name": "Axiom Verge",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Axiom%20Verge%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Axiom%20Verge%20PAL"
+  },
+  {
+    "rank": 47,
+    "sku": "WIIU-009",
+    "name": "DK Country: Tropical Freeze",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=DK%20Country%3A%20Tropical%20Freeze%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=DK%20Country%3A%20Tropical%20Freeze%20PAL"
+  },
+  {
+    "rank": 48,
+    "sku": "WIIU-048",
+    "name": "Wii Fit U",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Fit%20U%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Fit%20U%20PAL"
+  },
+  {
+    "rank": 49,
+    "sku": "WIIU-055",
+    "name": "Zelda: The Wind Waker HD",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Zelda%3A%20The%20Wind%20Waker%20HD%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Zelda%3A%20The%20Wind%20Waker%20HD%20PAL"
+  },
+  {
+    "rank": 50,
+    "sku": "CON-003",
+    "name": "Nintendo Switch Lite - Lichtblauw",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Lite%20-%20Lichtblauw%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Switch%20Lite%20-%20Lichtblauw%20PAL"
+  },
+  {
+    "rank": 51,
+    "sku": "CON-004",
+    "name": "Nintendo Switch Lite - Lichtgeel",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Lite%20-%20Lichtgeel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Switch%20Lite%20-%20Lichtgeel%20PAL"
+  },
+  {
+    "rank": 52,
+    "sku": "CON-014",
+    "name": "New Nintendo 3DS XL - Blauw",
+    "platform": "Nintendo 3DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=New%20Nintendo%203DS%20XL%20-%20Blauw%20PAL"
+  },
+  {
+    "rank": 53,
+    "sku": "CON-020",
+    "name": "Nintendo DSi - Zwart",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20-%20Zwart%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20DSi%20-%20Zwart%20PAL"
+  },
+  {
+    "rank": 54,
+    "sku": "CON-022",
+    "name": "Nintendo DSi XL - Geel",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20XL%20-%20Geel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20DSi%20XL%20-%20Geel%20PAL"
+  },
+  {
+    "rank": 55,
+    "sku": "CON-023",
+    "name": "Nintendo DSi XL - Rood",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20XL%20-%20Rood%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20DSi%20XL%20-%20Rood%20PAL"
+  },
+  {
+    "rank": 56,
+    "sku": "CON-043",
+    "name": "Nintendo Wii - Wit (origineel)",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Wii%20-%20Wit%20(origineel)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Wii%20-%20Wit%20(origineel)%20PAL"
+  },
+  {
+    "rank": 57,
+    "sku": "ACC-001",
+    "name": "Nintendo Switch Oplader (USB-C)",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Oplader%20(USB-C)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Switch%20Oplader%20(USB-C)%20PAL"
+  },
+  {
+    "rank": 58,
+    "sku": "ACC-002",
+    "name": "Nintendo Switch Dock",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Dock%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Switch%20Dock%20PAL"
+  },
+  {
+    "rank": 59,
+    "sku": "ACC-003",
+    "name": "Nintendo 3DS / 2DS Oplader",
+    "platform": "Nintendo 3DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%203DS%20%2F%202DS%20Oplader%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%203DS%20%2F%202DS%20Oplader%20PAL"
+  },
+  {
+    "rank": 60,
+    "sku": "ACC-004",
+    "name": "Nintendo DSi / DSi XL Oplader",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20%2F%20DSi%20XL%20Oplader%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20DSi%20%2F%20DSi%20XL%20Oplader%20PAL"
+  },
+  {
+    "rank": 61,
+    "sku": "ACC-005",
+    "name": "Nintendo DS Lite Oplader",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20DS%20Lite%20Oplader%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20DS%20Lite%20Oplader%20PAL"
+  },
+  {
+    "rank": 62,
+    "sku": "ACC-006",
+    "name": "Game Boy Advance SP Oplader",
+    "platform": "Nintendo DS",
+    "searchUrl": "https://www.pricecharting.com/search?q=Game%20Boy%20Advance%20SP%20Oplader%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Game%20Boy%20Advance%20SP%20Oplader%20PAL"
+  },
+  {
+    "rank": 63,
+    "sku": "ACC-007",
+    "name": "Nintendo Wii Stroomadapter",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Wii%20Stroomadapter%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Wii%20Stroomadapter%20PAL"
+  },
+  {
+    "rank": 64,
+    "sku": "ACC-008",
+    "name": "Nintendo Wii U Stroomadapter (Console)",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Wii%20U%20Stroomadapter%20(Console)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Wii%20U%20Stroomadapter%20(Console)%20PAL"
+  },
+  {
+    "rank": 65,
+    "sku": "ACC-009",
+    "name": "Nintendo Wii U GamePad Oplader",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Wii%20U%20GamePad%20Oplader%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Wii%20U%20GamePad%20Oplader%20PAL"
+  },
+  {
+    "rank": 66,
+    "sku": "ACC-010",
+    "name": "Nintendo GameCube Stroomadapter",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20GameCube%20Stroomadapter%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20GameCube%20Stroomadapter%20PAL"
+  },
+  {
+    "rank": 67,
+    "sku": "ACC-012",
+    "name": "Super Nintendo Stroomadapter",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=Super%20Nintendo%20Stroomadapter%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Super%20Nintendo%20Stroomadapter%20PAL"
+  },
+  {
+    "rank": 68,
+    "sku": "ACC-013",
+    "name": "NES Stroomadapter",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=NES%20Stroomadapter%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=NES%20Stroomadapter%20PAL"
+  },
+  {
+    "rank": 69,
+    "sku": "ACC-014",
+    "name": "Joy-Con Set (Links + Rechts)",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Joy-Con%20Set%20(Links%20%2B%20Rechts)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Joy-Con%20Set%20(Links%20%2B%20Rechts)%20PAL"
+  },
+  {
+    "rank": 70,
+    "sku": "ACC-015",
+    "name": "Joy-Con Links",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Joy-Con%20Links%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Joy-Con%20Links%20PAL"
+  },
+  {
+    "rank": 71,
+    "sku": "ACC-016",
+    "name": "Joy-Con Rechts",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Joy-Con%20Rechts%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Joy-Con%20Rechts%20PAL"
+  },
+  {
+    "rank": 72,
+    "sku": "ACC-017",
+    "name": "Nintendo Switch Pro Controller",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Pro%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Nintendo%20Switch%20Pro%20Controller%20PAL"
+  },
+  {
+    "rank": 73,
+    "sku": "ACC-018",
+    "name": "Wii Remote (Wiimote)",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Remote%20(Wiimote)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Remote%20(Wiimote)%20PAL"
+  },
+  {
+    "rank": 74,
+    "sku": "ACC-019",
+    "name": "Wii Remote Plus",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Remote%20Plus%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Remote%20Plus%20PAL"
+  },
+  {
+    "rank": 75,
+    "sku": "ACC-020",
+    "name": "Wii Nunchuk",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Nunchuk%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Nunchuk%20PAL"
+  },
+  {
+    "rank": 76,
+    "sku": "ACC-021",
+    "name": "Wii Classic Controller",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Classic%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Classic%20Controller%20PAL"
+  },
+  {
+    "rank": 77,
+    "sku": "ACC-022",
+    "name": "Wii Classic Controller Pro",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Classic%20Controller%20Pro%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Classic%20Controller%20Pro%20PAL"
+  },
+  {
+    "rank": 78,
+    "sku": "ACC-023",
+    "name": "Wii U Pro Controller",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20U%20Pro%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20U%20Pro%20Controller%20PAL"
+  },
+  {
+    "rank": 79,
+    "sku": "ACC-024",
+    "name": "GameCube Controller",
+    "platform": "Nintendo Switch",
+    "searchUrl": "https://www.pricecharting.com/search?q=GameCube%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=GameCube%20Controller%20PAL"
+  },
+  {
+    "rank": 80,
+    "sku": "ACC-025",
+    "name": "GameCube WaveBird (draadloos)",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=GameCube%20WaveBird%20(draadloos)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=GameCube%20WaveBird%20(draadloos)%20PAL"
+  },
+  {
+    "rank": 81,
+    "sku": "ACC-026",
+    "name": "N64 Controller",
+    "platform": "Nintendo 64",
+    "searchUrl": "https://www.pricecharting.com/search?q=N64%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=N64%20Controller%20PAL"
+  },
+  {
+    "rank": 82,
+    "sku": "ACC-027",
+    "name": "SNES Controller",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=SNES%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=SNES%20Controller%20PAL"
+  },
+  {
+    "rank": 83,
+    "sku": "ACC-028",
+    "name": "NES Controller",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=NES%20Controller%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=NES%20Controller%20PAL"
+  },
+  {
+    "rank": 84,
+    "sku": "ACC-029",
+    "name": "Wii AV Kabel (composiet)",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20AV%20Kabel%20(composiet)%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20AV%20Kabel%20(composiet)%20PAL"
+  },
+  {
+    "rank": 85,
+    "sku": "ACC-030",
+    "name": "Wii Component Kabel",
+    "platform": "Wii",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Component%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Component%20Kabel%20PAL"
+  },
+  {
+    "rank": 86,
+    "sku": "ACC-031",
+    "name": "Wii Sensor Bar",
+    "platform": "Wii U",
+    "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Sensor%20Bar%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Wii%20Sensor%20Bar%20PAL"
+  },
+  {
+    "rank": 87,
+    "sku": "ACC-032",
+    "name": "GameCube AV Kabel",
+    "platform": "GameCube",
+    "searchUrl": "https://www.pricecharting.com/search?q=GameCube%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=GameCube%20AV%20Kabel%20PAL"
+  },
+  {
+    "rank": 88,
+    "sku": "ACC-033",
+    "name": "N64 AV Kabel",
+    "platform": "Nintendo 64",
+    "searchUrl": "https://www.pricecharting.com/search?q=N64%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=N64%20AV%20Kabel%20PAL"
+  },
+  {
+    "rank": 89,
+    "sku": "ACC-034",
+    "name": "SNES AV Kabel",
+    "platform": "Super Nintendo",
+    "searchUrl": "https://www.pricecharting.com/search?q=SNES%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=SNES%20AV%20Kabel%20PAL"
+  },
+  {
+    "rank": 90,
+    "sku": "ACC-035",
+    "name": "NES AV Kabel",
+    "platform": "NES",
+    "searchUrl": "https://www.pricecharting.com/search?q=NES%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=NES%20AV%20Kabel%20PAL"
+  },
+  {
+    "rank": 91,
+    "sku": "ACC-036",
+    "name": "Game Boy Link Kabel",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=Game%20Boy%20Link%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=Game%20Boy%20Link%20Kabel%20PAL"
+  },
+  {
+    "rank": 92,
+    "sku": "ACC-037",
+    "name": "GBA naar GameCube Link Kabel",
+    "platform": "Game Boy Advance",
+    "searchUrl": "https://www.pricecharting.com/search?q=GBA%20naar%20GameCube%20Link%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+    "fallbackUrl": "https://www.amazon.eu/s?k=GBA%20naar%20GameCube%20Link%20Kabel%20PAL"
+  }
+]

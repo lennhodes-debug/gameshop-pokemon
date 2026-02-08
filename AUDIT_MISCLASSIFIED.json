@@ -1,0 +1,23 @@
+[
+  {
+    "type": "GAME_HAS_CONSOLE_IMAGE",
+    "sku": "ACC-014",
+    "platform": "Nintendo Switch",
+    "name": "Joy-Con Set (Links + Rechts)",
+    "image": "acc-014-joy-con-set-links-rechts.webp"
+  },
+  {
+    "type": "GAME_HAS_CONSOLE_IMAGE",
+    "sku": "ACC-015",
+    "platform": "Nintendo Switch",
+    "name": "Joy-Con Links",
+    "image": "acc-015-joy-con-links.webp"
+  },
+  {
+    "type": "GAME_HAS_CONSOLE_IMAGE",
+    "sku": "ACC-016",
+    "platform": "Nintendo Switch",
+    "name": "Joy-Con Rechts",
+    "image": "acc-016-joy-con-rechts.webp"
+  }
+]

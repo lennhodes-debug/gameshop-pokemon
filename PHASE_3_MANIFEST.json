@@ -1,0 +1,388 @@
+{
+  "phase": 3,
+  "generated": "2026-02-08T19:23:20.722Z",
+  "total_in_phase": 38,
+  "instructions": "PHASE 3 EXECUTION:\n1. Download images using provided PriceCharting URLs\n2. Verify: PAL/EUR region, professional quality, undamaged\n3. Place in .cover-art-temp/ folder\n4. Run: node scripts/auto-deploy-covers.mjs\n5. Automated validation, conversion, and deployment\n6. Git commit created automatically\n7. Move to next phase",
+  "products": [
+    {
+      "rank": 1,
+      "sku": "ACC-029",
+      "name": "Wii AV Kabel (composiet)",
+      "platform": "Wii",
+      "price": 8,
+      "score": 80,
+      "searchUrl": "https://www.pricecharting.com/search?q=Wii%20AV%20Kabel%20(composiet)%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-029-wii-av-kabel-composiet.webp"
+    },
+    {
+      "rank": 2,
+      "sku": "ACC-030",
+      "name": "Wii Component Kabel",
+      "platform": "Wii",
+      "price": 8,
+      "score": 80,
+      "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Component%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-030-wii-component-kabel.webp"
+    },
+    {
+      "rank": 3,
+      "sku": "GC-009",
+      "name": "Eternal Darkness",
+      "platform": "GameCube",
+      "price": 45,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Eternal%20Darkness%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gc-009-eternal-darkness.webp"
+    },
+    {
+      "rank": 4,
+      "sku": "GC-010",
+      "name": "Eternal Darkness: Sanity's Requiem",
+      "platform": "GameCube",
+      "price": 25,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gc-010-eternal-darkness-sanity-s-requiem.webp"
+    },
+    {
+      "rank": 5,
+      "sku": "GC-030",
+      "name": "Naruto: Clash of Ninja 2",
+      "platform": "GameCube",
+      "price": 25,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Naruto%3A%20Clash%20of%20Ninja%202%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gc-030-naruto-clash-of-ninja-2.webp"
+    },
+    {
+      "rank": 6,
+      "sku": "GC-042",
+      "name": "Resident Evil 4",
+      "platform": "GameCube",
+      "price": 25,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Resident%20Evil%204%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gc-042-resident-evil-4.webp"
+    },
+    {
+      "rank": 7,
+      "sku": "N64-036",
+      "name": "Pilotwings 64",
+      "platform": "Nintendo 64",
+      "price": 20,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Pilotwings%2064%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "n64-036-pilotwings-64.webp"
+    },
+    {
+      "rank": 8,
+      "sku": "N64-048",
+      "name": "Star Fox 64",
+      "platform": "Nintendo 64",
+      "price": 25,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Star%20Fox%2064%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "n64-048-star-fox-64.webp"
+    },
+    {
+      "rank": 9,
+      "sku": "ACC-010",
+      "name": "Nintendo GameCube Stroomadapter",
+      "platform": "GameCube",
+      "price": 10,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20GameCube%20Stroomadapter%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-010-nintendo-gamecube-stroomadapter.webp"
+    },
+    {
+      "rank": 10,
+      "sku": "ACC-025",
+      "name": "GameCube WaveBird (draadloos)",
+      "platform": "GameCube",
+      "price": 10,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=GameCube%20WaveBird%20(draadloos)%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-025-gamecube-wavebird-draadloos.webp"
+    },
+    {
+      "rank": 11,
+      "sku": "ACC-026",
+      "name": "N64 Controller",
+      "platform": "Nintendo 64",
+      "price": 25,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=N64%20Controller%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-026-n64-controller.webp"
+    },
+    {
+      "rank": 12,
+      "sku": "ACC-032",
+      "name": "GameCube AV Kabel",
+      "platform": "GameCube",
+      "price": 8,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=GameCube%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-032-gamecube-av-kabel.webp"
+    },
+    {
+      "rank": 13,
+      "sku": "ACC-033",
+      "name": "N64 AV Kabel",
+      "platform": "Nintendo 64",
+      "price": 8,
+      "score": 70,
+      "searchUrl": "https://www.pricecharting.com/search?q=N64%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-033-n64-av-kabel.webp"
+    },
+    {
+      "rank": 14,
+      "sku": "NES-006",
+      "name": "Balloon Fight",
+      "platform": "NES",
+      "price": 15,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=Balloon%20Fight%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "nes-006-balloon-fight.webp"
+    },
+    {
+      "rank": 15,
+      "sku": "NES-022",
+      "name": "Duck Hunt",
+      "platform": "NES",
+      "price": 10,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=Duck%20Hunt%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "nes-022-duck-hunt.webp"
+    },
+    {
+      "rank": 16,
+      "sku": "NES-041",
+      "name": "Ninja Gaiden II",
+      "platform": "NES",
+      "price": 15,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=Ninja%20Gaiden%20II%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "nes-041-ninja-gaiden-ii.webp"
+    },
+    {
+      "rank": 17,
+      "sku": "NES-047",
+      "name": "StarTropics",
+      "platform": "NES",
+      "price": 15,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=StarTropics%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "nes-047-startropics.webp"
+    },
+    {
+      "rank": 18,
+      "sku": "ACC-013",
+      "name": "NES Stroomadapter",
+      "platform": "NES",
+      "price": 10,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=NES%20Stroomadapter%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-013-nes-stroomadapter.webp"
+    },
+    {
+      "rank": 19,
+      "sku": "ACC-028",
+      "name": "NES Controller",
+      "platform": "NES",
+      "price": 25,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=NES%20Controller%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-028-nes-controller.webp"
+    },
+    {
+      "rank": 20,
+      "sku": "ACC-035",
+      "name": "NES AV Kabel",
+      "platform": "NES",
+      "price": 8,
+      "score": 50,
+      "searchUrl": "https://www.pricecharting.com/search?q=NES%20AV%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-035-nes-av-kabel.webp"
+    },
+    {
+      "rank": 21,
+      "sku": "GBA-010",
+      "name": "Drill Dozer",
+      "platform": "Game Boy Advance",
+      "price": 15,
+      "score": 45,
+      "searchUrl": "https://www.pricecharting.com/search?q=Drill%20Dozer%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gba-010-drill-dozer.webp"
+    },
+    {
+      "rank": 22,
+      "sku": "GBA-038",
+      "name": "Mother 3",
+      "platform": "Game Boy Advance",
+      "price": 15,
+      "score": 45,
+      "searchUrl": "https://www.pricecharting.com/search?q=Mother%203%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gba-038-mother-3.webp"
+    },
+    {
+      "rank": 23,
+      "sku": "GBA-065",
+      "name": "Yoshi's Island GBA",
+      "platform": "Game Boy Advance",
+      "price": 25,
+      "score": 45,
+      "searchUrl": "https://www.pricecharting.com/search?q=Yoshi's%20Island%20GBA%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gba-065-yoshi-s-island-gba.webp"
+    },
+    {
+      "rank": 24,
+      "sku": "ACC-036",
+      "name": "Game Boy Link Kabel",
+      "platform": "Game Boy Advance",
+      "price": 8,
+      "score": 45,
+      "searchUrl": "https://www.pricecharting.com/search?q=Game%20Boy%20Link%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-036-game-boy-link-kabel.webp"
+    },
+    {
+      "rank": 25,
+      "sku": "ACC-037",
+      "name": "GBA naar GameCube Link Kabel",
+      "platform": "Game Boy Advance",
+      "price": 8,
+      "score": 45,
+      "searchUrl": "https://www.pricecharting.com/search?q=GBA%20naar%20GameCube%20Link%20Kabel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-037-gba-naar-gamecube-link-kabel.webp"
+    },
+    {
+      "rank": 26,
+      "sku": "GB-015",
+      "name": "Game & Watch Gallery 3",
+      "platform": "Game Boy",
+      "price": 12,
+      "score": 40,
+      "searchUrl": "https://www.pricecharting.com/search?q=Game%20%26%20Watch%20Gallery%203%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gb-015-game-watch-gallery-3.webp"
+    },
+    {
+      "rank": 27,
+      "sku": "GB-026",
+      "name": "Metal Gear Solid",
+      "platform": "Game Boy",
+      "price": 12,
+      "score": 40,
+      "searchUrl": "https://www.pricecharting.com/search?q=Metal%20Gear%20Solid%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gb-026-metal-gear-solid.webp"
+    },
+    {
+      "rank": 28,
+      "sku": "GB-053",
+      "name": "Tetris DX",
+      "platform": "Game Boy",
+      "price": 12,
+      "score": 40,
+      "searchUrl": "https://www.pricecharting.com/search?q=Tetris%20DX%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gb-053-tetris-dx.webp"
+    },
+    {
+      "rank": 29,
+      "sku": "SNES-028",
+      "name": "Mortal Kombat 3",
+      "platform": "Super Nintendo",
+      "price": 20,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Mortal%20Kombat%203%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-028-mortal-kombat-3.webp"
+    },
+    {
+      "rank": 30,
+      "sku": "SNES-029",
+      "name": "Mortal Kombat II",
+      "platform": "Super Nintendo",
+      "price": 20,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Mortal%20Kombat%20II%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-029-mortal-kombat-ii.webp"
+    },
+    {
+      "rank": 31,
+      "sku": "SNES-038",
+      "name": "Sim City",
+      "platform": "Super Nintendo",
+      "price": 20,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Sim%20City%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-038-sim-city.webp"
+    },
+    {
+      "rank": 32,
+      "sku": "SNES-056",
+      "name": "Top Gear",
+      "platform": "Super Nintendo",
+      "price": 20,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Top%20Gear%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-056-top-gear.webp"
+    },
+    {
+      "rank": 33,
+      "sku": "SNES-057",
+      "name": "Turtles in Time",
+      "platform": "Super Nintendo",
+      "price": 40,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Turtles%20in%20Time%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-057-turtles-in-time.webp"
+    },
+    {
+      "rank": 34,
+      "sku": "WIIU-005",
+      "name": "Axiom Verge",
+      "platform": "Wii U",
+      "price": 15,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Axiom%20Verge%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "wiiu-005-axiom-verge.webp"
+    },
+    {
+      "rank": 35,
+      "sku": "WIIU-009",
+      "name": "DK Country: Tropical Freeze",
+      "platform": "Wii U",
+      "price": 15,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=DK%20Country%3A%20Tropical%20Freeze%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "wiiu-009-dk-country-tropical-freeze.webp"
+    },
+    {
+      "rank": 36,
+      "sku": "WIIU-048",
+      "name": "Wii Fit U",
+      "platform": "Wii U",
+      "price": 15,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Wii%20Fit%20U%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "wiiu-048-wii-fit-u.webp"
+    },
+    {
+      "rank": 37,
+      "sku": "ACC-008",
+      "name": "Nintendo Wii U Stroomadapter (Console)",
+      "platform": "Wii U",
+      "price": 10,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Wii%20U%20Stroomadapter%20(Console)%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-008-nintendo-wii-u-stroomadapter-console.webp"
+    },
+    {
+      "rank": 38,
+      "sku": "ACC-009",
+      "name": "Nintendo Wii U GamePad Oplader",
+      "platform": "Wii U",
+      "price": 10,
+      "score": 20,
+      "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Wii%20U%20GamePad%20Oplader%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "acc-009-nintendo-wii-u-gamepad-oplader.webp"
+    }
+  ]
+}

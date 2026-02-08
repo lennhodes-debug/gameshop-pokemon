@@ -1,0 +1,794 @@
+[
+  {
+    "sku": "3DS-065",
+    "name": "Yo-Kai Watch 2",
+    "platform": "Nintendo 3DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Yo-Kai%20Watch%202&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Yo-Kai%20Watch%202",
+      "mobyGames": "https://www.mobygames.com/search?q=Yo-Kai%20Watch%202",
+      "igdb": "https://www.igdb.com/search?q=Yo-Kai%20Watch%202",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Yo-Kai%20Watch%202&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Yo-Kai%20Watch%202&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Yo-Kai%20Watch%202&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Yo-Kai%20Watch%202+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=3ds&game=Yo-Kai%20Watch%202",
+      "romhacking": "https://www.romhacking.net/search/?game=Yo-Kai%20Watch%202",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Yo-Kai%20Watch%202",
+      "bingImages": "https://www.bing.com/images/search?q=Yo-Kai%20Watch%202%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Yo-Kai%20Watch%202%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "3ds",
+      "abbr": "CTR"
+    }
+  },
+  {
+    "sku": "CON-014",
+    "name": "New Nintendo 3DS XL - Blauw",
+    "platform": "Nintendo 3DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=New%20Nintendo%203DS%20XL%20-%20Blauw",
+      "mobyGames": "https://www.mobygames.com/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw",
+      "igdb": "https://www.igdb.com/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=New%20Nintendo%203DS%20XL%20-%20Blauw&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=New%20Nintendo%203DS%20XL%20-%20Blauw&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=New%20Nintendo%203DS%20XL%20-%20Blauw&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=New%20Nintendo%203DS%20XL%20-%20Blauw+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=3ds&game=New%20Nintendo%203DS%20XL%20-%20Blauw",
+      "romhacking": "https://www.romhacking.net/search/?game=New%20Nintendo%203DS%20XL%20-%20Blauw",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw",
+      "bingImages": "https://www.bing.com/images/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=New%20Nintendo%203DS%20XL%20-%20Blauw%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "3ds",
+      "abbr": "CTR"
+    }
+  },
+  {
+    "sku": "DS-057",
+    "name": "Professor Layton: Geheimzinnige Dorp",
+    "platform": "Nintendo DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Professor%20Layton%3A%20Geheimzinnige%20Dorp",
+      "mobyGames": "https://www.mobygames.com/search?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp",
+      "igdb": "https://www.igdb.com/search?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Professor%20Layton%3A%20Geheimzinnige%20Dorp&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Professor%20Layton%3A%20Geheimzinnige%20Dorp&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=ds&game=Professor%20Layton%3A%20Geheimzinnige%20Dorp",
+      "romhacking": "https://www.romhacking.net/search/?game=Professor%20Layton%3A%20Geheimzinnige%20Dorp",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp",
+      "bingImages": "https://www.bing.com/images/search?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Professor%20Layton%3A%20Geheimzinnige%20Dorp%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "ds",
+      "abbr": "NDS"
+    }
+  },
+  {
+    "sku": "DS-066",
+    "name": "WarioWare: Touched!",
+    "platform": "Nintendo DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=WarioWare%3A%20Touched!&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=WarioWare%3A%20Touched!",
+      "mobyGames": "https://www.mobygames.com/search?q=WarioWare%3A%20Touched!",
+      "igdb": "https://www.igdb.com/search?q=WarioWare%3A%20Touched!",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=WarioWare%3A%20Touched!&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=WarioWare%3A%20Touched!&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=WarioWare%3A%20Touched!&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=WarioWare%3A%20Touched!+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=ds&game=WarioWare%3A%20Touched!",
+      "romhacking": "https://www.romhacking.net/search/?game=WarioWare%3A%20Touched!",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=WarioWare%3A%20Touched!",
+      "bingImages": "https://www.bing.com/images/search?q=WarioWare%3A%20Touched!%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=WarioWare%3A%20Touched!%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "ds",
+      "abbr": "NDS"
+    }
+  },
+  {
+    "sku": "CON-020",
+    "name": "Nintendo DSi - Zwart",
+    "platform": "Nintendo DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20-%20Zwart&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Nintendo%20DSi%20-%20Zwart",
+      "mobyGames": "https://www.mobygames.com/search?q=Nintendo%20DSi%20-%20Zwart",
+      "igdb": "https://www.igdb.com/search?q=Nintendo%20DSi%20-%20Zwart",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Nintendo%20DSi%20-%20Zwart&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Nintendo%20DSi%20-%20Zwart&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Nintendo%20DSi%20-%20Zwart&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Nintendo%20DSi%20-%20Zwart+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=ds&game=Nintendo%20DSi%20-%20Zwart",
+      "romhacking": "https://www.romhacking.net/search/?game=Nintendo%20DSi%20-%20Zwart",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Nintendo%20DSi%20-%20Zwart",
+      "bingImages": "https://www.bing.com/images/search?q=Nintendo%20DSi%20-%20Zwart%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Nintendo%20DSi%20-%20Zwart%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "ds",
+      "abbr": "NDS"
+    }
+  },
+  {
+    "sku": "CON-022",
+    "name": "Nintendo DSi XL - Geel",
+    "platform": "Nintendo DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20XL%20-%20Geel&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Nintendo%20DSi%20XL%20-%20Geel",
+      "mobyGames": "https://www.mobygames.com/search?q=Nintendo%20DSi%20XL%20-%20Geel",
+      "igdb": "https://www.igdb.com/search?q=Nintendo%20DSi%20XL%20-%20Geel",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Nintendo%20DSi%20XL%20-%20Geel&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Nintendo%20DSi%20XL%20-%20Geel&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Nintendo%20DSi%20XL%20-%20Geel&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Nintendo%20DSi%20XL%20-%20Geel+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=ds&game=Nintendo%20DSi%20XL%20-%20Geel",
+      "romhacking": "https://www.romhacking.net/search/?game=Nintendo%20DSi%20XL%20-%20Geel",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Nintendo%20DSi%20XL%20-%20Geel",
+      "bingImages": "https://www.bing.com/images/search?q=Nintendo%20DSi%20XL%20-%20Geel%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Nintendo%20DSi%20XL%20-%20Geel%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "ds",
+      "abbr": "NDS"
+    }
+  },
+  {
+    "sku": "CON-023",
+    "name": "Nintendo DSi XL - Rood",
+    "platform": "Nintendo DS",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Nintendo%20DSi%20XL%20-%20Rood&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Nintendo%20DSi%20XL%20-%20Rood",
+      "mobyGames": "https://www.mobygames.com/search?q=Nintendo%20DSi%20XL%20-%20Rood",
+      "igdb": "https://www.igdb.com/search?q=Nintendo%20DSi%20XL%20-%20Rood",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Nintendo%20DSi%20XL%20-%20Rood&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Nintendo%20DSi%20XL%20-%20Rood&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Nintendo%20DSi%20XL%20-%20Rood&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Nintendo%20DSi%20XL%20-%20Rood+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=ds&game=Nintendo%20DSi%20XL%20-%20Rood",
+      "romhacking": "https://www.romhacking.net/search/?game=Nintendo%20DSi%20XL%20-%20Rood",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Nintendo%20DSi%20XL%20-%20Rood",
+      "bingImages": "https://www.bing.com/images/search?q=Nintendo%20DSi%20XL%20-%20Rood%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Nintendo%20DSi%20XL%20-%20Rood%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "ds",
+      "abbr": "NDS"
+    }
+  },
+  {
+    "sku": "GC-009",
+    "name": "Eternal Darkness",
+    "platform": "GameCube",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Eternal%20Darkness&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Eternal%20Darkness",
+      "mobyGames": "https://www.mobygames.com/search?q=Eternal%20Darkness",
+      "igdb": "https://www.igdb.com/search?q=Eternal%20Darkness",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Eternal%20Darkness&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Eternal%20Darkness&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Eternal%20Darkness&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Eternal%20Darkness+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gc&game=Eternal%20Darkness",
+      "romhacking": "https://www.romhacking.net/search/?game=Eternal%20Darkness",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Eternal%20Darkness",
+      "bingImages": "https://www.bing.com/images/search?q=Eternal%20Darkness%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Eternal%20Darkness%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gc",
+      "abbr": "GCN"
+    }
+  },
+  {
+    "sku": "GC-010",
+    "name": "Eternal Darkness: Sanity's Requiem",
+    "platform": "GameCube",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Eternal%20Darkness%3A%20Sanity's%20Requiem",
+      "mobyGames": "https://www.mobygames.com/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem",
+      "igdb": "https://www.igdb.com/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Eternal%20Darkness%3A%20Sanity's%20Requiem&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Eternal%20Darkness%3A%20Sanity's%20Requiem&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Eternal%20Darkness%3A%20Sanity's%20Requiem&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Eternal%20Darkness%3A%20Sanity's%20Requiem+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gc&game=Eternal%20Darkness%3A%20Sanity's%20Requiem",
+      "romhacking": "https://www.romhacking.net/search/?game=Eternal%20Darkness%3A%20Sanity's%20Requiem",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem",
+      "bingImages": "https://www.bing.com/images/search?q=Eternal%20Darkness%3A%20Sanity's%20Requiem%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Eternal%20Darkness%3A%20Sanity's%20Requiem%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gc",
+      "abbr": "GCN"
+    }
+  },
+  {
+    "sku": "GC-030",
+    "name": "Naruto: Clash of Ninja 2",
+    "platform": "GameCube",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Naruto%3A%20Clash%20of%20Ninja%202&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Naruto%3A%20Clash%20of%20Ninja%202",
+      "mobyGames": "https://www.mobygames.com/search?q=Naruto%3A%20Clash%20of%20Ninja%202",
+      "igdb": "https://www.igdb.com/search?q=Naruto%3A%20Clash%20of%20Ninja%202",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Naruto%3A%20Clash%20of%20Ninja%202&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Naruto%3A%20Clash%20of%20Ninja%202&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Naruto%3A%20Clash%20of%20Ninja%202&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Naruto%3A%20Clash%20of%20Ninja%202+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gc&game=Naruto%3A%20Clash%20of%20Ninja%202",
+      "romhacking": "https://www.romhacking.net/search/?game=Naruto%3A%20Clash%20of%20Ninja%202",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Naruto%3A%20Clash%20of%20Ninja%202",
+      "bingImages": "https://www.bing.com/images/search?q=Naruto%3A%20Clash%20of%20Ninja%202%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Naruto%3A%20Clash%20of%20Ninja%202%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gc",
+      "abbr": "GCN"
+    }
+  },
+  {
+    "sku": "GC-042",
+    "name": "Resident Evil 4",
+    "platform": "GameCube",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Resident%20Evil%204&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Resident%20Evil%204",
+      "mobyGames": "https://www.mobygames.com/search?q=Resident%20Evil%204",
+      "igdb": "https://www.igdb.com/search?q=Resident%20Evil%204",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Resident%20Evil%204&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Resident%20Evil%204&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Resident%20Evil%204&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Resident%20Evil%204+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gc&game=Resident%20Evil%204",
+      "romhacking": "https://www.romhacking.net/search/?game=Resident%20Evil%204",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Resident%20Evil%204",
+      "bingImages": "https://www.bing.com/images/search?q=Resident%20Evil%204%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Resident%20Evil%204%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gc",
+      "abbr": "GCN"
+    }
+  },
+  {
+    "sku": "N64-036",
+    "name": "Pilotwings 64",
+    "platform": "Nintendo 64",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Pilotwings%2064&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Pilotwings%2064",
+      "mobyGames": "https://www.mobygames.com/search?q=Pilotwings%2064",
+      "igdb": "https://www.igdb.com/search?q=Pilotwings%2064",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Pilotwings%2064&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Pilotwings%2064&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Pilotwings%2064&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Pilotwings%2064+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=n64&game=Pilotwings%2064",
+      "romhacking": "https://www.romhacking.net/search/?game=Pilotwings%2064",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Pilotwings%2064",
+      "bingImages": "https://www.bing.com/images/search?q=Pilotwings%2064%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Pilotwings%2064%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "n64",
+      "abbr": "N64"
+    }
+  },
+  {
+    "sku": "N64-048",
+    "name": "Star Fox 64",
+    "platform": "Nintendo 64",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Star%20Fox%2064&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Star%20Fox%2064",
+      "mobyGames": "https://www.mobygames.com/search?q=Star%20Fox%2064",
+      "igdb": "https://www.igdb.com/search?q=Star%20Fox%2064",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Star%20Fox%2064&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Star%20Fox%2064&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Star%20Fox%2064&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Star%20Fox%2064+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=n64&game=Star%20Fox%2064",
+      "romhacking": "https://www.romhacking.net/search/?game=Star%20Fox%2064",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Star%20Fox%2064",
+      "bingImages": "https://www.bing.com/images/search?q=Star%20Fox%2064%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Star%20Fox%2064%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "n64",
+      "abbr": "N64"
+    }
+  },
+  {
+    "sku": "SNES-013",
+    "name": "EarthBound",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=EarthBound&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=EarthBound",
+      "mobyGames": "https://www.mobygames.com/search?q=EarthBound",
+      "igdb": "https://www.igdb.com/search?q=EarthBound",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=EarthBound&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=EarthBound&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=EarthBound&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=EarthBound+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=EarthBound",
+      "romhacking": "https://www.romhacking.net/search/?game=EarthBound",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=EarthBound",
+      "bingImages": "https://www.bing.com/images/search?q=EarthBound%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=EarthBound%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-015",
+    "name": "Final Fantasy V",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Final%20Fantasy%20V&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Final%20Fantasy%20V",
+      "mobyGames": "https://www.mobygames.com/search?q=Final%20Fantasy%20V",
+      "igdb": "https://www.igdb.com/search?q=Final%20Fantasy%20V",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Final%20Fantasy%20V&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Final%20Fantasy%20V&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Final%20Fantasy%20V&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Final%20Fantasy%20V+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Final%20Fantasy%20V",
+      "romhacking": "https://www.romhacking.net/search/?game=Final%20Fantasy%20V",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Final%20Fantasy%20V",
+      "bingImages": "https://www.bing.com/images/search?q=Final%20Fantasy%20V%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Final%20Fantasy%20V%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-016",
+    "name": "Final Fantasy VI",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Final%20Fantasy%20VI&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Final%20Fantasy%20VI",
+      "mobyGames": "https://www.mobygames.com/search?q=Final%20Fantasy%20VI",
+      "igdb": "https://www.igdb.com/search?q=Final%20Fantasy%20VI",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Final%20Fantasy%20VI&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Final%20Fantasy%20VI&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Final%20Fantasy%20VI&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Final%20Fantasy%20VI+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Final%20Fantasy%20VI",
+      "romhacking": "https://www.romhacking.net/search/?game=Final%20Fantasy%20VI",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Final%20Fantasy%20VI",
+      "bingImages": "https://www.bing.com/images/search?q=Final%20Fantasy%20VI%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Final%20Fantasy%20VI%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-028",
+    "name": "Mortal Kombat 3",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Mortal%20Kombat%203&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Mortal%20Kombat%203",
+      "mobyGames": "https://www.mobygames.com/search?q=Mortal%20Kombat%203",
+      "igdb": "https://www.igdb.com/search?q=Mortal%20Kombat%203",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Mortal%20Kombat%203&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Mortal%20Kombat%203&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Mortal%20Kombat%203&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Mortal%20Kombat%203+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Mortal%20Kombat%203",
+      "romhacking": "https://www.romhacking.net/search/?game=Mortal%20Kombat%203",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Mortal%20Kombat%203",
+      "bingImages": "https://www.bing.com/images/search?q=Mortal%20Kombat%203%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Mortal%20Kombat%203%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-029",
+    "name": "Mortal Kombat II",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Mortal%20Kombat%20II&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Mortal%20Kombat%20II",
+      "mobyGames": "https://www.mobygames.com/search?q=Mortal%20Kombat%20II",
+      "igdb": "https://www.igdb.com/search?q=Mortal%20Kombat%20II",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Mortal%20Kombat%20II&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Mortal%20Kombat%20II&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Mortal%20Kombat%20II&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Mortal%20Kombat%20II+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Mortal%20Kombat%20II",
+      "romhacking": "https://www.romhacking.net/search/?game=Mortal%20Kombat%20II",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Mortal%20Kombat%20II",
+      "bingImages": "https://www.bing.com/images/search?q=Mortal%20Kombat%20II%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Mortal%20Kombat%20II%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-038",
+    "name": "Sim City",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Sim%20City&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Sim%20City",
+      "mobyGames": "https://www.mobygames.com/search?q=Sim%20City",
+      "igdb": "https://www.igdb.com/search?q=Sim%20City",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Sim%20City&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Sim%20City&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Sim%20City&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Sim%20City+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Sim%20City",
+      "romhacking": "https://www.romhacking.net/search/?game=Sim%20City",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Sim%20City",
+      "bingImages": "https://www.bing.com/images/search?q=Sim%20City%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Sim%20City%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-056",
+    "name": "Top Gear",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Top%20Gear&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Top%20Gear",
+      "mobyGames": "https://www.mobygames.com/search?q=Top%20Gear",
+      "igdb": "https://www.igdb.com/search?q=Top%20Gear",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Top%20Gear&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Top%20Gear&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Top%20Gear&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Top%20Gear+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Top%20Gear",
+      "romhacking": "https://www.romhacking.net/search/?game=Top%20Gear",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Top%20Gear",
+      "bingImages": "https://www.bing.com/images/search?q=Top%20Gear%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Top%20Gear%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "SNES-057",
+    "name": "Turtles in Time",
+    "platform": "Super Nintendo",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Turtles%20in%20Time&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Turtles%20in%20Time",
+      "mobyGames": "https://www.mobygames.com/search?q=Turtles%20in%20Time",
+      "igdb": "https://www.igdb.com/search?q=Turtles%20in%20Time",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Turtles%20in%20Time&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Turtles%20in%20Time&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Turtles%20in%20Time&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Turtles%20in%20Time+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=snes&game=Turtles%20in%20Time",
+      "romhacking": "https://www.romhacking.net/search/?game=Turtles%20in%20Time",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Turtles%20in%20Time",
+      "bingImages": "https://www.bing.com/images/search?q=Turtles%20in%20Time%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Turtles%20in%20Time%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "snes",
+      "abbr": "SNES"
+    }
+  },
+  {
+    "sku": "GBA-010",
+    "name": "Drill Dozer",
+    "platform": "Game Boy Advance",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Drill%20Dozer&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Drill%20Dozer",
+      "mobyGames": "https://www.mobygames.com/search?q=Drill%20Dozer",
+      "igdb": "https://www.igdb.com/search?q=Drill%20Dozer",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Drill%20Dozer&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Drill%20Dozer&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Drill%20Dozer&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Drill%20Dozer+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gba&game=Drill%20Dozer",
+      "romhacking": "https://www.romhacking.net/search/?game=Drill%20Dozer",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Drill%20Dozer",
+      "bingImages": "https://www.bing.com/images/search?q=Drill%20Dozer%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Drill%20Dozer%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gba",
+      "abbr": "GBA"
+    }
+  },
+  {
+    "sku": "GBA-012",
+    "name": "Final Fantasy I & II: Dawn of Souls",
+    "platform": "Game Boy Advance",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls",
+      "mobyGames": "https://www.mobygames.com/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls",
+      "igdb": "https://www.igdb.com/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gba&game=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls",
+      "romhacking": "https://www.romhacking.net/search/?game=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls",
+      "bingImages": "https://www.bing.com/images/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gba",
+      "abbr": "GBA"
+    }
+  },
+  {
+    "sku": "GBA-038",
+    "name": "Mother 3",
+    "platform": "Game Boy Advance",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Mother%203&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Mother%203",
+      "mobyGames": "https://www.mobygames.com/search?q=Mother%203",
+      "igdb": "https://www.igdb.com/search?q=Mother%203",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Mother%203&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Mother%203&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Mother%203&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Mother%203+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gba&game=Mother%203",
+      "romhacking": "https://www.romhacking.net/search/?game=Mother%203",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Mother%203",
+      "bingImages": "https://www.bing.com/images/search?q=Mother%203%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Mother%203%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gba",
+      "abbr": "GBA"
+    }
+  },
+  {
+    "sku": "GBA-065",
+    "name": "Yoshi's Island GBA",
+    "platform": "Game Boy Advance",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Yoshi's%20Island%20GBA&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Yoshi's%20Island%20GBA",
+      "mobyGames": "https://www.mobygames.com/search?q=Yoshi's%20Island%20GBA",
+      "igdb": "https://www.igdb.com/search?q=Yoshi's%20Island%20GBA",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Yoshi's%20Island%20GBA&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Yoshi's%20Island%20GBA&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Yoshi's%20Island%20GBA&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Yoshi's%20Island%20GBA+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gba&game=Yoshi's%20Island%20GBA",
+      "romhacking": "https://www.romhacking.net/search/?game=Yoshi's%20Island%20GBA",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Yoshi's%20Island%20GBA",
+      "bingImages": "https://www.bing.com/images/search?q=Yoshi's%20Island%20GBA%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Yoshi's%20Island%20GBA%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gba",
+      "abbr": "GBA"
+    }
+  },
+  {
+    "sku": "NES-006",
+    "name": "Balloon Fight",
+    "platform": "NES",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Balloon%20Fight&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Balloon%20Fight",
+      "mobyGames": "https://www.mobygames.com/search?q=Balloon%20Fight",
+      "igdb": "https://www.igdb.com/search?q=Balloon%20Fight",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Balloon%20Fight&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Balloon%20Fight&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Balloon%20Fight&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Balloon%20Fight+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=nes&game=Balloon%20Fight",
+      "romhacking": "https://www.romhacking.net/search/?game=Balloon%20Fight",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Balloon%20Fight",
+      "bingImages": "https://www.bing.com/images/search?q=Balloon%20Fight%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Balloon%20Fight%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "nes",
+      "abbr": "NES"
+    }
+  },
+  {
+    "sku": "NES-022",
+    "name": "Duck Hunt",
+    "platform": "NES",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Duck%20Hunt&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Duck%20Hunt",
+      "mobyGames": "https://www.mobygames.com/search?q=Duck%20Hunt",
+      "igdb": "https://www.igdb.com/search?q=Duck%20Hunt",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Duck%20Hunt&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Duck%20Hunt&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Duck%20Hunt&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Duck%20Hunt+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=nes&game=Duck%20Hunt",
+      "romhacking": "https://www.romhacking.net/search/?game=Duck%20Hunt",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Duck%20Hunt",
+      "bingImages": "https://www.bing.com/images/search?q=Duck%20Hunt%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Duck%20Hunt%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "nes",
+      "abbr": "NES"
+    }
+  },
+  {
+    "sku": "NES-025",
+    "name": "Final Fantasy",
+    "platform": "NES",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Final%20Fantasy&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Final%20Fantasy",
+      "mobyGames": "https://www.mobygames.com/search?q=Final%20Fantasy",
+      "igdb": "https://www.igdb.com/search?q=Final%20Fantasy",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Final%20Fantasy&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Final%20Fantasy&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Final%20Fantasy&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Final%20Fantasy+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=nes&game=Final%20Fantasy",
+      "romhacking": "https://www.romhacking.net/search/?game=Final%20Fantasy",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Final%20Fantasy",
+      "bingImages": "https://www.bing.com/images/search?q=Final%20Fantasy%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Final%20Fantasy%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "nes",
+      "abbr": "NES"
+    }
+  },
+  {
+    "sku": "NES-041",
+    "name": "Ninja Gaiden II",
+    "platform": "NES",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Ninja%20Gaiden%20II&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Ninja%20Gaiden%20II",
+      "mobyGames": "https://www.mobygames.com/search?q=Ninja%20Gaiden%20II",
+      "igdb": "https://www.igdb.com/search?q=Ninja%20Gaiden%20II",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Ninja%20Gaiden%20II&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ninja%20Gaiden%20II&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Ninja%20Gaiden%20II&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Ninja%20Gaiden%20II+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=nes&game=Ninja%20Gaiden%20II",
+      "romhacking": "https://www.romhacking.net/search/?game=Ninja%20Gaiden%20II",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Ninja%20Gaiden%20II",
+      "bingImages": "https://www.bing.com/images/search?q=Ninja%20Gaiden%20II%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Ninja%20Gaiden%20II%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "nes",
+      "abbr": "NES"
+    }
+  },
+  {
+    "sku": "NES-047",
+    "name": "StarTropics",
+    "platform": "NES",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=StarTropics&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=StarTropics",
+      "mobyGames": "https://www.mobygames.com/search?q=StarTropics",
+      "igdb": "https://www.igdb.com/search?q=StarTropics",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=StarTropics&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=StarTropics&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=StarTropics&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=StarTropics+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=nes&game=StarTropics",
+      "romhacking": "https://www.romhacking.net/search/?game=StarTropics",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=StarTropics",
+      "bingImages": "https://www.bing.com/images/search?q=StarTropics%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=StarTropics%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "nes",
+      "abbr": "NES"
+    }
+  },
+  {
+    "sku": "GB-015",
+    "name": "Game & Watch Gallery 3",
+    "platform": "Game Boy",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Game%20%26%20Watch%20Gallery%203&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Game%20%26%20Watch%20Gallery%203",
+      "mobyGames": "https://www.mobygames.com/search?q=Game%20%26%20Watch%20Gallery%203",
+      "igdb": "https://www.igdb.com/search?q=Game%20%26%20Watch%20Gallery%203",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Game%20%26%20Watch%20Gallery%203&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Game%20%26%20Watch%20Gallery%203&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Game%20%26%20Watch%20Gallery%203&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Game%20%26%20Watch%20Gallery%203+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gb&game=Game%20%26%20Watch%20Gallery%203",
+      "romhacking": "https://www.romhacking.net/search/?game=Game%20%26%20Watch%20Gallery%203",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Game%20%26%20Watch%20Gallery%203",
+      "bingImages": "https://www.bing.com/images/search?q=Game%20%26%20Watch%20Gallery%203%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Game%20%26%20Watch%20Gallery%203%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gb",
+      "abbr": "DMG"
+    }
+  },
+  {
+    "sku": "GB-026",
+    "name": "Metal Gear Solid",
+    "platform": "Game Boy",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Metal%20Gear%20Solid&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Metal%20Gear%20Solid",
+      "mobyGames": "https://www.mobygames.com/search?q=Metal%20Gear%20Solid",
+      "igdb": "https://www.igdb.com/search?q=Metal%20Gear%20Solid",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Metal%20Gear%20Solid&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Metal%20Gear%20Solid&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Metal%20Gear%20Solid&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Metal%20Gear%20Solid+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gb&game=Metal%20Gear%20Solid",
+      "romhacking": "https://www.romhacking.net/search/?game=Metal%20Gear%20Solid",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Metal%20Gear%20Solid",
+      "bingImages": "https://www.bing.com/images/search?q=Metal%20Gear%20Solid%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Metal%20Gear%20Solid%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gb",
+      "abbr": "DMG"
+    }
+  },
+  {
+    "sku": "GB-053",
+    "name": "Tetris DX",
+    "platform": "Game Boy",
+    "sources": {
+      "priceCharting": "https://www.pricecharting.com/search?q=Tetris%20DX&region=pal",
+      "gameFAQs": "https://gamefaqs.gamespot.com/search?game=Tetris%20DX",
+      "mobyGames": "https://www.mobygames.com/search?q=Tetris%20DX",
+      "igdb": "https://www.igdb.com/search?q=Tetris%20DX",
+      "wikipedia": "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Tetris%20DX&format=json",
+      "wikidata": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Tetris%20DX&type=item&language=en&format=json",
+      "discogs": "https://www.discogs.com/search/?q=Tetris%20DX&type=release",
+      "archiveOrg": "https://archive.org/advancedsearch.php?q=Tetris%20DX+AND+mediatype%3Atexts&output=json",
+      "emudb": "https://www.emudb.com/search?platform=gb&game=Tetris%20DX",
+      "romhacking": "https://www.romhacking.net/search/?game=Tetris%20DX",
+      "libretro": "https://github.com/libretro/libretro-database/search?q=Tetris%20DX",
+      "bingImages": "https://www.bing.com/images/search?q=Tetris%20DX%20PAL%20EUR%20box%20art",
+      "duckduckgoImages": "https://duckduckgo.com/?q=Tetris%20DX%20box%20art&iax=images&ia=images"
+    },
+    "dbInfo": {
+      "dbname": "gb",
+      "abbr": "DMG"
+    }
+  }
+]

@@ -1,0 +1,206 @@
+{
+  "generated": "2026-02-08T19:12:55.028Z",
+  "standard": {
+    "minQuality": "500x500px",
+    "format": "WebP",
+    "quality": 85,
+    "regions": [
+      "PAL",
+      "EUR"
+    ],
+    "rejectedRegions": [
+      "NTSC",
+      "USA",
+      "JPN"
+    ]
+  },
+  "sources": [
+    {
+      "name": "PriceCharting",
+      "url": "https://www.pricecharting.com",
+      "quality": "HIGHEST",
+      "region": "PAL guaranteed"
+    },
+    {
+      "name": "Amazon.eu",
+      "url": "https://www.amazon.eu",
+      "quality": "HIGH",
+      "region": "EUR"
+    },
+    {
+      "name": "eBay.co.uk",
+      "url": "https://www.ebay.co.uk",
+      "quality": "MEDIUM-HIGH",
+      "region": "PAL/UK"
+    }
+  ],
+  "schedule": {
+    "week1": 20,
+    "week2": 30,
+    "week3": 38,
+    "total": 88,
+    "accessories_week4": 37
+  },
+  "priority": [
+    {
+      "sku": "SW-021",
+      "name": "Donkey Kong Country: Tropical Freeze",
+      "platform": "Nintendo Switch",
+      "price": 40,
+      "score": 200,
+      "notes": ""
+    },
+    {
+      "sku": "SW-028",
+      "name": "Final Fantasy X/X-2 Remaster",
+      "platform": "Nintendo Switch",
+      "price": 25,
+      "score": 200,
+      "notes": ""
+    },
+    {
+      "sku": "SW-078",
+      "name": "Pokemon Let's Go Eevee",
+      "platform": "Nintendo Switch",
+      "price": 40,
+      "score": 200,
+      "notes": "High demand"
+    },
+    {
+      "sku": "SW-126",
+      "name": "Zelda: Link's Awakening",
+      "platform": "Nintendo Switch",
+      "price": 30,
+      "score": 200,
+      "notes": ""
+    },
+    {
+      "sku": "DS-023",
+      "name": "Mario & Sonic at the Olympic Games",
+      "platform": "Nintendo DS",
+      "price": 12,
+      "score": 170,
+      "notes": "Iconic franchise"
+    },
+    {
+      "sku": "WII-018",
+      "name": "Kirby's Epic Yarn",
+      "platform": "Wii",
+      "price": 10,
+      "score": 160,
+      "notes": ""
+    },
+    {
+      "sku": "NES-025",
+      "name": "Final Fantasy",
+      "platform": "NES",
+      "price": 25,
+      "score": 135,
+      "notes": ""
+    },
+    {
+      "sku": "GB-019",
+      "name": "Kirby's Dream Land",
+      "platform": "Game Boy",
+      "price": 15,
+      "score": 130,
+      "notes": ""
+    },
+    {
+      "sku": "GBA-012",
+      "name": "Final Fantasy I & II: Dawn of Souls",
+      "platform": "Game Boy Advance",
+      "price": 25,
+      "score": 110,
+      "notes": ""
+    },
+    {
+      "sku": "GBA-060",
+      "name": "Super Mario Advance 3",
+      "platform": "Game Boy Advance",
+      "price": 15,
+      "score": 110,
+      "notes": "Iconic franchise"
+    },
+    {
+      "sku": "N64-023",
+      "name": "Kirby 64",
+      "platform": "Nintendo 64",
+      "price": 25,
+      "score": 110,
+      "notes": ""
+    },
+    {
+      "sku": "SNES-015",
+      "name": "Final Fantasy V",
+      "platform": "Super Nintendo",
+      "price": 30,
+      "score": 110,
+      "notes": ""
+    },
+    {
+      "sku": "SNES-016",
+      "name": "Final Fantasy VI",
+      "platform": "Super Nintendo",
+      "price": 30,
+      "score": 110,
+      "notes": ""
+    },
+    {
+      "sku": "SNES-052",
+      "name": "Tetris & Dr. Mario",
+      "platform": "Super Nintendo",
+      "price": 20,
+      "score": 110,
+      "notes": "Iconic franchise"
+    },
+    {
+      "sku": "WIIU-055",
+      "name": "Zelda: The Wind Waker HD",
+      "platform": "Wii U",
+      "price": 23,
+      "score": 110,
+      "notes": ""
+    },
+    {
+      "sku": "SW-023",
+      "name": "Doom Eternal",
+      "platform": "Nintendo Switch",
+      "price": 25,
+      "score": 100,
+      "notes": ""
+    },
+    {
+      "sku": "SW-088",
+      "name": "Pokémon Let's Go Eevee",
+      "platform": "Nintendo Switch",
+      "price": 40,
+      "score": 100,
+      "notes": ""
+    },
+    {
+      "sku": "SW-099",
+      "name": "Skyrim",
+      "platform": "Nintendo Switch",
+      "price": 30,
+      "score": 100,
+      "notes": ""
+    },
+    {
+      "sku": "SW-117",
+      "name": "The Witcher 3",
+      "platform": "Nintendo Switch",
+      "price": 30,
+      "score": 100,
+      "notes": ""
+    },
+    {
+      "sku": "ACC-001",
+      "name": "Nintendo Switch Oplader (USB-C)",
+      "platform": "Nintendo Switch",
+      "price": 10,
+      "score": 100,
+      "notes": ""
+    }
+  ]
+}
