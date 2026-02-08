@@ -1,0 +1,245 @@
+{
+  "generated": "2026-02-08T19:20:17.719Z",
+  "total_needed": 92,
+  "top_20": [
+    {
+      "rank": 1,
+      "sku": "CON-003",
+      "name": "Nintendo Switch Lite - Lichtblauw",
+      "platform": "Nintendo Switch",
+      "price": 170,
+      "score": 280,
+      "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Lite%20-%20Lichtblauw%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "con-003-nintendo-switch-lite-lichtblauw.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Nintendo%20Switch%20Lite%20-%20Lichtblauw%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/con-003-[game-name].webp\n    "
+    },
+    {
+      "rank": 2,
+      "sku": "CON-004",
+      "name": "Nintendo Switch Lite - Lichtgeel",
+      "platform": "Nintendo Switch",
+      "price": 170,
+      "score": 280,
+      "searchUrl": "https://www.pricecharting.com/search?q=Nintendo%20Switch%20Lite%20-%20Lichtgeel%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "con-004-nintendo-switch-lite-lichtgeel.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Nintendo%20Switch%20Lite%20-%20Lichtgeel%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/con-004-[game-name].webp\n    "
+    },
+    {
+      "rank": 3,
+      "sku": "SW-021",
+      "name": "Donkey Kong Country: Tropical Freeze",
+      "platform": "Nintendo Switch",
+      "price": 40,
+      "score": 270,
+      "searchUrl": "https://www.pricecharting.com/search?q=Donkey%20Kong%20Country%3A%20Tropical%20Freeze%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "sw-021-donkey-kong-country-tropical-freeze.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Donkey%20Kong%20Country%3A%20Tropical%20Freeze%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/sw-021-[game-name].webp\n    "
+    },
+    {
+      "rank": 4,
+      "sku": "SW-028",
+      "name": "Final Fantasy X/X-2 Remaster",
+      "platform": "Nintendo Switch",
+      "price": 25,
+      "score": 270,
+      "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20X%2FX-2%20Remaster%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "sw-028-final-fantasy-x-x-2-remaster.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Final%20Fantasy%20X%2FX-2%20Remaster%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/sw-028-[game-name].webp\n    "
+    },
+    {
+      "rank": 5,
+      "sku": "SW-078",
+      "name": "Pokemon Let's Go Eevee",
+      "platform": "Nintendo Switch",
+      "price": 40,
+      "score": 270,
+      "searchUrl": "https://www.pricecharting.com/search?q=Pokemon%20Let's%20Go%20Eevee%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "sw-078-pokemon-let-s-go-eevee.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Pokemon%20Let's%20Go%20Eevee%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/sw-078-[game-name].webp\n    "
+    },
+    {
+      "rank": 6,
+      "sku": "SW-126",
+      "name": "Zelda: Link's Awakening",
+      "platform": "Nintendo Switch",
+      "price": 30,
+      "score": 270,
+      "searchUrl": "https://www.pricecharting.com/search?q=Zelda%3A%20Link's%20Awakening%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "sw-126-zelda-link-s-awakening.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Zelda%3A%20Link's%20Awakening%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/sw-126-[game-name].webp\n    "
+    },
+    {
+      "rank": 7,
+      "sku": "CON-014",
+      "name": "New Nintendo 3DS XL - Blauw",
+      "platform": "Nintendo 3DS",
+      "price": 140,
+      "score": 260,
+      "searchUrl": "https://www.pricecharting.com/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "con-014-new-nintendo-3ds-xl-blauw.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=New%20Nintendo%203DS%20XL%20-%20Blauw%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/con-014-[game-name].webp\n    "
+    },
+    {
+      "rank": 8,
+      "sku": "DS-023",
+      "name": "Mario & Sonic at the Olympic Games",
+      "platform": "Nintendo DS",
+      "price": 12,
+      "score": 240,
+      "searchUrl": "https://www.pricecharting.com/search?q=Mario%20%26%20Sonic%20at%20the%20Olympic%20Games%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "ds-023-mario-sonic-at-the-olympic-games.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Mario%20%26%20Sonic%20at%20the%20Olympic%20Games%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/ds-023-[game-name].webp\n    "
+    },
+    {
+      "rank": 9,
+      "sku": "WII-018",
+      "name": "Kirby's Epic Yarn",
+      "platform": "Wii",
+      "price": 10,
+      "score": 230,
+      "searchUrl": "https://www.pricecharting.com/search?q=Kirby's%20Epic%20Yarn%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "wii-018-kirby-s-epic-yarn.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Kirby's%20Epic%20Yarn%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/wii-018-[game-name].webp\n    "
+    },
+    {
+      "rank": 10,
+      "sku": "NES-025",
+      "name": "Final Fantasy",
+      "platform": "NES",
+      "price": 25,
+      "score": 200,
+      "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "nes-025-final-fantasy.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Final%20Fantasy%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/nes-025-[game-name].webp\n    "
+    },
+    {
+      "rank": 11,
+      "sku": "GBA-012",
+      "name": "Final Fantasy I & II: Dawn of Souls",
+      "platform": "Game Boy Advance",
+      "price": 25,
+      "score": 195,
+      "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gba-012-final-fantasy-i-ii-dawn-of-souls.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Final%20Fantasy%20I%20%26%20II%3A%20Dawn%20of%20Souls%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/gba-012-[game-name].webp\n    "
+    },
+    {
+      "rank": 12,
+      "sku": "GBA-060",
+      "name": "Super Mario Advance 3",
+      "platform": "Game Boy Advance",
+      "price": 15,
+      "score": 195,
+      "searchUrl": "https://www.pricecharting.com/search?q=Super%20Mario%20Advance%203%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gba-060-super-mario-advance-3.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Super%20Mario%20Advance%203%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/gba-060-[game-name].webp\n    "
+    },
+    {
+      "rank": 13,
+      "sku": "GB-019",
+      "name": "Kirby's Dream Land",
+      "platform": "Game Boy",
+      "price": 15,
+      "score": 190,
+      "searchUrl": "https://www.pricecharting.com/search?q=Kirby's%20Dream%20Land%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "gb-019-kirby-s-dream-land.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Kirby's%20Dream%20Land%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/gb-019-[game-name].webp\n    "
+    },
+    {
+      "rank": 14,
+      "sku": "N64-023",
+      "name": "Kirby 64",
+      "platform": "Nintendo 64",
+      "price": 25,
+      "score": 170,
+      "searchUrl": "https://www.pricecharting.com/search?q=Kirby%2064%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "n64-023-kirby-64.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Kirby%2064%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/n64-023-[game-name].webp\n    "
+    },
+    {
+      "rank": 15,
+      "sku": "SNES-015",
+      "name": "Final Fantasy V",
+      "platform": "Super Nintendo",
+      "price": 30,
+      "score": 170,
+      "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20V%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-015-final-fantasy-v.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Final%20Fantasy%20V%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/snes-015-[game-name].webp\n    "
+    },
+    {
+      "rank": 16,
+      "sku": "SNES-016",
+      "name": "Final Fantasy VI",
+      "platform": "Super Nintendo",
+      "price": 30,
+      "score": 170,
+      "searchUrl": "https://www.pricecharting.com/search?q=Final%20Fantasy%20VI%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-016-final-fantasy-vi.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Final%20Fantasy%20VI%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/snes-016-[game-name].webp\n    "
+    },
+    {
+      "rank": 17,
+      "sku": "SNES-052",
+      "name": "Tetris & Dr. Mario",
+      "platform": "Super Nintendo",
+      "price": 20,
+      "score": 170,
+      "searchUrl": "https://www.pricecharting.com/search?q=Tetris%20%26%20Dr.%20Mario%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "snes-052-tetris-dr-mario.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Tetris%20%26%20Dr.%20Mario%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/snes-052-[game-name].webp\n    "
+    },
+    {
+      "rank": 18,
+      "sku": "WIIU-055",
+      "name": "Zelda: The Wind Waker HD",
+      "platform": "Wii U",
+      "price": 23,
+      "score": 170,
+      "searchUrl": "https://www.pricecharting.com/search?q=Zelda%3A%20The%20Wind%20Waker%20HD%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "wiiu-055-zelda-the-wind-waker-hd.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Zelda%3A%20The%20Wind%20Waker%20HD%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/wiiu-055-[game-name].webp\n    "
+    },
+    {
+      "rank": 19,
+      "sku": "SW-023",
+      "name": "Doom Eternal",
+      "platform": "Nintendo Switch",
+      "price": 25,
+      "score": 120,
+      "searchUrl": "https://www.pricecharting.com/search?q=Doom%20Eternal%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "sw-023-doom-eternal.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Doom%20Eternal%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/sw-023-[game-name].webp\n    "
+    },
+    {
+      "rank": 20,
+      "sku": "SW-088",
+      "name": "Pokémon Let's Go Eevee",
+      "platform": "Nintendo Switch",
+      "price": 40,
+      "score": 120,
+      "searchUrl": "https://www.pricecharting.com/search?q=Pok%C3%A9mon%20Let's%20Go%20Eevee%20PAL%20EUR%20box%20art&region=pal",
+      "expectedFile": "sw-088-pok-mon-let-s-go-eevee.webp",
+      "instructions": "\n1. Visit: https://www.pricecharting.com/search?q=Pok%C3%A9mon%20Let's%20Go%20Eevee%20PAL%20EUR%20box%20art&region=pal\n2. Find PAL/EUR boxart (NOT NTSC)\n3. Download highest quality image\n4. Convert: convert image.png -resize 500x500 -quality 85 image.webp\n5. Place: public/images/products/sw-088-[game-name].webp\n    "
+    }
+  ],
+  "instructions": "\n1. Download each image from PriceCharting link\n2. Verify: PAL/EUR region, professional quality, undamaged\n3. Convert to WebP 500x500 quality 85\n4. Use BATCH_CONVERT.sh script to batch convert\n5. Place in public/images/products/\n6. Run: npm run build\n7. Commit changes\n    ",
+  "quality_checklist": {
+    "region": "PAL/EUR ONLY",
+    "quality": "Professional boxart",
+    "resolution": "500x500+",
+    "format": "WebP",
+    "compression": "quality 85",
+    "file_size_games": "25-70KB",
+    "file_size_accessories": "7-15KB",
+    "reject": [
+      "NTSC",
+      "screenshots",
+      "fan art",
+      "damaged",
+      "graded",
+      "<20KB",
+      ">100KB"
+    ]
+  }
+}
