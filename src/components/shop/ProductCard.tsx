@@ -166,7 +166,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className={cn("object-contain p-4 group-hover:scale-115 transition-all duration-700 ease-out", imageLoaded ? "opacity-100" : "opacity-0")}
+                  className={cn("object-contain p-4 group-hover:scale-110 transition-all duration-700 ease-out", imageLoaded ? "opacity-100" : "opacity-0")}
                   priority={false}
                   onLoad={() => setImageLoaded(true)}
                 />

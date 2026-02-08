@@ -74,7 +74,7 @@ function ShopContent() {
     if (sortBy === 'newest') {
       const skuNum = new Map<string, number>();
       for (const p of results) {
-        skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0);
+        skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z0-9]+-/, ''), 10) || 0);
       }
       results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
     } else {

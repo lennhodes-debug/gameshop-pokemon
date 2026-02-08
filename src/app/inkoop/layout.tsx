@@ -4,7 +4,7 @@ const siteUrl = 'https://gameshopenter.nl';
 
 export const metadata: Metadata = {
   title: 'Games Verkopen | Inkoop - Gameshop Enter',
-  description: 'Verkoop je Nintendo games en consoles aan Gameshop Enter. Bekijk onze inkoopprijzen per game. Eerlijke prijzen, snelle afhandeling via PostNL.',
+  description: 'Verkoop je Nintendo games en consoles aan Gameshop Enter. Stuur foto\'s en ontvang een eerlijk bod. Snelle afhandeling via PostNL.',
   keywords: ['games verkopen', 'nintendo inkoop', 'games inkopen', 'tweedehands games verkopen', 'gameshop enter inkoop'],
   openGraph: {
     title: 'Games Verkopen | Inkoop - Gameshop Enter',

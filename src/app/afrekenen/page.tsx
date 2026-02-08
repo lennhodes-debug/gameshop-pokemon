@@ -72,28 +72,33 @@ export default function AfrekenPage() {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
-
   const subtotal = getTotal();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
 
   const updateField = (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
-  };
-
-  const validateField = (field: keyof FormData) => {
-    const value = form[field];
-    if (field === 'postcode' && value && !/^\d{4}\s?[a-zA-Z]{2}$/.test(value)) {
-      setErrors((prev) => ({ ...prev, postcode: 'Voer een geldige postcode in (bijv. 1234 AB)' }));
-    } else if (field === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      setErrors((prev) => ({ ...prev, email: 'Voer een geldig e-mailadres in' }));
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Valideer alle velden voor submit
+    const allTouched: Partial<Record<keyof FormData, boolean>> = {};
+    const requiredFields: (keyof FormData)[] = ['voornaam', 'achternaam', 'email', 'straat', 'huisnummer', 'postcode', 'plaats'];
+    let hasErrors = false;
+
+    for (const field of requiredFields) {
+      allTouched[field] = true;
+      const rule = validations[field];
+      if (rule && !rule.test(form[field])) {
+        hasErrors = true;
+      }
+    }
+    setTouched((prev) => ({ ...prev, ...allTouched }));
+
+    if (hasErrors) return;
+
     setIsProcessing(true);
 
     // Simulate Mollie payment processing (in production, this calls backend API -> Mollie)

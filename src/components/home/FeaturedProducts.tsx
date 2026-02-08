@@ -17,9 +17,13 @@ export default function FeaturedProducts() {
   const [carouselWidth, setCarouselWidth] = useState(0);
 
   useEffect(() => {
-    if (carouselRef.current) {
-      setCarouselWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
-    }
+    const el = carouselRef.current;
+    if (!el) return;
+    const measure = () => setCarouselWidth(el.scrollWidth - el.offsetWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, [products]);
 
   const { scrollYProgress } = useScroll({

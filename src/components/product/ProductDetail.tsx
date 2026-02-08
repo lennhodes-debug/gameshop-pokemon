@@ -18,6 +18,7 @@ function AnimatedPrice({ price }: { price: number }) {
 
   useEffect(() => {
     if (!isInView) return;
+    let frameId: number;
     const duration = 1200;
     const start = performance.now();
     function tick(now: number) {
@@ -25,9 +26,10 @@ function AnimatedPrice({ price }: { price: number }) {
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setDisplayPrice(eased * price);
-      if (progress < 1) requestAnimationFrame(tick);
+      if (progress < 1) frameId = requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
   }, [isInView, price]);
 
   return (
