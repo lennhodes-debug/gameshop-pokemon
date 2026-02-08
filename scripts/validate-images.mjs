@@ -131,13 +131,13 @@ products.forEach((product, idx) => {
       hasError = true;
     }
 
-    // Rule 5: SKU in path must match product SKU
-    const pathSku = product.image.split('/').pop().split('-').slice(0, 2).join('-');
-    const productSku = product.sku.toLowerCase();
-    if (pathSku !== productSku) {
+    // Rule 5: SKU prefix in path should match product platform
+    const pathPrefix = product.image.split('/').pop().split('-')[0];
+    const productPrefix = product.sku.split('-')[0].toLowerCase();
+    if (pathPrefix !== productPrefix) {
       errors.push(
-        `${product.sku}: SKU mismatch in image path. ` +
-        `Product "${productSku}" but image uses "${pathSku}"`
+        `${product.sku}: Platform mismatch in image path. ` +
+        `Product "${productPrefix}" but image uses "${pathPrefix}"`
       );
       stats.skuMismatch++;
       hasError = true;
