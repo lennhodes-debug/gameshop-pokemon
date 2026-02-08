@@ -29,15 +29,15 @@ export default function SeriesCarousel({ series }: SeriesCarouselProps) {
     }
   }, [series.length]);
 
-  const ref = useSwipeGesture(handleSwipe, {
+  useSwipeGesture(handleSwipe, {
     minDistance: 20,
     minVelocity: 0.5
   });
 
   const current = series[currentIndex];
   const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+    enter: (dir: number) => ({
+      x: dir > 0 ? 1000 : -1000,
       opacity: 0
     }),
     center: {
@@ -45,19 +45,16 @@ export default function SeriesCarousel({ series }: SeriesCarouselProps) {
       x: 0,
       opacity: 1
     },
-    exit: (direction: number) => ({
+    exit: (dir: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: dir < 0 ? 1000 : -1000,
       opacity: 0
     })
   };
 
   return (
-    <div
-      ref={ref}
-      className="relative w-full h-96 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg overflow-hidden"
-    >
-      <AnimatePresence initial={false} custom={direction} mode="wait">
+    <div className="relative w-full h-96 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg overflow-hidden">
+      <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
           custom={direction}
@@ -71,14 +68,12 @@ export default function SeriesCarousel({ series }: SeriesCarouselProps) {
           }}
           className="absolute inset-0 flex flex-col items-center justify-center p-6"
         >
-          {/* Series header */}
           <div className="text-5xl mb-4">{current.emoji}</div>
           <h2 className="text-2xl font-bold text-white mb-2 text-center">{current.name}</h2>
           <p className="text-slate-300 text-sm mb-6 text-center">
             {current.games.length} games in series
           </p>
 
-          {/* Game list */}
           <div className="w-full max-h-40 overflow-y-auto space-y-2">
             {current.games.slice(0, 5).map((game) => (
               <motion.div
@@ -99,7 +94,6 @@ export default function SeriesCarousel({ series }: SeriesCarouselProps) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation dots */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {series.map((_, idx) => (
           <motion.button
@@ -117,7 +111,6 @@ export default function SeriesCarousel({ series }: SeriesCarouselProps) {
         ))}
       </div>
 
-      {/* Swipe hint */}
       <div className="absolute top-2 right-2 text-xs text-slate-500 bg-slate-900/50 px-2 py-1 rounded">
         ↔ Swipe
       </div>
