@@ -5,15 +5,16 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
+import CartCounter from './CartCounter';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
+  { href: '/nintendo', label: 'Nintendo' },
   { href: '/inkoop', label: 'Inkoop' },
   { href: '/over-ons', label: 'Over ons' },
-  { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -112,7 +113,7 @@ export default function Header() {
               </Link>
 
               {/* Cart */}
-              <Link href="/winkelwagen">
+              <Link href="/winkelwagen" aria-label="Winkelwagen">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
@@ -121,24 +122,15 @@ export default function Header() {
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                   </svg>
-                  <AnimatePresence>
-                    {itemCount > 0 && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        exit={{ scale: 0 }}
-                        className="absolute -top-0.5 -right-0.5 h-5 w-5 flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold shadow-lg shadow-emerald-500/30"
-                      >
-                        {itemCount}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  <CartCounter />
                 </motion.div>
               </Link>
 
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={mobileOpen ? 'Menu sluiten' : 'Menu openen'}
+                aria-expanded={mobileOpen}
                 className="lg:hidden p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -184,6 +176,35 @@ export default function Header() {
                     </Link>
                   </motion.div>
                 ))}
+                {/* Winkelwagen in mobiel menu */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
+                  className="border-t border-white/[0.06] mt-2 pt-2"
+                >
+                  <Link
+                    href="/winkelwagen"
+                    className={cn(
+                      'flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
+                      pathname === '/winkelwagen'
+                        ? 'text-emerald-400 bg-emerald-500/10'
+                        : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    )}
+                  >
+                    <span className="flex items-center gap-2">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                      </svg>
+                      Winkelwagen
+                    </span>
+                    {itemCount > 0 && (
+                      <span className="h-5 min-w-5 flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold px-1.5">
+                        {itemCount}
+                      </span>
+                    )}
+                  </Link>
+                </motion.div>
               </nav>
             </motion.div>
           )}

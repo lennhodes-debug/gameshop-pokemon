@@ -21,12 +21,15 @@ export interface Product {
   inkoopFeatured?: boolean;
 }
 
+const products: Product[] = productsData as Product[];
+const skuIndex = new Map<string, Product>(products.map(p => [p.sku, p]));
+
 export function getAllProducts(): Product[] {
-  return productsData as Product[];
+  return products;
 }
 
 export function getProductBySku(sku: string): Product | undefined {
-  return getAllProducts().find((p) => p.sku === sku);
+  return skuIndex.get(sku);
 }
 
 export function getProductsByPlatform(platform: string): Product[] {
@@ -35,38 +38,66 @@ export function getProductsByPlatform(platform: string): Product[] {
 
 export function getFeaturedProducts(): Product[] {
   const products = getAllProducts();
-  // Mix of premium and interesting items
-  const premium = products.filter(p => p.isPremium).slice(0, 4);
-  const consoles = products.filter(p => p.isConsole).slice(0, 2);
-  const others = products.filter(p => !p.isPremium && !p.isConsole && p.price > 30).slice(0, 2);
-  return [...premium, ...consoles, ...others].slice(0, 8);
+  const hasImage = (p: Product) => !!p.image;
+  const premium = products.filter(p => p.isPremium && hasImage(p)).slice(0, 4);
+  const premiumSkus = new Set(premium.map(p => p.sku));
+  const premiumFallback = premium.length < 4
+    ? products.filter(p => p.isPremium && !premiumSkus.has(p.sku)).slice(0, 4 - premium.length)
+    : [];
+  const usedSkus = new Set([...premium, ...premiumFallback].map(p => p.sku));
+  const consoles = products.filter(p => p.isConsole && hasImage(p) && !usedSkus.has(p.sku)).slice(0, 2);
+  const consoleFallback = consoles.length < 2
+    ? products.filter(p => p.isConsole && !usedSkus.has(p.sku) && !consoles.some(c => c.sku === p.sku)).slice(0, 2 - consoles.length)
+    : [];
+  const allUsed = new Set([...Array.from(usedSkus), ...consoles.map(p => p.sku), ...consoleFallback.map(p => p.sku)]);
+  const others = products.filter(p => !allUsed.has(p.sku) && hasImage(p) && p.price > 25).slice(0, 2);
+  return [...premium, ...premiumFallback, ...consoles, ...consoleFallback, ...others].slice(0, 8);
 }
 
-export function getAllPlatforms(): { name: string; count: number }[] {
+export function getRelatedProducts(product: Product, limit = 4): Product[] {
   const products = getAllProducts();
-  const platformMap = new Map<string, number>();
-  products.forEach((p) => {
-    platformMap.set(p.platform, (platformMap.get(p.platform) || 0) + 1);
-  });
-  return Array.from(platformMap.entries())
+  // Same platform, different product, prefer items with images
+  const samePlatform = products.filter(p =>
+    p.sku !== product.sku && p.platform === product.platform
+  );
+  const withImage = samePlatform.filter(p => !!p.image);
+  const withoutImage = samePlatform.filter(p => !p.image);
+  const sorted = [...withImage, ...withoutImage];
+  // Prefer same genre first
+  const sameGenre = sorted.filter(p => p.genre === product.genre);
+  const diffGenre = sorted.filter(p => p.genre !== product.genre);
+  return [...sameGenre, ...diffGenre].slice(0, limit);
+}
+
+// Module-level caches (computed once)
+const _platformCache: { name: string; count: number }[] = (() => {
+  const map = new Map<string, number>();
+  products.forEach(p => map.set(p.platform, (map.get(p.platform) || 0) + 1));
+  return Array.from(map.entries())
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
+})();
+
+const _genreCache: string[] = (() => {
+  const set = new Set<string>();
+  products.forEach(p => { if (p.genre) set.add(p.genre); });
+  return Array.from(set).sort();
+})();
+
+const _conditionCache: string[] = (() => {
+  const set = new Set<string>();
+  products.forEach(p => { if (p.condition) set.add(p.condition); });
+  return Array.from(set).sort();
+})();
+
+export function getAllPlatforms(): { name: string; count: number }[] {
+  return _platformCache;
 }
 
 export function getAllGenres(): string[] {
-  const products = getAllProducts();
-  const genres = new Set<string>();
-  products.forEach((p) => {
-    if (p.genre) genres.add(p.genre);
-  });
-  return Array.from(genres).sort();
+  return _genreCache;
 }
 
 export function getAllConditions(): string[] {
-  const products = getAllProducts();
-  const conditions = new Set<string>();
-  products.forEach((p) => {
-    if (p.condition) conditions.add(p.condition);
-  });
-  return Array.from(conditions).sort();
+  return _conditionCache;
 }

@@ -6,8 +6,11 @@ import ScrollProgress from '@/components/layout/ScrollProgress';
 import SmoothScroll from '@/components/layout/SmoothScroll';
 import PageTransition from '@/components/ui/PageTransition';
 import BackToTop from '@/components/ui/BackToTop';
+import FloatingActions from '@/components/ui/FloatingActions';
+import SettingsPanel from '@/components/ui/SettingsPanel';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -30,6 +33,12 @@ export const metadata: Metadata = {
     'originele Nintendo consoles',
     'tweedehands games',
     'retro gaming Nederland',
+    'games verkopen',
+    'Nintendo games inkoop',
+    'NES games',
+    'Wii games',
+    'Nintendo DS games',
+    'Pokémon games kopen',
   ],
   authors: [{ name: 'Gameshop Enter' }],
   creator: 'Gameshop Enter',
@@ -44,7 +53,7 @@ export const metadata: Metadata = {
     siteName: 'Gameshop Enter',
     title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     description:
-      'De online Nintendo specialist van Nederland. 346+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
+      'De online Nintendo specialist van Nederland. 846+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
         url: '/images/og-image.png',
@@ -58,7 +67,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     description:
-      'De online Nintendo specialist van Nederland. 346+ originele games & consoles, persoonlijk getest.',
+      'De online Nintendo specialist van Nederland. 846+ originele games & consoles, persoonlijk getest.',
     images: ['/images/og-image.png'],
   },
   robots: {
@@ -83,14 +92,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="nl" className="scroll-smooth">
+    <html lang="nl" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('gameshop-theme');if(t==='dark'){document.documentElement.classList.add('dark')}else if(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.classList.add('dark')}}catch(e){}})()` }} />
       </head>
-      <body className="bg-[#f8fafc] text-slate-900 antialiased">
+      <body className="bg-[#f8fafc] dark:bg-[#0a0e1a] text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -128,19 +138,24 @@ export default function RootLayout({
             }),
           }}
         />
+        <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
         <ScrollProgress />
+        <ThemeProvider>
         <SmoothScroll>
           <CartProvider>
             <ToastProvider>
               <Header />
-              <main className="min-h-screen">
+              <main id="main-content" className="min-h-screen">
                 <PageTransition>{children}</PageTransition>
               </main>
               <Footer />
               <BackToTop />
+              <FloatingActions />
+              <SettingsPanel />
             </ToastProvider>
           </CartProvider>
         </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );

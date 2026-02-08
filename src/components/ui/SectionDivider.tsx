@@ -23,7 +23,7 @@ export default function SectionDivider({ variant = 'light' }: SectionDividerProp
         className={`h-[1px] w-full max-w-xs mx-auto ${
           variant === 'dark'
             ? 'bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent'
-            : 'bg-gradient-to-r from-transparent via-slate-200 to-transparent'
+            : 'bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent'
         }`}
       />
     </div>

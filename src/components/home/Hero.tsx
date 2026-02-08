@@ -1,8 +1,36 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+
+function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 2000;
+    const start = performance.now();
+
+    function animate(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }, [isInView, target]);
+
+  return (
+    <div ref={ref} className="text-xl font-bold text-white tabular-nums">
+      {count.toLocaleString('nl-NL')}{suffix}
+    </div>
+  );
+}
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -228,8 +256,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.6 }}
             className="text-lg sm:text-xl text-white/60 leading-relaxed mb-10 max-w-xl mx-auto"
           >
-            De Nintendo specialist van Nederland. Originele games & consoles,
-            persoonlijk getest op werking.
+            Van klassieke NES-parels tot de nieuwste Switch-titels — elk product origineel, getest en met liefde verpakt. 846+ games & consoles op voorraad.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -249,10 +276,10 @@ export default function Hero() {
               </svg>
             </Link>
             <Link
-              href="/over-ons"
+              href="/inkoop"
               className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.08] backdrop-blur-sm border border-white/[0.12] text-white font-bold text-sm hover:bg-white/[0.12] transition-all duration-300"
             >
-              Over ons
+              Games verkopen
             </Link>
           </motion.div>
 
@@ -264,21 +291,27 @@ export default function Hero() {
             className="flex justify-center gap-12 mt-16"
           >
             {[
-              { value: '346+', label: 'Games & Consoles' },
-              { value: '12', label: 'Platforms' },
-              { value: '100%', label: 'Origineel' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl font-bold text-white">{stat.value}</div>
+              { target: 846, suffix: '+', label: 'Games & Consoles' },
+              { target: 12, suffix: '', label: 'Platforms' },
+              { target: 100, suffix: '%', label: 'Origineel' },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="text-center"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4 + i * 0.15, duration: 0.5 }}
+              >
+                <AnimatedCounter target={stat.target} suffix={stat.suffix} />
                 <div className="text-[11px] text-white/40 mt-1 uppercase tracking-wider">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
       </motion.div>
 
       {/* Bottom gradient to page content */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] dark:from-slate-900 to-transparent z-10" />
 
       {/* Scroll indicator */}
       <motion.div

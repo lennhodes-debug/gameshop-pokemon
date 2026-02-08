@@ -49,6 +49,30 @@ export default function AfrekenPage() {
     opmerkingen: '',
     betaalmethode: 'ideal',
   });
+  const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
+
+  const validations: Partial<Record<keyof FormData, { test: (v: string) => boolean; message: string }>> = {
+    voornaam: { test: (v) => v.trim().length > 0, message: 'Voornaam is verplicht' },
+    achternaam: { test: (v) => v.trim().length > 0, message: 'Achternaam is verplicht' },
+    email: { test: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Voer een geldig e-mailadres in' },
+    straat: { test: (v) => v.trim().length > 0, message: 'Straat is verplicht' },
+    huisnummer: { test: (v) => v.trim().length > 0, message: 'Huisnummer is verplicht' },
+    postcode: { test: (v) => /^\d{4}\s?[A-Za-z]{2}$/.test(v), message: 'Formaat: 1234 AB' },
+    plaats: { test: (v) => v.trim().length > 0, message: 'Plaats is verplicht' },
+  };
+
+  const getFieldError = (field: keyof FormData): string | null => {
+    if (!touched[field]) return null;
+    const rule = validations[field];
+    if (!rule) return null;
+    return rule.test(form[field]) ? null : rule.message;
+  };
+
+  const handleBlur = (field: keyof FormData) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const subtotal = getTotal();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
@@ -56,6 +80,16 @@ export default function AfrekenPage() {
 
   const updateField = (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const validateField = (field: keyof FormData) => {
+    const value = form[field];
+    if (field === 'postcode' && value && !/^\d{4}\s?[a-zA-Z]{2}$/.test(value)) {
+      setErrors((prev) => ({ ...prev, postcode: 'Voer een geldige postcode in (bijv. 1234 AB)' }));
+    } else if (field === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      setErrors((prev) => ({ ...prev, email: 'Voer een geldig e-mailadres in' }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,14 +121,14 @@ export default function AfrekenPage() {
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-20 w-20 mx-auto rounded-3xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-6 shadow-lg"
+              className="h-20 w-20 mx-auto rounded-3xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-6 shadow-lg"
             >
-              <svg className="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+              <svg className="h-10 w-10 text-slate-300 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
             </motion.div>
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-3">Je winkelwagen is leeg</h2>
-            <p className="text-slate-500 mb-8">Voeg eerst producten toe aan je winkelwagen</p>
+            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-3">Je winkelwagen is leeg</h2>
+            <p className="text-slate-500 dark:text-slate-400 mb-8">Voeg eerst producten toe aan je winkelwagen</p>
             <Link href="/shop">
               <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-shadow">
                 Naar de shop
@@ -183,79 +217,96 @@ export default function AfrekenPage() {
             {/* Left: Form */}
             <div className="lg:col-span-2 space-y-6">
               {/* Personal info */}
-              <motion.div {...fadeUp} transition={{ delay: 0.1, duration: 0.5 }} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h2 className="font-extrabold text-slate-900 text-lg mb-6 flex items-center gap-3">
+              <motion.div {...fadeUp} transition={{ delay: 0.1, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h2 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 flex items-center gap-3">
                   <span className="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-emerald-500/20">1</span>
                   Persoonlijke gegevens
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Voornaam *</label>
-                    <input type="text" required value={form.voornaam} onChange={(e) => updateField('voornaam', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="Jan" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Achternaam *</label>
-                    <input type="text" required value={form.achternaam} onChange={(e) => updateField('achternaam', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="de Vries" />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">E-mailadres *</label>
-                    <input type="email" required value={form.email} onChange={(e) => updateField('email', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="jan@voorbeeld.nl" />
-                  </div>
+                  {([
+                    { field: 'voornaam' as const, label: 'Voornaam', placeholder: 'Jan', colSpan: false },
+                    { field: 'achternaam' as const, label: 'Achternaam', placeholder: 'de Vries', colSpan: false },
+                    { field: 'email' as const, label: 'E-mailadres', placeholder: 'jan@voorbeeld.nl', colSpan: true, type: 'email' },
+                  ]).map(({ field, label, placeholder, colSpan, type }) => {
+                    const error = getFieldError(field);
+                    return (
+                      <div key={field} className={colSpan ? 'sm:col-span-2' : ''}>
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <input
+                          type={type || 'text'}
+                          required
+                          value={form[field]}
+                          onChange={(e) => updateField(field, e.target.value)}
+                          onBlur={() => handleBlur(field)}
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
+                          placeholder={placeholder}
+                        />
+                        {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
               {/* Address */}
-              <motion.div {...fadeUp} transition={{ delay: 0.2, duration: 0.5 }} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h2 className="font-extrabold text-slate-900 text-lg mb-6 flex items-center gap-3">
+              <motion.div {...fadeUp} transition={{ delay: 0.2, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h2 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 flex items-center gap-3">
                   <span className="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-emerald-500/20">2</span>
                   Bezorgadres
                 </h2>
                 <div className="grid sm:grid-cols-3 gap-4">
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Straat *</label>
-                    <input type="text" required value={form.straat} onChange={(e) => updateField('straat', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="Kerkstraat" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Huisnummer *</label>
-                    <input type="text" required value={form.huisnummer} onChange={(e) => updateField('huisnummer', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="12a" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Postcode *</label>
-                    <input type="text" required pattern="[0-9]{4}\s?[a-zA-Z]{2}" value={form.postcode} onChange={(e) => updateField('postcode', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="1234 AB" />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-semibold text-slate-700 mb-1.5">Plaats *</label>
-                    <input type="text" required value={form.plaats} onChange={(e) => updateField('plaats', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300" placeholder="Amsterdam" />
-                  </div>
+                  {([
+                    { field: 'straat' as const, label: 'Straat', placeholder: 'Kerkstraat', colSpan: 'sm:col-span-2' },
+                    { field: 'huisnummer' as const, label: 'Huisnummer', placeholder: '12a', colSpan: '' },
+                    { field: 'postcode' as const, label: 'Postcode', placeholder: '1234 AB', colSpan: '' },
+                    { field: 'plaats' as const, label: 'Plaats', placeholder: 'Amsterdam', colSpan: 'sm:col-span-2' },
+                  ]).map(({ field, label, placeholder, colSpan }) => {
+                    const error = getFieldError(field);
+                    return (
+                      <div key={field} className={colSpan}>
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <input
+                          type="text"
+                          required
+                          value={form[field]}
+                          onChange={(e) => updateField(field, e.target.value)}
+                          onBlur={() => handleBlur(field)}
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
+                          placeholder={placeholder}
+                        />
+                        {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
               {/* Payment method */}
-              <motion.div {...fadeUp} transition={{ delay: 0.3, duration: 0.5 }} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h2 className="font-extrabold text-slate-900 text-lg mb-2 flex items-center gap-3">
+              <motion.div {...fadeUp} transition={{ delay: 0.3, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h2 className="font-extrabold text-slate-900 dark:text-white text-lg mb-2 flex items-center gap-3">
                   <span className="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-emerald-500/20">3</span>
                   Betaalmethode
                 </h2>
-                <p className="text-xs text-slate-400 mb-5 ml-11">Veilig betalen via Mollie</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mb-5 ml-11">Veilig betalen via Mollie</p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {betaalmethoden.map((methode) => (
                     <label
                       key={methode.id}
                       className={`relative flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                         form.betaalmethode === methode.id
-                          ? 'border-emerald-400 bg-emerald-50/50 shadow-sm shadow-emerald-500/10'
-                          : 'border-slate-100 hover:border-slate-200 hover:bg-slate-50/50'
+                          ? 'border-emerald-400 bg-emerald-50/50 dark:bg-emerald-900/20 shadow-sm shadow-emerald-500/10'
+                          : 'border-slate-100 dark:border-slate-600 hover:border-slate-200 dark:hover:border-slate-500 hover:bg-slate-50/50 dark:hover:bg-slate-700/50'
                       }`}
                     >
                       <input type="radio" name="betaalmethode" value={methode.id} checked={form.betaalmethode === methode.id} onChange={(e) => updateField('betaalmethode', e.target.value)} className="sr-only" />
-                      <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${form.betaalmethode === methode.id ? 'border-emerald-500' : 'border-slate-300'}`}>
+                      <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${form.betaalmethode === methode.id ? 'border-emerald-500' : 'border-slate-300 dark:border-slate-500'}`}>
                         {form.betaalmethode === methode.id && (
                           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.6 }} className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                         )}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-900">{methode.label}</p>
-                        <p className="text-xs text-slate-500">{methode.description}</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">{methode.label}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{methode.description}</p>
                       </div>
                     </label>
                   ))}
@@ -263,23 +314,23 @@ export default function AfrekenPage() {
               </motion.div>
 
               {/* Notes */}
-              <motion.div {...fadeUp} transition={{ delay: 0.4, duration: 0.5 }} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h2 className="font-extrabold text-slate-900 text-lg mb-4">Opmerkingen</h2>
-                <textarea value={form.opmerkingen} onChange={(e) => updateField('opmerkingen', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300" placeholder="Heb je speciale wensen of opmerkingen? (optioneel)" />
+              <motion.div {...fadeUp} transition={{ delay: 0.4, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h2 className="font-extrabold text-slate-900 dark:text-white text-lg mb-4">Opmerkingen</h2>
+                <textarea value={form.opmerkingen} onChange={(e) => updateField('opmerkingen', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 dark:hover:border-slate-500 dark:bg-slate-700 dark:text-white" placeholder="Heb je speciale wensen of opmerkingen? (optioneel)" />
               </motion.div>
             </div>
 
             {/* Right: Order summary */}
             <motion.div {...fadeUp} transition={{ delay: 0.2, duration: 0.5 }} className="lg:col-span-1">
-              <div className="bg-white rounded-2xl border border-slate-100 p-6 sticky top-28 shadow-sm">
-                <h3 className="font-extrabold text-slate-900 text-lg mb-6 tracking-tight">Je bestelling</h3>
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-sm">
+                <h3 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Je bestelling</h3>
 
                 <div className="space-y-3 mb-6 max-h-64 overflow-y-auto pr-1">
                   {items.map((item, index) => {
                     const colors = PLATFORM_COLORS[item.product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
                     return (
                       <motion.div key={item.product.sku} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }} className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-lg ${item.product.image ? 'bg-slate-50 border border-slate-100' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden flex-shrink-0`}>
+                        <div className={`w-12 h-12 rounded-lg ${item.product.image ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden flex-shrink-0`}>
                           {item.product.image ? (
                             <Image src={item.product.image} alt={item.product.name} width={48} height={48} className="object-contain p-1" />
                           ) : (
@@ -287,30 +338,30 @@ export default function AfrekenPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-slate-900 line-clamp-1">{item.product.name}</p>
-                          <p className="text-[10px] text-slate-500">x{item.quantity}</p>
+                          <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{item.product.name}</p>
+                          <p className="text-[10px] text-slate-500 dark:text-slate-400">x{item.quantity}</p>
                         </div>
-                        <span className="text-sm font-bold text-slate-900 flex-shrink-0">{formatPrice(item.product.price * item.quantity)}</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-white flex-shrink-0">{formatPrice(item.product.price * item.quantity)}</span>
                       </motion.div>
                     );
                   })}
                 </div>
 
-                <div className="space-y-3 text-sm border-t border-slate-100 pt-4">
+                <div className="space-y-3 text-sm border-t border-slate-100 dark:border-slate-700 pt-4">
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Subtotaal</span>
-                    <span className="font-semibold text-slate-900">{formatPrice(subtotal)}</span>
+                    <span className="text-slate-500 dark:text-slate-400">Subtotaal</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Verzending (PostNL)</span>
-                    <span className={`font-semibold ${shipping === 0 ? 'text-emerald-600' : 'text-slate-900'}`}>{shipping === 0 ? 'Gratis' : formatPrice(shipping)}</span>
+                    <span className="text-slate-500 dark:text-slate-400">Verzending (PostNL)</span>
+                    <span className={`font-semibold ${shipping === 0 ? 'text-emerald-600' : 'text-slate-900 dark:text-white'}`}>{shipping === 0 ? 'Gratis' : formatPrice(shipping)}</span>
                   </div>
-                  <div className="border-t border-slate-100 pt-4">
+                  <div className="border-t border-slate-100 dark:border-slate-700 pt-4">
                     <div className="flex justify-between items-baseline">
-                      <span className="font-extrabold text-slate-900">Totaal</span>
-                      <motion.span key={total} initial={{ scale: 1.1 }} animate={{ scale: 1 }} className="font-extrabold text-slate-900 text-2xl">{formatPrice(total)}</motion.span>
+                      <span className="font-extrabold text-slate-900 dark:text-white">Totaal</span>
+                      <motion.span key={total} initial={{ scale: 1.1 }} animate={{ scale: 1 }} className="font-extrabold text-slate-900 dark:text-white text-2xl">{formatPrice(total)}</motion.span>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1">Inclusief BTW</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Inclusief BTW</p>
                   </div>
                 </div>
 
@@ -319,11 +370,11 @@ export default function AfrekenPage() {
                   disabled={isProcessing}
                   whileHover={isProcessing ? {} : { scale: 1.02, y: -1 }}
                   whileTap={isProcessing ? {} : { scale: 0.98 }}
-                  className={`w-full mt-6 px-6 py-4 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 ${isProcessing ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none' : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35'}`}
+                  className={`w-full mt-6 px-6 py-4 rounded-2xl font-bold shadow-lg transition-all flex items-center justify-center gap-2 ${isProcessing ? 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed shadow-none' : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35'}`}
                 >
                   {isProcessing ? (
                     <>
-                      <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-5 w-5 border-2 border-slate-400 border-t-transparent rounded-full" />
+                      <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-5 w-5 border-2 border-slate-400 dark:border-slate-500 border-t-transparent rounded-full" />
                       Betaling verwerken...
                     </>
                   ) : (
@@ -337,21 +388,21 @@ export default function AfrekenPage() {
                 </motion.button>
 
                 <div className="mt-4 flex items-center justify-center gap-2">
-                  <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <svg className="h-4 w-4 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                   </svg>
-                  <span className="text-[11px] text-slate-400 font-medium">Beveiligd door Mollie</span>
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Beveiligd door Mollie</span>
                 </div>
 
                 <div className="mt-3 flex items-center justify-center gap-1.5 flex-wrap">
                   {['iDEAL', 'Visa', 'MC', 'PayPal', 'Bancontact'].map((m) => (
-                    <span key={m} className="px-2 py-1 rounded-md bg-slate-50 border border-slate-100 text-[9px] text-slate-500 font-semibold">{m}</span>
+                    <span key={m} className="px-2 py-1 rounded-md bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[9px] text-slate-500 dark:text-slate-400 font-semibold">{m}</span>
                   ))}
                 </div>
 
                 <div className="mt-5 space-y-2">
                   {['100% originele producten', 'Persoonlijk getest op werking', 'Verzending via PostNL (1-3 werkdagen)', '14 dagen bedenktijd'].map((text, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + i * 0.08 }} className="flex items-start gap-2 text-[11px] text-slate-500">
+                    <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + i * 0.08 }} className="flex items-start gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                       <svg className="h-3 w-3 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>

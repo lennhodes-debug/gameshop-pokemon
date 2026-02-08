@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
@@ -33,20 +34,84 @@ const pageVariants = {
   },
 };
 
-export default function PageTransition({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+function CoinOverlay({ onComplete }: { onComplete: () => void }) {
+  useEffect(() => {
+    const timer = setTimeout(onComplete, 700);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
 
   return (
-    <AnimatePresence mode="wait">
+    <motion.div
+      className="fixed inset-0 z-[200] pointer-events-none flex items-center justify-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* Dim overlay */}
       <motion.div
-        key={pathname}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
+        className="absolute inset-0 bg-black/20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15 }}
+      />
+      {/* Coin */}
+      <motion.div
+        className="relative w-8 h-8"
+        initial={{ y: -120, opacity: 0, rotateY: 0 }}
+        animate={{ y: 0, opacity: 1, rotateY: 720 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        {children}
+        <div className="w-full h-full rounded-full bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-amber-600 shadow-lg shadow-amber-500/40 flex items-center justify-center">
+          <span className="text-amber-800 font-black text-sm" style={{ fontFamily: 'monospace' }}>G</span>
+        </div>
       </motion.div>
-    </AnimatePresence>
+      {/* Flash */}
+      <motion.div
+        className="absolute inset-0 bg-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0, 0.4, 0] }}
+        transition={{ duration: 0.7, times: [0, 0.45, 0.55, 0.7] }}
+      />
+    </motion.div>
+  );
+}
+
+export default function PageTransition({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const [showCoin, setShowCoin] = useState(false);
+  const [prevPath, setPrevPath] = useState(pathname);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useEffect(() => {
+    if (pathname !== prevPath) {
+      if (!isMobile) {
+        setShowCoin(true);
+      }
+      setPrevPath(pathname);
+    }
+  }, [pathname, prevPath, isMobile]);
+
+  return (
+    <>
+      <AnimatePresence>
+        {showCoin && <CoinOverlay onComplete={() => setShowCoin(false)} />}
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pathname}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    </>
   );
 }

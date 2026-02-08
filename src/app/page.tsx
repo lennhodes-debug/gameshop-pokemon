@@ -1,13 +1,16 @@
+import dynamic from 'next/dynamic';
 import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
-import GameMarquee from '@/components/home/GameMarquee';
-import PlatformGrid from '@/components/home/PlatformGrid';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
-import AboutPreview from '@/components/home/AboutPreview';
-import ReviewsStrip from '@/components/home/ReviewsStrip';
-import FaqPreview from '@/components/home/FaqPreview';
-import NewsletterCTA from '@/components/home/NewsletterCTA';
 import SectionDivider from '@/components/ui/SectionDivider';
+
+// Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
+const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
+const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
+const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
+const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
+const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
+const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
 
 export default function HomePage() {
   return (

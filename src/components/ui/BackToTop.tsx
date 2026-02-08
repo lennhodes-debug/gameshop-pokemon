@@ -28,7 +28,7 @@ export default function BackToTop() {
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.9 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 left-6 z-50 h-12 w-12 rounded-2xl bg-white/90 backdrop-blur-lg border border-slate-200 shadow-lg shadow-slate-200/50 flex items-center justify-center text-slate-600 hover:text-emerald-600 hover:border-emerald-200 hover:shadow-emerald-100/50 transition-colors"
+          className="fixed bottom-6 left-6 z-50 h-12 w-12 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-slate-200 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-black/30 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-200 dark:hover:border-emerald-500/50 hover:shadow-emerald-100/50 dark:hover:shadow-emerald-500/10 transition-colors"
         >
           {/* Circular progress ring */}
           <svg className="absolute inset-0 w-12 h-12 -rotate-90" viewBox="0 0 48 48">

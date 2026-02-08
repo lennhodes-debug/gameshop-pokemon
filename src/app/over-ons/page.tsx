@@ -69,9 +69,16 @@ const timeline = [
   {
     year: '2024',
     title: '3000+ tevreden klanten',
-    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 346+ producten over 12 Nintendo platforms.',
+    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 846+ producten over 12 Nintendo platforms.',
     icon: '⭐',
     color: 'from-amber-400 to-yellow-500',
+  },
+  {
+    year: '2025',
+    title: 'Meer dan 846 producten online',
+    description: 'Het assortiment groeide explosief naar 846+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide beschrijvingen en een volledig inkoopsysteem voor klanten die hun games willen verkopen.',
+    icon: '🌐',
+    color: 'from-teal-500 to-emerald-500',
   },
   {
     year: 'Nu',
@@ -130,7 +137,7 @@ const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 346, suffix: '+', label: 'Producten' },
+  { value: 846, suffix: '+', label: 'Producten' },
   { value: 12, suffix: '', label: 'Nintendo platforms' },
   { value: 7, suffix: '+', label: 'Jaar ervaring' },
 ];
@@ -195,7 +202,7 @@ export default function OverOnsPage() {
       </div>
 
       {/* Stats bar */}
-      <section className="relative bg-white border-b border-slate-100">
+      <section className="relative bg-white dark:bg-slate-800 border-b border-slate-100 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-4">
             {stats.map((stat, i) => (
@@ -210,7 +217,7 @@ export default function OverOnsPage() {
                 <div className="text-2xl lg:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-500">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-xs text-slate-500 mt-1 font-medium">{stat.label}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -225,15 +232,15 @@ export default function OverOnsPage() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mb-8">
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">
             Hoi, ik ben Lenn
           </h2>
-          <div className="space-y-5 text-lg text-slate-600 leading-relaxed">
+          <div className="space-y-5 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
             <p>
               Mijn naam is Lenn Hodes, oprichter van Gameshop Enter. In 2018, toen ik 14 was, begon ik met het verkopen van verzamelkaarten op Marktplaats. Het was mijn eerste stap in het ondernemerschap - en het begin van een reis met pieken en dalen.
             </p>
             <p>
-              Na de kaarten waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed: ik werd meerdere keren opgelicht. Het waren harde lessen, maar ze hebben me gevormd tot de ondernemer die ik nu ben. Ik leerde het belang van <strong className="text-slate-900">vertrouwen</strong>, <strong className="text-slate-900">kwaliteitscontrole</strong> en <strong className="text-slate-900">eerlijk zakendoen</strong>.
+              Na de kaarten waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed: ik werd meerdere keren opgelicht. Het waren harde lessen, maar ze hebben me gevormd tot de ondernemer die ik nu ben. Ik leerde het belang van <strong className="text-slate-900 dark:text-white">vertrouwen</strong>, <strong className="text-slate-900 dark:text-white">kwaliteitscontrole</strong> en <strong className="text-slate-900 dark:text-white">eerlijk zakendoen</strong>.
             </p>
             <p>
               Uiteindelijk keerde ik terug naar mijn echte passie: Nintendo. Ik begon met Pokemon-games en groeide van daaruit naar de volledige Nintendo-sector. Van klassieke NES- en Super Nintendo-titels tot de nieuwste Nintendo Switch-games, en van Game Boy tot GameCube-consoles. Elk product test ik persoonlijk op werking en verpak ik zorgvuldig.
@@ -339,7 +346,7 @@ export default function OverOnsPage() {
 
       {/* Mission - quote style */}
       <section className="relative py-20 lg:py-28 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/30 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/30 to-white dark:from-slate-900 dark:via-emerald-950/30 dark:to-slate-900" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -358,13 +365,13 @@ export default function OverOnsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
               </svg>
             </motion.div>
-            <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-6">
+            <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
               Missie
             </span>
-            <blockquote className="text-2xl lg:text-3xl font-bold text-slate-900 leading-snug tracking-tight mb-6 max-w-3xl mx-auto">
+            <blockquote className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6 max-w-3xl mx-auto">
               &ldquo;Ik geloof dat retro gaming meer is dan nostalgie. Het is een manier om tijdloze klassiekers te bewaren en te delen met de volgende generatie gamers.&rdquo;
             </blockquote>
-            <p className="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
               Mijn missie is om elke Nintendo-liefhebber toegang te geven tot originele, geteste producten tegen eerlijke prijzen, met de persoonlijke service die je verdient.
             </p>
             <div className="mt-6 text-sm text-slate-400 font-medium">
@@ -375,7 +382,7 @@ export default function OverOnsPage() {
       </section>
 
       {/* Values */}
-      <section className="bg-slate-50 py-16 lg:py-24">
+      <section className="bg-slate-50 dark:bg-slate-900 py-16 lg:py-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -383,10 +390,10 @@ export default function OverOnsPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-slate-200/60 text-slate-600 text-xs font-semibold uppercase tracking-widest mb-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-widest mb-4">
               Kernwaarden
             </span>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               Waar wij voor staan
             </h2>
           </motion.div>
@@ -399,13 +406,13 @@ export default function OverOnsPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="bg-white rounded-2xl border border-slate-100 p-8 shadow-sm hover:shadow-xl hover:border-emerald-200/50 transition-all duration-300"
+                className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-8 shadow-sm hover:shadow-xl hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-300"
               >
                 <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center text-white mb-5 shadow-lg`}>
                   {value.icon}
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">{value.title}</h3>
-                <p className="text-slate-500 leading-relaxed">{value.description}</p>
+                <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-2">{value.title}</h3>
+                <p className="text-slate-500 dark:text-slate-400 leading-relaxed">{value.description}</p>
               </motion.div>
             ))}
           </div>
@@ -418,9 +425,9 @@ export default function OverOnsPage() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 lg:p-12"
+          className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm p-8 lg:p-12"
         >
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mb-8">Bedrijfsgegevens</h2>
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">Bedrijfsgegevens</h2>
           <div className="grid sm:grid-cols-2 gap-x-12 gap-y-5">
             {[
               ['Bedrijfsnaam', 'Gameshop Enter'],
@@ -431,26 +438,26 @@ export default function OverOnsPage() {
               ['Platforms', '12 Nintendo platforms'],
             ].map(([label, value]) => (
               <div key={label}>
-                <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{label}</dt>
-                <dd className="text-slate-900 font-medium">{value}</dd>
+                <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">{label}</dt>
+                <dd className="text-slate-900 dark:text-white font-medium">{value}</dd>
               </div>
             ))}
             <div>
-              <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">E-mail</dt>
-              <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">gameshopenter@gmail.com</a></dd>
+              <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">E-mail</dt>
+              <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors">gameshopenter@gmail.com</a></dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Webshop</dt>
-              <dd className="text-slate-900 font-medium">Uitsluitend online — geen afhalen</dd>
+              <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Webshop</dt>
+              <dd className="text-slate-900 dark:text-white font-medium">Uitsluitend online — geen afhalen</dd>
             </div>
           </div>
 
-          <div className="mt-10 p-5 bg-amber-50 border border-amber-200/60 rounded-2xl">
+          <div className="mt-10 p-5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-500/30 rounded-2xl">
             <div className="flex items-start gap-3">
-              <svg className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <svg className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
               </svg>
-              <p className="text-sm text-amber-800 font-medium">
+              <p className="text-sm text-amber-800 dark:text-amber-200 font-medium">
                 Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL.
               </p>
             </div>
@@ -476,7 +483,7 @@ export default function OverOnsPage() {
               Klaar om te shoppen?
             </h2>
             <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
-              Ontdek ons complete assortiment van meer dan 346 originele Nintendo producten
+              Ontdek ons complete assortiment van meer dan 846 originele Nintendo producten
             </p>
             <Link href="/shop">
               <Button size="lg">

@@ -36,6 +36,34 @@ const faqItems = [
     question: 'Hoe kan ik contact opnemen?',
     answer: 'Je kunt ons bereiken via e-mail op gameshopenter@gmail.com. Wij streven ernaar om binnen 24 uur te reageren op alle berichten. Je kunt ook het contactformulier op onze contactpagina gebruiken.',
   },
+  {
+    question: 'Kan ik mijn games aan jullie verkopen?',
+    answer: 'Ja! Via onze inkooppagina kun je de inkoopprijs van je games bekijken. Selecteer de games die je wilt verkopen, bekijk het geschatte totaalbedrag en stuur ons een e-mail met je aanbod. Wij betalen binnen 2 werkdagen na ontvangst van de games.',
+  },
+  {
+    question: 'Hoe lang duurt de levering?',
+    answer: 'Bestellingen worden binnen 1-2 werkdagen verzonden via PostNL. De levering duurt doorgaans 1-3 werkdagen na verzending. Je ontvangt een track-and-trace code zodra je bestelling is verzonden, zodat je je pakket kunt volgen.',
+  },
+  {
+    question: 'Wat als mijn product niet werkt?',
+    answer: 'Alle producten worden persoonlijk getest op werking voordat ze worden verzonden. Mocht er toch een probleem zijn, neem dan binnen 14 dagen contact met ons op via gameshopenter@gmail.com. Wij zorgen voor een passende oplossing, zoals een vervanging of terugbetaling.',
+  },
+  {
+    question: 'Hoeveel platforms bieden jullie aan?',
+    answer: 'Wij bieden producten aan voor 12 Nintendo platforms: Switch, Nintendo 3DS, Nintendo DS, Game Boy, Game Boy Color, Game Boy Advance, Nintendo 64, Super Nintendo, NES, GameCube, Wii en Wii U.',
+  },
+  {
+    question: 'Hoe weet ik of een product compleet is?',
+    answer: 'Bij elk product vermelden wij duidelijk de compleetheid. "Compleet in doos (CIB)" betekent dat de game inclusief doos en handleiding wordt geleverd. "Losse cartridge" of "Los" betekent dat alleen de game zelf wordt geleverd, zonder doos of handleiding.',
+  },
+  {
+    question: 'Worden producten ook naar België verzonden?',
+    answer: 'Op dit moment verzenden wij uitsluitend binnen Nederland via PostNL. Verzending naar België is momenteel niet beschikbaar, maar we hopen dit in de toekomst aan te bieden.',
+  },
+  {
+    question: 'Verkopen jullie ook accessoires?',
+    answer: 'Ja, naast games en consoles bieden wij ook originele Nintendo accessoires aan, zoals controllers, kabels, geheugenkaarten en meer. Bekijk ons volledige aanbod in de shop onder de categorie Accessoires.',
+  },
 ];
 
 const faqJsonLd = {
@@ -116,7 +144,7 @@ export default function FaqPage() {
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
+          className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8"
         >
           <Accordion items={faqItems} />
         </motion.div>
@@ -128,12 +156,12 @@ export default function FaqPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12 text-center"
         >
-          <p className="text-slate-600 mb-4">
+          <p className="text-slate-600 dark:text-slate-300 mb-4">
             Staat je vraag er niet bij? Neem dan gerust contact met ons op.
           </p>
           <motion.a
             href="mailto:gameshopenter@gmail.com"
-            className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold text-sm transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

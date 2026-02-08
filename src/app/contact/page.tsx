@@ -100,7 +100,7 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.4 + i * 0.15, ease: [0.16, 1, 0.3, 1] as const }}
               whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
               whileTap={{ scale: 0.98 }}
-              className={`group bg-white rounded-2xl border border-slate-100 p-6 shadow-lg ${method.glow} hover:shadow-xl transition-all duration-300 text-center`}
+              className={`group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-lg ${method.glow} hover:shadow-xl transition-all duration-300 text-center`}
             >
               <motion.div
                 className={`inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br ${method.gradient} items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
@@ -111,9 +111,9 @@ export default function ContactPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d={method.icon} />
                 </svg>
               </motion.div>
-              <h3 className="font-bold text-slate-900 mb-1">{method.label}</h3>
-              <p className="text-emerald-600 font-semibold text-sm mb-2 group-hover:text-emerald-700 transition-colors">{method.value}</p>
-              <p className="text-xs text-slate-400">{method.response}</p>
+              <h3 className="font-bold text-slate-900 dark:text-white mb-1">{method.label}</h3>
+              <p className="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">{method.value}</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">{method.response}</p>
             </motion.a>
           ))}
         </div>
@@ -130,55 +130,88 @@ export default function ContactPage() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }}
             className="lg:col-span-2"
           >
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-6 tracking-tight">
+            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">
               Wij helpen je graag
             </h2>
-            <p className="text-slate-500 leading-relaxed mb-8">
+            <p className="text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
               Of je nu een vraag hebt over een product, je bestelling wilt opvolgen, of gewoon advies wilt over welke game of console het beste bij je past - we staan klaar om te helpen.
             </p>
 
-            {/* Response times */}
+            {/* Openingstijden */}
             <div className="space-y-4 mb-8">
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Reactietijden</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Openingstijden</h3>
               {[
-                { channel: 'E-mail', time: 'Binnen 24 uur', color: 'bg-emerald-500' },
-                { channel: 'Contactformulier', time: 'Binnen 24 uur', color: 'bg-teal-500' },
+                { dag: 'Maandag t/m vrijdag', tijd: '09:00 — 17:00', actief: true },
+                { dag: 'Zaterdag', tijd: '10:00 — 14:00', actief: true },
+                { dag: 'Zondag', tijd: 'Gesloten', actief: false },
               ].map((item) => (
-                <div key={item.channel} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${item.color}`} />
-                    <span className="text-sm text-slate-600 font-medium">{item.channel}</span>
-                  </div>
-                  <span className="text-xs text-slate-400 font-medium">{item.time}</span>
+                <div key={item.dag} className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700 last:border-0">
+                  <span className="text-sm text-slate-600 dark:text-slate-300 font-medium">{item.dag}</span>
+                  <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>{item.tijd}</span>
                 </div>
               ))}
+              <p className="text-xs text-slate-400">Reactie op e-mails binnen 24 uur op werkdagen</p>
             </div>
 
             {/* Business details mini */}
-            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-              <h3 className="text-sm font-bold text-slate-900 mb-3">Bedrijfsgegevens</h3>
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Bedrijfsgegevens</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Bedrijf</span>
-                  <span className="text-slate-700 font-medium">Gameshop Enter</span>
+                  <span className="text-slate-700 dark:text-slate-200 font-medium">Gameshop Enter</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Eigenaar</span>
-                  <span className="text-slate-700 font-medium">Lenn Hodes</span>
+                  <span className="text-slate-700 dark:text-slate-200 font-medium">Lenn Hodes</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">KvK</span>
-                  <span className="text-slate-700 font-medium">93642474</span>
+                  <span className="text-slate-700 dark:text-slate-200 font-medium">93642474</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-5 p-4 bg-amber-50 border border-amber-200/60 rounded-xl">
+            {/* Bereikbaarheid */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 mt-6">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Bereikbaarheid</h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Ma - Vr</span>
+                  <span className="text-slate-700 dark:text-slate-200 font-medium">09:00 - 17:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Zaterdag</span>
+                  <span className="text-slate-700 dark:text-slate-200 font-medium">10:00 - 14:00</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Zondag</span>
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Gesloten</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Snelle vragen */}
+            <div className="mt-6 space-y-3">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Snelle antwoorden</h3>
+              {[
+                { q: 'Kan ik mijn bestelling afhalen?', a: 'Nee, wij zijn een online webshop. Alle bestellingen worden verzonden via PostNL.' },
+                { q: 'Hoe lang duurt de levering?', a: 'Bestellingen worden binnen 1-3 werkdagen bezorgd via PostNL.' },
+                { q: 'Kan ik games bij jullie verkopen?', a: 'Ja! Bekijk onze inkooppagina voor prijzen en stuur ons een e-mail.' },
+              ].map((item) => (
+                <div key={item.q} className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">{item.q}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{item.a}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-5 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-500/30 rounded-xl">
               <div className="flex items-start gap-2.5">
-                <svg className="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                 </svg>
-                <p className="text-xs text-amber-800 font-medium leading-relaxed">
+                <p className="text-xs text-amber-800 dark:text-amber-200 font-medium leading-relaxed">
                   Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL.
                 </p>
               </div>
@@ -194,8 +227,8 @@ export default function ContactPage() {
             className="lg:col-span-3"
             id="contactform"
           >
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8">
-              <h2 className="text-xl font-extrabold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>
+            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8">
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Stuur een bericht</h2>
               {submitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -206,17 +239,17 @@ export default function ContactPage() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', bounce: 0.5, delay: 0.1 }}
-                    className="h-16 w-16 mx-auto rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center mb-5"
+                    className="h-16 w-16 mx-auto rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/20 dark:to-teal-500/20 flex items-center justify-center mb-5"
                   >
                     <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </motion.div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Bericht verzonden!</h3>
-                  <p className="text-slate-500 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Bericht verzonden!</h3>
+                  <p className="text-slate-500 dark:text-slate-400 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="text-sm text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"
+                    className="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold transition-colors"
                   >
                     Nog een bericht sturen
                   </button>
@@ -225,32 +258,32 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-1.5">Naam</label>
+                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam</label>
                       <input
                         id="name"
                         type="text"
                         required
-                        className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
+                        className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
                         placeholder="Je naam"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1.5">E-mail</label>
+                      <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail</label>
                       <input
                         id="email"
                         type="email"
                         required
-                        className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
+                        className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
                         placeholder="je@email.nl"
                       />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 mb-1.5">Onderwerp</label>
+                    <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp</label>
                     <select
                       id="subject"
                       required
-                      className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all appearance-none"
+                      className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all appearance-none"
                     >
                       <option value="">Selecteer een onderwerp</option>
                       <option value="bestelling">Vraag over een bestelling</option>
@@ -261,12 +294,12 @@ export default function ContactPage() {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-1.5">Bericht</label>
+                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht</label>
                     <textarea
                       id="message"
                       required
                       rows={5}
-                      className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all resize-none"
+                      className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all resize-none"
                       placeholder="Typ je bericht..."
                     />
                   </div>

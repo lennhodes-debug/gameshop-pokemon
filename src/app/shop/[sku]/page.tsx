@@ -1,9 +1,9 @@
-import { getAllProducts, getProductBySku, getProductsByPlatform } from '@/lib/products';
+import { getAllProducts, getProductBySku, getRelatedProducts } from '@/lib/products';
 import ProductDetail from '@/components/product/ProductDetail';
 import RelatedProducts from '@/components/product/RelatedProducts';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -64,9 +64,7 @@ export default function ProductPage({ params }: Props) {
     notFound();
   }
 
-  const related = getProductsByPlatform(product.platform)
-    .filter((p) => p.sku !== product.sku)
-    .slice(0, 4);
+  const related = getRelatedProducts(product, 4);
 
   const productJsonLd = {
     '@context': 'https://schema.org',
@@ -97,7 +95,7 @@ export default function ProductPage({ params }: Props) {
         '@type': 'OfferShippingDetails',
         shippingRate: {
           '@type': 'MonetaryAmount',
-          value: product.price >= 100 ? '0.00' : '3.95',
+          value: product.price >= FREE_SHIPPING_THRESHOLD ? '0.00' : '3.95',
           currency: 'EUR',
         },
         deliveryTime: {

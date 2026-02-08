@@ -15,24 +15,52 @@ body {
   overflow-x: hidden;
 }
 
+/* Dark mode custom properties */
+.dark {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a1f35;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --accent: #10b981;
+  --accent-glow: rgba(16, 185, 129, 0.3);
+  --border: rgba(255, 255, 255, 0.06);
+  color-scheme: dark;
+}
+
 /* Selection color */
 ::selection {
   background-color: rgba(16, 185, 129, 0.3);
   color: #fff;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — light mode */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0e1a;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #10b981, #0891b2);
+  background: #cbd5e1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom scrollbar — dark mode */
+.dark ::-webkit-scrollbar-track,
+html.dark::-webkit-scrollbar-track {
+  background: #0a0e1a;
+}
+.dark ::-webkit-scrollbar-thumb,
+html.dark::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #10b981, #0891b2);
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb:hover,
+html.dark::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #34d399, #06b6d4);
 }
 
@@ -384,11 +412,54 @@ body {
 .animate-stagger-blur > *:nth-child(7) { animation-delay: 600ms; }
 .animate-stagger-blur > *:nth-child(8) { animation-delay: 700ms; }
 
-/* Reduced motion */
+/* Focus visible styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: #10b981;
+  color: white;
+  font-weight: 600;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transition: top 0.2s;
+}
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* 3D card tilt on hover */
+.card-3d-tilt {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s ease;
+  transform-style: preserve-3d;
+}
+.card-3d-tilt:hover {
+  transform: perspective(800px) rotateY(-4deg) rotateX(3deg) translateZ(8px) scale(1.06);
+  box-shadow: 8px 12px 25px rgba(0,0,0,0.12), 0 0 15px rgba(16,185,129,0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+/* Reduced motion — user preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Reduced motion — settings toggle */
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0.01ms !important;
 }

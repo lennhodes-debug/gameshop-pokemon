@@ -25,9 +25,9 @@ function ShopContent() {
   const [page, setPage] = useState(1);
 
   const allProducts = getAllProducts();
-  const platforms = getAllPlatforms().map((p) => p.name);
-  const genres = getAllGenres();
-  const conditions = getAllConditions();
+  const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
+  const genres = useMemo(() => getAllGenres(), []);
+  const conditions = useMemo(() => getAllConditions(), []);
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -55,7 +55,13 @@ function ShopContent() {
       );
     }
 
-    if (platform) results = results.filter((p) => p.platform === platform);
+    if (platform) {
+      if (platform === 'Game Boy (alle)') {
+        results = results.filter((p) => p.platform.startsWith('Game Boy'));
+      } else {
+        results = results.filter((p) => p.platform === platform);
+      }
+    }
     if (genre) results = results.filter((p) => p.genre === genre);
     if (condition) results = results.filter((p) => p.condition === condition);
 
@@ -65,14 +71,22 @@ function ShopContent() {
     if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
     if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
 
-    results.sort((a, b) => {
-      switch (sortBy) {
-        case 'price-asc': return a.price - b.price;
-        case 'price-desc': return b.price - a.price;
-        case 'name-desc': return b.name.localeCompare(a.name);
-        default: return a.name.localeCompare(b.name);
+    if (sortBy === 'newest') {
+      const skuNum = new Map<string, number>();
+      for (const p of results) {
+        skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0);
       }
-    });
+      results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
+    } else {
+      results.sort((a, b) => {
+        switch (sortBy) {
+          case 'price-asc': return a.price - b.price;
+          case 'price-desc': return b.price - a.price;
+          case 'name-desc': return b.name.localeCompare(a.name);
+          default: return a.name.localeCompare(b.name);
+        }
+      });
+    }
 
     return results;
   }, [allProducts, search, platform, genre, condition, category, completeness, sortBy]);
@@ -211,10 +225,10 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mt-4 flex items-center gap-3 overflow-hidden"
             >
-              <span className="text-sm text-slate-500 flex-shrink-0">
+              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0">
                 <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
               </span>
-              <div className="h-4 w-px bg-slate-200" />
+              <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
               <button
                 onClick={clearFilters}
                 className="text-sm text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
@@ -242,17 +256,18 @@ function ShopContent() {
             className="mt-14 flex flex-col items-center gap-4"
           >
             {/* Page info */}
-            <p className="text-sm text-slate-500">
-              Pagina <span className="font-semibold text-slate-700">{page}</span> van <span className="font-semibold text-slate-700">{totalPages}</span>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Pagina <span className="font-semibold text-slate-700 dark:text-slate-200">{page}</span> van <span className="font-semibold text-slate-700 dark:text-slate-200">{totalPages}</span>
             </p>
 
             <div className="flex items-center gap-2">
               <motion.button
-                onClick={() => setPage(Math.max(1, page - 1))}
+                onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 disabled={page === 1}
+                aria-label="Vorige pagina"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -265,16 +280,16 @@ function ShopContent() {
                   .map((p, idx, arr) => (
                     <span key={p} className="flex items-center">
                       {idx > 0 && arr[idx - 1] !== p - 1 && (
-                        <span className="px-1.5 text-slate-300 text-sm">...</span>
+                        <span className="px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
                       )}
                       <motion.button
-                        onClick={() => setPage(p)}
+                        onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className={`h-10 w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
                           p === page
                             ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25'
-                            : 'text-slate-600 hover:bg-slate-100'
+                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                         }`}
                       >
                         {p}
@@ -284,11 +299,12 @@ function ShopContent() {
               </div>
 
               <motion.button
-                onClick={() => setPage(Math.min(totalPages, page + 1))}
+                onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 disabled={page === totalPages}
+                aria-label="Volgende pagina"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

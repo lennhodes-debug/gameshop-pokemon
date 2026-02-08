@@ -1,44 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import Button from '@/components/ui/Button';
-
-function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const duration = 2000;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [isInView, target]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString('nl-NL')}{suffix}
-    </span>
-  );
-}
+import CountUp from '@/components/ui/CountUp';
 
 const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 346, suffix: '+', label: 'Producten' },
+  { value: 846, suffix: '+', label: 'Producten' },
 ];
 
 export default function AboutPreview() {
@@ -101,16 +73,26 @@ export default function AboutPreview() {
               Met meer dan 3.000 tevreden klanten, 1.360+ reviews en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
               Van klassieke Game Boy en N64 titels tot de nieuwste Switch releases
-              — bij ons vind je het allemaal.
+              — bij ons vind je het allemaal. Heb je zelf games liggen? Je kunt ze ook bij ons verkopen.
             </p>
-            <Link href="/over-ons">
-              <Button variant="outline" size="lg">
-                Meer over ons
-                <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </Button>
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/over-ons">
+                <Button variant="outline" size="lg">
+                  Lees ons verhaal
+                  <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </Button>
+              </Link>
+              <Link href="/inkoop">
+                <Button variant="ghost" size="lg" className="text-emerald-400 hover:text-emerald-300">
+                  Games verkopen
+                  <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                  </svg>
+                </Button>
+              </Link>
+            </div>
           </motion.div>
 
           {/* Stats grid with horizontal parallax */}
@@ -126,7 +108,7 @@ export default function AboutPreview() {
                 className="glass-card rounded-2xl p-6 lg:p-8 text-center hover:bg-white/[0.06] transition-colors duration-300"
               >
                 <div className="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  <CountUp target={stat.value} suffix={stat.suffix} separator="." />
                 </div>
                 <div className="text-sm text-slate-400">{stat.label}</div>
               </motion.div>

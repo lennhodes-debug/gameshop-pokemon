@@ -67,12 +67,13 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          aria-label="Zoek producten"
           placeholder="Zoek op titel, platform of genre..."
           className={cn(
-            'relative w-full pl-12 pr-28 py-4 rounded-2xl border-2 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-300',
+            'relative w-full pl-12 pr-28 py-4 rounded-2xl border-2 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none transition-all duration-300',
             isFocused
               ? 'border-emerald-500/50 shadow-lg shadow-emerald-500/10'
-              : 'border-slate-200 shadow-sm hover:border-slate-300'
+              : 'border-slate-200 dark:border-slate-700 shadow-sm hover:border-slate-300 dark:hover:border-slate-600'
           )}
         />
 
@@ -85,7 +86,8 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 onClick={() => onChange('')}
-                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                aria-label="Zoekopdracht wissen"
+                className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -96,8 +98,8 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
 
           {/* Keyboard shortcut hint */}
           {!value && (
-            <div className="hidden sm:flex items-center gap-1 text-xs text-slate-400">
-              <kbd className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-mono text-[10px]">⌘K</kbd>
+            <div className="hidden sm:flex items-center gap-1 text-xs text-slate-400 dark:text-slate-500">
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-mono text-[10px]">⌘K</kbd>
             </div>
           )}
         </div>
@@ -110,9 +112,9 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
-            className="absolute -bottom-6 left-4 text-xs text-slate-500"
+            className="absolute -bottom-6 left-4 text-xs text-slate-500 dark:text-slate-400"
           >
-            <span className="font-semibold text-emerald-600">{resultCount}</span> {resultCount === 1 ? 'resultaat' : 'resultaten'} gevonden
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{resultCount}</span> {resultCount === 1 ? 'resultaat' : 'resultaten'} gevonden
           </motion.div>
         )}
       </AnimatePresence>

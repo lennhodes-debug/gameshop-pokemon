@@ -22,7 +22,7 @@ export default function FeaturedProducts() {
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
 
   return (
-    <section ref={sectionRef} className="relative bg-white py-16 lg:py-24 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-white dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
       {/* Subtle animated background */}
       <motion.div
         className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.03] rounded-full blur-[150px]"
@@ -46,7 +46,7 @@ export default function FeaturedProducts() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-xs font-semibold uppercase tracking-wider mb-4"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-semibold uppercase tracking-wider mb-4"
             >
               <motion.span
                 animate={{ rotate: [0, 15, -15, 0] }}
@@ -56,16 +56,24 @@ export default function FeaturedProducts() {
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               </motion.span>
-              Uitgelicht
+              Populair
             </motion.span>
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
-              <TextReveal text="Bijzondere items" delay={0.1} />
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              <TextReveal text="Toppers uit de collectie" delay={0.1} />
             </h2>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="h-[3px] w-24 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mt-3 origin-left"
+            />
+            <p className="text-slate-500 dark:text-slate-400 mt-3 text-sm lg:text-base">Premium games en consoles die je niet wilt missen</p>
           </div>
           <MagneticButton strength={0.15}>
             <Link
               href="/shop"
-              className="hidden sm:flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors group"
+              className="hidden sm:flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors group"
             >
               Bekijk alles
               <motion.svg

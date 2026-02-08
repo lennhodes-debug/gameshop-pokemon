@@ -11,7 +11,7 @@ const trustItems = [
       </svg>
     ),
     title: '100% Origineel',
-    description: 'Persoonlijk getest op werking',
+    description: 'Alle 846 producten persoonlijk getest',
     gradient: 'from-emerald-500 to-teal-500',
     glow: 'rgba(16,185,129,0.2)',
   },
@@ -22,7 +22,7 @@ const trustItems = [
       </svg>
     ),
     title: 'Zorgvuldig verpakt',
-    description: 'Veilig verzonden via PostNL',
+    description: 'Bubbeltjesfolie + stevige doos via PostNL',
     gradient: 'from-cyan-500 to-blue-500',
     glow: 'rgba(6,182,212,0.2)',
   },
@@ -33,7 +33,7 @@ const trustItems = [
       </svg>
     ),
     title: 'Gratis verzending',
-    description: 'Bij bestellingen boven 100 euro',
+    description: 'Vanaf €100 — anders slechts €3,95',
     gradient: 'from-sky-500 to-blue-500',
     glow: 'rgba(14,165,233,0.2)',
   },
@@ -44,7 +44,7 @@ const trustItems = [
       </svg>
     ),
     title: '14 dagen bedenktijd',
-    description: 'Niet tevreden? Retourneren kan',
+    description: 'Geen gedoe — gewoon terugsturen',
     gradient: 'from-amber-500 to-orange-500',
     glow: 'rgba(245,158,11,0.2)',
   },
@@ -78,7 +78,7 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
-      className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-200/80 transition-all duration-300 overflow-hidden"
+      className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-slate-200/80 dark:hover:border-slate-600 transition-all duration-300 overflow-hidden"
     >
       {/* Spotlight on hover */}
       {hovered && (
@@ -106,15 +106,15 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
         />
       </motion.div>
 
-      <h3 className="relative z-10 font-bold text-slate-900 mb-1 text-sm lg:text-base">{item.title}</h3>
-      <p className="relative z-10 text-sm text-slate-500">{item.description}</p>
+      <h3 className="relative z-10 font-bold text-slate-900 dark:text-white mb-1 text-sm lg:text-base">{item.title}</h3>
+      <p className="relative z-10 text-sm text-slate-500 dark:text-slate-400">{item.description}</p>
     </motion.div>
   );
 }
 
 export default function TrustStrip() {
   return (
-    <section className="bg-[#f8fafc] py-12 lg:py-16 -mt-1">
+    <section className="bg-[#f8fafc] dark:bg-slate-900 py-12 lg:py-16 -mt-1">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {trustItems.map((item, index) => (
