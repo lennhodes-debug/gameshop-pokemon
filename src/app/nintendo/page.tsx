@@ -41,16 +41,16 @@ const ERA_IMAGES: Record<string, EraImages> = {
   nes: {
     console: '/images/nintendo/nes-console.webp',
     games: [
-      { name: 'Super Mario Bros', image: '/images/products/nes-001-super-mario-bros.webp' },
+      { name: 'Super Mario Bros.', image: '/images/products/nes-049-super-mario-bros.webp' },
       { name: 'The Legend of Zelda', image: '/images/products/nes-054-the-legend-of-zelda.webp' },
-      { name: 'Metroid', image: '/images/products/nes-006-metroid.webp' },
-      { name: 'Mega Man 2', image: '/images/products/nes-008-mega-man-2.webp' },
+      { name: 'Metroid', image: '/images/products/nes-039-metroid.webp' },
+      { name: 'Mega Man 2', image: '/images/products/nes-034-mega-man-2.webp' },
     ],
   },
   gameboy: {
     console: '/images/nintendo/gameboy-console.webp',
     games: [
-      { name: 'Tetris', image: '/images/products/gb-015-tetris.webp' },
+      { name: 'Tetris', image: '/images/products/gb-051-tetris.webp' },
       { name: 'Pokemon Red', image: '/images/products/gb-001-pokmon-red.webp' },
       { name: 'Pokemon Blue', image: '/images/products/gb-002-pokmon-blue.webp' },
       { name: 'Pokemon Yellow', image: '/images/products/gb-003-pokmon-yellow.webp' },
@@ -59,53 +59,53 @@ const ERA_IMAGES: Record<string, EraImages> = {
   snes: {
     console: '/images/nintendo/snes-console.webp',
     games: [
-      { name: 'Super Mario World', image: '/images/products/snes-002-super-mario-world.webp' },
-      { name: 'Zelda: A Link to the Past', image: '/images/products/snes-001-zelda-a-link-to-the-past.webp' },
-      { name: 'Super Metroid', image: '/images/products/snes-009-super-metroid.webp' },
+      { name: 'Super Mario World', image: '/images/products/snes-047-super-mario-world.webp' },
+      { name: 'Zelda: A Link to the Past', image: '/images/products/snes-060-zelda-a-link-to-the-past.webp' },
+      { name: 'Super Metroid', image: '/images/products/snes-048-super-metroid.webp' },
       { name: 'Donkey Kong Country', image: '/images/products/snes-003-donkey-kong-country.webp' },
     ],
   },
   n64: {
     console: '/images/nintendo/n64-console.webp',
     games: [
-      { name: 'Super Mario 64', image: '/images/products/n64-001-super-mario-64.webp' },
-      { name: 'Zelda: Ocarina of Time', image: '/images/products/n64-002-zelda-ocarina-of-time.webp' },
-      { name: 'GoldenEye 007', image: '/images/products/n64-009-goldeneye-007.webp' },
-      { name: 'Mario Kart 64', image: '/images/products/n64-004-mario-kart-64.webp' },
+      { name: 'Super Mario 64', image: '/images/products/n64-051-super-mario-64.webp' },
+      { name: 'Zelda: Ocarina of Time', image: '/images/products/n64-062-zelda-ocarina-of-time.webp' },
+      { name: 'GoldenEye 007', image: '/images/products/n64-020-goldeneye-007.webp' },
+      { name: 'Mario Kart 64', image: '/images/products/n64-026-mario-kart-64.webp' },
     ],
   },
   gamecube: {
     console: '/images/nintendo/gamecube-console.webp',
     games: [
-      { name: 'Super Smash Bros. Melee', image: '/images/products/gc-005-super-smash-bros-melee.webp' },
-      { name: 'Zelda: The Wind Waker', image: '/images/products/gc-003-zelda-the-wind-waker.webp' },
-      { name: 'Metroid Prime', image: '/images/products/gc-015-metroid-prime.webp' },
-      { name: 'Super Mario Sunshine', image: '/images/products/gc-007-super-mario-sunshine.webp' },
+      { name: 'Super Smash Bros. Melee', image: '/images/products/gc-052-super-smash-bros-melee.webp' },
+      { name: 'Zelda: The Wind Waker', image: '/images/products/gc-060-zelda-the-wind-waker.webp' },
+      { name: 'Metroid Prime', image: '/images/products/gc-028-metroid-prime.webp' },
+      { name: 'Super Mario Sunshine', image: '/images/products/gc-051-super-mario-sunshine.webp' },
     ],
   },
   ds: {
     console: '/images/nintendo/ds-console.webp',
     games: [
-      { name: 'Mario Kart DS', image: '/images/products/ds-010-mario-kart-ds.webp' },
+      { name: 'Mario Kart DS', image: '/images/products/ds-024-mario-kart-ds.webp' },
       { name: 'Pokemon HeartGold', image: '/images/products/ds-006-pokmon-heartgold.webp' },
       { name: 'Brain Training', image: '/images/products/ds-004-brain-training.webp' },
-      { name: 'New Super Mario Bros', image: '/images/products/ds-011-new-super-mario-bros.webp' },
+      { name: 'New Super Mario Bros.', image: '/images/products/ds-027-new-super-mario-bros.webp' },
     ],
   },
   wii: {
     console: '/images/nintendo/wii-console.webp',
     games: [
-      { name: 'Wii Sports', image: '/images/products/wii-008-wii-sports.webp' },
-      { name: 'Super Mario Galaxy', image: '/images/products/wii-002-super-mario-galaxy.webp' },
-      { name: 'Mario Kart Wii', image: '/images/products/wii-001-mario-kart-wii.webp' },
-      { name: 'Zelda: Twilight Princess', image: '/images/products/wii-005-zelda-twilight-princess.webp' },
+      { name: 'Wii Sports', image: '/images/products/wii-056-wii-sports.webp' },
+      { name: 'Super Mario Galaxy', image: '/images/products/wii-045-super-mario-galaxy.webp' },
+      { name: 'Mario Kart Wii', image: '/images/products/wii-023-mario-kart-wii.webp' },
+      { name: 'Zelda: Skyward Sword', image: '/images/products/wii-060-zelda-skyward-sword.webp' },
     ],
   },
   '3ds': {
     console: '/images/nintendo/3ds-console.webp',
     games: [
       { name: 'Pokemon X', image: '/images/products/3ds-004-pokmon-x.webp' },
-      { name: 'Zelda: A Link Between Worlds', image: '/images/products/3ds-003-zelda-a-link-between-worlds.webp' },
+      { name: 'Zelda: A Link Between Worlds', image: '/images/products/3ds-066-zelda-a-link-between-worlds.webp' },
       { name: 'Animal Crossing: New Leaf', image: '/images/products/3ds-002-animal-crossing-new-leaf.webp' },
       { name: 'Fire Emblem Awakening', image: '/images/products/3ds-015-fire-emblem-awakening.webp' },
     ],
@@ -113,18 +113,18 @@ const ERA_IMAGES: Record<string, EraImages> = {
   wiiu: {
     console: '/images/nintendo/wiiu-console.webp',
     games: [
-      { name: 'Splatoon', image: '/images/products/wiiu-007-splatoon.webp' },
-      { name: 'Mario Kart 8', image: '/images/products/wiiu-004-mario-kart-8.webp' },
-      { name: 'Super Smash Bros.', image: '/images/products/wiiu-005-super-smash-bros.webp' },
-      { name: 'Super Mario 3D World', image: '/images/products/wiiu-006-super-mario-3d-world.webp' },
+      { name: 'Splatoon', image: '/images/products/wiiu-041-splatoon.webp' },
+      { name: 'Mario Kart 8', image: '/images/products/wiiu-022-mario-kart-8.webp' },
+      { name: 'Super Smash Bros. for Wii U', image: '/images/products/wiiu-045-super-smash-bros-for-wii-u.webp' },
+      { name: 'Super Mario 3D World', image: '/images/products/wiiu-043-super-mario-3d-world.webp' },
     ],
   },
   switch: {
     console: '/images/nintendo/switch-console.webp',
     games: [
-      { name: 'Zelda: Breath of the Wild', image: '/images/products/sw-012-zelda-breath-of-the-wild.webp' },
-      { name: 'Super Mario Odyssey', image: '/images/products/sw-018-super-mario-odyssey.webp' },
-      { name: 'Super Smash Bros. Ultimate', image: '/images/products/sw-035-super-smash-bros-ultimate.webp' },
+      { name: 'Zelda: Breath of the Wild', image: '/images/products/sw-115-the-legend-of-zelda-breath-of-the-wild.webp' },
+      { name: 'Super Mario Odyssey', image: '/images/products/sw-110-super-mario-odyssey.webp' },
+      { name: 'Super Smash Bros. Ultimate', image: '/images/products/sw-113-super-smash-bros-ultimate.webp' },
       { name: 'Animal Crossing: New Horizons', image: '/images/products/sw-002-animal-crossing-new-horizons.webp' },
     ],
   },

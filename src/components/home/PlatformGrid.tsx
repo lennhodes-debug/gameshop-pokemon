@@ -69,7 +69,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
             />
           )}
 
-          <div className={`relative h-32 bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center overflow-hidden`}>
+          <div className={`relative h-44 bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center overflow-hidden`}>
             {/* Animated grid pattern */}
             <div
               className="absolute inset-0 opacity-[0.08]"
@@ -95,17 +95,17 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
             {/* Console afbeelding + naam */}
-            <div className="relative z-10 flex flex-col items-center gap-2">
+            <div className="relative z-10 flex flex-col items-center gap-1">
               {PLATFORM_IMAGES[platform.name] ? (
                 <Image
                   src={PLATFORM_IMAGES[platform.name]}
                   alt={label}
-                  width={160}
-                  height={80}
-                  className="h-16 w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-300"
+                  width={280}
+                  height={140}
+                  className="h-28 w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-300"
                 />
               ) : (
-                <div className="h-20 w-20" />
+                <div className="h-28 w-28" />
               )}
               <span className="text-white/90 text-xl font-extrabold tracking-tight group-hover:scale-110 transition-transform duration-300">
                 {label}
