@@ -28,8 +28,8 @@ export function useSwipeGesture(
   const elementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
+    const handleTouchStart = (e: Event) => {
+      const touch = (e as TouchEvent).touches[0];
       startPoint.current = {
         x: touch.clientX,
         y: touch.clientY,
@@ -37,11 +37,11 @@ export function useSwipeGesture(
       };
     };
 
-    const handleTouchEnd = (e: TouchEvent) => {
+    const handleTouchEnd = (e: Event) => {
       if (!startPoint.current) return;
 
-      const endX = e.changedTouches[0].clientX;
-      const endY = e.changedTouches[0].clientY;
+      const endX = (e as TouchEvent).changedTouches[0].clientX;
+      const endY = (e as TouchEvent).changedTouches[0].clientY;
       const endTime = Date.now();
 
       const deltaX = endX - startPoint.current.x;
