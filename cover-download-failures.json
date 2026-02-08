@@ -1,0 +1,57 @@
+[
+  {
+    "sku": "SW-014",
+    "name": "Zelda: Link's Awakening",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/legend-of-zelda-links-awakening",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-026",
+    "name": "Paper Mario: The Origami King",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/paper-mario-the-origami-king",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-028",
+    "name": "Mario + Rabbids: Sparks of Hope",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/mario-+-rabbids-sparks-of-hope",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-043",
+    "name": "Metroid Dread",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/metroid-dread",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-050",
+    "name": "Xenoblade Chronicles 3",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/xenoblade-chronicles-3",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-079",
+    "name": "Undertale",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/undertale",
+    "imageUrl": "https://storage.googleapis.com/images.pricecharting.com/0c26aa4cca353d9b3b177ed6e117858e3a3e77c7cc83ea8df702556549b9b02c/60.jpg",
+    "reason": "Download failed"
+  },
+  {
+    "sku": "SW-087",
+    "name": "Doom",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/doom",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-093",
+    "name": "Lego Star Wars: Skywalker Saga",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/lego-star-wars-the-skywalker-saga",
+    "reason": "HTTP 0"
+  },
+  {
+    "sku": "SW-099",
+    "name": "Immortals Fenyx Rising",
+    "url": "https://www.pricecharting.com/game/pal-nintendo-switch/immortals-fenyx-rising",
+    "reason": "HTTP 0"
+  }
+]
