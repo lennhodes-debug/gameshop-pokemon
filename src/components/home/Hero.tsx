@@ -1,8 +1,36 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+
+function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 2000;
+    const start = performance.now();
+
+    function animate(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  }, [isInView, target]);
+
+  return (
+    <div ref={ref} className="text-xl font-bold text-white tabular-nums">
+      {count.toLocaleString('nl-NL')}{suffix}
+    </div>
+  );
+}
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -263,14 +291,20 @@ export default function Hero() {
             className="flex justify-center gap-12 mt-16"
           >
             {[
-              { value: '846+', label: 'Games & Consoles' },
-              { value: '12', label: 'Platforms' },
-              { value: '100%', label: 'Origineel' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-xl font-bold text-white">{stat.value}</div>
+              { target: 846, suffix: '+', label: 'Games & Consoles' },
+              { target: 12, suffix: '', label: 'Platforms' },
+              { target: 100, suffix: '%', label: 'Origineel' },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="text-center"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.4 + i * 0.15, duration: 0.5 }}
+              >
+                <AnimatedCounter target={stat.target} suffix={stat.suffix} />
                 <div className="text-[11px] text-white/40 mt-1 uppercase tracking-wider">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>

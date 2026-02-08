@@ -61,7 +61,14 @@ export default function FeaturedProducts() {
             <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               <TextReveal text="Toppers uit de collectie" delay={0.1} />
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm lg:text-base">Premium games en consoles die je niet wilt missen</p>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="h-[3px] w-24 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mt-3 origin-left"
+            />
+            <p className="text-slate-500 dark:text-slate-400 mt-3 text-sm lg:text-base">Premium games en consoles die je niet wilt missen</p>
           </div>
           <MagneticButton strength={0.15}>
             <Link

@@ -437,6 +437,17 @@ html.dark::-webkit-scrollbar-thumb:hover {
   top: 0;
 }
 
+/* 3D card tilt on hover */
+.card-3d-tilt {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s ease;
+  transform-style: preserve-3d;
+}
+.card-3d-tilt:hover {
+  transform: perspective(800px) rotateY(-4deg) rotateX(3deg) translateZ(8px) scale(1.06);
+  box-shadow: 8px 12px 25px rgba(0,0,0,0.12), 0 0 15px rgba(16,185,129,0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
 /* Reduced motion — user preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
