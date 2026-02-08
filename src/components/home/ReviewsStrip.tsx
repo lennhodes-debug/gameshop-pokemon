@@ -124,8 +124,12 @@ function StarRating() {
 
 function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
   return (
-    <div className="flex-shrink-0 w-[320px] group/card">
-      <div className="relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full transition-all duration-300 hover:border-emerald-500/25 hover:bg-white/[0.07] hover:scale-[1.02] hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/5 overflow-hidden">
+    <motion.div
+      className="flex-shrink-0 w-[320px]"
+      whileHover={{ y: -4, scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+    >
+      <div className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/25 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-emerald-500/5 transition-colors duration-300 overflow-hidden">
         {/* Hover glow */}
         <div className="absolute -top-16 -right-16 w-32 h-32 bg-emerald-500/0 group-hover/card:bg-emerald-500/10 rounded-full blur-3xl transition-all duration-500 pointer-events-none" />
         {/* Quote mark */}
@@ -144,7 +148,7 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

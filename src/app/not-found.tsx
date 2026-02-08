@@ -45,8 +45,11 @@ export default function NotFound() {
           >
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-4 tracking-tight">
               Game{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
-                Over
+              <span className="relative">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+                  Over
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer rounded" />
               </span>
             </h2>
             <p className="text-slate-400 text-base sm:text-lg max-w-md mx-auto mb-10 leading-relaxed">
@@ -102,15 +105,23 @@ export default function NotFound() {
                 { href: '/shop?platform=Nintendo+64', label: 'Nintendo 64' },
                 { href: '/shop?platform=Game+Boy', label: 'Game Boy' },
                 { href: '/inkoop', label: 'Games verkopen' },
-              ].map((cat) => (
-                <Link key={cat.href} href={cat.href}>
-                  <motion.span
-                    whileHover={{ scale: 1.05, y: -1 }}
-                    className="inline-block px-4 py-2 rounded-xl bg-white/[0.06] border border-white/[0.1] text-slate-300 text-sm font-medium hover:bg-white/[0.1] hover:text-white transition-all"
-                  >
-                    {cat.label}
-                  </motion.span>
-                </Link>
+              ].map((cat, i) => (
+                <motion.div
+                  key={cat.href}
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.8 + i * 0.08, ease: [0.16, 1, 0.3, 1] as const }}
+                >
+                  <Link href={cat.href}>
+                    <motion.span
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="inline-block px-4 py-2 rounded-xl bg-white/[0.06] border border-white/[0.1] text-slate-300 text-sm font-medium hover:bg-white/[0.1] hover:text-white transition-all"
+                    >
+                      {cat.label}
+                    </motion.span>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -118,8 +129,8 @@ export default function NotFound() {
           {/* Decorative controller hint */}
           <motion.p
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
+            animate={{ opacity: [0, 0.6, 0.4, 0.6] }}
+            transition={{ delay: 1, duration: 3, repeat: Infinity, repeatType: 'reverse' }}
             className="mt-10 text-slate-600 text-xs font-medium tracking-wider uppercase"
           >
             Druk op Start om door te gaan

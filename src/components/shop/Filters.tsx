@@ -156,16 +156,25 @@ export default function Filters({
           stroke="currentColor"
           strokeWidth={2}
           animate={{ rotate: showAllFilters ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </motion.svg>
         {showAllFilters ? 'Minder filters' : 'Meer filters'}
-        {activeCount > 0 && (
-          <span className="h-5 w-5 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center">
-            {activeCount}
-          </span>
-        )}
+        <AnimatePresence>
+          {activeCount > 0 && (
+            <motion.span
+              key={activeCount}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+              className="h-5 w-5 rounded-full bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center"
+            >
+              {activeCount}
+            </motion.span>
+          )}
+        </AnimatePresence>
       </motion.button>
 
       {/* Extended filters */}

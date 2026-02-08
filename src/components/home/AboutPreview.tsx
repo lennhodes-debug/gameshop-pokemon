@@ -100,11 +100,15 @@ export default function AboutPreview() {
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.12,
+                  ease: [0.16, 1, 0.3, 1] as const,
+                }}
+                whileHover={{ y: -6, scale: 1.03, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
                 className="glass-card rounded-2xl p-6 lg:p-8 text-center hover:bg-white/[0.06] transition-colors duration-300"
               >
                 <div className="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">
