@@ -20,18 +20,18 @@ const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
 // PLATFORM CONTEXT - era-specifieke beschrijvingen
 // ============================================================
 const PLATFORM_CONTEXT = {
-  'NES': 'Deze NES-klassieker uit het 8-bit tijdperk',
-  'Super Nintendo': 'Dit SNES-meesterwerk uit de gouden 16-bit era',
-  'Nintendo 64': 'Dit N64-avontuur dat 3D-gaming revolutioneerde',
-  'Game Boy': 'Dit Game Boy-pareltje voor onderweg',
-  'Game Boy Color': 'Dit Game Boy Color-avontuur in kleur',
-  'Game Boy Advance': 'Dit GBA-juweeltje met 32-bit graphics',
-  'GameCube': 'Dit GameCube-hoogtepunt',
-  'Nintendo DS': 'Dit Nintendo DS-spel met innovatief touchscreen',
-  'Nintendo 3DS': 'Dit Nintendo 3DS-avontuur met stereoscopisch 3D',
-  'Wii': 'Dit Wii-spel met innovatieve motion controls',
-  'Wii U': 'Dit Wii U-spel met GamePad-integratie',
-  'Nintendo Switch': 'Dit Nintendo Switch-spel voor thuis en onderweg',
+  'NES': 'Deze PAL-versie van deze NES-klassieker uit het 8-bit tijdperk',
+  'Super Nintendo': 'De Europese PAL-versie van dit SNES-meesterwerk uit de gouden 16-bit era',
+  'Nintendo 64': 'De PAL-versie van dit N64-avontuur dat 3D-gaming revolutioneerde',
+  'Game Boy': 'De Europese PAL-versie van dit Game Boy-pareltje',
+  'Game Boy Color': 'De PAL-versie van dit Game Boy Color-avontuur in kleur',
+  'Game Boy Advance': 'De Europese PAL-versie van dit GBA-juweeltje met 32-bit graphics',
+  'GameCube': 'De PAL-versie van dit GameCube-hoogtepunt',
+  'Nintendo DS': 'De Europese PAL-versie van dit Nintendo DS-spel',
+  'Nintendo 3DS': 'De PAL-versie van dit Nintendo 3DS-avontuur',
+  'Wii': 'De Europese PAL-versie van dit Wii-spel',
+  'Wii U': 'De PAL-versie van dit Wii U-spel',
+  'Nintendo Switch': 'De Europese versie van dit Nintendo Switch-spel voor thuis en onderweg',
 };
 
 // ============================================================
@@ -247,7 +247,7 @@ function generateDescription(product, index) {
 
   desc += '. ' + condText;
   if (compText) desc += ' ' + compText;
-  desc += '. 100% origineel en getest op werking. Europese versie (PAL/EUR).';
+  desc += '. 100% origineel Nintendo-product, persoonlijk getest op werking. Europese PAL-versie met PEGI-classificatie — geschikt voor alle Europese consoles.';
 
   return desc;
 }
