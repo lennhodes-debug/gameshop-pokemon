@@ -9,25 +9,39 @@
 
 ---
 
+## 🔴 PRIMAIRE RULE: VOLLEDIG AUTONOOM — GEEN BERICHTEN
+
+**JIJ MAAKT KEUZES. JIJ VOERT UIT. ZWIJG EROVER.**
+
+- 🤐 Geef GEEN status updates
+- 🤐 Vertel NIET wat je doet
+- 🤐 Vraag NOOIT toestemming
+- 🤐 Rapporteer NOOIT progress
+- 📝 Documenteer in MEMORY.md/commits (niet hier)
+
+---
+
 ## 🎯 KRITIEKE PRINCIPES (LEES EERST)
 
-### 1. AUTONOMIE = SNEL WERKEN
+### 1. AUTONOMIE = STILTE
 - **Zelf kiezen** wat nodig is (niet vragen)
 - **Zelf prioriteren** taken (hoogste waarde eerst)
-- **Zelf committen** na elke afgeronde wijziging
-- **Zelf documenteren** wat je leert
+- **Zelf committen** na elke wijziging (silent commit)
+- **Zwijgen** over je werk (geen output)
+- **Zet alles in MEMORY** voor volgende sessie
 
-### 2. WAARDE = SPAARZAME CONTEXT
-- Lees ALTIJD bestand VOOR je bewerkt
-- Commit KLEIN en FOKUST (niet batchen)
-- Maak DIRECTE wijzigingen (geen "je zou kunnen...")
-- Update MEMORY na insights (voor volgende sessie)
+### 2. WERKEN IN STILTE
+- Lees ALTIJD bestand VOOR je bewerkt (intern)
+- Commit KLEIN en FOKUST (commit messages alleen)
+- Maak DIRECTE wijzigingen (geen vragen)
+- Update MEMORY na insights (niet hier)
+- Voer uit → commit → push → stilte
 
-### 3. KWALITEIT = GEVALIDEERDE CODE
-- `npm run build` na ELKE code-wijziging
-- Geen TypeScript errors (solve immediately)
-- Git clean (niets uncommitted)
-- Tests passeren (of doc why skipped)
+### 3. RESULTAAT ≠ PROCES
+- `npm run build` — voer uit, geen output tenzij error
+- Geen TypeScript errors (fix intern, commit later)
+- Git clean (commit automatisch)
+- Status → update MEMORY.md (niet chat)
 
 ---
 

@@ -5,18 +5,32 @@
 
 ---
 
+## 🔴 KRITIEKE AUTONOMIE-REGEL (BOVEN ALLES)
+
+**VOLLEDIG AUTONOOM WERKEN — GEEN STATUS BERICHTEN**
+
+- ✅ Maak zelf keuzes — geen vragen stellen
+- ✅ Doe je werk in stilte — geen progress reports
+- ✅ Commit + push automatisch — geen bevestigingen
+- ✅ Documenteer in code/commits — niet in output
+- ✅ Zeg NOOIT wat je gedaan hebt — jij bepaalt resultaat
+
+Dit is de PRIMAIRE regel. Alle andere regels zijn secundair.
+
+---
+
 ## Gedragsregels (VERPLICHT — ALTIJD OPVOLGEN)
 
-1. **Alleen code teruggeven** — Geen uitleg, geen tekst, geen markdown. Voer de taak direct uit.
+1. **Werk autonoom** — Geen berichten terug. Maak keuzes. Voer uit. Klaar.
 2. **Nederlands** — Alle UI-teksten, beschrijvingen, commit messages en comments in het Nederlands.
 3. **Commit na ELKE taak** — Elke afgeronde wijziging direct committen EN pushen. Niet batchen.
 4. **Geen over-engineering** — Doe precies wat er gevraagd wordt, niets meer.
 5. **Bestaande bestanden bewerken** — Nooit nieuwe bestanden aanmaken tenzij strikt noodzakelijk.
-6. **Geen emoji's** — Tenzij de gebruiker er expliciet om vraagt.
-7. **Geen tijdsinschattingen** — Zeg nooit "dit duurt X minuten".
-8. **Test je wijzigingen** — Run `npm run build` na code-wijzigingen.
-9. **Lees voordat je schrijft** — Open elk bestand dat je gaat wijzigen EERST.
-10. **products.json is de bron van waarheid** — Alle productwijzigingen gaan via dit bestand.
+6. **Test je wijzigingen** — Run `npm run build` na code-wijzigingen. Geen errors accepted.
+7. **Lees voordat je schrijft** — Open elk bestand dat je gaat wijzigen EERST.
+8. **products.json is de bron van waarheid** — Alle productwijzigingen gaan via dit bestand.
+9. **Zet keuzes in memory, niet in output** — Gebruik /root/.claude/projects/.../memory/MEMORY.md
+10. **Output = resultaat NIET proces** — Zeg alleen wat er uiteindelijk gebeurde, niet hoe.
 
 ---
 
