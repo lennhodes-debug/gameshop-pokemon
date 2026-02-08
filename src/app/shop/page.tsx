@@ -25,9 +25,9 @@ function ShopContent() {
   const [page, setPage] = useState(1);
 
   const allProducts = getAllProducts();
-  const platforms = getAllPlatforms().map((p) => p.name);
-  const genres = getAllGenres();
-  const conditions = getAllConditions();
+  const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
+  const genres = useMemo(() => getAllGenres(), []);
+  const conditions = useMemo(() => getAllConditions(), []);
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -71,19 +71,22 @@ function ShopContent() {
     if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
     if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
 
-    results.sort((a, b) => {
-      switch (sortBy) {
-        case 'price-asc': return a.price - b.price;
-        case 'price-desc': return b.price - a.price;
-        case 'name-desc': return b.name.localeCompare(a.name);
-        case 'newest': {
-          const numA = parseInt(a.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0;
-          const numB = parseInt(b.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0;
-          return numB - numA;
-        }
-        default: return a.name.localeCompare(b.name);
+    if (sortBy === 'newest') {
+      const skuNum = new Map<string, number>();
+      for (const p of results) {
+        skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z]+-/, ''), 10) || 0);
       }
-    });
+      results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
+    } else {
+      results.sort((a, b) => {
+        switch (sortBy) {
+          case 'price-asc': return a.price - b.price;
+          case 'price-desc': return b.price - a.price;
+          case 'name-desc': return b.name.localeCompare(a.name);
+          default: return a.name.localeCompare(b.name);
+        }
+      });
+    }
 
     return results;
   }, [allProducts, search, platform, genre, condition, category, completeness, sortBy]);

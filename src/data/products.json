@@ -2592,7 +2592,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-002-animal-crossing-new-leaf.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -2651,7 +2651,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-023-dk-country-returns-3d.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -2804,7 +2804,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-013-fire-emblem-fates-birthright.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -2824,7 +2824,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-014-fire-emblem-fates-conquest.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -2844,7 +2844,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-015-fire-emblem-awakening.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -2903,7 +2903,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-018-kid-icarus-uprising.webp",
     "inkoopPrijs": 18,
-    "pcUsedPrice": 46.0,
+    "pcUsedPrice": 46,
     "inkoopFeatured": true
   },
   {
@@ -2942,7 +2942,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-020-kirby-triple-deluxe.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3058,7 +3058,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-025-mario-kart-7.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3077,7 +3077,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-026-mario-party-island-tour.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3194,7 +3194,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-032-new-super-mario-bros-2.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3251,7 +3251,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-035-pokemon-alpha-sapphire.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3271,7 +3271,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-036-pokemon-moon.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3291,7 +3291,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-037-pokemon-omega-ruby.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3311,7 +3311,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-038-pokemon-sun.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3331,7 +3331,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-039-pokemon-super-mystery-dungeon.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3351,7 +3351,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-040-pokemon-ultra-moon.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3371,7 +3371,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-041-pokemon-ultra-sun.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3391,7 +3391,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-042-pokemon-x.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3411,7 +3411,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-043-pokemon-y.webp",
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
   },
@@ -3668,7 +3668,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-056-star-fox-64-3d.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3726,7 +3726,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-059-super-mario-3d-land.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3765,7 +3765,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-061-super-smash-bros-for-3ds.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3785,7 +3785,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-062-tomodachi-life.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -3862,7 +3862,7 @@
     "isPremium": false,
     "image": "/images/products/3ds-066-zelda-a-link-between-worlds.webp",
     "inkoopPrijs": 18,
-    "pcUsedPrice": 46.0,
+    "pcUsedPrice": 46,
     "inkoopFeatured": true
   },
   {
@@ -3882,7 +3882,7 @@
     "isPremium": true,
     "image": "/images/products/3ds-067-zelda-majora-s-mask-3d.webp",
     "inkoopPrijs": 28,
-    "pcUsedPrice": 69.0,
+    "pcUsedPrice": 69,
     "inkoopFeatured": true
   },
   {
@@ -3902,7 +3902,7 @@
     "isPremium": true,
     "image": "/images/products/3ds-068-zelda-ocarina-of-time-3d.webp",
     "inkoopPrijs": 28,
-    "pcUsedPrice": 69.0,
+    "pcUsedPrice": 69,
     "inkoopFeatured": true
   },
   {
@@ -7469,7 +7469,7 @@
     "isPremium": false,
     "image": "/images/products/gb-002-pokmon-blue.webp",
     "inkoopPrijs": 18,
-    "pcUsedPrice": 46.0,
+    "pcUsedPrice": 46,
     "inkoopFeatured": true
   },
   {
@@ -7489,7 +7489,7 @@
     "isPremium": false,
     "image": "/images/products/gb-001-pokmon-red.webp",
     "inkoopPrijs": 18,
-    "pcUsedPrice": 46.0,
+    "pcUsedPrice": 46,
     "inkoopFeatured": true
   },
   {
@@ -7896,7 +7896,7 @@
     "isPremium": false,
     "image": "/images/products/gb-061-zelda-oracle-of-ages.webp",
     "inkoopPrijs": 18,
-    "pcUsedPrice": 46.0,
+    "pcUsedPrice": 46,
     "inkoopFeatured": true
   },
   {
@@ -7916,7 +7916,7 @@
     "isPremium": false,
     "image": "/images/products/gb-062-zelda-oracle-of-seasons.webp",
     "inkoopPrijs": 18,
-    "pcUsedPrice": 46.0,
+    "pcUsedPrice": 46,
     "inkoopFeatured": true
   },
   {
@@ -8055,7 +8055,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-002-battalion-wars.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8075,7 +8075,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-003-beyond-good-evil.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8095,7 +8095,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-004-billy-hatcher.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8115,7 +8115,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-005-crash-bandicoot-the-wrath-of-cortex.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8135,7 +8135,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-006-donkey-kong-jungle-beat.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8155,7 +8155,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-007-donkey-konga.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8175,7 +8175,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-008-dragon-ball-z-budokai.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8215,7 +8215,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-010-eternal-darkness-sanity-s-requiem.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8295,7 +8295,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-014-harvest-moon-a-wonderful-life.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8315,7 +8315,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-015-ikaruga.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8335,7 +8335,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-016-killer7.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8395,7 +8395,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-019-mario-golf-toadstool-tour.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8496,7 +8496,7 @@
     "isPremium": true,
     "image": "/images/products/gc-024-mario-party-7.webp",
     "inkoopPrijs": 22,
-    "pcUsedPrice": 56.0,
+    "pcUsedPrice": 56,
     "inkoopFeatured": true
   },
   {
@@ -8515,7 +8515,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-025-mario-power-tennis.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8535,7 +8535,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-026-mega-man-network-transmission.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8555,7 +8555,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-027-metal-gear-solid-the-twin-snakes.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8615,7 +8615,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-030-naruto-clash-of-ninja-2.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8635,7 +8635,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-031-need-for-speed-underground-2.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8675,7 +8675,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-033-phantasy-star-online-episode-i-ii.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8815,7 +8815,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-040-rayman-3-hoodlum-havoc.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8835,7 +8835,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-041-resident-evil.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8856,7 +8856,7 @@
     "isPremium": false,
     "image": "/images/products/gc-042-resident-evil-4.webp",
     "inkoopPrijs": 11,
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopFeatured": true
   },
   {
@@ -8895,7 +8895,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-044-sonic-heroes.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8915,7 +8915,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-045-soul-calibur-ii.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8935,7 +8935,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-046-spider-man-2.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8955,7 +8955,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-047-spyro-enter-the-dragonfly.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8975,7 +8975,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-048-ssx-tricky.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -8996,7 +8996,7 @@
     "isPremium": false,
     "image": "/images/products/gc-049-star-fox-adventures.webp",
     "inkoopPrijs": 11,
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopFeatured": true
   },
   {
@@ -9015,7 +9015,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-050-super-mario-strikers.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9075,7 +9075,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-053-tales-of-symphonia.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9095,7 +9095,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-054-timesplitters-2.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9115,7 +9115,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-055-timesplitters-future-perfect.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9135,7 +9135,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-056-tony-hawk-s-pro-skater-3.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9155,7 +9155,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-057-tony-hawk-s-underground.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9175,7 +9175,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-058-viewtiful-joe.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9195,7 +9195,7 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/gc-059-warioware-inc-mega-party-game.webp",
-    "pcUsedPrice": 28.0,
+    "pcUsedPrice": 28,
     "inkoopPrijs": 11,
     "inkoopFeatured": true
   },
@@ -9216,7 +9216,7 @@
     "isPremium": true,
     "image": "/images/products/gc-060-zelda-the-wind-waker.webp",
     "inkoopPrijs": 22,
-    "pcUsedPrice": 56.0,
+    "pcUsedPrice": 56,
     "inkoopFeatured": true
   },
   {
@@ -12364,7 +12364,7 @@
     "isPremium": false,
     "image": "/images/products/nes-043-punch-out.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -12479,7 +12479,7 @@
     "isPremium": false,
     "image": "/images/products/nes-049-super-mario-bros.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -12499,7 +12499,7 @@
     "isPremium": false,
     "image": "/images/products/nes-050-super-mario-bros-2.webp",
     "inkoopPrijs": 9,
-    "pcUsedPrice": 23.0,
+    "pcUsedPrice": 23,
     "inkoopFeatured": true
   },
   {
@@ -14932,7 +14932,7 @@
     "name": "Nintendo Switch OLED - Wit",
     "platform": "Nintendo Switch",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 320,
     "condition": "Gebruikt",
     "completeness": "Console + Joy-Con (L/R) + Dock (zonder oplader)",
@@ -14952,7 +14952,7 @@
     "name": "Nintendo Switch V2 - Neon Rood/Blauw",
     "platform": "Nintendo Switch",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 260,
     "condition": "Gebruikt",
     "completeness": "Console + Joy-Con (L/R) + Dock (zonder oplader)",
@@ -14972,7 +14972,7 @@
     "name": "Nintendo Switch Lite - Lichtblauw",
     "platform": "Nintendo Switch",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 170,
     "condition": "Gebruikt",
     "completeness": "Console (handheld, zonder oplader)",
@@ -14992,7 +14992,7 @@
     "name": "Nintendo Switch Lite - Lichtgeel",
     "platform": "Nintendo Switch",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 170,
     "condition": "Gebruikt",
     "completeness": "Console (handheld, zonder oplader)",
@@ -15012,7 +15012,7 @@
     "name": "Nintendo 3DS - Blauw",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15022,7 +15022,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-005-nintendo-3ds-blauw.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15032,7 +15032,7 @@
     "name": "Nintendo 3DS - Rood",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15042,7 +15042,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-006-nintendo-3ds-rood.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15052,7 +15052,7 @@
     "name": "Nintendo 3DS - Roze",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15062,7 +15062,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-007-nintendo-3ds-roze.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15072,7 +15072,7 @@
     "name": "Nintendo 3DS - Wit",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15082,7 +15082,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-008-nintendo-3ds-wit.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15092,7 +15092,7 @@
     "name": "Nintendo 3DS - Zwart",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15102,7 +15102,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-009-nintendo-3ds-zwart.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15112,7 +15112,7 @@
     "name": "Nintendo 2DS - Blauw",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15122,7 +15122,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-010-nintendo-2ds-blauw.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15132,7 +15132,7 @@
     "name": "Nintendo 2DS - Zwart",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15142,7 +15142,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-011-nintendo-2ds-zwart.webp",
-    "pcUsedPrice": 115.0,
+    "pcUsedPrice": 115,
     "inkoopPrijs": 46,
     "inkoopFeatured": true
   },
@@ -15152,7 +15152,7 @@
     "name": "Nintendo 3DS XL - Roze",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 140,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15162,7 +15162,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-012-nintendo-3ds-xl-roze.webp",
-    "pcUsedPrice": 161.0,
+    "pcUsedPrice": 161,
     "inkoopPrijs": 64,
     "inkoopFeatured": true
   },
@@ -15172,7 +15172,7 @@
     "name": "Nintendo 3DS XL - Blauw",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 140,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15182,7 +15182,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-013-nintendo-3ds-xl-blauw.webp",
-    "pcUsedPrice": 161.0,
+    "pcUsedPrice": 161,
     "inkoopPrijs": 64,
     "inkoopFeatured": true
   },
@@ -15192,7 +15192,7 @@
     "name": "New Nintendo 3DS XL - Blauw",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 140,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15202,7 +15202,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-009-new-nintendo-3ds-xl.webp",
-    "pcUsedPrice": 161.0,
+    "pcUsedPrice": 161,
     "inkoopPrijs": 64,
     "inkoopFeatured": true
   },
@@ -15212,7 +15212,7 @@
     "name": "New Nintendo 3DS XL - Zwart",
     "platform": "Nintendo 3DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 140,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15222,7 +15222,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-009-new-nintendo-3ds-xl.webp",
-    "pcUsedPrice": 161.0,
+    "pcUsedPrice": 161,
     "inkoopPrijs": 64,
     "inkoopFeatured": true
   },
@@ -15232,7 +15232,7 @@
     "name": "Nintendo DS Lite - Zwart",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 50,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15252,7 +15252,7 @@
     "name": "Nintendo DS Lite - Wit",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 50,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15272,7 +15272,7 @@
     "name": "Nintendo DS Lite - Grijs",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 50,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15292,7 +15292,7 @@
     "name": "Nintendo DSi - Blauw",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 45,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15312,7 +15312,7 @@
     "name": "Nintendo DSi - Zwart",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 45,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15332,7 +15332,7 @@
     "name": "Nintendo DSi - Wit",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 45,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15352,7 +15352,7 @@
     "name": "Nintendo DSi XL - Geel",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 45,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15372,7 +15372,7 @@
     "name": "Nintendo DSi XL - Rood",
     "platform": "Nintendo DS",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 45,
     "condition": "Gebruikt",
     "completeness": "Console + stylus (zonder oplader)",
@@ -15392,7 +15392,7 @@
     "name": "Game Boy Advance SP - Blauw",
     "platform": "Game Boy Advance",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 80,
     "condition": "Gebruikt",
     "completeness": "Console (zonder oplader)",
@@ -15412,7 +15412,7 @@
     "name": "Game Boy Advance SP - Roze",
     "platform": "Game Boy Advance",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 80,
     "condition": "Gebruikt",
     "completeness": "Console (zonder oplader)",
@@ -15432,7 +15432,7 @@
     "name": "Game Boy Advance SP - Grijs",
     "platform": "Game Boy Advance",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 80,
     "condition": "Gebruikt",
     "completeness": "Console (zonder oplader)",
@@ -15452,7 +15452,7 @@
     "name": "Game Boy Advance SP - Zwart",
     "platform": "Game Boy Advance",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 80,
     "condition": "Gebruikt",
     "completeness": "Console (zonder oplader)",
@@ -15472,7 +15472,7 @@
     "name": "Game Boy Color - Geel",
     "platform": "Game Boy Color",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 60,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15492,7 +15492,7 @@
     "name": "Game Boy Color - Blauw",
     "platform": "Game Boy Color",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 60,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15512,7 +15512,7 @@
     "name": "Game Boy Color - Donkerblauw",
     "platform": "Game Boy Color",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 60,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15532,7 +15532,7 @@
     "name": "Game Boy Color - Doorzichtig (Atomic Purple)",
     "platform": "Game Boy Color",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 60,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15552,7 +15552,7 @@
     "name": "Game Boy Color - Rood (Berry)",
     "platform": "Game Boy Color",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 60,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15572,7 +15572,7 @@
     "name": "Game Boy Pocket - Zilver (normaal)",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15592,7 +15592,7 @@
     "name": "Game Boy Pocket - Roze",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15612,7 +15612,7 @@
     "name": "Game Boy Pocket - Groen",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15632,7 +15632,7 @@
     "name": "Game Boy Pocket - Geel",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15652,7 +15652,7 @@
     "name": "Game Boy Pocket - Zwart",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15672,7 +15672,7 @@
     "name": "Game Boy (DMG) - Grijs (origineel)",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15692,7 +15692,7 @@
     "name": "Game Boy (DMG) - Geel (Play It Loud)",
     "platform": "Game Boy",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 55,
     "condition": "Gebruikt",
     "completeness": "Console (zonder batterijen)",
@@ -15712,13 +15712,13 @@
     "name": "Nintendo 64 - Zwart",
     "platform": "Nintendo 64",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 60,
     "condition": "Gebruikt",
     "completeness": "Console + 1 controller (zonder stroomadapter)",
     "type": "simple",
     "description": "De Nintendo 64 in standaard zwart - de console die 3D-gaming naar de huiskamer bracht. Met de revolutionaire analoge stick-controller, vier controllerpoorten voor multiplayer en legendarische games zoals Super Mario 64, Zelda: Ocarina of Time en GoldenEye 007. De controller met zijn unieke drietand-ontwerp ligt verrassend goed in de hand. Met Expansion Pak-slot voor extra geheugen. Inclusief één originele N64-controller. Stroomadapter en AV-kabel niet inbegrepen. Europese versie (PAL/EUR).",
-    "weight": 1.0,
+    "weight": 1,
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-040-nintendo-64-zwart.webp",
@@ -15732,7 +15732,7 @@
     "name": "Super Nintendo (SNES) - Grijs (origineel)",
     "platform": "Super Nintendo",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 65,
     "condition": "Gebruikt",
     "completeness": "Console + 1 controller (zonder stroomadapter)",
@@ -15752,7 +15752,7 @@
     "name": "Nintendo GameCube - Indigo (blauw)",
     "platform": "GameCube",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 75,
     "condition": "Gebruikt",
     "completeness": "Console + 1 controller (zonder stroomadapter)",
@@ -15762,7 +15762,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-042-nintendo-gamecube-indigo-blauw.webp",
-    "pcUsedPrice": 84.0,
+    "pcUsedPrice": 84,
     "inkoopPrijs": 34,
     "inkoopFeatured": true
   },
@@ -15772,7 +15772,7 @@
     "name": "Nintendo Wii - Wit (origineel)",
     "platform": "Wii",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 40,
     "condition": "Gebruikt",
     "completeness": "Console + Wii Remote + Nunchuk (zonder stroomadapter)",
@@ -15792,7 +15792,7 @@
     "name": "Nintendo Wii U - Zwart (32GB)",
     "platform": "Wii U",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + GamePad (zonder stroomadapter)",
@@ -15802,7 +15802,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-044-nintendo-wii-u-zwart-32gb.webp",
-    "pcUsedPrice": 118.0,
+    "pcUsedPrice": 118,
     "inkoopPrijs": 47,
     "inkoopFeatured": true
   },
@@ -15812,7 +15812,7 @@
     "name": "Nintendo Wii U - Wit (8GB)",
     "platform": "Wii U",
     "category": "Consoles",
-    "genre": "",
+    "genre": "Console",
     "price": 100,
     "condition": "Gebruikt",
     "completeness": "Console + GamePad (zonder stroomadapter)",
@@ -15822,7 +15822,7 @@
     "isConsole": true,
     "isPremium": true,
     "image": "/images/products/con-045-nintendo-wii-u-wit-8gb.webp",
-    "pcUsedPrice": 118.0,
+    "pcUsedPrice": 118,
     "inkoopPrijs": 47,
     "inkoopFeatured": true
   },
@@ -15899,7 +15899,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/con-011-nintendo-dsi.webp",
+    "image": "/images/products/acc-004-nintendo-dsi-dsi-xl-oplader.webp",
     "pcUsedPrice": 11.65,
     "inkoopPrijs": 5
   },
@@ -15918,7 +15918,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/con-010-nintendo-ds-lite.webp",
+    "image": "/images/products/acc-005-nintendo-ds-lite-oplader.webp",
     "pcUsedPrice": 11.65,
     "inkoopPrijs": 5
   },
@@ -15937,7 +15937,7 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/con-012-game-boy-advance-sp.webp",
+    "image": "/images/products/acc-006-game-boy-advance-sp-oplader.webp",
     "pcUsedPrice": 11.65,
     "inkoopPrijs": 5
   },
