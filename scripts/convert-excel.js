@@ -2,6 +2,18 @@ const XLSX = require('xlsx');
 const path = require('path');
 const fs = require('fs');
 
+// ⚠️  WARNING: This script converts OLD Excel data (346 products) to products.json
+// It will OVERWRITE the current 846-product version with outdated data.
+//
+// DISABLED: This should NOT run automatically during build.
+// Only use this manually if you need to re-import from Excel.
+// To use: npm run convert-data
+//
+// Current workflow:
+// 1. Update products.json manually
+// 2. products.json is the source of truth (846 products)
+// 3. This script is only for legacy imports
+
 const inputPath = path.join(__dirname, '..', 'data', 'gameshop_enter_compleet.xlsx');
 const outputPath = path.join(__dirname, '..', 'src', 'data', 'products.json');
 
