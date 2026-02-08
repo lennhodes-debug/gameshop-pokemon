@@ -51,7 +51,7 @@ const ICONIC_SERIES = [
 ];
 
 export default function GameSeriesShowcase() {
-  const containerVariants = {
+  const containerVariants: any = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -62,7 +62,7 @@ export default function GameSeriesShowcase() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
