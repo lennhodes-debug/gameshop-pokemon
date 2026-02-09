@@ -148,6 +148,14 @@ export default function Header() {
         {/* Mobile Nav */}
         <AnimatePresence>
           {mobileOpen && (
+            <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="lg:hidden fixed inset-0 top-16 bg-black/50 z-[-1]"
+            />
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -207,6 +215,7 @@ export default function Header() {
                 </motion.div>
               </nav>
             </motion.div>
+            </>
           )}
         </AnimatePresence>
       </motion.header>
