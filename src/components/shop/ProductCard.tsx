@@ -29,24 +29,22 @@ export default function ProductCard({ product }: ProductCardProps) {
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [15, -15]), { stiffness: 400, damping: 20 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-15, 15]), { stiffness: 400, damping: 20 });
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [20, -20]), { stiffness: 400, damping: 18 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-20, 20]), { stiffness: 400, damping: 18 });
   const scale = useSpring(useTransform(useMotionValue(isHovered ? 1 : 0), [0, 1], [1, 1.02]), { stiffness: 300, damping: 25 });
 
-  // Holographic rainbow gradient that follows cursor
+  // Holographic glow + shine merged (2 layers ipv 3 voor performance)
   const holoX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const holoY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const holoBackground = useMotionTemplate`
     radial-gradient(600px circle at ${holoX}% ${holoY}%,
-      rgba(16,185,129,0.12) 0%,
+      rgba(16,185,129,0.14) 0%,
       rgba(6,182,212,0.08) 25%,
-      rgba(6,182,212,0.06) 50%,
-      transparent 80%)
-  `;
-  const shineBackground = useMotionTemplate`
+      rgba(6,182,212,0.04) 50%,
+      transparent 80%),
     radial-gradient(300px circle at ${holoX}% ${holoY}%,
-      rgba(255,255,255,0.2) 0%,
-      transparent 60%)
+      rgba(255,255,255,0.18) 0%,
+      transparent 55%)
   `;
   const edgeLightBackground = useMotionTemplate`
     linear-gradient(90deg, transparent, rgba(16,185,129,0.4) ${holoX}%, transparent)
@@ -119,17 +117,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         )}
 
-        {/* Holographic shine overlay */}
-        {isHovered && (
-          <motion.div
-            className="absolute inset-0 z-10 pointer-events-none rounded-2xl"
-            style={{ background: shineBackground }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
-
         {/* Premium glow aura */}
         {isHovered && (
           <motion.div
@@ -166,7 +153,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   alt={`${product.name} - ${product.platform} ${product.condition}`}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className={cn("object-contain p-4 group-hover:scale-110 transition-all duration-700 ease-out", imageLoaded ? "opacity-100" : "opacity-0")}
+                  className={cn("object-contain p-4 group-hover:scale-105 transition-all duration-700 ease-out will-change-transform", imageLoaded ? "opacity-100" : "opacity-0")}
                   priority={false}
                   onLoad={() => setImageLoaded(true)}
                 />

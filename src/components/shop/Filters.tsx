@@ -181,6 +181,32 @@ export default function Filters({
         </AnimatePresence>
       </motion.button>
 
+      {/* Reset alle filters */}
+      <AnimatePresence>
+        {activeCount > 0 && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9, x: -10 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.9, x: -10 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => {
+              onPlatformChange('');
+              onGenreChange('');
+              onConditionChange('');
+              onCategoryChange('');
+              onCompletenessChange('');
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/30 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
+          >
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Filters wissen ({activeCount})
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       {/* Extended filters */}
       <AnimatePresence>
         {showAllFilters && (
