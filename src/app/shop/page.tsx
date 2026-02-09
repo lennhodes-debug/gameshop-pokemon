@@ -1,9 +1,12 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, Suspense } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions } from '@/lib/products';
+import { useCart } from '@/components/cart/CartProvider';
+import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
 import ProductGrid from '@/components/shop/ProductGrid';
@@ -16,6 +19,7 @@ function ShopContent() {
   const headerRef = useRef<HTMLDivElement>(null);
 
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [platform, setPlatform] = useState(initialPlatform);
   const [genre, setGenre] = useState('');
   const [condition, setCondition] = useState('');
@@ -23,6 +27,18 @@ function ShopContent() {
   const [completeness, setCompleteness] = useState('');
   const [sortBy, setSortBy] = useState('name-asc');
   const [page, setPage] = useState(1);
+
+  const { getTotal, getItemCount } = useCart();
+  const cartTotal = getTotal();
+  const cartCount = getItemCount();
+  const freeShippingProgress = Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
+  const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - cartTotal;
+
+  // Debounce zoekfunctie
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const allProducts = getAllProducts();
   const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
@@ -38,13 +54,13 @@ function ShopContent() {
 
   useEffect(() => {
     setPage(1);
-  }, [search, platform, genre, condition, category, completeness, sortBy]);
+  }, [debouncedSearch, platform, genre, condition, category, completeness, sortBy]);
 
   const filtered = useMemo(() => {
     let results = [...allProducts];
 
-    if (search) {
-      const q = search.toLowerCase();
+    if (debouncedSearch) {
+      const q = debouncedSearch.toLowerCase();
       results = results.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
@@ -89,7 +105,7 @@ function ShopContent() {
     }
 
     return results;
-  }, [allProducts, search, platform, genre, condition, category, completeness, sortBy]);
+  }, [allProducts, debouncedSearch, platform, genre, condition, category, completeness, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
@@ -177,6 +193,40 @@ function ShopContent() {
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        {/* Gratis verzending progressiebalk */}
+        <AnimatePresence>
+          {cartCount > 0 && cartTotal < FREE_SHIPPING_THRESHOLD && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mb-6 overflow-hidden"
+            >
+              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-2xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    Nog {formatPrice(remainingForFreeShipping)} voor gratis verzending
+                  </span>
+                  <Link href="/winkelwagen" className="text-xs text-emerald-600 dark:text-emerald-400 font-medium hover:underline">
+                    Bekijk wagen
+                  </Link>
+                </div>
+                <div className="h-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${freeShippingProgress}%` }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+                    className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Search */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -186,7 +236,7 @@ function ShopContent() {
           <SearchBar
             value={search}
             onChange={setSearch}
-            resultCount={search ? filtered.length : undefined}
+            resultCount={debouncedSearch ? filtered.length : undefined}
             className="mb-8"
           />
         </motion.div>
@@ -245,15 +295,50 @@ function ShopContent() {
         {/* Products */}
         <div className="mt-8">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={`${page}-${platform}-${genre}-${condition}-${category}-${completeness}-${sortBy}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
-            >
-              <ProductGrid products={paginatedProducts} />
-            </motion.div>
+            {filtered.length === 0 ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="text-center py-20"
+              >
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  className="h-20 w-20 mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-6"
+                >
+                  <svg className="h-10 w-10 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  </svg>
+                </motion.div>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Geen producten gevonden</h3>
+                <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">
+                  {debouncedSearch
+                    ? `Geen resultaten voor "${debouncedSearch}". Probeer een andere zoekterm.`
+                    : 'Pas je filters aan om producten te vinden.'}
+                </p>
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+                  </svg>
+                  Filters wissen
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={`${page}-${platform}-${genre}-${condition}-${category}-${completeness}-${sortBy}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
+              >
+                <ProductGrid products={paginatedProducts} />
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
 
