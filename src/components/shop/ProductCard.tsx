@@ -38,22 +38,45 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
   const rotateY = useSpring(useTransform(mouseX, [0, 1], [-20, 20]), { stiffness: 400, damping: 18 });
   const scale = useSpring(useTransform(useMotionValue(isHovered ? 1 : 0), [0, 1], [1, 1.02]), { stiffness: 300, damping: 25 });
 
-  // Holographic glow + shine merged (2 layers ipv 3 voor performance)
+  // Holographic glow + shine
   const holoX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const holoY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
-  const holoBackground = useMotionTemplate`
-    radial-gradient(600px circle at ${holoX}% ${holoY}%,
-      rgba(16,185,129,0.14) 0%,
-      rgba(6,182,212,0.08) 25%,
-      rgba(6,182,212,0.04) 50%,
-      transparent 80%),
-    radial-gradient(300px circle at ${holoX}% ${holoY}%,
-      rgba(255,255,255,0.18) 0%,
-      transparent 55%)
-  `;
-  const edgeLightBackground = useMotionTemplate`
-    linear-gradient(90deg, transparent, rgba(16,185,129,0.4) ${holoX}%, transparent)
-  `;
+  const holoAngle = useSpring(useTransform(mouseX, [0, 1], [0, 360]), { stiffness: 150, damping: 20 });
+
+  // Premium: prismatic rainbow conic gradient — standaard: emerald glow
+  const holoBackground = product.isPremium
+    ? useMotionTemplate`
+      conic-gradient(
+        from ${holoAngle}deg at ${holoX}% ${holoY}%,
+        rgba(255,0,0,0.07),
+        rgba(255,165,0,0.07),
+        rgba(255,255,0,0.07),
+        rgba(0,255,0,0.07),
+        rgba(0,100,255,0.07),
+        rgba(128,0,255,0.07),
+        rgba(255,0,0,0.07)
+      ),
+      radial-gradient(400px circle at ${holoX}% ${holoY}%,
+        rgba(255,255,255,0.15) 0%,
+        transparent 60%)
+    `
+    : useMotionTemplate`
+      radial-gradient(600px circle at ${holoX}% ${holoY}%,
+        rgba(16,185,129,0.14) 0%,
+        rgba(6,182,212,0.08) 25%,
+        rgba(6,182,212,0.04) 50%,
+        transparent 80%),
+      radial-gradient(300px circle at ${holoX}% ${holoY}%,
+        rgba(255,255,255,0.18) 0%,
+        transparent 55%)
+    `;
+  const edgeLightBackground = product.isPremium
+    ? useMotionTemplate`
+      linear-gradient(90deg, transparent, rgba(255,200,0,0.35) ${holoX}%, transparent)
+    `
+    : useMotionTemplate`
+      linear-gradient(90deg, transparent, rgba(16,185,129,0.4) ${holoX}%, transparent)
+    `;
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -144,11 +167,26 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         {/* Premium glow aura */}
         {isHovered && !flipped && (
           <motion.div
-            className="absolute inset-0 z-[5] pointer-events-none rounded-2xl bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/10 blur-2xl"
+            className={cn(
+              "absolute inset-0 z-[5] pointer-events-none rounded-2xl blur-2xl",
+              product.isPremium
+                ? "bg-gradient-to-br from-amber-500/10 via-rose-500/5 to-violet-500/10"
+                : "bg-gradient-to-br from-emerald-500/10 via-transparent to-cyan-500/10"
+            )}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1.05 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
+          />
+        )}
+
+        {/* Premium holographic foil texture */}
+        {isHovered && !flipped && product.isPremium && (
+          <motion.div
+            className="absolute inset-0 z-[11] pointer-events-none rounded-2xl holo-foil-texture"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           />
         )}
 
@@ -387,29 +425,83 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />
       )}
       {flyData && typeof document !== 'undefined' && createPortal(
-        <motion.div
-          className="fixed z-[200] pointer-events-none rounded-xl overflow-hidden shadow-2xl shadow-emerald-500/30"
-          initial={{
-            left: flyData.from.left,
-            top: flyData.from.top,
-            width: flyData.from.width,
-            height: flyData.from.height,
-            opacity: 1,
-            borderRadius: 12,
-          }}
-          animate={{
-            left: flyData.to.left + flyData.to.width / 2 - 16,
-            top: flyData.to.top + flyData.to.height / 2 - 16,
-            width: 32,
-            height: 32,
-            opacity: 0,
-            borderRadius: 16,
-          }}
-          transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
-          onAnimationComplete={() => setFlyData(null)}
-        >
-          <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white" />
-        </motion.div>,
+        <>
+          {/* Afterimage trail (4 ghost copies) */}
+          {[0.5, 0.3, 0.18, 0.08].map((alpha, i) => (
+            <motion.div
+              key={`trail-${i}`}
+              className="fixed z-[199] pointer-events-none rounded-xl overflow-hidden"
+              initial={{
+                left: flyData.from.left,
+                top: flyData.from.top,
+                width: flyData.from.width,
+                height: flyData.from.height,
+                opacity: alpha,
+                scale: 1 - i * 0.05,
+              }}
+              animate={{
+                left: [
+                  flyData.from.left,
+                  (flyData.from.left + flyData.to.left) / 2 - 30 + i * 15,
+                  flyData.to.left + flyData.to.width / 2 - 16,
+                ],
+                top: [
+                  flyData.from.top,
+                  Math.min(flyData.from.top, flyData.to.top) - 60 - i * 10,
+                  flyData.to.top + flyData.to.height / 2 - 16,
+                ],
+                width: 32,
+                height: 32,
+                opacity: 0,
+                scale: 0.3,
+              }}
+              transition={{
+                duration: 0.7,
+                delay: i * 0.04,
+                ease: [0.32, 0, 0.67, 0],
+              }}
+            >
+              <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white/80 rounded-xl" />
+            </motion.div>
+          ))}
+          {/* Main flying element — 3D spiral */}
+          <motion.div
+            className="fixed z-[200] pointer-events-none rounded-xl overflow-hidden shadow-2xl shadow-emerald-500/30"
+            initial={{
+              left: flyData.from.left,
+              top: flyData.from.top,
+              width: flyData.from.width,
+              height: flyData.from.height,
+              opacity: 1,
+              rotateY: 0,
+              rotateZ: 0,
+              scale: 1,
+            }}
+            animate={{
+              left: [
+                flyData.from.left,
+                (flyData.from.left + flyData.to.left) / 2 - 40,
+                flyData.to.left + flyData.to.width / 2 - 16,
+              ],
+              top: [
+                flyData.from.top,
+                Math.min(flyData.from.top, flyData.to.top) - 80,
+                flyData.to.top + flyData.to.height / 2 - 16,
+              ],
+              width: [flyData.from.width, flyData.from.width * 0.6, 32],
+              height: [flyData.from.height, flyData.from.height * 0.6, 32],
+              opacity: [1, 1, 0],
+              rotateY: [0, 360, 720],
+              rotateZ: [0, -10, 0],
+              scale: [1, 0.7, 0.3],
+            }}
+            transition={{ duration: 0.7, ease: [0.32, 0, 0.67, 0] }}
+            onAnimationComplete={() => setFlyData(null)}
+            style={{ transformPerspective: 600 }}
+          >
+            <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white" />
+          </motion.div>
+        </>,
         document.body
       )}
     </div>

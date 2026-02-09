@@ -163,6 +163,25 @@ html.dark::-webkit-scrollbar-thumb:hover {
     z-index: 1;
   }
 
+  /* Holographic foil micro-texture for premium cards */
+  .holo-foil-texture {
+    background-image:
+      repeating-linear-gradient(
+        135deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255,255,255,0.025) 2px,
+        rgba(255,255,255,0.025) 4px
+      ),
+      repeating-linear-gradient(
+        45deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(255,255,255,0.015) 3px,
+        rgba(255,255,255,0.015) 6px
+      );
+  }
+
   /* Dot grid pattern background */
   .dot-grid {
     background-image: radial-gradient(circle, rgba(16, 185, 129, 0.12) 1px, transparent 1px);

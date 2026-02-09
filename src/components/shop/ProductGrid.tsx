@@ -1,12 +1,41 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Product } from '@/lib/products';
 import ProductCard from './ProductCard';
 
 interface ProductGridProps {
   products: Product[];
   onQuickView?: (product: Product) => void;
+}
+
+// Scroll-driven 3D shelf tilt per card
+function ShelfCard({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  // Card entering bottom: lean forward (-6°), center: flat (0°), exiting top: lean back (6°)
+  const rawRotateX = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [-6, 0, 0, 6]);
+  const rotateX = useSpring(rawRotateX, { stiffness: 100, damping: 30 });
+  const rawScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.97, 1, 0.97]);
+  const scale = useSpring(rawScale, { stiffness: 100, damping: 30 });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{
+        rotateX,
+        scale,
+        transformPerspective: 800,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 export default function ProductGrid({ products, onQuickView }: ProductGridProps) {
@@ -46,7 +75,9 @@ export default function ProductGrid({ products, onQuickView }: ProductGridProps)
             ease: [0.16, 1, 0.3, 1] as const,
           }}
         >
-          <ProductCard product={product} onQuickView={onQuickView} />
+          <ShelfCard>
+            <ProductCard product={product} onQuickView={onQuickView} />
+          </ShelfCard>
         </motion.div>
       ))}
     </div>
