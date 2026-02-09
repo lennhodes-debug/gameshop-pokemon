@@ -163,6 +163,25 @@ html.dark::-webkit-scrollbar-thumb:hover {
     z-index: 1;
   }
 
+  /* Holographic foil micro-texture for premium cards */
+  .holo-foil-texture {
+    background-image:
+      repeating-linear-gradient(
+        135deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255,255,255,0.025) 2px,
+        rgba(255,255,255,0.025) 4px
+      ),
+      repeating-linear-gradient(
+        45deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(255,255,255,0.015) 3px,
+        rgba(255,255,255,0.015) 6px
+      );
+  }
+
   /* Dot grid pattern background */
   .dot-grid {
     background-image: radial-gradient(circle, rgba(16, 185, 129, 0.12) 1px, transparent 1px);
@@ -478,4 +497,67 @@ html.dark::-webkit-scrollbar-thumb:hover {
   animation-duration: 0.01ms !important;
   animation-delay: 0ms !important;
   transition-duration: 0.01ms !important;
+}
+
+/* ===== NOSTALGIE MODUS — 8-Bit Tijdreiziger ===== */
+
+/* CRT scanlines overlay */
+.retro-mode::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Green phosphor tint + slight desaturation */
+.retro-mode {
+  filter: sepia(15%) hue-rotate(80deg) saturate(80%) brightness(0.97);
+}
+
+/* Vignette effect — darkened edges like old CRT */
+.retro-mode::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.25) 100%);
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* Subtle screen flicker */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.97; }
+  94% { opacity: 1; }
+}
+
+.retro-mode body {
+  animation: crt-flicker 4s infinite;
+}
+
+/* Pixelated image rendering in retro mode */
+.retro-mode img {
+  image-rendering: auto;
+}
+
+/* Retro-style buttons — green glow */
+.retro-mode .bg-gradient-to-r.from-emerald-500 {
+  box-shadow: 0 0 12px rgba(0, 255, 65, 0.3), inset 0 0 6px rgba(0, 255, 65, 0.1);
+}
+
+/* Retro cursor — crosshair */
+.retro-mode * {
+  cursor: crosshair;
+}
+.retro-mode a, .retro-mode button, .retro-mode [role="button"] {
+  cursor: pointer;
 }

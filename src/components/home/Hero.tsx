@@ -183,6 +183,50 @@ export default function Hero() {
         </svg>
       </motion.div>
 
+      {/* === FLOATING GAME COVERS (3D depth, desktop only) === */}
+      <div className="absolute inset-0 pointer-events-none hidden lg:block" style={{ perspective: '800px' }}>
+        {[
+          { img: '/images/products/sw-001-the-legend-of-zelda-breath-of-the-wild.webp', t: '20%', l: '4%', z: -200, s: 72, d: 10, del: 0 },
+          { img: '/images/products/gc-001-the-legend-of-zelda-the-wind-waker.webp', t: '38%', l: '88%', z: -150, s: 64, d: 12, del: 1 },
+          { img: '/images/products/n64-001-super-mario-64.webp', t: '12%', l: '85%', z: -100, s: 56, d: 9, del: 2 },
+          { img: '/images/products/sw-004-mario-kart-8-deluxe.webp', t: '52%', l: '2%', z: -120, s: 60, d: 11, del: 0.5 },
+          { img: '/images/products/gb-001-pokemon-blue.webp', t: '58%', l: '93%', z: -180, s: 50, d: 8, del: 1.5 },
+          { img: '/images/products/snes-001-super-mario-world.webp', t: '10%', l: '10%', z: -250, s: 48, d: 13, del: 3 },
+        ].map((cover, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-lg overflow-hidden shadow-lg shadow-black/20 border border-white/10"
+            style={{
+              top: cover.t,
+              left: cover.l,
+              width: cover.s,
+              height: cover.s,
+              opacity: cover.z < -180 ? 0.35 : cover.z < -120 ? 0.55 : 0.75,
+              filter: cover.z < -180 ? 'blur(1.5px)' : cover.z < -120 ? 'blur(0.5px)' : 'none',
+            }}
+            animate={{
+              y: [0, -12, 0, 8, 0],
+              rotateY: [-2, 3, -2],
+              rotateX: [1, -2, 1],
+              scale: [1, 1.03, 1, 0.97, 1],
+            }}
+            transition={{
+              duration: cover.d,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: cover.del,
+            }}
+          >
+            <img
+              src={cover.img}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </motion.div>
+        ))}
+      </div>
+
       {/* === MAGICAL SPARKLES / FIREFLIES === */}
       <div className="absolute inset-0 pointer-events-none">
         {[

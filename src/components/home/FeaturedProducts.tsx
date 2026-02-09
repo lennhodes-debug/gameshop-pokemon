@@ -119,15 +119,36 @@ export default function FeaturedProducts() {
           ))}
         </motion.div>
 
-        {/* Desktop: grid */}
+        {/* Desktop: grid — Cartridge Insert 3D entrance */}
         <div ref={containerRef} className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product, index) => (
             <motion.div
               key={product.sku}
-              initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
+              className="perspective-1000"
+              initial={{
+                opacity: 0.15,
+                rotateY: 90,
+                scale: 0.85,
+                filter: 'brightness(0.4)',
+              }}
+              whileInView={{
+                opacity: 1,
+                rotateY: 0,
+                scale: 1,
+                filter: 'brightness(1)',
+              }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.06,
+                rotateY: {
+                  type: 'spring',
+                  stiffness: 180,
+                  damping: 16,
+                },
+                scale: { duration: 0.4, delay: index * 0.06 + 0.3 },
+                filter: { duration: 0.4, delay: index * 0.06 + 0.2 },
+              }}
             >
               <ProductCard product={product} />
             </motion.div>

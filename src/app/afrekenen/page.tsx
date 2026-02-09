@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import { useToast } from '@/components/ui/Toast';
@@ -79,9 +80,23 @@ export default function AfrekenPage() {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
+  const [confetti, setConfetti] = useState<{ x: number; y: number } | null>(null);
+  const [orderNumber] = useState(() => `GE-${Date.now().toString(36).toUpperCase()}`);
+
   const subtotal = getTotal();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
+
+  // Form completion progress
+  const progress = useMemo(() => {
+    const requiredFields: (keyof FormData)[] = ['voornaam', 'achternaam', 'email', 'straat', 'huisnummer', 'postcode', 'plaats'];
+    let filled = 0;
+    for (const f of requiredFields) {
+      const rule = validations[f];
+      if (rule && rule.test(form[f])) filled++;
+    }
+    return Math.round((filled / requiredFields.length) * 100);
+  }, [form, validations]);
 
   const updateField = (field: keyof FormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -113,6 +128,7 @@ export default function AfrekenPage() {
 
     setSubmitted(true);
     setIsProcessing(false);
+    setConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
     clearCart();
     addToast('Bestelling succesvol geplaatst!', 'success');
   };
@@ -174,6 +190,10 @@ export default function AfrekenPage() {
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-3xl lg:text-4xl font-extrabold text-white mb-4 tracking-tight">
               Bedankt voor je bestelling!
             </motion.h1>
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.45, type: 'spring' }} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.08] border border-white/[0.12] mb-4">
+              <span className="text-slate-400 text-sm">Bestelnummer:</span>
+              <span className="font-mono font-bold text-emerald-400 text-sm">{orderNumber}</span>
+            </motion.div>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="text-slate-400 text-lg max-w-lg mx-auto mb-4 leading-relaxed">
               Je betaling is ontvangen en je bestelling wordt verwerkt. Je ontvangt een bevestiging per e-mail met de track-and-trace code zodra je pakket is verzonden.
             </motion.p>
@@ -263,6 +283,29 @@ export default function AfrekenPage() {
                 )}
               </div>
             ))}
+          </div>
+        </motion.div>
+
+        {/* Progress bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="mb-8"
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Formulier voortgang</span>
+            <span className={`text-xs font-bold ${progress === 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
+              {progress}%{progress === 100 && ' — Klaar om af te rekenen!'}
+            </span>
+          </div>
+          <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            />
           </div>
         </motion.div>
 
@@ -469,6 +512,7 @@ export default function AfrekenPage() {
           </div>
         </form>
       </div>
+      {confetti && <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />}
     </div>
   );
 }

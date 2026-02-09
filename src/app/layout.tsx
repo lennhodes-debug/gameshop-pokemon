@@ -10,6 +10,8 @@ import FloatingActions from '@/components/ui/FloatingActions';
 import SettingsPanel from '@/components/ui/SettingsPanel';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
+import ComboOverlay from '@/components/cart/ComboOverlay';
+import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 const siteUrl = 'https://gameshopenter.nl';
@@ -143,6 +145,8 @@ export default function RootLayout({
         <ThemeProvider>
         <SmoothScroll>
           <CartProvider>
+          <ComboOverlay />
+          <WishlistProvider>
             <ToastProvider>
               <Header />
               <main id="main-content" className="min-h-screen">
@@ -153,6 +157,7 @@ export default function RootLayout({
               <FloatingActions />
               <SettingsPanel />
             </ToastProvider>
+          </WishlistProvider>
           </CartProvider>
         </SmoothScroll>
         </ThemeProvider>

@@ -123,7 +123,10 @@ export default function FaqPreview() {
             style={{ opacity: glowOpacity }}
           />
 
-          <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-sky-200 dark:hover:border-sky-500/30 hover:shadow-lg hover:shadow-sky-500/5 transition-all duration-500">
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-sky-200 dark:hover:border-sky-500/30 hover:shadow-lg hover:shadow-sky-500/5 transition-all duration-500 group">
+            {/* Animated corner accents on hover */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-transparent group-hover:border-sky-400/40 rounded-tl-2xl transition-all duration-500 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-transparent group-hover:border-sky-400/40 rounded-br-2xl transition-all duration-500 pointer-events-none" />
             <Accordion items={faqItems} staggerVariant={fadeUp} />
           </div>
         </motion.div>

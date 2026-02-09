@@ -11,11 +11,13 @@ export default function SettingsPanel() {
   const { theme, toggleTheme } = useTheme();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [animationsEnabled, setAnimationsEnabled] = useState(true);
+  const [retroMode, setRetroMode] = useState(false);
 
   useEffect(() => {
     setSoundEnabled(!isMuted());
     try {
       setAnimationsEnabled(localStorage.getItem('gameshop-animations') !== 'false');
+      setRetroMode(localStorage.getItem('gameshop-retro-mode') === 'true');
     } catch {
       // ignore
     }
@@ -40,6 +42,22 @@ export default function SettingsPanel() {
       document.documentElement.classList.remove('reduce-motion');
     } else {
       document.documentElement.classList.add('reduce-motion');
+    }
+  };
+
+  const toggleRetro = () => {
+    const newVal = !retroMode;
+    setRetroMode(newVal);
+    try {
+      localStorage.setItem('gameshop-retro-mode', String(newVal));
+    } catch {
+      // ignore
+    }
+    if (newVal) {
+      document.documentElement.classList.add('retro-mode');
+      play('powerUp');
+    } else {
+      document.documentElement.classList.remove('retro-mode');
     }
   };
 
@@ -162,6 +180,33 @@ export default function SettingsPanel() {
                     <span
                       className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
                         animationsEnabled ? 'translate-x-5' : ''
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                <hr className="border-slate-100 dark:border-slate-800" />
+
+                {/* Nostalgie modus */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <span className="text-base">🕹️</span> Nostalgie modus
+                    </p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">CRT scanlines &amp; retro vibes</p>
+                  </div>
+                  <button
+                    onClick={toggleRetro}
+                    className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                      retroMode ? 'bg-green-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}
+                    role="switch"
+                    aria-checked={retroMode}
+                    aria-label="Nostalgie modus"
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
+                        retroMode ? 'translate-x-5' : ''
                       }`}
                     />
                   </button>
