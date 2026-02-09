@@ -50,7 +50,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
       viewport={{ once: true, margin: '-30px' }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
     >
-      <Link href={`/shop?platform=${encodeURIComponent(platform.name)}`}>
+      <Link href={`/shop?platform=${encodeURIComponent(platform.name)}`} aria-label={`Shop ${platform.name} — ${platform.count} producten`}>
         <motion.div
           ref={ref}
           onMouseMove={handleMouseMove}

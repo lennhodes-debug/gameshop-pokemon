@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
 const pageVariants = {
@@ -32,6 +32,12 @@ const pageVariants = {
       ease: [0.4, 0, 1, 1] as const,
     },
   },
+};
+
+const reducedMotionVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.15 } },
+  exit: { opacity: 0, transition: { duration: 0.1 } },
 };
 
 function CoinOverlay({ onComplete }: { onComplete: () => void }) {
@@ -66,11 +72,11 @@ function CoinOverlay({ onComplete }: { onComplete: () => void }) {
           <span className="text-amber-800 font-black text-sm" style={{ fontFamily: 'monospace' }}>G</span>
         </div>
       </motion.div>
-      {/* Flash */}
+      {/* Flash — subtiel, geen full-screen wit */}
       <motion.div
         className="absolute inset-0 bg-white"
         initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 0, 0.4, 0] }}
+        animate={{ opacity: [0, 0, 0.15, 0] }}
         transition={{ duration: 0.7, times: [0, 0.45, 0.55, 0.7] }}
       />
     </motion.div>
@@ -79,6 +85,7 @@ function CoinOverlay({ onComplete }: { onComplete: () => void }) {
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const prefersReducedMotion = useReducedMotion();
   const [showCoin, setShowCoin] = useState(false);
   const [prevPath, setPrevPath] = useState(pathname);
   const [isMobile, setIsMobile] = useState(false);
@@ -89,12 +96,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
 
   useEffect(() => {
     if (pathname !== prevPath) {
-      if (!isMobile) {
+      if (!isMobile && !prefersReducedMotion) {
         setShowCoin(true);
       }
       setPrevPath(pathname);
     }
-  }, [pathname, prevPath, isMobile]);
+  }, [pathname, prevPath, isMobile, prefersReducedMotion]);
 
   return (
     <>
@@ -104,7 +111,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
-          variants={pageVariants}
+          variants={prefersReducedMotion ? reducedMotionVariants : pageVariants}
           initial="initial"
           animate="animate"
           exit="exit"

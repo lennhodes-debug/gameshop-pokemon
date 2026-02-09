@@ -37,20 +37,22 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
       </motion.h2>
 
       {/* Mobile: draggable carousel */}
-      <motion.div
-        ref={carouselRef}
-        className="flex gap-4 sm:hidden cursor-grab active:cursor-grabbing overflow-hidden"
-        drag="x"
-        dragConstraints={{ right: 0, left: -carouselWidth }}
-        dragElastic={0.1}
-        dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
-      >
-        {products.map((product) => (
-          <motion.div key={product.sku} className="min-w-[260px] flex-shrink-0">
-            <ProductCard product={product} />
-          </motion.div>
-        ))}
-      </motion.div>
+      <div className="sm:hidden overflow-hidden">
+        <motion.div
+          ref={carouselRef}
+          className="flex gap-4 cursor-grab active:cursor-grabbing"
+          drag="x"
+          dragConstraints={{ right: 0, left: -Math.max(0, carouselWidth) }}
+          dragElastic={0.1}
+          dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
+        >
+          {products.map((product) => (
+            <motion.div key={product.sku} className="min-w-[260px] flex-shrink-0">
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
 
       {/* Desktop: grid */}
       <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
