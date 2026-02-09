@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useRef, useEffect, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Toast {
@@ -25,28 +25,53 @@ export function useToast() {
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+
+  // Cleanup alle timers bij unmount
+  useEffect(() => {
+    const timers = timersRef.current;
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+      timers.clear();
+    };
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+    const timer = timersRef.current.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      timersRef.current.delete(id);
+    }
+  }, []);
 
   const addToast = useCallback((message: string, type: Toast['type'] = 'success', icon?: ReactNode, image?: string) => {
     const id = Math.random().toString(36).slice(2);
     setToasts((prev) => [...prev, { id, message, type, icon, image }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
+    const timer = setTimeout(() => {
+      removeToast(id);
     }, 3000);
-  }, []);
+    timersRef.current.set(id, timer);
+  }, [removeToast]);
 
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 items-end">
+      <div
+        className="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 items-end"
+        aria-live="polite"
+        aria-atomic="false"
+      >
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
               key={toast.id}
+              role="status"
               initial={{ opacity: 0, y: 20, x: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 50, scale: 0.9 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
-              className={`relative flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl backdrop-blur-xl border text-sm font-semibold overflow-hidden ${
+              className={`relative flex items-center gap-3 pl-5 pr-10 py-3.5 rounded-2xl shadow-2xl backdrop-blur-xl border text-sm font-semibold overflow-hidden ${
                 toast.type === 'success'
                   ? 'bg-emerald-500/95 border-emerald-400/30 text-white shadow-emerald-500/20'
                   : toast.type === 'error'
@@ -75,6 +100,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 )
               ))}
               {toast.message}
+              {/* Dismiss knop */}
+              <button
+                onClick={() => removeToast(toast.id)}
+                aria-label="Melding sluiten"
+                className="absolute top-1/2 right-2.5 -translate-y-1/2 h-6 w-6 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
               <motion.div
                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/30 origin-left"
                 initial={{ scaleX: 1 }}

@@ -21,6 +21,7 @@ function ShopContent() {
 
   const [search, setSearch] = useState(searchParams.get('q') || '');
   const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get('q') || '');
+  const [isSearching, setIsSearching] = useState(false);
   const [platform, setPlatform] = useState(searchParams.get('platform') || '');
   const [genre, setGenre] = useState(searchParams.get('genre') || '');
   const [condition, setCondition] = useState(searchParams.get('condition') || '');
@@ -37,7 +38,11 @@ function ShopContent() {
 
   // Debounce zoekfunctie
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    if (search !== debouncedSearch) setIsSearching(true);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setIsSearching(false);
+    }, 300);
     return () => clearTimeout(timer);
   }, [search]);
 
@@ -312,7 +317,27 @@ function ShopContent() {
         {/* Products */}
         <div className="mt-8">
           <AnimatePresence mode="wait">
-            {filtered.length === 0 ? (
+            {isSearching ? (
+              <motion.div
+                key="skeleton"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+              >
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+                    <div className="aspect-square bg-slate-100 dark:bg-slate-700 animate-pulse" />
+                    <div className="p-4 space-y-2">
+                      <div className="h-3 w-3/4 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
+                      <div className="h-3 w-1/2 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
+                      <div className="h-5 w-1/3 rounded bg-slate-100 dark:bg-slate-700 animate-pulse mt-3" />
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            ) : filtered.length === 0 ? (
               <motion.div
                 key="empty"
                 initial={{ opacity: 0, y: 20 }}
