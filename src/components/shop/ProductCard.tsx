@@ -129,7 +129,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         className="relative group"
       >
         {/* === FRONT FACE === */}
-        <div style={{ backfaceVisibility: 'hidden' }} className="relative bg-white dark:bg-slate-800/95 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden shadow-lg hover:shadow-[0_30px_80px_-15px_rgba(16,185,129,0.25)] hover:border-emerald-400/40 dark:hover:border-emerald-500/40 transition-all duration-500 backdrop-blur-sm">
+        <div style={{ backfaceVisibility: 'hidden' }} className="relative bg-gradient-to-b from-white to-slate-50/80 dark:from-slate-800/95 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/60 overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08),0_20px_50px_-12px_rgba(16,185,129,0.18)] hover:border-emerald-400/50 dark:hover:border-emerald-500/50 ring-1 ring-slate-900/[0.03] dark:ring-white/[0.04] transition-all duration-500 backdrop-blur-sm flex flex-col">
         {/* Holographic rainbow glow */}
         {isHovered && !flipped && (
           <motion.div
@@ -257,8 +257,11 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
           </button>
         </div>
 
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-600 to-transparent" />
+
         {/* Content */}
-        <div className="relative z-20 p-4">
+        <div className="relative z-20 p-4 flex flex-col flex-1">
           <div className="flex flex-wrap gap-1.5 mb-2.5">
             <Badge variant="condition">{product.condition}</Badge>
             <Badge variant="completeness">{isCIB ? 'CIB' : product.completeness}</Badge>
@@ -276,7 +279,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
             </p>
           )}
 
-          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-700">
+          <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-200/80 dark:border-slate-600/50">
             <div>
               <span className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {formatPrice(product.price)}
@@ -330,7 +333,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         {/* === BACK FACE — Collector Info === */}
         <div
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-          className="absolute inset-0 bg-white dark:bg-slate-800/95 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden shadow-lg backdrop-blur-sm"
+          className="absolute inset-0 bg-gradient-to-b from-white to-slate-50/80 dark:from-slate-800/95 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/60 overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)] backdrop-blur-sm ring-1 ring-slate-900/[0.03] dark:ring-white/[0.04]"
         >
           {/* Header gradient */}
           <div className={`h-14 bg-gradient-to-r ${colors.from} ${colors.to} flex items-center justify-between px-4`}>
