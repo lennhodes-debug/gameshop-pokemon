@@ -23,27 +23,50 @@ export default function Accordion({ items, className, staggerVariant }: Accordio
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         const content = (
-          <div className="py-4">
+          <div className="py-4 group/item">
             <button
               onClick={() => setOpenIndex(isOpen ? null : index)}
               className="flex w-full items-center justify-between text-left group/faq"
             >
-              <span className="text-base font-semibold text-slate-900 dark:text-white pr-4 group-hover/faq:text-emerald-600 dark:group-hover/faq:text-emerald-400 transition-colors duration-200">
-                {item.question}
-              </span>
-              <motion.svg
+              <div className="flex items-center gap-3 pr-4">
+                <motion.span
+                  className={cn(
+                    'flex-shrink-0 h-7 w-7 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-300',
+                    isOpen
+                      ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
+                      : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 group-hover/faq:bg-emerald-50 dark:group-hover/faq:bg-emerald-500/10 group-hover/faq:text-emerald-500'
+                  )}
+                  animate={{ scale: isOpen ? 1.1 : 1 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                >
+                  {index + 1}
+                </motion.span>
+                <span className="text-base font-semibold text-slate-900 dark:text-white group-hover/faq:text-emerald-600 dark:group-hover/faq:text-emerald-400 transition-colors duration-200">
+                  {item.question}
+                </span>
+              </div>
+              <motion.div
                 className={cn(
-                  'h-5 w-5 flex-shrink-0',
-                  isOpen ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'
+                  'h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300',
+                  isOpen
+                    ? 'bg-emerald-50 dark:bg-emerald-500/10'
+                    : 'bg-transparent group-hover/faq:bg-slate-50 dark:group-hover/faq:bg-slate-700'
                 )}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </motion.svg>
+                <motion.svg
+                  className={cn(
+                    'h-4 w-4 flex-shrink-0',
+                    isOpen ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-500'
+                  )}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </motion.svg>
+              </motion.div>
             </button>
             <AnimatePresence initial={false}>
               {isOpen && (
@@ -54,7 +77,12 @@ export default function Accordion({ items, className, staggerVariant }: Accordio
                   transition={{ height: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }, opacity: { duration: 0.2 } }}
                   className="overflow-hidden"
                 >
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed pt-3">{item.answer}</p>
+                  <div className="pt-3 pl-10">
+                    <div className="relative">
+                      <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-full bg-gradient-to-b from-emerald-400 to-teal-400" />
+                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed pl-4">{item.answer}</p>
+                    </div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

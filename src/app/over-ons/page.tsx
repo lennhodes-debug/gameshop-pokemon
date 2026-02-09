@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 
@@ -12,22 +12,78 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
 
   useEffect(() => {
     if (!isInView) return;
-    let start = 0;
     const duration = 2000;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }, [isInView, target]);
 
   return <span ref={ref}>{count.toLocaleString('nl-NL')}{suffix}</span>;
+}
+
+// 3D tilt card met gradient border
+function TiltCard({ children, className = '', gradient }: { children: React.ReactNode; className?: string; gradient: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 300, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 300, damping: 20 });
+  const glowX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const glowY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const glowBg = useMotionTemplate`radial-gradient(300px circle at ${glowX}% ${glowY}%, rgba(16,185,129,0.08), transparent 70%)`;
+  const [hovered, setHovered] = useState(false);
+
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  const handleLeave = useCallback(() => {
+    setHovered(false);
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  }, [mouseX, mouseY]);
+
+  return (
+    <div className="perspective-1000">
+      <motion.div
+        ref={ref}
+        onMouseMove={handleMove}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={handleLeave}
+        style={{
+          rotateX: hovered ? rotateX : 0,
+          rotateY: hovered ? rotateY : 0,
+          transformStyle: 'preserve-3d',
+        }}
+        whileHover={{ y: -8, transition: { duration: 0.3 } }}
+        className={`relative group ${className}`}
+      >
+        {/* Animated gradient border */}
+        <div className={`absolute -inset-px rounded-2xl bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-[1px]`} />
+        <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          {/* Glow overlay */}
+          {hovered && (
+            <motion.div
+              className="absolute inset-0 z-10 pointer-events-none"
+              style={{ background: glowBg }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            />
+          )}
+          {children}
+        </div>
+      </motion.div>
+    </div>
+  );
 }
 
 const timeline = [
@@ -35,56 +91,88 @@ const timeline = [
     year: '2018',
     title: 'De eerste stappen',
     description: 'Op mijn 14e begon ik met het verkopen van verzamelkaarten op Marktplaats. Pokemon-kaarten, Nintendo-kaarten - alles wat ik kon vinden. Wat begon als zakgeld verdienen, werd al snel een echte passie voor ondernemen.',
-    icon: '🃏',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+      </svg>
+    ),
     color: 'from-purple-500 to-violet-500',
   },
   {
     year: '2019',
     title: 'Leren door vallen en opstaan',
     description: 'Ik waagde me aan het verkopen van iPhones en PlayStation 5 consoles. Helaas werd ik meerdere keren opgelicht. Een harde les, maar het leerde me alles over vertrouwen, kwaliteitscontrole en het belang van eerlijk zakendoen.',
-    icon: '📱',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+      </svg>
+    ),
     color: 'from-slate-500 to-slate-600',
   },
   {
     year: '2020',
     title: 'De overstap naar Pokemon games',
     description: 'Na de tegenslagen besloot ik terug te gaan naar mijn passie: Nintendo. Ik begon met het inkopen, testen en doorverkopen van originele Pokemon-games. De focus op kwaliteit en originaliteit maakte het verschil.',
-    icon: '🎮',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.421 48.421 0 01-4.185-.07c-.514-.058-.91-.465-.91-.982v-3.61c0-.553.45-1.003 1.003-1.003h.998c.553 0 1.003.45 1.003 1.003v1.464m-3.998-1.464H6a2.25 2.25 0 00-2.25 2.25v3.803a2.25 2.25 0 002.25 2.25h.008c.341 0 .648.213.762.535l.597 1.684a.75.75 0 001.416 0l.597-1.684a.798.798 0 01.762-.535H12m0 0c.341 0 .648.213.762.535l.597 1.684a.75.75 0 001.416 0l.597-1.684a.798.798 0 01.762-.535h.008A2.25 2.25 0 0018 11.053V7.25A2.25 2.25 0 0015.75 5h-.998" />
+      </svg>
+    ),
     color: 'from-amber-500 to-orange-500',
   },
   {
     year: '2022',
     title: 'Gameshop Enter is geboren',
     description: 'Van Pokemon-games groeide mijn assortiment naar de volledige Nintendo-sector. NES, Super Nintendo, Game Boy, GameCube, Wii, Nintendo Switch - het werd tijd voor een echte naam. Gameshop Enter was geboren.',
-    icon: '🚀',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+      </svg>
+    ),
     color: 'from-emerald-500 to-teal-500',
   },
   {
     year: '2023',
     title: 'Studie en ondernemen',
     description: 'Ik startte met de studie Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Theorie en praktijk versterken elkaar: wat ik leer, pas ik direct toe bij Gameshop Enter.',
-    icon: '📚',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+      </svg>
+    ),
     color: 'from-cyan-500 to-blue-500',
   },
   {
     year: '2024',
     title: '3000+ tevreden klanten',
     description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 790+ producten over 12 Nintendo platforms.',
-    icon: '⭐',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+      </svg>
+    ),
     color: 'from-amber-400 to-yellow-500',
   },
   {
     year: '2025',
     title: 'Meer dan 790 producten online',
-    description: 'Het assortiment groeide explosief naar 790+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide beschrijvingen en een volledig inkoopsysteem voor klanten die hun games willen verkopen.',
-    icon: '🌐',
+    description: 'Het assortiment groeide explosief naar 790+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide beschrijvingen en een volledig inkoopsysteem.',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+      </svg>
+    ),
     color: 'from-teal-500 to-emerald-500',
   },
   {
     year: 'Nu',
     title: 'De Nintendo specialist van Nederland',
-    description: 'Gameshop Enter is uitgegroeid tot dé Nintendo specialist. Van retro klassiekers tot de nieuwste Switch-games - elke dag werk ik eraan om de beste ervaring te bieden aan elke Nintendo-liefhebber.',
-    icon: '👑',
+    description: 'Gameshop Enter is uitgegroeid tot de Nintendo specialist. Van retro klassiekers tot de nieuwste Switch-games - elke dag werk ik eraan om de beste ervaring te bieden aan elke Nintendo-liefhebber.',
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.003 6.003 0 01-4.52 1.772 6.003 6.003 0 01-4.52-1.772" />
+      </svg>
+    ),
     color: 'from-emerald-400 to-cyan-400',
   },
 ];
@@ -143,116 +231,216 @@ const stats = [
 ];
 
 export default function OverOnsPage() {
+  const heroRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const missionRef = useRef<HTMLElement>(null);
+
+  const heroMouse = useMotionValue(0.5);
+  const heroMouseY = useMotionValue(0.5);
+  const heroGlowX = useSpring(useTransform(heroMouse, [0, 1], [20, 80]), { stiffness: 50, damping: 20 });
+  const heroGlowY = useSpring(useTransform(heroMouseY, [0, 1], [20, 80]), { stiffness: 50, damping: 20 });
+  const heroGlow = useMotionTemplate`radial-gradient(600px circle at ${heroGlowX}% ${heroGlowY}%, rgba(16,185,129,0.12), transparent 60%)`;
+
+  const { scrollYProgress: timelineProgress } = useScroll({
     target: timelineRef,
     offset: ['start end', 'end start'],
   });
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const lineHeight = useTransform(timelineProgress, [0, 1], ['0%', '100%']);
+
+  const { scrollYProgress: missionProgress } = useScroll({
+    target: missionRef,
+    offset: ['start end', 'end start'],
+  });
+  const missionScale = useTransform(missionProgress, [0, 0.5, 1], [0.92, 1, 0.92]);
+  const missionRotate = useTransform(missionProgress, [0, 0.5, 1], [-1, 0, 1]);
+
+  const handleHeroMove = useCallback((e: React.MouseEvent) => {
+    if (!heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    heroMouse.set((e.clientX - rect.left) / rect.width);
+    heroMouseY.set((e.clientY - rect.top) / rect.height);
+  }, [heroMouse, heroMouseY]);
 
   return (
     <div className="pt-20 lg:pt-24">
-      {/* Header */}
-      <div className="relative bg-[#050810] py-24 lg:py-36 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.1),transparent_50%)]" />
+      {/* === IMMERSIVE HERO === */}
+      <div
+        ref={heroRef}
+        onMouseMove={handleHeroMove}
+        className="relative bg-[#050810] py-28 lg:py-40 overflow-hidden"
+      >
+        {/* Animated gradient mesh */}
+        <motion.div className="absolute inset-0 pointer-events-none" style={{ background: heroGlow }} />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.08),transparent_50%)]" />
 
-        {/* Floating shapes */}
+        {/* Grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
+
+        {/* Floating geometric shapes */}
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-          className="absolute top-10 right-[15%] opacity-[0.03]"
+          transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+          className="absolute top-[10%] right-[12%] opacity-[0.04]"
         >
-          <svg width="150" height="150" viewBox="0 0 120 120" fill="none">
+          <svg width="200" height="200" viewBox="0 0 120 120" fill="none">
             <path d="M60 5 L108 30 L108 90 L60 115 L12 90 L12 30 Z" stroke="white" strokeWidth="0.5" />
           </svg>
         </motion.div>
         <motion.div
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[30%] left-[8%] w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.05] rotate-12"
+          animate={{ y: [0, -25, 0], rotate: [0, 8, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-[25%] left-[6%] w-20 h-20 rounded-3xl bg-gradient-to-br from-emerald-500/[0.04] to-cyan-500/[0.02] border border-white/[0.04] rotate-12"
         />
         <motion.div
-          animate={{ y: [0, 15, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute bottom-[25%] right-[8%] w-12 h-12 rounded-full bg-emerald-500/[0.04] border border-emerald-500/[0.06]"
+          animate={{ y: [0, 18, 0], x: [0, -8, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+          className="absolute bottom-[20%] right-[6%] w-14 h-14 rounded-full bg-emerald-500/[0.03] border border-emerald-500/[0.05]"
         />
+        <motion.div
+          animate={{ rotate: [-5, 5, -5], scale: [1, 1.05, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-[60%] left-[15%] w-8 h-8 rounded-lg bg-cyan-500/[0.03] border border-cyan-500/[0.05]"
+        />
+
+        {/* Particle field */}
+        {[...Array(12)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-px h-px rounded-full bg-emerald-400"
+            style={{ top: `${10 + (i * 7) % 80}%`, left: `${5 + (i * 11) % 90}%` }}
+            animate={{ opacity: [0, 0.5, 0], scale: [0, 1.5, 0] }}
+            transition={{ duration: 3 + i * 0.4, repeat: Infinity, delay: i * 0.5, ease: 'easeInOut' }}
+          />
+        ))}
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
+            <motion.span
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-8"
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Ons verhaal
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-6">
-              Van kaarten op Marktplaats<br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
+            </motion.span>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-6 leading-[1.05]">
+              <motion.span
+                className="block"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+              >
+                Van kaarten op Marktplaats
+              </motion.span>
+              <motion.span
+                className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
                 tot Nintendo specialist
-              </span>
+              </motion.span>
             </h1>
-            <p className="text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.7 }}
+              className="text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
+            >
               Het eerlijke verhaal van Lenn Hodes: van tegenslagen en lessen tot de oprichting van Gameshop Enter.
-            </p>
+            </motion.p>
           </motion.div>
         </div>
+
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent" />
       </div>
 
-      {/* Stats bar */}
+      {/* === STATS BAR with glowing cards === */}
       <section className="relative bg-white dark:bg-slate-800 border-b border-slate-100 dark:border-slate-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-4">
             {stats.map((stat, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="text-center"
+                transition={{ delay: i * 0.08, type: 'spring', stiffness: 200, damping: 15 }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="text-center group"
               >
-                <div className="text-2xl lg:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-500">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                <div className="relative inline-block">
+                  <div className="text-2xl lg:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-500 tabular-nums">
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  </div>
+                  {/* Glow under number */}
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500/40 group-hover:w-12 transition-all duration-300" />
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">{stat.label}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Personal intro */}
+      {/* === PERSONAL INTRO with reveal === */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">
+          <motion.h2
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3"
+          >
             Hoi, ik ben Lenn
-          </h2>
+          </motion.h2>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="h-[3px] w-20 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mb-8 origin-left"
+          />
           <div className="space-y-5 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            <p>
-              Mijn naam is Lenn Hodes, oprichter van Gameshop Enter. In 2018, toen ik 14 was, begon ik met het verkopen van verzamelkaarten op Marktplaats. Het was mijn eerste stap in het ondernemerschap - en het begin van een reis met pieken en dalen.
-            </p>
-            <p>
-              Na de kaarten waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed: ik werd meerdere keren opgelicht. Het waren harde lessen, maar ze hebben me gevormd tot de ondernemer die ik nu ben. Ik leerde het belang van <strong className="text-slate-900 dark:text-white">vertrouwen</strong>, <strong className="text-slate-900 dark:text-white">kwaliteitscontrole</strong> en <strong className="text-slate-900 dark:text-white">eerlijk zakendoen</strong>.
-            </p>
-            <p>
-              Uiteindelijk keerde ik terug naar mijn echte passie: Nintendo. Ik begon met Pokemon-games en groeide van daaruit naar de volledige Nintendo-sector. Van klassieke NES- en Super Nintendo-titels tot de nieuwste Nintendo Switch-games, en van Game Boy tot GameCube-consoles. Elk product test ik persoonlijk op werking en verpak ik zorgvuldig.
-            </p>
-            <p>
-              Naast Gameshop Enter studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe in de praktijk. Die combinatie maakt mij niet alleen een betere ondernemer, maar ook een betere partner voor mijn klanten.
-            </p>
+            {[
+              'Mijn naam is Lenn Hodes, oprichter van Gameshop Enter. In 2018, toen ik 14 was, begon ik met het verkopen van verzamelkaarten op Marktplaats. Het was mijn eerste stap in het ondernemerschap - en het begin van een reis met pieken en dalen.',
+              <>Na de kaarten waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed: ik werd meerdere keren opgelicht. Het waren harde lessen, maar ze hebben me gevormd tot de ondernemer die ik nu ben. Ik leerde het belang van <strong className="text-slate-900 dark:text-white font-bold">vertrouwen</strong>, <strong className="text-slate-900 dark:text-white font-bold">kwaliteitscontrole</strong> en <strong className="text-slate-900 dark:text-white font-bold">eerlijk zakendoen</strong>.</>,
+              'Uiteindelijk keerde ik terug naar mijn echte passie: Nintendo. Ik begon met Pokemon-games en groeide van daaruit naar de volledige Nintendo-sector. Van klassieke NES- en Super Nintendo-titels tot de nieuwste Nintendo Switch-games, en van Game Boy tot GameCube-consoles. Elk product test ik persoonlijk op werking en verpak ik zorgvuldig.',
+              'Naast Gameshop Enter studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe in de praktijk. Die combinatie maakt mij niet alleen een betere ondernemer, maar ook een betere partner voor mijn klanten.',
+            ].map((text, i) => (
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+              >
+                {text}
+              </motion.p>
+            ))}
           </div>
         </motion.div>
       </section>
 
-      {/* Timeline */}
+      {/* === TIMELINE with SVG icons === */}
       <section ref={timelineRef} className="relative bg-[#050810] py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_70%)]" />
 
@@ -263,13 +451,16 @@ export default function OverOnsPage() {
           { t: '50%', l: '5%', d: 3.5 },
           { t: '70%', l: '90%', d: 4.5 },
           { t: '85%', l: '15%', d: 5.5 },
+          { t: '40%', l: '50%', d: 6 },
+          { t: '60%', l: '20%', d: 4.2 },
+          { t: '20%', l: '70%', d: 5.3 },
         ].map((p, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 rounded-full bg-emerald-400/30"
             style={{ top: p.t, left: p.l }}
-            animate={{ y: [0, -15, 0], opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: p.d, repeat: Infinity, delay: i * 0.8 }}
+            animate={{ y: [0, -20, 0], opacity: [0.1, 0.6, 0.1], scale: [0.5, 1, 0.5] }}
+            transition={{ duration: p.d, repeat: Infinity, delay: i * 0.6 }}
           />
         ))}
 
@@ -303,19 +494,25 @@ export default function OverOnsPage() {
               {timeline.map((item, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
+                  initial={{ opacity: 0, y: 50, rotateX: -10 }}
+                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{
+                    duration: 0.7,
+                    delay: 0.1,
+                    ease: [0.16, 1, 0.3, 1],
+                    rotateX: { type: 'spring', stiffness: 100, damping: 15 },
+                  }}
                   className={`relative flex items-start gap-8 lg:gap-0 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                  style={{ transformPerspective: 800 }}
                 >
-                  {/* Dot with icon */}
+                  {/* Dot with SVG icon */}
                   <div className="absolute left-6 lg:left-1/2 -translate-x-1/2 z-10">
                     <motion.div
-                      whileInView={{ scale: [0, 1.2, 1] }}
+                      whileInView={{ scale: [0, 1.3, 1] }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-lg shadow-lg ring-4 ring-[#050810]`}
+                      transition={{ duration: 0.6, delay: 0.2, type: 'spring', stiffness: 200 }}
+                      className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg ring-4 ring-[#050810]`}
                     >
                       {item.icon}
                     </motion.div>
@@ -324,13 +521,13 @@ export default function OverOnsPage() {
                   {/* Content */}
                   <div className={`flex-1 ml-20 lg:ml-0 ${i % 2 === 0 ? 'lg:pr-20 lg:text-right' : 'lg:pl-20'}`}>
                     <motion.div
-                      whileHover={{ y: -3 }}
-                      className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.05] transition-colors duration-300"
+                      whileHover={{ y: -4, scale: 1.01 }}
+                      className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all duration-500 group"
                     >
-                      <span className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${item.color} text-white text-xs font-bold mb-3`}>
+                      <span className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${item.color} text-white text-xs font-bold mb-3 shadow-lg`}>
                         {item.year}
                       </span>
-                      <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors duration-300">{item.title}</h3>
                       <p className="text-slate-400 leading-relaxed text-sm">{item.description}</p>
                     </motion.div>
                   </div>
@@ -344,44 +541,84 @@ export default function OverOnsPage() {
         </div>
       </section>
 
-      {/* Mission - quote style */}
-      <section className="relative py-20 lg:py-28 overflow-hidden">
+      {/* === CINEMATIC MISSION === */}
+      <section ref={missionRef} className="relative py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/30 to-white dark:from-slate-900 dark:via-emerald-950/30 dark:to-slate-900" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Decorative quote marks */}
+        <div className="absolute top-[15%] left-[8%] text-[200px] font-serif text-emerald-500/[0.04] select-none leading-none">&ldquo;</div>
+        <div className="absolute bottom-[15%] right-[8%] text-[200px] font-serif text-emerald-500/[0.04] select-none leading-none">&rdquo;</div>
+
+        <motion.div
+          className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+          style={{ scale: missionScale, rotate: missionRotate }}
+        >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
             className="text-center"
           >
             <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
+              initial={{ scale: 0, rotate: -180 }}
+              whileInView={{ scale: 1, rotate: 0 }}
               viewport={{ once: true }}
-              transition={{ type: 'spring', bounce: 0.4 }}
-              className="inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 items-center justify-center text-white mb-8 shadow-lg shadow-emerald-500/25"
+              transition={{ type: 'spring', bounce: 0.4, delay: 0.2 }}
+              className="inline-flex h-16 w-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 items-center justify-center text-white mb-8 shadow-xl shadow-emerald-500/25"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
               </svg>
             </motion.div>
-            <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6"
+            >
               Missie
-            </span>
-            <blockquote className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6 max-w-3xl mx-auto">
+            </motion.span>
+            <motion.blockquote
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-2xl lg:text-4xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6 max-w-3xl mx-auto"
+            >
               &ldquo;Ik geloof dat retro gaming meer is dan nostalgie. Het is een manier om tijdloze klassiekers te bewaren en te delen met de volgende generatie gamers.&rdquo;
-            </blockquote>
-            <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
+            </motion.blockquote>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto"
+            >
               Mijn missie is om elke Nintendo-liefhebber toegang te geven tot originele, geteste producten tegen eerlijke prijzen, met de persoonlijke service die je verdient.
-            </p>
-            <div className="mt-6 text-sm text-slate-400 font-medium">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              whileInView={{ opacity: 1, scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+              className="mx-auto w-16 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent mt-8 mb-4"
+            />
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.9 }}
+              className="text-sm text-slate-400 font-medium"
+            >
               — Lenn Hodes, oprichter Gameshop Enter
-            </div>
+            </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Values */}
+      {/* === VALUES with 3D tilt cards === */}
       <section className="bg-slate-50 dark:bg-slate-900 py-16 lg:py-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -401,31 +638,35 @@ export default function OverOnsPage() {
             {values.map((value, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, rotateX: -5 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-8 shadow-sm hover:shadow-xl hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-300"
+                transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                style={{ transformPerspective: 800 }}
               >
-                <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center text-white mb-5 shadow-lg`}>
-                  {value.icon}
-                </div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-2">{value.title}</h3>
-                <p className="text-slate-500 dark:text-slate-400 leading-relaxed">{value.description}</p>
+                <TiltCard gradient={value.gradient}>
+                  <div className="p-8">
+                    <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center text-white mb-5 shadow-lg`}>
+                      {value.icon}
+                    </div>
+                    <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-2">{value.title}</h3>
+                    <p className="text-slate-500 dark:text-slate-400 leading-relaxed">{value.description}</p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Business details */}
+      {/* === BUSINESS DETAILS === */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm p-8 lg:p-12"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg transition-shadow duration-500 p-8 lg:p-12"
         >
           <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">Bedrijfsgegevens</h2>
           <div className="grid sm:grid-cols-2 gap-x-12 gap-y-5">
@@ -436,11 +677,17 @@ export default function OverOnsPage() {
               ['Actief sinds', '2018'],
               ['Specialisatie', 'Originele Nintendo games en consoles'],
               ['Platforms', '12 Nintendo platforms'],
-            ].map(([label, value]) => (
-              <div key={label}>
+            ].map(([label, value], i) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+              >
                 <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">{label}</dt>
                 <dd className="text-slate-900 dark:text-white font-medium">{value}</dd>
-              </div>
+              </motion.div>
             ))}
             <div>
               <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">E-mail</dt>
@@ -465,24 +712,33 @@ export default function OverOnsPage() {
         </motion.div>
       </section>
 
-      {/* CTA */}
-      <section className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
+      {/* === EPIC CTA === */}
+      <section className="relative bg-[#050810] py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_60%)]" />
+
+        {/* Floating shapes */}
         <motion.div
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-10 right-[20%] w-20 h-20 rounded-2xl bg-white/[0.02] border border-white/[0.04] rotate-12"
+          animate={{ y: [0, -15, 0], rotate: [12, 18, 12] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-10 right-[18%] w-24 h-24 rounded-3xl bg-white/[0.02] border border-white/[0.04] rotate-12"
         />
+        <motion.div
+          animate={{ y: [0, 12, 0], rotate: [-8, -14, -8] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          className="absolute bottom-16 left-[12%] w-16 h-16 rounded-2xl bg-emerald-500/[0.03] border border-emerald-500/[0.05] -rotate-12"
+        />
+
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-6">
               Klaar om te shoppen?
             </h2>
-            <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
+            <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">
               Ontdek ons complete assortiment van meer dan 790 originele Nintendo producten
             </p>
             <Link href="/shop">

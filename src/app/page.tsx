@@ -7,6 +7,9 @@ import GamingEraTimeline from '@/components/home/GamingEraTimeline';
 import GameSeriesShowcase from '@/components/home/GameSeriesShowcase';
 import CollectibleShowcase from '@/components/home/CollectibleShowcase';
 
+// Boot sequence — eenmalig per sessie
+const BootSequence = dynamic(() => import('@/components/home/BootSequence'));
+
 // Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
@@ -14,10 +17,12 @@ const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
 const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
 const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
 const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
+const PlatformSpotlight = dynamic(() => import('@/components/home/PlatformSpotlight'));
 
 export default function HomePage() {
   return (
     <>
+      <BootSequence />
       <Hero />
       <TrustStrip />
       <SectionDivider variant="trust-to-products" />
@@ -33,6 +38,7 @@ export default function HomePage() {
       <SectionDivider variant="showcase-to-platforms" />
       <PlatformGrid />
       <AboutPreview />
+      <PlatformSpotlight />
       <ReviewsStrip />
       <FaqPreview />
       <NewsletterCTA />

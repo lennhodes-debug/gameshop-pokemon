@@ -54,6 +54,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, { product, quantity: 1 }];
     });
+    // Combo Multiplier event
+    window.dispatchEvent(new CustomEvent('gameshop:add-to-cart'));
   }, []);
 
   const removeItem = useCallback((sku: string) => {

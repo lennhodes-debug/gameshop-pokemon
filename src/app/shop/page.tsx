@@ -10,6 +10,8 @@ import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
 import ProductGrid from '@/components/shop/ProductGrid';
+import QuickView from '@/components/shop/QuickView';
+import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 24;
 
@@ -29,6 +31,7 @@ function ShopContent() {
   const [completeness, setCompleteness] = useState(searchParams.get('completeness') || '');
   const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'name-asc');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   const { getTotal, getItemCount } = useCart();
   const cartTotal = getTotal();
@@ -378,7 +381,7 @@ function ShopContent() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
               >
-                <ProductGrid products={paginatedProducts} />
+                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -451,6 +454,9 @@ function ShopContent() {
           </motion.div>
         )}
       </div>
+
+      {/* Quick View Modal */}
+      <QuickView product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
     </div>
   );
 }
