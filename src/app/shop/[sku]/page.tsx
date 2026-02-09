@@ -119,6 +119,13 @@ export default function ProductPage({ params }: Props) {
         },
       },
     },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5.0',
+      reviewCount: '1360',
+      bestRating: '5',
+      worstRating: '1',
+    },
   };
 
   const breadcrumbJsonLd = {

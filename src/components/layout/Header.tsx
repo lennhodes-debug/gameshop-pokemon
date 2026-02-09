@@ -69,7 +69,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-1" aria-label="Hoofdnavigatie">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -163,7 +163,7 @@ export default function Header() {
               transition={{ duration: 0.3 }}
               className="lg:hidden overflow-hidden glass border-t border-white/[0.06]"
             >
-              <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+              <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1" aria-label="Mobiele navigatie">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.href}
