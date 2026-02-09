@@ -13,6 +13,9 @@ const BootSequence = dynamic(() => import('@/components/home/BootSequence'));
 // Console Museum — scroll-driven 3D showcase
 const ConsoleMuseum = dynamic(() => import('@/components/home/ConsoleMuseum'));
 
+// Scroll achievements — retro game popup systeem
+const ScrollAchievements = dynamic(() => import('@/components/home/ScrollAchievements'));
+
 // Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
@@ -26,6 +29,7 @@ export default function HomePage() {
   return (
     <>
       <BootSequence />
+      <ScrollAchievements />
       <Hero />
       <TrustStrip />
       <SectionDivider variant="trust-to-products" />
