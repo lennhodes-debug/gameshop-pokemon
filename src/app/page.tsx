@@ -7,6 +7,9 @@ import GamingEraTimeline from '@/components/home/GamingEraTimeline';
 import GameSeriesShowcase from '@/components/home/GameSeriesShowcase';
 import CollectibleShowcase from '@/components/home/CollectibleShowcase';
 
+// Boot sequence — eenmalig per sessie
+const BootSequence = dynamic(() => import('@/components/home/BootSequence'));
+
 // Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
@@ -19,6 +22,7 @@ const PlatformSpotlight = dynamic(() => import('@/components/home/PlatformSpotli
 export default function HomePage() {
   return (
     <>
+      <BootSequence />
       <Hero />
       <TrustStrip />
       <SectionDivider variant="trust-to-products" />
