@@ -69,14 +69,14 @@ const timeline = [
   {
     year: '2024',
     title: '3000+ tevreden klanten',
-    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 846+ producten over 12 Nintendo platforms.',
+    description: 'Een enorme mijlpaal: meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score. Het assortiment groeide naar 820+ producten over 12 Nintendo platforms.',
     icon: '⭐',
     color: 'from-amber-400 to-yellow-500',
   },
   {
     year: '2025',
-    title: 'Meer dan 846 producten online',
-    description: 'Het assortiment groeide explosief naar 846+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide beschrijvingen en een volledig inkoopsysteem voor klanten die hun games willen verkopen.',
+    title: 'Meer dan 820 producten online',
+    description: 'Het assortiment groeide explosief naar 820+ producten over 12 Nintendo platforms. De nieuwe webshop ging live met professionele cover art, uitgebreide beschrijvingen en een volledig inkoopsysteem voor klanten die hun games willen verkopen.',
     icon: '🌐',
     color: 'from-teal-500 to-emerald-500',
   },
@@ -137,7 +137,7 @@ const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 846, suffix: '+', label: 'Producten' },
+  { value: 820, suffix: '+', label: 'Producten' },
   { value: 12, suffix: '', label: 'Nintendo platforms' },
   { value: 7, suffix: '+', label: 'Jaar ervaring' },
 ];
@@ -483,7 +483,7 @@ export default function OverOnsPage() {
               Klaar om te shoppen?
             </h2>
             <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto">
-              Ontdek ons complete assortiment van meer dan 846 originele Nintendo producten
+              Ontdek ons complete assortiment van meer dan 820 originele Nintendo producten
             </p>
             <Link href="/shop">
               <Button size="lg">

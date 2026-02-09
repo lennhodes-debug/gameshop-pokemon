@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 const faqItems = [
   {
     question: 'Zijn alle producten origineel en getest?',
-    answer: 'Ja, alle 846+ producten die wij verkopen zijn 100% origineel. Elk product wordt persoonlijk getest op werking voordat het wordt aangeboden. Wij verkopen geen reproducties of namaakproducten.',
+    answer: 'Ja, alle 820+ producten die wij verkopen zijn 100% origineel. Elk product wordt persoonlijk getest op werking voordat het wordt aangeboden. Wij verkopen geen reproducties of namaakproducten.',
   },
   {
     question: 'Hoe worden bestellingen verzonden?',
@@ -16,7 +16,7 @@ const faqItems = [
   },
   {
     question: 'Kan ik mijn games bij jullie verkopen?',
-    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor al onze 846+ producten. Stuur ons een e-mail met welke games of consoles je wilt verkopen en wij maken een eerlijk bod.',
+    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor al onze 820+ producten. Stuur ons een e-mail met welke games of consoles je wilt verkopen en wij maken een eerlijk bod.',
   },
   {
     question: 'Wat is het retourbeleid?',

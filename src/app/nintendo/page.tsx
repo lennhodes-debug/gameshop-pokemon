@@ -1121,7 +1121,7 @@ function TotalStatsSection() {
     { value: 882, suffix: ' mln+', label: 'Consoles verkocht', icon: '🎮' },
     { value: 137, suffix: ' jaar', label: 'Innovatie', icon: '💡' },
     { value: 11, suffix: '', label: 'Generaties', icon: '🏆' },
-    { value: 846, suffix: '+', label: 'In onze collectie', icon: '📦' },
+    { value: 820, suffix: '+', label: 'In onze collectie', icon: '📦' },
   ];
 
   return (
@@ -1327,7 +1327,7 @@ function OutroSection() {
           className="text-base sm:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto mb-14 leading-relaxed"
         >
           Van hanafuda kaarten tot hybride consoles — Nintendo blijft al 137 jaar innoveren.
-          Ontdek onze complete collectie van 846+ originele Nintendo producten.
+          Ontdek onze complete collectie van 820+ originele Nintendo producten.
         </motion.p>
 
         {/* Drie console highlights */}
