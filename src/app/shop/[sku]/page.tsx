@@ -1,6 +1,7 @@
 import { getAllProducts, getProductBySku, getRelatedProducts } from '@/lib/products';
 import ProductDetail from '@/components/product/ProductDetail';
 import RelatedProducts from '@/components/product/RelatedProducts';
+import RecentlyViewed from '@/components/product/RecentlyViewed';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
@@ -154,6 +155,7 @@ export default async function ProductPage({ params }: Props) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <ProductDetail product={product} />
         <RelatedProducts products={related} />
+        <RecentlyViewed currentSku={product.sku} />
       </div>
     </div>
   );

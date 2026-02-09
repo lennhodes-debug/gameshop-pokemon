@@ -8,6 +8,7 @@ import { Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { useToast } from '@/components/ui/Toast';
 import { useState, useRef, useCallback, useEffect } from 'react';
 
@@ -45,7 +46,9 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItem } = useCart();
+  const { toggleItem, isInWishlist, getShareUrl } = useWishlist();
   const { addToast } = useToast();
+  const wishlisted = isInWishlist(product.sku);
   const [added, setAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
@@ -328,17 +331,18 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </motion.div>
           )}
 
-          {/* Add to cart button */}
+          {/* Add to cart + wishlist buttons */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-3"
           >
             <motion.button
               onClick={handleAdd}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className={`relative w-full sm:w-auto px-8 py-4 rounded-2xl text-white text-base font-bold overflow-hidden transition-all duration-300 ${
+              className={`relative flex-1 sm:flex-none px-8 py-4 rounded-2xl text-white text-base font-bold overflow-hidden transition-all duration-300 ${
                 added
                   ? 'bg-emerald-500 shadow-xl shadow-emerald-500/30'
                   : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 animate-cta-attention'
@@ -373,6 +377,46 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   </motion.span>
                 )}
               </AnimatePresence>
+            </motion.button>
+
+            {/* Wishlist heart button */}
+            <motion.button
+              onClick={() => {
+                toggleItem(product.sku);
+                addToast(
+                  wishlisted ? `${product.name} verwijderd van verlanglijst` : `${product.name} toegevoegd aan verlanglijst`,
+                  wishlisted ? 'info' : 'success'
+                );
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={wishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
+              className={`h-[56px] w-[56px] rounded-2xl border flex items-center justify-center transition-all duration-300 ${
+                wishlisted
+                  ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-500'
+                  : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:border-red-200 dark:hover:border-red-800'
+              }`}
+            >
+              <svg className="h-6 w-6" viewBox="0 0 24 24" fill={wishlisted ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+            </motion.button>
+
+            {/* Share wishlist button */}
+            <motion.button
+              onClick={() => {
+                const url = getShareUrl();
+                navigator.clipboard.writeText(url);
+                addToast('Verlanglijst link gekopieerd!', 'success');
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Deel verlanglijst"
+              className="h-[56px] w-[56px] rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-emerald-500 hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-300"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+              </svg>
             </motion.button>
           </motion.div>
 

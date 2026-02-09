@@ -6,9 +6,10 @@ import ProductCard from './ProductCard';
 
 interface ProductGridProps {
   products: Product[];
+  onQuickView?: (product: Product) => void;
 }
 
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({ products, onQuickView }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <motion.div
@@ -45,7 +46,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
             ease: [0.16, 1, 0.3, 1] as const,
           }}
         >
-          <ProductCard product={product} />
+          <ProductCard product={product} onQuickView={onQuickView} />
         </motion.div>
       ))}
     </div>
