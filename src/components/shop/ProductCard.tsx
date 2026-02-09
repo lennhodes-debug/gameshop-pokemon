@@ -163,7 +163,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 )}
                 <Image
                   src={product.image}
-                  alt={product.name}
+                  alt={`${product.name} - ${product.platform} ${product.condition}`}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   className={cn("object-contain p-4 group-hover:scale-110 transition-all duration-700 ease-out", imageLoaded ? "opacity-100" : "opacity-0")}

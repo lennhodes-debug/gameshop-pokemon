@@ -180,6 +180,7 @@ export default function WinkelwagenPage() {
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.sku, item.quantity - 1)}
+                              aria-label={`Aantal ${item.product.name} verminderen`}
                               className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
                             >
                               -
@@ -189,12 +190,14 @@ export default function WinkelwagenPage() {
                               initial={{ scale: 1.3 }}
                               animate={{ scale: 1 }}
                               className="text-sm font-bold w-8 text-center"
+                              aria-label={`Aantal: ${item.quantity}`}
                             >
                               {item.quantity}
                             </motion.span>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.sku, item.quantity + 1)}
+                              aria-label={`Aantal ${item.product.name} verhogen`}
                               className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
                             >
                               +
@@ -202,6 +205,7 @@ export default function WinkelwagenPage() {
                             <motion.button
                               whileTap={{ scale: 0.9 }}
                               onClick={() => removeItem(item.product.sku)}
+                              aria-label={`${item.product.name} verwijderen uit winkelwagen`}
                               className="ml-2 p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                             >
                               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

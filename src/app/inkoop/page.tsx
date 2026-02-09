@@ -26,8 +26,10 @@ export default function InkoopPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = generateMailto();
     setSubmitted(true);
+    setTimeout(() => {
+      window.location.href = generateMailto();
+    }, 300);
   };
 
   return (
@@ -144,8 +146,9 @@ export default function InkoopPage() {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
+                        <label htmlFor="inkoop-naam" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
                         <input
+                          id="inkoop-naam"
                           type="text"
                           required
                           value={form.naam}
@@ -155,8 +158,9 @@ export default function InkoopPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail *</label>
+                        <label htmlFor="inkoop-email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail *</label>
                         <input
+                          id="inkoop-email"
                           type="email"
                           required
                           value={form.email}
@@ -168,8 +172,9 @@ export default function InkoopPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Telefoon <span className="text-slate-400 font-normal">(optioneel)</span></label>
+                      <label htmlFor="inkoop-telefoon" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Telefoon <span className="text-slate-400 font-normal">(optioneel)</span></label>
                       <input
+                        id="inkoop-telefoon"
                         type="tel"
                         value={form.telefoon}
                         onChange={(e) => updateField('telefoon', e.target.value)}
@@ -179,8 +184,9 @@ export default function InkoopPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Welke games/consoles wil je verkopen? *</label>
+                      <label htmlFor="inkoop-beschrijving" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Welke games/consoles wil je verkopen? *</label>
                       <textarea
+                        id="inkoop-beschrijving"
                         required
                         value={form.beschrijving}
                         onChange={(e) => updateField('beschrijving', e.target.value)}

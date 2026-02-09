@@ -27,9 +27,15 @@ const contactMethods = [
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ naam: '', email: '', onderwerp: '', bericht: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const subject = encodeURIComponent(`Contact: ${formData.onderwerp || 'Vraag'}`);
+    const body = encodeURIComponent(
+      `Naam: ${formData.naam}\nE-mail: ${formData.email}\nOnderwerp: ${formData.onderwerp}\n\n${formData.bericht}`
+    );
+    window.location.href = `mailto:gameshopenter@gmail.com?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -172,25 +178,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Bereikbaarheid */}
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 mt-6">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Bereikbaarheid</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Ma - Vr</span>
-                  <span className="text-slate-700 dark:text-slate-200 font-medium">09:00 - 17:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Zaterdag</span>
-                  <span className="text-slate-700 dark:text-slate-200 font-medium">10:00 - 14:00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Zondag</span>
-                  <span className="text-slate-500 dark:text-slate-400 font-medium">Gesloten</span>
-                </div>
-              </div>
-            </div>
-
             {/* Snelle vragen */}
             <div className="mt-6 space-y-3">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Snelle antwoorden</h3>
@@ -263,6 +250,8 @@ export default function ContactPage() {
                         id="name"
                         type="text"
                         required
+                        value={formData.naam}
+                        onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
                         className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
                         placeholder="Je naam"
                       />
@@ -273,6 +262,8 @@ export default function ContactPage() {
                         id="email"
                         type="email"
                         required
+                        value={formData.email}
+                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                         className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
                         placeholder="je@email.nl"
                       />
@@ -283,14 +274,16 @@ export default function ContactPage() {
                     <select
                       id="subject"
                       required
+                      value={formData.onderwerp}
+                      onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
                       className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all appearance-none"
                     >
                       <option value="">Selecteer een onderwerp</option>
-                      <option value="bestelling">Vraag over een bestelling</option>
-                      <option value="product">Vraag over een product</option>
-                      <option value="retour">Retourzending</option>
-                      <option value="advies">Advies over een game of console</option>
-                      <option value="overig">Overig</option>
+                      <option value="Vraag over een bestelling">Vraag over een bestelling</option>
+                      <option value="Vraag over een product">Vraag over een product</option>
+                      <option value="Retourzending">Retourzending</option>
+                      <option value="Advies over een game of console">Advies over een game of console</option>
+                      <option value="Overig">Overig</option>
                     </select>
                   </div>
                   <div>
@@ -299,6 +292,8 @@ export default function ContactPage() {
                       id="message"
                       required
                       rows={5}
+                      value={formData.bericht}
+                      onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
                       className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all resize-none"
                       placeholder="Typ je bericht..."
                     />

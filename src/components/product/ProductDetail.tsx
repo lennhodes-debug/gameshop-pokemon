@@ -174,7 +174,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 )}
                 <Image
                   src={product.image}
-                  alt={product.name}
+                  alt={`${product.name} - ${product.platform} cover art`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className={`object-contain p-10 transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} group-hover:scale-105`}

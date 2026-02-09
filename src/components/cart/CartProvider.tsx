@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useEffect, ReactNode } from 'react';
 import { Product } from '@/lib/products';
 import { CartItem } from '@/lib/cart';
 
@@ -34,7 +34,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (mounted) {
-      localStorage.setItem('gameshop-cart', JSON.stringify(items));
+      try {
+        localStorage.setItem('gameshop-cart', JSON.stringify(items));
+      } catch {
+        // localStorage vol of niet beschikbaar
+      }
     }
   }, [items, mounted]);
 
@@ -80,10 +84,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return items.reduce((sum, item) => sum + item.quantity, 0);
   }, [items]);
 
+  const contextValue = useMemo(
+    () => ({ items, addItem, removeItem, updateQuantity, clearCart, getTotal, getItemCount }),
+    [items, addItem, removeItem, updateQuantity, clearCart, getTotal, getItemCount]
+  );
+
   return (
-    <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, getTotal, getItemCount }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );
