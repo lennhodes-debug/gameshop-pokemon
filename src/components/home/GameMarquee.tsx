@@ -1,16 +1,16 @@
 'use client';
 
 import { motion, useScroll, useTransform, useVelocity, useSpring } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllProducts } from '@/lib/products';
 
 export default function GameMarquee() {
-  const products = getAllProducts();
-  const productsWithImages = products.filter(p => p.image);
-  const row1 = productsWithImages.slice(0, 24);
-  const row2 = productsWithImages.slice(24, 48);
+  const { productsWithImages, row1, row2 } = useMemo(() => {
+    const all = getAllProducts().filter(p => p.image);
+    return { productsWithImages: all, row1: all.slice(0, 24), row2: all.slice(24, 48) };
+  }, []);
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({

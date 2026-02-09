@@ -56,7 +56,7 @@ function ShopContent() {
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
   }, [debouncedSearch, platform, genre, condition, category, completeness, sortBy, page, router, pathname]);
 
-  const allProducts = getAllProducts();
+  const allProducts = useMemo(() => getAllProducts(), []);
   const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
   const genres = useMemo(() => getAllGenres(), []);
   const conditions = useMemo(() => getAllConditions(), []);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { getFeaturedProducts } from '@/lib/products';
@@ -10,7 +10,7 @@ import MagneticButton from '@/components/ui/MagneticButton';
 import Button from '@/components/ui/Button';
 
 export default function FeaturedProducts() {
-  const products = getFeaturedProducts();
+  const products = useMemo(() => getFeaturedProducts(), []);
   const containerRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);

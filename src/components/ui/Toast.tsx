@@ -56,7 +56,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             >
               {toast.image && (
                 <div className="h-10 w-10 rounded-lg overflow-hidden flex-shrink-0 bg-white/10">
-                  <img src={toast.image} alt="" className="h-full w-full object-contain" />
+                  <img src={toast.image} alt="" aria-hidden="true" className="h-full w-full object-cover" />
                 </div>
               )}
               {!toast.image && (toast.icon || (

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { getAllPlatforms } from '@/lib/products';
 import { PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 import TextReveal from '@/components/ui/TextReveal';
@@ -134,7 +134,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
 }
 
 export default function PlatformGrid() {
-  const platforms = getAllPlatforms();
+  const platforms = useMemo(() => getAllPlatforms(), []);
 
   return (
     <section className="relative bg-[#f8fafc] dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
