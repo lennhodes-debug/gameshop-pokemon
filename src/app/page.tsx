@@ -20,17 +20,17 @@ export default function HomePage() {
     <>
       <Hero />
       <TrustStrip />
-      <SectionDivider />
+      <SectionDivider variant="trust-to-products" />
       <FeaturedProducts />
-      <SectionDivider />
+      <SectionDivider variant="products-to-eras" />
       <GamingEraTimeline />
-      <SectionDivider />
+      <SectionDivider variant="eras-to-series" />
       <GameSeriesShowcase />
-      <SectionDivider />
+      <SectionDivider variant="series-to-value" />
       <CollectibleShowcase />
-      <SectionDivider />
+      <SectionDivider variant="value-to-showcase" />
       <GameMarquee />
-      <SectionDivider />
+      <SectionDivider variant="showcase-to-platforms" />
       <PlatformGrid />
       <AboutPreview />
       <ReviewsStrip />
