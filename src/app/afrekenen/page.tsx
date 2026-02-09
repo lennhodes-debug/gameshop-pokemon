@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -38,18 +38,25 @@ export default function AfrekenPage() {
   const { addToast } = useToast();
   const [submitted, setSubmitted] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [form, setForm] = useState<FormData>({
-    voornaam: '',
-    achternaam: '',
-    email: '',
-    straat: '',
-    huisnummer: '',
-    postcode: '',
-    plaats: '',
-    opmerkingen: '',
-    betaalmethode: 'ideal',
+  const [form, setForm] = useState<FormData>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('gameshop-checkout');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return { ...parsed, betaalmethode: parsed.betaalmethode || 'ideal', opmerkingen: '' };
+        }
+      } catch { /* ignore */ }
+    }
+    return { voornaam: '', achternaam: '', email: '', straat: '', huisnummer: '', postcode: '', plaats: '', opmerkingen: '', betaalmethode: 'ideal' };
   });
   const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
+
+  // Bewaar adresgegevens in localStorage (niet opmerkingen)
+  useEffect(() => {
+    const { opmerkingen, ...toSave } = form;
+    localStorage.setItem('gameshop-checkout', JSON.stringify(toSave));
+  }, [form]);
 
   const validations: Partial<Record<keyof FormData, { test: (v: string) => boolean; message: string }>> = {
     voornaam: { test: (v) => v.trim().length > 0, message: 'Voornaam is verplicht' },

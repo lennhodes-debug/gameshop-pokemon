@@ -33,7 +33,7 @@ export function generateMetadata({ params }: Props): Metadata {
       canonical: productUrl,
     },
     openGraph: {
-      type: 'website',
+      type: 'article',
       url: productUrl,
       title: `${product.name} - ${product.platform} | Gameshop Enter`,
       description,

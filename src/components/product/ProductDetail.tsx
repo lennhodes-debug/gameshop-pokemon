@@ -53,6 +53,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const freeShipping = product.price >= FREE_SHIPPING_THRESHOLD;
 
+  // Track eerder bekeken producten
+  useEffect(() => {
+    try {
+      const key = 'gameshop-recent';
+      const stored: string[] = JSON.parse(localStorage.getItem(key) || '[]');
+      const updated = [product.sku, ...stored.filter(s => s !== product.sku)].slice(0, 12);
+      localStorage.setItem(key, JSON.stringify(updated));
+    } catch { /* ignore */ }
+  }, [product.sku]);
+
   const imageRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
