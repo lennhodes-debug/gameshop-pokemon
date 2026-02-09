@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions } from '@/lib/products';
@@ -15,18 +15,19 @@ const ITEMS_PER_PAGE = 24;
 
 function ShopContent() {
   const searchParams = useSearchParams();
-  const initialPlatform = searchParams.get('platform') || '';
+  const router = useRouter();
+  const pathname = usePathname();
   const headerRef = useRef<HTMLDivElement>(null);
 
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [platform, setPlatform] = useState(initialPlatform);
-  const [genre, setGenre] = useState('');
-  const [condition, setCondition] = useState('');
-  const [category, setCategory] = useState('');
-  const [completeness, setCompleteness] = useState('');
-  const [sortBy, setSortBy] = useState('name-asc');
-  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState(searchParams.get('q') || '');
+  const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get('q') || '');
+  const [platform, setPlatform] = useState(searchParams.get('platform') || '');
+  const [genre, setGenre] = useState(searchParams.get('genre') || '');
+  const [condition, setCondition] = useState(searchParams.get('condition') || '');
+  const [category, setCategory] = useState(searchParams.get('category') || '');
+  const [completeness, setCompleteness] = useState(searchParams.get('completeness') || '');
+  const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'name-asc');
+  const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
 
   const { getTotal, getItemCount } = useCart();
   const cartTotal = getTotal();
@@ -39,6 +40,21 @@ function ShopContent() {
     const timer = setTimeout(() => setDebouncedSearch(search), 300);
     return () => clearTimeout(timer);
   }, [search]);
+
+  // Sync filters naar URL
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (debouncedSearch) params.set('q', debouncedSearch);
+    if (platform) params.set('platform', platform);
+    if (genre) params.set('genre', genre);
+    if (condition) params.set('condition', condition);
+    if (category) params.set('category', category);
+    if (completeness) params.set('completeness', completeness);
+    if (sortBy && sortBy !== 'name-asc') params.set('sort', sortBy);
+    if (page > 1) params.set('page', String(page));
+    const qs = params.toString();
+    router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+  }, [debouncedSearch, platform, genre, condition, category, completeness, sortBy, page, router, pathname]);
 
   const allProducts = getAllProducts();
   const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
@@ -120,6 +136,7 @@ function ShopContent() {
     setCategory('');
     setCompleteness('');
     setSortBy('name-asc');
+    setPage(1);
   };
 
   return (
