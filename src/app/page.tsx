@@ -16,6 +16,9 @@ const ConsoleMuseum = dynamic(() => import('@/components/home/ConsoleMuseum'));
 // Scroll achievements — retro game popup systeem
 const ScrollAchievements = dynamic(() => import('@/components/home/ScrollAchievements'));
 
+// Color Worlds — achtergrondkleur morpht mee met scroll
+const ColorWorldBackground = dynamic(() => import('@/components/home/ColorWorldBackground'));
+
 // Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
@@ -30,6 +33,7 @@ export default function HomePage() {
     <>
       <BootSequence />
       <ScrollAchievements />
+      <ColorWorldBackground />
       <Hero />
       <TrustStrip />
       <SectionDivider variant="trust-to-products" />
