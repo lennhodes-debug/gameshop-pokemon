@@ -8,7 +8,7 @@ import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 const siteUrl = 'https://gameshopenter.nl';
 
 interface Props {
-  params: { sku: string };
+  params: Promise<{ sku: string }>;
 }
 
 export function generateStaticParams() {
@@ -17,8 +17,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const product = getProductBySku(params.sku);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { sku } = await params;
+  const product = getProductBySku(sku);
   if (!product) return { title: 'Product niet gevonden' };
 
   const description = product.description ||
@@ -57,8 +58,9 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function ProductPage({ params }: Props) {
-  const product = getProductBySku(params.sku);
+export default async function ProductPage({ params }: Props) {
+  const { sku } = await params;
+  const product = getProductBySku(sku);
 
   if (!product) {
     notFound();
