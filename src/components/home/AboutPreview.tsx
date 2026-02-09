@@ -109,12 +109,21 @@ export default function AboutPreview() {
                   ease: [0.16, 1, 0.3, 1] as const,
                 }}
                 whileHover={{ y: -6, scale: 1.03, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
-                className="glass-card rounded-2xl p-6 lg:p-8 text-center hover:bg-white/[0.06] transition-colors duration-300"
+                className="group relative glass-card rounded-2xl p-6 lg:p-8 text-center hover:bg-white/[0.06] transition-colors duration-300 overflow-hidden"
               >
-                <div className="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">
-                  <CountUp target={stat.value} suffix={stat.suffix} separator="." />
+                {/* Animated gradient border on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ padding: '1px' }}>
+                  <div className="absolute inset-0 rounded-2xl animate-spin-slow" style={{ background: 'conic-gradient(from 0deg, #10b981, #14b8a6, #06b6d4, #3b82f6, #8b5cf6, #10b981)', opacity: 0.4 }} />
+                  <div className="absolute inset-[1px] rounded-2xl bg-[#0a0e1a]" />
                 </div>
-                <div className="text-sm text-slate-400">{stat.label}</div>
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-emerald-500/5 via-transparent to-teal-500/5" />
+                <div className="relative">
+                  <div className="text-3xl lg:text-4xl font-extrabold gradient-text mb-2">
+                    <CountUp target={stat.value} suffix={stat.suffix} separator="." />
+                  </div>
+                  <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors duration-300">{stat.label}</div>
+                </div>
               </motion.div>
             ))}
           </motion.div>
