@@ -14,12 +14,17 @@ export default function NewsletterCTA() {
   });
   const orbY = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubmitted(true);
-      setEmail('');
-    }
+    if (!email) return;
+    setIsSubmitting(true);
+    // Simulatie: in productie wordt dit een API call naar een e-mail service
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    setIsSubmitting(false);
+    setSubmitted(true);
+    setEmail('');
   };
 
   return (
@@ -125,17 +130,25 @@ export default function NewsletterCTA() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Jouw e-mailadres"
+                  aria-label="E-mailadres voor nieuwsbrief"
                   required
-                  className="w-full px-6 py-4 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/50 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/20 transition-all"
+                  disabled={isSubmitting}
+                  className="w-full px-6 py-4 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/60 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/20 transition-all disabled:opacity-60"
                 />
               </div>
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.03, y: -1 }}
-                whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl transition-shadow"
+                disabled={isSubmitting}
+                whileHover={isSubmitting ? {} : { scale: 1.03, y: -1 }}
+                whileTap={isSubmitting ? {} : { scale: 0.97 }}
+                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl transition-shadow disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Aanmelden
+                {isSubmitting ? (
+                  <>
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-4 w-4 border-2 border-emerald-600 border-t-transparent rounded-full" />
+                    Aanmelden...
+                  </>
+                ) : 'Aanmelden'}
               </motion.button>
             </form>
           )}

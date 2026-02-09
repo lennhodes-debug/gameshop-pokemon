@@ -66,8 +66,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const imageRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 200, damping: 25 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 200, damping: 25 });
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [15, -15]), { stiffness: 250, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-15, 15]), { stiffness: 250, damping: 20 });
   const [imageHovered, setImageHovered] = useState(false);
   const [flyData, setFlyData] = useState<{ from: DOMRect; to: DOMRect; image: string } | null>(null);
 
@@ -76,7 +76,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const spotlightY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const spotlightBg = useMotionTemplate`
     radial-gradient(400px circle at ${spotlightX}% ${spotlightY}%,
-      rgba(16,185,129,0.08) 0%,
+      rgba(16,185,129,0.18) 0%,
       transparent 60%)
   `;
 
@@ -451,13 +451,17 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">Specificaties</h2>
         <div className="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           {specs.map((spec, i) => (
-            <div
+            <motion.div
               key={spec.label}
-              className={`flex items-center justify-between px-6 py-4 ${i % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/50' : 'bg-white dark:bg-slate-900'} ${i < specs.length - 1 ? 'border-b border-slate-100 dark:border-slate-700' : ''}`}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.05 * i, duration: 0.3 }}
+              className={`flex items-center justify-between px-6 py-4 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 transition-colors ${i % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/50' : 'bg-white dark:bg-slate-900'} ${i < specs.length - 1 ? 'border-b border-slate-100 dark:border-slate-700' : ''}`}
             >
               <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{spec.label}</span>
               <span className="text-sm font-semibold text-slate-900 dark:text-white">{spec.value}</span>
-            </div>
+            </motion.div>
           ))}
         </div>
       </motion.div>

@@ -168,10 +168,10 @@ export default function Footer() {
           className="mt-16 pt-8 border-t border-white/[0.06]"
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-slate-500 text-sm">
+            <p className="text-slate-400 text-sm">
               &copy; {new Date().getFullYear()} Gameshop Enter. Alle rechten voorbehouden.
             </p>
-            <p className="text-slate-600 text-xs">
+            <p className="text-slate-500 text-xs">
               Uitsluitend online webshop — verzending via PostNL
             </p>
           </div>

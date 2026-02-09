@@ -44,7 +44,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute -inset-1 bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-cyan-500/20 rounded-2xl blur-lg"
+            className="absolute -inset-1.5 bg-gradient-to-r from-emerald-500/30 via-teal-500/25 to-cyan-500/30 rounded-2xl blur-xl"
           />
         )}
       </AnimatePresence>

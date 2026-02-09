@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 
 export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isPointer, setIsPointer] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -18,59 +20,66 @@ export default function CustomCursor() {
   const trailY = useSpring(cursorY, { damping: 40, stiffness: 150, mass: 0.8 });
 
   useEffect(() => {
-    // Only enable on desktop
-    if (typeof window !== 'undefined' && window.matchMedia('(pointer: fine)').matches) {
-      const moveCursor = (e: MouseEvent) => {
-        cursorX.set(e.clientX);
-        cursorY.set(e.clientY);
-        setIsVisible(true);
-      };
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+    const noReducedMotion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setIsDesktop(isFinePointer && noReducedMotion);
+  }, []);
 
-      const checkPointer = () => {
-        const el = document.elementFromPoint(cursorX.get(), cursorY.get());
-        if (el) {
-          const style = window.getComputedStyle(el);
-          setIsPointer(
-            style.cursor === 'pointer' ||
-            el.tagName === 'A' ||
-            el.tagName === 'BUTTON' ||
-            el.closest('a') !== null ||
-            el.closest('button') !== null
-          );
-        }
-      };
+  useEffect(() => {
+    if (!isDesktop) return;
 
-      const handleDown = () => setIsClicking(true);
-      const handleUp = () => setIsClicking(false);
-      const handleLeave = () => setIsVisible(false);
-      const handleEnter = () => setIsVisible(true);
+    let rafId: number | null = null;
 
-      window.addEventListener('mousemove', moveCursor, { passive: true });
-      window.addEventListener('mousemove', checkPointer, { passive: true });
-      window.addEventListener('mousedown', handleDown);
-      window.addEventListener('mouseup', handleUp);
-      document.addEventListener('mouseleave', handleLeave);
-      document.addEventListener('mouseenter', handleEnter);
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+      setIsVisible(true);
 
-      return () => {
-        window.removeEventListener('mousemove', moveCursor);
-        window.removeEventListener('mousemove', checkPointer);
-        window.removeEventListener('mousedown', handleDown);
-        window.removeEventListener('mouseup', handleUp);
-        document.removeEventListener('mouseleave', handleLeave);
-        document.removeEventListener('mouseenter', handleEnter);
-      };
-    }
-  }, [cursorX, cursorY]);
+      // Throttle pointer check via rAF
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          const el = document.elementFromPoint(cursorX.get(), cursorY.get());
+          if (el) {
+            setIsPointer(
+              el.tagName === 'A' ||
+              el.tagName === 'BUTTON' ||
+              el.closest('a') !== null ||
+              el.closest('button') !== null
+            );
+          }
+          rafId = null;
+        });
+      }
+    };
 
-  if (typeof window !== 'undefined' && !window.matchMedia('(pointer: fine)').matches) {
-    return null;
-  }
+    const handleDown = () => setIsClicking(true);
+    const handleUp = () => setIsClicking(false);
+    const handleLeave = () => setIsVisible(false);
+    const handleEnter = () => setIsVisible(true);
+
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    window.addEventListener('mousedown', handleDown);
+    window.addEventListener('mouseup', handleUp);
+    document.addEventListener('mouseleave', handleLeave);
+    document.addEventListener('mouseenter', handleEnter);
+
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mousedown', handleDown);
+      window.removeEventListener('mouseup', handleUp);
+      document.removeEventListener('mouseleave', handleLeave);
+      document.removeEventListener('mouseenter', handleEnter);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
+  }, [isDesktop, cursorX, cursorY]);
+
+  if (!isDesktop || prefersReducedMotion) return null;
 
   return (
     <>
-      {/* Main cursor dot */}
+      {/* Main cursor dot — puur decoratief overlay, default cursor blijft intact */}
       <motion.div
+        aria-hidden="true"
         className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
         style={{
           x,
@@ -89,6 +98,7 @@ export default function CustomCursor() {
 
       {/* Trailing ring */}
       <motion.div
+        aria-hidden="true"
         className="fixed top-0 left-0 pointer-events-none z-[9998]"
         style={{
           x: trailX,
@@ -107,6 +117,7 @@ export default function CustomCursor() {
 
       {/* Glow effect */}
       <motion.div
+        aria-hidden="true"
         className="fixed top-0 left-0 pointer-events-none z-[9997]"
         style={{
           x: trailX,
@@ -122,13 +133,6 @@ export default function CustomCursor() {
       >
         <div className="w-20 h-20 rounded-full bg-emerald-400 blur-xl" />
       </motion.div>
-
-      {/* Hide default cursor globally */}
-      <style jsx global>{`
-        @media (pointer: fine) {
-          * { cursor: none !important; }
-        }
-      `}</style>
     </>
   );
 }

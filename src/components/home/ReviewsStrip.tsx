@@ -129,25 +129,25 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
     >
-      <div className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/25 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-emerald-500/5 transition-colors duration-300 overflow-hidden">
+      <blockquote className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/25 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 overflow-hidden">
         {/* Hover glow */}
         <div className="absolute -top-16 -right-16 w-32 h-32 bg-emerald-500/0 group-hover/card:bg-emerald-500/10 rounded-full blur-3xl transition-all duration-500 pointer-events-none" />
         {/* Quote mark */}
-        <div className="absolute top-3 right-4 text-3xl text-white/[0.04] group-hover/card:text-emerald-500/15 font-serif transition-all duration-500 select-none">
+        <div className="absolute top-3 right-4 text-4xl text-white/[0.04] group-hover/card:text-emerald-500/15 font-serif transition-all duration-500 select-none" aria-hidden="true">
           &ldquo;
         </div>
 
         <StarRating />
-        <p className="text-white/80 text-sm mt-3 leading-relaxed relative z-10">
+        <p className="text-white/80 text-sm mt-3 leading-relaxed relative z-10 line-clamp-3">
           &ldquo;{review.text}&rdquo;
         </p>
-        <div className="flex items-center justify-between mt-4 relative z-10">
-          <span className="text-white/60 text-xs font-medium">{review.name}</span>
+        <footer className="flex items-center justify-between mt-4 relative z-10">
+          <cite className="text-white/60 text-xs font-medium not-italic">{review.name}</cite>
           <span className="text-emerald-400/60 text-xs group-hover/card:text-emerald-400 transition-colors duration-300">
             {review.product}
           </span>
-        </div>
-      </div>
+        </footer>
+      </blockquote>
     </motion.div>
   );
 }

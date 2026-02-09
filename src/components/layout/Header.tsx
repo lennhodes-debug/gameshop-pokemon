@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 import CartCounter from './CartCounter';
@@ -22,6 +22,7 @@ export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mobileNavRef = useRef<HTMLElement>(null);
   const { getItemCount } = useCart();
   const itemCount = getItemCount();
 
@@ -34,6 +35,21 @@ export default function Header() {
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  // Escape toets sluit mobile menu + focus trap
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    // Focus eerste link in mobile menu
+    const firstLink = mobileNavRef.current?.querySelector('a');
+    firstLink?.focus();
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileOpen]);
 
   return (
     <>
@@ -163,7 +179,7 @@ export default function Header() {
               transition={{ duration: 0.3 }}
               className="lg:hidden overflow-hidden glass border-t border-white/[0.06]"
             >
-              <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1" aria-label="Mobiele navigatie">
+              <nav ref={mobileNavRef} className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1" aria-label="Mobiele navigatie">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.href}

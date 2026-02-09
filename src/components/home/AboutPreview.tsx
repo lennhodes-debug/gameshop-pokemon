@@ -19,9 +19,9 @@ export default function AboutPreview() {
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
-  const orbScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.9]);
-  const textX = useTransform(scrollYProgress, [0, 1], ['-3%', '0%']);
-  const statsX = useTransform(scrollYProgress, [0, 1], ['3%', '0%']);
+  const orbScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.6, 1.4, 0.8]);
+  const textX = useTransform(scrollYProgress, [0, 1], ['-5%', '0%']);
+  const statsX = useTransform(scrollYProgress, [0, 1], ['5%', '0%']);
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-32 overflow-hidden">

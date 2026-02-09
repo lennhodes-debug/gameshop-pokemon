@@ -26,7 +26,7 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
   }, [isInView, target]);
 
   return (
-    <div ref={ref} className="text-xl font-bold text-white tabular-nums">
+    <div ref={ref} className="text-xl font-bold text-white tabular-nums" aria-label={`${target.toLocaleString('nl-NL')}${suffix}`}>
       {count.toLocaleString('nl-NL')}{suffix}
     </div>
   );

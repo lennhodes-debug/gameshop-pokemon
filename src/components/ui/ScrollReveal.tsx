@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, type Variants } from 'framer-motion';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { type ReactNode } from 'react';
 
 type Direction = 'up' | 'down' | 'left' | 'right';
@@ -43,6 +43,11 @@ const getVariants = (
   };
 };
 
+const reducedVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
+
 export default function ScrollReveal({
   children,
   direction = 'up',
@@ -55,7 +60,10 @@ export default function ScrollReveal({
   once = true,
   staggerChildren,
 }: ScrollRevealProps) {
-  const variants = getVariants(direction, distance, blur, scale);
+  const prefersReducedMotion = useReducedMotion();
+  const variants = prefersReducedMotion
+    ? reducedVariants
+    : getVariants(direction, distance, blur, scale);
 
   return (
     <motion.div
@@ -64,10 +72,10 @@ export default function ScrollReveal({
       whileInView="visible"
       viewport={{ once, margin: '-60px' }}
       transition={{
-        duration,
-        delay,
+        duration: prefersReducedMotion ? 0.15 : duration,
+        delay: prefersReducedMotion ? 0 : delay,
         ease: [0.16, 1, 0.3, 1] as const,
-        ...(staggerChildren && {
+        ...(staggerChildren && !prefersReducedMotion && {
           staggerChildren,
         }),
       }}
