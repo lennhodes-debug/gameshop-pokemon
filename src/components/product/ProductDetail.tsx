@@ -198,7 +198,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 animate={{ opacity: 1, rotateY: 0 }}
                 exit={{ opacity: 0, rotateY: 20 }}
                 transition={{ duration: 0.4 }}
-                className="aspect-square rounded-3xl bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50"
+                className="min-h-[560px] rounded-3xl bg-[#0a0e1a] flex items-center justify-center overflow-hidden"
               >
                 <Suspense fallback={<div className="animate-pulse text-slate-400">Laden...</div>}>
                   <Product3DBox product={product} />

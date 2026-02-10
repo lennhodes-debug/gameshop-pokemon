@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
-import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useSpring, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Product } from '@/lib/products';
 import { PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
@@ -11,64 +11,64 @@ interface Product3DBoxProps {
 }
 
 // Platform-specifieke hex kleuren voor inline styles
-const PLATFORM_HEX: Record<string, { bg: string; accent: string }> = {
-  'Nintendo Switch': { bg: '#ef4444', accent: '#dc2626' },
-  'GameCube': { bg: '#6366f1', accent: '#4f46e5' },
-  'Nintendo 64': { bg: '#22c55e', accent: '#16a34a' },
-  'Game Boy Advance': { bg: '#3b82f6', accent: '#4338ca' },
-  'Super Nintendo': { bg: '#6b7280', accent: '#4b5563' },
-  'Nintendo 3DS': { bg: '#0ea5e9', accent: '#2563eb' },
-  'NES': { bg: '#4b5563', accent: '#374151' },
-  'Nintendo DS': { bg: '#64748b', accent: '#475569' },
-  'Game Boy': { bg: '#84cc16', accent: '#22c55e' },
-  'Game Boy / Color': { bg: '#84cc16', accent: '#22c55e' },
-  'Wii': { bg: '#22d3ee', accent: '#0284c7' },
-  'Wii U': { bg: '#3b82f6', accent: '#2563eb' },
+const PLATFORM_HEX: Record<string, { bg: string; accent: string; glow: string }> = {
+  'Nintendo Switch': { bg: '#ef4444', accent: '#dc2626', glow: '239,68,68' },
+  'GameCube': { bg: '#6366f1', accent: '#4f46e5', glow: '99,102,241' },
+  'Nintendo 64': { bg: '#22c55e', accent: '#16a34a', glow: '34,197,94' },
+  'Game Boy Advance': { bg: '#3b82f6', accent: '#4338ca', glow: '59,130,246' },
+  'Super Nintendo': { bg: '#6b7280', accent: '#4b5563', glow: '107,114,128' },
+  'Nintendo 3DS': { bg: '#0ea5e9', accent: '#2563eb', glow: '14,165,233' },
+  'NES': { bg: '#4b5563', accent: '#374151', glow: '75,85,99' },
+  'Nintendo DS': { bg: '#64748b', accent: '#475569', glow: '100,116,139' },
+  'Game Boy': { bg: '#84cc16', accent: '#22c55e', glow: '132,204,22' },
+  'Game Boy / Color': { bg: '#84cc16', accent: '#22c55e', glow: '132,204,22' },
+  'Wii': { bg: '#22d3ee', accent: '#0284c7', glow: '34,211,238' },
+  'Wii U': { bg: '#3b82f6', accent: '#2563eb', glow: '59,130,246' },
 };
 
 // Pokemon sprite IDs per game (iconic legendaries/starters)
 const POKEMON_SPRITES: Record<string, number[]> = {
-  'Emerald': [384, 383, 382],       // Rayquaza, Groudon, Kyogre
-  'Ruby': [383, 384],                // Groudon, Rayquaza
-  'Sapphire': [382, 384],            // Kyogre, Rayquaza
-  'FireRed': [6, 150],               // Charizard, Mewtwo
-  'LeafGreen': [3, 9],               // Venusaur, Blastoise
-  'Red': [6, 25],                    // Charizard, Pikachu
-  'Blue': [9, 25],                   // Blastoise, Pikachu
-  'Yellow': [25, 6],                 // Pikachu, Charizard
-  'Gold': [250, 249],                // Ho-Oh, Lugia
-  'Silver': [249, 250],              // Lugia, Ho-Oh
-  'Crystal': [245, 249],             // Suicune, Lugia
-  'Diamond': [483, 484],             // Dialga, Palkia
-  'Pearl': [484, 483],               // Palkia, Dialga
-  'Platinum': [487, 483],            // Giratina, Dialga
-  'HeartGold': [250, 249],           // Ho-Oh, Lugia
-  'SoulSilver': [249, 250],          // Lugia, Ho-Oh
-  'Black': [644, 643],               // Zekrom, Reshiram
-  'White': [643, 644],               // Reshiram, Zekrom
-  'Black 2': [646, 644],             // Kyurem, Zekrom
-  'White 2': [646, 643],             // Kyurem, Reshiram
-  'X': [716, 717],                   // Xerneas, Yveltal
-  'Y': [717, 716],                   // Yveltal, Xerneas
-  'Sun': [791, 792],                 // Solgaleo, Lunala
-  'Moon': [792, 791],                // Lunala, Solgaleo
-  'Ultra Sun': [791, 800],           // Solgaleo, Necrozma
-  'Ultra Moon': [792, 800],          // Lunala, Necrozma
-  'Sword': [888, 889],               // Zacian, Zamazenta
-  'Shield': [889, 888],              // Zamazenta, Zacian
-  'Scarlet': [1007, 1008],           // Koraidon, Miraidon
-  'Violet': [1008, 1007],            // Miraidon, Koraidon
-  'Brilliant Diamond': [483, 484],   // Dialga, Palkia
-  'Shining Pearl': [484, 483],       // Palkia, Dialga
-  'Legends: Arceus': [493, 487],     // Arceus, Giratina
-  'Snap': [25, 151],                 // Pikachu, Mew
-  'Stadium': [150, 25],              // Mewtwo, Pikachu
-  'Stadium 2': [249, 250],           // Lugia, Ho-Oh
-  'Colosseum': [250, 197],           // Ho-Oh, Umbreon
-  'Alpha Sapphire': [382, 384],      // Kyogre, Rayquaza
-  'Omega Ruby': [383, 384],          // Groudon, Rayquaza
-  "Let's Go Pikachu": [25, 150],     // Pikachu, Mewtwo
-  "Let's Go Eevee": [133, 150],      // Eevee, Mewtwo
+  'Emerald': [384, 383, 382],
+  'Ruby': [383, 384],
+  'Sapphire': [382, 384],
+  'FireRed': [6, 150],
+  'LeafGreen': [3, 9],
+  'Red': [6, 25],
+  'Blue': [9, 25],
+  'Yellow': [25, 6],
+  'Gold': [250, 249],
+  'Silver': [249, 250],
+  'Crystal': [245, 249],
+  'Diamond': [483, 484],
+  'Pearl': [484, 483],
+  'Platinum': [487, 483],
+  'HeartGold': [250, 249],
+  'SoulSilver': [249, 250],
+  'Black': [644, 643],
+  'White': [643, 644],
+  'Black 2': [646, 644],
+  'White 2': [646, 643],
+  'X': [716, 717],
+  'Y': [717, 716],
+  'Sun': [791, 792],
+  'Moon': [792, 791],
+  'Ultra Sun': [791, 800],
+  'Ultra Moon': [792, 800],
+  'Sword': [888, 889],
+  'Shield': [889, 888],
+  'Scarlet': [1007, 1008],
+  'Violet': [1008, 1007],
+  'Brilliant Diamond': [483, 484],
+  'Shining Pearl': [484, 483],
+  'Legends: Arceus': [493, 487],
+  'Snap': [25, 151],
+  'Stadium': [150, 25],
+  'Stadium 2': [249, 250],
+  'Colosseum': [250, 197],
+  'Alpha Sapphire': [382, 384],
+  'Omega Ruby': [383, 384],
+  "Let's Go Pikachu": [25, 150],
+  "Let's Go Eevee": [133, 150],
 };
 
 function getPokemonSprites(name: string): number[] {
@@ -77,65 +77,108 @@ function getPokemonSprites(name: string): number[] {
   for (const [key, ids] of Object.entries(POKEMON_SPRITES)) {
     if (lower.includes(key.toLowerCase())) return ids;
   }
-  // Fallback voor onbekende Pokemon games
-  if (lower.includes('pok')) return [25]; // Pikachu
+  if (lower.includes('pok')) return [25];
   return [];
 }
 
 const SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
 
-// Floating Pokemon sprite
-function FloatingSprite({ id, index, total }: { id: number; index: number; total: number }) {
+// Twinkelende ster
+function Star({ x, y, size, delay }: { x: number; y: number; size: number; delay: number }) {
+  return (
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
+      style={{
+        left: `${x}%`,
+        top: `${y}%`,
+        width: size,
+        height: size,
+        background: 'white',
+      }}
+      animate={{
+        opacity: [0.1, 0.8, 0.1],
+        scale: [0.8, 1.3, 0.8],
+      }}
+      transition={{
+        duration: 2 + Math.random() * 3,
+        repeat: Infinity,
+        delay,
+        ease: 'easeInOut',
+      }}
+    />
+  );
+}
+
+// Zwevende Pokemon sprite — groter, met glow
+function FloatingSprite({ id, index, total, glowColor }: { id: number; index: number; total: number; glowColor: string }) {
   const angle = (360 / total) * index;
-  const delay = index * 2;
+  const delay = index * 1.5;
 
   return (
     <motion.div
       className="absolute pointer-events-none"
       style={{
-        width: 80,
-        height: 80,
+        width: 120,
+        height: 120,
         left: '50%',
         top: '50%',
-        marginLeft: -40,
-        marginTop: -40,
-        filter: 'drop-shadow(0 0 12px rgba(255,255,255,0.4))',
+        marginLeft: -60,
+        marginTop: -60,
+        filter: `drop-shadow(0 0 20px rgba(${glowColor},0.6)) drop-shadow(0 0 40px rgba(${glowColor},0.3))`,
         zIndex: 10,
       }}
+      initial={{ opacity: 0, scale: 0.3 }}
       animate={{
+        opacity: 1,
+        scale: [1, 1.12, 0.95, 1.05, 1],
         x: [
-          Math.cos((angle * Math.PI) / 180) * 170,
-          Math.cos(((angle + 120) * Math.PI) / 180) * 190,
-          Math.cos(((angle + 240) * Math.PI) / 180) * 160,
-          Math.cos((angle * Math.PI) / 180) * 170,
+          Math.cos((angle * Math.PI) / 180) * 210,
+          Math.cos(((angle + 90) * Math.PI) / 180) * 230,
+          Math.cos(((angle + 180) * Math.PI) / 180) * 200,
+          Math.cos(((angle + 270) * Math.PI) / 180) * 220,
+          Math.cos((angle * Math.PI) / 180) * 210,
         ],
         y: [
-          Math.sin((angle * Math.PI) / 180) * 120 - 30,
-          Math.sin(((angle + 120) * Math.PI) / 180) * 140 - 20,
-          Math.sin(((angle + 240) * Math.PI) / 180) * 110 - 40,
-          Math.sin((angle * Math.PI) / 180) * 120 - 30,
+          Math.sin((angle * Math.PI) / 180) * 150 - 20,
+          Math.sin(((angle + 90) * Math.PI) / 180) * 170 - 30,
+          Math.sin(((angle + 180) * Math.PI) / 180) * 140 - 10,
+          Math.sin(((angle + 270) * Math.PI) / 180) * 160 - 25,
+          Math.sin((angle * Math.PI) / 180) * 150 - 20,
         ],
-        rotate: [0, 5, -5, 0],
-        scale: [1, 1.1, 0.95, 1],
+        rotate: [0, 8, -8, 4, 0],
       }}
       transition={{
-        duration: 12 + index * 2,
-        repeat: Infinity,
-        ease: 'easeInOut',
-        delay,
+        opacity: { duration: 0.8, delay: delay },
+        scale: { duration: 10 + index * 3, repeat: Infinity, ease: 'easeInOut', delay },
+        x: { duration: 14 + index * 3, repeat: Infinity, ease: 'easeInOut', delay },
+        y: { duration: 14 + index * 3, repeat: Infinity, ease: 'easeInOut', delay },
+        rotate: { duration: 14 + index * 3, repeat: Infinity, ease: 'easeInOut', delay },
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`${SPRITE_BASE}/${id}.png`}
         alt=""
-        width={80}
-        height={80}
+        width={120}
+        height={120}
         style={{ objectFit: 'contain' }}
         loading="lazy"
       />
     </motion.div>
   );
+}
+
+// Genereer sterren eenmalig
+function useStars(count: number) {
+  return useMemo(() =>
+    Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2.5 + 0.5,
+      delay: Math.random() * 4,
+    })),
+  [count]);
 }
 
 export default function Product3DBox({ product }: Product3DBoxProps) {
@@ -155,19 +198,22 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
   const rotateY = useSpring(rawRotateY, { stiffness: 80, damping: 20 });
   const rotateX = useSpring(rawRotateX, { stiffness: 80, damping: 20 });
 
-  // Holographic shimmer position based on rotation
+  // Holographic shimmer gekoppeld aan rotatie
   const shimmerX = useTransform(rotateY, [-180, 180], [-100, 200]);
+  // Edge light glow positie
+  const edgeLightX = useTransform(rotateY, [-180, 0, 180], ['100%', '50%', '0%']);
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
-  const hex = PLATFORM_HEX[product.platform] || { bg: '#64748b', accent: '#475569' };
+  const hex = PLATFORM_HEX[product.platform] || { bg: '#64748b', accent: '#475569', glow: '100,116,139' };
 
   const pokemonIds = useMemo(() => getPokemonSprites(product.name), [product.name]);
   const isPokemon = pokemonIds.length > 0;
+  const stars = useStars(35);
 
-  const WIDTH = 280;
-  const HEIGHT = 380;
-  const DEPTH = 30;
+  const WIDTH = 340;
+  const HEIGHT = 460;
+  const DEPTH = 36;
 
   // Auto-rotate
   useEffect(() => {
@@ -211,29 +257,121 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
   }, [rawRotateY, rawRotateX]);
 
   return (
-    <div className="relative select-none">
-      {/* Ambient glow achtergrond */}
+    <div className="relative select-none" style={{ minHeight: HEIGHT + 80 }}>
+
+      {/* ===== ACHTERGROND LAAG: Donker veld met sterren + aurora ===== */}
       <div
-        className="absolute inset-0 -inset-x-12 -inset-y-8 rounded-3xl opacity-30 blur-3xl pointer-events-none"
+        className="absolute -inset-8 rounded-3xl overflow-hidden pointer-events-none"
+        style={{ background: '#0a0e1a' }}
+      >
+        {/* Dot grid textuur */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+
+        {/* Twinkelende sterren */}
+        {stars.map((s) => (
+          <Star key={s.id} x={s.x} y={s.y} size={s.size} delay={s.delay} />
+        ))}
+
+        {/* Aurora orb 1 — platform kleur */}
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: 400,
+            height: 400,
+            top: '-10%',
+            right: '-10%',
+            background: `radial-gradient(circle, rgba(${hex.glow},0.15) 0%, transparent 70%)`,
+            filter: 'blur(60px)',
+          }}
+          animate={{
+            x: [0, 60, -30, 0],
+            y: [0, -40, 30, 0],
+            scale: [1, 1.2, 0.9, 1],
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Aurora orb 2 — complementair */}
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: 350,
+            height: 350,
+            bottom: '-5%',
+            left: '-10%',
+            background: `radial-gradient(circle, rgba(${hex.glow},0.1) 0%, rgba(20,184,166,0.08) 50%, transparent 70%)`,
+            filter: 'blur(50px)',
+          }}
+          animate={{
+            x: [0, -40, 50, 0],
+            y: [0, 30, -40, 0],
+            scale: [1, 0.85, 1.15, 1],
+          }}
+          transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Aurora orb 3 — subtiele kern */}
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width: 250,
+            height: 250,
+            top: '30%',
+            left: '30%',
+            background: `radial-gradient(circle, rgba(${hex.glow},0.08) 0%, transparent 60%)`,
+            filter: 'blur(40px)',
+          }}
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -20, 30, 0],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Vignet voor diepte */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(5,8,16,0.6) 100%)',
+          }}
+        />
+      </div>
+
+      {/* ===== AMBIENT GLOW rond de box ===== */}
+      <motion.div
+        className="absolute inset-0 -inset-x-16 -inset-y-12 rounded-3xl pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at center, ${hex.bg}40 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at center, rgba(${hex.glow},0.25) 0%, transparent 60%)`,
+          filter: 'blur(30px)',
         }}
+        animate={{
+          opacity: [0.4, 0.6, 0.4],
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      {/* Pokemon sprites achtergrond */}
-      {isPokemon && (
-        <div className="absolute inset-0 -inset-x-16 -inset-y-12 overflow-hidden pointer-events-none">
-          {pokemonIds.map((id, i) => (
-            <FloatingSprite key={id} id={id} index={i} total={pokemonIds.length} />
-          ))}
-        </div>
-      )}
+      {/* ===== POKEMON SPRITES ===== */}
+      <AnimatePresence>
+        {isPokemon && (
+          <div className="absolute inset-0 -inset-x-20 -inset-y-16 overflow-visible pointer-events-none" style={{ zIndex: 5 }}>
+            {pokemonIds.map((id, i) => (
+              <FloatingSprite key={id} id={id} index={i} total={pokemonIds.length} glowColor={hex.glow} />
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
 
-      {/* 3D Box Container */}
+      {/* ===== 3D BOX CONTAINER ===== */}
       <div
         ref={containerRef}
         className="relative mx-auto cursor-grab active:cursor-grabbing"
-        style={{ perspective: 1200, width: WIDTH, height: HEIGHT }}
+        style={{ perspective: 1400, width: WIDTH, height: HEIGHT, zIndex: 2 }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -243,14 +381,16 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
           className="relative w-full h-full"
           style={{ transformStyle: 'preserve-3d', rotateY, rotateX }}
         >
-          {/* FRONT — Cover image + holographic shimmer */}
+          {/* FRONT — Cover image + multi-layer holographic shimmer */}
           <div
-            className="absolute inset-0 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl"
+            className="absolute inset-0 rounded-xl overflow-hidden shadow-2xl"
             style={{
               transform: `translateZ(${DEPTH / 2}px)`,
               backfaceVisibility: 'hidden',
               width: WIDTH,
               height: HEIGHT,
+              border: `1px solid rgba(${hex.glow},0.2)`,
+              background: '#111827',
             }}
           >
             {product.image ? (
@@ -258,64 +398,114 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
                 src={product.image}
                 alt={product.name}
                 fill
-                sizes="280px"
-                className="object-contain p-6"
+                sizes="340px"
+                className="object-contain p-8"
                 priority
               />
             ) : (
               <div className={`w-full h-full bg-gradient-to-br ${colors.from} ${colors.to} flex items-center justify-center`}>
-                <span className="text-white/20 text-6xl font-black">{platformLabel}</span>
+                <span className="text-white/20 text-7xl font-black">{platformLabel}</span>
               </div>
             )}
-            {/* Holographic shimmer overlay */}
+
+            {/* Holo foil textuur */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.04]"
+              style={{
+                backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px), repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 5px)`,
+              }}
+            />
+
+            {/* Holographic shimmer sweep */}
             <motion.div
               className="absolute inset-0 pointer-events-none"
               style={{
-                background: `linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.12) 55%, transparent 65%)`,
+                background: `linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.2) 52%, rgba(255,255,255,0.08) 60%, transparent 70%)`,
                 backgroundSize: '300% 100%',
                 backgroundPositionX: shimmerX,
               }}
             />
+
+            {/* Edge light glow */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(200px circle at ${edgeLightX} 50%, rgba(${hex.glow},0.12) 0%, transparent 70%)`,
+              }}
+            />
+
+            {/* Platform badge overlay */}
+            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+              <span
+                className="px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-[0.15em] text-white/90"
+                style={{ background: `linear-gradient(135deg, ${hex.bg}, ${hex.accent})` }}
+              >
+                {platformLabel}
+              </span>
+              {product.isPremium && (
+                <span className="px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider text-amber-200 bg-amber-900/60 backdrop-blur-sm">
+                  Premium
+                </span>
+              )}
+            </div>
           </div>
 
-          {/* BACK — Generated back-of-box */}
+          {/* BACK — Uitgebreide achterkant */}
           <div
-            className="absolute inset-0 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700"
+            className="absolute inset-0 rounded-xl overflow-hidden shadow-2xl"
             style={{
               transform: `rotateY(180deg) translateZ(${DEPTH / 2}px)`,
               backfaceVisibility: 'hidden',
               width: WIDTH,
               height: HEIGHT,
-              background: `linear-gradient(135deg, ${hex.bg}15, ${hex.accent}10, #f8fafc)`,
+              background: `linear-gradient(160deg, ${hex.bg}25, #111827 40%, #111827 60%, ${hex.accent}20)`,
+              border: `1px solid rgba(${hex.glow},0.15)`,
             }}
           >
-            <div className="h-full flex flex-col p-5">
-              <div className="rounded-lg px-3 py-2 mb-3" style={{ background: `linear-gradient(135deg, ${hex.bg}, ${hex.accent})` }}>
-                <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em]">{product.platform}</span>
+            <div className="h-full flex flex-col p-6">
+              {/* Platform header */}
+              <div className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-2" style={{ background: `linear-gradient(135deg, ${hex.bg}, ${hex.accent})` }}>
+                <span className="text-white text-xs font-black uppercase tracking-[0.15em] flex-1">{product.platform}</span>
+                <span className="text-white/60 text-[9px] font-bold">{product.sku}</span>
               </div>
-              <div className="grid grid-cols-3 gap-1.5 mb-3">
-                {[0.08, 0.12, 0.06].map((op, i) => (
-                  <div key={i} className="aspect-video rounded" style={{ background: `linear-gradient(135deg, ${hex.bg}${Math.round(op * 255).toString(16).padStart(2, '0')}, ${hex.accent}${Math.round(op * 0.7 * 255).toString(16).padStart(2, '0')})` }} />
-                ))}
-              </div>
-              <p className="text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed mb-3 line-clamp-4 flex-shrink-0">
-                {product.description || `Ontdek ${product.name} voor ${product.platform}. Een onvergetelijke game-ervaring.`}
+
+              {/* Cover art thumbnail */}
+              {product.image && (
+                <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden mb-4 border border-white/10">
+                  <Image
+                    src={product.image}
+                    alt=""
+                    fill
+                    sizes="300px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+              )}
+
+              {/* Beschrijving */}
+              <p className="text-[11px] text-slate-300 leading-relaxed mb-4 line-clamp-3">
+                {product.description || `Ontdek ${product.name} voor ${product.platform}.`}
               </p>
-              <div className="space-y-1.5 mb-3 flex-1">
+
+              {/* Specs */}
+              <div className="space-y-2 mb-4 flex-1">
                 {[
                   { l: 'Genre', v: product.genre },
                   { l: 'Conditie', v: product.condition },
                   { l: 'Compleetheid', v: product.completeness },
                 ].map((s) => (
-                  <div key={s.l} className="flex justify-between text-[9px]">
-                    <span className="text-slate-400">{s.l}</span>
-                    <span className="font-semibold text-slate-600 dark:text-slate-300">{s.v}</span>
+                  <div key={s.l} className="flex justify-between items-center text-[10px]">
+                    <span className="text-slate-500 uppercase tracking-wider font-medium">{s.l}</span>
+                    <span className="font-bold text-slate-200">{s.v}</span>
                   </div>
                 ))}
               </div>
-              <div className="rounded-lg px-3 py-2 flex items-center justify-between mt-auto" style={{ background: `linear-gradient(135deg, ${hex.bg}20, ${hex.accent}15)` }}>
-                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Nintendo</span>
-                <span className="text-[9px] font-bold text-slate-500">{product.sku}</span>
+
+              {/* Prijs + Nintendo footer */}
+              <div className="rounded-xl px-4 py-3 mt-auto flex items-center justify-between" style={{ background: `linear-gradient(135deg, rgba(${hex.glow},0.15), rgba(${hex.glow},0.05))` }}>
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Nintendo</span>
+                <span className="text-lg font-black text-white">€{product.salePrice ?? product.price}</span>
               </div>
             </div>
           </div>
@@ -326,13 +516,13 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
             style={{
               transform: `rotateY(-90deg) translateZ(${WIDTH / 2}px)`,
               width: DEPTH, height: HEIGHT, left: (WIDTH - DEPTH) / 2, top: 0,
-              background: `linear-gradient(180deg, ${hex.bg}, ${hex.accent})`,
+              background: `linear-gradient(180deg, ${hex.bg}, ${hex.accent}, ${hex.bg}80)`,
               backfaceVisibility: 'hidden',
             }}
           >
             <div className="h-full flex items-center justify-center">
-              <span className="text-white text-[9px] font-bold tracking-widest uppercase whitespace-nowrap" style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}>
-                {product.name.length > 30 ? product.name.slice(0, 28) + '…' : product.name}
+              <span className="text-white/90 text-[9px] font-black tracking-[0.15em] uppercase whitespace-nowrap" style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}>
+                {product.name.length > 35 ? product.name.slice(0, 33) + '…' : product.name}
               </span>
             </div>
           </div>
@@ -343,17 +533,17 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
             style={{
               transform: `rotateY(90deg) translateZ(${WIDTH / 2}px)`,
               width: DEPTH, height: HEIGHT, left: (WIDTH - DEPTH) / 2, top: 0,
-              background: `linear-gradient(180deg, ${hex.accent}, ${hex.bg})`,
+              background: `linear-gradient(180deg, ${hex.accent}, ${hex.bg}, ${hex.accent}80)`,
               backfaceVisibility: 'hidden',
             }}
           >
             <div className="h-full flex items-center justify-center">
-              <span className="text-white text-[9px] font-bold tracking-widest uppercase" style={{ writingMode: 'vertical-lr' }}>{platformLabel}</span>
+              <span className="text-white/90 text-[9px] font-black tracking-[0.15em] uppercase" style={{ writingMode: 'vertical-lr' }}>{platformLabel}</span>
             </div>
           </div>
 
           {/* TOP */}
-          <div className="absolute" style={{
+          <div className="absolute rounded-t-sm" style={{
             transform: `rotateX(90deg) translateZ(${HEIGHT / 2}px)`,
             width: WIDTH, height: DEPTH, top: (HEIGHT - DEPTH) / 2, left: 0,
             background: `linear-gradient(90deg, ${hex.bg}, ${hex.accent})`,
@@ -361,7 +551,7 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
           }} />
 
           {/* BOTTOM */}
-          <div className="absolute" style={{
+          <div className="absolute rounded-b-sm" style={{
             transform: `rotateX(-90deg) translateZ(${HEIGHT / 2}px)`,
             width: WIDTH, height: DEPTH, top: (HEIGHT - DEPTH) / 2, left: 0,
             background: `linear-gradient(90deg, ${hex.accent}, ${hex.bg})`,
@@ -369,25 +559,26 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
           }} />
         </motion.div>
 
-        {/* Dynamic floor shadow */}
+        {/* Dynamische vloerschaduw */}
         <motion.div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-[50%] pointer-events-none"
           style={{
-            width: WIDTH * 0.7,
-            height: 20,
-            background: `radial-gradient(ellipse, ${hex.bg}30 0%, transparent 70%)`,
-            translateY: 24,
-            scaleX: useTransform(rotateY, [-180, 0, 180], [1.2, 0.8, 1.2]),
-            opacity: useTransform(rotateX, [-30, 0, 30], [0.2, 0.5, 0.2]),
+            width: WIDTH * 0.8,
+            height: 30,
+            background: `radial-gradient(ellipse, rgba(${hex.glow},0.3) 0%, rgba(${hex.glow},0.1) 40%, transparent 70%)`,
+            translateY: 30,
+            scaleX: useTransform(rotateY, [-180, 0, 180], [1.3, 0.7, 1.3]),
+            opacity: useTransform(rotateX, [-30, 0, 30], [0.15, 0.6, 0.15]),
+            filter: 'blur(8px)',
           }}
         />
       </div>
 
-      {/* Controls */}
-      <div className="flex items-center justify-center gap-3 mt-4">
+      {/* ===== CONTROLS ===== */}
+      <div className="relative flex items-center justify-center gap-3 mt-6" style={{ zIndex: 3 }}>
         <button
           onClick={resetView}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-xs font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 text-xs font-medium hover:bg-white/10 transition-colors backdrop-blur-sm"
         >
           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
@@ -397,10 +588,10 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
         </button>
         <button
           onClick={() => { setAutoRotate(!autoRotate); autoAngle.current = rawRotateY.get(); }}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors backdrop-blur-sm ${
             autoRotate
-              ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
-              : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+              ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-300'
+              : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'
           }`}
         >
           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -409,7 +600,7 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
           {autoRotate ? 'Stoppen' : 'Draaien'}
         </button>
       </div>
-      <p className="text-center text-[10px] text-slate-400 dark:text-slate-500 mt-2">
+      <p className="relative text-center text-[10px] text-slate-400 mt-2" style={{ zIndex: 3 }}>
         {isPokemon ? 'Sleep om te draaien · Pokémon vliegen mee!' : 'Sleep om te draaien'}
       </p>
     </div>
