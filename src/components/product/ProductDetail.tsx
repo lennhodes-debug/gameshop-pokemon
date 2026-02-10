@@ -36,7 +36,7 @@ function AnimatedPrice({ price }: { price: number }) {
   }, [isInView, price]);
 
   return (
-    <span ref={ref} className="text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums">
+    <span ref={ref} className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums">
       {formatPrice(displayPrice)}
     </span>
   );
@@ -402,13 +402,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-3"
+            className="flex flex-wrap gap-3"
           >
             <motion.button
               onClick={handleAdd}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className={`relative flex-1 sm:flex-none px-8 py-4 rounded-2xl text-white text-base font-bold overflow-hidden transition-all duration-300 ${
+              className={`relative w-full sm:w-auto sm:flex-none px-8 py-4 rounded-2xl text-white text-base font-bold overflow-hidden transition-all duration-300 ${
                 added
                   ? 'bg-emerald-500 shadow-xl shadow-emerald-500/30'
                   : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 animate-cta-attention'
@@ -592,6 +592,32 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           ))}
         </div>
       </motion.div>
+
+      {/* Sticky mobile CTA bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          transition={{ delay: 0.8, type: 'spring', stiffness: 300, damping: 30 }}
+          className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-700 px-4 py-3 flex items-center justify-between gap-3"
+        >
+          <div className="min-w-0 flex-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{product.name}</p>
+            <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+          </div>
+          <motion.button
+            onClick={handleAdd}
+            whileTap={{ scale: 0.95 }}
+            className={`flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-bold transition-all duration-300 ${
+              added
+                ? 'bg-emerald-500'
+                : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25'
+            }`}
+          >
+            {added ? 'Toegevoegd!' : 'In winkelwagen'}
+          </motion.button>
+        </motion.div>
+      </div>
 
       {flyData && typeof document !== 'undefined' && createPortal(
         <>
