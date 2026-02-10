@@ -8,7 +8,9 @@ export default function ComboOverlay() {
   const [combo, setCombo] = useState(0);
   const [visible, setVisible] = useState(false);
   const [legendary, setLegendary] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const particleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const COMBO_WINDOW = 3000; // 3 seconden om combo op te bouwen
@@ -88,10 +90,16 @@ export default function ComboOverlay() {
     frame = requestAnimationFrame(animate);
 
     // Cleanup na max particle lifetime
-    setTimeout(() => cancelAnimationFrame(frame), 3000);
+    if (particleTimerRef.current) clearTimeout(particleTimerRef.current);
+    particleTimerRef.current = setTimeout(() => {
+      cancelAnimationFrame(frame);
+    }, 3000);
   }, []);
 
   const handleAddToCart = useCallback(() => {
+    // Activeer canvas bij eerste event
+    setIsActive(true);
+
     setCombo(prev => {
       const newCombo = prev + 1;
 
@@ -101,13 +109,16 @@ export default function ComboOverlay() {
         setCombo(0);
         setVisible(false);
         setLegendary(false);
+        setIsActive(false);
       }, COMBO_WINDOW);
 
       // Toon overlay bij 2+ combo
       if (newCombo >= 2) {
         setVisible(true);
-        // Particles geschaald op combo
-        spawnParticles(Math.min(newCombo * 15, 100));
+        // Particles geschaald op combo — kleine vertraging zodat canvas gemount is
+        requestAnimationFrame(() => {
+          spawnParticles(Math.min(newCombo * 15, 100));
+        });
 
         // Legendary bij 5x
         if (newCombo >= 5) {
@@ -125,6 +136,7 @@ export default function ComboOverlay() {
     return () => {
       window.removeEventListener('gameshop:add-to-cart', handleAddToCart);
       if (timerRef.current) clearTimeout(timerRef.current);
+      if (particleTimerRef.current) clearTimeout(particleTimerRef.current);
     };
   }, [handleAddToCart]);
 
@@ -147,11 +159,13 @@ export default function ComboOverlay() {
 
   return (
     <>
-      {/* Particle canvas */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 z-[9990] pointer-events-none"
-      />
+      {/* Particle canvas — alleen gemount bij actieve combo */}
+      {isActive && (
+        <canvas
+          ref={canvasRef}
+          className="fixed inset-0 z-[9990] pointer-events-none"
+        />
+      )}
 
       {/* Combo counter */}
       <AnimatePresence>
