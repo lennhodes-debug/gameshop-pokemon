@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { getEffectivePrice } from '@/lib/products';
 import { useToast } from '@/components/ui/Toast';
 
 interface FormData {
@@ -450,7 +451,7 @@ export default function AfrekenPage() {
                           <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{item.product.name}</p>
                           <p className="text-[10px] text-slate-500 dark:text-slate-400">x{item.quantity}</p>
                         </div>
-                        <span className="text-sm font-bold text-slate-900 dark:text-white flex-shrink-0">{formatPrice(item.product.price * item.quantity)}</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-white flex-shrink-0">{formatPrice(getEffectivePrice(item.product) * item.quantity)}</span>
                       </motion.div>
                     );
                   })}

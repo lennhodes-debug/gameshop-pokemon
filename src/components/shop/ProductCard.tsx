@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -21,12 +21,14 @@ interface ProductCardProps {
 
 function HighlightText({ text, query }: { text: string; query?: string }) {
   if (!query || query.length < 2) return <>{text}</>;
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escaped})`, 'gi');
   const parts = text.split(regex);
+  const lowerQuery = query.toLowerCase();
   return (
     <>
       {parts.map((part, i) =>
-        regex.test(part)
+        part.toLowerCase() === lowerQuery
           ? <mark key={i} className="bg-emerald-200/60 dark:bg-emerald-500/30 text-inherit rounded-sm px-0.5">{part}</mark>
           : part
       )}
@@ -34,7 +36,7 @@ function HighlightText({ text, query }: { text: string; query?: string }) {
   );
 }
 
-export default function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
+const ProductCard = React.memo(function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
   const { addToast } = useToast();
@@ -61,8 +63,7 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
   const holoAngle = useSpring(useTransform(mouseX, [0, 1], [0, 360]), { stiffness: 150, damping: 20 });
 
   // Premium: prismatic rainbow conic gradient — standaard: emerald glow
-  const holoBackground = product.isPremium
-    ? useMotionTemplate`
+  const holoPremium = useMotionTemplate`
       conic-gradient(
         from ${holoAngle}deg at ${holoX}% ${holoY}%,
         rgba(255,0,0,0.07),
@@ -76,8 +77,8 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
       radial-gradient(400px circle at ${holoX}% ${holoY}%,
         rgba(255,255,255,0.15) 0%,
         transparent 60%)
-    `
-    : useMotionTemplate`
+    `;
+  const holoStandard = useMotionTemplate`
       radial-gradient(600px circle at ${holoX}% ${holoY}%,
         rgba(16,185,129,0.14) 0%,
         rgba(6,182,212,0.08) 25%,
@@ -87,13 +88,14 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
         rgba(255,255,255,0.18) 0%,
         transparent 55%)
     `;
-  const edgeLightBackground = product.isPremium
-    ? useMotionTemplate`
+  const edgePremium = useMotionTemplate`
       linear-gradient(90deg, transparent, rgba(255,200,0,0.35) ${holoX}%, transparent)
-    `
-    : useMotionTemplate`
+    `;
+  const edgeStandard = useMotionTemplate`
       linear-gradient(90deg, transparent, rgba(16,185,129,0.4) ${holoX}%, transparent)
     `;
+  const holoBackground = product.isPremium ? holoPremium : holoStandard;
+  const edgeLightBackground = product.isPremium ? edgePremium : edgeStandard;
 
   // Dynamic 3D floating shadow — shifts opposite to tilt for depth illusion
   const shadowX = useSpring(useTransform(mouseX, [0, 1], [15, -15]), { stiffness: 150, damping: 20 });
@@ -580,4 +582,6 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
       )}
     </div>
   );
-}
+});
+
+export default ProductCard;

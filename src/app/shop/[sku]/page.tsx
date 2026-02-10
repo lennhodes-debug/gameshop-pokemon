@@ -1,4 +1,4 @@
-import { getAllProducts, getProductBySku, getRelatedProducts } from '@/lib/products';
+import { getAllProducts, getProductBySku, getRelatedProducts, getEffectivePrice } from '@/lib/products';
 import ProductDetail from '@/components/product/ProductDetail';
 import RelatedProducts from '@/components/product/RelatedProducts';
 import RecentlyViewed from '@/components/product/RecentlyViewed';
@@ -88,7 +88,7 @@ export default async function ProductPage({ params }: Props) {
       '@type': 'Offer',
       url: `${siteUrl}/shop/${product.sku}`,
       priceCurrency: 'EUR',
-      price: product.price.toFixed(2),
+      price: getEffectivePrice(product).toFixed(2),
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',

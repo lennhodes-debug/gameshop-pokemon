@@ -495,7 +495,7 @@ function ShopContent() {
 
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= (typeof window !== 'undefined' && window.innerWidth < 640 ? 1 : 2))
+                  .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 2)
                   .map((p, idx, arr) => (
                     <span key={p} className="flex items-center">
                       {idx > 0 && arr[idx - 1] !== p - 1 && (

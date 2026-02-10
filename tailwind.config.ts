@@ -34,7 +34,7 @@ const config: Config = {
         gold: '#d4a76a',
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-jakarta)', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       /* keyframes and animations defined in globals.css */
     },
