@@ -275,6 +275,7 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
               )}
               {product.isPremium && <Badge variant="premium">PREMIUM</Badge>}
               {product.isConsole && <Badge variant="console">CONSOLE</Badge>}
+              {product.inkoopFeatured && !product.isPremium && !product.isConsole && <Badge variant="popular">POPULAIR</Badge>}
             </div>
           </div>
         </Link>

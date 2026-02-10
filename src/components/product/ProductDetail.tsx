@@ -381,6 +381,21 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="text-xs text-slate-400 dark:text-slate-500">— Vandaag besteld, morgen verzonden</span>
           </motion.div>
 
+          {/* Urgentie-indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.39 }}
+            className="flex items-center gap-2 -mt-4 mb-6"
+          >
+            <svg className="h-3.5 w-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+            <span className="text-xs font-medium text-amber-600 dark:text-amber-400">
+              {product.isConsole ? 'Zeldzaam — slechts 1 beschikbaar' : 'Slechts 1 op voorraad'}
+            </span>
+          </motion.div>
+
           {/* Price block */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}

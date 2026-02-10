@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'default' | 'premium' | 'console' | 'condition' | 'completeness' | 'new' | 'sale' | 'free-shipping';
+  variant?: 'default' | 'premium' | 'console' | 'condition' | 'completeness' | 'new' | 'sale' | 'free-shipping' | 'popular';
   className?: string;
 }
 
@@ -19,6 +19,7 @@ export default function Badge({ children, variant = 'default', className }: Badg
         variant === 'new' && 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white',
         variant === 'sale' && 'bg-gradient-to-r from-red-500 to-orange-500 text-white',
         variant === 'free-shipping' && 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800',
+        variant === 'popular' && 'bg-gradient-to-r from-amber-500 to-orange-500 text-white',
         className
       )}
     >
