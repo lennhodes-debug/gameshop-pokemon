@@ -16,9 +16,25 @@ import { useToast } from '@/components/ui/Toast';
 interface ProductCardProps {
   product: Product;
   onQuickView?: (product: Product) => void;
+  searchQuery?: string;
 }
 
-export default function ProductCard({ product, onQuickView }: ProductCardProps) {
+function HighlightText({ text, query }: { text: string; query?: string }) {
+  if (!query || query.length < 2) return <>{text}</>;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        regex.test(part)
+          ? <mark key={i} className="bg-emerald-200/60 dark:bg-emerald-500/30 text-inherit rounded-sm px-0.5">{part}</mark>
+          : part
+      )}
+    </>
+  );
+}
+
+export default function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
   const { addToast } = useToast();
@@ -309,7 +325,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
           <Link href={`/shop/${product.sku}`}>
             <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug mb-1 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
-              {product.name}
+              <HighlightText text={product.name} query={searchQuery} />
             </h3>
           </Link>
 

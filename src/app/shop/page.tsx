@@ -30,6 +30,8 @@ function ShopContent() {
   const [category, setCategory] = useState(searchParams.get('category') || '');
   const [completeness, setCompleteness] = useState(searchParams.get('completeness') || '');
   const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'name-asc');
+  const [priceMin, setPriceMin] = useState(searchParams.get('priceMin') || '');
+  const [priceMax, setPriceMax] = useState(searchParams.get('priceMax') || '');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
@@ -58,11 +60,13 @@ function ShopContent() {
     if (condition) params.set('condition', condition);
     if (category) params.set('category', category);
     if (completeness) params.set('completeness', completeness);
+    if (priceMin) params.set('priceMin', priceMin);
+    if (priceMax) params.set('priceMax', priceMax);
     if (sortBy && sortBy !== 'name-asc') params.set('sort', sortBy);
     if (page > 1) params.set('page', String(page));
     const qs = params.toString();
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
-  }, [debouncedSearch, platform, genre, condition, category, completeness, sortBy, page, router, pathname]);
+  }, [debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy, page, router, pathname]);
 
   const allProducts = useMemo(() => getAllProducts(), []);
   const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
@@ -78,7 +82,7 @@ function ShopContent() {
 
   useEffect(() => {
     setPage(1);
-  }, [debouncedSearch, platform, genre, condition, category, completeness, sortBy]);
+  }, [debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy]);
 
   const filtered = useMemo(() => {
     let results = [...allProducts];
@@ -111,6 +115,9 @@ function ShopContent() {
     if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
     if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
 
+    if (priceMin) results = results.filter((p) => p.price >= Number(priceMin));
+    if (priceMax) results = results.filter((p) => p.price <= Number(priceMax));
+
     if (sortBy === 'newest') {
       const skuNum = new Map<string, number>();
       for (const p of results) {
@@ -129,12 +136,12 @@ function ShopContent() {
     }
 
     return results;
-  }, [allProducts, debouncedSearch, platform, genre, condition, category, completeness, sortBy]);
+  }, [allProducts, debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
-  const activeFilterCount = [platform, genre, condition, category, completeness].filter(Boolean).length;
+  const activeFilterCount = [platform, genre, condition, category, completeness, priceMin, priceMax].filter(Boolean).length;
 
   const clearFilters = () => {
     setSearch('');
@@ -143,6 +150,8 @@ function ShopContent() {
     setCondition('');
     setCategory('');
     setCompleteness('');
+    setPriceMin('');
+    setPriceMax('');
     setSortBy('name-asc');
     setPage(1);
   };
@@ -289,6 +298,40 @@ function ShopContent() {
             onCompletenessChange={setCompleteness}
             onSortChange={setSortBy}
           />
+
+          {/* Prijs range filter */}
+          <div className="mt-4 flex items-center gap-3">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide flex-shrink-0">Prijs</span>
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="Min"
+                  value={priceMin}
+                  onChange={(e) => setPriceMin(e.target.value)}
+                  aria-label="Minimum prijs"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+              </div>
+              <span className="text-slate-300 dark:text-slate-600">—</span>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="Max"
+                  value={priceMax}
+                  onChange={(e) => setPriceMax(e.target.value)}
+                  aria-label="Maximum prijs"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Active filters strip met chips */}
@@ -337,6 +380,12 @@ function ShopContent() {
               {completeness && (
                 <button onClick={() => setCompleteness('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 text-xs font-semibold hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors">
                   {completeness === 'cib' ? 'Compleet (CIB)' : 'Los'}
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+              {(priceMin || priceMax) && (
+                <button onClick={() => { setPriceMin(''); setPriceMax(''); }} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 text-xs font-semibold hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors">
+                  {priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`}
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               )}
@@ -436,7 +485,7 @@ function ShopContent() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
               >
-                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} />
+                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} searchQuery={debouncedSearch || undefined} />
               </motion.div>
             )}
           </AnimatePresence>
