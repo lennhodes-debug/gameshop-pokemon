@@ -365,13 +365,29 @@ function ShopContent() {
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all mb-10"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
                   </svg>
                   Filters wissen
                 </button>
+
+                {/* Suggesties per platform */}
+                <div className="max-w-lg mx-auto">
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Populaire platforms</p>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {platforms.slice(0, 6).map((p) => (
+                      <button
+                        key={p}
+                        onClick={() => { clearFilters(); setPlatform(p); }}
+                        className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             ) : (
               <motion.div
@@ -416,17 +432,17 @@ function ShopContent() {
 
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 2)
+                  .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= (typeof window !== 'undefined' && window.innerWidth < 640 ? 1 : 2))
                   .map((p, idx, arr) => (
                     <span key={p} className="flex items-center">
                       {idx > 0 && arr[idx - 1] !== p - 1 && (
-                        <span className="px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
+                        <span className="px-0.5 sm:px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
                       )}
                       <motion.button
                         onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className={`h-10 w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
+                        className={`h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
                           p === page
                             ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25'
                             : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'

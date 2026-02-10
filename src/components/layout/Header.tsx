@@ -36,7 +36,13 @@ export default function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Escape toets sluit mobile menu + focus trap
+  // Actieve link detectie (ook sub-paths: /shop/SW-001 → Shop)
+  const isActive = useCallback((href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
+  }, [pathname]);
+
+  // Escape toets sluit mobile menu + focus trap + body scroll lock
   useEffect(() => {
     if (!mobileOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -45,10 +51,14 @@ export default function Header() {
       }
     };
     document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
     // Focus eerste link in mobile menu
     const firstLink = mobileNavRef.current?.querySelector('a');
     firstLink?.focus();
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
   }, [mobileOpen]);
 
   return (
@@ -92,13 +102,13 @@ export default function Header() {
                   href={link.href}
                   className={cn(
                     'relative px-4 py-2 text-sm font-medium transition-colors duration-300',
-                    pathname === link.href
+                    isActive(link.href)
                       ? 'text-white'
                       : 'text-slate-400 hover:text-white'
                   )}
                 >
                   {link.label}
-                  {pathname === link.href && (
+                  {isActive(link.href) && (
                     <motion.span
                       layoutId="nav-indicator"
                       className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
@@ -191,7 +201,7 @@ export default function Header() {
                       href={link.href}
                       className={cn(
                         'block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                        pathname === link.href
+                        isActive(link.href)
                           ? 'text-emerald-400 bg-emerald-500/10'
                           : 'text-slate-300 hover:text-white hover:bg-white/5'
                       )}
