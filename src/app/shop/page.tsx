@@ -381,7 +381,7 @@ function ShopContent() {
         </AnimatePresence>
 
         {/* Products */}
-        <div className="mt-8">
+        <div id="shop-grid" className="mt-8 scroll-mt-24">
           <AnimatePresence mode="wait">
             {isSearching ? (
               <motion.div
@@ -481,7 +481,7 @@ function ShopContent() {
 
             <div className="flex items-center gap-2">
               <motion.button
-                onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                onClick={() => { setPage(Math.max(1, page - 1)); document.getElementById('shop-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
                 disabled={page === 1}
                 aria-label="Vorige pagina"
                 whileHover={{ scale: 1.05 }}
@@ -502,7 +502,7 @@ function ShopContent() {
                         <span className="px-0.5 sm:px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
                       )}
                       <motion.button
-                        onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        onClick={() => { setPage(p); document.getElementById('shop-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className={`h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
@@ -518,7 +518,7 @@ function ShopContent() {
               </div>
 
               <motion.button
-                onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                onClick={() => { setPage(Math.min(totalPages, page + 1)); document.getElementById('shop-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
                 disabled={page === totalPages}
                 aria-label="Volgende pagina"
                 whileHover={{ scale: 1.05 }}

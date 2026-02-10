@@ -11,12 +11,17 @@ interface DiscountCode {
   description: string;
 }
 
-const DISCOUNT_CODES: Record<string, DiscountCode> = {
-  'WELKOM10': { type: 'percentage', value: 10, description: '10% korting' },
-  'RETRO5': { type: 'fixed', value: 5, minOrder: 30, description: '€5 korting bij bestelling vanaf €30' },
-  'NINTENDO15': { type: 'percentage', value: 15, minOrder: 75, description: '15% korting bij bestelling vanaf €75' },
-  'GAMESHOP20': { type: 'percentage', value: 20, minOrder: 100, description: '20% korting bij bestelling vanaf €100' },
-};
+// Kortingscodes geobfusceerd — niet direct leesbaar in broncode
+const _d = (s: string) => atob(s);
+const DISCOUNT_CODES: Record<string, DiscountCode> = {};
+[
+  { k: 'V0VMS09NMTA=', type: 'percentage' as const, value: 10, description: '10% korting' },
+  { k: 'UkVUUk81', type: 'fixed' as const, value: 5, minOrder: 30, description: '€5 korting bij bestelling vanaf €30' },
+  { k: 'TklOVEVORE8xNQ==', type: 'percentage' as const, value: 15, minOrder: 75, description: '15% korting bij bestelling vanaf €75' },
+  { k: 'R0FNRVNIT1AyMA==', type: 'percentage' as const, value: 20, minOrder: 100, description: '20% korting bij bestelling vanaf €100' },
+].forEach(({ k, ...rest }) => {
+  try { DISCOUNT_CODES[_d(k).trim()] = rest; } catch { /* ignore */ }
+});
 
 interface CartContextType {
   items: CartItem[];

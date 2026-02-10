@@ -38,10 +38,22 @@ export function getProductsByPlatform(platform: string): Product[] {
   return getAllProducts().filter((p) => p.platform === platform);
 }
 
+// Seeded PRNG zodat featured producten consistent zijn per dag (geen hydration mismatch)
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+}
+
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const rand = seededRandom(seed);
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rand() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;

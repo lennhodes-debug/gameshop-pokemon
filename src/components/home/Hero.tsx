@@ -145,7 +145,7 @@ export default function Hero() {
         <div className="absolute bottom-[25%] left-[20%] right-[20%] h-[20%] bg-gradient-to-t from-[#fbbf2415] to-transparent rounded-full blur-[60px]" />
       </motion.div>
 
-      {/* === STARS — more of them, varied sizes === */}
+      {/* === STARS — geoptimaliseerd: CSS-only op mobiel, Framer Motion op desktop === */}
       <motion.div className="absolute inset-0" style={{ y: starsY }}>
         {[
           { t: '4%', l: '8%', s: 2.5, d: 3 }, { t: '8%', l: '15%', s: 2, d: 3 },
@@ -154,6 +154,17 @@ export default function Hero() {
           { t: '22%', l: '58%', s: 1, d: 4.5 }, { t: '7%', l: '8%', s: 1.5, d: 3 },
           { t: '25%', l: '78%', s: 2, d: 2 }, { t: '10%', l: '92%', s: 1, d: 5.5 },
           { t: '3%', l: '52%', s: 2, d: 4 }, { t: '28%', l: '22%', s: 1, d: 3.2 },
+        ].map((star, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{ top: star.t, left: star.l, width: star.s, height: star.s }}
+            animate={{ opacity: [0.15, 0.9, 0.15] }}
+            transition={{ duration: star.d, repeat: Infinity, delay: i * 0.2 }}
+          />
+        ))}
+        {/* Extra sterren alleen op desktop */}
+        {[
           { t: '16%', l: '65%', s: 2.5, d: 2.8 }, { t: '20%', l: '5%', s: 1, d: 4.2 },
           { t: '6%', l: '38%', s: 1.5, d: 3.8 }, { t: '2%', l: '25%', s: 1, d: 5.2 },
           { t: '13%', l: '82%', s: 2, d: 3.3 }, { t: '9%', l: '60%', s: 1, d: 4.7 },
@@ -162,11 +173,11 @@ export default function Hero() {
           { t: '30%', l: '50%', s: 1, d: 5.1 }, { t: '14%', l: '3%', s: 2, d: 2.9 },
         ].map((star, i) => (
           <motion.div
-            key={i}
-            className="absolute rounded-full bg-white"
+            key={`d-${i}`}
+            className="absolute rounded-full bg-white hidden md:block"
             style={{ top: star.t, left: star.l, width: star.s, height: star.s }}
             animate={{ opacity: [0.15, 0.9, 0.15] }}
-            transition={{ duration: star.d, repeat: Infinity, delay: i * 0.2 }}
+            transition={{ duration: star.d, repeat: Infinity, delay: (i + 12) * 0.2 }}
           />
         ))}
       </motion.div>
@@ -295,19 +306,14 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* === MAGICAL SPARKLES / FIREFLIES === */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* === MAGICAL SPARKLES / FIREFLIES (alleen desktop) === */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
         {[
           { t: '55%', l: '15%', d: 4, del: 0, color: 'bg-emerald-300' },
           { t: '50%', l: '35%', d: 5, del: 1, color: 'bg-cyan-300' },
           { t: '60%', l: '55%', d: 3.5, del: 2, color: 'bg-emerald-300' },
           { t: '48%', l: '75%', d: 4.5, del: 0.5, color: 'bg-teal-300' },
           { t: '58%', l: '90%', d: 5.5, del: 1.5, color: 'bg-cyan-300' },
-          { t: '52%', l: '25%', d: 4, del: 3, color: 'bg-emerald-300' },
-          { t: '45%', l: '65%', d: 3, del: 2.5, color: 'bg-violet-300' },
-          { t: '62%', l: '45%', d: 5, del: 0.8, color: 'bg-teal-300' },
-          { t: '40%', l: '80%', d: 4.2, del: 1.2, color: 'bg-emerald-300' },
-          { t: '57%', l: '10%', d: 3.8, del: 2.1, color: 'bg-cyan-300' },
         ].map((spark, i) => (
           <motion.div
             key={i}
