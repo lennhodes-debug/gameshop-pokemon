@@ -121,13 +121,17 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
     addToast(`${product.name} toegevoegd aan winkelwagen`, 'success', undefined, product.image || undefined);
     setTimeout(() => setAddedToCart(false), 1500);
 
-    // Fly animation: product image → cart icon
-    const imgEl = cardRef.current?.querySelector('img');
-    const cartEl = document.querySelector('[aria-label="Winkelwagen"]');
-    if (imgEl && cartEl && product.image) {
-      const from = imgEl.getBoundingClientRect();
-      const to = cartEl.getBoundingClientRect();
-      setFlyData({ from, to, image: product.image });
+    // Fly animation: product image → cart icon (max 1 tegelijk)
+    if (!flyData) {
+      const imgEl = cardRef.current?.querySelector('img');
+      const cartEl = document.querySelector('[aria-label="Winkelwagen"]');
+      if (imgEl && cartEl && product.image) {
+        const from = imgEl.getBoundingClientRect();
+        const to = cartEl.getBoundingClientRect();
+        setFlyData({ from, to, image: product.image });
+        // Fallback timeout voor cleanup
+        setTimeout(() => setFlyData(null), 1200);
+      }
     }
   };
 

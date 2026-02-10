@@ -45,7 +45,7 @@ export default function ContactPage() {
 
   const handleBlur = (field: string) => setTouched(prev => ({ ...prev, [field]: true }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const allTouched: Record<string, boolean> = {};
     let hasErrors = false;
@@ -60,11 +60,27 @@ export default function ContactPage() {
       }, 50);
       return;
     }
-    const subject = encodeURIComponent(`Contact: ${formData.onderwerp || 'Vraag'}`);
-    const body = encodeURIComponent(
-      `Naam: ${formData.naam}\nE-mail: ${formData.email}\nOnderwerp: ${formData.onderwerp}\n\n${formData.bericht}`
-    );
-    window.location.href = `mailto:gameshopenter@gmail.com?subject=${subject}&body=${body}`;
+    // Netlify Forms submission
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'contact',
+          naam: formData.naam,
+          email: formData.email,
+          onderwerp: formData.onderwerp,
+          bericht: formData.bericht,
+        }).toString(),
+      });
+    } catch {
+      // Fallback naar mailto als Netlify Forms niet beschikbaar is
+      const subject = encodeURIComponent(`Contact: ${formData.onderwerp || 'Vraag'}`);
+      const body = encodeURIComponent(
+        `Naam: ${formData.naam}\nE-mail: ${formData.email}\nOnderwerp: ${formData.onderwerp}\n\n${formData.bericht}`
+      );
+      window.location.href = `mailto:gameshopenter@gmail.com?subject=${subject}&body=${body}`;
+    }
     setSubmitted(true);
   };
 
@@ -271,7 +287,8 @@ export default function ContactPage() {
                   </button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate name="contact" data-netlify="true">
+                  <input type="hidden" name="form-name" value="contact" />
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
