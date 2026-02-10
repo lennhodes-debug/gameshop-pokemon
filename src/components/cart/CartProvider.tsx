@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useMemo, useEffect, ReactNode } from 'react';
-import { Product } from '@/lib/products';
+import { Product, getEffectivePrice } from '@/lib/products';
 import { CartItem } from '@/lib/cart';
 
 interface CartContextType {
@@ -83,7 +83,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const getTotal = useCallback(() => {
-    return items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    return items.reduce((sum, item) => sum + getEffectivePrice(item.product) * item.quantity, 0);
   }, [items]);
 
   const getItemCount = useCallback(() => {

@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
-import { Product } from '@/lib/products';
+import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
@@ -266,8 +266,13 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
               </span>
             </div>
 
-            {/* Premium/Console badges */}
+            {/* Premium/Console/Sale badges */}
             <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
+              {isOnSale(product) && (
+                <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold tracking-wide shadow-lg shadow-red-500/30">
+                  -{getSalePercentage(product)}%
+                </span>
+              )}
               {product.isPremium && <Badge variant="premium">PREMIUM</Badge>}
               {product.isConsole && <Badge variant="console">CONSOLE</Badge>}
             </div>
@@ -337,10 +342,21 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
 
           <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-200/80 dark:border-slate-600/50">
             <div>
-              <span className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                {formatPrice(product.price)}
-              </span>
-              {product.price >= FREE_SHIPPING_THRESHOLD && (
+              {isOnSale(product) ? (
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xl font-extrabold text-red-500 tracking-tight">
+                    {formatPrice(getEffectivePrice(product))}
+                  </span>
+                  <span className="text-sm text-slate-400 line-through">
+                    {formatPrice(product.price)}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                  {formatPrice(product.price)}
+                </span>
+              )}
+              {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
                 <span className="block text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">Gratis verzending</span>
               )}
             </div>

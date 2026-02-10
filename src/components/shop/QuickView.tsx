@@ -4,7 +4,7 @@ import { useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/lib/products';
+import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
@@ -63,7 +63,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
 
   const colors = product ? (PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' }) : { from: '', to: '' };
   const isCIB = product?.completeness.toLowerCase().includes('compleet');
-  const freeShipping = product ? product.price >= FREE_SHIPPING_THRESHOLD : false;
+  const freeShipping = product ? getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD : false;
 
   return (
     <AnimatePresence>
@@ -156,9 +156,19 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
 
                   <div className="mt-auto space-y-4">
                     <div>
-                      <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                        {formatPrice(product.price)}
-                      </span>
+                      {isOnSale(product) ? (
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-3xl font-extrabold text-red-500 tracking-tight">
+                            {formatPrice(getEffectivePrice(product))}
+                          </span>
+                          <span className="text-lg text-slate-400 line-through">{formatPrice(product.price)}</span>
+                          <span className="text-xs font-bold text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
+                        </div>
+                      ) : (
+                        <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                          {formatPrice(product.price)}
+                        </span>
+                      )}
                       {freeShipping && (
                         <span className="ml-2 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
                           Gratis verzending

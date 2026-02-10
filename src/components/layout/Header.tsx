@@ -13,6 +13,7 @@ import { useCart } from '@/components/cart/CartProvider';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
+  { href: '/shop?category=sale', label: 'Aanbiedingen', badge: 'SALE' },
   { href: '/nintendo', label: 'Nintendo' },
   { href: '/inkoop', label: 'Inkoop' },
   { href: '/over-ons', label: 'Over ons' },
@@ -110,7 +111,12 @@ export default function Header() {
                       : 'text-slate-400 hover:text-white'
                   )}
                 >
-                  {link.label}
+                  <span className="flex items-center gap-1.5">
+                    {link.label}
+                    {'badge' in link && link.badge && (
+                      <span className="px-1.5 py-0.5 text-[9px] font-bold bg-red-500 text-white rounded-md leading-none">{link.badge}</span>
+                    )}
+                  </span>
                   {isActive(link.href) && (
                     <motion.span
                       layoutId="nav-indicator"
@@ -263,7 +269,12 @@ export default function Header() {
                           : 'text-slate-300 hover:text-white hover:bg-white/5'
                       )}
                     >
-                      {link.label}
+                      <span className="flex items-center gap-2">
+                        {link.label}
+                        {'badge' in link && link.badge && (
+                          <span className="px-1.5 py-0.5 text-[9px] font-bold bg-red-500 text-white rounded-md leading-none">{link.badge}</span>
+                        )}
+                      </span>
                     </Link>
                   </motion.div>
                 ))}

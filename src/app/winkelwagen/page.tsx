@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
-import { getAllProducts, Product } from '@/lib/products';
+import { getAllProducts, Product, getEffectivePrice, isOnSale } from '@/lib/products';
 
 export default function WinkelwagenPage() {
   const { items, addItem, removeItem, updateQuantity, getTotal, clearCart } = useCart();
@@ -286,14 +286,21 @@ export default function WinkelwagenPage() {
                               </svg>
                             </motion.button>
                           </div>
-                          <motion.span
-                            key={item.product.price * item.quantity}
-                            initial={{ scale: 1.1 }}
-                            animate={{ scale: 1 }}
-                            className="font-extrabold text-slate-900 dark:text-white"
-                          >
-                            {formatPrice(item.product.price * item.quantity)}
-                          </motion.span>
+                          <div className="text-right">
+                            {isOnSale(item.product) && (
+                              <span className="text-xs text-slate-400 line-through block">
+                                {formatPrice(item.product.price * item.quantity)}
+                              </span>
+                            )}
+                            <motion.span
+                              key={getEffectivePrice(item.product) * item.quantity}
+                              initial={{ scale: 1.1 }}
+                              animate={{ scale: 1 }}
+                              className={`font-extrabold ${isOnSale(item.product) ? 'text-red-500' : 'text-slate-900 dark:text-white'}`}
+                            >
+                              {formatPrice(getEffectivePrice(item.product) * item.quantity)}
+                            </motion.span>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

@@ -19,6 +19,7 @@ export interface Product {
   inkoopPrijs?: number | null;
   pcUsedPrice?: number | null;
   inkoopFeatured?: boolean;
+  salePrice?: number | null;
 }
 
 const products: Product[] = productsData as Product[];
@@ -105,4 +106,39 @@ export function getAllGenres(): string[] {
 
 export function getAllConditions(): string[] {
   return _conditionCache;
+}
+
+export function isOnSale(product: Product): boolean {
+  return typeof product.salePrice === 'number' && product.salePrice > 0 && product.salePrice < product.price;
+}
+
+export function getSalePercentage(product: Product): number {
+  if (!isOnSale(product)) return 0;
+  return Math.round((1 - product.salePrice! / product.price) * 100);
+}
+
+export function getEffectivePrice(product: Product): number {
+  return isOnSale(product) ? product.salePrice! : product.price;
+}
+
+export function getDealsProducts(): Product[] {
+  return products.filter(isOnSale);
+}
+
+export function searchProducts(query: string, limit = 5): Product[] {
+  if (!query || query.length < 2) return [];
+  const q = query.toLowerCase();
+  const scored: { product: Product; score: number }[] = [];
+  for (const p of products) {
+    let score = 0;
+    if (p.name.toLowerCase().includes(q)) score += 10;
+    if (p.name.toLowerCase().startsWith(q)) score += 5;
+    if (p.platform.toLowerCase().includes(q)) score += 6;
+    if (p.genre.toLowerCase().includes(q)) score += 4;
+    if (p.sku.toLowerCase().includes(q)) score += 3;
+    if (p.description?.toLowerCase().includes(q)) score += 1;
+    if (score > 0) scored.push({ product: p, score });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map(s => s.product);
 }

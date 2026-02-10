@@ -4,8 +4,8 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, Ani
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useWishlist } from '@/components/wishlist/WishlistProvider';
@@ -57,7 +57,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
-  const freeShipping = product.price >= FREE_SHIPPING_THRESHOLD;
+  const effectivePrice = getEffectivePrice(product);
+  const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
+  const onSale = isOnSale(product);
 
   // Track eerder bekeken producten
   useEffect(() => {
@@ -359,9 +361,23 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex items-baseline gap-3 mb-8"
+            className="flex flex-wrap items-baseline gap-3 mb-8"
           >
-            <AnimatedPrice price={product.price} />
+            {onSale ? (
+              <>
+                <span className="text-3xl sm:text-5xl font-extrabold text-red-500 tracking-tight tabular-nums">
+                  {formatPrice(effectivePrice)}
+                </span>
+                <span className="text-xl text-slate-400 line-through">
+                  {formatPrice(product.price)}
+                </span>
+                <span className="inline-flex items-center gap-1 text-sm text-red-500 font-bold bg-red-50 dark:bg-red-900/30 px-2.5 py-1 rounded-lg">
+                  -{getSalePercentage(product)}%
+                </span>
+              </>
+            ) : (
+              <AnimatedPrice price={product.price} />
+            )}
             {freeShipping && (
               <motion.span
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -603,7 +619,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         >
           <div className="min-w-0 flex-1">
             <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{product.name}</p>
-            <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+            <div className="flex items-baseline gap-2">
+              <p className={cn("text-lg font-extrabold", onSale ? "text-red-500" : "text-slate-900 dark:text-white")}>{formatPrice(effectivePrice)}</p>
+              {onSale && <p className="text-xs text-slate-400 line-through">{formatPrice(product.price)}</p>}
+            </div>
           </div>
           <motion.button
             onClick={handleAdd}

@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'rea
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions } from '@/lib/products';
+import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
@@ -111,6 +111,7 @@ function ShopContent() {
 
     if (category === 'games') results = results.filter((p) => !p.isConsole);
     if (category === 'consoles') results = results.filter((p) => p.isConsole);
+    if (category === 'sale') results = results.filter((p) => isOnSale(p));
 
     if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
     if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
@@ -124,11 +125,13 @@ function ShopContent() {
         skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z0-9]+-/, ''), 10) || 0);
       }
       results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
+    } else if (sortBy === 'discount-desc') {
+      results.sort((a, b) => getSalePercentage(b) - getSalePercentage(a));
     } else {
       results.sort((a, b) => {
         switch (sortBy) {
-          case 'price-asc': return a.price - b.price;
-          case 'price-desc': return b.price - a.price;
+          case 'price-asc': return getEffectivePrice(a) - getEffectivePrice(b);
+          case 'price-desc': return getEffectivePrice(b) - getEffectivePrice(a);
           case 'name-desc': return b.name.localeCompare(a.name);
           default: return a.name.localeCompare(b.name);
         }
