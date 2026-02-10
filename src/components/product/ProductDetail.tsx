@@ -609,8 +609,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </div>
       </motion.div>
 
-      {/* Sticky mobile CTA bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+      {/* Sticky mobile CTA bar — boven bottom nav */}
+      <div className="fixed bottom-[60px] left-0 right-0 z-40 lg:hidden">
         <motion.div
           initial={{ y: 100 }}
           animate={{ y: 0 }}
