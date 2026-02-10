@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function InkoopPage() {
@@ -35,6 +36,15 @@ export default function InkoopPage() {
 
   return (
     <div className="pt-16 lg:pt-20">
+      {/* Breadcrumbs */}
+      <nav className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0" aria-label="Breadcrumb">
+        <ol className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+          <li><Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link></li>
+          <li><svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></li>
+          <li className="text-slate-700 dark:text-slate-200 font-medium">Games verkopen</li>
+        </ol>
+      </nav>
+
       {/* Hero */}
       <div className="relative bg-[#050810] py-14 lg:py-20 overflow-hidden">
         <div className="absolute inset-0">

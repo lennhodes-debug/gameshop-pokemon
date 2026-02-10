@@ -171,9 +171,20 @@ export default function Footer() {
             <p className="text-slate-400 text-sm">
               &copy; {new Date().getFullYear()} Gameshop Enter. Alle rechten voorbehouden.
             </p>
-            <p className="text-slate-500 text-xs">
-              Uitsluitend online webshop — verzending via PostNL
-            </p>
+            <div className="flex items-center gap-4">
+              <p className="text-slate-500 text-xs">
+                Uitsluitend online webshop — verzending via PostNL
+              </p>
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
+                aria-label="Terug naar boven"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                </svg>
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>

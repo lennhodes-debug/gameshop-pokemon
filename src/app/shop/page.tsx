@@ -6,11 +6,12 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { useCart } from '@/components/cart/CartProvider';
-import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { formatPrice, FREE_SHIPPING_THRESHOLD, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
 import ProductGrid from '@/components/shop/ProductGrid';
 import QuickView from '@/components/shop/QuickView';
+import Image from 'next/image';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 24;
@@ -34,6 +35,7 @@ function ShopContent() {
   const [priceMax, setPriceMax] = useState(searchParams.get('priceMax') || '');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
 
   const { getTotal, getItemCount } = useCart();
   const cartTotal = getTotal();
@@ -51,27 +53,42 @@ function ShopContent() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // Sync filters naar URL
+  // Sync filters naar URL (gedebounced om excessive history entries te voorkomen)
+  const urlSyncTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (debouncedSearch) params.set('q', debouncedSearch);
-    if (platform) params.set('platform', platform);
-    if (genre) params.set('genre', genre);
-    if (condition) params.set('condition', condition);
-    if (category) params.set('category', category);
-    if (completeness) params.set('completeness', completeness);
-    if (priceMin) params.set('priceMin', priceMin);
-    if (priceMax) params.set('priceMax', priceMax);
-    if (sortBy && sortBy !== 'name-asc') params.set('sort', sortBy);
-    if (page > 1) params.set('page', String(page));
-    const qs = params.toString();
-    router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+    clearTimeout(urlSyncTimer.current);
+    urlSyncTimer.current = setTimeout(() => {
+      const params = new URLSearchParams();
+      if (debouncedSearch) params.set('q', debouncedSearch);
+      if (platform) params.set('platform', platform);
+      if (genre) params.set('genre', genre);
+      if (condition) params.set('condition', condition);
+      if (category) params.set('category', category);
+      if (completeness) params.set('completeness', completeness);
+      if (priceMin) params.set('priceMin', priceMin);
+      if (priceMax) params.set('priceMax', priceMax);
+      if (sortBy && sortBy !== 'name-asc') params.set('sort', sortBy);
+      if (page > 1) params.set('page', String(page));
+      const qs = params.toString();
+      router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+    }, 150);
+    return () => clearTimeout(urlSyncTimer.current);
   }, [debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy, page, router, pathname]);
 
   const allProducts = useMemo(() => getAllProducts(), []);
   const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
   const genres = useMemo(() => getAllGenres(), []);
   const conditions = useMemo(() => getAllConditions(), []);
+
+  // Eerder bekeken producten laden
+  useEffect(() => {
+    try {
+      const stored: string[] = JSON.parse(localStorage.getItem('gameshop-recent') || '[]');
+      if (stored.length === 0) return;
+      const found = stored.slice(0, 6).map(sku => allProducts.find(p => p.sku === sku)).filter((p): p is Product => !!p);
+      setRecentlyViewed(found);
+    } catch { /* ignore */ }
+  }, [allProducts]);
 
   const { scrollYProgress } = useScroll({
     target: headerRef,
@@ -533,6 +550,43 @@ function ShopContent() {
           </motion.div>
         )}
       </div>
+
+      {/* Eerder bekeken */}
+      {recentlyViewed.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
+        >
+          <div className="flex items-center gap-3 mb-5">
+            <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight">Eerder bekeken</h3>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+            {recentlyViewed.map((product) => {
+              const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
+              return (
+                <Link key={product.sku} href={`/shop/${product.sku}`} className="group">
+                  <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} transition-all duration-300 group-hover:border-emerald-200 dark:group-hover:border-emerald-800 group-hover:shadow-md`}>
+                    {product.image ? (
+                      <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-white/20 text-sm font-bold">
+                        {PLATFORM_LABELS[product.platform] || product.platform}
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{product.name}</p>
+                  <p className="text-xs font-bold text-slate-900 dark:text-white">{formatPrice(getEffectivePrice(product))}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
 
       {/* Quick View Modal */}
       <QuickView product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />

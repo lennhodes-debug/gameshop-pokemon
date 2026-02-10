@@ -16,8 +16,16 @@ export default function SettingsPanel() {
   useEffect(() => {
     setSoundEnabled(!isMuted());
     try {
-      setAnimationsEnabled(localStorage.getItem('gameshop-animations') !== 'false');
-      setRetroMode(localStorage.getItem('gameshop-retro-mode') === 'true');
+      const animPref = localStorage.getItem('gameshop-animations') !== 'false';
+      setAnimationsEnabled(animPref);
+      if (!animPref) {
+        document.documentElement.classList.add('reduce-motion');
+      }
+      const retroPref = localStorage.getItem('gameshop-retro-mode') === 'true';
+      setRetroMode(retroPref);
+      if (retroPref) {
+        document.documentElement.classList.add('retro-mode');
+      }
     } catch {
       // ignore
     }
