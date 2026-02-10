@@ -10,7 +10,9 @@ import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIP
 import { getAllProducts, Product, getEffectivePrice, isOnSale } from '@/lib/products';
 
 export default function WinkelwagenPage() {
-  const { items, addItem, removeItem, updateQuantity, getTotal, clearCart } = useCart();
+  const { items, addItem, removeItem, updateQuantity, getTotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
+  const [couponInput, setCouponInput] = useState('');
+  const [couponMessage, setCouponMessage] = useState<{ text: string; success: boolean } | null>(null);
   const { addToast } = useToast();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const subtotal = getTotal();
@@ -424,6 +426,70 @@ export default function WinkelwagenPage() {
                     <span className={`font-semibold ${shipping === 0 ? 'text-emerald-600' : 'text-slate-900 dark:text-white'}`}>
                       {shipping === 0 ? 'Gratis' : formatPrice(shipping)}
                     </span>
+                  </div>
+
+                  {/* Kortingscode */}
+                  <div className="pt-3 border-t border-slate-100 dark:border-slate-700">
+                    {discountCode ? (
+                      <div className="flex items-center justify-between bg-emerald-50 dark:bg-emerald-900/20 rounded-xl px-3 py-2">
+                        <div>
+                          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 block">{discountCode}</span>
+                          <span className="text-[10px] text-emerald-500">{discountDescription}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold text-emerald-600">-{formatPrice(discountAmount)}</span>
+                          <button onClick={removeDiscount} className="text-slate-400 hover:text-red-500 transition-colors" aria-label="Kortingscode verwijderen">
+                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={couponInput}
+                            onChange={(e) => setCouponInput(e.target.value)}
+                            placeholder="Kortingscode"
+                            className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none transition-all"
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && couponInput.trim()) {
+                                const result = applyDiscount(couponInput);
+                                setCouponMessage({ text: result.message, success: result.success });
+                                if (result.success) setCouponInput('');
+                                setTimeout(() => setCouponMessage(null), 4000);
+                              }
+                            }}
+                          />
+                          <button
+                            onClick={() => {
+                              if (!couponInput.trim()) return;
+                              const result = applyDiscount(couponInput);
+                              setCouponMessage({ text: result.message, success: result.success });
+                              if (result.success) setCouponInput('');
+                              setTimeout(() => setCouponMessage(null), 4000);
+                            }}
+                            className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-600 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 transition-all"
+                          >
+                            Toepassen
+                          </button>
+                        </div>
+                        <AnimatePresence>
+                          {couponMessage && (
+                            <motion.p
+                              initial={{ opacity: 0, y: -5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0 }}
+                              className={`text-xs mt-1.5 font-medium ${couponMessage.success ? 'text-emerald-600' : 'text-red-500'}`}
+                            >
+                              {couponMessage.text}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
                   </div>
 
                   <div className="border-t border-slate-100 dark:border-slate-700 pt-4 mt-4">
