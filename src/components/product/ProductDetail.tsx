@@ -150,20 +150,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         transition={{ duration: 0.4 }}
         className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8"
       >
-        <Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link>
-        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-        <Link href="/shop" className="hover:text-emerald-600 transition-colors">Shop</Link>
-        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-        <Link href={`/shop?platform=${encodeURIComponent(product.platform)}`} className="hover:text-emerald-600 transition-colors">
-          {product.platform}
-        </Link>
-        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
+        {[
+          { href: '/', label: 'Home' },
+          { href: '/shop', label: 'Shop' },
+          { href: `/shop?platform=${encodeURIComponent(product.platform)}`, label: product.platform },
+        ].map((crumb) => (
+          <span key={crumb.href} className="contents">
+            <Link href={crumb.href} className="hover:text-emerald-600 transition-colors">{crumb.label}</Link>
+            <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+          </span>
+        ))}
         <span className="text-slate-700 dark:text-slate-200 font-medium truncate max-w-[200px]">{product.name}</span>
       </motion.nav>
 
