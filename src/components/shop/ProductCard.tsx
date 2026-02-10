@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, PLATFORM_HEX, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart } from '@/components/cart/CartProvider';
@@ -95,8 +95,13 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
       linear-gradient(90deg, transparent, rgba(16,185,129,0.4) ${holoX}%, transparent)
     `;
 
+  // Dynamic 3D floating shadow — shifts opposite to tilt for depth illusion
+  const shadowX = useSpring(useTransform(mouseX, [0, 1], [15, -15]), { stiffness: 150, damping: 20 });
+  const shadowY = useSpring(useTransform(mouseY, [0, 1], [5, 22]), { stiffness: 150, damping: 20 });
+
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
+  const hex = PLATFORM_HEX[product.platform] || { bg: '#64748b', accent: '#475569', glow: '100,116,139' };
   const isCIB = product.completeness.toLowerCase().includes('compleet');
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -148,7 +153,17 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
   };
 
   return (
-    <div className="perspective-1000">
+    <div className="perspective-1000 relative">
+      {/* 3D Floating Shadow — platform-gekleurd, beweegt mee met tilt */}
+      <motion.div
+        className="absolute -bottom-3 inset-x-[6%] h-6 rounded-[50%] pointer-events-none z-0"
+        style={{
+          background: `radial-gradient(ellipse, rgba(${hex.glow},${isHovered ? 0.5 : 0.15}) 0%, rgba(${hex.glow},${isHovered ? 0.2 : 0.05}) 50%, transparent 80%)`,
+          x: shadowX,
+          filter: `blur(${isHovered ? 14 : 8}px)`,
+          transition: 'filter 0.4s, background 0.4s',
+        }}
+      />
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -170,6 +185,20 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
       >
         {/* === FRONT FACE === */}
         <div style={{ backfaceVisibility: 'hidden' }} className="relative bg-gradient-to-b from-white to-slate-50/80 dark:from-slate-800/95 dark:to-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700/60 overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08),0_20px_50px_-12px_rgba(16,185,129,0.18)] hover:border-emerald-400/50 dark:hover:border-emerald-500/50 ring-1 ring-slate-900/[0.03] dark:ring-white/[0.04] transition-all duration-500 backdrop-blur-sm flex flex-col">
+        {/* Platform-gekleurde neon glow border op hover */}
+        {isHovered && !flipped && (
+          <motion.div
+            className="absolute inset-0 z-[4] pointer-events-none rounded-2xl"
+            style={{
+              boxShadow: `inset 0 0 0 1px rgba(${hex.glow},0.3), 0 0 20px rgba(${hex.glow},0.12), 0 0 40px rgba(${hex.glow},0.06)`,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+
         {/* Holographic rainbow glow */}
         {isHovered && !flipped && (
           <motion.div
@@ -217,9 +246,19 @@ export default function ProductCard({ product, onQuickView, searchQuery }: Produ
           />
         )}
 
-        {/* Product image */}
+        {/* Product image — 3D Game Case */}
         <Link href={`/shop/${product.sku}`}>
           <div className={`relative h-52 ${product.image && !imageError ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+            {/* Case spine — platform-gekleurde linker rand */}
+            <div
+              className="absolute left-0 top-0 bottom-0 w-1.5 z-20 opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: `linear-gradient(180deg, ${hex.bg}, ${hex.accent})` }}
+            />
+            {/* Case top edge — subtiele kleur accent */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[2px] z-20 opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: `linear-gradient(90deg, ${hex.bg}, transparent 30%, transparent 70%, ${hex.accent})` }}
+            />
             {product.image && !imageError ? (
               <>
                 {!imageLoaded && (

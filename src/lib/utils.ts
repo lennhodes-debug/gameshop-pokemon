@@ -39,5 +39,21 @@ export const PLATFORM_LABELS: Record<string, string> = {
   'Game Boy Color': 'GBC',
 };
 
+export const PLATFORM_HEX: Record<string, { bg: string; accent: string; glow: string }> = {
+  'Nintendo Switch': { bg: '#ef4444', accent: '#dc2626', glow: '239,68,68' },
+  'GameCube': { bg: '#6366f1', accent: '#4f46e5', glow: '99,102,241' },
+  'Nintendo 64': { bg: '#22c55e', accent: '#16a34a', glow: '34,197,94' },
+  'Game Boy Advance': { bg: '#3b82f6', accent: '#4338ca', glow: '59,130,246' },
+  'Super Nintendo': { bg: '#6b7280', accent: '#4b5563', glow: '107,114,128' },
+  'Nintendo 3DS': { bg: '#0ea5e9', accent: '#2563eb', glow: '14,165,233' },
+  'NES': { bg: '#4b5563', accent: '#374151', glow: '75,85,99' },
+  'Nintendo DS': { bg: '#64748b', accent: '#475569', glow: '100,116,139' },
+  'Game Boy': { bg: '#84cc16', accent: '#22c55e', glow: '132,204,22' },
+  'Game Boy / Color': { bg: '#84cc16', accent: '#22c55e', glow: '132,204,22' },
+  'Game Boy Color': { bg: '#eab308', accent: '#d97706', glow: '234,179,8' },
+  'Wii': { bg: '#22d3ee', accent: '#0284c7', glow: '34,211,238' },
+  'Wii U': { bg: '#3b82f6', accent: '#2563eb', glow: '59,130,246' },
+};
+
 export const SHIPPING_COST = 3.95;
 export const FREE_SHIPPING_THRESHOLD = 100;
