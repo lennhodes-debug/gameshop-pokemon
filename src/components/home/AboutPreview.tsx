@@ -49,9 +49,9 @@ function ArcadeDigit({ digit, delay }: { digit: string; delay: number }) {
 
   return (
     <div className={`relative w-7 h-10 lg:w-9 lg:h-12 rounded-md flex items-center justify-center overflow-hidden transition-all duration-300 ${settled ? 'bg-[#081018] border-emerald-500/20' : 'bg-[#0a1020] border-white/[0.04]'} border`}>
-      {/* CRT scanlines */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none" style={{
-        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.2) 2px, rgba(0,0,0,0.2) 4px)',
+      {/* CRT scanlines (subtiel) */}
+      <div className="absolute inset-0 opacity-[0.12] pointer-events-none" style={{
+        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)',
       }} />
       {/* Flip-display split lijn */}
       <div className="absolute left-0 right-0 top-1/2 h-px bg-black/40 z-10" />

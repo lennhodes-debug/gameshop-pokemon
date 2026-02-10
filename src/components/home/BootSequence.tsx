@@ -166,28 +166,22 @@ export default function BootSequence() {
                 }}
               />
 
-              {/* Vonken langs de ring */}
+              {/* Vonken langs de ring — CSS-based positioning */}
               {warpRadius < 90 && Array.from({ length: 16 }).map((_, i) => {
                 const angle = (Math.PI * 2 * i) / 16 + warpRadius * 0.02;
-                // vmax naar viewport-eenheden benadering
-                const vw = typeof window !== 'undefined' ? window.innerWidth : 1920;
-                const vh = typeof window !== 'undefined' ? window.innerHeight : 1080;
-                const vmax = Math.max(vw, vh);
-                const rPx = (warpRadius / 100) * vmax;
-                const sparkX = vw / 2 + Math.cos(angle) * rPx;
-                const sparkY = vh / 2 + Math.sin(angle) * rPx;
+                const sparkColors = ['#34d399', '#06b6d4', '#a3e635'];
                 return (
                   <div
                     key={i}
                     className="absolute rounded-full pointer-events-none"
                     style={{
-                      width: 3 + Math.random() * 2,
-                      height: 3 + Math.random() * 2,
-                      left: sparkX,
-                      top: sparkY,
+                      width: 4,
+                      height: 4,
+                      left: `calc(50% + ${Math.cos(angle) * warpRadius}vmax)`,
+                      top: `calc(50% + ${Math.sin(angle) * warpRadius}vmax)`,
                       transform: 'translate(-50%, -50%)',
-                      backgroundColor: i % 3 === 0 ? '#34d399' : i % 3 === 1 ? '#06b6d4' : '#a3e635',
-                      opacity: ringOpacity * (0.5 + Math.random() * 0.5),
+                      backgroundColor: sparkColors[i % 3],
+                      opacity: ringOpacity * 0.7,
                       boxShadow: `0 0 6px rgba(16, 185, 129, ${ringOpacity * 0.8})`,
                     }}
                   />
