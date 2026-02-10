@@ -346,7 +346,7 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
             >
-              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1">
+              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1" role="status" aria-live="polite">
                 <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filtered.length}</span> resultaten
               </span>
 
