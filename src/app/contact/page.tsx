@@ -28,9 +28,38 @@ const contactMethods = [
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ naam: '', email: '', onderwerp: '', bericht: '' });
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const validations: Record<string, { test: (v: string) => boolean; message: string }> = {
+    naam: { test: (v) => v.trim().length > 0, message: 'Naam is verplicht' },
+    email: { test: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Voer een geldig e-mailadres in' },
+    onderwerp: { test: (v) => v.length > 0, message: 'Selecteer een onderwerp' },
+    bericht: { test: (v) => v.trim().length >= 10, message: 'Bericht moet minimaal 10 tekens bevatten' },
+  };
+
+  const getError = (field: string) => {
+    if (!touched[field]) return null;
+    const rule = validations[field];
+    return rule && !rule.test(formData[field as keyof typeof formData]) ? rule.message : null;
+  };
+
+  const handleBlur = (field: string) => setTouched(prev => ({ ...prev, [field]: true }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const allTouched: Record<string, boolean> = {};
+    let hasErrors = false;
+    for (const field of Object.keys(validations)) {
+      allTouched[field] = true;
+      if (!validations[field].test(formData[field as keyof typeof formData])) hasErrors = true;
+    }
+    setTouched(prev => ({ ...prev, ...allTouched }));
+    if (hasErrors) {
+      setTimeout(() => {
+        document.querySelector('.text-red-500')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 50);
+      return;
+    }
     const subject = encodeURIComponent(`Contact: ${formData.onderwerp || 'Vraag'}`);
     const body = encodeURIComponent(
       `Naam: ${formData.naam}\nE-mail: ${formData.email}\nOnderwerp: ${formData.onderwerp}\n\n${formData.bericht}`
@@ -242,41 +271,43 @@ export default function ContactPage() {
                   </button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam</label>
+                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
                       <input
                         id="name"
                         type="text"
-                        required
                         value={formData.naam}
                         onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
-                        className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
+                        onBlur={() => handleBlur('naam')}
+                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                         placeholder="Je naam"
                       />
+                      {getError('naam') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('naam')}</p>}
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail</label>
+                      <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail *</label>
                       <input
                         id="email"
                         type="email"
-                        required
                         value={formData.email}
                         onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                        className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all"
+                        onBlur={() => handleBlur('email')}
+                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                         placeholder="je@email.nl"
                       />
+                      {getError('email') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('email')}</p>}
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp</label>
+                    <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp *</label>
                     <select
                       id="subject"
-                      required
                       value={formData.onderwerp}
                       onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
-                      className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all appearance-none"
+                      onBlur={() => handleBlur('onderwerp')}
+                      className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                     >
                       <option value="">Selecteer een onderwerp</option>
                       <option value="Vraag over een bestelling">Vraag over een bestelling</option>
@@ -285,18 +316,20 @@ export default function ContactPage() {
                       <option value="Advies over een game of console">Advies over een game of console</option>
                       <option value="Overig">Overig</option>
                     </select>
+                    {getError('onderwerp') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('onderwerp')}</p>}
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht</label>
+                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht *</label>
                     <textarea
                       id="message"
-                      required
                       rows={5}
                       value={formData.bericht}
                       onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
-                      className="block w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all resize-none"
-                      placeholder="Typ je bericht..."
+                      onBlur={() => handleBlur('bericht')}
+                      className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                      placeholder="Typ je bericht... (minimaal 10 tekens)"
                     />
+                    {getError('bericht') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('bericht')}</p>}
                   </div>
                   <Button type="submit" size="lg" className="w-full">
                     Versturen

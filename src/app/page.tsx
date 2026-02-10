@@ -3,9 +3,11 @@ import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import SectionDivider from '@/components/ui/SectionDivider';
-import GamingEraTimeline from '@/components/home/GamingEraTimeline';
-import GameSeriesShowcase from '@/components/home/GameSeriesShowcase';
-import CollectibleShowcase from '@/components/home/CollectibleShowcase';
+
+// Below-the-fold componenten — lazy loaded
+const GamingEraTimeline = dynamic(() => import('@/components/home/GamingEraTimeline'));
+const GameSeriesShowcase = dynamic(() => import('@/components/home/GameSeriesShowcase'));
+const CollectibleShowcase = dynamic(() => import('@/components/home/CollectibleShowcase'));
 
 // Boot sequence — eenmalig per sessie
 const BootSequence = dynamic(() => import('@/components/home/BootSequence'));

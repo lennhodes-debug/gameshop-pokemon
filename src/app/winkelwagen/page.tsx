@@ -1,12 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
-import { getAllProducts } from '@/lib/products';
+import { getAllProducts, Product } from '@/lib/products';
 
 export default function WinkelwagenPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCart();
@@ -16,6 +16,19 @@ export default function WinkelwagenPage() {
   const total = subtotal + shipping;
   const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+
+  // Recent bekeken producten voor lege winkelwagen
+  const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
+  useEffect(() => {
+    if (items.length > 0) return;
+    try {
+      const stored: string[] = JSON.parse(localStorage.getItem('gameshop-recent') || '[]');
+      if (stored.length === 0) return;
+      const all = getAllProducts();
+      const found = stored.slice(0, 6).map(sku => all.find(p => p.sku === sku)).filter((p): p is Product => !!p);
+      setRecentlyViewed(found);
+    } catch { /* ignore */ }
+  }, [items.length]);
 
   const suggestions = useMemo(() => {
     if (items.length === 0) return [];
@@ -86,6 +99,38 @@ export default function WinkelwagenPage() {
                 </svg>
               </motion.span>
             </Link>
+
+            {/* Recent bekeken producten */}
+            {recentlyViewed.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-16 text-left max-w-2xl mx-auto"
+              >
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 text-center">Eerder bekeken</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {recentlyViewed.map((product) => {
+                    const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
+                    return (
+                      <Link key={product.sku} href={`/shop/${product.sku}`} className="group">
+                        <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`}`}>
+                          {product.image ? (
+                            <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-white/20 text-lg font-bold">
+                              {PLATFORM_LABELS[product.platform] || product.platform}
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{product.name}</p>
+                        <p className="text-xs font-bold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-8">
