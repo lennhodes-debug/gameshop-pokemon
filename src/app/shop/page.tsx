@@ -291,28 +291,67 @@ function ShopContent() {
           />
         </motion.div>
 
-        {/* Active filters strip */}
+        {/* Active filters strip met chips */}
         <AnimatePresence>
-          {activeFilterCount > 0 && (
+          {(activeFilterCount > 0 || debouncedSearch) && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-4 flex items-center gap-3 overflow-hidden"
+              className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
             >
-              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0">
-                <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
+              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1">
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filtered.length}</span> resultaten
               </span>
-              <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
-              <button
-                onClick={clearFilters}
-                className="text-sm text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
-              >
-                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                Filters wissen
-              </button>
+
+              {debouncedSearch && (
+                <button onClick={() => setSearch('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors">
+                  &ldquo;{debouncedSearch}&rdquo;
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+              {platform && (
+                <button onClick={() => setPlatform('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                  {platform}
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+              {genre && (
+                <button onClick={() => setGenre('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 text-xs font-semibold hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
+                  {genre}
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+              {condition && (
+                <button onClick={() => setCondition('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 text-xs font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors">
+                  {condition}
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+              {category && (
+                <button onClick={() => setCategory('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 text-cyan-700 dark:text-cyan-400 text-xs font-semibold hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors">
+                  {category === 'games' ? 'Games' : 'Consoles'}
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+              {completeness && (
+                <button onClick={() => setCompleteness('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 text-xs font-semibold hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors">
+                  {completeness === 'cib' ? 'Compleet (CIB)' : 'Los'}
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              )}
+
+              {activeFilterCount > 1 && (
+                <>
+                  <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
+                  <button
+                    onClick={clearFilters}
+                    className="text-xs text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
+                  >
+                    Alles wissen
+                  </button>
+                </>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

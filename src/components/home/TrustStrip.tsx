@@ -11,7 +11,7 @@ const trustItems = [
       </svg>
     ),
     title: '100% Origineel',
-    description: 'Alle 790+ producten persoonlijk getest',
+    description: 'Alle 846+ producten persoonlijk getest',
     gradient: 'from-emerald-500 to-teal-500',
     glow: 'rgba(16,185,129,0.2)',
   },

@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     siteName: 'Gameshop Enter',
     title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     description:
-      'De online Nintendo specialist van Nederland. 790+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
+      'De online Nintendo specialist van Nederland. 846+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
         url: '/images/og-image.png',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     description:
-      'De online Nintendo specialist van Nederland. 790+ originele games & consoles, persoonlijk getest.',
+      'De online Nintendo specialist van Nederland. 846+ originele games & consoles, persoonlijk getest.',
     images: ['/images/og-image.png'],
   },
   robots: {

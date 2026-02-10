@@ -212,8 +212,9 @@ export default function WinkelwagenPage() {
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.sku, item.quantity + 1)}
+                              disabled={item.quantity >= 10}
                               aria-label={`Aantal ${item.product.name} verhogen`}
-                              className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
+                              className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                               +
                             </motion.button>
