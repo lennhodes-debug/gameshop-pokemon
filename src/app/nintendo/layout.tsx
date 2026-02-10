@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: 'Het Verhaal van Nintendo - 137 Jaar Innovatie',
   description:
     'Ontdek de volledige geschiedenis van Nintendo: van hanafuda kaarten in 1889 tot de Nintendo Switch. Een interactieve reis door 137 jaar gaming innovatie.',
+  alternates: { canonical: 'https://gameshopenter.nl/nintendo' },
   openGraph: {
     title: 'Het Verhaal van Nintendo - 137 Jaar Innovatie | Gameshop Enter',
     description:

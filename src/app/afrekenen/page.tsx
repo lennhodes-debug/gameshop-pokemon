@@ -119,7 +119,17 @@ export default function AfrekenPage() {
     }
     setTouched((prev) => ({ ...prev, ...allTouched }));
 
-    if (hasErrors) return;
+    if (hasErrors) {
+      // Scroll naar eerste veld met fout
+      setTimeout(() => {
+        const firstError = document.querySelector('.text-red-500');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 50);
+      addToast('Vul alle verplichte velden correct in', 'error');
+      return;
+    }
 
     setIsProcessing(true);
 

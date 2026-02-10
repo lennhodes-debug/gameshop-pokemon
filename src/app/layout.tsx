@@ -13,6 +13,7 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import ComboOverlay from '@/components/cart/ComboOverlay';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
     siteName: 'Gameshop Enter',
     title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     description:
-      'De online Nintendo specialist van Nederland. 790+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
+      'De online Nintendo specialist van Nederland. 846+ originele games & consoles, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
         url: '/images/og-image.png',
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Gameshop Enter - De Nintendo Specialist van Nederland',
     description:
-      'De online Nintendo specialist van Nederland. 790+ originele games & consoles, persoonlijk getest.',
+      'De online Nintendo specialist van Nederland. 846+ originele games & consoles, persoonlijk getest.',
     images: ['/images/og-image.png'],
   },
   robots: {
@@ -150,7 +151,9 @@ export default function RootLayout({
             <ToastProvider>
               <Header />
               <main id="main-content" className="min-h-screen">
-                <PageTransition>{children}</PageTransition>
+                <ErrorBoundary>
+                  <PageTransition>{children}</PageTransition>
+                </ErrorBoundary>
               </main>
               <Footer />
               <BackToTop />

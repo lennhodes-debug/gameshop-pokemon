@@ -8,6 +8,7 @@ import ProductCard from './ProductCard';
 interface ProductGridProps {
   products: Product[];
   onQuickView?: (product: Product) => void;
+  searchQuery?: string;
 }
 
 // Scroll-driven 3D shelf tilt per card
@@ -38,7 +39,7 @@ function ShelfCard({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function ProductGrid({ products, onQuickView }: ProductGridProps) {
+export default function ProductGrid({ products, onQuickView, searchQuery }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <motion.div
@@ -76,7 +77,7 @@ export default function ProductGrid({ products, onQuickView }: ProductGridProps)
           }}
         >
           <ShelfCard>
-            <ProductCard product={product} onQuickView={onQuickView} />
+            <ProductCard product={product} onQuickView={onQuickView} searchQuery={searchQuery} />
           </ShelfCard>
         </motion.div>
       ))}

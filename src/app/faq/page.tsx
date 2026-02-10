@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Accordion from '@/components/ui/Accordion';
 
 const faqItems = [
@@ -99,6 +100,16 @@ const heroChild = {
 };
 
 export default function FaqPage() {
+  const [search, setSearch] = useState('');
+
+  const filteredItems = useMemo(() => {
+    if (!search.trim()) return faqItems;
+    const q = search.toLowerCase();
+    return faqItems.filter(
+      (item) => item.question.toLowerCase().includes(q) || item.answer.toLowerCase().includes(q)
+    );
+  }, [search]);
+
   return (
     <div className="pt-20 lg:pt-24">
       <script
@@ -139,6 +150,47 @@ export default function FaqPage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+        {/* Zoekbalk */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-6"
+        >
+          <div className="relative">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Zoek in veelgestelde vragen..."
+              className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all"
+            />
+            <AnimatePresence>
+              {search && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  onClick={() => setSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                >
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+          {search && (
+            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 pl-1">
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filteredItems.length}</span> {filteredItems.length === 1 ? 'resultaat' : 'resultaten'} gevonden
+            </p>
+          )}
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -146,7 +198,16 @@ export default function FaqPage() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
           className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8"
         >
-          <Accordion items={faqItems} />
+          {filteredItems.length > 0 ? (
+            <Accordion items={filteredItems} />
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">Geen vragen gevonden voor &ldquo;{search}&rdquo;</p>
+              <button onClick={() => setSearch('')} className="text-sm text-emerald-600 dark:text-emerald-400 font-semibold hover:text-emerald-700 transition-colors">
+                Zoekopdracht wissen
+              </button>
+            </div>
+          )}
         </motion.div>
 
         <motion.div

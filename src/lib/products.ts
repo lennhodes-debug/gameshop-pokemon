@@ -36,22 +36,27 @@ export function getProductsByPlatform(platform: string): Product[] {
   return getAllProducts().filter((p) => p.platform === platform);
 }
 
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export function getFeaturedProducts(): Product[] {
   const products = getAllProducts();
   const hasImage = (p: Product) => !!p.image;
-  const premium = products.filter(p => p.isPremium && hasImage(p)).slice(0, 4);
-  const premiumSkus = new Set(premium.map(p => p.sku));
-  const premiumFallback = premium.length < 4
-    ? products.filter(p => p.isPremium && !premiumSkus.has(p.sku)).slice(0, 4 - premium.length)
-    : [];
-  const usedSkus = new Set([...premium, ...premiumFallback].map(p => p.sku));
-  const consoles = products.filter(p => p.isConsole && hasImage(p) && !usedSkus.has(p.sku)).slice(0, 2);
-  const consoleFallback = consoles.length < 2
-    ? products.filter(p => p.isConsole && !usedSkus.has(p.sku) && !consoles.some(c => c.sku === p.sku)).slice(0, 2 - consoles.length)
-    : [];
-  const allUsed = new Set([...Array.from(usedSkus), ...consoles.map(p => p.sku), ...consoleFallback.map(p => p.sku)]);
-  const others = products.filter(p => !allUsed.has(p.sku) && hasImage(p) && p.price > 25).slice(0, 2);
-  return [...premium, ...premiumFallback, ...consoles, ...consoleFallback, ...others].slice(0, 8);
+  const premiumPool = shuffleArray(products.filter(p => p.isPremium && hasImage(p)));
+  const premium = premiumPool.slice(0, 4);
+  const usedSkus = new Set(premium.map(p => p.sku));
+  const consolePool = shuffleArray(products.filter(p => p.isConsole && hasImage(p) && !usedSkus.has(p.sku)));
+  const consoles = consolePool.slice(0, 2);
+  consoles.forEach(p => usedSkus.add(p.sku));
+  const othersPool = shuffleArray(products.filter(p => !usedSkus.has(p.sku) && hasImage(p) && p.price > 25));
+  const others = othersPool.slice(0, 2);
+  return [...premium, ...consoles, ...others].slice(0, 8);
 }
 
 export function getRelatedProducts(product: Product, limit = 4): Product[] {

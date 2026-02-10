@@ -300,7 +300,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.6 }}
             className="text-lg sm:text-xl text-white/60 leading-relaxed mb-10 max-w-xl mx-auto"
           >
-            Van klassieke NES-parels tot de nieuwste Switch-titels — elk product origineel, getest en met liefde verpakt. 790+ games & consoles op voorraad.
+            Van klassieke NES-parels tot de nieuwste Switch-titels — elk product origineel, getest en met liefde verpakt. 846+ games & consoles op voorraad.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -335,7 +335,7 @@ export default function Hero() {
             className="flex justify-center gap-12 mt-16"
           >
             {[
-              { target: 790, suffix: '+', label: 'Games & Consoles' },
+              { target: 846, suffix: '+', label: 'Games & Consoles' },
               { target: 12, suffix: '', label: 'Platforms' },
               { target: 100, suffix: '%', label: 'Origineel' },
             ].map((stat, i) => (

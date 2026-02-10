@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,20 +18,42 @@ interface QuickViewProps {
 export default function QuickView({ product, onClose }: QuickViewProps) {
   const { addItem } = useCart();
   const { addToast } = useToast();
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleEscape = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') onClose();
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') { onClose(); return; }
+    // Focus trap
+    if (e.key === 'Tab' && modalRef.current) {
+      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   }, [onClose]);
 
   useEffect(() => {
     if (!product) return;
-    document.addEventListener('keydown', handleEscape);
+    document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
+    // Focus first focusable element
+    setTimeout(() => {
+      const first = modalRef.current?.querySelector<HTMLElement>('a[href], button:not([disabled])');
+      first?.focus();
+    }, 100);
     return () => {
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [product, handleEscape]);
+  }, [product, handleKeyDown]);
 
   const handleAdd = () => {
     if (!product) return;
@@ -64,6 +86,10 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
             exit={{ opacity: 0 }}
           >
             <motion.div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={product ? `${product.name} snelle weergave` : ''}
               className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto max-h-[90vh] overflow-y-auto"
               initial={{ scale: 0.9, y: 40 }}
               animate={{ scale: 1, y: 0 }}

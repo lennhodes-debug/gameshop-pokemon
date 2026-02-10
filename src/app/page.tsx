@@ -3,15 +3,23 @@ import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import SectionDivider from '@/components/ui/SectionDivider';
-import GamingEraTimeline from '@/components/home/GamingEraTimeline';
-import GameSeriesShowcase from '@/components/home/GameSeriesShowcase';
-import CollectibleShowcase from '@/components/home/CollectibleShowcase';
+
+// Below-the-fold componenten — lazy loaded
+const GamingEraTimeline = dynamic(() => import('@/components/home/GamingEraTimeline'));
+const GameSeriesShowcase = dynamic(() => import('@/components/home/GameSeriesShowcase'));
+const CollectibleShowcase = dynamic(() => import('@/components/home/CollectibleShowcase'));
 
 // Boot sequence — eenmalig per sessie
 const BootSequence = dynamic(() => import('@/components/home/BootSequence'));
 
 // Console Museum — scroll-driven 3D showcase
 const ConsoleMuseum = dynamic(() => import('@/components/home/ConsoleMuseum'));
+
+// Scroll achievements — retro game popup systeem
+const ScrollAchievements = dynamic(() => import('@/components/home/ScrollAchievements'));
+
+// Color Worlds — achtergrondkleur morpht mee met scroll
+const ColorWorldBackground = dynamic(() => import('@/components/home/ColorWorldBackground'));
 
 // Lazy load componenten die niet boven de fold staan (met SSR voor SEO)
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
@@ -26,6 +34,8 @@ export default function HomePage() {
   return (
     <>
       <BootSequence />
+      <ScrollAchievements />
+      <ColorWorldBackground />
       <Hero />
       <TrustStrip />
       <SectionDivider variant="trust-to-products" />

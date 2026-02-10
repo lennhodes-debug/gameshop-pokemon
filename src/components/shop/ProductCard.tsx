@@ -16,9 +16,25 @@ import { useToast } from '@/components/ui/Toast';
 interface ProductCardProps {
   product: Product;
   onQuickView?: (product: Product) => void;
+  searchQuery?: string;
 }
 
-export default function ProductCard({ product, onQuickView }: ProductCardProps) {
+function HighlightText({ text, query }: { text: string; query?: string }) {
+  if (!query || query.length < 2) return <>{text}</>;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        regex.test(part)
+          ? <mark key={i} className="bg-emerald-200/60 dark:bg-emerald-500/30 text-inherit rounded-sm px-0.5">{part}</mark>
+          : part
+      )}
+    </>
+  );
+}
+
+export default function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
   const { addToast } = useToast();
@@ -28,6 +44,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
   const [addedToCart, setAddedToCart] = useState(false);
   const [confetti, setConfetti] = useState<{ x: number; y: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const [flyData, setFlyData] = useState<{ from: DOMRect; to: DOMRect; image: string } | null>(null);
   const [flipped, setFlipped] = useState(false);
 
@@ -202,8 +219,8 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
         {/* Product image */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-52 ${product.image ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
-            {product.image ? (
+          <div className={`relative h-52 ${product.image && !imageError ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+            {product.image && !imageError ? (
               <>
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-slate-100 dark:bg-slate-800">
@@ -218,6 +235,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                   className={cn("object-contain p-4 group-hover:scale-105 transition-all duration-700 ease-out will-change-transform", imageLoaded ? "opacity-100" : "opacity-0")}
                   priority={false}
                   onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageError(true)}
                 />
                 {/* Diagonal shimmer sweep on hover */}
                 <motion.div
@@ -307,7 +325,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
           <Link href={`/shop/${product.sku}`}>
             <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug mb-1 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
-              {product.name}
+              <HighlightText text={product.name} query={searchQuery} />
             </h3>
           </Link>
 

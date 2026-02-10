@@ -14,6 +14,8 @@ interface CartContextType {
   getItemCount: () => number;
 }
 
+const MAX_QUANTITY = 10;
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -46,9 +48,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => {
       const existing = prev.find((item) => item.product.sku === product.sku);
       if (existing) {
+        if (existing.quantity >= MAX_QUANTITY) return prev;
         return prev.map((item) =>
           item.product.sku === product.sku
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: Math.min(item.quantity + 1, MAX_QUANTITY) }
             : item
         );
       }
@@ -67,9 +70,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setItems((prev) => prev.filter((item) => item.product.sku !== sku));
       return;
     }
+    const clamped = Math.min(quantity, MAX_QUANTITY);
     setItems((prev) =>
       prev.map((item) =>
-        item.product.sku === sku ? { ...item, quantity } : item
+        item.product.sku === sku ? { ...item, quantity: clamped } : item
       )
     );
   }, []);

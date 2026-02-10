@@ -1,15 +1,17 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/components/cart/CartProvider';
+import { useToast } from '@/components/ui/Toast';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
-import { getAllProducts } from '@/lib/products';
+import { getAllProducts, Product } from '@/lib/products';
 
 export default function WinkelwagenPage() {
-  const { items, removeItem, updateQuantity, getTotal, clearCart } = useCart();
+  const { items, addItem, removeItem, updateQuantity, getTotal, clearCart } = useCart();
+  const { addToast } = useToast();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const subtotal = getTotal();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
@@ -17,17 +19,40 @@ export default function WinkelwagenPage() {
   const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
 
+  // Recent bekeken producten voor lege winkelwagen
+  const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
+  useEffect(() => {
+    if (items.length > 0) return;
+    try {
+      const stored: string[] = JSON.parse(localStorage.getItem('gameshop-recent') || '[]');
+      if (stored.length === 0) return;
+      const all = getAllProducts();
+      const found = stored.slice(0, 6).map(sku => all.find(p => p.sku === sku)).filter((p): p is Product => !!p);
+      setRecentlyViewed(found);
+    } catch { /* ignore */ }
+  }, [items.length]);
+
   const suggestions = useMemo(() => {
     if (items.length === 0) return [];
     const cartSkus = new Set(items.map((i) => i.product.sku));
     const cartPlatforms = Array.from(new Set(items.map((i) => i.product.platform)));
+    const cartGenres = Array.from(new Set(items.map((i) => i.product.genre)));
+    const avgPrice = items.reduce((s, i) => s + i.product.price, 0) / items.length;
     const all = getAllProducts();
-    const candidates = all.filter(
-      (p) => !cartSkus.has(p.sku) && cartPlatforms.includes(p.platform) && !!p.image
-    );
-    // Shuffle deterministically based on cart contents
-    const shuffled = candidates.sort((a, b) => a.sku.localeCompare(b.sku));
-    return shuffled.slice(0, 4);
+    const candidates = all.filter((p) => !cartSkus.has(p.sku) && !!p.image);
+
+    // Score gebaseerd op platform match, genre match, en prijs nabijheid
+    const scored = candidates.map((p) => {
+      let score = 0;
+      if (cartPlatforms.includes(p.platform)) score += 3;
+      if (cartGenres.includes(p.genre)) score += 2;
+      const priceDiff = Math.abs(p.price - avgPrice);
+      if (priceDiff < 10) score += 2;
+      else if (priceDiff < 25) score += 1;
+      return { product: p, score };
+    });
+    scored.sort((a, b) => b.score - a.score || a.product.name.localeCompare(b.product.name));
+    return scored.slice(0, 4).map((s) => s.product);
   }, [items]);
 
   return (
@@ -86,6 +111,38 @@ export default function WinkelwagenPage() {
                 </svg>
               </motion.span>
             </Link>
+
+            {/* Recent bekeken producten */}
+            {recentlyViewed.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mt-16 text-left max-w-2xl mx-auto"
+              >
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 text-center">Eerder bekeken</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {recentlyViewed.map((product) => {
+                    const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
+                    return (
+                      <Link key={product.sku} href={`/shop/${product.sku}`} className="group">
+                        <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`}`}>
+                          {product.image ? (
+                            <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-white/20 text-lg font-bold">
+                              {PLATFORM_LABELS[product.platform] || product.platform}
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{product.name}</p>
+                        <p className="text-xs font-bold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-8">
@@ -212,8 +269,9 @@ export default function WinkelwagenPage() {
                             <motion.button
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(item.product.sku, item.quantity + 1)}
+                              disabled={item.quantity >= 10}
                               aria-label={`Aantal ${item.product.name} verhogen`}
-                              className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
+                              className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                               +
                             </motion.button>
@@ -294,30 +352,44 @@ export default function WinkelwagenPage() {
                     {suggestions.map((product) => {
                       const c = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
                       return (
-                        <Link key={product.sku} href={`/shop/${product.sku}`}>
-                          <motion.div
-                            whileHover={{ scale: 1.03, y: -2 }}
-                            className="bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
+                        <div key={product.sku} className="group">
+                          <Link href={`/shop/${product.sku}`}>
+                            <motion.div
+                              whileHover={{ scale: 1.03, y: -2 }}
+                              className="bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
+                            >
+                              <div className="aspect-square bg-slate-50 dark:bg-slate-700 relative">
+                                <Image
+                                  src={product.image!}
+                                  alt={product.name}
+                                  fill
+                                  sizes="(max-width: 640px) 50vw, 25vw"
+                                  className="object-contain p-3"
+                                />
+                              </div>
+                              <div className="p-3">
+                                <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{product.name}</p>
+                                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
+                                  <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${c.from} ${c.to}`} />
+                                  {product.platform}
+                                </p>
+                                <div className="flex items-center justify-between mt-1.5">
+                                  <p className="text-sm font-extrabold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+                                </div>
+                              </div>
+                            </motion.div>
+                          </Link>
+                          <motion.button
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => { addItem(product); addToast(`${product.name} toegevoegd`, 'success', undefined, product.image || undefined); }}
+                            className="w-full mt-1.5 px-3 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors flex items-center justify-center gap-1.5"
                           >
-                            <div className="aspect-square bg-slate-50 dark:bg-slate-700 relative">
-                              <Image
-                                src={product.image!}
-                                alt={product.name}
-                                fill
-                                sizes="(max-width: 640px) 50vw, 25vw"
-                                className="object-contain p-3"
-                              />
-                            </div>
-                            <div className="p-3">
-                              <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{product.name}</p>
-                              <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
-                                <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${c.from} ${c.to}`} />
-                                {product.platform}
-                              </p>
-                              <p className="text-sm font-extrabold text-slate-900 dark:text-white mt-1.5">{formatPrice(product.price)}</p>
-                            </div>
-                          </motion.div>
-                        </Link>
+                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            Toevoegen
+                          </motion.button>
+                        </div>
                       );
                     })}
                   </div>
