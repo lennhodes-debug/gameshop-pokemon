@@ -13,6 +13,7 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import ComboOverlay from '@/components/cart/ComboOverlay';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -150,7 +151,9 @@ export default function RootLayout({
             <ToastProvider>
               <Header />
               <main id="main-content" className="min-h-screen">
-                <PageTransition>{children}</PageTransition>
+                <ErrorBoundary>
+                  <PageTransition>{children}</PageTransition>
+                </ErrorBoundary>
               </main>
               <Footer />
               <BackToTop />

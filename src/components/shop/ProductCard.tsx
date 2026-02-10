@@ -28,6 +28,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
   const [addedToCart, setAddedToCart] = useState(false);
   const [confetti, setConfetti] = useState<{ x: number; y: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const [flyData, setFlyData] = useState<{ from: DOMRect; to: DOMRect; image: string } | null>(null);
   const [flipped, setFlipped] = useState(false);
 
@@ -202,8 +203,8 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
         {/* Product image */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-52 ${product.image ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
-            {product.image ? (
+          <div className={`relative h-52 ${product.image && !imageError ? 'bg-gradient-to-b from-slate-50 to-white dark:from-slate-700 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+            {product.image && !imageError ? (
               <>
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-slate-100 dark:bg-slate-800">
@@ -218,6 +219,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                   className={cn("object-contain p-4 group-hover:scale-105 transition-all duration-700 ease-out will-change-transform", imageLoaded ? "opacity-100" : "opacity-0")}
                   priority={false}
                   onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageError(true)}
                 />
                 {/* Diagonal shimmer sweep on hover */}
                 <motion.div
