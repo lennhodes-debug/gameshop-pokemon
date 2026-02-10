@@ -54,6 +54,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [added, setAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [viewMode, setViewMode] = useState<'flat' | '3d'>('flat');
+  const [showBack, setShowBack] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   // Lightbox: escape toets + body scroll lock
@@ -235,15 +236,51 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </div>
                   </div>
                 )}
-                <Image
-                  src={product.image}
-                  alt={`${product.name} - ${product.platform} cover art`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className={`object-contain p-10 transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} group-hover:scale-105`}
-                  priority
-                  onLoad={() => setImageLoaded(true)}
-                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={showBack ? 'back' : 'front'}
+                    initial={{ opacity: 0, rotateY: showBack ? 90 : -90 }}
+                    animate={{ opacity: 1, rotateY: 0 }}
+                    exit={{ opacity: 0, rotateY: showBack ? -90 : 90 }}
+                    transition={{ duration: 0.35 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={showBack && product.backImage ? product.backImage : product.image!}
+                      alt={`${product.name} - ${product.platform} ${showBack ? 'achterkant' : 'cover art'}`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className={`object-contain p-10 transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} group-hover:scale-105`}
+                      priority
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                {/* Voor/Achter toggle */}
+                {product.backImage && (
+                  <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
+                    <button
+                      onClick={() => setShowBack(false)}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all ${
+                        !showBack
+                          ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400'
+                      }`}
+                    >
+                      Voor
+                    </button>
+                    <button
+                      onClick={() => setShowBack(true)}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all ${
+                        showBack
+                          ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400'
+                      }`}
+                    >
+                      Achter
+                    </button>
+                  </div>
+                )}
                 {/* Spotlight overlay */}
                 {imageHovered && (
                   <motion.div

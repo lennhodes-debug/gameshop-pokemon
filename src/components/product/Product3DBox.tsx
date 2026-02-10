@@ -450,7 +450,7 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
             </div>
           </div>
 
-          {/* BACK — Uitgebreide achterkant */}
+          {/* BACK — Echte achterkant-foto of gegenereerde info */}
           <div
             className="absolute inset-0 rounded-xl overflow-hidden shadow-2xl"
             style={{
@@ -458,56 +458,68 @@ export default function Product3DBox({ product }: Product3DBoxProps) {
               backfaceVisibility: 'hidden',
               width: WIDTH,
               height: HEIGHT,
-              background: `linear-gradient(160deg, ${hex.bg}25, #111827 40%, #111827 60%, ${hex.accent}20)`,
+              background: product.backImage ? '#111827' : `linear-gradient(160deg, ${hex.bg}25, #111827 40%, #111827 60%, ${hex.accent}20)`,
               border: `1px solid rgba(${hex.glow},0.15)`,
             }}
           >
-            <div className="h-full flex flex-col p-6">
-              {/* Platform header */}
-              <div className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-2" style={{ background: `linear-gradient(135deg, ${hex.bg}, ${hex.accent})` }}>
-                <span className="text-white text-xs font-black uppercase tracking-[0.15em] flex-1">{product.platform}</span>
-                <span className="text-white/60 text-[9px] font-bold">{product.sku}</span>
-              </div>
-
-              {/* Cover art thumbnail */}
-              {product.image && (
-                <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden mb-4 border border-white/10">
-                  <Image
-                    src={product.image}
-                    alt=""
-                    fill
-                    sizes="300px"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            {product.backImage ? (
+              /* Echte achterkant-foto */
+              <>
+                <Image
+                  src={product.backImage}
+                  alt={`${product.name} achterkant`}
+                  fill
+                  sizes="340px"
+                  className="object-contain p-8"
+                />
+                {/* Subtiele shimmer ook op achterkant */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: `linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 55%, transparent 70%)`,
+                    backgroundSize: '300% 100%',
+                    backgroundPositionX: shimmerX,
+                  }}
+                />
+              </>
+            ) : (
+              /* Gegenereerde achterkant */
+              <div className="h-full flex flex-col p-6">
+                <div className="rounded-xl px-4 py-2.5 mb-4 flex items-center gap-2" style={{ background: `linear-gradient(135deg, ${hex.bg}, ${hex.accent})` }}>
+                  <span className="text-white text-xs font-black uppercase tracking-[0.15em] flex-1">{product.platform}</span>
+                  <span className="text-white/60 text-[9px] font-bold">{product.sku}</span>
                 </div>
-              )}
 
-              {/* Beschrijving */}
-              <p className="text-[11px] text-slate-300 leading-relaxed mb-4 line-clamp-3">
-                {product.description || `Ontdek ${product.name} voor ${product.platform}.`}
-              </p>
-
-              {/* Specs */}
-              <div className="space-y-2 mb-4 flex-1">
-                {[
-                  { l: 'Genre', v: product.genre },
-                  { l: 'Conditie', v: product.condition },
-                  { l: 'Compleetheid', v: product.completeness },
-                ].map((s) => (
-                  <div key={s.l} className="flex justify-between items-center text-[10px]">
-                    <span className="text-slate-500 uppercase tracking-wider font-medium">{s.l}</span>
-                    <span className="font-bold text-slate-200">{s.v}</span>
+                {product.image && (
+                  <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden mb-4 border border-white/10">
+                    <Image src={product.image} alt="" fill sizes="300px" className="object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   </div>
-                ))}
-              </div>
+                )}
 
-              {/* Prijs + Nintendo footer */}
-              <div className="rounded-xl px-4 py-3 mt-auto flex items-center justify-between" style={{ background: `linear-gradient(135deg, rgba(${hex.glow},0.15), rgba(${hex.glow},0.05))` }}>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Nintendo</span>
-                <span className="text-lg font-black text-white">€{product.salePrice ?? product.price}</span>
+                <p className="text-[11px] text-slate-300 leading-relaxed mb-4 line-clamp-3">
+                  {product.description || `Ontdek ${product.name} voor ${product.platform}.`}
+                </p>
+
+                <div className="space-y-2 mb-4 flex-1">
+                  {[
+                    { l: 'Genre', v: product.genre },
+                    { l: 'Conditie', v: product.condition },
+                    { l: 'Compleetheid', v: product.completeness },
+                  ].map((s) => (
+                    <div key={s.l} className="flex justify-between items-center text-[10px]">
+                      <span className="text-slate-500 uppercase tracking-wider font-medium">{s.l}</span>
+                      <span className="font-bold text-slate-200">{s.v}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-xl px-4 py-3 mt-auto flex items-center justify-between" style={{ background: `linear-gradient(135deg, rgba(${hex.glow},0.15), rgba(${hex.glow},0.05))` }}>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Nintendo</span>
+                  <span className="text-lg font-black text-white">€{product.salePrice ?? product.price}</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* LEFT SPINE */}
