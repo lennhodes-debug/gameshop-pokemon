@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Accordion from '@/components/ui/Accordion';
 
@@ -170,6 +171,11 @@ export default function FaqPage() {
         />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex items-center gap-2 text-sm text-slate-400 mb-4" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-emerald-400 transition-colors">Home</Link>
+            <svg className="h-3.5 w-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            <span className="text-slate-200 font-medium">FAQ</span>
+          </nav>
           <motion.div
             variants={heroStagger}
             initial="hidden"

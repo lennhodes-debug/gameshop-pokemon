@@ -243,3 +243,35 @@ html.dark ::-webkit-scrollbar-thumb:hover { background: linear-gradient(to botto
 }
 .retro-mode * { cursor: crosshair; }
 .retro-mode a, .retro-mode button, .retro-mode [role="button"] { cursor: pointer; }
+
+/* ===== SMOOTH LOADING SKELETON ===== */
+@keyframes skeleton-wave {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s ease-in-out infinite;
+  border-radius: 0.75rem;
+}
+html.dark .skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+}
+
+/* ===== GLASS CARD HOVER GLOW ===== */
+@keyframes card-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  50% { box-shadow: 0 0 20px 2px rgba(16, 185, 129, 0.08); }
+}
+.card-hover-glow:hover { animation: card-glow-pulse 2s ease-in-out infinite; }
+
+/* ===== SMOOTH PAGE SECTION TRANSITIONS ===== */
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(30px); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.animate-slide-up-fade {
+  animation: slide-up-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
