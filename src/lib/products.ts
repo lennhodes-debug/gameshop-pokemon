@@ -16,6 +16,7 @@ export interface Product {
   isConsole: boolean;
   isPremium: boolean;
   image?: string | null;
+  backImage?: string | null;
   inkoopPrijs?: number | null;
   pcUsedPrice?: number | null;
   inkoopFeatured?: boolean;
