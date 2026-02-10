@@ -8,6 +8,7 @@ export default function InkoopPage() {
     naam: '',
     email: '',
     telefoon: '',
+    platform: '',
     beschrijving: '',
   });
   const [submitted, setSubmitted] = useState(false);
@@ -19,7 +20,7 @@ export default function InkoopPage() {
   const generateMailto = () => {
     const subject = encodeURIComponent('Inkoop aanvraag — Games verkopen');
     const body = encodeURIComponent(
-      `Hallo Gameshop Enter,\n\nIk wil graag games/consoles verkopen.\n\nNaam: ${form.naam}\nE-mail: ${form.email}\nTelefoon: ${form.telefoon || 'Niet opgegeven'}\n\nBeschrijving:\n${form.beschrijving}\n\n(Foto's worden als bijlage meegestuurd)\n\nMet vriendelijke groet,\n${form.naam}`
+      `Hallo Gameshop Enter,\n\nIk wil graag games/consoles verkopen.\n\nNaam: ${form.naam}\nE-mail: ${form.email}\nTelefoon: ${form.telefoon || 'Niet opgegeven'}\nPlatform: ${form.platform || 'Niet opgegeven'}\n\nBeschrijving:\n${form.beschrijving}\n\n(Foto's worden als bijlage meegestuurd)\n\nMet vriendelijke groet,\n${form.naam}`
     );
     return `mailto:gameshopenter@gmail.com?subject=${subject}&body=${body}`;
   };
@@ -171,16 +172,41 @@ export default function InkoopPage() {
                       </div>
                     </div>
 
-                    <div>
-                      <label htmlFor="inkoop-telefoon" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Telefoon <span className="text-slate-400 font-normal">(optioneel)</span></label>
-                      <input
-                        id="inkoop-telefoon"
-                        type="tel"
-                        value={form.telefoon}
-                        onChange={(e) => updateField('telefoon', e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm dark:bg-slate-700 dark:text-white hover:border-slate-300 dark:hover:border-slate-500"
-                        placeholder="06-12345678"
-                      />
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="inkoop-telefoon" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Telefoon <span className="text-slate-400 font-normal">(optioneel)</span></label>
+                        <input
+                          id="inkoop-telefoon"
+                          type="tel"
+                          value={form.telefoon}
+                          onChange={(e) => updateField('telefoon', e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm dark:bg-slate-700 dark:text-white hover:border-slate-300 dark:hover:border-slate-500"
+                          placeholder="06-12345678"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="inkoop-platform" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Platform <span className="text-slate-400 font-normal">(optioneel)</span></label>
+                        <select
+                          id="inkoop-platform"
+                          value={form.platform}
+                          onChange={(e) => updateField('platform', e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm dark:bg-slate-700 dark:text-white hover:border-slate-300 dark:hover:border-slate-500 appearance-none bg-no-repeat bg-[right_12px_center] bg-[length:16px_16px] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke-width%3D%222%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M19.5%208.25l-7.5%207.5-7.5-7.5%22%2F%3E%3C%2Fsvg%3E')]"
+                        >
+                          <option value="">Kies platform...</option>
+                          <option value="Nintendo Switch">Nintendo Switch</option>
+                          <option value="Nintendo 3DS">Nintendo 3DS</option>
+                          <option value="Nintendo DS">Nintendo DS</option>
+                          <option value="Wii U">Wii U</option>
+                          <option value="Wii">Wii</option>
+                          <option value="GameCube">GameCube</option>
+                          <option value="Nintendo 64">Nintendo 64</option>
+                          <option value="Game Boy Advance">Game Boy Advance</option>
+                          <option value="Game Boy / Color">Game Boy / Color</option>
+                          <option value="Super Nintendo">Super Nintendo</option>
+                          <option value="NES">NES</option>
+                          <option value="Meerdere / Anders">Meerdere / Anders</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div>
