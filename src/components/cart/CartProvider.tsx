@@ -1,8 +1,22 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useMemo, useEffect, ReactNode } from 'react';
-import { Product } from '@/lib/products';
+import { Product, getEffectivePrice } from '@/lib/products';
 import { CartItem } from '@/lib/cart';
+
+interface DiscountCode {
+  type: 'percentage' | 'fixed';
+  value: number;
+  minOrder?: number;
+  description: string;
+}
+
+const DISCOUNT_CODES: Record<string, DiscountCode> = {
+  'WELKOM10': { type: 'percentage', value: 10, description: '10% korting' },
+  'RETRO5': { type: 'fixed', value: 5, minOrder: 30, description: '€5 korting bij bestelling vanaf €30' },
+  'NINTENDO15': { type: 'percentage', value: 15, minOrder: 75, description: '15% korting bij bestelling vanaf €75' },
+  'GAMESHOP20': { type: 'percentage', value: 20, minOrder: 100, description: '20% korting bij bestelling vanaf €100' },
+};
 
 interface CartContextType {
   items: CartItem[];
@@ -12,6 +26,11 @@ interface CartContextType {
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
+  discountCode: string | null;
+  discountAmount: number;
+  discountDescription: string | null;
+  applyDiscount: (code: string) => { success: boolean; message: string };
+  removeDiscount: () => void;
 }
 
 const MAX_QUANTITY = 10;
@@ -21,6 +40,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [discountCode, setDiscountCode] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -30,6 +50,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems(JSON.parse(stored));
       } catch {
         // ignore invalid data
+      }
+    }
+    const storedDiscount = localStorage.getItem('gameshop-discount');
+    if (storedDiscount) {
+      try {
+        const code = JSON.parse(storedDiscount);
+        if (typeof code === 'string' && DISCOUNT_CODES[code.toUpperCase()]) {
+          setDiscountCode(code.toUpperCase());
+        }
+      } catch {
+        // ignore
       }
     }
   }, []);
@@ -43,6 +74,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
     }
   }, [items, mounted]);
+
+  useEffect(() => {
+    if (mounted) {
+      try {
+        if (discountCode) {
+          localStorage.setItem('gameshop-discount', JSON.stringify(discountCode));
+        } else {
+          localStorage.removeItem('gameshop-discount');
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }, [discountCode, mounted]);
 
   const addItem = useCallback((product: Product) => {
     setItems((prev) => {
@@ -80,19 +125,67 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = useCallback(() => {
     setItems([]);
+    setDiscountCode(null);
   }, []);
 
-  const getTotal = useCallback(() => {
-    return items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const getSubtotal = useCallback(() => {
+    return items.reduce((sum, item) => sum + getEffectivePrice(item.product) * item.quantity, 0);
   }, [items]);
+
+  const discountAmount = useMemo(() => {
+    if (!discountCode) return 0;
+    const code = DISCOUNT_CODES[discountCode];
+    if (!code) return 0;
+    const subtotal = getSubtotal();
+    if (code.minOrder && subtotal < code.minOrder) return 0;
+    if (code.type === 'percentage') {
+      return Math.round(subtotal * (code.value / 100) * 100) / 100;
+    }
+    return Math.min(code.value, subtotal);
+  }, [discountCode, getSubtotal]);
+
+  const discountDescription = useMemo(() => {
+    if (!discountCode) return null;
+    return DISCOUNT_CODES[discountCode]?.description || null;
+  }, [discountCode]);
+
+  const getTotal = useCallback(() => {
+    return Math.max(0, getSubtotal() - discountAmount);
+  }, [getSubtotal, discountAmount]);
 
   const getItemCount = useCallback(() => {
     return items.reduce((sum, item) => sum + item.quantity, 0);
   }, [items]);
 
+  const applyDiscount = useCallback((code: string): { success: boolean; message: string } => {
+    const normalized = code.trim().toUpperCase();
+    const discount = DISCOUNT_CODES[normalized];
+    if (!discount) {
+      return { success: false, message: 'Ongeldige kortingscode' };
+    }
+    const subtotal = getSubtotal();
+    if (discount.minOrder && subtotal < discount.minOrder) {
+      return { success: false, message: `Minimale bestelling van €${discount.minOrder} vereist` };
+    }
+    setDiscountCode(normalized);
+    return { success: true, message: `${discount.description} toegepast!` };
+  }, [getSubtotal]);
+
+  const removeDiscount = useCallback(() => {
+    setDiscountCode(null);
+  }, []);
+
   const contextValue = useMemo(
-    () => ({ items, addItem, removeItem, updateQuantity, clearCart, getTotal, getItemCount }),
-    [items, addItem, removeItem, updateQuantity, clearCart, getTotal, getItemCount]
+    () => ({
+      items, addItem, removeItem, updateQuantity, clearCart,
+      getTotal, getItemCount,
+      discountCode, discountAmount, discountDescription,
+      applyDiscount, removeDiscount,
+    }),
+    [items, addItem, removeItem, updateQuantity, clearCart,
+     getTotal, getItemCount,
+     discountCode, discountAmount, discountDescription,
+     applyDiscount, removeDiscount]
   );
 
   return (

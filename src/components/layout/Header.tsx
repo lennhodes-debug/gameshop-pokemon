@@ -9,10 +9,12 @@ import CartCounter from './CartCounter';
 import Image from 'next/image';
 import { cn, formatPrice, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
+  { href: '/shop?category=sale', label: 'Aanbiedingen', badge: 'SALE' },
   { href: '/nintendo', label: 'Nintendo' },
   { href: '/inkoop', label: 'Inkoop' },
   { href: '/over-ons', label: 'Over ons' },
@@ -25,7 +27,9 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileNavRef = useRef<HTMLElement>(null);
   const { items, getItemCount, getTotal } = useCart();
+  const { items: wishlistItems } = useWishlist();
   const itemCount = getItemCount();
+  const wishlistCount = wishlistItems.length;
   const [cartHover, setCartHover] = useState(false);
   const cartHoverTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -110,7 +114,12 @@ export default function Header() {
                       : 'text-slate-400 hover:text-white'
                   )}
                 >
-                  {link.label}
+                  <span className="flex items-center gap-1.5">
+                    {link.label}
+                    {'badge' in link && link.badge && (
+                      <span className="px-1.5 py-0.5 text-[9px] font-bold bg-red-500 text-white rounded-md leading-none">{link.badge}</span>
+                    )}
+                  </span>
                   {isActive(link.href) && (
                     <motion.span
                       layoutId="nav-indicator"
@@ -263,7 +272,12 @@ export default function Header() {
                           : 'text-slate-300 hover:text-white hover:bg-white/5'
                       )}
                     >
-                      {link.label}
+                      <span className="flex items-center gap-2">
+                        {link.label}
+                        {'badge' in link && link.badge && (
+                          <span className="px-1.5 py-0.5 text-[9px] font-bold bg-red-500 text-white rounded-md leading-none">{link.badge}</span>
+                        )}
+                      </span>
                     </Link>
                   </motion.div>
                 ))}
@@ -303,6 +317,60 @@ export default function Header() {
         </AnimatePresence>
       </motion.header>
 
+      {/* Mobiele bottom navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-700" aria-label="Mobiele navigatie">
+        <div className="flex items-center justify-around px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          {[
+            { href: '/', label: 'Home', icon: (
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+              </svg>
+            )},
+            { href: '/shop', label: 'Shop', icon: (
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+              </svg>
+            )},
+            { href: '/shop?q=', label: 'Zoeken', isSearch: true, icon: (
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+            )},
+            { href: '/verlanglijst', label: 'Wishlist', badge: wishlistCount, icon: (
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+            )},
+            { href: '/winkelwagen', label: 'Wagen', badge: itemCount, icon: (
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+            )},
+          ].map((item) => {
+            const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href.split('?')[0]);
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  'flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors relative',
+                  active ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-500'
+                )}
+              >
+                <span className="relative">
+                  {item.icon}
+                  {'badge' in item && typeof item.badge === 'number' && item.badge > 0 && (
+                    <span className="absolute -top-1.5 -right-2 h-4 min-w-4 flex items-center justify-center rounded-full bg-emerald-500 text-white text-[9px] font-bold px-1">
+                      {item.badge}
+                    </span>
+                  )}
+                </span>
+                <span className="text-[10px] font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </>
   );
 }

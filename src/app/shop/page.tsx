@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'rea
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions } from '@/lib/products';
+import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
@@ -111,6 +111,7 @@ function ShopContent() {
 
     if (category === 'games') results = results.filter((p) => !p.isConsole);
     if (category === 'consoles') results = results.filter((p) => p.isConsole);
+    if (category === 'sale') results = results.filter((p) => isOnSale(p));
 
     if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
     if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
@@ -124,11 +125,13 @@ function ShopContent() {
         skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z0-9]+-/, ''), 10) || 0);
       }
       results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
+    } else if (sortBy === 'discount-desc') {
+      results.sort((a, b) => getSalePercentage(b) - getSalePercentage(a));
     } else {
       results.sort((a, b) => {
         switch (sortBy) {
-          case 'price-asc': return a.price - b.price;
-          case 'price-desc': return b.price - a.price;
+          case 'price-asc': return getEffectivePrice(a) - getEffectivePrice(b);
+          case 'price-desc': return getEffectivePrice(b) - getEffectivePrice(a);
           case 'name-desc': return b.name.localeCompare(a.name);
           default: return a.name.localeCompare(b.name);
         }
@@ -343,52 +346,24 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
             >
-              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1">
+              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1" role="status" aria-live="polite">
                 <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filtered.length}</span> resultaten
               </span>
 
-              {debouncedSearch && (
-                <button onClick={() => setSearch('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors">
-                  &ldquo;{debouncedSearch}&rdquo;
+              {([
+                { active: !!debouncedSearch, label: `\u201C${debouncedSearch}\u201D`, cls: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30', onClear: () => setSearch('') },
+                { active: !!platform, label: platform, cls: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30', onClear: () => setPlatform('') },
+                { active: !!genre, label: genre, cls: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30', onClear: () => setGenre('') },
+                { active: !!condition, label: condition, cls: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30', onClear: () => setCondition('') },
+                { active: !!category, label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : category === 'sale' ? 'Aanbiedingen' : category, cls: 'bg-cyan-50 dark:bg-cyan-900/20 border-cyan-200 dark:border-cyan-800 text-cyan-700 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-900/30', onClear: () => setCategory('') },
+                { active: !!completeness, label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', cls: 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/30', onClear: () => setCompleteness('') },
+                { active: !!(priceMin || priceMax), label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, cls: 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/30', onClear: () => { setPriceMin(''); setPriceMax(''); } },
+              ] as const).filter((c) => c.active).map((chip, i) => (
+                <button key={i} onClick={chip.onClear} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold transition-colors ${chip.cls}`}>
+                  {chip.label}
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
-              )}
-              {platform && (
-                <button onClick={() => setPlatform('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                  {platform}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
-              {genre && (
-                <button onClick={() => setGenre('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 text-xs font-semibold hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
-                  {genre}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
-              {condition && (
-                <button onClick={() => setCondition('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 text-xs font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors">
-                  {condition}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
-              {category && (
-                <button onClick={() => setCategory('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 text-cyan-700 dark:text-cyan-400 text-xs font-semibold hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors">
-                  {category === 'games' ? 'Games' : 'Consoles'}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
-              {completeness && (
-                <button onClick={() => setCompleteness('')} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 text-xs font-semibold hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors">
-                  {completeness === 'cib' ? 'Compleet (CIB)' : 'Los'}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
-              {(priceMin || priceMax) && (
-                <button onClick={() => { setPriceMin(''); setPriceMax(''); }} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 text-xs font-semibold hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors">
-                  {priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              )}
+              ))}
 
               {activeFilterCount > 1 && (
                 <>

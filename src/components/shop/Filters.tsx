@@ -88,6 +88,7 @@ function SortSelect({ value, onChange }: { value: string; onChange: (v: string) 
         <option value="name-desc">Naam Z-A</option>
         <option value="price-asc">Prijs laag → hoog</option>
         <option value="price-desc">Prijs hoog → laag</option>
+        <option value="discount-desc">Hoogste korting</option>
       </select>
     </div>
   );
@@ -123,6 +124,7 @@ export default function Filters({
             { value: '', label: 'Alles' },
             { value: 'games', label: 'Games' },
             { value: 'consoles', label: 'Consoles' },
+            { value: 'sale', label: 'Aanbiedingen' },
           ]}
           value={selectedCategory}
           onChange={onCategoryChange}

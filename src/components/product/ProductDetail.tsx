@@ -4,8 +4,8 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, Ani
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useWishlist } from '@/components/wishlist/WishlistProvider';
@@ -54,10 +54,27 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [added, setAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [viewMode, setViewMode] = useState<'flat' | '3d'>('flat');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Lightbox: escape toets + body scroll lock
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false);
+    };
+    document.addEventListener('keydown', handleKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [lightboxOpen]);
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
-  const freeShipping = product.price >= FREE_SHIPPING_THRESHOLD;
+  const effectivePrice = getEffectivePrice(product);
+  const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
+  const onSale = isOnSale(product);
 
   // Track eerder bekeken producten
   useEffect(() => {
@@ -133,20 +150,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         transition={{ duration: 0.4 }}
         className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8"
       >
-        <Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link>
-        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-        <Link href="/shop" className="hover:text-emerald-600 transition-colors">Shop</Link>
-        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-        <Link href={`/shop?platform=${encodeURIComponent(product.platform)}`} className="hover:text-emerald-600 transition-colors">
-          {product.platform}
-        </Link>
-        <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
+        {[
+          { href: '/', label: 'Home' },
+          { href: '/shop', label: 'Shop' },
+          { href: `/shop?platform=${encodeURIComponent(product.platform)}`, label: product.platform },
+        ].map((crumb) => (
+          <span key={crumb.href} className="contents">
+            <Link href={crumb.href} className="hover:text-emerald-600 transition-colors">{crumb.label}</Link>
+            <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+          </span>
+        ))}
         <span className="text-slate-700 dark:text-slate-200 font-medium truncate max-w-[200px]">{product.name}</span>
       </motion.nav>
 
@@ -242,6 +255,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 )}
                 {/* Shimmer sweep */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 dark:via-white/20 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-all duration-1000 ease-in-out" />
+                {/* Zoom button */}
+                <button
+                  onClick={() => setLightboxOpen(true)}
+                  className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-500 hover:text-emerald-500 hover:border-emerald-300 transition-all opacity-0 group-hover:opacity-100 z-20"
+                  aria-label="Afbeelding vergroten"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                  </svg>
+                </button>
               </>
             ) : (
               <>
@@ -354,14 +377,43 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="text-xs text-slate-400 dark:text-slate-500">— Vandaag besteld, morgen verzonden</span>
           </motion.div>
 
+          {/* Urgentie-indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.39 }}
+            className="flex items-center gap-2 -mt-4 mb-6"
+          >
+            <svg className="h-3.5 w-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+            <span className="text-xs font-medium text-amber-600 dark:text-amber-400">
+              {product.isConsole ? 'Zeldzaam — slechts 1 beschikbaar' : 'Slechts 1 op voorraad'}
+            </span>
+          </motion.div>
+
           {/* Price block */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex items-baseline gap-3 mb-8"
+            className="flex flex-wrap items-baseline gap-3 mb-8"
           >
-            <AnimatedPrice price={product.price} />
+            {onSale ? (
+              <>
+                <span className="text-3xl sm:text-5xl font-extrabold text-red-500 tracking-tight tabular-nums">
+                  {formatPrice(effectivePrice)}
+                </span>
+                <span className="text-xl text-slate-400 line-through">
+                  {formatPrice(product.price)}
+                </span>
+                <span className="inline-flex items-center gap-1 text-sm text-red-500 font-bold bg-red-50 dark:bg-red-900/30 px-2.5 py-1 rounded-lg">
+                  -{getSalePercentage(product)}%
+                </span>
+              </>
+            ) : (
+              <AnimatedPrice price={product.price} />
+            )}
             {freeShipping && (
               <motion.span
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -593,8 +645,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </div>
       </motion.div>
 
-      {/* Sticky mobile CTA bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+      {/* Sticky mobile CTA bar — boven bottom nav */}
+      <div className="fixed bottom-[60px] left-0 right-0 z-40 lg:hidden">
         <motion.div
           initial={{ y: 100 }}
           animate={{ y: 0 }}
@@ -603,7 +655,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         >
           <div className="min-w-0 flex-1">
             <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{product.name}</p>
-            <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+            <div className="flex items-baseline gap-2">
+              <p className={cn("text-lg font-extrabold", onSale ? "text-red-500" : "text-slate-900 dark:text-white")}>{formatPrice(effectivePrice)}</p>
+              {onSale && <p className="text-xs text-slate-400 line-through">{formatPrice(product.price)}</p>}
+            </div>
           </div>
           <motion.button
             onClick={handleAdd}
@@ -689,6 +744,48 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white" />
           </motion.div>
         </>,
+        document.body
+      )}
+
+      {/* Lightbox zoom overlay */}
+      {lightboxOpen && product.image && typeof document !== 'undefined' && createPortal(
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[300] bg-black/90 backdrop-blur-sm flex items-center justify-center cursor-zoom-out"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-6 right-6 h-12 w-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+            aria-label="Sluiten"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="relative max-w-[90vw] max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={product.image}
+              alt={`${product.name} - ${product.platform}`}
+              className="max-w-full max-h-[85vh] object-contain rounded-2xl"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl px-6 py-4">
+              <p className="text-white font-bold text-lg">{product.name}</p>
+              <p className="text-white/70 text-sm">{product.platform}</p>
+            </div>
+          </motion.div>
+          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 text-xs">
+            Druk op <kbd className="px-1.5 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] font-mono">Esc</kbd> om te sluiten
+          </p>
+        </motion.div>,
         document.body
       )}
     </div>

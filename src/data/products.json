@@ -37,7 +37,8 @@
     "image": "/images/products/sw-002-animal-crossing-new-horizons.webp",
     "inkoopPrijs": 15,
     "pcUsedPrice": 38,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 27.5
   },
   {
     "sku": "SW-003",
@@ -97,7 +98,8 @@
     "image": "/images/products/sw-005-bayonetta-3.webp",
     "inkoopPrijs": 14,
     "pcUsedPrice": 35,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 30
   },
   {
     "sku": "SW-006",
@@ -197,7 +199,8 @@
     "image": "/images/products/sw-010-cars-3-vol-gas-voor-de-winst.webp",
     "inkoopPrijs": 9,
     "pcUsedPrice": 22.1,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 16
   },
   {
     "sku": "SW-011",
@@ -816,7 +819,8 @@
     "image": "/images/products/sw-042-kirby-star-allies.webp",
     "inkoopPrijs": 13,
     "pcUsedPrice": 33.15,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 25.5
   },
   {
     "sku": "SW-043",
@@ -1775,7 +1779,8 @@
     "image": "/images/products/sw-100-sonic-frontiers.webp",
     "inkoopPrijs": 11,
     "pcUsedPrice": 27.62,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 20
   },
   {
     "sku": "SW-101",
@@ -2432,7 +2437,8 @@
     "image": "/images/products/3ds-005-dk-country-returns-3d.webp",
     "inkoopPrijs": 9,
     "pcUsedPrice": 23,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 15
   },
   {
     "sku": "3DS-007",
@@ -2684,7 +2690,8 @@
     "image": "/images/products/3ds-020-kirby-triple-deluxe.webp",
     "inkoopPrijs": 9,
     "pcUsedPrice": 23,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 16
   },
   {
     "sku": "3DS-021",
@@ -3700,7 +3707,8 @@
     "image": "/images/products/ds-010-final-fantasy-iv.webp",
     "pcUsedPrice": 25.63,
     "inkoopPrijs": 10,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 18.5
   },
   {
     "sku": "DS-011",
@@ -4085,7 +4093,8 @@
     "isPremium": false,
     "image": "/images/products/ds-030-phoenix-wright-ace-attorney.webp",
     "pcUsedPrice": 13.98,
-    "inkoopPrijs": 6
+    "inkoopPrijs": 6,
+    "salePrice": 9.5
   },
   {
     "sku": "DS-031",
@@ -4971,7 +4980,8 @@
     "image": "/images/products/gba-015-fire-emblem.webp",
     "inkoopPrijs": 23,
     "pcUsedPrice": 56.75,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 37.5
   },
   {
     "sku": "GBA-016",
@@ -6139,7 +6149,8 @@
     "image": "/images/products/gb-010-ducktales.webp",
     "inkoopPrijs": 16,
     "pcUsedPrice": 40.25,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 28
   },
   {
     "sku": "GB-011",
@@ -7205,7 +7216,8 @@
     "image": "/images/products/gc-005-crash-bandicoot-the-wrath-of-cortex.webp",
     "pcUsedPrice": 28,
     "inkoopPrijs": 11,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 21.5
   },
   {
     "sku": "GC-006",
@@ -7605,7 +7617,8 @@
     "image": "/images/products/gc-025-mario-power-tennis.webp",
     "pcUsedPrice": 28,
     "inkoopPrijs": 11,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 20
   },
   {
     "sku": "GC-026",
@@ -8465,7 +8478,8 @@
     "image": "/images/products/n64-010-conker-s-bad-fur-day.webp",
     "inkoopPrijs": 60,
     "pcUsedPrice": 150,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 60
   },
   {
     "sku": "N64-011",
@@ -8865,7 +8879,8 @@
     "image": "/images/products/n64-030-mischief-makers.webp",
     "pcUsedPrice": 22.7,
     "inkoopPrijs": 9,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 17
   },
   {
     "sku": "N64-031",
@@ -9584,7 +9599,8 @@
     "image": "/images/products/snes-010-demon-s-crest.webp",
     "pcUsedPrice": 22.7,
     "inkoopPrijs": 9,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 16
   },
   {
     "sku": "SNES-011",
@@ -10816,7 +10832,8 @@
     "image": "/images/products/nes-015-contra.webp",
     "inkoopPrijs": 12,
     "pcUsedPrice": 28.75,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 21.5
   },
   {
     "sku": "NES-016",
@@ -11836,7 +11853,8 @@
     "isPremium": false,
     "image": "/images/products/wii-010-go-vacation.webp",
     "pcUsedPrice": 11.95,
-    "inkoopPrijs": 5
+    "inkoopPrijs": 5,
+    "salePrice": 8
   },
   {
     "sku": "WII-011",
@@ -12968,7 +12986,8 @@
     "isPremium": false,
     "image": "/images/products/wiiu-010-fast-racing-neo.webp",
     "pcUsedPrice": 17.7,
-    "inkoopPrijs": 7
+    "inkoopPrijs": 7,
+    "salePrice": 11.5
   },
   {
     "sku": "WIIU-011",
@@ -13993,7 +14012,8 @@
     "image": "/images/products/con-005-nintendo-3ds-blauw.webp",
     "pcUsedPrice": 115,
     "inkoopPrijs": 46,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "salePrice": 85
   },
   {
     "sku": "CON-006",
