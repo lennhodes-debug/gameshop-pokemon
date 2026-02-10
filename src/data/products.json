@@ -3019,7 +3019,7 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-037-pokemon-omega-ruby.webp",
+    "image": "/images/products/3ds-037-pokemon-omega-ruby-eigen.webp",
     "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
@@ -3119,7 +3119,7 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-042-pokemon-x.webp",
+    "image": "/images/products/3ds-042-pokemon-x-eigen.webp",
     "pcUsedPrice": 23,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
@@ -4111,7 +4111,7 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-031-pokemon-black.webp",
+    "image": "/images/products/ds-031-pokemon-black-eigen.webp",
     "pcUsedPrice": 19.8,
     "inkoopPrijs": 8
   },
@@ -4225,7 +4225,7 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-037-pokemon-pearl.webp",
+    "image": "/images/products/ds-037-pokemon-pearl-eigen.webp",
     "pcUsedPrice": 19.8,
     "inkoopPrijs": 8
   },
@@ -4301,7 +4301,7 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-041-pokemon-soulsilver.webp",
+    "image": "/images/products/ds-041-pokemon-soulsilver-eigen.webp",
     "pcUsedPrice": 19.8,
     "inkoopPrijs": 8
   },
@@ -4320,7 +4320,7 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-042-pokemon-white.webp",
+    "image": "/images/products/ds-042-pokemon-white-eigen.webp",
     "pcUsedPrice": 19.8,
     "inkoopPrijs": 8
   },
@@ -5447,7 +5447,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-040-pokemon-firered.webp",
+    "image": "/images/products/gba-040-pokemon-firered-eigen.webp",
     "pcUsedPrice": 22.7,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
@@ -5467,7 +5467,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-041-pokemon-leafgreen.webp",
+    "image": "/images/products/gba-041-pokemon-leafgreen-eigen.webp",
     "pcUsedPrice": 22.7,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
@@ -5547,7 +5547,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gba-045-pokemon-sapphire.webp",
+    "image": "/images/products/gba-045-pokemon-sapphire-eigen.webp",
     "pcUsedPrice": 22.7,
     "inkoopPrijs": 9,
     "inkoopFeatured": true
@@ -6608,7 +6608,7 @@
     "weight": 0.05,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/gb-035-pokemon-red.webp",
+    "image": "/images/products/gb-035-pokemon-red-eigen.webp",
     "pcUsedPrice": 19.55,
     "inkoopPrijs": 8
   },
@@ -7053,7 +7053,7 @@
     "weight": 0.03,
     "isConsole": false,
     "isPremium": true,
-    "image": "/images/products/gbc-001-pokemon-crystal.webp",
+    "image": "/images/products/gbc-001-pokemon-crystal-eigen.webp",
     "inkoopPrijs": 32,
     "pcUsedPrice": 80,
     "inkoopFeatured": true

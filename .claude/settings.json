@@ -6,21 +6,7 @@
       "Edit",
       "Grep",
       "Glob",
-      "Bash(npm run:*)",
-      "Bash(npm install:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git checkout:*)",
-      "Bash(git branch:*)",
-      "Bash(git diff:*)",
-      "Bash(git log:*)",
-      "Bash(git status:*)",
-      "Bash(gh issue:*)",
-      "Bash(gh pr:*)",
-      "Bash(du:*)",
-      "Bash(mkdir:*)",
-      "Bash(ls:*)"
+      "Bash(*)"
     ],
     "deny": [
       "Bash(git push --force:*)",
