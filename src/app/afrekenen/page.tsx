@@ -35,7 +35,7 @@ const fadeUp = {
 };
 
 export default function AfrekenPage() {
-  const { items, getTotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
+  const { items, getSubtotal, getTotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
   const [couponInput, setCouponInput] = useState('');
   const [couponMessage, setCouponMessage] = useState<{ text: string; success: boolean } | null>(null);
   const { addToast } = useToast();
@@ -74,7 +74,7 @@ export default function AfrekenPage() {
     localStorage.setItem('gameshop-checkout', JSON.stringify(toSave));
   }, [form]);
 
-  const validations: Partial<Record<keyof FormData, { test: (v: string) => boolean; message: string }>> = {
+  const validations = useMemo<Partial<Record<keyof FormData, { test: (v: string) => boolean; message: string }>>>(() => ({
     voornaam: { test: (v) => v.trim().length > 0, message: 'Voornaam is verplicht' },
     achternaam: { test: (v) => v.trim().length > 0, message: 'Achternaam is verplicht' },
     email: { test: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Voer een geldig e-mailadres in' },
@@ -82,7 +82,7 @@ export default function AfrekenPage() {
     huisnummer: { test: (v) => v.trim().length > 0, message: 'Huisnummer is verplicht' },
     postcode: { test: (v) => /^\d{4}\s?[A-Za-z]{2}$/.test(v), message: 'Formaat: 1234 AB' },
     plaats: { test: (v) => v.trim().length > 0, message: 'Plaats is verplicht' },
-  };
+  }), []);
 
   const getFieldError = (field: keyof FormData): string | null => {
     if (!touched[field]) return null;
@@ -98,6 +98,7 @@ export default function AfrekenPage() {
   const [confetti, setConfetti] = useState<{ x: number; y: number } | null>(null);
   const [orderNumber] = useState(() => `GE-${Date.now().toString(36).toUpperCase()}`);
 
+  const rawSubtotal = getSubtotal();
   const subtotal = getTotal();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
@@ -480,7 +481,7 @@ export default function AfrekenPage() {
                 <div className="space-y-3 text-sm border-t border-slate-100 dark:border-slate-700 pt-4">
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Subtotaal</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(subtotal)}</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(rawSubtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Verzending (PostNL)</span>

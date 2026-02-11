@@ -56,6 +56,7 @@ interface CartContextType {
   removeItem: (key: string) => void;
   updateQuantity: (key: string, quantity: number) => void;
   clearCart: () => void;
+  getSubtotal: () => number;
   getTotal: () => number;
   getItemCount: () => number;
   discountCode: string | null;
@@ -211,12 +212,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const contextValue = useMemo(
     () => ({
       items, addItem, removeItem, updateQuantity, clearCart,
-      getTotal, getItemCount,
+      getSubtotal, getTotal, getItemCount,
       discountCode, discountAmount, discountDescription,
       applyDiscount, removeDiscount,
     }),
     [items, addItem, removeItem, updateQuantity, clearCart,
-     getTotal, getItemCount,
+     getSubtotal, getTotal, getItemCount,
      discountCode, discountAmount, discountDescription,
      applyDiscount, removeDiscount]
   );

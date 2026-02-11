@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getAllProducts, Product } from '@/lib/products';
+import { getProductBySku, Product } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 
 export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
@@ -16,9 +16,8 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
       const skus = stored.filter((s) => s !== currentSku).slice(0, 8);
       if (skus.length === 0) return;
 
-      const allProducts = getAllProducts();
       const found = skus
-        .map((sku) => allProducts.find((p) => p.sku === sku))
+        .map((sku) => getProductBySku(sku))
         .filter((p): p is Product => !!p);
       setProducts(found);
     } catch { /* ignore */ }
