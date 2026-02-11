@@ -385,8 +385,25 @@ function ShopContent() {
           )}
         </AnimatePresence>
 
+        {/* Resultaten info balk */}
+        {!isSearching && filtered.length > 0 && (
+          <div className="mt-6 flex items-center justify-between">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
+              {totalPages > 1 && (
+                <span className="text-slate-400 dark:text-slate-500"> &middot; pagina {page} van {totalPages}</span>
+              )}
+            </p>
+            {filtered.length > ITEMS_PER_PAGE && (
+              <p className="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">
+                {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Products */}
-        <div className="mt-8">
+        <div className="mt-4">
           <AnimatePresence mode="wait">
             {isSearching ? (
               <motion.div
