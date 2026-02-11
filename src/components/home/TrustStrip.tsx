@@ -108,6 +108,11 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
 
       <h3 className="relative z-10 font-bold text-slate-900 dark:text-white mb-1 text-sm lg:text-base">{item.title}</h3>
       <p className="relative z-10 text-sm text-slate-500 dark:text-slate-400">{item.description}</p>
+
+      {/* Stapnummer in hoek */}
+      <span className={`absolute top-3 right-3 h-6 w-6 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white text-[10px] font-bold opacity-20 group-hover:opacity-60 transition-opacity duration-300`}>
+        {index + 1}
+      </span>
     </motion.div>
   );
 }
@@ -116,6 +121,20 @@ export default function TrustStrip() {
   return (
     <section className="bg-[#f8fafc] dark:bg-slate-900 py-12 lg:py-16 -mt-1">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Sectie titel */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
+        >
+          <h2 className="text-lg lg:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+            Waarom Gameshop Enter?
+          </h2>
+          <div className="mt-2 mx-auto w-12 h-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500" />
+        </motion.div>
+
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {trustItems.map((item, index) => (
             <TrustCard key={index} item={item} index={index} />

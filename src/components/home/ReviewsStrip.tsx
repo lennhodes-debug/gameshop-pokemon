@@ -149,8 +149,16 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
           &ldquo;
         </div>
 
-        <StarRating />
-        <p className="text-white/80 text-sm mt-3 leading-relaxed relative z-10 line-clamp-3">
+        <div className="flex items-center justify-between mb-1">
+          <StarRating />
+          <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400/70 font-medium">
+            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+            </svg>
+            Geverifieerd
+          </span>
+        </div>
+        <p className="text-white/80 text-sm mt-2 leading-relaxed relative z-10 line-clamp-3">
           &ldquo;{review.text}&rdquo;
         </p>
         <footer className="mt-4 relative z-10">
@@ -188,8 +196,12 @@ export default function ReviewsStrip() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          className="relative"
         >
-          <div className="inline-flex items-center gap-3 mb-4">
+          {/* Ambient glow achter titel */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-32 bg-amber-400/10 rounded-full blur-[60px] animate-ambient-glow pointer-events-none" />
+
+          <div className="relative inline-flex items-center gap-3 mb-4">
             <AnimatedHeaderStars />
             <motion.span
               initial={{ opacity: 0, x: -10 }}

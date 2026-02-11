@@ -206,7 +206,10 @@ export default function AboutPreview() {
             </span>
             <h2 className="text-3xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-6">
               Al sinds 2018 de{' '}
-              <span className="gradient-text">Pokémon specialist</span>
+              <span className="relative inline-block">
+                <span className="gradient-text">Pokémon specialist</span>
+                <span className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 opacity-60" />
+              </span>
             </h2>
             <p className="text-lg text-slate-400 leading-relaxed mb-6">
               Wat begon met het verkopen van kaarten op Marktplaats groeide uit
