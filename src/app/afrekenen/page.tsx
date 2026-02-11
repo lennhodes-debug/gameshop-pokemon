@@ -334,7 +334,7 @@ export default function AfrekenPage() {
           </div>
         </motion.div>
 
-        <form onSubmit={handleSubmit}>
+        <form id="checkout-form" onSubmit={handleSubmit}>
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left: Form */}
             <div className="lg:col-span-2 space-y-6">
@@ -346,10 +346,10 @@ export default function AfrekenPage() {
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {([
-                    { field: 'voornaam' as const, label: 'Voornaam', placeholder: 'Jan', colSpan: false },
-                    { field: 'achternaam' as const, label: 'Achternaam', placeholder: 'de Vries', colSpan: false },
-                    { field: 'email' as const, label: 'E-mailadres', placeholder: 'jan@voorbeeld.nl', colSpan: true, type: 'email' },
-                  ]).map(({ field, label, placeholder, colSpan, type }) => {
+                    { field: 'voornaam' as const, label: 'Voornaam', placeholder: 'Jan', colSpan: false, autoComplete: 'given-name' },
+                    { field: 'achternaam' as const, label: 'Achternaam', placeholder: 'de Vries', colSpan: false, autoComplete: 'family-name' },
+                    { field: 'email' as const, label: 'E-mailadres', placeholder: 'jan@voorbeeld.nl', colSpan: true, type: 'email', autoComplete: 'email' },
+                  ]).map(({ field, label, placeholder, colSpan, type, autoComplete }) => {
                     const error = getFieldError(field);
                     return (
                       <div key={field} className={colSpan ? 'sm:col-span-2' : ''}>
@@ -357,6 +357,7 @@ export default function AfrekenPage() {
                         <input
                           type={type || 'text'}
                           required
+                          autoComplete={autoComplete}
                           value={form[field]}
                           onChange={(e) => updateField(field, e.target.value)}
                           onBlur={() => handleBlur(field)}
@@ -378,11 +379,11 @@ export default function AfrekenPage() {
                 </h2>
                 <div className="grid sm:grid-cols-3 gap-4">
                   {([
-                    { field: 'straat' as const, label: 'Straat', placeholder: 'Kerkstraat', colSpan: 'sm:col-span-2' },
-                    { field: 'huisnummer' as const, label: 'Huisnummer', placeholder: '12a', colSpan: '' },
-                    { field: 'postcode' as const, label: 'Postcode', placeholder: '1234 AB', colSpan: '' },
-                    { field: 'plaats' as const, label: 'Plaats', placeholder: 'Amsterdam', colSpan: 'sm:col-span-2' },
-                  ]).map(({ field, label, placeholder, colSpan }) => {
+                    { field: 'straat' as const, label: 'Straat', placeholder: 'Kerkstraat', colSpan: 'sm:col-span-2', autoComplete: 'street-address' },
+                    { field: 'huisnummer' as const, label: 'Huisnummer', placeholder: '12a', colSpan: '', autoComplete: 'address-line2' },
+                    { field: 'postcode' as const, label: 'Postcode', placeholder: '1234 AB', colSpan: '', autoComplete: 'postal-code' },
+                    { field: 'plaats' as const, label: 'Plaats', placeholder: 'Amsterdam', colSpan: 'sm:col-span-2', autoComplete: 'address-level2' },
+                  ]).map(({ field, label, placeholder, colSpan, autoComplete }) => {
                     const error = getFieldError(field);
                     return (
                       <div key={field} className={colSpan}>
@@ -390,6 +391,7 @@ export default function AfrekenPage() {
                         <input
                           type="text"
                           required
+                          autoComplete={autoComplete}
                           value={form[field]}
                           onChange={(e) => updateField(field, e.target.value)}
                           onBlur={() => handleBlur(field)}
@@ -601,6 +603,24 @@ export default function AfrekenPage() {
           </div>
         </form>
       </div>
+      {/* Mobiele sticky totaalbalk */}
+      <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-30 lg:hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-t border-slate-200 dark:border-slate-700 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{items.reduce((s, i) => s + i.quantity, 0)} items</p>
+            <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatPrice(total)}</p>
+          </div>
+          <button
+            type="submit"
+            form="checkout-form"
+            disabled={isProcessing}
+            className={`flex-1 max-w-[200px] px-5 py-3 rounded-xl font-bold text-sm text-center shadow-lg ${isProcessing ? 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 shadow-none' : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-emerald-500/25'}`}
+          >
+            {isProcessing ? 'Verwerken...' : 'Afrekenen'}
+          </button>
+        </div>
+      </div>
+
       {confetti && <ConfettiBurst x={confetti.x} y={confetti.y} onComplete={() => setConfetti(null)} />}
     </div>
   );
