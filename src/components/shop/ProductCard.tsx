@@ -124,40 +124,47 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
-            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
-              {displayImage && !imageError ? (
-                <>
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
-                  )}
-                  <Image
-                    src={displayImage}
-                    alt={`${product.name} - ${product.platform}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className={cn(
-                      "object-contain p-4 group-hover:scale-110 transition-transform duration-500",
-                      imageLoaded ? "opacity-100" : "opacity-0"
+            <div className="relative py-6 flex items-center justify-center overflow-hidden bg-white/5">
+              <div
+                className="relative w-40 h-40 rounded-full overflow-hidden mx-auto border-2 group-hover:border-4 transition-all duration-300"
+                style={{ borderColor: `${typeInfo.bg[0]}50`, boxShadow: `0 0 20px ${typeInfo.bg[0]}20` }}
+              >
+                {displayImage && !imageError ? (
+                  <>
+                    {!imageLoaded && (
+                      <div className="absolute inset-0 rounded-full animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
                     )}
-                    onLoad={() => setImageLoaded(true)}
-                    onError={() => setImageError(true)}
-                  />
-                </>
-              ) : (
-                <span className="text-white/10 text-5xl font-black select-none">
-                  {platformLabel}
-                </span>
-              )}
+                    <Image
+                      src={displayImage}
+                      alt={`${product.name} - ${product.platform}`}
+                      fill
+                      sizes="160px"
+                      className={cn(
+                        "object-cover group-hover:scale-110 transition-transform duration-500",
+                        imageLoaded ? "opacity-100" : "opacity-0"
+                      )}
+                      onLoad={() => setImageLoaded(true)}
+                      onError={() => setImageError(true)}
+                    />
+                  </>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${typeInfo.bg[0]}40, ${typeInfo.bg[1]}60)` }}>
+                    <span className="text-white/60 text-lg font-black select-none">
+                      {platformLabel}
+                    </span>
+                  </div>
+                )}
+              </div>
 
               {/* Platform label */}
-              <div className="absolute top-3 left-3">
+              <div className="absolute top-2 left-3">
                 <span className="px-2 py-0.5 rounded-md bg-black/30 text-white/80 text-[10px] font-medium backdrop-blur-sm">
                   {platformLabel}
                 </span>
               </div>
 
               {/* Badges rechts */}
-              <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
+              <div className="absolute top-2 right-3 flex flex-col gap-1.5 items-end">
                 {isOnSale(product) && (
                   <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold shadow-sm">
                     -{getSalePercentage(product)}%
@@ -304,40 +311,47 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
       >
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-52 ${product.image && !imageError ? 'bg-slate-50' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
-            {product.image && !imageError ? (
-              <>
-                {!imageLoaded && (
-                  <div className="absolute inset-0 bg-slate-100 animate-pulse" />
-                )}
-                <Image
-                  src={product.image}
-                  alt={`${product.name} - ${product.platform}`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className={cn(
-                    "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
-                    imageLoaded ? "opacity-100" : "opacity-0"
+          <div className="relative py-6 bg-slate-50 flex items-center justify-center overflow-hidden">
+            <div className={cn(
+              "relative w-36 h-36 rounded-full overflow-hidden mx-auto ring-2 ring-slate-200 group-hover:ring-emerald-300 group-hover:ring-4 transition-all duration-300",
+              !product.image || imageError ? `bg-gradient-to-br ${colors.from} ${colors.to}` : ''
+            )}>
+              {product.image && !imageError ? (
+                <>
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 rounded-full bg-slate-100 animate-pulse" />
                   )}
-                  onLoad={() => setImageLoaded(true)}
-                  onError={() => setImageError(true)}
-                />
-              </>
-            ) : (
-              <span className="text-white/20 text-6xl font-black select-none">
-                {platformLabel}
-              </span>
-            )}
+                  <Image
+                    src={product.image}
+                    alt={`${product.name} - ${product.platform}`}
+                    fill
+                    sizes="144px"
+                    className={cn(
+                      "object-cover group-hover:scale-110 transition-transform duration-500",
+                      imageLoaded ? "opacity-100" : "opacity-0"
+                    )}
+                    onLoad={() => setImageLoaded(true)}
+                    onError={() => setImageError(true)}
+                  />
+                </>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-white/60 text-lg font-black select-none">
+                    {platformLabel}
+                  </span>
+                </div>
+              )}
+            </div>
 
             {/* Platform label */}
-            <div className="absolute top-3 left-3">
-              <span className={`px-2.5 py-1 rounded-lg ${product.image ? 'bg-slate-900/70' : 'bg-black/20'} text-white text-[11px] font-semibold`}>
+            <div className="absolute top-2 left-3">
+              <span className="px-2.5 py-1 rounded-lg bg-slate-900/70 text-white text-[11px] font-semibold">
                 {product.platform}
               </span>
             </div>
 
             {/* Badges */}
-            <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
+            <div className="absolute top-2 right-3 flex flex-col gap-1.5 items-end">
               {isOnSale(product) && (
                 <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold shadow-sm">
                   -{getSalePercentage(product)}%

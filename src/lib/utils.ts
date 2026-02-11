@@ -49,7 +49,7 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   'GBA-001': 'dragon',    // Emerald — Rayquaza
   'GBA-002': 'water',     // Sapphire EUR — Kyogre
   'GBA-004': 'fire',      // FireRed USA — Charizard
-  'GBA-005': 'fire',      // FireRed EUR — Charizard
+
   'GBA-006': 'grass',     // LeafGreen USA — Venusaur
   'DS-001':  'ghost',     // Platinum — Giratina
   'DS-002':  'psychic',   // SoulSilver — Lugia
@@ -60,7 +60,7 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   'DS-008':  'normal',    // Ranger Shadows of Almia
   'DS-009':  'steel',     // MD Explorers of Time — Dialga
   '3DS-001': 'fairy',     // X — Xerneas
-  '3DS-002': 'ground',    // Omega Ruby — Groudon
+
   '3DS-003': 'water',     // Alpha Sapphire — Kyogre
   '3DS-004': 'ghost',     // Moon — Lunala
   'DS-010':  'steel',     // Diamond EUR — Dialga
