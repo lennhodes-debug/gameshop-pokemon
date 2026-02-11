@@ -163,11 +163,19 @@ export default function Header() {
                           );
                         })}
                       </div>
-                      <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center justify-between">
-                        <span className="text-sm font-bold text-white">{formatPrice(getTotal())}</span>
-                        <Link href="/winkelwagen" className="px-4 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold">
-                          Bekijken
-                        </Link>
+                      <div className="mt-3 pt-3 border-t border-white/[0.06]">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-bold text-white">{formatPrice(getTotal())}</span>
+                          <span className="text-[10px] text-slate-400">excl. verzending</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Link href="/winkelwagen" className="flex-1 px-3 py-2 rounded-lg border border-white/[0.1] text-white text-xs font-bold text-center hover:bg-white/[0.06] transition-colors">
+                            Bekijken
+                          </Link>
+                          <Link href="/afrekenen" className="flex-1 px-3 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold text-center shadow-lg shadow-emerald-500/20">
+                            Afrekenen
+                          </Link>
+                        </div>
                       </div>
                     </motion.div>
                   )}
