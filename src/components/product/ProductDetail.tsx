@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
+import { Product, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
@@ -20,6 +20,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [showBack, setShowBack] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -39,7 +40,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const effectivePrice = getEffectivePrice(product);
   const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
-  const onSale = isOnSale(product);
+
+  const hasCibOption = !!product.cibPrice;
+  const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : effectivePrice;
+  const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
+  const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
 
   useEffect(() => {
     try {
@@ -51,9 +56,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   }, [product.sku]);
 
   const handleAdd = () => {
-    addItem(product);
+    addItem(product, selectedVariant === 'cib' ? 'cib' : undefined);
     setAdded(true);
-    addToast(`${product.name} toegevoegd aan winkelwagen`, 'success', undefined, product.image || undefined);
+    addToast(`${product.name}${selectedVariant === 'cib' ? ' (CIB)' : ''} toegevoegd aan winkelwagen`, 'success', undefined, displayImage || undefined);
     setTimeout(() => setAdded(false), 2000);
   };
 
@@ -87,14 +92,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
         {/* Afbeelding */}
         <div className="relative group">
-          <div className={`aspect-square rounded-2xl ${product.image ? 'bg-slate-50 border border-slate-200' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
-            {product.image ? (
+          <div className={`aspect-square rounded-2xl ${displayImage ? 'bg-slate-50 border border-slate-200' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
+            {displayImage ? (
               <>
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-slate-100 animate-pulse" />
                 )}
                 <Image
-                  src={showBack && product.backImage ? product.backImage : product.image}
+                  src={showBack && displayBackImage ? displayBackImage : displayImage}
                   alt={`${product.name} - ${product.platform} ${showBack ? 'achterkant' : 'cover art'}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -106,7 +111,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   onLoad={() => setImageLoaded(true)}
                 />
                 {/* Voor/Achter toggle */}
-                {product.backImage && (
+                {displayBackImage && (
                   <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                     <button
                       onClick={() => setShowBack(false)}
@@ -192,26 +197,45 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="text-xs text-slate-400">— Vandaag besteld, morgen verzonden</span>
           </div>
 
+          {/* CIB/Los variant toggle */}
+          {hasCibOption && (
+            <div className="flex items-center gap-2 mb-4">
+              <div className="inline-flex rounded-xl bg-slate-100 p-1">
+                <button
+                  onClick={() => setSelectedVariant('los')}
+                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                    selectedVariant === 'los'
+                      ? 'bg-white text-slate-900 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  Los
+                </button>
+                <button
+                  onClick={() => setSelectedVariant('cib')}
+                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                    selectedVariant === 'cib'
+                      ? 'bg-white text-slate-900 shadow-sm'
+                      : 'text-slate-500 hover:text-slate-700'
+                  }`}
+                >
+                  Met doos (CIB)
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Prijs */}
           <div className="flex flex-wrap items-baseline gap-3 mb-8">
-            {onSale ? (
-              <>
-                <span className="text-3xl sm:text-5xl font-extrabold text-red-500 tracking-tight tabular-nums">
-                  {formatPrice(effectivePrice)}
-                </span>
-                <span className="text-xl text-slate-400 line-through">
-                  {formatPrice(product.price)}
-                </span>
-                <span className="text-sm text-red-500 font-bold bg-red-50 px-2.5 py-1 rounded-lg">
-                  -{getSalePercentage(product)}%
-                </span>
-              </>
-            ) : (
-              <span className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight tabular-nums">
-                {formatPrice(product.price)}
+            <span className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight tabular-nums">
+              {formatPrice(displayPrice)}
+            </span>
+            {hasCibOption && selectedVariant === 'cib' && (
+              <span className="text-lg text-slate-400 line-through">
+                {formatPrice(effectivePrice)}
               </span>
             )}
-            {freeShipping && (
+            {displayPrice >= FREE_SHIPPING_THRESHOLD && (
               <span className="inline-flex items-center gap-1 text-sm text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
@@ -306,8 +330,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
         <div className="bg-white/95 backdrop-blur-sm border-t border-slate-200 px-4 py-3 flex items-center justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-xs text-slate-500 truncate">{product.name}</p>
-            <p className={cn("text-lg font-extrabold", onSale ? "text-red-500" : "text-slate-900")}>{formatPrice(effectivePrice)}</p>
+            <p className="text-xs text-slate-500 truncate">{product.name}{selectedVariant === 'cib' ? ' (CIB)' : ''}</p>
+            <p className="text-lg font-extrabold text-slate-900">{formatPrice(displayPrice)}</p>
           </div>
           <button
             onClick={handleAdd}
@@ -321,7 +345,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       </div>
 
       {/* Lightbox */}
-      {lightboxOpen && product.image && (
+      {lightboxOpen && displayImage && (
         <div
           className="fixed inset-0 z-[300] bg-black/90 flex items-center justify-center cursor-zoom-out"
           onClick={() => setLightboxOpen(false)}
@@ -337,7 +361,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </button>
           <div className="relative max-w-[90vw] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
             <img
-              src={product.image}
+              src={displayImage!}
               alt={`${product.name} - ${product.platform}`}
               className="max-w-full max-h-[85vh] object-contain rounded-2xl"
             />

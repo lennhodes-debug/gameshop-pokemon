@@ -85,6 +85,18 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   'GB-001':  'normal',    // Trading Card Game
   'GB-002':  'water',     // Crystal — Suicune
   'GB-003':  'fire',      // Red — Charizard
+  'DS-010':  'steel',     // Diamond EUR — Dialga
+  'DS-011':  'water',     // MD Blue Rescue Team — Squirtle
+  'DS-012':  'fire',      // MD Explorers of Sky — Charizard
+  'DS-013':  'normal',    // Ranger
+  'DS-014':  'ghost',     // MD Explorers of Darkness
+  'DS-015':  'normal',    // Conquest
+  'DS-016':  'dragon',    // Black 2 — Black Kyurem
+  'DS-017':  'dragon',    // White 2 — White Kyurem
+  'DS-018':  'steel',     // Diamond USA — Dialga
+  'DS-019':  'ghost',     // Platinum USA — Giratina
+  'DS-020':  'water',     // Pearl USA — Palkia
+  'DS-021':  'fire',      // HeartGold USA — Ho-Oh
 };
 
 export interface PokemonTypeInfo {

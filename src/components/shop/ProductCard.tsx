@@ -116,6 +116,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const [imageError, setImageError] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
   const cardRef = useRef<HTMLDivElement>(null);
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
@@ -123,6 +124,11 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const typeInfo = getPokemonType(product.sku);
   const isPokemon = !!typeInfo;
+  const hasCibOption = !!product.cibPrice;
+
+  // Huidige variant image/price
+  const displayImage = (hasCibOption && selectedVariant === 'cib') ? product.cibImage : product.image;
+  const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : getEffectivePrice(product);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -135,9 +141,11 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(product);
+    const variant = (hasCibOption && selectedVariant === 'cib') ? 'cib' as const : undefined;
+    addItem(product, variant);
+    const label = variant ? `${product.name} (CIB)` : product.name;
     setAddedToCart(true);
-    addToast(`${product.name} toegevoegd aan winkelwagen`, 'success', undefined, product.image || undefined);
+    addToast(`${label} toegevoegd aan winkelwagen`, 'success', undefined, (displayImage || product.image) || undefined);
     setTimeout(() => setAddedToCart(false), 1500);
   };
 
@@ -174,13 +182,13 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
             <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
-              {product.image && !imageError ? (
+              {displayImage && !imageError ? (
                 <>
                   {!imageLoaded && (
                     <div className="absolute inset-0 animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
                   )}
                   <Image
-                    src={product.image}
+                    src={displayImage}
                     alt={`${product.name} - ${product.platform}`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -231,13 +239,43 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           {/* Content */}
           <div className="p-4 flex flex-col flex-1" style={{ background: `linear-gradient(180deg, ${typeInfo.bg[1]}10 0%, ${typeInfo.bg[1]}20 100%)` }}>
+            {/* CIB / Los toggle */}
+            {hasCibOption && (
+              <div className="flex rounded-lg overflow-hidden mb-2.5 border" style={{ borderColor: `${typeInfo.bg[0]}40` }}>
+                <button
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedVariant('los'); setImageLoaded(false); }}
+                  className={cn(
+                    "flex-1 py-1.5 text-[11px] font-bold transition-all duration-200",
+                    selectedVariant === 'los'
+                      ? "text-white"
+                      : "text-slate-500 hover:text-slate-700 bg-white/80"
+                  )}
+                  style={selectedVariant === 'los' ? { background: `linear-gradient(135deg, ${typeInfo.bg[0]}, ${typeInfo.bg[1]})` } : undefined}
+                >
+                  Los
+                </button>
+                <button
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedVariant('cib'); setImageLoaded(false); }}
+                  className={cn(
+                    "flex-1 py-1.5 text-[11px] font-bold transition-all duration-200",
+                    selectedVariant === 'cib'
+                      ? "text-white"
+                      : "text-slate-500 hover:text-slate-700 bg-white/80"
+                  )}
+                  style={selectedVariant === 'cib' ? { background: `linear-gradient(135deg, ${typeInfo.bg[0]}, ${typeInfo.bg[1]})` } : undefined}
+                >
+                  Met doos
+                </button>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-1.5 mb-2.5">
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border"
                 style={{ color: typeInfo.bg[0], borderColor: `${typeInfo.bg[0]}40`, background: `${typeInfo.bg[0]}10` }}>
                 {product.condition}
               </span>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
-                {isCIB ? 'CIB' : product.completeness}
+                {(hasCibOption && selectedVariant === 'cib') ? 'CIB' : isCIB ? 'CIB' : product.completeness}
               </span>
             </div>
 
@@ -256,7 +294,16 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
             <div className="flex items-center justify-between pt-3 mt-auto border-t" style={{ borderColor: `${typeInfo.bg[0]}15` }}>
               <div>
-                {isOnSale(product) ? (
+                {hasCibOption && selectedVariant === 'cib' ? (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xl font-extrabold tracking-tight" style={{ color: typeInfo.bg[0] }}>
+                      {formatPrice(displayPrice)}
+                    </span>
+                    <span className="text-sm text-slate-400 line-through">
+                      {formatPrice(product.price)}
+                    </span>
+                  </div>
+                ) : isOnSale(product) ? (
                   <div className="flex items-baseline gap-2">
                     <span className="text-xl font-extrabold tracking-tight" style={{ color: typeInfo.bg[0] }}>
                       {formatPrice(getEffectivePrice(product))}
@@ -267,10 +314,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   </div>
                 ) : (
                   <span className="text-xl font-extrabold text-slate-900 tracking-tight">
-                    {formatPrice(product.price)}
+                    {formatPrice(displayPrice)}
                   </span>
                 )}
-                {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
+                {displayPrice >= FREE_SHIPPING_THRESHOLD && (
                   <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
                 )}
               </div>

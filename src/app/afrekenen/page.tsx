@@ -5,9 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
-import { useCart } from '@/components/cart/CartProvider';
+import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
-import { getEffectivePrice } from '@/lib/products';
 import { useToast } from '@/components/ui/Toast';
 
 interface FormData {
@@ -438,20 +437,26 @@ export default function AfrekenPage() {
                 <div className="space-y-3 mb-6 max-h-64 overflow-y-auto pr-1">
                   {items.map((item, index) => {
                     const colors = PLATFORM_COLORS[item.product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
+                    const img = getCartItemImage(item);
+                    const price = getCartItemPrice(item);
+                    const key = item.variant ? `${item.product.sku}:${item.variant}` : item.product.sku;
                     return (
-                      <motion.div key={item.product.sku} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }} className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-lg ${item.product.image ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden flex-shrink-0`}>
-                          {item.product.image ? (
-                            <Image src={item.product.image} alt={item.product.name} width={48} height={48} className="object-contain p-1" />
+                      <motion.div key={key} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }} className="flex items-center gap-3">
+                        <div className={`w-12 h-12 rounded-lg ${img ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden flex-shrink-0`}>
+                          {img ? (
+                            <Image src={img} alt={item.product.name} width={48} height={48} className="object-contain p-1" />
                           ) : (
                             <span className="text-white/30 text-[8px] font-bold">{PLATFORM_LABELS[item.product.platform]}</span>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{item.product.name}</p>
+                          <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                            {item.product.name}
+                            {item.variant === 'cib' && <span className="ml-1 text-amber-600 dark:text-amber-400">(CIB)</span>}
+                          </p>
                           <p className="text-[10px] text-slate-500 dark:text-slate-400">x{item.quantity}</p>
                         </div>
-                        <span className="text-sm font-bold text-slate-900 dark:text-white flex-shrink-0">{formatPrice(getEffectivePrice(item.product) * item.quantity)}</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-white flex-shrink-0">{formatPrice(price * item.quantity)}</span>
                       </motion.div>
                     );
                   })}
