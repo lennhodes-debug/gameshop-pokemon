@@ -225,9 +225,9 @@ const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 34, suffix: '+', label: 'Pokémon games' },
+  { value: 46, suffix: '', label: 'Pokémon games' },
   { value: 4, suffix: '', label: 'Platforms' },
-  { value: 7, suffix: '+', label: 'Jaar ervaring' },
+  { value: 8, suffix: '+', label: 'Jaar ervaring' },
 ];
 
 export default function OverOnsPage() {
