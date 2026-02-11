@@ -163,6 +163,7 @@ export default function WinkelwagenPage() {
             )}
           </motion.div>
         ) : (
+          <>
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Cart items */}
             <div className="lg:col-span-2 space-y-3">
@@ -567,6 +568,22 @@ export default function WinkelwagenPage() {
               </div>
             </motion.div>
           </div>
+
+          {/* Mobiele sticky afrekenen balk */}
+          <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-30 lg:hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-t border-slate-200 dark:border-slate-700 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Totaal</p>
+                <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatPrice(total)}</p>
+              </div>
+              <Link href="/afrekenen" className="flex-1 max-w-[200px]">
+                <span className="block w-full px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 text-center">
+                  Afrekenen
+                </span>
+              </Link>
+            </div>
+          </div>
+          </>
         )}
 
       </div>
