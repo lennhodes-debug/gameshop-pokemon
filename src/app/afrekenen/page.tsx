@@ -114,6 +114,14 @@ export default function AfrekenPage() {
   }, [form, validations]);
 
   const updateField = (field: keyof FormData, value: string) => {
+    if (field === 'postcode') {
+      const clean = value.replace(/\s/g, '').toUpperCase();
+      if (clean.length >= 4 && /^\d{4}/.test(clean)) {
+        const digits = clean.slice(0, 4);
+        const letters = clean.slice(4, 6).replace(/[^A-Z]/g, '');
+        value = letters ? `${digits} ${letters}` : digits;
+      }
+    }
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -553,6 +561,32 @@ export default function AfrekenPage() {
                   </div>
                 </div>
 
+                {/* Geschatte levertijd */}
+                <div className="mt-4 flex items-center gap-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl px-4 py-3">
+                  <div className="h-8 w-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center flex-shrink-0">
+                    <svg className="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">Verwachte levering</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      {(() => {
+                        const now = new Date();
+                        const isBefore17 = now.getHours() < 17;
+                        const minDays = isBefore17 ? 1 : 2;
+                        const maxDays = minDays + 2;
+                        const min = new Date(now);
+                        min.setDate(min.getDate() + minDays);
+                        const max = new Date(now);
+                        max.setDate(max.getDate() + maxDays);
+                        const fmt = (d: Date) => d.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+                        return `${fmt(min)} - ${fmt(max)}`;
+                      })()}
+                    </p>
+                  </div>
+                </div>
+
                 <motion.button
                   type="submit"
                   disabled={isProcessing}
@@ -587,6 +621,15 @@ export default function AfrekenPage() {
                     <span key={m} className="px-2 py-1 rounded-md bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[9px] text-slate-500 dark:text-slate-400 font-semibold">{m}</span>
                   ))}
                 </div>
+
+                {new Date().getHours() < 17 && (
+                  <div className="mt-4 flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800">
+                    <svg className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Bestel voor 17:00, morgen in huis</span>
+                  </div>
+                )}
 
                 <div className="mt-5 space-y-2">
                   {['100% originele producten', 'Persoonlijk getest op werking', 'Verzending via PostNL (1-3 werkdagen)', '14 dagen bedenktijd'].map((text, i) => (

@@ -175,7 +175,8 @@ export default function NotFound() {
             )}
           </motion.div>
 
-          <motion.div
+          <motion.nav
+            aria-label="Navigatie vanaf 404 pagina"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
@@ -184,11 +185,13 @@ export default function NotFound() {
             <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-4">Populaire categorieën</p>
             <div className="flex flex-wrap items-center justify-center gap-2">
               {[
-                { href: '/shop?platform=Nintendo+DS', label: 'Nintendo DS' },
-                { href: '/shop?platform=Game+Boy+Advance', label: 'Game Boy Advance' },
-                { href: '/shop?platform=Nintendo+3DS', label: 'Nintendo 3DS' },
-                { href: '/shop?platform=Game+Boy+%2F+Color', label: 'Game Boy' },
+                { href: '/shop?platform=Nintendo+DS', label: 'Nintendo DS games' },
+                { href: '/shop?platform=Game+Boy+Advance', label: 'Game Boy Advance games' },
+                { href: '/shop?platform=Nintendo+3DS', label: 'Nintendo 3DS games' },
+                { href: '/shop?platform=Game+Boy+%2F+Color', label: 'Game Boy games' },
                 { href: '/inkoop', label: 'Games verkopen' },
+                { href: '/nintendo', label: 'Nintendo & Pok\u00e9mon' },
+                { href: '/faq', label: 'Veelgestelde vragen' },
               ].map((cat, i) => (
                 <motion.div
                   key={cat.href}
@@ -208,7 +211,7 @@ export default function NotFound() {
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </motion.nav>
 
           <motion.p
             initial={{ opacity: 0 }}

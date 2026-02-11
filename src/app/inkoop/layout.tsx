@@ -52,24 +52,59 @@ export default function InkoopLayout({ children }: { children: React.ReactNode }
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Home',
-                item: siteUrl,
+          __html: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'Home',
+                  item: siteUrl,
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'Games Verkopen',
+                  item: `${siteUrl}/inkoop`,
+                },
+              ],
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'HowTo',
+              name: 'Pok\u00e9mon games verkopen bij Gameshop Enter',
+              description:
+                'Verkoop je Pok\u00e9mon games in drie eenvoudige stappen. Eerlijk bod binnen 24 uur, gratis verzending.',
+              totalTime: 'PT5M',
+              estimatedCost: {
+                '@type': 'MonetaryAmount',
+                currency: 'EUR',
+                value: '0',
               },
-              {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Games Verkopen',
-                item: `${siteUrl}/inkoop`,
-              },
-            ],
-          }),
+              step: [
+                {
+                  '@type': 'HowToStep',
+                  position: 1,
+                  name: "Maak foto's",
+                  text: "Maak duidelijke foto's van de voorkant, achterkant en eventuele doos van je Pok\u00e9mon games.",
+                },
+                {
+                  '@type': 'HowToStep',
+                  position: 2,
+                  name: 'Stuur ze op',
+                  text: "Vul het inkoopformulier in met je contactgegevens en beschrijving, en stuur je foto's mee via e-mail naar gameshopenter@gmail.com.",
+                },
+                {
+                  '@type': 'HowToStep',
+                  position: 3,
+                  name: 'Ontvang je bod',
+                  text: 'Wij reageren binnen 24 uur met een eerlijk bod gebaseerd op de actuele marktwaarde. Betaling binnen 2 werkdagen na akkoord.',
+                },
+              ],
+            },
+          ]),
         }}
       />
       {children}

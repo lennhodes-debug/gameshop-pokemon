@@ -7,8 +7,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 import CartCounter from './CartCounter';
 import Image from 'next/image';
-import { cn, formatPrice, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
+import { cn, formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -25,7 +26,11 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileNavRef = useRef<HTMLElement>(null);
   const { items, getItemCount, getTotal } = useCart();
+  const { items: wishlistItems } = useWishlist();
+  const wishlistCount = wishlistItems.length;
   const itemCount = getItemCount();
+  const cartTotal = getTotal();
+  const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - cartTotal;
   const [cartHover, setCartHover] = useState(false);
   const cartHoverTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -115,6 +120,18 @@ export default function Header() {
                 </div>
               </Link>
 
+              {/* Verlanglijst */}
+              <Link href="/verlanglijst" className="hidden lg:block relative p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors" aria-label="Verlanglijst">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill={wishlistCount > 0 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 h-4 min-w-4 flex items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-bold px-1">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+
               {/* Cart */}
               <div
                 className="relative"
@@ -164,9 +181,28 @@ export default function Header() {
                         })}
                       </div>
                       <div className="mt-3 pt-3 border-t border-white/[0.06]">
+                        {itemCount > 0 && cartTotal < FREE_SHIPPING_THRESHOLD && (
+                          <div className="mb-2.5 px-1">
+                            <p className="text-[10px] text-emerald-400 font-medium mb-1">
+                              Nog {formatPrice(remainingForFreeShipping)} voor gratis verzending
+                            </p>
+                            <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full transition-all duration-500"
+                                style={{ width: `${Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100)}%` }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        {cartTotal >= FREE_SHIPPING_THRESHOLD && (
+                          <p className="text-[10px] text-emerald-400 font-semibold mb-2 flex items-center gap-1">
+                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                            Gratis verzending!
+                          </p>
+                        )}
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-bold text-white">{formatPrice(getTotal())}</span>
-                          <span className="text-[10px] text-slate-400">excl. verzending</span>
+                          <span className="text-[10px] text-slate-400">{cartTotal >= FREE_SHIPPING_THRESHOLD ? 'gratis verzending' : 'excl. verzending'}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Link href="/winkelwagen" className="flex-1 px-3 py-2 rounded-lg border border-white/[0.1] text-white text-xs font-bold text-center hover:bg-white/[0.06] transition-colors">
@@ -232,7 +268,26 @@ export default function Header() {
                       {link.label}
                     </Link>
                   ))}
-                  <div className="border-t border-white/[0.06] mt-2 pt-2">
+                  <div className="border-t border-white/[0.06] mt-2 pt-2 space-y-1">
+                    <Link
+                      href="/verlanglijst"
+                      className={cn(
+                        'flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all',
+                        pathname === '/verlanglijst' ? 'text-red-400 bg-red-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      )}
+                    >
+                      <span className="flex items-center gap-2">
+                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill={wishlistCount > 0 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                        </svg>
+                        Verlanglijst
+                      </span>
+                      {wishlistCount > 0 && (
+                        <span className="h-5 min-w-5 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold px-1.5">
+                          {wishlistCount}
+                        </span>
+                      )}
+                    </Link>
                     <Link
                       href="/winkelwagen"
                       className={cn(
@@ -272,6 +327,11 @@ export default function Header() {
             { href: '/shop', label: 'Shop', icon: (
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
+              </svg>
+            )},
+            { href: '/verlanglijst', label: 'Lijst', badge: wishlistCount, icon: (
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill={wishlistCount > 0 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
             )},
             { href: '/winkelwagen', label: 'Wagen', badge: itemCount, icon: (

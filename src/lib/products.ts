@@ -151,3 +151,28 @@ export function searchProducts(query: string, limit = 5): Product[] {
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, limit).map(s => s.product);
 }
+
+export interface ProductStats {
+  totalProducts: number;
+  totalPlatforms: number;
+  priceRange: { min: number; max: number };
+  platformCounts: Record<string, number>;
+}
+
+const _statsCache: ProductStats = (() => {
+  const prices = products.map(p => getEffectivePrice(p));
+  const platformCounts: Record<string, number> = {};
+  products.forEach(p => {
+    platformCounts[p.platform] = (platformCounts[p.platform] || 0) + 1;
+  });
+  return {
+    totalProducts: products.length,
+    totalPlatforms: Object.keys(platformCounts).length,
+    priceRange: { min: Math.min(...prices), max: Math.max(...prices) },
+    platformCounts,
+  };
+})();
+
+export function getProductStats(): ProductStats {
+  return _statsCache;
+}

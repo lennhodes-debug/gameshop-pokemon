@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
@@ -36,6 +37,7 @@ function ShopContent() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   const { getTotal, getItemCount } = useCart();
+  const { items: wishlistItems } = useWishlist();
   const cartTotal = getTotal();
   const cartCount = getItemCount();
   const freeShippingProgress = Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
@@ -233,6 +235,25 @@ function ShopContent() {
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        {/* Urgentie banner */}
+        {new Date().getHours() < 17 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-100 dark:border-emerald-800"
+          >
+            <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+              <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Bestel voor 17:00, morgen in huis</p>
+              <p className="text-xs text-emerald-600/70 dark:text-emerald-500/70">Verzending via PostNL, altijd met track & trace</p>
+            </div>
+          </motion.div>
+        )}
+
         {/* Gratis verzending progressiebalk */}
         <AnimatePresence>
           {cartCount > 0 && cartTotal < FREE_SHIPPING_THRESHOLD && (
@@ -457,6 +478,21 @@ function ShopContent() {
                   </svg>
                   Filters wissen
                 </button>
+
+                {/* Verlanglijst suggestie */}
+                {wishlistItems.length > 0 && (
+                  <div className="mb-8">
+                    <Link
+                      href="/verlanglijst"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-red-200 dark:border-red-800/50 text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
+                    >
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                      </svg>
+                      Bekijk je verlanglijst ({wishlistItems.length})
+                    </Link>
+                  </div>
+                )}
 
                 {/* Suggesties per platform */}
                 <div className="max-w-lg mx-auto">

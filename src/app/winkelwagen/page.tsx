@@ -211,12 +211,12 @@ export default function WinkelwagenPage() {
                 </motion.div>
               )}
 
-              {/* Verder winkelen knop */}
+              {/* Urgentie + verder winkelen */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="mb-4"
+                className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
               >
                 <Link href="/shop" className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors group">
                   <svg className="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -224,6 +224,14 @@ export default function WinkelwagenPage() {
                   </svg>
                   Verder winkelen
                 </Link>
+                {new Date().getHours() < 17 && (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Bestel voor 17:00, morgen in huis
+                  </span>
+                )}
               </motion.div>
 
               <AnimatePresence>
