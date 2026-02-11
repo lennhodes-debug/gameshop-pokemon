@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getPokemonType, PokemonTypeInfo } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -32,16 +32,105 @@ function HighlightText({ text, query }: { text: string; query?: string }) {
   );
 }
 
+// Type-specifieke deeltjes generator
+function TypeParticles({ typeInfo }: { typeInfo: PokemonTypeInfo }) {
+  const count = typeInfo.name === 'ghost' ? 3 : typeInfo.name === 'electric' ? 5 : 8;
+
+  const animationClass = useMemo(() => {
+    switch (typeInfo.name) {
+      case 'fire': case 'water': case 'normal': return 'particle-float';
+      case 'grass': return 'particle-drift';
+      case 'electric': return 'particle-spark';
+      case 'ghost': return 'ghost-mist';
+      default: return 'particle-sparkle'; // fairy, dragon, steel, ground, psychic
+    }
+  }, [typeInfo.name]);
+
+  const particles = useMemo(() => {
+    return Array.from({ length: count }, (_, i) => {
+      const left = 10 + Math.random() * 80;
+      const top = 20 + Math.random() * 60;
+      const delay = Math.random() * 3;
+      const duration = 2 + Math.random() * 2;
+      const size = typeInfo.name === 'ghost' ? 30 + Math.random() * 40 : 3 + Math.random() * 5;
+      const drift = (Math.random() - 0.5) * 30;
+
+      return { left, top, delay, duration, size, drift, key: i };
+    });
+  }, [count, typeInfo.name]);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      {particles.map(p => (
+        <span
+          key={p.key}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.left}%`,
+            top: `${p.top}%`,
+            width: p.size,
+            height: p.size,
+            backgroundColor: typeInfo.particle,
+            animation: `${animationClass} ${p.duration}s ${p.delay}s ease-out infinite`,
+            '--drift': `${p.drift}px`,
+            filter: typeInfo.name === 'ghost' ? 'blur(8px)' : typeInfo.name === 'electric' ? 'blur(1px)' : 'blur(0.5px)',
+            boxShadow: typeInfo.name === 'fire'
+              ? `0 0 6px ${typeInfo.particle}`
+              : typeInfo.name === 'electric'
+              ? `0 0 8px ${typeInfo.particle}`
+              : 'none',
+          } as React.CSSProperties}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Holographic shine overlay
+function HoloShine({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
+  return (
+    <div
+      className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none z-20 rounded-2xl overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(
+            circle at ${mouseX}% ${mouseY}%,
+            rgba(255,255,255,0.3) 0%,
+            rgba(120,220,255,0.15) 20%,
+            rgba(200,120,255,0.1) 40%,
+            rgba(255,180,100,0.05) 60%,
+            transparent 80%
+          )
+        `,
+        mixBlendMode: 'overlay',
+      }}
+    />
+  );
+}
+
 const ProductCard = React.memo(function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
   const { addToast } = useToast();
   const [addedToCart, setAddedToCart] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
+  const typeInfo = getPokemonType(product.sku);
+  const isPokemon = !!typeInfo;
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setMousePos({ x, y });
+  }, []);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,6 +141,170 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     setTimeout(() => setAddedToCart(false), 1500);
   };
 
+  // 3D tilt berekening
+  const tiltX = isHovered ? (mousePos.y - 50) * -0.2 : 0;
+  const tiltY = isHovered ? (mousePos.x - 50) * 0.2 : 0;
+
+  // === POKEMON TYPE CARD ===
+  if (isPokemon && typeInfo) {
+    return (
+      <div className="group" style={{ perspective: '800px' }}>
+        <div
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
+          className="relative rounded-2xl overflow-hidden flex flex-col transition-all duration-300 will-change-transform"
+          style={{
+            transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
+            transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
+            background: `linear-gradient(135deg, ${typeInfo.bg[0]}18 0%, ${typeInfo.bg[1]}30 100%)`,
+            border: `1.5px solid ${typeInfo.bg[0]}40`,
+            boxShadow: isHovered
+              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 8px 32px rgba(0,0,0,0.2)`
+              : `0 0 12px rgba(${typeInfo.glow}, 0.15), 0 4px 16px rgba(0,0,0,0.1)`,
+          }}
+        >
+          {/* Type deeltjes */}
+          <TypeParticles typeInfo={typeInfo} />
+
+          {/* Holographic shine */}
+          <HoloShine mouseX={mousePos.x} mouseY={mousePos.y} />
+
+          {/* Product afbeelding */}
+          <Link href={`/shop/${product.sku}`}>
+            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
+              {product.image && !imageError ? (
+                <>
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
+                  )}
+                  <Image
+                    src={product.image}
+                    alt={`${product.name} - ${product.platform}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className={cn(
+                      "object-contain p-4 group-hover:scale-110 transition-transform duration-500",
+                      imageLoaded ? "opacity-100" : "opacity-0"
+                    )}
+                    onLoad={() => setImageLoaded(true)}
+                    onError={() => setImageError(true)}
+                  />
+                </>
+              ) : (
+                <span className="text-white/10 text-5xl font-black select-none">
+                  {platformLabel}
+                </span>
+              )}
+
+              {/* Type label + platform */}
+              <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                <span
+                  className="px-2.5 py-1 rounded-lg text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm"
+                  style={{ background: `${typeInfo.bg[0]}B0` }}
+                >
+                  {typeInfo.label}
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-black/30 text-white/80 text-[10px] font-medium backdrop-blur-sm">
+                  {platformLabel}
+                </span>
+              </div>
+
+              {/* Badges rechts */}
+              <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
+                {isOnSale(product) && (
+                  <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold shadow-sm">
+                    -{getSalePercentage(product)}%
+                  </span>
+                )}
+                {product.isPremium && <Badge variant="premium">PREMIUM</Badge>}
+              </div>
+            </div>
+          </Link>
+
+          {/* Gradient scheiding */}
+          <div
+            className="h-px"
+            style={{ background: `linear-gradient(90deg, transparent, ${typeInfo.bg[0]}60, transparent)` }}
+          />
+
+          {/* Content */}
+          <div className="p-4 flex flex-col flex-1" style={{ background: `linear-gradient(180deg, ${typeInfo.bg[1]}10 0%, ${typeInfo.bg[1]}20 100%)` }}>
+            <div className="flex flex-wrap gap-1.5 mb-2.5">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border"
+                style={{ color: typeInfo.bg[0], borderColor: `${typeInfo.bg[0]}40`, background: `${typeInfo.bg[0]}10` }}>
+                {product.condition}
+              </span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                {isCIB ? 'CIB' : product.completeness}
+              </span>
+            </div>
+
+            <Link href={`/shop/${product.sku}`}>
+              <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 group-hover:text-opacity-80 transition-colors"
+                style={{ color: isHovered ? typeInfo.bg[0] : undefined }}>
+                <HighlightText text={product.name} query={searchQuery} />
+              </h3>
+            </Link>
+
+            {product.description && (
+              <p className="text-xs text-slate-400 line-clamp-1 mb-3">
+                {product.description}
+              </p>
+            )}
+
+            <div className="flex items-center justify-between pt-3 mt-auto border-t" style={{ borderColor: `${typeInfo.bg[0]}15` }}>
+              <div>
+                {isOnSale(product) ? (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xl font-extrabold tracking-tight" style={{ color: typeInfo.bg[0] }}>
+                      {formatPrice(getEffectivePrice(product))}
+                    </span>
+                    <span className="text-sm text-slate-400 line-through">
+                      {formatPrice(product.price)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-xl font-extrabold text-slate-900 tracking-tight">
+                    {formatPrice(product.price)}
+                  </span>
+                )}
+                {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
+                  <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
+                )}
+              </div>
+              <button
+                onClick={handleAddToCart}
+                aria-label={`${product.name} toevoegen aan winkelwagen`}
+                className={cn(
+                  "h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300",
+                  addedToCart ? "bg-emerald-500" : "hover:shadow-lg"
+                )}
+                style={addedToCart ? undefined : {
+                  background: `linear-gradient(135deg, ${typeInfo.bg[0]}, ${typeInfo.bg[1]})`,
+                  boxShadow: isHovered ? `0 4px 15px rgba(${typeInfo.glow}, 0.4)` : undefined,
+                }}
+              >
+                {addedToCart ? (
+                  <span className="flex items-center gap-1">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Toegevoegd
+                  </span>
+                ) : (
+                  '+ Winkelmand'
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // === STANDAARD CARD (consoles, accessoires) ===
   return (
     <div className="group">
       <div className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col">
