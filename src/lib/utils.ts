@@ -48,18 +48,14 @@ export const FREE_SHIPPING_THRESHOLD = 100;
 export const POKEMON_TYPE_MAP: Record<string, string> = {
   'GBA-001': 'dragon',    // Emerald — Rayquaza
   'GBA-002': 'water',     // Sapphire EUR — Kyogre
-  'GBA-003': 'water',     // Sapphire USA — Kyogre
   'GBA-004': 'fire',      // FireRed USA — Charizard
   'GBA-005': 'fire',      // FireRed EUR — Charizard
   'GBA-006': 'grass',     // LeafGreen USA — Venusaur
-  'GBA-007': 'grass',     // LeafGreen EUR — Venusaur
-  'GBA-008': 'fire',      // MD Red Rescue Team — Charizard
   'DS-001':  'ghost',     // Platinum — Giratina
   'DS-002':  'psychic',   // SoulSilver — Lugia
   'DS-003':  'fire',      // HeartGold — Ho-Oh
 
   'DS-005':  'dragon',    // Black — Reshiram
-  'DS-006':  'electric',  // White — Zekrom
   'DS-007':  'normal',    // Ranger Guardian Signs
   'DS-008':  'normal',    // Ranger Shadows of Almia
   'DS-009':  'steel',     // MD Explorers of Time — Dialga
@@ -67,8 +63,6 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   '3DS-002': 'ground',    // Omega Ruby — Groudon
   '3DS-003': 'water',     // Alpha Sapphire — Kyogre
   '3DS-004': 'ghost',     // Moon — Lunala
-  '3DS-005': 'normal',    // Super Mystery Dungeon
-  'GB-001':  'normal',    // Trading Card Game
   'DS-010':  'steel',     // Diamond EUR — Dialga
   'DS-011':  'water',     // MD Blue Rescue Team — Squirtle
   'DS-012':  'fire',      // MD Explorers of Sky — Charizard

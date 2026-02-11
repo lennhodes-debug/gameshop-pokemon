@@ -318,7 +318,7 @@ const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 46, suffix: '', label: 'Pokémon games' },
+  { value: 40, suffix: '', label: 'Pokémon games' },
   { value: 4, suffix: '', label: 'Platforms' },
   { value: 8, suffix: '+', label: 'Jaar ervaring' },
 ];
