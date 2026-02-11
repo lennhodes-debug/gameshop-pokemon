@@ -83,6 +83,8 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   '3DS-004': 'ghost',     // Moon — Lunala
   '3DS-005': 'normal',    // Super Mystery Dungeon
   'GB-001':  'normal',    // Trading Card Game
+  'GB-002':  'water',     // Crystal — Suicune
+  'GB-003':  'fire',      // Red — Charizard
 };
 
 export interface PokemonTypeInfo {
