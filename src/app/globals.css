@@ -15,10 +15,10 @@ body {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #f1f5f9; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0e1a; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981, #0d9488); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399, #14b8a6); }
 
 @layer utilities {
   .glass {
@@ -29,6 +29,10 @@ body {
 
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400;
+  }
+
+  .gradient-text-gold {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500;
   }
 }
 
@@ -45,6 +49,16 @@ body {
 .animate-marquee-reverse { animation: marquee-reverse 40s linear infinite; }
 .animate-marquee-slow { animation: marquee 60s linear infinite; }
 .animate-marquee-reverse-slow { animation: marquee-reverse 60s linear infinite; }
+
+/* Aurora gradient animatie */
+@keyframes aurora {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-aurora {
+  background-size: 200% 200%;
+  animation: aurora 15s ease-in-out infinite;
+}
 
 /* Focus & accessibility */
 :focus-visible {
