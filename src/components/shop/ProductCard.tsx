@@ -347,7 +347,18 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   // === STANDAARD CARD (consoles, accessoires) ===
   return (
     <div className="group">
-      <div className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col">
+      <div
+        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
+        style={{
+          boxShadow: isHovered
+            ? '0 8px 30px rgba(16,185,129,0.12), 0 4px 12px rgba(0,0,0,0.06)'
+            : undefined,
+        }}
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
+      >
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div className={`relative h-52 ${product.image && !imageError ? 'bg-slate-50' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
