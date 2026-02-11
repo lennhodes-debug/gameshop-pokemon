@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(16, 185, 129, 0.3);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+@layer utilities {
+  .glass {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background-color: rgba(5, 8, 16, 0.7);
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400;
+  }
+}
+
+/* Marquee animatie (voor GameMarquee) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.animate-marquee { animation: marquee 40s linear infinite; }
+.animate-marquee-reverse { animation: marquee-reverse 40s linear infinite; }
+.animate-marquee-slow { animation: marquee 60s linear infinite; }
+.animate-marquee-reverse-slow { animation: marquee-reverse 60s linear infinite; }
+
+/* Focus & accessibility */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: #10b981;
+  color: white;
+  font-weight: 600;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transition: top 0.2s;
+}
+.skip-to-main:focus { top: 0; }
+
+/* ===== Pokemon Type Card Effecten ===== */
+
+/* Deeltjes: omhoog zweven (vuur, water bubbels) */
+@keyframes particle-float {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-120px) translateX(var(--drift, 0px)) scale(0.3); opacity: 0; }
+}
+
+/* Deeltjes: zijwaarts driften (gras bladeren) */
+@keyframes particle-drift {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  50% { transform: translateX(40px) translateY(-30px) rotate(180deg); }
+  100% { transform: translateX(-20px) translateY(-80px) rotate(360deg); opacity: 0; }
+}
+
+/* Vonken knipperen (electric) */
+@keyframes particle-spark {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  20% { opacity: 1; transform: scale(1.2); }
+  40% { opacity: 0; transform: scale(0.8); }
+  60% { opacity: 0.8; transform: scale(1); }
+  80% { opacity: 0; }
+}
+
+/* Mist bewegen (ghost) */
+@keyframes ghost-mist {
+  0% { transform: translateX(0) scaleX(1); opacity: 0; }
+  20% { opacity: 0.15; }
+  50% { transform: translateX(20px) scaleX(1.3); opacity: 0.2; }
+  80% { opacity: 0.1; }
+  100% { transform: translateX(-10px) scaleX(0.8); opacity: 0; }
+}
+
+/* Fonkeling (fairy, steel, dragon) */
+@keyframes particle-sparkle {
+  0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1) rotate(180deg); opacity: 1; }
+}
+
+/* Holographic glans sweep */
+@keyframes holo-sweep {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(200%) rotate(25deg); }
+}
+
+/* Badge shimmer */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shimmer { animation: shimmer 2s ease-in-out infinite; }
+
+/* Badge pop in */
+@keyframes badge-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-badge-in { animation: badge-in 0.3s ease-out; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
