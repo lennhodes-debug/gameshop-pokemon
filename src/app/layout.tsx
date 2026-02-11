@@ -99,12 +99,19 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Store',
+              '@id': 'https://gameshopenter.nl/#store',
               name: 'Gameshop Enter',
               description: 'Dé Pokémon games specialist van Nederland. 100% originele Pokémon games voor DS, GBA, 3DS en Game Boy, persoonlijk getest.',
               url: 'https://gameshopenter.nl',
-              logo: 'https://gameshopenter.nl/images/logo.png',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://gameshopenter.nl/images/logo.png',
+                width: 512,
+                height: 512,
+              },
               image: 'https://gameshopenter.nl/images/og-image.png',
               email: 'gameshopenter@gmail.com',
+              telephone: '+31-6-00000000',
               founder: {
                 '@type': 'Person',
                 name: 'Lenn Hodes',
@@ -114,17 +121,60 @@ export default function RootLayout({
                 ratingValue: '5.0',
                 reviewCount: '1360',
                 bestRating: '5',
+                worstRating: '1',
               },
-              priceRange: '€',
+              priceRange: '€5 - €300',
               currenciesAccepted: 'EUR',
               paymentAccepted: 'iDEAL, Creditcard, PayPal, Bancontact, Apple Pay',
               areaServed: {
                 '@type': 'Country',
                 name: 'NL',
               },
+              sameAs: [
+                'https://www.instagram.com/gameshopenter/',
+              ],
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Pokémon Games',
+                itemListElement: [
+                  { '@type': 'OfferCatalog', name: 'Game Boy Advance Pokémon Games' },
+                  { '@type': 'OfferCatalog', name: 'Nintendo DS Pokémon Games' },
+                  { '@type': 'OfferCatalog', name: 'Nintendo 3DS Pokémon Games' },
+                  { '@type': 'OfferCatalog', name: 'Game Boy Pokémon Games' },
+                ],
+              },
+              hasMerchantReturnPolicy: {
+                '@type': 'MerchantReturnPolicy',
+                applicableCountry: 'NL',
+                returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                merchantReturnDays: 14,
+                returnMethod: 'https://schema.org/ReturnByMail',
+                returnFees: 'https://schema.org/FreeReturn',
+                returnPolicySeasonalOverride: [],
+              },
+              shippingDetails: {
+                '@type': 'OfferShippingDetails',
+                shippingRate: {
+                  '@type': 'MonetaryAmount',
+                  value: '3.95',
+                  currency: 'EUR',
+                },
+                shippingDestination: {
+                  '@type': 'DefinedRegion',
+                  addressCountry: 'NL',
+                },
+                deliveryTime: {
+                  '@type': 'ShippingDeliveryTime',
+                  handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+                  transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 3, unitCode: 'DAY' },
+                },
+              },
               potentialAction: {
                 '@type': 'SearchAction',
-                target: 'https://gameshopenter.nl/shop?q={search_term_string}',
+                target: {
+                  '@type': 'EntryPoint',
+                  urlTemplate: 'https://gameshopenter.nl/shop?q={search_term_string}',
+                },
                 'query-input': 'required name=search_term_string',
               },
             }),
