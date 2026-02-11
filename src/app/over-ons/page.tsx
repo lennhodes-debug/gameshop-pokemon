@@ -188,7 +188,6 @@ function VelocityRow({
   opacity,
   depth,
   velocityFactor,
-  showInfo,
 }: {
   items: Product[];
   baseVelocity: number;
@@ -197,7 +196,6 @@ function VelocityRow({
   opacity: number;
   depth: number;
   velocityFactor: ReturnType<typeof useMotionValue<number>>;
-  showInfo?: boolean;
 }) {
   const baseX = useMotionValue(0);
   const [repeated, setRepeated] = useState<Product[]>([]);
@@ -246,85 +244,29 @@ function VelocityRow({
         style={{ x: baseX }}
       >
         {repeated.map((product, i) => (
-          <div key={`${product.sku}-${i}`} className={`flex-shrink-0 ${sizeClass} overflow-hidden group/card relative`}>
-            {showInfo ? (
-              <FlipCard product={product} sizeClass={sizeClass} />
-            ) : (
-              <>
-                <Image
-                  src={product.image!}
-                  alt={product.name}
-                  width={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
-                  height={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
-                  className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110"
-                  loading="lazy"
-                />
-                {size === 'md' && (
-                  <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/60 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
-                    <span className="text-white text-[10px] font-semibold leading-tight line-clamp-2">
-                      {product.name}
-                    </span>
-                  </div>
-                )}
-              </>
+          <div
+            key={`${product.sku}-${i}`}
+            className={`flex-shrink-0 ${sizeClass} overflow-hidden group/card relative transition-shadow duration-300 ${size === 'lg' ? 'hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]' : ''}`}
+          >
+            <Image
+              src={product.image!}
+              alt={product.name}
+              width={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
+              height={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
+              className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110"
+              loading="lazy"
+            />
+            {(size === 'md' || size === 'lg') && (
+              <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/50 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
+                <span className="text-white text-[10px] font-semibold leading-tight line-clamp-2">
+                  {product.name}
+                </span>
+              </div>
             )}
           </div>
         ))}
       </motion.div>
     </motion.div>
-  );
-}
-
-// 3D Card Flip — voorkant cover art, achterkant productinfo
-function FlipCard({ product, sizeClass }: { product: Product; sizeClass: string }) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  return (
-    <div
-      className={`relative ${sizeClass} cursor-pointer`}
-      style={{ perspective: '600px' }}
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
-    >
-      <motion.div
-        className="relative w-full h-full"
-        style={{ transformStyle: 'preserve-3d' }}
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-      >
-        {/* Voorkant — Cover Art */}
-        <div className="absolute inset-0 rounded-2xl overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
-          <Image
-            src={product.image!}
-            alt={product.name}
-            width={176}
-            height={176}
-            className="object-cover w-full h-full"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 rounded-2xl ring-2 ring-transparent hover:ring-emerald-400/50 transition-all duration-300 pointer-events-none" />
-        </div>
-
-        {/* Achterkant — Product Info */}
-        <div
-          className="absolute inset-0 rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a1628] to-[#0d1f3c] flex flex-col items-center justify-center p-3 text-center"
-          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-        >
-          <span className="text-white text-xs font-bold leading-tight line-clamp-2 mb-1.5">
-            {product.name}
-          </span>
-          <span className="text-emerald-400 text-[10px] font-medium mb-1">
-            {product.platform}
-          </span>
-          <span className="text-white/80 text-[10px]">
-            {product.condition}
-          </span>
-          <span className="text-emerald-300 text-sm font-extrabold mt-1.5">
-            €{product.price.toFixed(2).replace('.', ',')}
-          </span>
-        </div>
-      </motion.div>
-    </div>
   );
 }
 
@@ -777,7 +719,7 @@ export default function OverOnsPage() {
             velocityFactor={velocityFactor}
           />
 
-          {/* Laag 1 — Voorgrond (groot, scherp, langzaam, card flip) */}
+          {/* Laag 1 — Voorgrond (groot, scherp, langzaam, hover glow) */}
           <VelocityRow
             items={layer1}
             baseVelocity={-30}
@@ -786,7 +728,6 @@ export default function OverOnsPage() {
             opacity={1}
             depth={0}
             velocityFactor={velocityFactor}
-            showInfo
           />
         </motion.div>
       </section>
