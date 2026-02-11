@@ -35,9 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: productUrl,
     },
     openGraph: {
-      type: 'article',
+      type: 'website',
       url: productUrl,
-      title: `${product.name} - ${product.platform} | Gameshop Enter`,
+      title: `${product.name} - ${product.platform} kopen | Gameshop Enter`,
       description,
       siteName: 'Gameshop Enter',
       locale: 'nl_NL',
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: imageUrl,
           width: 600,
           height: 600,
-          alt: product.name,
+          alt: `${product.name} - ${product.platform} bij Gameshop Enter`,
         },
       ],
     },
@@ -69,13 +69,16 @@ export default async function ProductPage({ params }: Props) {
 
   const related = getRelatedProducts(product, 4);
 
+  const effectivePrice = getEffectivePrice(product);
+
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    description: product.description || `${product.name} voor ${product.platform}`,
+    description: product.description || `${product.name} voor ${product.platform}. ${product.condition}, ${product.completeness}. Origineel en getest door Gameshop Enter.`,
     image: product.image ? `${siteUrl}${product.image}` : undefined,
     sku: product.sku,
+    mpn: product.sku,
     brand: {
       '@type': 'Brand',
       name: 'Nintendo',
@@ -88,17 +91,27 @@ export default async function ProductPage({ params }: Props) {
       '@type': 'Offer',
       url: `${siteUrl}/shop/${product.sku}`,
       priceCurrency: 'EUR',
-      price: getEffectivePrice(product).toFixed(2),
+      price: effectivePrice.toFixed(2),
+      priceValidUntil: new Date(new Date().getFullYear(), 11, 31).toISOString().split('T')[0],
       availability: 'https://schema.org/InStock',
       seller: {
         '@type': 'Organization',
         name: 'Gameshop Enter',
+        url: siteUrl,
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'NL',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 14,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn',
       },
       shippingDetails: {
         '@type': 'OfferShippingDetails',
         shippingRate: {
           '@type': 'MonetaryAmount',
-          value: product.price >= FREE_SHIPPING_THRESHOLD ? '0.00' : '3.95',
+          value: effectivePrice >= FREE_SHIPPING_THRESHOLD ? '0.00' : '3.95',
           currency: 'EUR',
         },
         deliveryTime: {
