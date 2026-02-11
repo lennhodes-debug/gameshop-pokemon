@@ -115,8 +115,24 @@ export default function NewsletterCTA() {
               initial={{ opacity: 0, scale: 0.8, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20"
+              className="relative inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20"
             >
+              {/* Sparkle deeltjes bij succes */}
+              {[...Array(6)].map((_, i) => (
+                <motion.span
+                  key={i}
+                  className="absolute w-1.5 h-1.5 rounded-full bg-white"
+                  initial={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                  animate={{
+                    opacity: [1, 1, 0],
+                    scale: [0, 1.5, 0],
+                    x: [0, (Math.cos((i / 6) * Math.PI * 2) * 60)],
+                    y: [0, (Math.sin((i / 6) * Math.PI * 2) * 40)],
+                  }}
+                  transition={{ duration: 0.8, delay: 0.1 + i * 0.06, ease: 'easeOut' }}
+                />
+              ))}
+
               <motion.div
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
