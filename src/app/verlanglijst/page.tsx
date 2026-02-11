@@ -8,7 +8,7 @@ import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 import { getAllProducts, Product, isOnSale, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_LABELS, cn } from '@/lib/utils';
+import { formatPrice, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 
 export default function VerlanglijstPage() {
   const { items: wishlistSkus, removeItem, getShareUrl, clearWishlist } = useWishlist();
@@ -21,6 +21,9 @@ export default function VerlanglijstPage() {
       .map(sku => all.find(p => p.sku === sku))
       .filter((p): p is Product => !!p);
   }, [wishlistSkus]);
+
+  const wishlistTotal = useMemo(() => products.reduce((sum, p) => sum + getEffectivePrice(p), 0), [products]);
+  const qualifiesForFreeShipping = wishlistTotal >= FREE_SHIPPING_THRESHOLD;
 
   const handleAddAll = () => {
     products.forEach(p => addItem(p));
@@ -109,6 +112,39 @@ export default function VerlanglijstPage() {
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
               >
                 Alles verwijderen
+              </button>
+            </motion.div>
+
+            {/* Totaalprijs overzicht */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-4 flex flex-wrap items-center justify-between gap-3"
+            >
+              <div className="flex items-center gap-4">
+                <div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Totale waarde</p>
+                  <p className="text-xl font-extrabold text-slate-900 dark:text-white">{formatPrice(wishlistTotal)}</p>
+                </div>
+                {qualifiesForFreeShipping ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Gratis verzending
+                  </span>
+                ) : (
+                  <span className="text-xs text-slate-400 dark:text-slate-500">
+                    Nog {formatPrice(FREE_SHIPPING_THRESHOLD - wishlistTotal)} voor gratis verzending
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={handleAddAll}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-all"
+              >
+                Alles bestellen
               </button>
             </motion.div>
 
