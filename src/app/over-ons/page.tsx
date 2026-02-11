@@ -1,9 +1,11 @@
 'use client';
 
 import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Button from '@/components/ui/Button';
+import { getAllProducts, type Product } from '@/lib/products';
 
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -234,6 +236,7 @@ export default function OverOnsPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLElement>(null);
   const missionRef = useRef<HTMLElement>(null);
+  const showcaseRef = useRef<HTMLElement>(null);
 
   const heroMouse = useMotionValue(0.5);
   const heroMouseY = useMotionValue(0.5);
@@ -253,6 +256,28 @@ export default function OverOnsPage() {
   });
   const missionScale = useTransform(missionProgress, [0, 0.5, 1], [0.92, 1, 0.92]);
   const missionRotate = useTransform(missionProgress, [0, 0.5, 1], [-1, 0, 1]);
+
+  // Game Showcase: verdeel producten met afbeelding over 3 lagen
+  const { layer1, layer2, layer3 } = useMemo(() => {
+    const withImage = getAllProducts().filter(p => p.image);
+    const l1: Product[] = [];
+    const l2: Product[] = [];
+    const l3: Product[] = [];
+    withImage.forEach((p, i) => {
+      if (i % 3 === 0) l1.push(p);
+      else if (i % 3 === 1) l2.push(p);
+      else l3.push(p);
+    });
+    return { layer1: l1, layer2: l2, layer3: l3 };
+  }, []);
+
+  const { scrollYProgress: showcaseProgress } = useScroll({
+    target: showcaseRef,
+    offset: ['start end', 'end start'],
+  });
+  const showcaseX1 = useTransform(showcaseProgress, [0, 1], ['0%', '-8%']);
+  const showcaseX2 = useTransform(showcaseProgress, [0, 1], ['-5%', '5%']);
+  const showcaseX3 = useTransform(showcaseProgress, [0, 1], ['0%', '-15%']);
 
   const handleHeroMove = useCallback((e: React.MouseEvent) => {
     if (!heroRef.current) return;
@@ -539,6 +564,115 @@ export default function OverOnsPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* === GAME SHOWCASE — Parallax Depth === */}
+      <section ref={showcaseRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+        {/* Subtiel radial glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
+
+        {/* Header */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
+              Collectie
+            </span>
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight">
+              Ons assortiment
+            </h2>
+            <p className="text-slate-400 mt-3 max-w-lg mx-auto">
+              Elke game persoonlijk getest en met zorg geselecteerd
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Fade edges */}
+        <div className="absolute top-0 bottom-0 left-0 w-24 lg:w-40 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-24 lg:w-40 bg-gradient-to-l from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
+
+        {/* Laag 3 — Achtergrond (klein, wazig, snel) */}
+        <motion.div className="relative mb-3 opacity-30" style={{ x: showcaseX3 }}>
+          <div className="flex animate-marquee-fast gap-3">
+            {[...layer3, ...layer3, ...layer3].map((product, i) => (
+              <div
+                key={`l3-${i}`}
+                className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden blur-[1px]"
+              >
+                <Image
+                  src={product.image!}
+                  alt=""
+                  width={80}
+                  height={80}
+                  className="object-cover w-full h-full"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Laag 2 — Midden (medium, lichte blur, tegenrichting) */}
+        <motion.div className="relative mb-3 opacity-60" style={{ x: showcaseX2 }}>
+          <div className="flex animate-marquee-reverse-medium gap-4">
+            {[...layer2, ...layer2].map((product, i) => (
+              <div
+                key={`l2-${i}`}
+                className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden blur-[0.5px] group/card relative"
+              >
+                <Image
+                  src={product.image!}
+                  alt={product.name}
+                  width={128}
+                  height={128}
+                  className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/60 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
+                  <span className="text-white text-[10px] font-semibold leading-tight line-clamp-2">
+                    {product.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Laag 1 — Voorgrond (groot, scherp, langzaam) */}
+        <motion.div className="relative" style={{ x: showcaseX1 }}>
+          <div className="flex animate-marquee-slow gap-5">
+            {[...layer1, ...layer1].map((product, i) => (
+              <motion.div
+                key={`l1-${i}`}
+                className="flex-shrink-0 w-32 h-32 sm:w-44 sm:h-44 rounded-2xl overflow-hidden group/card relative cursor-pointer"
+                whileHover={{ y: -8, scale: 1.05 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              >
+                <Image
+                  src={product.image!}
+                  alt={product.name}
+                  width={176}
+                  height={176}
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover/card:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 rounded-2xl ring-2 ring-transparent group-hover/card:ring-emerald-400/50 transition-all duration-300 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-all duration-300 flex flex-col justify-end p-3">
+                  <span className="text-white text-xs font-bold leading-tight line-clamp-2">
+                    {product.name}
+                  </span>
+                  <span className="text-emerald-400 text-[10px] font-medium mt-0.5">
+                    {product.platform}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </section>
 
       {/* === CINEMATIC MISSION === */}
