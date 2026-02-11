@@ -3,13 +3,43 @@ import { Metadata } from 'next';
 const siteUrl = 'https://gameshopenter.nl';
 
 export const metadata: Metadata = {
-  title: 'Games Verkopen | Inkoop - Gameshop Enter',
-  description: 'Verkoop je Nintendo games en consoles aan Gameshop Enter. Stuur foto\'s en ontvang een eerlijk bod. Snelle afhandeling via PostNL.',
-  keywords: ['games verkopen', 'nintendo inkoop', 'games inkopen', 'tweedehands games verkopen', 'gameshop enter inkoop'],
+  title: 'Pokémon Games Verkopen — Eerlijk Bod Binnen 24 Uur',
+  description:
+    'Verkoop je Pokémon games bij Gameshop Enter. Eerlijke prijzen gebaseerd op marktwaarde, reactie binnen 24 uur en gratis verzending. DS, GBA, 3DS en Game Boy games inkoop.',
+  keywords: [
+    'Pokémon games verkopen',
+    'Nintendo games inkoop',
+    'Pokémon games inruilen',
+    'tweedehands Pokémon games verkopen',
+    'Game Boy games verkopen',
+    'Nintendo DS games verkopen',
+    'GBA games verkopen',
+    'Pokémon cartridge verkopen',
+    'games inkoop Nederland',
+    'retro games verkopen',
+  ],
   openGraph: {
-    title: 'Games Verkopen | Inkoop - Gameshop Enter',
-    description: 'Verkoop je Nintendo games en consoles aan Gameshop Enter. Eerlijke inkoopprijzen, snelle afhandeling.',
+    type: 'website',
+    locale: 'nl_NL',
     url: `${siteUrl}/inkoop`,
+    siteName: 'Gameshop Enter',
+    title: 'Pokémon Games Verkopen | Gameshop Enter',
+    description:
+      'Verkoop je Pokémon games bij Gameshop Enter. Eerlijke prijzen, reactie binnen 24 uur, gratis verzending. DS, GBA, 3DS en Game Boy.',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Gameshop Enter - Pokémon Games Verkopen',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pokémon Games Verkopen | Gameshop Enter',
+    description:
+      'Verkoop je Pokémon games bij Gameshop Enter. Eerlijke prijzen, reactie binnen 24 uur.',
   },
   alternates: {
     canonical: `${siteUrl}/inkoop`,
@@ -17,5 +47,32 @@ export const metadata: Metadata = {
 };
 
 export default function InkoopLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: siteUrl,
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Games Verkopen',
+                item: `${siteUrl}/inkoop`,
+              },
+            ],
+          }),
+        }}
+      />
+      {children}
+    </>
+  );
 }

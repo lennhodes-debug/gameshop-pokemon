@@ -195,18 +195,73 @@ export default function NintendoPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            headline: 'Nintendo & Pokemon — Van Game Boy tot DS',
-            description:
-              'De geschiedenis van Pokemon op Nintendo handhelds: van Gen I op de Game Boy tot Gen V op de DS.',
-            publisher: {
-              '@type': 'Organization',
-              name: 'Gameshop Enter',
-              url: 'https://gameshopenter.nl',
+          __html: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: 'Nintendo & Pokémon — Van Game Boy tot DS',
+              description:
+                'De geschiedenis van Pokémon op Nintendo handhelds: van Generatie I op de Game Boy tot Generatie V op de DS.',
+              inLanguage: 'nl',
+              datePublished: '2025-01-15',
+              dateModified: '2025-01-15',
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': 'https://gameshopenter.nl/nintendo',
+              },
+              author: {
+                '@type': 'Organization',
+                name: 'Gameshop Enter',
+                url: 'https://gameshopenter.nl',
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: 'Gameshop Enter',
+                url: 'https://gameshopenter.nl',
+                logo: {
+                  '@type': 'ImageObject',
+                  url: 'https://gameshopenter.nl/images/og-image.png',
+                },
+              },
+              image: 'https://gameshopenter.nl/images/og-image.png',
+              about: [
+                { '@type': 'VideoGameSeries', name: 'Pokémon' },
+                { '@type': 'Organization', name: 'Nintendo' },
+              ],
             },
-          }),
+            {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  name: 'Home',
+                  item: 'https://gameshopenter.nl',
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: 'Nintendo & Pokémon',
+                  item: 'https://gameshopenter.nl/nintendo',
+                },
+              ],
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              name: 'Pok\u00e9mon generaties bij Gameshop Enter',
+              description: 'Alle Pok\u00e9mon generaties die wij verkopen: van Gen I op Game Boy tot Gen V op Nintendo DS',
+              numberOfItems: 5,
+              itemListElement: generations.map((gen, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                name: `Pok\u00e9mon ${gen.gen}: ${gen.title}`,
+                description: gen.description,
+                url: `https://gameshopenter.nl/shop?platform=${gen.platformFilter}`,
+              })),
+            },
+          ]),
         }}
       />
 
