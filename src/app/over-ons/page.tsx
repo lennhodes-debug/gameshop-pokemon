@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useVelocity, useAnimationFrame } from 'framer-motion';
 import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -179,6 +179,155 @@ const timeline = [
   },
 ];
 
+// Velocity-driven marquee row — snelheid reageert op scroll velocity
+function VelocityRow({
+  items,
+  baseVelocity,
+  size,
+  blur,
+  opacity,
+  depth,
+  velocityFactor,
+  showInfo,
+}: {
+  items: Product[];
+  baseVelocity: number;
+  size: string;
+  blur: string;
+  opacity: number;
+  depth: number;
+  velocityFactor: ReturnType<typeof useMotionValue<number>>;
+  showInfo?: boolean;
+}) {
+  const baseX = useMotionValue(0);
+  const [repeated, setRepeated] = useState<Product[]>([]);
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  // Herhaal items genoeg om naadloos te scrollen
+  useEffect(() => {
+    const copies = 6;
+    const arr: Product[] = [];
+    for (let c = 0; c < copies; c++) arr.push(...items);
+    setRepeated(arr);
+  }, [items]);
+
+  useAnimationFrame((_, delta) => {
+    const factor = velocityFactor.get();
+    const moveBy = baseVelocity * (1 + Math.abs(factor) * 0.8) * (delta / 1000);
+    let newX = baseX.get() + moveBy;
+
+    // Reset als we voorbij de helft zijn (naadloze loop)
+    if (rowRef.current) {
+      const halfWidth = rowRef.current.scrollWidth / 2;
+      if (Math.abs(newX) >= halfWidth) {
+        newX = 0;
+      }
+    }
+    baseX.set(newX);
+  });
+
+  const sizeClass = size === 'sm' ? 'w-16 h-16 sm:w-20 sm:h-20 rounded-lg' :
+                    size === 'md' ? 'w-24 h-24 sm:w-32 sm:h-32 rounded-xl' :
+                    'w-32 h-32 sm:w-44 sm:h-44 rounded-2xl';
+  const gapClass = size === 'sm' ? 'gap-3' : size === 'md' ? 'gap-4' : 'gap-5';
+
+  return (
+    <motion.div
+      className="relative mb-3"
+      style={{
+        opacity,
+        transform: `translateZ(${depth}px)`,
+        filter: blur,
+      }}
+    >
+      <motion.div
+        ref={rowRef}
+        className={`flex ${gapClass}`}
+        style={{ x: baseX }}
+      >
+        {repeated.map((product, i) => (
+          <div key={`${product.sku}-${i}`} className={`flex-shrink-0 ${sizeClass} overflow-hidden group/card relative`}>
+            {showInfo ? (
+              <FlipCard product={product} sizeClass={sizeClass} />
+            ) : (
+              <>
+                <Image
+                  src={product.image!}
+                  alt={product.name}
+                  width={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
+                  height={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
+                  className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110"
+                  loading="lazy"
+                />
+                {size === 'md' && (
+                  <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/60 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
+                    <span className="text-white text-[10px] font-semibold leading-tight line-clamp-2">
+                      {product.name}
+                    </span>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        ))}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// 3D Card Flip — voorkant cover art, achterkant productinfo
+function FlipCard({ product, sizeClass }: { product: Product; sizeClass: string }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <div
+      className={`relative ${sizeClass} cursor-pointer`}
+      style={{ perspective: '600px' }}
+      onMouseEnter={() => setIsFlipped(true)}
+      onMouseLeave={() => setIsFlipped(false)}
+    >
+      <motion.div
+        className="relative w-full h-full"
+        style={{ transformStyle: 'preserve-3d' }}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+      >
+        {/* Voorkant — Cover Art */}
+        <div className="absolute inset-0 rounded-2xl overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
+          <Image
+            src={product.image!}
+            alt={product.name}
+            width={176}
+            height={176}
+            className="object-cover w-full h-full"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 rounded-2xl ring-2 ring-transparent hover:ring-emerald-400/50 transition-all duration-300 pointer-events-none" />
+        </div>
+
+        {/* Achterkant — Product Info */}
+        <div
+          className="absolute inset-0 rounded-2xl overflow-hidden bg-gradient-to-br from-[#0a1628] to-[#0d1f3c] flex flex-col items-center justify-center p-3 text-center"
+          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+        >
+          <span className="text-white text-xs font-bold leading-tight line-clamp-2 mb-1.5">
+            {product.name}
+          </span>
+          <span className="text-emerald-400 text-[10px] font-medium mb-1">
+            {product.platform}
+          </span>
+          <span className="text-white/80 text-[10px]">
+            {product.condition}
+          </span>
+          <span className="text-emerald-300 text-sm font-extrabold mt-1.5">
+            €{product.price.toFixed(2).replace('.', ',')}
+          </span>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 const values = [
   {
     title: 'Originaliteit',
@@ -271,13 +420,14 @@ export default function OverOnsPage() {
     return { layer1: l1, layer2: l2, layer3: l3 };
   }, []);
 
-  const { scrollYProgress: showcaseProgress } = useScroll({
-    target: showcaseRef,
-    offset: ['start end', 'end start'],
-  });
-  const showcaseX1 = useTransform(showcaseProgress, [0, 1], ['0%', '-8%']);
-  const showcaseX2 = useTransform(showcaseProgress, [0, 1], ['-5%', '5%']);
-  const showcaseX3 = useTransform(showcaseProgress, [0, 1], ['0%', '-15%']);
+  // Scroll-velocity koppeling voor marquee
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], { clamp: false });
+
+  const showcaseInView = useRef(false);
+  const showcaseIsVisible = useInView(showcaseRef, { once: true, margin: '-100px' });
 
   const handleHeroMove = useCallback((e: React.MouseEvent) => {
     if (!heroRef.current) return;
@@ -566,12 +716,12 @@ export default function OverOnsPage() {
         </div>
       </section>
 
-      {/* === GAME SHOWCASE — Parallax Depth === */}
+      {/* === CINEMATIC GAME SHOWCASE — Velocity + 3D Perspective + Card Flip === */}
       <section ref={showcaseRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
         {/* Subtiel radial glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
 
-        {/* Header */}
+        {/* Header met stagger reveal */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -586,7 +736,7 @@ export default function OverOnsPage() {
               Ons assortiment
             </h2>
             <p className="text-slate-400 mt-3 max-w-lg mx-auto">
-              Elke game persoonlijk getest en met zorg geselecteerd
+              Elke game persoonlijk getest en met zorg geselecteerd — scroll sneller om de collectie te versnellen
             </p>
           </motion.div>
         </div>
@@ -595,83 +745,49 @@ export default function OverOnsPage() {
         <div className="absolute top-0 bottom-0 left-0 w-24 lg:w-40 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 bottom-0 right-0 w-24 lg:w-40 bg-gradient-to-l from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
 
-        {/* Laag 3 — Achtergrond (klein, wazig, snel) */}
-        <motion.div className="relative mb-3 opacity-30" style={{ x: showcaseX3 }}>
-          <div className="flex animate-marquee-fast gap-3">
-            {[...layer3, ...layer3, ...layer3].map((product, i) => (
-              <div
-                key={`l3-${i}`}
-                className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden blur-[1px]"
-              >
-                <Image
-                  src={product.image!}
-                  alt=""
-                  width={80}
-                  height={80}
-                  className="object-cover w-full h-full"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        {/* 3D Perspective container */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={showcaseIsVisible ? { opacity: 1 } : {}}
+          transition={{ duration: 1, staggerChildren: 0.15 }}
+          style={{
+            perspective: '1200px',
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {/* Laag 3 — Achtergrond (klein, wazig, snel, diepste Z) */}
+          <VelocityRow
+            items={layer3}
+            baseVelocity={-80}
+            size="sm"
+            blur="blur(1.5px)"
+            opacity={0.3}
+            depth={-200}
+            velocityFactor={velocityFactor}
+          />
 
-        {/* Laag 2 — Midden (medium, lichte blur, tegenrichting) */}
-        <motion.div className="relative mb-3 opacity-60" style={{ x: showcaseX2 }}>
-          <div className="flex animate-marquee-reverse-medium gap-4">
-            {[...layer2, ...layer2].map((product, i) => (
-              <div
-                key={`l2-${i}`}
-                className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden blur-[0.5px] group/card relative"
-              >
-                <Image
-                  src={product.image!}
-                  alt={product.name}
-                  width={128}
-                  height={128}
-                  className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/60 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
-                  <span className="text-white text-[10px] font-semibold leading-tight line-clamp-2">
-                    {product.name}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+          {/* Laag 2 — Midden (medium, lichte blur, tegenrichting) */}
+          <VelocityRow
+            items={layer2}
+            baseVelocity={50}
+            size="md"
+            blur="blur(0.5px)"
+            opacity={0.6}
+            depth={-100}
+            velocityFactor={velocityFactor}
+          />
 
-        {/* Laag 1 — Voorgrond (groot, scherp, langzaam) */}
-        <motion.div className="relative" style={{ x: showcaseX1 }}>
-          <div className="flex animate-marquee-slow gap-5">
-            {[...layer1, ...layer1].map((product, i) => (
-              <motion.div
-                key={`l1-${i}`}
-                className="flex-shrink-0 w-32 h-32 sm:w-44 sm:h-44 rounded-2xl overflow-hidden group/card relative cursor-pointer"
-                whileHover={{ y: -8, scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-              >
-                <Image
-                  src={product.image!}
-                  alt={product.name}
-                  width={176}
-                  height={176}
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover/card:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 rounded-2xl ring-2 ring-transparent group-hover/card:ring-emerald-400/50 transition-all duration-300 pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-all duration-300 flex flex-col justify-end p-3">
-                  <span className="text-white text-xs font-bold leading-tight line-clamp-2">
-                    {product.name}
-                  </span>
-                  <span className="text-emerald-400 text-[10px] font-medium mt-0.5">
-                    {product.platform}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Laag 1 — Voorgrond (groot, scherp, langzaam, card flip) */}
+          <VelocityRow
+            items={layer1}
+            baseVelocity={-30}
+            size="lg"
+            blur="none"
+            opacity={1}
+            depth={0}
+            velocityFactor={velocityFactor}
+            showInfo
+          />
         </motion.div>
       </section>
 
