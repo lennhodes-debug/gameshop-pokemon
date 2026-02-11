@@ -1,9 +1,11 @@
 'use client';
 
-import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, useInView, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useVelocity, useAnimationFrame } from 'framer-motion';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Button from '@/components/ui/Button';
+import { getAllProducts, type Product } from '@/lib/products';
 
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -177,6 +179,97 @@ const timeline = [
   },
 ];
 
+// Velocity-driven marquee row — snelheid reageert op scroll velocity
+function VelocityRow({
+  items,
+  baseVelocity,
+  size,
+  blur,
+  opacity,
+  depth,
+  velocityFactor,
+}: {
+  items: Product[];
+  baseVelocity: number;
+  size: string;
+  blur: string;
+  opacity: number;
+  depth: number;
+  velocityFactor: ReturnType<typeof useMotionValue<number>>;
+}) {
+  const baseX = useMotionValue(0);
+  const [repeated, setRepeated] = useState<Product[]>([]);
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  // Herhaal items genoeg om naadloos te scrollen
+  useEffect(() => {
+    const copies = 6;
+    const arr: Product[] = [];
+    for (let c = 0; c < copies; c++) arr.push(...items);
+    setRepeated(arr);
+  }, [items]);
+
+  useAnimationFrame((_, delta) => {
+    const factor = velocityFactor.get();
+    const moveBy = baseVelocity * (1 + Math.abs(factor) * 0.8) * (delta / 1000);
+    let newX = baseX.get() + moveBy;
+
+    // Reset als we voorbij de helft zijn (naadloze loop)
+    if (rowRef.current) {
+      const halfWidth = rowRef.current.scrollWidth / 2;
+      if (Math.abs(newX) >= halfWidth) {
+        newX = 0;
+      }
+    }
+    baseX.set(newX);
+  });
+
+  const sizeClass = size === 'sm' ? 'w-16 h-16 sm:w-20 sm:h-20 rounded-lg' :
+                    size === 'md' ? 'w-24 h-24 sm:w-32 sm:h-32 rounded-xl' :
+                    'w-32 h-32 sm:w-44 sm:h-44 rounded-2xl';
+  const gapClass = size === 'sm' ? 'gap-3' : size === 'md' ? 'gap-4' : 'gap-5';
+
+  return (
+    <motion.div
+      className="relative mb-3"
+      style={{
+        opacity,
+        transform: `translateZ(${depth}px)`,
+        filter: blur,
+      }}
+    >
+      <motion.div
+        ref={rowRef}
+        className={`flex ${gapClass}`}
+        style={{ x: baseX }}
+      >
+        {repeated.map((product, i) => (
+          <div
+            key={`${product.sku}-${i}`}
+            className={`flex-shrink-0 ${sizeClass} overflow-hidden group/card relative transition-shadow duration-300 ${size === 'lg' ? 'hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]' : ''}`}
+          >
+            <Image
+              src={product.image!}
+              alt={product.name}
+              width={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
+              height={size === 'sm' ? 80 : size === 'md' ? 128 : 176}
+              className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110"
+              loading="lazy"
+            />
+            {(size === 'md' || size === 'lg') && (
+              <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/50 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
+                <span className="text-white text-[10px] font-semibold leading-tight line-clamp-2">
+                  {product.name}
+                </span>
+              </div>
+            )}
+          </div>
+        ))}
+      </motion.div>
+    </motion.div>
+  );
+}
+
 const values = [
   {
     title: 'Originaliteit',
@@ -225,7 +318,7 @@ const stats = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten' },
   { value: 1360, suffix: '+', label: 'Reviews' },
   { value: 5, suffix: '.0', label: 'Marktplaats score' },
-  { value: 46, suffix: '', label: 'Pokémon games' },
+  { value: 40, suffix: '', label: 'Pokémon games' },
   { value: 4, suffix: '', label: 'Platforms' },
   { value: 8, suffix: '+', label: 'Jaar ervaring' },
 ];
@@ -234,6 +327,7 @@ export default function OverOnsPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLElement>(null);
   const missionRef = useRef<HTMLElement>(null);
+  const showcaseRef = useRef<HTMLElement>(null);
 
   const heroMouse = useMotionValue(0.5);
   const heroMouseY = useMotionValue(0.5);
@@ -253,6 +347,29 @@ export default function OverOnsPage() {
   });
   const missionScale = useTransform(missionProgress, [0, 0.5, 1], [0.92, 1, 0.92]);
   const missionRotate = useTransform(missionProgress, [0, 0.5, 1], [-1, 0, 1]);
+
+  // Game Showcase: verdeel producten met afbeelding over 3 lagen
+  const { layer1, layer2, layer3 } = useMemo(() => {
+    const withImage = getAllProducts().filter(p => p.image);
+    const l1: Product[] = [];
+    const l2: Product[] = [];
+    const l3: Product[] = [];
+    withImage.forEach((p, i) => {
+      if (i % 3 === 0) l1.push(p);
+      else if (i % 3 === 1) l2.push(p);
+      else l3.push(p);
+    });
+    return { layer1: l1, layer2: l2, layer3: l3 };
+  }, []);
+
+  // Scroll-velocity koppeling voor marquee
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], { clamp: false });
+
+  const showcaseInView = useRef(false);
+  const showcaseIsVisible = useInView(showcaseRef, { once: true, margin: '-100px' });
 
   const handleHeroMove = useCallback((e: React.MouseEvent) => {
     if (!heroRef.current) return;
@@ -539,6 +656,80 @@ export default function OverOnsPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* === CINEMATIC GAME SHOWCASE — Velocity + 3D Perspective + Card Flip === */}
+      <section ref={showcaseRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+        {/* Subtiel radial glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
+
+        {/* Header met stagger reveal */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
+              Collectie
+            </span>
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight">
+              Ons assortiment
+            </h2>
+            <p className="text-slate-400 mt-3 max-w-lg mx-auto">
+              Elke game persoonlijk getest en met zorg geselecteerd — scroll sneller om de collectie te versnellen
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Fade edges */}
+        <div className="absolute top-0 bottom-0 left-0 w-24 lg:w-40 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-24 lg:w-40 bg-gradient-to-l from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
+
+        {/* 3D Perspective container */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={showcaseIsVisible ? { opacity: 1 } : {}}
+          transition={{ duration: 1, staggerChildren: 0.15 }}
+          style={{
+            perspective: '1200px',
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {/* Laag 3 — Achtergrond (klein, wazig, snel, diepste Z) */}
+          <VelocityRow
+            items={layer3}
+            baseVelocity={-80}
+            size="sm"
+            blur="blur(1.5px)"
+            opacity={0.3}
+            depth={-200}
+            velocityFactor={velocityFactor}
+          />
+
+          {/* Laag 2 — Midden (medium, lichte blur, tegenrichting) */}
+          <VelocityRow
+            items={layer2}
+            baseVelocity={50}
+            size="md"
+            blur="blur(0.5px)"
+            opacity={0.6}
+            depth={-100}
+            velocityFactor={velocityFactor}
+          />
+
+          {/* Laag 1 — Voorgrond (groot, scherp, langzaam, hover glow) */}
+          <VelocityRow
+            items={layer1}
+            baseVelocity={-30}
+            size="lg"
+            blur="none"
+            opacity={1}
+            depth={0}
+            velocityFactor={velocityFactor}
+          />
+        </motion.div>
       </section>
 
       {/* === CINEMATIC MISSION === */}

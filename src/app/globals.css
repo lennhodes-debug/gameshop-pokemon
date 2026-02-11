@@ -50,6 +50,12 @@ body {
 .animate-marquee-slow { animation: marquee 60s linear infinite; }
 .animate-marquee-reverse-slow { animation: marquee-reverse 60s linear infinite; }
 
+/* Game showcase layers */
+.animate-marquee-fast { animation: marquee 25s linear infinite; }
+.animate-marquee-reverse-fast { animation: marquee-reverse 25s linear infinite; }
+.animate-marquee-medium { animation: marquee 45s linear infinite; }
+.animate-marquee-reverse-medium { animation: marquee-reverse 45s linear infinite; }
+
 /* Aurora gradient animatie */
 @keyframes aurora {
   0%, 100% { background-position: 0% 50%; }

@@ -82,7 +82,7 @@ Object.entries(imagesByPrefix).forEach(([prefix, files]) => {
     if (product) {
       warnings.push(
         `⚠️  Duplicate images for ${prefix.toUpperCase()}: ${files.length} files ` +
-        `(product uses: ${product.image.split('/').pop()})`
+        `(product uses: ${product.image ? product.image.split('/').pop() : 'geen afbeelding'})`
       );
       stats.duplicatePerSku++;
     }
