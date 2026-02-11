@@ -1,18 +1,12 @@
 import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import ScrollProgress from '@/components/layout/ScrollProgress';
-import SmoothScroll from '@/components/layout/SmoothScroll';
-import PageTransition from '@/components/ui/PageTransition';
 import BackToTop from '@/components/ui/BackToTop';
 import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
-import FloatingActions from '@/components/ui/FloatingActions';
-import SettingsPanel from '@/components/ui/SettingsPanel';
-import ComboOverlay from '@/components/cart/ComboOverlay';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 const siteUrl = 'https://gameshopenter.nl';
@@ -89,21 +83,21 @@ export const metadata: Metadata = {
   },
 };
 
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-jakarta',
+});
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="nl" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('gameshop-theme');if(t==='dark'){document.documentElement.classList.add('dark')}else if(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.classList.add('dark')}}catch(e){}})()` }} />
-      </head>
-      <body className="bg-[#f8fafc] dark:bg-[#0a0e1a] text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
+    <html lang="nl" className={`scroll-smooth ${jakarta.variable}`}>
+      <body className="bg-[#f8fafc] text-slate-900 antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -142,28 +136,20 @@ export default function RootLayout({
           }}
         />
         <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
-        <ScrollProgress />
-        <ThemeProvider>
-        <SmoothScroll>
-          <CartProvider>
-          <ComboOverlay />
+        <CartProvider>
           <WishlistProvider>
             <ToastProvider>
               <Header />
               <main id="main-content" className="min-h-screen">
                 <ErrorBoundary>
-                  <PageTransition>{children}</PageTransition>
+                  {children}
                 </ErrorBoundary>
               </main>
               <Footer />
               <BackToTop />
-              <FloatingActions />
-              <SettingsPanel />
             </ToastProvider>
           </WishlistProvider>
-          </CartProvider>
-        </SmoothScroll>
-        </ThemeProvider>
+        </CartProvider>
       </body>
     </html>
   );

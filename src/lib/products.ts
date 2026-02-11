@@ -21,6 +21,9 @@ export interface Product {
   pcUsedPrice?: number | null;
   inkoopFeatured?: boolean;
   salePrice?: number | null;
+  cibPrice?: number;
+  cibImage?: string;
+  cibBackImage?: string;
 }
 
 const products: Product[] = productsData as Product[];

@@ -23,11 +23,29 @@ const DISCOUNT_CODES: Record<string, DiscountCode> = {};
   try { DISCOUNT_CODES[_d(k).trim()] = rest; } catch { /* ignore */ }
 });
 
+function cartKey(item: CartItem): string {
+  return item.variant ? `${item.product.sku}:${item.variant}` : item.product.sku;
+}
+
+export function getCartItemPrice(item: CartItem): number {
+  if (item.variant === 'cib' && item.product.cibPrice) {
+    return item.product.cibPrice;
+  }
+  return getEffectivePrice(item.product);
+}
+
+export function getCartItemImage(item: CartItem): string | null | undefined {
+  if (item.variant === 'cib' && item.product.cibImage) {
+    return item.product.cibImage;
+  }
+  return item.product.image;
+}
+
 interface CartContextType {
   items: CartItem[];
-  addItem: (product: Product) => void;
-  removeItem: (sku: string) => void;
-  updateQuantity: (sku: string, quantity: number) => void;
+  addItem: (product: Product, variant?: 'cib') => void;
+  removeItem: (key: string) => void;
+  updateQuantity: (key: string, quantity: number) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
@@ -94,36 +112,36 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [discountCode, mounted]);
 
-  const addItem = useCallback((product: Product) => {
+  const addItem = useCallback((product: Product, variant?: 'cib') => {
     setItems((prev) => {
-      const existing = prev.find((item) => item.product.sku === product.sku);
+      const key = variant ? `${product.sku}:${variant}` : product.sku;
+      const existing = prev.find((item) => cartKey(item) === key);
       if (existing) {
         if (existing.quantity >= MAX_QUANTITY) return prev;
         return prev.map((item) =>
-          item.product.sku === product.sku
+          cartKey(item) === key
             ? { ...item, quantity: Math.min(item.quantity + 1, MAX_QUANTITY) }
             : item
         );
       }
-      return [...prev, { product, quantity: 1 }];
+      return [...prev, { product, quantity: 1, variant }];
     });
-    // Combo Multiplier event
     window.dispatchEvent(new CustomEvent('gameshop:add-to-cart'));
   }, []);
 
-  const removeItem = useCallback((sku: string) => {
-    setItems((prev) => prev.filter((item) => item.product.sku !== sku));
+  const removeItem = useCallback((key: string) => {
+    setItems((prev) => prev.filter((item) => cartKey(item) !== key));
   }, []);
 
-  const updateQuantity = useCallback((sku: string, quantity: number) => {
+  const updateQuantity = useCallback((key: string, quantity: number) => {
     if (quantity <= 0) {
-      setItems((prev) => prev.filter((item) => item.product.sku !== sku));
+      setItems((prev) => prev.filter((item) => cartKey(item) !== key));
       return;
     }
     const clamped = Math.min(quantity, MAX_QUANTITY);
     setItems((prev) =>
       prev.map((item) =>
-        item.product.sku === sku ? { ...item, quantity: clamped } : item
+        cartKey(item) === key ? { ...item, quantity: clamped } : item
       )
     );
   }, []);
@@ -134,7 +152,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const getSubtotal = useCallback(() => {
-    return items.reduce((sum, item) => sum + getEffectivePrice(item.product) * item.quantity, 0);
+    return items.reduce((sum, item) => sum + getCartItemPrice(item) * item.quantity, 0);
   }, [items]);
 
   const discountAmount = useMemo(() => {

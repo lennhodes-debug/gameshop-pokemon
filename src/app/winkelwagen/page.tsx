@@ -4,10 +4,15 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCart } from '@/components/cart/CartProvider';
+import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
-import { getAllProducts, Product, getEffectivePrice, isOnSale } from '@/lib/products';
+import { getAllProducts, Product } from '@/lib/products';
+import { CartItem } from '@/lib/cart';
+
+function itemKey(item: CartItem): string {
+  return item.variant ? `${item.product.sku}:${item.variant}` : item.product.sku;
+}
 
 export default function WinkelwagenPage() {
   const { items, addItem, removeItem, updateQuantity, getTotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
@@ -213,9 +218,12 @@ export default function WinkelwagenPage() {
                 {items.map((item, index) => {
                   const colors = PLATFORM_COLORS[item.product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
                   const label = PLATFORM_LABELS[item.product.platform] || item.product.platform;
+                  const key = itemKey(item);
+                  const img = getCartItemImage(item);
+                  const price = getCartItemPrice(item);
                   return (
                     <motion.div
-                      key={item.product.sku}
+                      key={key}
                       layout
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -225,10 +233,10 @@ export default function WinkelwagenPage() {
                     >
                       {/* Product image */}
                       <Link href={`/shop/${item.product.sku}`} className="flex-shrink-0">
-                        <div className={`w-20 h-20 rounded-xl ${item.product.image ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
-                          {item.product.image ? (
+                        <div className={`w-20 h-20 rounded-xl ${img ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
+                          {img ? (
                             <Image
-                              src={item.product.image}
+                              src={img}
                               alt={item.product.name}
                               width={80}
                               height={80}
@@ -246,14 +254,17 @@ export default function WinkelwagenPage() {
                         </Link>
                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1.5">
                           <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${colors.from} ${colors.to}`} />
-                          {item.product.platform} &middot; {item.product.condition}
+                          {item.product.platform} &middot; {item.variant === 'cib' ? 'Compleet in doos' : item.product.condition}
+                          {item.variant === 'cib' && (
+                            <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[10px] font-bold">CIB</span>
+                          )}
                         </p>
 
                         <div className="flex items-center justify-between mt-3">
                           <div className="flex items-center gap-2">
                             <motion.button
                               whileTap={{ scale: 0.85 }}
-                              onClick={() => updateQuantity(item.product.sku, item.quantity - 1)}
+                              onClick={() => updateQuantity(key, item.quantity - 1)}
                               aria-label={`Aantal ${item.product.name} verminderen`}
                               className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
                             >
@@ -270,7 +281,7 @@ export default function WinkelwagenPage() {
                             </motion.span>
                             <motion.button
                               whileTap={{ scale: 0.85 }}
-                              onClick={() => updateQuantity(item.product.sku, item.quantity + 1)}
+                              onClick={() => updateQuantity(key, item.quantity + 1)}
                               disabled={item.quantity >= 10}
                               aria-label={`Aantal ${item.product.name} verhogen`}
                               className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
@@ -279,7 +290,7 @@ export default function WinkelwagenPage() {
                             </motion.button>
                             <motion.button
                               whileTap={{ scale: 0.9 }}
-                              onClick={() => removeItem(item.product.sku)}
+                              onClick={() => removeItem(key)}
                               aria-label={`${item.product.name} verwijderen uit winkelwagen`}
                               className="ml-2 p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                             >
@@ -289,18 +300,13 @@ export default function WinkelwagenPage() {
                             </motion.button>
                           </div>
                           <div className="text-right">
-                            {isOnSale(item.product) && (
-                              <span className="text-xs text-slate-400 line-through block">
-                                {formatPrice(item.product.price * item.quantity)}
-                              </span>
-                            )}
                             <motion.span
-                              key={getEffectivePrice(item.product) * item.quantity}
+                              key={price * item.quantity}
                               initial={{ scale: 1.1 }}
                               animate={{ scale: 1 }}
-                              className={`font-extrabold ${isOnSale(item.product) ? 'text-red-500' : 'text-slate-900 dark:text-white'}`}
+                              className="font-extrabold text-slate-900 dark:text-white"
                             >
-                              {formatPrice(getEffectivePrice(item.product) * item.quantity)}
+                              {formatPrice(price * item.quantity)}
                             </motion.span>
                           </div>
                         </div>
@@ -367,14 +373,20 @@ export default function WinkelwagenPage() {
                               whileHover={{ scale: 1.03, y: -2 }}
                               className="bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
                             >
-                              <div className="aspect-square bg-slate-50 dark:bg-slate-700 relative">
-                                <Image
-                                  src={product.image!}
-                                  alt={product.name}
-                                  fill
-                                  sizes="(max-width: 640px) 50vw, 25vw"
-                                  className="object-contain p-3"
-                                />
+                              <div className={`aspect-square relative ${product.image ? 'bg-slate-50 dark:bg-slate-700' : `bg-gradient-to-br ${c.from} ${c.to}`}`}>
+                                {product.image ? (
+                                  <Image
+                                    src={product.image}
+                                    alt={product.name}
+                                    fill
+                                    sizes="(max-width: 640px) 50vw, 25vw"
+                                    className="object-contain p-3"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-white/20 text-sm font-bold">
+                                    {PLATFORM_LABELS[product.platform] || product.platform}
+                                  </div>
+                                )}
                               </div>
                               <div className="p-3">
                                 <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{product.name}</p>
