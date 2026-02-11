@@ -234,12 +234,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 style={{ background: `${accent}35`, border: `1px solid ${accent}50` }}>
                 {product.platform}
               </span>
-              {typeInfo && (
-                <span className="px-3 py-1.5 rounded-xl text-xs font-bold backdrop-blur-sm"
-                  style={{ background: `${accent}20`, border: `1px solid ${accent}35`, color: accent }}>
-                  {typeInfo.label}
-                </span>
-              )}
             </div>
             {product.isPremium && (
               <div className="absolute top-5 right-5">

@@ -49,7 +49,7 @@ function ShopContent() {
       setIsSearching(false);
     }, 300);
     return () => clearTimeout(timer);
-  }, [search]);
+  }, [search, debouncedSearch]);
 
   // Sync filters naar URL
   useEffect(() => {

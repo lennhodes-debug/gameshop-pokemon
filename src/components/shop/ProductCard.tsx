@@ -32,60 +32,6 @@ function HighlightText({ text, query }: { text: string; query?: string }) {
   );
 }
 
-// Type-specifieke deeltjes generator
-function TypeParticles({ typeInfo }: { typeInfo: PokemonTypeInfo }) {
-  const count = typeInfo.name === 'ghost' ? 3 : typeInfo.name === 'electric' ? 5 : 8;
-
-  const animationClass = useMemo(() => {
-    switch (typeInfo.name) {
-      case 'fire': case 'water': case 'normal': return 'particle-float';
-      case 'grass': return 'particle-drift';
-      case 'electric': return 'particle-spark';
-      case 'ghost': return 'ghost-mist';
-      default: return 'particle-sparkle'; // fairy, dragon, steel, ground, psychic
-    }
-  }, [typeInfo.name]);
-
-  const particles = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => {
-      const left = 10 + Math.random() * 80;
-      const top = 20 + Math.random() * 60;
-      const delay = Math.random() * 3;
-      const duration = 2 + Math.random() * 2;
-      const size = typeInfo.name === 'ghost' ? 30 + Math.random() * 40 : 3 + Math.random() * 5;
-      const drift = (Math.random() - 0.5) * 30;
-
-      return { left, top, delay, duration, size, drift, key: i };
-    });
-  }, [count, typeInfo.name]);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      {particles.map(p => (
-        <span
-          key={p.key}
-          className="absolute rounded-full"
-          style={{
-            left: `${p.left}%`,
-            top: `${p.top}%`,
-            width: p.size,
-            height: p.size,
-            backgroundColor: typeInfo.particle,
-            animation: `${animationClass} ${p.duration}s ${p.delay}s ease-out infinite`,
-            '--drift': `${p.drift}px`,
-            filter: typeInfo.name === 'ghost' ? 'blur(8px)' : typeInfo.name === 'electric' ? 'blur(1px)' : 'blur(0.5px)',
-            boxShadow: typeInfo.name === 'fire'
-              ? `0 0 6px ${typeInfo.particle}`
-              : typeInfo.name === 'electric'
-              ? `0 0 8px ${typeInfo.particle}`
-              : 'none',
-          } as React.CSSProperties}
-        />
-      ))}
-    </div>
-  );
-}
-
 // Holographic shine overlay
 function HoloShine({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
   return (
@@ -173,9 +119,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               : `0 0 12px rgba(${typeInfo.glow}, 0.15), 0 4px 16px rgba(0,0,0,0.1)`,
           }}
         >
-          {/* Type deeltjes */}
-          <TypeParticles typeInfo={typeInfo} />
-
           {/* Holographic shine */}
           <HoloShine mouseX={mousePos.x} mouseY={mousePos.y} />
 
