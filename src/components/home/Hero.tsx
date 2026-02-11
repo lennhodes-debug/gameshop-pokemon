@@ -3,12 +3,45 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+function PokeballBg() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+      {/* Langzaam roterende Pokeball silhouet */}
+      <motion.svg
+        viewBox="0 0 200 200"
+        className="w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-[0.03]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+      >
+        <circle cx="100" cy="100" r="95" fill="none" stroke="white" strokeWidth="3" />
+        <line x1="5" y1="100" x2="70" y2="100" stroke="white" strokeWidth="3" />
+        <line x1="130" y1="100" x2="195" y2="100" stroke="white" strokeWidth="3" />
+        <circle cx="100" cy="100" r="30" fill="none" stroke="white" strokeWidth="3" />
+        <circle cx="100" cy="100" r="12" fill="white" fillOpacity="0.3" />
+      </motion.svg>
+
+      {/* Glowing orb achter de Pokeball */}
+      <motion.div
+        className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
+        style={{
+          background: 'radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(6,182,212,0.08) 40%, transparent 70%)',
+        }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
+  );
+}
+
 export default function Hero() {
   return (
     <section className="relative bg-[#050810] overflow-hidden">
       {/* Subtiele gradient achtergrond */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0a1628] to-[#050810]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_60%)]" />
+
+      {/* Pokeball achtergrond */}
+      <PokeballBg />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-44 text-center">
         {/* Trust badge */}
