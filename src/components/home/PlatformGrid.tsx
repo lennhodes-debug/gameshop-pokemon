@@ -108,7 +108,11 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
           <div className="p-4 flex items-center justify-between">
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white text-sm">{platform.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{platform.count} producten</p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r ${colors.from} ${colors.to} text-white`}>
+                  {platform.count} games
+                </span>
+              </div>
             </div>
             <motion.div
               className="h-8 w-8 rounded-full bg-slate-50 dark:bg-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-300 group-hover:bg-emerald-50 dark:group-hover:bg-emerald-500/10 group-hover:text-emerald-500 transition-colors duration-300"
