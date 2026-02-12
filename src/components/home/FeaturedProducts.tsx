@@ -22,16 +22,14 @@ const containerVariants = {
 const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 60,
-    scale: 0.88,
-    rotateX: 15,
-    filter: 'blur(8px)',
+    y: 40,
+    scale: 0.95,
+    filter: 'blur(6px)',
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    rotateX: 0,
     filter: 'blur(0px)',
     transition: {
       type: 'spring' as const,
@@ -175,7 +173,6 @@ export default function FeaturedProducts() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6"
-          style={{ perspective: '1200px' }}
         >
           {products.map((product) => (
             <motion.div key={product.sku} variants={cardVariants}>
