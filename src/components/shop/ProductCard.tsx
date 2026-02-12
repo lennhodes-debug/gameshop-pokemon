@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getPokemonType, PokemonTypeInfo } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getPokemonType, PokemonTypeInfo, IMAGE_ROTATION } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -139,6 +139,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                       "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
                       imageLoaded ? "opacity-100" : "opacity-0"
                     )}
+                    style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                     onLoad={() => setImageLoaded(true)}
                     onError={() => setImageError(true)}
                   />
@@ -321,6 +322,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                     "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
                     imageLoaded ? "opacity-100" : "opacity-0"
                   )}
+                  style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />
