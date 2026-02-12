@@ -213,7 +213,7 @@ export default function ReviewsStrip() {
               op Marktplaats
             </motion.span>
           </div>
-          <h2 className="text-2xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
             1.360+ tevreden klanten
           </h2>
           <p className="text-slate-400">Lees wat onze klanten zeggen</p>

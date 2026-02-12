@@ -102,7 +102,7 @@ export default function FaqPreview() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, type: 'spring', stiffness: 100 }}
-            className="h-[3px] w-16 bg-gradient-to-r from-emerald-500 to-emerald-500 rounded-full mx-auto mb-4 origin-center"
+            className="h-1 w-24 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 rounded-full mx-auto mb-4 origin-center"
           />
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Heb je een vraag? Wellicht vind je het antwoord hier
