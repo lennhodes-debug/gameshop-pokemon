@@ -107,6 +107,10 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   '3DS-009': 'electric',  // Detective Pikachu
   '3DS-010': 'dark',      // Y — Yveltal
   '3DS-011': 'steel',     // Sun — Solgaleo
+  // Wii — Pokémon games
+  'WII-018': 'electric',  // Pokémon Battle Revolution — stadium thema
+  'WII-026': 'electric',  // PokéPark Wii: Pikachu's Adventure
+  'WII-027': 'electric',  // PokéPark 2: Wonders Beyond
 };
 
 // Rotatie-correctie per product (graden, negatief = tegen klok in)
@@ -252,6 +256,76 @@ export const FRANCHISE_THEME_MAP: Record<string, string> = {
   '3DS-048': 'fireemblem', // Fire Emblem Fates: Conquest
   '3DS-049': 'layton',    // Professor Layton: Masker der Wonderen
   '3DS-050': 'action',    // LEGO City Undercover
+
+  // Wii games
+  'WII-001': 'racing',     // Mario Kart Wii
+  'WII-002': 'smash',      // Super Smash Bros. Brawl
+  'WII-003': 'mario',      // Super Mario Galaxy
+  'WII-004': 'mario',      // Super Mario Galaxy 2
+  'WII-005': 'zelda',      // Zelda: Twilight Princess
+  'WII-006': 'zelda',      // Zelda: Skyward Sword
+  'WII-007': 'mario',      // New Super Mario Bros. Wii
+  'WII-008': 'donkeykong', // Donkey Kong Country Returns
+  'WII-009': 'sports',     // Wii Sports
+  'WII-010': 'sports',     // Wii Sports Resort
+  'WII-011': 'party',      // Mario Party 8
+  'WII-012': 'party',      // Mario Party 9
+  'WII-013': 'kirby',      // Kirby's Adventure Wii
+  'WII-014': 'kirby',      // Kirby's Epic Yarn
+  'WII-015': 'metroid',    // Metroid Prime 3: Corruption
+  'WII-016': 'rpg',        // Xenoblade Chronicles
+  'WII-017': 'fireemblem', // Fire Emblem: Radiant Dawn
+  'WII-019': 'sports',     // Mario Strikers Charged Football
+  'WII-020': 'mario',      // Super Paper Mario
+  'WII-021': 'sports',     // Mario & Sonic Olympic Games
+  'WII-022': 'party',      // Wii Play
+  'WII-023': 'sonic',      // Sonic Colors
+  'WII-024': 'platformer', // Rayman Origins
+  'WII-025': 'animalcrossing', // Animal Crossing: Let's Go to the City
+  'WII-028': 'pikmin',     // Pikmin 2 (New Play Control!)
+  'WII-029': 'sports',     // Wii Fit Plus
+  'WII-030': 'zelda',      // Zelda: Skyward Sword LE
+  'WII-031': 'sonic',      // Sonic and the Secret Rings
+  'WII-032': 'sonic',      // Sonic Unleashed
+  'WII-033': 'mario',      // New Super Mario Bros. Wii (Selects)
+  'WII-034': 'party',      // Wii Party
+  'WII-035': 'wario',      // Wario Land: The Shake Dimension
+
+  // Wii U games
+  'WIIU-001': 'racing',     // Mario Kart 8
+  'WIIU-002': 'smash',      // Super Smash Bros. for Wii U
+  'WIIU-003': 'mario',      // Super Mario 3D World
+  'WIIU-004': 'splatoon',   // Splatoon
+  'WIIU-005': 'zelda',      // Zelda: Breath of the Wild
+  'WIIU-006': 'zelda',      // Zelda: Wind Waker HD
+  'WIIU-007': 'zelda',      // Zelda: Twilight Princess HD
+  'WIIU-008': 'mario',      // New Super Mario Bros. U
+  'WIIU-009': 'donkeykong', // DK Country: Tropical Freeze
+  'WIIU-010': 'action',     // Bayonetta 2
+  'WIIU-011': 'pikmin',     // Pikmin 3
+  'WIIU-012': 'rpg',        // Xenoblade Chronicles X
+  'WIIU-013': 'party',      // Mario Party 10
+  'WIIU-014': 'mario',      // Super Mario Maker
+  'WIIU-015': 'luigi',      // New Super Luigi U
+  'WIIU-016': 'puzzle',     // Captain Toad: Treasure Tracker
+  'WIIU-017': 'yoshi',      // Yoshi's Woolly World
+  'WIIU-018': 'mario',      // Paper Mario: Color Splash
+  'WIIU-019': 'kirby',      // Kirby and the Rainbow Paintbrush
+  'WIIU-020': 'zelda',      // Hyrule Warriors
+  'WIIU-021': 'party',      // Wii Party U
+  'WIIU-022': 'fighter',    // Pokkén Tournament
+  'WIIU-023': 'sports',     // Mario & Sonic Sochi 2014
+  'WIIU-024': 'lego',       // LEGO Jurassic World
+  'WIIU-025': 'dance',      // Just Dance 2014
+  'WIIU-026': 'party',      // Nintendo Land
+  'WIIU-027': 'minecraft',  // Minecraft Wii U Edition
+  'WIIU-028': 'sonic',      // Sonic Lost World
+  'WIIU-029': 'zelda',      // Zelda: Wind Waker HD (Selects)
+  'WIIU-030': 'action',     // Skylanders Imaginators
+  'WIIU-031': 'lego',       // LEGO Batman 3: Beyond Gotham
+  'WIIU-032': 'dance',      // Just Dance 2017
+  'WIIU-033': 'sports',     // Mario & Sonic Rio 2016
+  'WIIU-034': 'lego',       // LEGO Dimensions
 };
 
 export const FRANCHISE_THEME_COLORS: Record<string, PokemonTypeInfo> = {
@@ -281,6 +355,12 @@ export const FRANCHISE_THEME_COLORS: Record<string, PokemonTypeInfo> = {
   cooking:        { name: 'cooking',        bg: ['#F97316', '#EA580C'], glow: '249,115,22',    particle: '#FB923C', label: 'Cooking' },
   monster:        { name: 'monster',        bg: ['#854D0E', '#713F12'], glow: '133,77,14',     particle: '#A16207', label: 'Monster Hunter' },
   smash:          { name: 'smash',          bg: ['#EF4444', '#1D4ED8'], glow: '239,68,68',     particle: '#F87171', label: 'Smash Bros' },
+  sonic:          { name: 'sonic',          bg: ['#1E90FF', '#0050C0'], glow: '30,144,255',    particle: '#60B0FF', label: 'Sonic' },
+  splatoon:       { name: 'splatoon',       bg: ['#E84B0A', '#5D1A8C'], glow: '232,75,10',     particle: '#FF6B2B', label: 'Splatoon' },
+  lego:           { name: 'lego',           bg: ['#FFD700', '#E5A100'], glow: '255,215,0',     particle: '#FFE44D', label: 'LEGO' },
+  dance:          { name: 'dance',          bg: ['#FF1493', '#8B008B'], glow: '255,20,147',    particle: '#FF69B4', label: 'Dance' },
+  minecraft:      { name: 'minecraft',      bg: ['#5D8C3E', '#3B5E28'], glow: '93,140,62',     particle: '#7CBA4C', label: 'Minecraft' },
+  pikmin:         { name: 'pikmin',         bg: ['#D4523E', '#2E8B57'], glow: '212,82,62',     particle: '#E87060', label: 'Pikmin' },
 };
 
 // Genre-gebaseerde fallback kleuren voor games zonder specifieke franchise
