@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: productUrl,
     },
     openGraph: {
-      type: 'website',
+      type: 'article',
       url: productUrl,
       title: `${product.name} - ${product.platform} kopen | Gameshop Enter`,
       description,
@@ -111,7 +111,7 @@ export default async function ProductPage({ params }: Props) {
         '@type': 'OfferShippingDetails',
         shippingRate: {
           '@type': 'MonetaryAmount',
-          value: effectivePrice >= FREE_SHIPPING_THRESHOLD ? '0.00' : '3.95',
+          value: effectivePrice >= FREE_SHIPPING_THRESHOLD ? '0.00' : '4.95',
           currency: 'EUR',
         },
         deliveryTime: {
