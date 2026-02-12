@@ -139,7 +139,6 @@ export default function NewsletterCTA() {
             </motion.div>
           ) : (
             <>
-            <p className="text-white/50 text-sm mb-4">Sluit je aan bij 500+ Pokémon trainers</p>
             <form onSubmit={handleSubmit} name="newsletter" className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
               <input type="hidden" name="form-name" value="newsletter" />
               <div className="flex-1 relative">
@@ -182,7 +181,8 @@ export default function NewsletterCTA() {
             </motion.p>
           )}
 
-          <p className="text-white/60 text-xs mt-6">
+          <p className="text-white/50 text-xs mt-6 mb-3">Sluit je aan bij 500+ Pokémon trainers</p>
+          <p className="text-white/60 text-xs">
             Geen spam, alleen relevante updates. Je kunt je altijd afmelden.
           </p>
         </motion.div>

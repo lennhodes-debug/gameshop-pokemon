@@ -33,7 +33,7 @@ const trustItems = [
       </svg>
     ),
     title: 'Gratis verzending',
-    description: 'Vanaf €100 — anders slechts €3,95',
+    description: 'Vanaf €100 — anders vanaf €4,95',
     gradient: 'from-sky-500 to-blue-500',
     glow: 'rgba(14,165,233,0.2)',
   },
