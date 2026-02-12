@@ -438,7 +438,7 @@ export default function WinkelwagenPage() {
               transition={{ delay: 0.2 }}
               className="lg:col-span-1"
             >
-              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-lg">
                 <h3 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Overzicht</h3>
 
                 <div className="space-y-3 text-sm">
