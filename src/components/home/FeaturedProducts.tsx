@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { getFeaturedProducts } from '@/lib/products';
@@ -8,6 +8,64 @@ import ProductCard from '@/components/shop/ProductCard';
 import TextReveal from '@/components/ui/TextReveal';
 import MagneticButton from '@/components/ui/MagneticButton';
 import Button from '@/components/ui/Button';
+
+function getNextSunday23h59(): Date {
+  const now = new Date();
+  const day = now.getDay();
+  const daysUntilSunday = day === 0 ? 0 : 7 - day;
+  const target = new Date(now);
+  target.setDate(now.getDate() + daysUntilSunday);
+  target.setHours(23, 59, 59, 0);
+  if (target <= now) {
+    target.setDate(target.getDate() + 7);
+  }
+  return target;
+}
+
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const end = getNextSunday23h59();
+      const diff = Math.max(0, end.getTime() - now.getTime());
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeLeft({ d, h, m, s });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const blocks = [
+    { label: 'dagen', value: timeLeft.d },
+    { label: 'uur', value: timeLeft.h },
+    { label: 'min', value: timeLeft.m },
+    { label: 'sec', value: timeLeft.s },
+  ];
+
+  return (
+    <div className="flex items-center gap-1.5 sm:gap-2">
+      {blocks.map((b, i) => (
+        <div key={b.label} className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex flex-col items-center">
+            <span className="text-lg sm:text-2xl font-extrabold text-white tabular-nums leading-none bg-gradient-to-b from-white to-slate-300 bg-clip-text text-transparent">
+              {String(b.value).padStart(2, '0')}
+            </span>
+            <span className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-0.5">{b.label}</span>
+          </div>
+          {i < blocks.length - 1 && (
+            <span className="text-slate-500 font-bold text-lg mb-3">:</span>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const containerVariants = {
   hidden: {},
@@ -140,6 +198,27 @@ export default function FeaturedProducts() {
               </motion.svg>
             </Link>
           </MagneticButton>
+        </motion.div>
+
+        {/* Countdown timer banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-8 rounded-2xl bg-gradient-to-r from-[#050810] via-[#0a1628] to-[#050810] border border-slate-700/50 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3"
+        >
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+              <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm sm:text-base">Weekdeal eindigt over</p>
+              <p className="text-slate-400 text-xs">Gratis verzending op alle weekdeals</p>
+            </div>
+          </div>
+          <CountdownTimer />
         </motion.div>
 
         <motion.div

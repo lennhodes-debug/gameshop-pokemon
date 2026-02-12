@@ -7,15 +7,15 @@ import Link from 'next/link';
 import { getAllProducts, type Product } from '@/lib/products';
 import { formatPrice, PLATFORM_LABELS, getGameTheme } from '@/lib/utils';
 
-const CARD_COUNT_DESKTOP = 14;
-const CARD_COUNT_MOBILE = 8;
-const ROTATION_DURATION = 35;
-const RADIUS_DESKTOP = 540;
-const RADIUS_MOBILE = 250;
-const CARD_W_DESKTOP = 200;
-const CARD_H_DESKTOP = 295;
-const CARD_W_MOBILE = 135;
-const CARD_H_MOBILE = 195;
+const CARD_COUNT_DESKTOP = 10;
+const CARD_COUNT_MOBILE = 6;
+const ROTATION_DURATION = 40;
+const RADIUS_DESKTOP = 750;
+const RADIUS_MOBILE = 280;
+const CARD_W_DESKTOP = 190;
+const CARD_H_DESKTOP = 280;
+const CARD_W_MOBILE = 130;
+const CARD_H_MOBILE = 185;
 
 const SPARKLE_COUNT = 8;
 const SPARKLES = Array.from({ length: SPARKLE_COUNT }, (_, i) => ({
@@ -147,32 +147,34 @@ function CarouselCard({
 
   const cosVal = useTransform(angle, (a: number) => Math.cos(a));
 
-  // Meer dramatische opacity curve — achterste kaarten veel meer vervaagd
+  // Zachte opacity curve — achterste kaarten verbergen
   const cardOpacity = useTransform(cosVal, (c: number) => {
-    if (c < -0.2) return 0;
-    if (c < 0.2) return 0.15;
-    if (c < 0.5) return 0.35;
-    if (c < 0.8) return 0.7;
+    if (c < -0.3) return 0;
+    if (c < 0) return 0.1;
+    if (c < 0.3) return 0.3;
+    if (c < 0.6) return 0.55;
+    if (c < 0.85) return 0.8;
     return 1;
   });
 
-  // Meer dramatische scale — voorste kaart is veel groter
+  // Vloeiende scale curve — front kaart springt eruit
   const cardScale = useTransform(cosVal, (c: number) => {
-    if (c > 0.9) return 1.08;
-    if (c > 0.7) return 0.85;
-    if (c > 0.4) return 0.65;
-    return 0.45;
+    if (c > 0.92) return 1.12;
+    if (c > 0.75) return 0.9;
+    if (c > 0.5) return 0.72;
+    if (c > 0.2) return 0.58;
+    return 0.42;
   });
 
   const zIndex = useTransform(cosVal, (c: number) => Math.round(c * 100));
 
-  // Veel agressievere blur
+  // Minder agressieve blur — alleen achterste kaarten
   const cardFilter = useTransform(cosVal, (c: number) => {
-    if (c > 0.85) return 'blur(0px) brightness(1.2) saturate(1.2)';
-    if (c > 0.6) return 'blur(1px) brightness(1.0)';
-    if (c > 0.3) return 'blur(3px) brightness(0.7) saturate(0.7)';
-    if (c > 0) return 'blur(5px) brightness(0.5) saturate(0.5)';
-    return 'blur(8px) brightness(0.3) saturate(0.4)';
+    if (c > 0.85) return 'blur(0px) brightness(1.15) saturate(1.15)';
+    if (c > 0.6) return 'blur(0px) brightness(1.0)';
+    if (c > 0.3) return 'blur(1.5px) brightness(0.8) saturate(0.8)';
+    if (c > 0) return 'blur(3px) brightness(0.6) saturate(0.6)';
+    return 'blur(6px) brightness(0.4) saturate(0.5)';
   });
 
   // Glow intensiteit — per-game kleur, nog dramatischer op front
@@ -575,7 +577,7 @@ export default function GameCarousel3D() {
   const radius = isMobile ? RADIUS_MOBILE : RADIUS_DESKTOP;
   const cardWidth = isMobile ? CARD_W_MOBILE : CARD_W_DESKTOP;
   const cardHeight = isMobile ? CARD_H_MOBILE : CARD_H_DESKTOP;
-  const containerHeight = isMobile ? 380 : 560;
+  const containerHeight = isMobile ? 360 : 520;
 
   const carouselProducts = useMemo(() => {
     const withImage = getAllProducts().filter(p => p.image);
@@ -812,7 +814,7 @@ export default function GameCarousel3D() {
           <div
             className="relative w-full h-full cursor-grab active:cursor-grabbing"
             style={{
-              perspective: isMobile ? '900px' : '1400px',
+              perspective: isMobile ? '1000px' : '1800px',
               perspectiveOrigin: '50% 35%',
             }}
             onPointerDown={handlePointerDown}

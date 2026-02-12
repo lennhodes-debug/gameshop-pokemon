@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
@@ -167,6 +167,15 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const typeLabel = typeInfo?.label;
 
+  // Gesimuleerde voorraad op basis van SKU
+  const stockCount = useMemo(() => {
+    let hash = 0;
+    for (let i = 0; i < product.sku.length; i++) hash = ((hash << 5) - hash + product.sku.charCodeAt(i)) | 0;
+    const base = Math.abs(hash) % 12;
+    if (product.isPremium) return Math.max(1, base % 4 + 1);
+    return base < 3 ? base + 1 : 0; // 0 = geen badge tonen
+  }, [product.sku, product.isPremium]);
+
   return (
     <div className="group">
       <div
@@ -326,6 +335,16 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </svg>
               </button>
             </div>
+
+            {/* Voorraad badge */}
+            {stockCount > 0 && stockCount <= 3 && (
+              <div className="absolute bottom-2 left-3 z-10">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-orange-50 border border-orange-200 text-orange-700 text-[10px] font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                  Nog {stockCount} op voorraad
+                </span>
+              </div>
+            )}
 
             {/* Bottom fade */}
             <div

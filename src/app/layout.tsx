@@ -9,6 +9,8 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import ScrollProgress from '@/components/layout/ScrollProgress';
+import SocialProofToast from '@/components/ui/SocialProofToast';
+import ExitIntentModal from '@/components/ui/ExitIntentModal';
 import { cn } from '@/lib/utils';
 
 const jakarta = localFont({
@@ -198,6 +200,8 @@ export default function RootLayout({
               </main>
               <Footer />
               <BackToTop />
+              <SocialProofToast />
+              <ExitIntentModal />
             </ToastProvider>
           </WishlistProvider>
         </CartProvider>
