@@ -21,12 +21,10 @@ export default function HomePage() {
         <FeaturedProducts />
       </ParallaxSection>
       <GameCarousel3D />
-      <ParallaxSection speed={0.15}>
-        <GameMarquee />
-      </ParallaxSection>
       <ParallaxSection speed={0.25}>
         <PlatformGrid />
       </ParallaxSection>
+      <GameMarquee />
       <ParallaxSection speed={0.2}>
         <AboutPreview />
       </ParallaxSection>
