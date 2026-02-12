@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = product.description ||
     `${product.name} voor ${product.platform} - ${product.condition} - ${product.completeness}. ${formatPrice(product.price)} bij Gameshop Enter.`;
   const productUrl = `${siteUrl}/shop/${product.sku}`;
-  const imageUrl = product.image ? `${siteUrl}${product.image}` : `${siteUrl}/images/og-image.png`;
+  const imageUrl = product.image ? `${siteUrl}${product.image}` : `${siteUrl}/images/og-image.svg`;
 
   return {
     title: `${product.name} - ${product.platform}`,

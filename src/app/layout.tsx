@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -8,6 +9,14 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import ScrollProgress from '@/components/layout/ScrollProgress';
+import { cn } from '@/lib/utils';
+
+const jakarta = Plus_Jakarta_Sans({
+  weight: ['300', '400', '500', '600', '700', '800'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jakarta',
+});
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -48,7 +57,7 @@ export const metadata: Metadata = {
       'Dé Pokémon specialist van Nederland. Originele Pokémon games, persoonlijk getest met eigen foto\'s. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
-        url: '/images/og-image.png',
+        url: '/images/og-image.svg',
         width: 1200,
         height: 630,
         alt: 'Gameshop Enter - Pokémon Games Specialist',
@@ -60,7 +69,7 @@ export const metadata: Metadata = {
     title: 'Gameshop Enter - Dé Pokémon Games Specialist van Nederland',
     description:
       'Dé Pokémon specialist van Nederland. Originele Pokémon games, persoonlijk getest met eigen foto\'s.',
-    images: ['/images/og-image.png'],
+    images: ['/images/og-image.svg'],
   },
   robots: {
     index: true,
@@ -84,13 +93,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="nl" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-      </head>
-      <body className="bg-[#f8fafc] text-slate-900 antialiased" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+    <html lang="nl" className={cn(jakarta.className, "scroll-smooth")}>
+      <body className="bg-[#f8fafc] text-slate-900 antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -103,11 +107,11 @@ export default function RootLayout({
               url: 'https://gameshopenter.nl',
               logo: {
                 '@type': 'ImageObject',
-                url: 'https://gameshopenter.nl/images/logo.png',
+                url: 'https://gameshopenter.nl/images/logo.svg',
                 width: 512,
                 height: 512,
               },
-              image: 'https://gameshopenter.nl/images/og-image.png',
+              image: 'https://gameshopenter.nl/images/og-image.svg',
               email: 'gameshopenter@gmail.com',
               founder: {
                 '@type': 'Person',
