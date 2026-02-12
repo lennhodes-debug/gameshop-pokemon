@@ -13,8 +13,8 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.1,
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
     },
   },
 };
@@ -22,18 +22,22 @@ const containerVariants = {
 const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 40,
-    scale: 0.92,
+    y: 60,
+    scale: 0.88,
+    rotateX: 15,
+    filter: 'blur(8px)',
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
+    rotateX: 0,
+    filter: 'blur(0px)',
     transition: {
       type: 'spring' as const,
-      stiffness: 120,
-      damping: 18,
-      mass: 0.8,
+      stiffness: 100,
+      damping: 16,
+      mass: 0.9,
     }
   },
 };

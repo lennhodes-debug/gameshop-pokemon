@@ -101,11 +101,11 @@ function ArcadeCounter({ value, suffix, label, icon, index }: {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 45, scale: 0.85, rotateX: 12, filter: 'blur(10px)' }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0px)' }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] as const }}
-      whileHover={{ y: -6, scale: 1.03, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] as const }}
+      whileHover={{ y: -8, scale: 1.04, transition: { type: 'spring', stiffness: 280, damping: 18 } }}
       className="group relative rounded-2xl p-5 lg:p-6 text-center overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(5,8,16,0.9) 0%, rgba(10,16,26,0.95) 100%)',

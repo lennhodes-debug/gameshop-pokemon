@@ -43,10 +43,10 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 45, scale: 0.9, filter: 'blur(10px)' }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
       viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
+      transition={{ duration: 0.65, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link href={`/shop?platform=${encodeURIComponent(platform.name)}`} aria-label={`Shop ${platform.name} — ${platform.count} producten`}>
         <motion.div
