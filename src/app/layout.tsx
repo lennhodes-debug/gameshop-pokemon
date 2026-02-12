@@ -7,6 +7,7 @@ import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import ScrollProgress from '@/components/layout/ScrollProgress';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -178,6 +179,7 @@ export default function RootLayout({
           }}
         />
         <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
+        <ScrollProgress />
         <CartProvider>
           <WishlistProvider>
             <ToastProvider>

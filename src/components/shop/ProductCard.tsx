@@ -95,32 +95,42 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     setTimeout(() => setAddedToCart(false), 1500);
   };
 
-  // 3D tilt berekening
-  const tiltX = isHovered ? (mousePos.y - 50) * -0.2 : 0;
-  const tiltY = isHovered ? (mousePos.x - 50) * 0.2 : 0;
-
   // === POKEMON TYPE CARD ===
   if (isPokemon && typeInfo) {
     return (
-      <div className="group" style={{ perspective: '800px' }}>
+      <div className="group">
         <div
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
-          className="relative rounded-2xl overflow-hidden flex flex-col transition-all duration-300 will-change-transform"
+          className="relative rounded-2xl overflow-hidden flex flex-col will-change-transform"
           style={{
-            transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-            transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
+            transform: `translateY(${isHovered ? -6 : 0}px)`,
+            transition: 'transform 0.3s ease-out, box-shadow 0.3s ease',
             background: `linear-gradient(135deg, ${typeInfo.bg[0]}18 0%, ${typeInfo.bg[1]}30 100%)`,
             border: `1.5px solid ${typeInfo.bg[0]}40`,
             boxShadow: isHovered
-              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 8px 32px rgba(0,0,0,0.2)`
+              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 12px 40px rgba(0,0,0,0.25)`
               : `0 0 12px rgba(${typeInfo.glow}, 0.15), 0 4px 16px rgba(0,0,0,0.1)`,
           }}
         >
           {/* Holographic shine */}
           <HoloShine mouseX={mousePos.x} mouseY={mousePos.y} />
+
+          {/* Shine sweep overlay */}
+          <div
+            className="absolute inset-0 z-30 pointer-events-none overflow-hidden rounded-2xl"
+            aria-hidden="true"
+          >
+            <div
+              className="absolute inset-0 transition-transform duration-[600ms] ease-out"
+              style={{
+                transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 60%, transparent 100%)',
+              }}
+            />
+          </div>
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
@@ -294,10 +304,12 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
+        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
         style={{
+          transform: `translateY(${isHovered ? -4 : 0}px)`,
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
           boxShadow: isHovered
-            ? '0 8px 30px rgba(16,185,129,0.12), 0 4px 12px rgba(0,0,0,0.06)'
+            ? '0 12px 36px rgba(16,185,129,0.14), 0 6px 16px rgba(0,0,0,0.08)'
             : undefined,
         }}
         ref={cardRef}
@@ -305,6 +317,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
       >
+        {/* Shine sweep overlay */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-2xl"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute inset-0 transition-transform duration-[600ms] ease-out"
+            style={{
+              transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 40%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.15) 60%, transparent 100%)',
+            }}
+          />
+        </div>
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div className="relative h-52 bg-slate-50 flex items-center justify-center overflow-hidden">

@@ -120,35 +120,26 @@ export default function FeaturedProducts() {
           ))}
         </motion.div>
 
-        {/* Desktop: grid — Cartridge Insert 3D entrance */}
+        {/* Desktop: grid — Staggered fade-up entrance */}
         <div ref={containerRef} className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product, index) => (
             <motion.div
               key={product.sku}
-              className="perspective-1000"
               initial={{
-                opacity: 0.15,
-                rotateY: 90,
-                scale: 0.85,
-                filter: 'brightness(0.4)',
+                opacity: 0,
+                y: 40,
+                scale: 0.95,
               }}
               whileInView={{
                 opacity: 1,
-                rotateY: 0,
+                y: 0,
                 scale: 1,
-                filter: 'brightness(1)',
               }}
-              viewport={{ once: true, margin: '-80px' }}
+              viewport={{ once: true, margin: '-60px' }}
               transition={{
-                duration: 0.7,
-                delay: index * 0.06,
-                rotateY: {
-                  type: 'spring',
-                  stiffness: 180,
-                  damping: 16,
-                },
-                scale: { duration: 0.4, delay: index * 0.06 + 0.3 },
-                filter: { duration: 0.4, delay: index * 0.06 + 0.2 },
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
               <ProductCard product={product} />

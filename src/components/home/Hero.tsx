@@ -12,6 +12,8 @@ const FLOATING_POKEBALLS = [
   { size: 10, x: '40%', y: '85%', delay: 2.5, duration: 12 },
 ];
 
+const HERO_TITLE_WORDS = ['Gameshop', 'Enter'];
+
 function MiniPokeball({ size }: { size: number }) {
   const r = size / 2;
   return (
@@ -41,14 +43,45 @@ function PokeballBg() {
         <circle cx="100" cy="100" r="12" fill="white" fillOpacity="0.3" />
       </motion.svg>
 
-      {/* Glowing orb achter de Pokeball */}
+      {/* Glowing orb achter de Pokeball — spring entrance van scale 0 naar 1 */}
       <motion.div
         className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
         style={{
           background: 'radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(6,182,212,0.08) 40%, transparent 70%)',
         }}
+        initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{
+          scale: {
+            times: [0, 0.5, 1],
+            duration: 6,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0.8,
+          },
+          opacity: {
+            times: [0, 0.5, 1],
+            duration: 6,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0.8,
+          },
+        }}
+      />
+      {/* Extra entrance spring animatie voor de orb */}
+      <motion.div
+        className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
+        style={{
+          background: 'radial-gradient(circle, rgba(16,185,129,0.1) 0%, rgba(6,182,212,0.05) 40%, transparent 70%)',
+        }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 12,
+          delay: 0.2,
+        }}
       />
 
       {/* Zwevende mini Pokéballs */}
@@ -108,24 +141,35 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Titel */}
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white leading-[1.05] tracking-tight mb-6"
-        >
-          Gameshop
-          <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
-            Enter
-          </span>
-        </motion.h1>
+        {/* Titel — per woord 3D rotateX flip entrance */}
+        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
+          {HERO_TITLE_WORDS.map((word, i) => (
+            <span key={word}>
+              {i > 0 && <br />}
+              <span className="inline-block overflow-hidden" style={{ perspective: '600px' }}>
+                <motion.span
+                  className={`inline-block ${i === 1 ? 'bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400' : ''}`}
+                  initial={{ y: '120%', rotateX: -80, opacity: 0 }}
+                  animate={{ y: '0%', rotateX: 0, opacity: 1 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.3 + i * 0.15,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  style={{ transformOrigin: 'bottom center' }}
+                >
+                  {word}
+                </motion.span>
+              </span>
+            </span>
+          ))}
+        </h1>
 
+        {/* Subtitel — letter-spacing animatie van wider naar normaal */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          initial={{ opacity: 0, y: 16, letterSpacing: '0.15em' }}
+          animate={{ opacity: 1, y: 0, letterSpacing: '0em' }}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-lg sm:text-xl text-white/50 leading-relaxed mb-10 max-w-xl mx-auto"
         >
           Dé Pokémon specialist van Nederland. Originele games, persoonlijk getest en met liefde verpakt.

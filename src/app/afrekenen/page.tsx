@@ -279,33 +279,62 @@ export default function AfrekenPage() {
         >
           <div className="flex items-center justify-center gap-0">
             {[
-              { num: 1, label: 'Gegevens', icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z' },
-              { num: 2, label: 'Betalen', icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z' },
-              { num: 3, label: 'Bevestiging', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+              { num: 1, label: 'Gegevens', icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z', completed: false, active: true },
+              { num: 2, label: 'Betalen', icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z', completed: false, active: false },
+              { num: 3, label: 'Bevestiging', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', completed: false, active: false },
             ].map((step, i) => (
               <div key={step.num} className="flex items-center">
-                <div className="flex flex-col items-center">
-                  <div className={`h-10 w-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                    i === 0
+                <div className="flex flex-col items-center relative">
+                  {/* Pulserende ring voor actieve stap */}
+                  {step.active && (
+                    <motion.div
+                      className="absolute inset-0 rounded-xl bg-emerald-500/20"
+                      style={{ width: 40, height: 40 }}
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0, 0.4] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                  )}
+                  <div className={`h-10 w-10 rounded-xl flex items-center justify-center transition-all duration-300 relative z-10 ${
+                    step.completed
                       ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20'
-                      : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500'
+                      : step.active
+                        ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20'
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500'
                   }`}>
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={i === 0 ? 2 : 1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
-                    </svg>
+                    {step.completed ? (
+                      <motion.svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2.5}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </motion.svg>
+                    ) : (
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={step.active ? 2 : 1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
+                      </svg>
+                    )}
                   </div>
                   <span className={`text-xs font-semibold mt-1.5 ${
-                    i === 0
+                    step.completed || step.active
                       ? 'text-emerald-600 dark:text-emerald-400'
                       : 'text-slate-400 dark:text-slate-500'
                   }`}>{step.label}</span>
                 </div>
                 {i < 2 && (
-                  <div className={`w-12 sm:w-20 h-0.5 mx-2 mb-5 rounded-full ${
-                    i === 0
-                      ? 'bg-gradient-to-r from-emerald-400 to-slate-200 dark:to-slate-600'
-                      : 'bg-slate-200 dark:bg-slate-700'
-                  }`} />
+                  <div className="w-12 sm:w-20 h-0.5 mx-2 mb-5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden relative">
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full origin-left"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: step.completed ? 1 : (step.active && i === 0) ? 0.5 : 0 }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.15 }}
+                    />
+                  </div>
                 )}
               </div>
             ))}
