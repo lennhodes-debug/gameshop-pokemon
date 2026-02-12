@@ -387,7 +387,7 @@ function ShopContent() {
 
         {/* Resultaten info balk */}
         {!isSearching && filtered.length > 0 && (
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-6 flex items-center justify-between bg-white/60 backdrop-blur-sm rounded-xl px-4 py-2.5 border border-slate-100">
             <p className="text-sm text-slate-500 dark:text-slate-400">
               <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
               {totalPages > 1 && (
@@ -412,7 +412,7 @@ function ShopContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
               >
                 {Array.from({ length: 8 }).map((_, i) => (
                   <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
@@ -466,7 +466,7 @@ function ShopContent() {
                       <button
                         key={p}
                         onClick={() => { clearFilters(); setPlatform(p); }}
-                        className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                        className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
                       >
                         {p}
                       </button>

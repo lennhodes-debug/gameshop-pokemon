@@ -49,7 +49,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => { setHovered(false); mouseX.set(0.5); mouseY.set(0.5); }}
           whileHover={{ y: -6, transition: { duration: 0.2 } }}
-          className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-500"
+          className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-xl hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-500"
         >
           {/* Spotlight effect on hover */}
           {hovered && (
@@ -109,7 +109,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white text-sm">{platform.name}</h3>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r ${colors.from} ${colors.to} text-white`}>
+                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-gradient-to-r ${colors.from} ${colors.to} text-white`}>
                   {platform.count} games
                 </span>
               </div>
@@ -149,7 +149,7 @@ export default function PlatformGrid() {
             {platforms.length} Platforms
           </span>
           <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
-            <TextReveal text="Shop per platform" delay={0.1} />
+            <TextReveal text="Shop per " delay={0.1} /><span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">platform</span>
           </h2>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Pokémon games per platform — van Game Boy tot 3DS

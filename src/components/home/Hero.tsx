@@ -32,7 +32,7 @@ function PokeballBg() {
       {/* Langzaam roterende Pokeball silhouet */}
       <motion.svg
         viewBox="0 0 200 200"
-        className="w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-[0.03]"
+        className="w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-[0.05]"
         animate={{ rotate: 360 }}
         transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
       >
@@ -170,7 +170,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16, letterSpacing: '0.15em' }}
           animate={{ opacity: 1, y: 0, letterSpacing: '0em' }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg sm:text-xl text-white/50 leading-relaxed mb-10 max-w-xl mx-auto"
+          className="text-lg sm:text-xl text-white/60 leading-relaxed mb-10 max-w-xl mx-auto"
         >
           Dé Pokémon specialist van Nederland. Originele games, persoonlijk getest en met liefde verpakt.
         </motion.p>
@@ -193,15 +193,26 @@ export default function Hero() {
           </Link>
           <Link
             href="/inkoop"
-            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.08] border border-white/[0.12] text-white font-bold text-sm hover:bg-white/[0.12] transition-all duration-300"
+            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.12] border border-white/[0.12] text-white font-bold text-sm hover:bg-white/[0.16] transition-all duration-300"
           >
             Games verkopen
           </Link>
         </motion.div>
       </div>
 
+      {/* Scroll-down indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <svg className="h-6 w-6 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+        </svg>
+      </motion.div>
+
       {/* Gradient overgang naar pagina */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a0e1a] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050810] to-transparent" />
     </section>
   );
 }

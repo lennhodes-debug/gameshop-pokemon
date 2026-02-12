@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, getShippingCost } from '@/lib/utils';
 import { useToast } from '@/components/ui/Toast';
 
 interface FormData {
@@ -23,10 +23,6 @@ interface FormData {
 
 const betaalmethoden = [
   { id: 'ideal', label: 'iDEAL', description: 'Direct betalen via je bank' },
-  { id: 'creditcard', label: 'Creditcard', description: 'Visa, Mastercard, American Express' },
-  { id: 'paypal', label: 'PayPal', description: 'Betalen via PayPal account' },
-  { id: 'bancontact', label: 'Bancontact', description: 'Belgisch betaalnetwerk' },
-  { id: 'applepay', label: 'Apple Pay', description: 'Betalen via Apple Pay' },
 ];
 
 const fadeUp = {
@@ -100,7 +96,8 @@ export default function AfrekenPage() {
 
   const rawSubtotal = getSubtotal();
   const subtotal = getTotal();
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const shipping = getShippingCost(itemCount, subtotal);
   const total = subtotal + shipping;
 
   // Form completion progress
@@ -203,16 +200,28 @@ export default function AfrekenPage() {
         <div className="relative bg-[#050810] min-h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_60%)]" />
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="relative text-center px-4">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring', bounce: 0.5 }}
-              className="h-24 w-24 mx-auto rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mb-8 shadow-2xl shadow-emerald-500/30"
-            >
-              <svg className="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-            </motion.div>
+            <div className="relative h-24 w-24 mx-auto mb-8">
+              <motion.div
+                className="absolute inset-0 rounded-full border border-emerald-500/20"
+                animate={{ scale: [1, 2.5], opacity: [0.4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+              />
+              <motion.div
+                className="absolute inset-0 rounded-full border border-emerald-500/20"
+                animate={{ scale: [1, 2], opacity: [0.3, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: 0.5 }}
+              />
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: 'spring', bounce: 0.5 }}
+                className="h-24 w-24 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-2xl shadow-emerald-500/30 relative"
+              >
+                <svg className="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </motion.div>
+            </div>
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-3xl lg:text-4xl font-extrabold text-white mb-4 tracking-tight">
               Bedankt voor je bestelling!
             </motion.h1>
@@ -298,7 +307,7 @@ export default function AfrekenPage() {
                     step.completed
                       ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20'
                       : step.active
-                        ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20'
+                        ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/20 ring-4 ring-emerald-500/10'
                         : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500'
                   }`}>
                     {step.completed ? (
@@ -356,11 +365,13 @@ export default function AfrekenPage() {
           </div>
           <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500"
+              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 relative"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
-            />
+            >
+              {progress > 0 && progress < 100 && <div className="absolute right-0 top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50 animate-pulse" />}
+            </motion.div>
           </div>
         </motion.div>
 
@@ -391,7 +402,7 @@ export default function AfrekenPage() {
                           value={form[field]}
                           onChange={(e) => updateField(field, e.target.value)}
                           onBlur={() => handleBlur(field)}
-                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
                           placeholder={placeholder}
                         />
                         {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
@@ -425,7 +436,7 @@ export default function AfrekenPage() {
                           value={form[field]}
                           onChange={(e) => updateField(field, e.target.value)}
                           onBlur={() => handleBlur(field)}
-                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
                           placeholder={placeholder}
                         />
                         {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
@@ -476,7 +487,7 @@ export default function AfrekenPage() {
 
             {/* Right: Order summary */}
             <motion.div {...fadeUp} transition={{ delay: 0.2, duration: 0.5 }} className="lg:col-span-1">
-              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-lg">
                 <h3 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Je bestelling</h3>
 
                 <div className="space-y-3 mb-6 max-h-64 overflow-y-auto pr-1">
@@ -613,7 +624,7 @@ export default function AfrekenPage() {
                 </div>
 
                 <div className="mt-3 flex items-center justify-center gap-1.5 flex-wrap">
-                  {['iDEAL', 'Visa', 'MC', 'PayPal', 'Bancontact'].map((m) => (
+                  {['iDEAL'].map((m) => (
                     <span key={m} className="px-2 py-1 rounded-md bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[9px] text-slate-500 dark:text-slate-400 font-semibold">{m}</span>
                   ))}
                 </div>

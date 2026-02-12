@@ -63,7 +63,7 @@ export default function FaqPreview() {
     <section ref={sectionRef} className="relative bg-[#f8fafc] dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
       {/* Subtle background glow */}
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-sky-400 blur-[180px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-emerald-400 blur-[180px] pointer-events-none"
         style={{ opacity: glowOpacity }}
       />
 
@@ -80,7 +80,7 @@ export default function FaqPreview() {
             whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, type: 'spring', stiffness: 300, damping: 15 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-semibold uppercase tracking-wider mb-4"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4"
           >
             <motion.svg
               className="h-3.5 w-3.5"
@@ -102,7 +102,7 @@ export default function FaqPreview() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, type: 'spring', stiffness: 100 }}
-            className="h-[3px] w-16 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto mb-4 origin-center"
+            className="h-[3px] w-16 bg-gradient-to-r from-emerald-500 to-emerald-500 rounded-full mx-auto mb-4 origin-center"
           />
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Heb je een vraag? Wellicht vind je het antwoord hier
@@ -119,14 +119,14 @@ export default function FaqPreview() {
         >
           {/* Glow behind container */}
           <motion.div
-            className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-sky-400/20 via-blue-400/20 to-sky-400/20 blur-xl pointer-events-none"
+            className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-400/20 via-emerald-400/20 to-emerald-400/20 blur-xl pointer-events-none"
             style={{ opacity: glowOpacity }}
           />
 
-          <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-sky-200 dark:hover:border-sky-500/30 hover:shadow-lg hover:shadow-sky-500/5 transition-all duration-500 group">
+          <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-emerald-200 dark:hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-500 group">
             {/* Animated corner accents on hover */}
-            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-transparent group-hover:border-sky-400/40 rounded-tl-2xl transition-all duration-500 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-transparent group-hover:border-sky-400/40 rounded-br-2xl transition-all duration-500 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-transparent group-hover:border-emerald-400/40 rounded-tl-2xl transition-all duration-500 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-transparent group-hover:border-emerald-400/40 rounded-br-2xl transition-all duration-500 pointer-events-none" />
             <Accordion items={faqItems} staggerVariant={fadeUp} />
           </div>
         </motion.div>
@@ -139,7 +139,7 @@ export default function FaqPreview() {
           className="text-center mt-8"
         >
           <Link href="/faq">
-            <Button variant="ghost" className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white group">
+            <Button variant="outline" className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white group">
               Bekijk alle vragen
               <motion.svg
                 className="ml-2 h-4 w-4"

@@ -42,14 +42,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const effectivePrice = getEffectivePrice(product);
   const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
-  const typeInfo = getPokemonType(product.sku);
 
   const hasCibOption = !!product.cibPrice;
   const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : effectivePrice;
   const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
   const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
 
-  // Type-based accent color (fallback to emerald)
+  // Accent kleur: per Pokémon game uniek, overige producten emerald
+  const typeInfo = getPokemonType(product.sku);
   const accent = typeInfo ? typeInfo.bg[0] : '#10b981';
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
@@ -345,7 +345,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {product.description && (
             <div className="mb-8 rounded-2xl p-6 backdrop-blur-sm"
               style={{ background: `linear-gradient(135deg, ${accent}06, rgba(255,255,255,0.02))`, border: `1px solid ${accent}12` }}>
-              <h2 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: accent }}>Beschrijving</h2>
+              <h2 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: accent }}>Beschrijving</h2>
               <p className="text-slate-400 leading-relaxed text-[15px]">
                 {product.description}
               </p>
@@ -394,7 +394,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 key={item.title}
                 className="flex items-start gap-3 p-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.1] hover:bg-white/[0.04] transition-all duration-300"
               >
-                <div className="h-9 w-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                <div className="h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{ background: `${accent}12`, color: accent }}>
                   <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
@@ -422,11 +422,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {specs.map((spec, i) => (
             <div
               key={spec.label}
-              className={`flex items-center justify-between px-6 py-4 ${i < specs.length - 1 ? 'border-b' : ''}`}
+              className={`flex items-center justify-between px-6 py-4 border-l-2 border-transparent hover:bg-white/[0.04] transition-colors duration-200 ${i < specs.length - 1 ? 'border-b' : ''}`}
               style={{
                 background: i % 2 === 0 ? `${accent}04` : 'transparent',
                 borderColor: `${accent}10`,
+                // @ts-expect-error -- CSS custom property for hover border
+                '--hover-accent': accent,
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderLeftColor = accent; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderLeftColor = 'transparent'; }}
             >
               <span className="text-sm font-medium text-slate-500">{spec.label}</span>
               <span className="text-sm font-semibold text-slate-200">{spec.value}</span>
@@ -459,7 +463,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       {/* Lightbox */}
       {lightboxOpen && displayImage && !imageError && (
         <motion.div
-          className="fixed inset-0 z-[300] bg-black/95 flex items-center justify-center cursor-zoom-out"
+          className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-sm flex items-center justify-center cursor-zoom-out"
           onClick={() => setLightboxOpen(false)}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

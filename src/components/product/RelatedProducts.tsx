@@ -27,17 +27,21 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
 
   return (
     <section className="mt-16 lg:mt-24">
+      <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-16 lg:mb-24" />
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8"
+        className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3"
       >
         Gerelateerde producten
       </motion.h2>
+      <div className="h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 mb-8" />
 
       {/* Mobile: draggable carousel */}
-      <div className="sm:hidden overflow-hidden">
+      <div className="sm:hidden relative overflow-hidden">
+        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[#050810] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[#050810] to-transparent z-10 pointer-events-none" />
         <motion.div
           ref={carouselRef}
           className="flex gap-4 cursor-grab active:cursor-grabbing"

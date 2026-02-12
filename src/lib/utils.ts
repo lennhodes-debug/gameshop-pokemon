@@ -41,28 +41,71 @@ export const PLATFORM_LABELS: Record<string, string> = {
   'Game Boy Color': 'GBC',
 };
 
-export const SHIPPING_COST = 3.95;
+// Verzendkosten op basis van aantal items
+export const SHIPPING_SMALL = 4.95;   // 1-3 items (brievenbuspakket)
+export const SHIPPING_MEDIUM = 6.95;  // 4-7 items (pakket)
+export const SHIPPING_LARGE = 7.95;   // 8+ items (groot pakket)
 export const FREE_SHIPPING_THRESHOLD = 100;
 
-// Pokemon type systeem — SKU → type mapping
+// Legacy alias voor bestaande imports
+export const SHIPPING_COST = SHIPPING_SMALL;
+
+export function getShippingCost(itemCount: number, subtotal: number): number {
+  if (subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
+  if (itemCount === 0) return 0;
+  if (itemCount <= 3) return SHIPPING_SMALL;
+  if (itemCount <= 7) return SHIPPING_MEDIUM;
+  return SHIPPING_LARGE;
+}
+
+// Pokemon type systeem — SKU → type mapping (alle 42 Pokémon games)
 export const POKEMON_TYPE_MAP: Record<string, string> = {
+  // Game Boy / Color
+  'GB-001':  'electric',  // Trading Card Game — Pikachu thema
+  'GB-002':  'fire',      // Gold — Ho-Oh
+  'GB-003':  'water',     // Blue — Blastoise
+  'GB-004':  'electric',  // Yellow — Pikachu
+  'GB-005':  'psychic',   // Silver — Lugia
+  'GB-006':  'ice',       // Crystal — Suicune
+  // Game Boy Advance
   'GBA-001': 'dragon',    // Emerald — Rayquaza
   'GBA-002': 'water',     // Sapphire EUR — Kyogre
+  'GBA-003': 'water',     // Sapphire USA — Kyogre
+  'GBA-004': 'fire',      // FireRed USA — Charizard
+  'GBA-005': 'fire',      // FireRed EUR — Charizard
+  'GBA-006': 'grass',     // LeafGreen USA — Venusaur
+  'GBA-007': 'grass',     // LeafGreen EUR — Venusaur
+  'GBA-008': 'fire',      // MD Red Rescue Team — Charizard
+  // Nintendo DS
   'DS-001':  'ghost',     // Platinum — Giratina
   'DS-003':  'fire',      // HeartGold — Ho-Oh
   'DS-007':  'normal',    // Ranger Guardian Signs
   'DS-008':  'normal',    // Ranger Shadows of Almia
   'DS-009':  'steel',     // MD Explorers of Time — Dialga
-  '3DS-003': 'water',     // Alpha Sapphire — Kyogre
-  '3DS-004': 'ghost',     // Moon — Lunala
+  'DS-010':  'steel',     // Diamond EUR — Dialga
   'DS-011':  'water',     // MD Blue Rescue Team — Squirtle
+  'DS-012':  'grass',     // MD Explorers of Sky — Shaymin
   'DS-013':  'normal',    // Ranger
   'DS-014':  'ghost',     // MD Explorers of Darkness
+  'DS-015':  'fighting',  // Conquest — samurai thema
   'DS-016':  'dragon',    // Black 2 — Black Kyurem
   'DS-017':  'dragon',    // White 2 — White Kyurem
   'DS-018':  'steel',     // Diamond USA — Dialga
   'DS-019':  'ghost',     // Platinum USA — Giratina
+  'DS-020':  'water',     // Pearl USA — Palkia
   'DS-021':  'fire',      // HeartGold USA — Ho-Oh
+  'DS-022':  'electric',  // Dash — Pikachu
+  // Nintendo 3DS
+  '3DS-001': 'fairy',     // X — Xerneas
+  '3DS-002': 'ground',    // Omega Ruby — Groudon
+  '3DS-003': 'water',     // Alpha Sapphire — Kyogre
+  '3DS-004': 'ghost',     // Moon — Lunala
+  '3DS-005': 'fire',      // Super Mystery Dungeon
+  '3DS-006': 'ice',       // Gates to Infinity — Kyurem
+  '3DS-007': 'psychic',   // Ultra Sun — Necrozma Dusk Mane
+  '3DS-008': 'ghost',     // Ultra Moon — Necrozma Dawn Wings
+  '3DS-010': 'dark',      // Y — Yveltal
+  '3DS-011': 'steel',     // Sun — Solgaleo
 };
 
 // Rotatie-correctie per product (graden, negatief = tegen klok in)
@@ -117,6 +160,9 @@ export const POKEMON_TYPE_COLORS: Record<string, PokemonTypeInfo> = {
   ground:   { name: 'ground',   bg: ['#D0A040', '#A07830'], glow: '208,160,64',   particle: '#E0C060', label: 'Grond' },
   fairy:    { name: 'fairy',    bg: ['#E898C0', '#C06890'], glow: '232,152,192',  particle: '#FFB0D8', label: 'Fee' },
   normal:   { name: 'normal',   bg: ['#909078', '#686850'], glow: '144,144,120',  particle: '#B0B098', label: 'Normaal' },
+  ice:      { name: 'ice',      bg: ['#78D0E0', '#4898B0'], glow: '120,208,224',  particle: '#A0E8F0', label: 'IJs' },
+  dark:     { name: 'dark',     bg: ['#504058', '#302030'], glow: '80,64,88',     particle: '#786078', label: 'Duister' },
+  fighting: { name: 'fighting', bg: ['#C03028', '#802018'], glow: '192,48,40',    particle: '#E05048', label: 'Vecht' },
 };
 
 export function getPokemonType(sku: string): PokemonTypeInfo | null {

@@ -58,7 +58,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ addToast }}>
       {children}
       <div
-        className="fixed bottom-6 right-6 z-[100] flex flex-col gap-2 items-end"
+        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[100] flex flex-col gap-2 items-end"
         aria-live="polite"
         aria-atomic="false"
       >
@@ -80,7 +80,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               }`}
             >
               {toast.image && (
-                <div className="h-10 w-10 rounded-lg overflow-hidden flex-shrink-0 bg-white/10">
+                <div className="h-10 w-10 rounded-lg overflow-hidden flex-shrink-0 bg-white/10 ring-1 ring-white/10">
                   <img src={toast.image} alt="" aria-hidden="true" className="h-full w-full object-cover" />
                 </div>
               )}
@@ -111,7 +111,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 </svg>
               </button>
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/30 origin-left"
+                className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/40 origin-left"
                 initial={{ scaleX: 1 }}
                 animate={{ scaleX: 0 }}
                 transition={{ duration: 3, ease: 'linear' }}

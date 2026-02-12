@@ -145,7 +145,7 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
         {/* Hover glow */}
         <div className="absolute -top-16 -right-16 w-32 h-32 bg-emerald-500/0 group-hover/card:bg-emerald-500/10 rounded-full blur-3xl transition-all duration-500 pointer-events-none" />
         {/* Quote mark */}
-        <div className="absolute top-3 right-4 text-4xl text-white/[0.04] group-hover/card:text-emerald-500/15 font-serif transition-all duration-500 select-none" aria-hidden="true">
+        <div className="absolute top-3 right-4 text-4xl text-white/[0.08] group-hover/card:text-emerald-500/15 font-serif transition-all duration-500 select-none" aria-hidden="true">
           &ldquo;
         </div>
 
@@ -155,12 +155,15 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
         </p>
         <footer className="mt-4 relative z-10">
           <div className="flex items-center justify-between">
-            <cite className="text-white/60 text-xs font-medium not-italic">{review.name}</cite>
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs font-bold shrink-0">{review.name ? review.name[0].toUpperCase() : 'G'}</div>
+              <cite className="text-white/60 text-xs font-medium not-italic">{review.name}</cite>
+            </div>
             <span className="text-emerald-400/60 text-xs group-hover/card:text-emerald-400 transition-colors duration-300">
               {review.product}
             </span>
           </div>
-          <time className="block text-white/30 text-[10px] mt-1">{review.date}</time>
+          <time className="block text-white/40 text-[11px] mt-1">{review.date}</time>
         </footer>
       </blockquote>
     </motion.div>
