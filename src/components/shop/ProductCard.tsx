@@ -124,7 +124,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
-            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
+            <div
+              className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5"
+              style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
+            >
               {displayImage && !imageError ? (
                 <>
                   {!imageLoaded && (
@@ -139,7 +142,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                       "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
                       imageLoaded ? "opacity-100" : "opacity-0"
                     )}
-                    style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                     onLoad={() => setImageLoaded(true)}
                     onError={() => setImageError(true)}
                   />
@@ -307,7 +309,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
       >
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
-          <div className="relative h-52 bg-slate-50 flex items-center justify-center overflow-hidden">
+          <div
+            className="relative h-52 bg-slate-50 flex items-center justify-center overflow-hidden"
+            style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
+          >
             {product.image && !imageError ? (
               <>
                 {!imageLoaded && (
@@ -322,7 +327,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                     "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
                     imageLoaded ? "opacity-100" : "opacity-0"
                   )}
-                  style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />

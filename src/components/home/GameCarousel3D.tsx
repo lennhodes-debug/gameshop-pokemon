@@ -74,7 +74,10 @@ function CarouselCard({
     >
       <div className="w-full h-full rounded-2xl overflow-hidden bg-[#0a1628] border border-white/10 shadow-2xl group/ccard hover:border-emerald-500/40 transition-colors duration-300">
         <Link href={`/shop/${product.sku}`} className="block w-full h-full flex flex-col">
-          <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+          <div
+            className="relative flex-1 flex items-center justify-center overflow-hidden"
+            style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
+          >
             {product.image ? (
               <Image
                 src={product.image}
@@ -82,7 +85,6 @@ function CarouselCard({
                 fill
                 sizes="120px"
                 className="object-contain p-2 group-hover/ccard:scale-105 transition-transform duration-300"
-                style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                 loading="lazy"
               />
             ) : (
