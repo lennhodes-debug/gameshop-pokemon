@@ -714,14 +714,72 @@ VERZENDING:
 
 ---
 
-## Agent Team Conventies
+## Agent Team Systeem
 
-- **Default team size:** 3 teammates
-- **File locking:** Teammates bewerken NOOIT dezelfde bestanden tegelijk
-- **Documentatie:** Elke teammate documenteert welke bestanden ze bewerken
-- **Task scope:** Taken worden beperkt tot ~30 minuten werk per stuk
-- **Communicatie:** Gebruik SendMessage voor overleg, niet broadcasts tenzij kritiek
-- **Task tracking:** Gebruik het gedeelde TaskList systeem voor coördinatie
+### Beschikbare Agents (15 totaal)
+
+| Agent | Rol | Type |
+|-------|-----|------|
+| `coordinator` | Team lead, delegeert taken, bewaakt kwaliteit | Orchestratie |
+| `planner` | Strategische planning, taakverdeling, afhankelijkheden | Planning |
+| `researcher` | Codebase analyse, dataflows, impact analyse | Read-only |
+| `architect` | Feature design, implementatieplannen | Read-only |
+| `implementer` | Code schrijven volgens plan | Schrijvend |
+| `animator` | Framer Motion, CSS keyframes, micro-interacties | Schrijvend |
+| `code-reviewer` | Bugs, security, type safety review | Read-only |
+| `qa-tester` | Functionele tests, edge cases, data integriteit | Read-only |
+| `security-auditor` | XSS, input validatie, OWASP audit | Read-only |
+| `perf-profiler` | Bundle size, re-renders, optimalisatie | Read-only |
+| `seo-specialist` | Metadata, JSON-LD, Core Web Vitals | Schrijvend |
+| `copywriter` | Nederlandse productbeschrijvingen, marketing | Schrijvend |
+| `image-editor` | Cover art, WebP conversie, optimalisatie | Schrijvend |
+| `docs-writer` | CLAUDE.md updates, handleidingen | Schrijvend |
+| `innovator` | Creatieve ideeen, UX-strategie (geen code) | Read-only |
+
+### Team Presets (`.claude/teams/`)
+
+| Team | Agents | Gebruik |
+|------|--------|---------|
+| **feature-team** | researcher + architect + implementer + code-reviewer | Nieuwe features |
+| **analyse-team** | 3x researcher + seo + security + perf | Site-analyse |
+| **content-team** | copywriter + image-editor + seo + docs | Content creatie |
+| **visual-team** | researcher + architect + animator + implementer | Animaties/design |
+| **quality-team** | qa + security + perf + reviewer + implementer | Audit + fixes |
+
+### Orchestratie Regels
+
+1. **Delegeer via Task tool** — Gebruik `subagent_type` om de juiste agent te kiezen
+2. **Parallel waar mogelijk** — Meerdere Task calls in 1 bericht voor onafhankelijke taken
+3. **Sequentieel waar nodig** — Wacht op output als de volgende stap ervan afhangt
+4. **File locking** — Twee agents schrijven NOOIT naar hetzelfde bestand tegelijk
+5. **Kwaliteitspoort** — `npm run build` na elke schrijvende stap
+6. **Max 6 agents tegelijk** — Meer is inefficient
+
+### Planning Commands
+
+| Command | Doel |
+|---------|------|
+| `/plan [taak]` | Maak implementatieplan met agent-toewijzing |
+| `/team [preset]` | Start een team workflow met een preset |
+| `/implement [feature]` | Plan-first pipeline: research → design → build → review |
+| `/analyse [focus]` | 6-agent parallelle analyse |
+
+### File Lock Conventie
+
+Bij multi-agent workflows: vermeld expliciet welke agent naar welk bestand schrijft.
+```
+Agent A schrijft: src/app/shop/page.tsx
+Agent B schrijft: src/app/globals.css
+Agent C schrijft: src/data/products.json
+→ Geen overlap = veilig parallel
+```
+
+### Communicatie Protocol
+
+- Agents kennen elkaars output niet automatisch
+- De coordinator/hoofdagent verzamelt output en geeft context door
+- Gebruik `prompt` parameter van Task tool om context van eerdere agents mee te geven
+- Voorbeeld: "Het plan van de architect is: [output]. Implementeer stap 1."
 
 ---
 
