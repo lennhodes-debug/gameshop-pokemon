@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, getShippingCost } from '@/lib/utils';
 import { getAllProducts, Product } from '@/lib/products';
 import { CartItem } from '@/lib/cart';
 
@@ -21,7 +21,8 @@ export default function WinkelwagenPage() {
   const { addToast } = useToast();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const subtotal = getTotal();
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const shipping = getShippingCost(itemCount, subtotal);
   const total = subtotal + shipping;
   const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;

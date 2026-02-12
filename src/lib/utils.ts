@@ -41,8 +41,22 @@ export const PLATFORM_LABELS: Record<string, string> = {
   'Game Boy Color': 'GBC',
 };
 
-export const SHIPPING_COST = 3.95;
+// Verzendkosten op basis van aantal items
+export const SHIPPING_SMALL = 4.95;   // 1-3 items (brievenbuspakket)
+export const SHIPPING_MEDIUM = 6.95;  // 4-7 items (pakket)
+export const SHIPPING_LARGE = 7.95;   // 8+ items (groot pakket)
 export const FREE_SHIPPING_THRESHOLD = 100;
+
+// Legacy alias voor bestaande imports
+export const SHIPPING_COST = SHIPPING_SMALL;
+
+export function getShippingCost(itemCount: number, subtotal: number): number {
+  if (subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
+  if (itemCount === 0) return 0;
+  if (itemCount <= 3) return SHIPPING_SMALL;
+  if (itemCount <= 7) return SHIPPING_MEDIUM;
+  return SHIPPING_LARGE;
+}
 
 // Pokemon type systeem — SKU → type mapping
 export const POKEMON_TYPE_MAP: Record<string, string> = {

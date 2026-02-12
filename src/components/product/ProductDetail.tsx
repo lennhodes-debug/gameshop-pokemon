@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getPokemonType } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -42,17 +42,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const effectivePrice = getEffectivePrice(product);
   const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
-  const typeInfo = getPokemonType(product.sku);
 
   const hasCibOption = !!product.cibPrice;
   const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : effectivePrice;
   const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
   const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
 
-  // Type-based accent color (fallback to emerald)
-  const accent = typeInfo ? typeInfo.bg[0] : '#10b981';
-  const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
-  const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
+  // Uniforme accent kleur (emerald)
+  const accent = '#10b981';
+  const accentAlt = '#14b8a6';
+  const glowRgb = '16,185,129';
 
   // Ambient particles
   const particles = useMemo(() => {

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, getShippingCost } from '@/lib/utils';
 import { useToast } from '@/components/ui/Toast';
 
 interface FormData {
@@ -23,10 +23,6 @@ interface FormData {
 
 const betaalmethoden = [
   { id: 'ideal', label: 'iDEAL', description: 'Direct betalen via je bank' },
-  { id: 'creditcard', label: 'Creditcard', description: 'Visa, Mastercard, American Express' },
-  { id: 'paypal', label: 'PayPal', description: 'Betalen via PayPal account' },
-  { id: 'bancontact', label: 'Bancontact', description: 'Belgisch betaalnetwerk' },
-  { id: 'applepay', label: 'Apple Pay', description: 'Betalen via Apple Pay' },
 ];
 
 const fadeUp = {
@@ -100,7 +96,8 @@ export default function AfrekenPage() {
 
   const rawSubtotal = getSubtotal();
   const subtotal = getTotal();
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : subtotal > 0 ? SHIPPING_COST : 0;
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const shipping = getShippingCost(itemCount, subtotal);
   const total = subtotal + shipping;
 
   // Form completion progress
@@ -613,7 +610,7 @@ export default function AfrekenPage() {
                 </div>
 
                 <div className="mt-3 flex items-center justify-center gap-1.5 flex-wrap">
-                  {['iDEAL', 'Visa', 'MC', 'PayPal', 'Bancontact'].map((m) => (
+                  {['iDEAL'].map((m) => (
                     <span key={m} className="px-2 py-1 rounded-md bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[9px] text-slate-500 dark:text-slate-400 font-semibold">{m}</span>
                   ))}
                 </div>
