@@ -39,13 +39,13 @@ Dit is de PRIMAIRE regel. Alle andere regels zijn secundair.
 | Veld | Waarde |
 |---|---|
 | Naam | Gameshop Enter |
-| Type | E-commerce webshop (Pokémon games) |
+| Type | E-commerce webshop (Nintendo retro games) |
 | URL | https://gameshopenter.nl |
 | Repository | `lennhodes-debug/gameshop` |
 | Eigenaar | Lenn Hodes |
 | Contact | gameshopenter@gmail.com |
 | Hosting | Netlify (automatische deploys vanuit GitHub) |
-| Status | Live productie — 34 Pokémon games, eigen fotografie |
+| Status | Live productie — 118 Nintendo games (DS, 3DS, GBA, GB), eigen fotografie |
 
 ---
 
@@ -84,7 +84,7 @@ node scripts/convert-excel.js          # Excel → products.json (OVERSCHRIJFT!)
 ```
 
 ### Prebuild Waarschuwing
-`npm run prebuild` (= `node scripts/convert-excel.js`) converteert `data/gameshop_enter_compleet.xlsx` naar `src/data/products.json`. Dit **overschrijft** de huidige 846-producten versie met een oudere 346-producten versie. **Verwijder de prebuild stap of pas het script aan als je de huidige data wilt behouden.**
+`npm run prebuild` (= `node scripts/convert-excel.js`) converteert `data/gameshop_enter_compleet.xlsx` naar `src/data/products.json`. Dit **overschrijft** de huidige 118-producten versie met een oudere 346-producten versie. **Verwijder de prebuild stap of pas het script aan als je de huidige data wilt behouden.**
 
 ---
 
@@ -134,7 +134,8 @@ gameshop/
     ├── app/                           # Next.js App Router (pagina's)
     │   ├── layout.tsx                 # ROOT LAYOUT — Header, Footer, Cart, SEO, Schema.org
     │   ├── page.tsx                   # Homepage — Hero → TrustStrip → Featured → Marquee → etc.
-    │   ├── globals.css                # GLOBAL STYLES — Tailwind + 30+ animatie keyframes
+    │   ├── globals.css                # GLOBAL STYLES — Tailwind + animatie keyframes (opgeschoond)
+    │   ├── template.tsx               # CSS-only fade-in page transition (geen Framer Motion)
     │   ├── robots.ts                  # robots.txt generator
     │   ├── sitemap.ts                 # sitemap.xml generator
     │   ├── not-found.tsx              # 404 pagina
@@ -168,15 +169,16 @@ gameshop/
     │   │   └── CartProvider.tsx        # CART CONTEXT — localStorage, addItem, removeItem, etc.
     │   │
     │   ├── home/                      # Homepage secties
-    │   │   ├── Hero.tsx               # Hero banner met gradient + animaties
-    │   │   ├── TrustStrip.tsx         # Trust indicators (reviews, klanten, rating)
-    │   │   ├── FeaturedProducts.tsx    # 8 uitgelichte producten (premium + consoles)
-    │   │   ├── GameMarquee.tsx        # Oneindige scrollende game covers
-    │   │   ├── PlatformGrid.tsx       # Platform keuze grid met hover effecten
+    │   │   ├── Hero.tsx               # Hero: spotlight, typewriter, magnetic CTAs, pokeball bg
+    │   │   ├── TrustStrip.tsx         # Trust: count-up, 3D tilt, spring entrance
+    │   │   ├── FeaturedProducts.tsx    # Featured: wave cascade, 3D rotateX entrance
+    │   │   ├── GameCarousel3D.tsx     # 3D carousel: auto-rotatie, drag, navigatie, per-game glow
+    │   │   ├── GameMarquee.tsx        # Velocity marquee: 3 lagen met depth blur
+    │   │   ├── PlatformGrid.tsx       # Platform grid: 3D tilt, spotlight, bounce badges
     │   │   ├── AboutPreview.tsx       # Over ons preview sectie
-    │   │   ├── ReviewsStrip.tsx       # Klantreviews carousel
-    │   │   ├── FaqPreview.tsx         # FAQ preview
-    │   │   └── NewsletterCTA.tsx      # Newsletter aanmelding
+    │   │   ├── ReviewsStrip.tsx       # Reviews: draggable, spotlight, gradient avatar ring
+    │   │   ├── FaqPreview.tsx         # FAQ preview met glow effect
+    │   │   └── NewsletterCTA.tsx      # Newsletter: sparkle particles, animated placeholder
     │   │
     │   ├── layout/                    # Layout componenten
     │   │   ├── Header.tsx             # NAVIGATIE — glassmorphism, mobile menu, cart badge
@@ -186,13 +188,13 @@ gameshop/
     │   │   └── SmoothScroll.tsx       # Lenis smooth scroll wrapper
     │   │
     │   ├── product/                   # Product componenten
-    │   │   ├── ProductDetail.tsx      # Product detail — 3D tilt, spotlight, add to cart
+    │   │   ├── ProductDetail.tsx      # Product detail — per-game kleur, CIB toggle, lightbox
     │   │   └── RelatedProducts.tsx    # 4 gerelateerde producten (zelfde platform)
     │   │
     │   ├── shop/                      # Shop componenten
     │   │   ├── SearchBar.tsx          # Zoekbalk met resultaat counter
     │   │   ├── Filters.tsx            # Filter dropdowns (platform, genre, conditie, etc.)
-    │   │   ├── ProductCard.tsx        # PRODUCT KAART — 3D holographic hover, add to cart
+    │   │   ├── ProductCard.tsx        # PRODUCT KAART — per-game thema, holographic hover, wishlist
     │   │   └── ProductGrid.tsx        # Responsive grid (1-4 kolommen)
     │   │
     │   └── ui/                        # Herbruikbare UI componenten
@@ -212,12 +214,15 @@ gameshop/
     │       └── Toast.tsx              # Toast notificatie systeem (Context + Provider)
     │
     ├── data/
-    │   └── products.json              # ALLE 846 PRODUCTEN — de enige bron van waarheid
+    │   └── products.json              # ALLE 118 PRODUCTEN — de enige bron van waarheid
+    │
+    ├── fonts/
+    │   └── plus-jakarta-sans-latin-wght-normal.woff2  # Zelf-gehost font (next/font/local)
     │
     └── lib/
         ├── products.ts                # Product interface + getAllProducts, getProductBySku, etc.
         ├── cart.ts                    # CartItem + CartState interfaces
-        └── utils.ts                   # formatPrice, cn, PLATFORM_COLORS, SHIPPING_COST, etc.
+        └── utils.ts                   # formatPrice, cn, PLATFORM_COLORS, getGameTheme, etc.
 ```
 
 ---
@@ -227,11 +232,11 @@ gameshop/
 ```typescript
 // src/lib/products.ts — DIT IS HET DEFINITIEVE TYPE
 interface Product {
-  sku: string;              // "SW-001", "3DS-042", "CON-003", "ACC-015"
-  slug: string;             // URL-safe: "sw-001-zelda-breath-of-the-wild"
-  name: string;             // "The Legend of Zelda: Breath of the Wild"
-  platform: string;         // "Nintendo Switch" (altijd volledige naam)
-  category: string;         // "Games > Switch", "Consoles", "Accessoires"
+  sku: string;              // "DS-001", "3DS-042", "GBA-003", "GB-001"
+  slug: string;             // URL-safe: "ds-001-pokemon-diamond"
+  name: string;             // "Pokémon Diamond"
+  platform: string;         // "Nintendo DS" (altijd volledige naam)
+  category: string;         // "Games > DS", "Games > 3DS", etc.
   genre: string;            // "Avontuur", "RPG", "Platformer", "Actie", etc.
   price: number;            // In EUR, bijv. 45.00 (NOOIT string)
   condition: string;        // "Zo goed als nieuw", "Gebruikt", "Nieuw"
@@ -241,10 +246,15 @@ interface Product {
   weight: number;           // In kg, bijv. 0.1
   isConsole: boolean;       // true ALLEEN voor consoles
   isPremium: boolean;       // true als price >= 50
-  image?: string | null;    // "/images/products/sw-001-zelda-botw.webp" of null
-  inkoopPrijs?: number;     // Inkoopprijs (~40% van marktwaarde), optioneel
-  pcUsedPrice?: number;     // PriceCharting used price, optioneel
+  image?: string | null;    // "/images/products/ds-001-pokemon-diamond.webp" of null
+  backImage?: string | null;// Achterkant afbeelding, optioneel
+  inkoopPrijs?: number | null; // Inkoopprijs (~40% van marktwaarde), optioneel
+  pcUsedPrice?: number | null; // PriceCharting used price, optioneel
   inkoopFeatured?: boolean; // true = tonen op inkoop pagina standaard
+  salePrice?: number | null;// Actieprijs, optioneel
+  cibPrice?: number;        // CIB variant prijs (hoger dan los)
+  cibImage?: string;        // CIB variant afbeelding
+  cibBackImage?: string;    // CIB variant achterkant
 }
 ```
 
@@ -254,10 +264,10 @@ interface Product {
 
 | Prefix | Platform | Bereik | Aantal | Voorbeeld |
 |---|---|---|---|---|
-| `DS-` | Nintendo DS | DS-001 t/m DS-021 | 20 | `DS-001` |
+| `DS-` | Nintendo DS | DS-001 t/m DS-058 | 54 | `DS-001` |
+| `3DS-` | Nintendo 3DS | 3DS-001 t/m 3DS-050 | 50 | `3DS-002` |
 | `GBA-` | Game Boy Advance | GBA-001 t/m GBA-008 | 8 | `GBA-003` |
-| `3DS-` | Nintendo 3DS | 3DS-001 t/m 3DS-005 | 5 | `3DS-002` |
-| `GB-` | Game Boy / Color | GB-001 t/m GB-001 | 1 | `GB-001` |
+| `GB-` | Game Boy / Color | GB-001 t/m GB-006 | 6 | `GB-001` |
 
 **Nieuw product toevoegen:** gebruik het volgende vrije nummer in de reeks.
 
@@ -267,10 +277,10 @@ interface Product {
 
 | Platform | Afk. | Games | Standaard conditie | Standaard compleetheid | Gewicht | Kleuren (Tailwind) |
 |---|---|---|---|---|---|---|
-| Nintendo DS | DS | 20 | Gebruikt | Mix CIB/Los | 0.08 kg | from-slate-500 to-slate-700 |
+| Nintendo DS | DS | 54 | Gebruikt | Mix CIB/Los | 0.08 kg | from-slate-500 to-slate-700 |
+| Nintendo 3DS | 3DS | 50 | Gebruikt | Mix CIB/Los | 0.08 kg | from-sky-500 to-blue-700 |
 | Game Boy Advance | GBA | 8 | Gebruikt | Losse cartridge | 0.05 kg | from-blue-500 to-indigo-700 |
-| Nintendo 3DS | 3DS | 5 | Gebruikt | Compleet in doos (CIB) | 0.08 kg | from-sky-500 to-blue-700 |
-| Game Boy / Color | GB/GBC | 1 | Gebruikt | Losse cartridge | 0.05 kg | from-lime-500 to-green-700 |
+| Game Boy / Color | GB/GBC | 6 | Gebruikt | Losse cartridge | 0.05 kg | from-lime-500 to-green-700 |
 
 ---
 
@@ -290,8 +300,8 @@ interface Product {
 | Error | red-500 | Foutenmelding, filter wissen |
 
 ### Typografie
-- **Font:** Plus Jakarta Sans (Google Fonts) — gewichten 300-800
-- **Import:** Via `<link>` in `layout.tsx` en `@import` in `globals.css`
+- **Font:** Plus Jakarta Sans — gewichten 300-800
+- **Import:** `next/font/local` met zelf-gehoste WOFF2 (`src/fonts/plus-jakarta-sans-latin-wght-normal.woff2`)
 - **Fallback:** system-ui, sans-serif
 
 ### Glassmorphism (globals.css)
@@ -305,23 +315,19 @@ interface Product {
 ```css
 .gradient-text      → emerald-400 via teal-400 to cyan-400
 .gradient-text-gold → amber-300 via yellow-400 to amber-500
-.btn-glow           → emerald glow shadow
-.dot-grid           → emerald dot pattern background
 ```
 
 ### Animatie Klassen (globals.css)
 ```
-animate-marquee              → 40s linear horizontal scroll
-animate-marquee-reverse      → 40s reverse scroll
-animate-float                → 6s vertical float
-animate-pulse-glow           → 3s glow pulse
-animate-aurora               → 15s gradient shift
-animate-shimmer              → 2s shimmer sweep
-animate-stagger > *          → Staggered fade-up children (80ms delay)
-animate-stagger-blur > *     → Staggered slide-up-fade (100ms delay)
-animate-pop-in               → Pop in with overshoot
-animate-slide-in-right/left  → Slide in with blur
-perspective-1000             → 3D card perspective container
+animate-marquee / reverse     → 40s horizontale scroll
+animate-marquee-slow / reverse-slow → 60s langzame scroll
+animate-aurora                → 15s gradient shift
+animate-shimmer               → 2s shimmer sweep
+animate-badge-in              → 0.3s badge pop-in
+animate-fade-in               → 0.3s page transition
+animate-spin-slow             → 4s gradient border rotatie
+perspective-1000              → 3D card perspective container
+holo-sweep (keyframe)         → Holographic glans op ProductCards
 ```
 
 ### Responsive Breakpoints (Tailwind defaults)
@@ -331,6 +337,34 @@ perspective-1000             → 3D card perspective container
 - `lg:` ≥ 1024px
 - `xl:` ≥ 1280px
 - Max content width: `max-w-7xl` (1280px)
+
+---
+
+## Per-Game Kleur Thema Systeem
+
+Elke game heeft een uniek kleurthema via `getGameTheme(sku, genre?)` in `utils.ts`:
+
+```typescript
+// 3-laags thema resolutie:
+// 1. POKEMON_TYPE_MAP (43 Pokémon games → 14 types: fire, water, grass, etc.)
+// 2. FRANCHISE_THEME_MAP (60+ niet-Pokémon games → 26 franchise thema's: mario, zelda, kirby, etc.)
+// 3. GENRE_THEME_COLORS (12 genre fallbacks: RPG, Avontuur, Platformer, etc.)
+
+interface PokemonTypeInfo {
+  name: string;
+  bg: [string, string];  // Gradient kleuren [primary, secondary]
+  glow: string;           // RGB string voor box-shadow glow
+  particle: string;       // Particle kleur
+  label: string;          // Nederlands label
+}
+
+getGameTheme('DS-001')           // → fire (Pokémon Diamond)
+getGameTheme('DS-035')           // → racing (Mario Kart DS)
+getGameTheme('3DS-014')          // → animalcrossing
+getGameTheme('DS-999', 'RPG')    // → genre fallback RPG
+```
+
+Wordt gebruikt in: ProductCard, ProductDetail, winkelwagen, afrekenen, GameCarousel3D.
 
 ---
 
@@ -370,6 +404,17 @@ perspective-1000             → 3D card perspective container
 products.json → getAllProducts() → Component props / useMemo filtering
                 getProductBySku() → Product detail page
                 getFeaturedProducts() → Homepage
+                searchProducts() → SearchBar autocomplete
+
+utils.ts      → getGameTheme(sku, genre?) → Per-game kleur in ProductCard/Detail/Cart
+                POKEMON_TYPE_MAP → Pokémon game kleuren
+                FRANCHISE_THEME_MAP → Nintendo franchise kleuren
+                GENRE_THEME_COLORS → Genre-gebaseerde fallback kleuren
+```
+
+### Homepage Sectie Volgorde (page.tsx)
+```
+Hero → TrustStrip → FeaturedProducts → GameCarousel3D → PlatformGrid → GameMarquee → AboutPreview → ReviewsStrip → FaqPreview → NewsletterCTA
 ```
 
 ---
@@ -379,8 +424,11 @@ products.json → getAllProducts() → Component props / useMemo filtering
 ### Prijzen & Verzending
 ```typescript
 // src/lib/utils.ts
-const SHIPPING_COST = 3.95;           // PostNL standaard
-const FREE_SHIPPING_THRESHOLD = 100;  // Gratis verzending boven €100
+const SHIPPING_SMALL = 4.95;             // 1-3 items (brievenbuspakket)
+const SHIPPING_MEDIUM = 6.95;            // 4-7 items (pakket)
+const SHIPPING_LARGE = 7.95;             // 8+ items (groot pakket)
+const FREE_SHIPPING_THRESHOLD = 100;     // Gratis verzending boven €100
+const SHIPPING_COST = SHIPPING_SMALL;    // Legacy alias
 ```
 
 ### Cart
@@ -437,7 +485,7 @@ Paginatie: 24 items per pagina
 - `SearchAction` schema voor Google
 
 ### Product Pagina SEO (shop/[sku]/page.tsx)
-- `generateStaticParams()` → alle 846 SKU's worden bij build gegenereerd
+- `generateStaticParams()` → alle 118 SKU's worden bij build gegenereerd
 - Dynamische `<title>`: `{name} - {platform} | Gameshop Enter`
 - JSON-LD `Product` schema: prijs, conditie, beschikbaarheid, verzendkosten
 - JSON-LD `BreadcrumbList`: Home → Shop → Platform → Product
@@ -497,7 +545,7 @@ const navLinks = [
 3. Update `isPremium` als nodig (`true` bij >= 50, `false` bij < 50)
 4. Commit en push
 
-### Cover art downloaden (bewezen methode voor 846/846 producten)
+### Cover art downloaden (bewezen methode voor 118/118 producten)
 ```python
 # 1. Google Image Search pagina ophalen
 url = "https://www.google.com/search?q={game}+{platform}+EUR+PAL+box+art+cover&tbm=isch"
@@ -610,7 +658,7 @@ SKU's:        PREFIX-NNN       → SW-001, CON-045
 | `gameshop_enter_catalogus (2).xlsx` | Nieuw: 12 sheets met beschrijvingen + Google Image URLs | 657 games + 45 consoles + 40 acc | Primaire bron |
 | `data/gameshop_enter_compleet.xlsx` | Oud: WooCommerce formaat met prijzen, genres, condities | 325 games + 21 consoles | Wordt gebruikt door prebuild |
 | `price-data.json` | PriceCharting marktprijzen (PAL) | ~300 producten | Gebruikt voor inkoop berekening |
-| `src/data/products.json` | 34 Pokémon games met eigen fotografie | 34 producten | **BRON VAN WAARHEID** |
+| `src/data/products.json` | 118 Nintendo games (DS/3DS/GBA/GB) met eigen fotografie | 118 producten | **BRON VAN WAARHEID** |
 
 ---
 
@@ -631,16 +679,21 @@ SKU's:        PREFIX-NNN       → SW-001, CON-045
 
 ```
 BESTANDEN:
-  Producten:     src/data/products.json
+  Producten:     src/data/products.json (118 producten)
   Types:         src/lib/products.ts
   Cart:          src/components/cart/CartProvider.tsx
-  Utils:         src/lib/utils.ts
+  Utils:         src/lib/utils.ts (getGameTheme, SHIPPING, PLATFORM_COLORS)
   Afbeeldingen:  public/images/products/
+  Font:          src/fonts/plus-jakarta-sans-latin-wght-normal.woff2
   Styles:        src/app/globals.css
   Tailwind:      tailwind.config.ts
   Layout:        src/app/layout.tsx
+  Template:      src/app/template.tsx (CSS-only fade-in)
   Shop:          src/app/shop/page.tsx
   Product:       src/app/shop/[sku]/page.tsx
+  ProductCard:   src/components/shop/ProductCard.tsx
+  ProductDetail: src/components/product/ProductDetail.tsx
+  Carousel:      src/components/home/GameCarousel3D.tsx
   Checkout:      src/app/afrekenen/page.tsx
   Inkoop:        src/app/inkoop/page.tsx
   Header:        src/components/layout/Header.tsx
@@ -648,24 +701,85 @@ BESTANDEN:
 
 COMMANDS:
   npm run dev        → Dev server
-  npm run build      → Productie build
+  npm run build      → Productie build (136 pagina's)
   npm run lint       → Linter
 
 GENRES:
   RPG, Avontuur, Platformer, Actie, Race, Vecht, Party,
   Shooter, Sport, Strategie, Simulatie, Puzzel, Muziek, Fitness
+
+VERZENDING:
+  1-3 items: €4,95 | 4-7 items: €6,95 | 8+ items: €7,95 | >€100: gratis
 ```
 
 ---
 
-## Agent Team Conventies
+## Agent Team Systeem
 
-- **Default team size:** 3 teammates
-- **File locking:** Teammates bewerken NOOIT dezelfde bestanden tegelijk
-- **Documentatie:** Elke teammate documenteert welke bestanden ze bewerken
-- **Task scope:** Taken worden beperkt tot ~30 minuten werk per stuk
-- **Communicatie:** Gebruik SendMessage voor overleg, niet broadcasts tenzij kritiek
-- **Task tracking:** Gebruik het gedeelde TaskList systeem voor coördinatie
+### Beschikbare Agents (15 totaal)
+
+| Agent | Rol | Type |
+|-------|-----|------|
+| `coordinator` | Team lead, delegeert taken, bewaakt kwaliteit | Orchestratie |
+| `planner` | Strategische planning, taakverdeling, afhankelijkheden | Planning |
+| `researcher` | Codebase analyse, dataflows, impact analyse | Read-only |
+| `architect` | Feature design, implementatieplannen | Read-only |
+| `implementer` | Code schrijven volgens plan | Schrijvend |
+| `animator` | Framer Motion, CSS keyframes, micro-interacties | Schrijvend |
+| `code-reviewer` | Bugs, security, type safety review | Read-only |
+| `qa-tester` | Functionele tests, edge cases, data integriteit | Read-only |
+| `security-auditor` | XSS, input validatie, OWASP audit | Read-only |
+| `perf-profiler` | Bundle size, re-renders, optimalisatie | Read-only |
+| `seo-specialist` | Metadata, JSON-LD, Core Web Vitals | Schrijvend |
+| `copywriter` | Nederlandse productbeschrijvingen, marketing | Schrijvend |
+| `image-editor` | Cover art, WebP conversie, optimalisatie | Schrijvend |
+| `docs-writer` | CLAUDE.md updates, handleidingen | Schrijvend |
+| `innovator` | Creatieve ideeen, UX-strategie (geen code) | Read-only |
+
+### Team Presets (`.claude/teams/`)
+
+| Team | Agents | Gebruik |
+|------|--------|---------|
+| **feature-team** | researcher + architect + implementer + code-reviewer | Nieuwe features |
+| **analyse-team** | 3x researcher + seo + security + perf | Site-analyse |
+| **content-team** | copywriter + image-editor + seo + docs | Content creatie |
+| **visual-team** | researcher + architect + animator + implementer | Animaties/design |
+| **quality-team** | qa + security + perf + reviewer + implementer | Audit + fixes |
+
+### Orchestratie Regels
+
+1. **Delegeer via Task tool** — Gebruik `subagent_type` om de juiste agent te kiezen
+2. **Parallel waar mogelijk** — Meerdere Task calls in 1 bericht voor onafhankelijke taken
+3. **Sequentieel waar nodig** — Wacht op output als de volgende stap ervan afhangt
+4. **File locking** — Twee agents schrijven NOOIT naar hetzelfde bestand tegelijk
+5. **Kwaliteitspoort** — `npm run build` na elke schrijvende stap
+6. **Max 6 agents tegelijk** — Meer is inefficient
+
+### Planning Commands
+
+| Command | Doel |
+|---------|------|
+| `/plan [taak]` | Maak implementatieplan met agent-toewijzing |
+| `/team [preset]` | Start een team workflow met een preset |
+| `/implement [feature]` | Plan-first pipeline: research → design → build → review |
+| `/analyse [focus]` | 6-agent parallelle analyse |
+
+### File Lock Conventie
+
+Bij multi-agent workflows: vermeld expliciet welke agent naar welk bestand schrijft.
+```
+Agent A schrijft: src/app/shop/page.tsx
+Agent B schrijft: src/app/globals.css
+Agent C schrijft: src/data/products.json
+→ Geen overlap = veilig parallel
+```
+
+### Communicatie Protocol
+
+- Agents kennen elkaars output niet automatisch
+- De coordinator/hoofdagent verzamelt output en geeft context door
+- Gebruik `prompt` parameter van Task tool om context van eerdere agents mee te geven
+- Voorbeeld: "Het plan van de architect is: [output]. Implementeer stap 1."
 
 ---
 

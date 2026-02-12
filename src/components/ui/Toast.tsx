@@ -58,7 +58,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={{ addToast }}>
       {children}
       <div
-        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[100] flex flex-col gap-2 items-end"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 left-4 sm:left-auto z-[100] flex flex-col gap-2 items-stretch sm:items-end"
         aria-live="polite"
         aria-atomic="false"
       >
@@ -67,7 +67,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <motion.div
               key={toast.id}
               role="status"
-              initial={{ opacity: 0, y: 20, x: 20, scale: 0.95 }}
+              initial={{ opacity: 0, y: -20, x: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 50, scale: 0.9 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}

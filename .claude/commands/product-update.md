@@ -1,10 +1,12 @@
 Wijzig een bestaand product in de catalogus:
 
-1. **Zoek** — Vind het product op SKU of naam in `src/data/products.json`
-2. **Toon huidige data** — Laat de huidige velden zien
-3. **Wijzig** — Pas de gevraagde velden aan
-4. **isPremium sync** — Update `isPremium` als de prijs is gewijzigd (true bij >= 50)
-5. **Build** — Run `npm run build` om te verifiëren
-6. **Commit + push**
+## Stappen
+
+1. **Zoek** — Vind het product in `src/data/products.json` (lees EERST)
+2. **Toon** — Huidige velden laten zien
+3. **Wijzig** — Gevraagde velden aanpassen
+4. **Sync** — `isPremium` bij prijswijziging, `slug` bij naamwijziging
+5. **Build** — `npm run build`
+6. **Commit + push** — "Product bijgewerkt: {naam} ({SKU})"
 
 Wijziging: $ARGUMENTS

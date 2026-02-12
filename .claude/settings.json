@@ -15,13 +15,15 @@
       "WebSearch",
       "SendMessage",
       "TeamCreate",
-      "TeamDelete"
+      "TeamDelete",
+      "mcp__sequential-thinking__sequentialthinking"
     ],
     "deny": [
       "Bash(git push --force:*)",
       "Bash(git push -f:*)",
-      "Bash(rm -rf:*)",
-      "Bash(sudo:*)"
+      "Bash(rm -rf /:*)",
+      "Bash(sudo:*)",
+      "Bash(rm -rf .git:*)"
     ]
   },
   "hooks": {

@@ -109,6 +109,9 @@ export default function InkoopPage() {
             </div>
           </motion.div>
         </div>
+
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f8fafc] to-transparent" />
       </div>
 
       {/* Form + Info */}

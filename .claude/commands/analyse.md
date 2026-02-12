@@ -1,14 +1,17 @@
 Voer een volledige analyse uit van de Gameshop Enter webshop:
 
-Start 6 gespecialiseerde agents parallel:
+## Parallelle Agents
 
-1. **Researcher** — Catalogus analyse: producten, platforms, prijzen, genres, SKU's
-2. **Researcher** — Afbeeldingen analyse: ontbrekende/wees-bestanden, grootte
-3. **Researcher** — Prijzen en marktdata: marges, inkoop, PriceCharting
-4. **Researcher** — SEO en technische staat: metadata, structured data, performance
-5. **Security Auditor** — Security audit: input validatie, XSS, privacy, dependencies
-6. **Perf Profiler** — Performance: bundle size, re-renders, afbeeldingen, animaties
+Start deze agents tegelijk:
+
+1. **Researcher** — Catalogus: producten per platform, prijzen, genres, SKU gaten
+2. **Researcher** — Afbeeldingen: ontbrekende, wees-bestanden, grootte
+3. **Researcher** — Prijzen: marges, inkoop, premium overzicht
+4. **SEO Specialist** — Metadata, structured data, sitemap
+5. **Security Auditor** — Input validatie, XSS, dependencies, privacy
+6. **Perf Profiler** — Bundle size, re-renders, afbeelding optimalisatie
+
+## Output
+Nederlands, exacte cijfers, overzichtelijke tabellen.
 
 Focus: $ARGUMENTS
-
-Rapporteer alles in het Nederlands met exacte cijfers en tabellen.

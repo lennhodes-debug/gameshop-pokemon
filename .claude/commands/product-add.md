@@ -1,13 +1,25 @@
 Voeg een nieuw product toe aan de catalogus:
 
-1. **Valideer** — Controleer of het SKU-prefix geldig is (DS-, 3DS-, GBA-, GB-)
-2. **Volgende SKU** — Bepaal het volgende vrije nummer in de reeks
-3. **Product data** — Maak het volledige product-object aan in `src/data/products.json`
-4. **Slug genereren** — `{sku-lower}-{naam-slug}` zonder speciale tekens
-5. **isPremium** — Zet op `true` als prijs >= 50
-6. **Build** — Run `npm run build` om te verifiëren
-7. **Commit + push**
+## Stappen
+
+1. **Valideer** — Controleer of het SKU-prefix geldig is
+   - Actieve prefixen: DS-, 3DS-, GBA-, GB-
+
+2. **Volgende SKU** — Lees `src/data/products.json`, vind het hoogste nummer
+
+3. **Product data** — Maak het volledige object aan volgens `src/lib/products.ts`
+   - `slug`: `{sku-lower}-{naam-slug}` (geen accenten/speciale tekens)
+   - `isPremium`: `true` als `price >= 50`
+   - `image`: `/images/products/{slug}.webp` of `null`
+   - `type`: altijd `"simple"`
+   - `description`: Nederlands, 80-150 woorden
+
+4. **Voeg toe** aan `src/data/products.json` (lees EERST)
+
+5. **Cover art** (optioneel) — `image-editor` subagent
+
+6. **Build** — `npm run build`
+
+7. **Commit + push** — "Nieuw product: {naam} ({SKU})"
 
 Product: $ARGUMENTS
-
-Volg EXACT de Product interface uit `src/lib/products.ts`. Alle velden zijn verplicht.

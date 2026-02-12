@@ -1,12 +1,21 @@
 Security review uitvoeren:
 
-Gebruik de security-auditor subagent om een audit te doen van: $ARGUMENTS
+## Stappen
 
-Als geen target opgegeven, audit de hele applicatie.
+1. **Scope** — Gebruik de `security-auditor` subagent voor de audit
+   - Target: $ARGUMENTS (of hele applicatie als niets opgegeven)
 
-Focus extra op:
-- XSS preventie in React componenten
-- Geen exposed secrets of credentials
-- Input sanitization in zoek- en filterfuncties
-- Veilige localStorage gebruik (cart data)
-- GDPR compliance (privacy beleid)
+2. **Audit** op:
+   - XSS preventie in React componenten
+   - Input sanitization in zoek/filter (`src/app/shop/page.tsx`)
+   - Veilige localStorage (cart data validatie)
+   - Checkout formulier validatie (`src/app/afrekenen/page.tsx`)
+   - Geen exposed secrets of credentials
+   - GDPR compliance (privacy beleid)
+   - `npm audit` voor dependencies
+
+3. **Rapporteer** met OWASP referenties en concrete fix-suggesties
+
+4. **Fix** CRITICAL findings direct, commit + push
+
+Focus: $ARGUMENTS
