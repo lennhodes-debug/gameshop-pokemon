@@ -170,7 +170,8 @@
     "inkoopPrijs": 14,
     "inkoopFeatured": true,
     "cibImage": "/images/products/3ds-003-pokemon-alpha-sapphire-cib.webp",
-    "cibBackImage": "/images/products/3ds-003-pokemon-alpha-sapphire-cib-back.webp"
+    "cibBackImage": "/images/products/3ds-003-pokemon-alpha-sapphire-cib-back.webp",
+    "cibPrice": 45
   },
   {
     "sku": "3DS-004",
@@ -192,7 +193,8 @@
     "inkoopPrijs": 10,
     "inkoopFeatured": false,
     "cibImage": "/images/products/3ds-004-pokemon-moon-cib.webp",
-    "cibBackImage": "/images/products/3ds-004-pokemon-moon-cib-back.webp"
+    "cibBackImage": "/images/products/3ds-004-pokemon-moon-cib-back.webp",
+    "cibPrice": 35
   },
   {
     "sku": "DS-011",
@@ -736,7 +738,7 @@
     "slug": "gb-001-pokemon-trading-card-game",
     "name": "Pokémon Trading Card Game",
     "platform": "Game Boy / Color",
-    "category": "Games > GB",
+    "category": "Games > Game Boy",
     "genre": "Strategie",
     "price": 30,
     "condition": "Gebruikt",
@@ -767,7 +769,8 @@
     "image": "/images/products/3ds-002-pokemon-omega-ruby.webp",
     "backImage": "/images/products/3ds-002-pokemon-omega-ruby-back.webp",
     "cibImage": "/images/products/3ds-002-pokemon-omega-ruby-cib.webp",
-    "cibBackImage": "/images/products/3ds-002-pokemon-omega-ruby-cib-back.webp"
+    "cibBackImage": "/images/products/3ds-002-pokemon-omega-ruby-cib-back.webp",
+    "cibPrice": 50
   },
   {
     "sku": "3DS-005",
@@ -822,7 +825,8 @@
     "isPremium": false,
     "image": null,
     "cibImage": "/images/products/3ds-001-pokemon-x-cib.webp",
-    "cibBackImage": "/images/products/3ds-001-pokemon-x-cib-back.webp"
+    "cibBackImage": "/images/products/3ds-001-pokemon-x-cib-back.webp",
+    "cibPrice": 45
   },
   {
     "sku": "3DS-012",
@@ -1224,14 +1228,16 @@
     "genre": "Platformer",
     "price": 14.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Begeleid Baby Mario door gevaarlijke werelden met behulp van het touchscreen! Teken wolken en paden om Yoshi en Baby Mario veilig naar de finish te leiden. Een uniek stylus-gestuurd platformspel voor de Nintendo DS.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-032-yoshi-touch-and-go-cib.webp",
-    "backImage": "/images/products/ds-032-yoshi-touch-and-go-cib-back.webp"
+    "backImage": "/images/products/ds-032-yoshi-touch-and-go-cib-back.webp",
+    "cibImage": "/images/products/ds-032-yoshi-touch-and-go-cib.webp",
+    "cibBackImage": "/images/products/ds-032-yoshi-touch-and-go-cib-back.webp"
   },
   {
     "sku": "DS-033",
@@ -1242,14 +1248,16 @@
     "genre": "Sport",
     "price": 9.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "De eerste crossover tussen Mario en Sonic! Neem deel aan de Olympische Spelen van Beijing 2008 met iconische personages van Nintendo en SEGA. Meer dan 20 olympische disciplines met touchscreen-bediening.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-033-mario-sonic-olympic-games-cib.webp",
-    "backImage": "/images/products/ds-033-mario-sonic-olympic-games-cib-back.webp"
+    "backImage": "/images/products/ds-033-mario-sonic-olympic-games-cib-back.webp",
+    "cibImage": "/images/products/ds-033-mario-sonic-olympic-games-cib.webp",
+    "cibBackImage": "/images/products/ds-033-mario-sonic-olympic-games-cib-back.webp"
   },
   {
     "sku": "DS-034",
@@ -1260,14 +1268,16 @@
     "genre": "Puzzel",
     "price": 12.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Leid de Mini Mario's naar de uitgang in dit puzzelplatformspel! Teken bruggen, transportbanden en trampolines met de stylus om de miniatuur Mario's veilig door elk level te loodsen. Met een ingebouwde level-editor!",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib.webp",
-    "backImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib-back.webp"
+    "backImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib-back.webp",
+    "cibImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib.webp",
+    "cibBackImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib-back.webp"
   },
   {
     "sku": "DS-035",
@@ -1278,14 +1288,16 @@
     "genre": "Race",
     "price": 19.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Race met Mario en vrienden op 32 banen in het eerste draagbare Mario Kart met online multiplayer! Inclusief retro-banen uit eerdere Mario Kart-games en de Mission Mode. Compleet in originele doos.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-035-mario-kart-ds-cib.webp",
-    "backImage": "/images/products/ds-035-mario-kart-ds-cib-back.webp"
+    "backImage": "/images/products/ds-035-mario-kart-ds-cib-back.webp",
+    "cibImage": "/images/products/ds-035-mario-kart-ds-cib.webp",
+    "cibBackImage": "/images/products/ds-035-mario-kart-ds-cib-back.webp"
   },
   {
     "sku": "DS-036",
@@ -1296,14 +1308,16 @@
     "genre": "Avontuur",
     "price": 24.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Het directe vervolg op The Wind Waker! Navigeer met Link over de zee en verken mysterieuze eilanden. Volledig bestuurd via het touchscreen met innovatieve puzzels. Een must-have voor Zelda-fans.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-036-zelda-phantom-hourglass-cib.webp",
-    "backImage": "/images/products/ds-036-zelda-phantom-hourglass-cib-back.webp"
+    "backImage": "/images/products/ds-036-zelda-phantom-hourglass-cib-back.webp",
+    "cibImage": "/images/products/ds-036-zelda-phantom-hourglass-cib.webp",
+    "cibBackImage": "/images/products/ds-036-zelda-phantom-hourglass-cib-back.webp"
   },
   {
     "sku": "DS-037",
@@ -1314,14 +1328,16 @@
     "genre": "Platformer",
     "price": 17.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "De terugkeer van klassiek 2D Mario-platformplezier! Spring, ren en vlieg door 80 levels verdeeld over 8 werelden. Met de Mega Mushroom en Mini Mushroom power-ups. Een van de bestverkochte DS-games ooit.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-037-new-super-mario-bros-cib.webp",
-    "backImage": "/images/products/ds-037-new-super-mario-bros-cib-back.webp"
+    "backImage": "/images/products/ds-037-new-super-mario-bros-cib-back.webp",
+    "cibImage": "/images/products/ds-037-new-super-mario-bros-cib.webp",
+    "cibBackImage": "/images/products/ds-037-new-super-mario-bros-cib-back.webp"
   },
   {
     "sku": "DS-038",
@@ -1332,14 +1348,16 @@
     "genre": "Shooter",
     "price": 7.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "De officiële demo van Metroid Prime Hunters voor de Nintendo DS. Ervaar first-person actie met Samus Aran op het touchscreen. Inclusief training- en multiplayer-modi. Verzamelobject voor Nintendo-fans.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib.webp",
-    "backImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib-back.webp"
+    "backImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib-back.webp",
+    "cibImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib.webp",
+    "cibBackImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib-back.webp"
   },
   {
     "sku": "DS-039",
@@ -1350,14 +1368,16 @@
     "genre": "Platformer",
     "price": 22.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "De klassieker Super Mario 64 opnieuw uitgebracht voor de DS met extra speelbare personages! Speel als Mario, Luigi, Wario en Yoshi door meer dan 150 sterren. Met touchscreen-minigames en verbeterde graphics.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-039-super-mario-64-ds-cib.webp",
-    "backImage": "/images/products/ds-039-super-mario-64-ds-cib-back.webp"
+    "backImage": "/images/products/ds-039-super-mario-64-ds-cib-back.webp",
+    "cibImage": "/images/products/ds-039-super-mario-64-ds-cib.webp",
+    "cibBackImage": "/images/products/ds-039-super-mario-64-ds-cib-back.webp"
   },
   {
     "sku": "DS-040",
@@ -1368,14 +1388,16 @@
     "genre": "Puzzel",
     "price": 14.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Professor Layton en Luke reizen naar de toekomst in dit meeslepende puzzelavontuur! Los meer dan 165 breinbrekers op terwijl je een mysterieus verhaal ontrafeld. Nederlandse versie. Compleet in doos.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-040-professor-layton-verloren-toekomst-cib.webp",
-    "backImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib-back.webp"
+    "backImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib-back.webp",
+    "cibImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib.webp",
+    "cibBackImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib-back.webp"
   },
   {
     "sku": "DS-041",
@@ -1386,14 +1408,16 @@
     "genre": "RPG",
     "price": 24.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Een hilarisch RPG-avontuur waarin je zowel Mario & Luigi als Bowser bestuurt! Verken Bowsers binnenste terwijl hij door de Mushroom Kingdom raast. Met touchscreen-gevechten en humoristische dialogen.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-041-mario-luigi-bowsers-inside-story-cib.webp",
-    "backImage": "/images/products/ds-041-mario-luigi-bowsers-inside-story-cib-back.webp"
+    "backImage": "/images/products/ds-041-mario-luigi-bowsers-inside-story-cib-back.webp",
+    "cibImage": "/images/products/ds-041-mario-luigi-bowsers-inside-story-cib.webp",
+    "cibBackImage": "/images/products/ds-041-mario-luigi-bowsers-inside-story-cib-back.webp"
   },
   {
     "sku": "DS-042",
@@ -1404,14 +1428,16 @@
     "genre": "Party",
     "price": 19.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Het ultieme feestspel voor de Nintendo DS! Speel meer dan 70 minigames met maximaal 4 spelers via draadloze verbinding. Met 5 speelborden en Story Mode. Compleet in originele doos met handleiding.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-042-mario-party-ds-cib.webp",
-    "backImage": "/images/products/ds-042-mario-party-ds-cib-back.webp"
+    "backImage": "/images/products/ds-042-mario-party-ds-cib-back.webp",
+    "cibImage": "/images/products/ds-042-mario-party-ds-cib.webp",
+    "cibBackImage": "/images/products/ds-042-mario-party-ds-cib-back.webp"
   },
   {
     "sku": "3DS-026",
@@ -1422,14 +1448,16 @@
     "genre": "Race",
     "price": 22.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Race over land, zee en door de lucht in Mario Kart 7! Pas je kart aan met nieuwe onderdelen, vlieg met de glider en duik onder water. Online multiplayer en StreetPass-functionaliteit. Compleet in doos.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-026-mario-kart-7-cib.webp",
-    "backImage": "/images/products/3ds-026-mario-kart-7-cib-back.webp"
+    "backImage": "/images/products/3ds-026-mario-kart-7-cib-back.webp",
+    "cibImage": "/images/products/3ds-026-mario-kart-7-cib.webp",
+    "cibBackImage": "/images/products/3ds-026-mario-kart-7-cib-back.webp"
   },
   {
     "sku": "3DS-027",
@@ -1440,14 +1468,16 @@
     "genre": "Sport",
     "price": 12.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Neem deel aan de Olympische Spelen van Londen 2012 met Mario, Sonic en hun vrienden! Meer dan 50 olympische disciplines in 3D. Met StreetPass en lokale multiplayer.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-027-mario-sonic-london-2012-cib.webp",
-    "backImage": "/images/products/3ds-027-mario-sonic-london-2012-cib-back.webp"
+    "backImage": "/images/products/3ds-027-mario-sonic-london-2012-cib-back.webp",
+    "cibImage": "/images/products/3ds-027-mario-sonic-london-2012-cib.webp",
+    "cibBackImage": "/images/products/3ds-027-mario-sonic-london-2012-cib-back.webp"
   },
   {
     "sku": "3DS-028",
@@ -1458,14 +1488,16 @@
     "genre": "Avontuur",
     "price": 27.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "De spirituele opvolger van A Link to the Past! Versmelt met muren om een 2D-schildering te worden in deze briljante Zelda-game. Met een open wereld structuur en prachtige 3D-effecten. Nintendo Selects editie.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-028-zelda-link-between-worlds-cib.webp",
-    "backImage": "/images/products/3ds-028-zelda-link-between-worlds-cib-back.webp"
+    "backImage": "/images/products/3ds-028-zelda-link-between-worlds-cib-back.webp",
+    "cibImage": "/images/products/3ds-028-zelda-link-between-worlds-cib.webp",
+    "cibBackImage": "/images/products/3ds-028-zelda-link-between-worlds-cib-back.webp"
   },
   {
     "sku": "3DS-029",
@@ -1476,14 +1508,16 @@
     "genre": "RPG",
     "price": 34.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Een prachtige remake van Fire Emblem Gaiden met volledig ingesproken dialogen en vernieuwde gameplay. Leid Alm en Celica door een episch verhaal van oorlog en liefde op het continent Valentia.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-029-fire-emblem-echoes-shadows-of-valentia-cib.webp",
-    "backImage": "/images/products/3ds-029-fire-emblem-echoes-shadows-of-valentia-cib-back.webp"
+    "backImage": "/images/products/3ds-029-fire-emblem-echoes-shadows-of-valentia-cib-back.webp",
+    "cibImage": "/images/products/3ds-029-fire-emblem-echoes-shadows-of-valentia-cib.webp",
+    "cibBackImage": "/images/products/3ds-029-fire-emblem-echoes-shadows-of-valentia-cib-back.webp"
   },
   {
     "sku": "3DS-030",
@@ -1494,14 +1528,16 @@
     "genre": "Avontuur",
     "price": 22.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Luigi moet opnieuw spoken vangen in meerdere spookhuizen! Gebruik de verbeterde Poltergust 5000 om spoken op te zuigen en puzzels op te lossen. Met online en lokale multiplayer in de ScareScraper.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-030-luigis-mansion-2-cib.webp",
-    "backImage": "/images/products/3ds-030-luigis-mansion-2-cib-back.webp"
+    "backImage": "/images/products/3ds-030-luigis-mansion-2-cib-back.webp",
+    "cibImage": "/images/products/3ds-030-luigis-mansion-2-cib.webp",
+    "cibBackImage": "/images/products/3ds-030-luigis-mansion-2-cib-back.webp"
   },
   {
     "sku": "3DS-031",
@@ -1512,14 +1548,16 @@
     "genre": "RPG",
     "price": 17.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Paper Mario keert terug in een kleurrijk avontuur vol stickers! Verzamel stickers om te vechten, puzzels op te lossen en de wereld te verkennen. Nintendo Selects editie. Compleet in doos.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-031-paper-mario-sticker-star-cib.webp",
-    "backImage": "/images/products/3ds-031-paper-mario-sticker-star-cib-back.webp"
+    "backImage": "/images/products/3ds-031-paper-mario-sticker-star-cib-back.webp",
+    "cibImage": "/images/products/3ds-031-paper-mario-sticker-star-cib.webp",
+    "cibBackImage": "/images/products/3ds-031-paper-mario-sticker-star-cib-back.webp"
   },
   {
     "sku": "3DS-032",
@@ -1530,14 +1568,16 @@
     "genre": "Party",
     "price": 22.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "De 100 beste minigames uit de hele Mario Party-serie in één spel! Van Mario Party 1 tot en met 10, met verbeterde graphics en besturing voor de 3DS. Perfecte partygame voor onderweg.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-032-mario-party-the-top-100-cib.webp",
-    "backImage": "/images/products/3ds-032-mario-party-the-top-100-cib-back.webp"
+    "backImage": "/images/products/3ds-032-mario-party-the-top-100-cib-back.webp",
+    "cibImage": "/images/products/3ds-032-mario-party-the-top-100-cib.webp",
+    "cibBackImage": "/images/products/3ds-032-mario-party-the-top-100-cib-back.webp"
   },
   {
     "sku": "3DS-033",
@@ -1548,14 +1588,16 @@
     "genre": "Party",
     "price": 17.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Een vernieuwde Mario Party waarbij alle spelers tegelijk bewegen! Geen wachttijden meer — iedereen is altijd aan de beurt. Met Toad Scramble, Coinathlon en meer spelmodi.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-033-mario-party-star-rush-cib.webp",
-    "backImage": "/images/products/3ds-033-mario-party-star-rush-cib-back.webp"
+    "backImage": "/images/products/3ds-033-mario-party-star-rush-cib-back.webp",
+    "cibImage": "/images/products/3ds-033-mario-party-star-rush-cib.webp",
+    "cibBackImage": "/images/products/3ds-033-mario-party-star-rush-cib-back.webp"
   },
   {
     "sku": "3DS-034",
@@ -1566,14 +1608,16 @@
     "genre": "Party",
     "price": 14.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Feest op zeven verschillende speelborden in dit draagbare Mario Party-avontuur! Met 80 minigames en lokale multiplayer via Download Play. Nintendo Selects editie. Compleet in doos.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-034-mario-party-island-tour-cib.webp",
-    "backImage": "/images/products/3ds-034-mario-party-island-tour-cib-back.webp"
+    "backImage": "/images/products/3ds-034-mario-party-island-tour-cib-back.webp",
+    "cibImage": "/images/products/3ds-034-mario-party-island-tour-cib.webp",
+    "cibBackImage": "/images/products/3ds-034-mario-party-island-tour-cib-back.webp"
   },
   {
     "sku": "3DS-035",
@@ -1584,14 +1628,16 @@
     "genre": "Platformer",
     "price": 19.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Verzamel 1 miljoen munten in dit goudkoorts-platformspel! Met de Gold Flower power-up en co-op multiplayer. Klassiek 2D Mario-plezier met een twist, nu in stereoscopisch 3D.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-035-new-super-mario-bros-2-cib.webp",
-    "backImage": "/images/products/3ds-035-new-super-mario-bros-2-cib-back.webp"
+    "backImage": "/images/products/3ds-035-new-super-mario-bros-2-cib-back.webp",
+    "cibImage": "/images/products/3ds-035-new-super-mario-bros-2-cib.webp",
+    "cibBackImage": "/images/products/3ds-035-new-super-mario-bros-2-cib-back.webp"
   },
   {
     "sku": "3DS-036",
@@ -1602,14 +1648,16 @@
     "genre": "RPG",
     "price": 17.5,
     "condition": "Gebruikt",
-    "completeness": "Compleet in doos",
+    "completeness": "Compleet in doos (CIB)",
     "type": "simple",
     "description": "Het grootste Monster Hunter-avontuur op de 3DS! Met vier unieke jachtstijlen en Hunting Arts. Versla enorme monsters, craft epische wapens en speel samen online of lokaal. Honderden uren gameplay.",
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-036-monster-hunter-generations-cib.webp",
-    "backImage": "/images/products/3ds-036-monster-hunter-generations-cib-back.webp"
+    "backImage": "/images/products/3ds-036-monster-hunter-generations-cib-back.webp",
+    "cibImage": "/images/products/3ds-036-monster-hunter-generations-cib.webp",
+    "cibBackImage": "/images/products/3ds-036-monster-hunter-generations-cib-back.webp"
   },
   {
     "sku": "3DS-037",
@@ -2132,7 +2180,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Super Mario Galaxy 2 bouwt voort op het origineel en voegt Yoshi toe als speelbaar personage. Met nog meer creatieve sterrenstelsels, nieuwe power-ups als de Cloud Flower en Spin Drill, en een hogere moeilijkheidsgraad. De terugkeer van Yoshi met zijn unieke vaardigheden als het opeten van vijanden en flutter jumps. Meer dan 240 sterren om te verzamelen voor de echte completionists. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Super Mario Galaxy 2 voor de Wii bouwt voort op het origineel en voegt Yoshi toe als speelbaar personage. Met nog meer creatieve sterrenstelsels, nieuwe power-ups als de Cloud Flower en Spin Drill, en een hogere moeilijkheidsgraad. De terugkeer van Yoshi met zijn unieke vaardigheden als het opeten van vijanden en flutter jumps. Meer dan 240 sterren om te verzamelen voor de echte completionists. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2168,7 +2216,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Donkey Kong Country Returns is de terugkeer van DK in een gloednieuwe 2D-platformer door Retro Studios. Samen met Diddy Kong race je door jungle, mijnen, vulkanen en fabrieken. Met rocket barrel levels, minecart secties en geheime KONG-letters in elk level. De moeilijkheidsgraad is uitdagend maar eerlijk. De co-op modus laat twee spelers samenwerken. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Donkey Kong Country Returns voor de Wii is de terugkeer van DK in een gloednieuwe 2D-platformer door Retro Studios. Samen met Diddy Kong race je door jungle, mijnen, vulkanen en fabrieken. Met rocket barrel levels, minecart secties en geheime KONG-letters in elk level. De moeilijkheidsgraad is uitdagend maar eerlijk. De co-op modus laat twee spelers samenwerken. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2258,7 +2306,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Splatoon is Nintendo's frisse kijk op de shooter: spuit inkt om terrein te veroveren in plaats van vijanden te elimineren. De Inklings transformeren tussen kind en inktvis voor snelle verplaatsing. Met een uitgebreide single-player campaign tegen de Octarians en online Turf War multiplayer. Regelmatige updates voegden nieuwe wapens, maps en modi toe. Unieke streetwear-stijl en catchy muziek. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Splatoon voor de Wii U is Nintendo's frisse kijk op de shooter: spuit inkt om terrein te veroveren in plaats van vijanden te elimineren. De Inklings transformeren tussen kind en inktvis voor snelle verplaatsing. Met een uitgebreide single-player campaign tegen de Octarians en online Turf War multiplayer. Regelmatige updates voegden nieuwe wapens, maps en modi toe. Unieke streetwear-stijl en catchy muziek. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2294,7 +2342,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "The Legend of Zelda: Twilight Princess HD is de definitieve versie van Link's donkerste avontuur. Met verbeterde HD-graphics en GamePad-inventarisbeheer. Verken het Twilight Realm als wolf-Link met Midna en ontdek de Cave of Shadows — een exclusieve bonus-dungeon. Amiibo-ondersteuning voegt extra uitdagingen toe. De sfeervolle wereld en epische dungeons maken dit een must-have. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "The Legend of Zelda: Twilight Princess HD voor de Wii U is de definitieve versie van Link's donkerste avontuur. Met verbeterde HD-graphics en GamePad-inventarisbeheer. Verken het Twilight Realm als wolf-Link met Midna en ontdek de Cave of Shadows — een exclusieve bonus-dungeon. Amiibo-ondersteuning voegt extra uitdagingen toe. De sfeervolle wereld en epische dungeons maken dit een must-have. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2348,7 +2396,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Captain Toad: Treasure Tracker draait om compacte 3D-puzzellevels die je vanuit alle hoeken bekijkt. Captain Toad kan niet springen, dus je moet slim gebruik maken van de omgeving. De GamePad biedt touch-interactie en camera-controle. Met meer dan 70 levels vol verborgen diamanten en uitdagingen. De charmante presentatie en ingenieuze leveldesigns maken dit een verborgen juweeltje. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Captain Toad: Treasure Tracker voor de Wii U draait om compacte 3D-puzzellevels die je vanuit alle hoeken bekijkt. Captain Toad kan niet springen, dus je moet slim gebruik maken van de omgeving. De GamePad biedt touch-interactie en camera-controle. Met meer dan 70 levels vol verborgen diamanten en uitdagingen. De charmante presentatie en ingenieuze leveldesigns maken dit een verborgen juweeltje. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2402,7 +2450,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Pokkén Tournament is een uniek vechtspel waarin Pokémon in real-time 3D-gevechten strijden. Met speelbare Pokémon als Pikachu, Lucario, Machamp, Gengar en Suicune. Ontwikkeld door de makers van Tekken biedt het diepgaande vechtmechanismen. De Phase Shift tussen Field Phase en Duel Phase geeft gevechten een unieke flow. Met online multiplayer en lokale splitscreen. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Pokkén Tournament voor de Wii U is een uniek vechtspel waarin Pokémon in real-time 3D-gevechten strijden. Met speelbare Pokémon als Pikachu, Lucario, Machamp, Gengar en Suicune. Ontwikkeld door de makers van Tekken biedt het diepgaande vechtmechanismen. De Phase Shift tussen Field Phase en Duel Phase geeft gevechten een unieke flow. Met online multiplayer en lokale splitscreen. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2438,7 +2486,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "LEGO Jurassic World laat je alle vier de Jurassic Park-films herbeleven in LEGO-stijl. Speel als meer dan 100 personages en 20 dinosaurussen. Met co-op gameplay, puzzels en de kenmerkende LEGO-humor. Van de originele Jurassic Park tot Jurassic World — alle iconische momenten zijn speelbaar. Nederlandstalig. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "LEGO Jurassic World voor de Wii U laat je alle vier de Jurassic Park-films herbeleven in LEGO-stijl. Speel als meer dan 100 personages en 20 dinosaurussen. Met co-op gameplay, puzzels en de kenmerkende LEGO-humor. Van de originele Jurassic Park tot Jurassic World — alle iconische momenten zijn speelbaar. Nederlandstalig. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2528,7 +2576,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "The Legend of Zelda: The Wind Waker HD in de Nintendo Selects-serie. Dezelfde prachtige HD-remaster van het GameCube-klassiek, nu in de budget-lijn. Zeil over de Great Sea, verken eilanden en dungeons in cel-shaded stijl. Met verbeterde Swift Sail en Tingle Bottle. Een must-have Zelda-avontuur. Europese versie (PAL/EUR). Nintendo Selects editie. Compleet met handleiding.",
+    "description": "The Legend of Zelda: The Wind Waker HD (Nintendo Selects) voor de Wii U — the Legend of Zelda: The Wind Waker HD in de Nintendo Selects-serie. Dezelfde prachtige HD-remaster van het GameCube-klassiek, nu in de budget-lijn. Zeil over de Great Sea, verken eilanden en dungeons in cel-shaded stijl. Met verbeterde Swift Sail en Tingle Bottle. Een must-have Zelda-avontuur. Europese versie (PAL/EUR). Nintendo Selects editie. Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2564,7 +2612,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "LEGO Batman 3: Beyond Gotham neemt de Caped Crusader mee de ruimte in. Met meer dan 150 speelbare DC Comics-personages waaronder Batman, Superman, Green Lantern en The Flash. Reis naar de Lantern-werelden en stop Brainiac. Co-op gameplay en de kenmerkende LEGO-humor. Nederlandstalig ondertiteld. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "LEGO Batman 3: Beyond Gotham voor de Wii U neemt de Caped Crusader mee de ruimte in. Met meer dan 150 speelbare DC Comics-personages waaronder Batman, Superman, Green Lantern en The Flash. Reis naar de Lantern-werelden en stop Brainiac. Co-op gameplay en de kenmerkende LEGO-humor. Nederlandstalig ondertiteld. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2582,7 +2630,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Just Dance 2017 bevat 40 nieuwe nummers en toegang tot 200+ songs via Just Dance Unlimited. Met hits van artiesten als Justin Bieber, Maroon 5, The Weeknd en Queen. Gebruik je smartphone als controller via de Just Dance Controller-app. Nieuwe Way to Play-modus. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Just Dance 2017 voor de Wii U bevat 40 nieuwe nummers en toegang tot 200+ songs via Just Dance Unlimited. Met hits van artiesten als Justin Bieber, Maroon 5, The Weeknd en Queen. Gebruik je smartphone als controller via de Just Dance Controller-app. Nieuwe Way to Play-modus. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2600,7 +2648,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Mario & Sonic op de Olympische Spelen: Rio 2016 brengt Mario en Sonic samen in Brazilie. Met 17 sporten waaronder voetbal, rugby, zwemmen en atletiek. Amiibo-ondersteuning voor extra outfits en bonussen. De kleurrijke Braziliaanse sfeer en competitieve multiplayer maken dit de perfecte sportgame. Met lokale en online multiplayer. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Mario & Sonic op de Olympische Spelen: Rio 2016 voor de Wii U brengt Mario en Sonic samen in Brazilie. Met 17 sporten waaronder voetbal, rugby, zwemmen en atletiek. Amiibo-ondersteuning voor extra outfits en bonussen. De kleurrijke Braziliaanse sfeer en competitieve multiplayer maken dit de perfecte sportgame. Met lokale en online multiplayer. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2618,7 +2666,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "LEGO Dimensions combineert LEGO-bouw met een videogame-avontuur door meerdere LEGO-werelden. Van Batman en Lord of the Rings tot Doctor Who en Ghostbusters. Met de Toy Pad worden fysieke LEGO-figuren in het spel gebracht. Uitbreidbaar met Level Packs, Team Packs en Fun Packs. Europese versie (PAL/EUR). Compleet met handleiding. Let op: game only, Toy Pad en figuren niet inbegrepen.",
+    "description": "LEGO Dimensions voor de Wii U combineert LEGO-bouw met een videogame-avontuur door meerdere LEGO-werelden. Van Batman en Lord of the Rings tot Doctor Who en Ghostbusters. Met de Toy Pad worden fysieke LEGO-figuren in het spel gebracht. Uitbreidbaar met Level Packs, Team Packs en Fun Packs. Europese versie (PAL/EUR). Compleet met handleiding. Let op: game only, Toy Pad en figuren niet inbegrepen.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
@@ -2654,7 +2702,7 @@
     "condition": "Gebruikt",
     "completeness": "Compleet in doos (CIB)",
     "type": "simple",
-    "description": "Sonic Unleashed combineert razendsnelle dag-levels met krachtige weerwolf-nachtsecties. Overdag race je als Sonic door spectaculaire 3D-levels over de hele wereld. 's Nachts transformeer je in de Werehog met brawler-gameplay. Verken diverse locaties van Griekenland tot China. De dag-levels behoren tot de snelste Sonic-gameplay ooit. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "description": "Sonic Unleashed voor de Wii combineert razendsnelle dag-levels met krachtige weerwolf-nachtsecties. Overdag race je als Sonic door spectaculaire 3D-levels over de hele wereld. 's Nachts transformeer je in de Werehog met brawler-gameplay. Verken diverse locaties van Griekenland tot China. De dag-levels behoren tot de snelste Sonic-gameplay ooit. Europese versie (PAL/EUR). Compleet met handleiding.",
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
