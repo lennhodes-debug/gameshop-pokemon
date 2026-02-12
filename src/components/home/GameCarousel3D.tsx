@@ -7,8 +7,6 @@ import Link from 'next/link';
 import { getAllProducts, type Product } from '@/lib/products';
 import { formatPrice, PLATFORM_LABELS, IMAGE_ROTATION, getGameTheme } from '@/lib/utils';
 
-/* ── Config ─────────────────────────────────────────────────────────── */
-
 const CARD_COUNT_DESKTOP = 14;
 const CARD_COUNT_MOBILE = 8;
 const ROTATION_DURATION = 35;
@@ -18,8 +16,6 @@ const CARD_W_DESKTOP = 190;
 const CARD_H_DESKTOP = 280;
 const CARD_W_MOBILE = 130;
 const CARD_H_MOBILE = 185;
-
-/* ── Ambient Particles ───────────────────────────────────────────────── */
 
 const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
   id: i,
@@ -62,8 +58,6 @@ function AmbientParticles() {
   );
 }
 
-/* ── Carousel Card ───────────────────────────────────────────────────── */
-
 function CarouselCard({
   product,
   index,
@@ -72,7 +66,6 @@ function CarouselCard({
   radius,
   cardWidth,
   cardHeight,
-  isFront,
 }: {
   product: Product;
   index: number;
@@ -81,7 +74,6 @@ function CarouselCard({
   radius: number;
   cardWidth: number;
   cardHeight: number;
-  isFront: boolean;
 }) {
   const gameTheme = getGameTheme(product.sku, product.genre);
   const cardGlow = gameTheme ? gameTheme.glow : '16,185,129';
@@ -122,12 +114,6 @@ function CarouselCard({
     if (c > 0.3)
       return `0 0 15px rgba(${cardGlow},0.08), 0 6px 24px rgba(0,0,0,0.5)`;
     return '0 2px 10px rgba(0,0,0,0.3)';
-  });
-
-  // Holographic shimmer positie
-  const shimmerX = useTransform(cosVal, (c: number) => {
-    if (c > 0.6) return `${50 + (1 - c) * 200}%`;
-    return '-100%';
   });
 
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -243,8 +229,6 @@ function CarouselCard({
   );
 }
 
-/* ── Centered Card Info Panel ─────────────────────────────────────────── */
-
 function CenterCardInfo({
   product,
   visible,
@@ -299,8 +283,6 @@ function CenterCardInfo({
   );
 }
 
-/* ── Navigation Arrows ────────────────────────────────────────────────── */
-
 function NavArrow({
   direction,
   onClick,
@@ -336,8 +318,6 @@ function NavArrow({
   );
 }
 
-/* ── Progress Ring ────────────────────────────────────────────────────── */
-
 function ProgressRing({ rotation, totalCards, accentColor }: { rotation: ReturnType<typeof useSpring>; totalCards: number; accentColor: string }) {
   const progress = useTransform(rotation, (r: number) => {
     const normalized = ((r % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
@@ -370,8 +350,6 @@ function ProgressRing({ rotation, totalCards, accentColor }: { rotation: ReturnT
     </motion.div>
   );
 }
-
-/* ── Main Component ──────────────────────────────────────────────────── */
 
 export default function GameCarousel3D() {
   const [isMobile, setIsMobile] = useState(false);
@@ -620,7 +598,6 @@ export default function GameCarousel3D() {
                   radius={radius}
                   cardWidth={cardWidth}
                   cardHeight={cardHeight}
-                  isFront={frontProduct?.sku === product.sku}
                 />
               ))}
             </div>

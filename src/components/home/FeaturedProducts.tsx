@@ -68,7 +68,6 @@ export default function FeaturedProducts() {
 
   return (
     <section ref={sectionRef} className="relative bg-white dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
-      {/* Subtle animated background */}
       <motion.div
         className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.06] rounded-full blur-[150px]"
         style={{ y: bgY }}
@@ -77,7 +76,6 @@ export default function FeaturedProducts() {
         className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.06] rounded-full blur-[120px]"
         style={{ y: bgY }}
       />
-      {/* Subtiel grid pattern */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
         backgroundSize: '40px 40px',
@@ -144,7 +142,6 @@ export default function FeaturedProducts() {
           </MagneticButton>
         </motion.div>
 
-        {/* Mobile: draggable carousel */}
         <motion.div
           ref={carouselRef}
           className="flex gap-4 sm:hidden cursor-grab active:cursor-grabbing overflow-hidden"
@@ -160,7 +157,6 @@ export default function FeaturedProducts() {
           ))}
         </motion.div>
 
-        {/* Mobile carousel progress dots */}
         <div className="flex justify-center gap-1.5 mt-4 sm:hidden">
           {products.map((_, i) => (
             <div
@@ -172,7 +168,6 @@ export default function FeaturedProducts() {
           ))}
         </div>
 
-        {/* Desktop: grid — Wave cascade entrance */}
         <motion.div
           ref={containerRef}
           variants={containerVariants}
@@ -189,7 +184,6 @@ export default function FeaturedProducts() {
           ))}
         </motion.div>
 
-        {/* Mobile CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

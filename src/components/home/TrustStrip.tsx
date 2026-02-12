@@ -18,7 +18,6 @@ function AnimatedNumber({ value, suffix = '', duration = 2000 }: { value: number
         const animate = (now: number) => {
           const elapsed = now - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          // easeOutExpo
           const eased = 1 - Math.pow(2, -10 * progress);
           setCount(Math.floor(value * eased));
           if (progress < 1) requestAnimationFrame(animate);
@@ -146,7 +145,6 @@ function TrustCard({ item }: { item: typeof trustItems[0] }) {
       style={{ transition: 'transform 0.3s ease' }}
       className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-xl hover:border-slate-200/80 dark:hover:border-slate-600 transition-all duration-300 overflow-hidden"
     >
-      {/* Spotlight on hover */}
       {hovered && (
         <motion.div
           className="absolute inset-0 pointer-events-none z-0"
@@ -156,7 +154,6 @@ function TrustCard({ item }: { item: typeof trustItems[0] }) {
         />
       )}
 
-      {/* Animated icon container */}
       <motion.div
         className={`relative h-16 w-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}
         style={{ boxShadow: hovered ? `0 8px 30px ${item.glow}` : undefined }}
@@ -164,7 +161,6 @@ function TrustCard({ item }: { item: typeof trustItems[0] }) {
         transition={{ type: 'spring', stiffness: 300 }}
       >
         {item.icon}
-        {/* Pulse ring */}
         <motion.div
           className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${item.gradient}`}
           animate={{ scale: [1, 1.4, 1.4], opacity: [0.3, 0, 0] }}

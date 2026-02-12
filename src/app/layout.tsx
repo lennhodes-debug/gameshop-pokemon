@@ -23,21 +23,21 @@ const siteUrl = 'https://gameshopenter.nl';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Gameshop Enter - Dé Pokémon Games Specialist van Nederland',
+    default: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     template: '%s | Gameshop Enter',
   },
   description:
-    'Gameshop Enter is dé Pokémon games specialist van Nederland. 100% originele Pokémon games voor DS, GBA, 3DS en Game Boy, persoonlijk getest. 3000+ tevreden klanten en 1360+ reviews met een 5.0 score.',
+    'Gameshop Enter is dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, GBA, 3DS en Game Boy, persoonlijk getest. 3000+ tevreden klanten en 1360+ reviews met een 5.0 score.',
   keywords: [
-    'Pokémon games kopen',
-    'Nintendo DS Pokémon',
-    'Game Boy Advance Pokémon',
-    'Nintendo 3DS Pokémon',
-    'Game Boy Pokémon',
-    'retro Pokémon games',
-    'tweedehands Pokémon games',
-    'originele Pokémon cartridges',
-    'Pokémon games Nederland',
+    'Nintendo games kopen',
+    'Nintendo DS games',
+    'Game Boy Advance games',
+    'Nintendo 3DS games',
+    'Game Boy games',
+    'retro Nintendo games',
+    'tweedehands Nintendo games',
+    'originele Nintendo cartridges',
+    'Nintendo games Nederland',
     'games verkopen',
     'Nintendo games inkoop',
   ],
@@ -52,23 +52,23 @@ export const metadata: Metadata = {
     locale: 'nl_NL',
     url: siteUrl,
     siteName: 'Gameshop Enter',
-    title: 'Gameshop Enter - Dé Pokémon Games Specialist van Nederland',
+    title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Pokémon specialist van Nederland. Originele Pokémon games, persoonlijk getest met eigen foto\'s. 3000+ tevreden klanten, 5.0 score.',
+      'Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest met eigen foto\'s. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
         url: '/images/og-image.svg',
         width: 1200,
         height: 630,
-        alt: 'Gameshop Enter - Pokémon Games Specialist',
+        alt: 'Gameshop Enter - Nintendo Games Specialist',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gameshop Enter - Dé Pokémon Games Specialist van Nederland',
+    title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Pokémon specialist van Nederland. Originele Pokémon games, persoonlijk getest met eigen foto\'s.',
+      'Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest met eigen foto\'s.',
     images: ['/images/og-image.svg'],
   },
   robots: {
@@ -103,7 +103,7 @@ export default function RootLayout({
               '@type': 'Store',
               '@id': 'https://gameshopenter.nl/#store',
               name: 'Gameshop Enter',
-              description: 'Dé Pokémon games specialist van Nederland. 100% originele Pokémon games voor DS, GBA, 3DS en Game Boy, persoonlijk getest.',
+              description: 'Dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, GBA, 3DS en Game Boy, persoonlijk getest.',
               url: 'https://gameshopenter.nl',
               logo: {
                 '@type': 'ImageObject',
@@ -136,12 +136,12 @@ export default function RootLayout({
               ],
               hasOfferCatalog: {
                 '@type': 'OfferCatalog',
-                name: 'Pokémon Games',
+                name: 'Nintendo Games',
                 itemListElement: [
-                  { '@type': 'OfferCatalog', name: 'Game Boy Advance Pokémon Games' },
-                  { '@type': 'OfferCatalog', name: 'Nintendo DS Pokémon Games' },
-                  { '@type': 'OfferCatalog', name: 'Nintendo 3DS Pokémon Games' },
-                  { '@type': 'OfferCatalog', name: 'Game Boy Pokémon Games' },
+                  { '@type': 'OfferCatalog', name: 'Game Boy Advance Games' },
+                  { '@type': 'OfferCatalog', name: 'Nintendo DS Games' },
+                  { '@type': 'OfferCatalog', name: 'Nintendo 3DS Games' },
+                  { '@type': 'OfferCatalog', name: 'Game Boy Games' },
                 ],
               },
               hasMerchantReturnPolicy: {

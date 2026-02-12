@@ -15,13 +15,12 @@ function itemKey(item: CartItem): string {
 }
 
 export default function WinkelwagenPage() {
-  const { items, addItem, removeItem, updateQuantity, getTotal, getSubtotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
+  const { items, addItem, removeItem, updateQuantity, getSubtotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
   const [couponInput, setCouponInput] = useState('');
   const [couponMessage, setCouponMessage] = useState<{ text: string; success: boolean } | null>(null);
   const { addToast } = useToast();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const rawSubtotal = getSubtotal();
-  const discountedSubtotal = getTotal();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const shipping = getShippingCost(itemCount, rawSubtotal);
   const total = rawSubtotal - discountAmount + shipping;

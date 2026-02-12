@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getGameTheme } from '@/lib/utils';
+import { formatPrice, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getGameTheme } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -37,7 +37,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     };
   }, [lightboxOpen]);
 
-  const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const effectivePrice = getEffectivePrice(product);
@@ -48,13 +47,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
   const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
 
-  // Accent kleur: per Pokémon game uniek, overige producten emerald
+  // Accent kleur: per game uniek, standaard emerald
   const typeInfo = getGameTheme(product.sku, product.genre);
   const accent = typeInfo ? typeInfo.bg[0] : '#10b981';
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
 
-  // Ambient particles
   const particles = useMemo(() => {
     return Array.from({ length: 6 }, (_, i) => ({
       id: i,
@@ -96,7 +94,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <div className="relative">
-      {/* Ambient background glows */}
+      {/* Achtergrond glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((p) => (
           <motion.div
@@ -158,7 +156,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               boxShadow: `0 0 80px ${accent}12, 0 0 160px ${accent}06, 0 30px 60px rgba(0,0,0,0.4)`,
             }}
           >
-            {/* Inner glow ring */}
+            {/* Glow ring */}
             <div className="absolute inset-0 rounded-3xl pointer-events-none"
               style={{
                 background: `radial-gradient(ellipse at 30% 20%, rgba(${glowRgb}, 0.08) 0%, transparent 50%)`,
@@ -183,7 +181,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />
-                {/* Voor/Achter toggle */}
+                {/* Voor/achter toggle */}
                 {displayBackImage && (
                   <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                     <button
@@ -208,7 +206,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </button>
                   </div>
                 )}
-                {/* Zoom knop */}
+                {/* Zoom */}
                 <button
                   onClick={() => setLightboxOpen(true)}
                   className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 z-20"
@@ -228,7 +226,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </div>
             )}
 
-            {/* Type + Platform badges */}
+            {/* Platform badge */}
             <div className="absolute top-5 left-5 flex gap-2">
               <span className="px-3 py-1.5 rounded-xl text-white/90 text-xs font-semibold backdrop-blur-sm"
                 style={{ background: `${accent}35`, border: `1px solid ${accent}50` }}>
@@ -250,7 +248,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Condition badges */}
+          {/* Badges */}
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-white/[0.06] text-slate-300 border border-white/[0.08]">
               {product.condition}
@@ -266,13 +264,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             )}
           </div>
 
-          {/* Titel met type accent underline */}
+          {/* Titel */}
           <h1 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
             {product.name}
           </h1>
           <div className="h-1 w-16 rounded-full mb-5" style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }} />
 
-          {/* Meta info */}
+          {/* Meta */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400 mb-5">
             <span className="flex items-center gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full" style={{ background: accent, boxShadow: `0 0 8px ${accent}60` }} />
@@ -282,14 +280,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="font-mono text-xs text-slate-500">{product.sku}</span>
           </div>
 
-          {/* Op voorraad */}
+          {/* Voorraad */}
           <div className="flex items-center gap-2 mb-6">
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 8px rgba(52,211,153,0.5)' }} />
             <span className="text-sm font-semibold text-emerald-400">Op voorraad</span>
             <span className="text-xs text-slate-500">— Vandaag besteld, morgen verzonden</span>
           </div>
 
-          {/* CIB/Los variant toggle */}
+          {/* Variant toggle */}
           {hasCibOption && (
             <div className="mb-5">
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kies variant</p>
@@ -352,7 +350,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </div>
           )}
 
-          {/* In winkelwagen knop */}
+          {/* Winkelwagen knop */}
           <motion.button
             onClick={handleAdd}
             whileHover={{ scale: 1.02, y: -2 }}
@@ -426,8 +424,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               style={{
                 background: i % 2 === 0 ? `${accent}04` : 'transparent',
                 borderColor: `${accent}10`,
-                // @ts-expect-error -- CSS custom property for hover border
-                '--hover-accent': accent,
               }}
               onMouseEnter={(e) => { e.currentTarget.style.borderLeftColor = accent; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderLeftColor = 'transparent'; }}

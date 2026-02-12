@@ -31,7 +31,7 @@ const fadeUp = {
 };
 
 export default function AfrekenPage() {
-  const { items, getSubtotal, getTotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
+  const { items, getSubtotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
   const [couponInput, setCouponInput] = useState('');
   const [couponMessage, setCouponMessage] = useState<{ text: string; success: boolean } | null>(null);
   const { addToast } = useToast();
@@ -95,7 +95,6 @@ export default function AfrekenPage() {
   const [orderNumber] = useState(() => `GE-${Date.now().toString(36).toUpperCase()}`);
 
   const rawSubtotal = getSubtotal();
-  const subtotal = getTotal();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const shipping = getShippingCost(itemCount, rawSubtotal);
   const total = rawSubtotal - discountAmount + shipping;

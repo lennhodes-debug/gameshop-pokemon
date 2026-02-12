@@ -6,7 +6,7 @@ import Logo from './Logo';
 
 const footerLinks = {
   shop: [
-    { href: '/shop', label: 'Alle Pokémon games' },
+    { href: '/shop', label: 'Alle Nintendo games' },
     { href: '/shop?platform=Nintendo+DS', label: 'Nintendo DS' },
     { href: '/shop?platform=Game+Boy+Advance', label: 'Game Boy Advance' },
     { href: '/shop?platform=Nintendo+3DS', label: 'Nintendo 3DS' },
@@ -57,7 +57,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-xs">
-              Dé Pokémon specialist van Nederland. Alle games zijn origineel en persoonlijk getest op werking.
+              Dé Nintendo specialist van Nederland. Alle games zijn origineel en persoonlijk getest op werking.
             </p>
             <div className="flex items-center gap-2 text-sm text-slate-500">
               <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />

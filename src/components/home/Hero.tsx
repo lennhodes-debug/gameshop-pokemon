@@ -4,11 +4,7 @@ import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useMotionTemplate, useScroll, useTransform } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-/* ---------------------------------------------------------------------------
- * Config
- * --------------------------------------------------------------------------*/
-
-const FLOATING_POKEBALLS = [
+const FLOATING_ICONS = [
   { size: 20, x: '10%', y: '20%', delay: 0, duration: 8 },
   { size: 14, x: '85%', y: '15%', delay: 2, duration: 10 },
   { size: 18, x: '75%', y: '70%', delay: 1, duration: 9 },
@@ -20,10 +16,6 @@ const FLOATING_POKEBALLS = [
 const HERO_TITLE_WORDS = ['Gameshop', 'Enter'];
 
 const STAR_PATH = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z';
-
-/* ---------------------------------------------------------------------------
- * Typewriter subtitel
- * --------------------------------------------------------------------------*/
 
 function TypewriterText({ text, delay = 1 }: { text: string; delay?: number }) {
   const [displayed, setDisplayed] = useState('');
@@ -40,7 +32,6 @@ function TypewriterText({ text, delay = 1 }: { text: string; delay?: number }) {
           i++;
         } else {
           if (interval) clearInterval(interval);
-          // Cursor blijft nog even knipperen, dan verdwijnt
           setTimeout(() => setShowCursor(false), 2000);
         }
       }, 35);
@@ -59,10 +50,6 @@ function TypewriterText({ text, delay = 1 }: { text: string; delay?: number }) {
     </span>
   );
 }
-
-/* ---------------------------------------------------------------------------
- * Magnetic CTA knop
- * --------------------------------------------------------------------------*/
 
 function MagneticCTA({
   href,
@@ -115,10 +102,6 @@ function MagneticCTA({
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Click ring-pulse
- * --------------------------------------------------------------------------*/
-
 interface RingPulse {
   id: number;
   x: number;
@@ -142,10 +125,6 @@ function ClickRipples({ rings }: { rings: RingPulse[] }) {
   );
 }
 
-/* ---------------------------------------------------------------------------
- * MiniPokeball SVG
- * --------------------------------------------------------------------------*/
-
 function MiniPokeball({ size }: { size: number }) {
   const r = size / 2;
   return (
@@ -158,14 +137,9 @@ function MiniPokeball({ size }: { size: number }) {
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Pokeball achtergrond met mouse-proximity reactie
- * --------------------------------------------------------------------------*/
-
-function PokeballBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
+function HeroBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-      {/* Langzaam roterende Pokeball silhouet */}
       <motion.svg
         viewBox="0 0 200 200"
         className="w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-[0.05]"
@@ -179,7 +153,6 @@ function PokeballBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
         <circle cx="100" cy="100" r="12" fill="white" fillOpacity="0.3" />
       </motion.svg>
 
-      {/* Glowing orb achter de Pokeball */}
       <motion.div
         className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
         style={{
@@ -193,7 +166,6 @@ function PokeballBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
           opacity: { times: [0, 0.5, 1], duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 },
         }}
       />
-      {/* Extra entrance spring animatie voor de orb */}
       <motion.div
         className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
         style={{
@@ -205,12 +177,9 @@ function PokeballBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
         transition={{ type: 'spring', stiffness: 100, damping: 12, delay: 0.2 }}
       />
 
-      {/* Zwevende mini Pokeballs — reageren op muis proximity */}
-      {FLOATING_POKEBALLS.map((ball, i) => {
-        // Bereken een vlucht-offset op basis van muispositie
+      {FLOATING_ICONS.map((ball, i) => {
         const ballCenterX = parseFloat(ball.x) / 100;
         const ballCenterY = parseFloat(ball.y) / 100;
-        // Gebruik direct de waarden — de motion values worden via de parent doorgegeven
         const dx = mouseX > 0 ? (ballCenterX * 1000 - mouseX) / 40 : 0;
         const dy = mouseY > 0 ? (ballCenterY * 800 - mouseY) / 40 : 0;
         const repelX = Math.max(-15, Math.min(15, dx));
@@ -241,17 +210,12 @@ function PokeballBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Hero Component
- * --------------------------------------------------------------------------*/
-
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
   const [clickRings, setClickRings] = useState<RingPulse[]>([]);
   const [rawMousePos, setRawMousePos] = useState({ x: 0, y: 0 });
-  let ringIdRef = useRef(0);
+  const ringIdRef = useRef(0);
 
-  // Muis-volgend spotlight
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 30 });
@@ -259,7 +223,6 @@ export default function Hero() {
 
   const spotlightBg = useMotionTemplate`radial-gradient(600px circle at ${springX}px ${springY}px, rgba(16,185,129,0.08), transparent 60%)`;
 
-  // Scroll-indicator fade-out
   const { scrollY } = useScroll();
   const scrollOpacity = useTransform(scrollY, [0, 100], [1, 0]);
 
@@ -285,7 +248,6 @@ export default function Hero() {
       const y = e.clientY - rect.top;
       const id = ringIdRef.current++;
       setClickRings((prev) => [...prev, { id, x, y }]);
-      // Verwijder ring na animatie
       setTimeout(() => {
         setClickRings((prev) => prev.filter((r) => r.id !== id));
       }, 1300);
@@ -300,21 +262,16 @@ export default function Hero() {
       onMouseMove={handleMouseMove}
       onClick={handleClick}
     >
-      {/* Subtiele gradient achtergrond */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0a1628] to-[#050810]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_60%)]" />
 
-      {/* Muis-volgend spotlight */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ background: spotlightBg }} />
 
-      {/* Click ring-pulse effecten */}
       <ClickRipples rings={clickRings} />
 
-      {/* Pokeball achtergrond */}
-      <PokeballBg mouseX={rawMousePos.x} mouseY={rawMousePos.y} />
+      <HeroBg mouseX={rawMousePos.x} mouseY={rawMousePos.y} />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-44 text-center">
-        {/* Trust badge met animated sterren */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -322,7 +279,7 @@ export default function Hero() {
           className="mb-6"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] border border-white/[0.1]">
-            <span className="text-white/70 text-xs font-medium">Pokémon specialist</span>
+            <span className="text-white/70 text-xs font-medium">Nintendo specialist</span>
             <span className="text-white/30">|</span>
             <span className="text-emerald-400 text-xs font-bold">5.0</span>
             <div className="flex gap-0.5">
@@ -344,7 +301,6 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Titel — per woord 3D rotateX flip entrance + glow op "Enter" */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white leading-[1.05] tracking-tight mb-6">
           {HERO_TITLE_WORDS.map((word, i) => (
             <span key={word}>
@@ -364,7 +320,6 @@ export default function Hero() {
                   {word}
                 </motion.span>
               </span>
-              {/* Pulse-glow op "Enter" na entrance */}
               {i === 1 && (
                 <motion.span
                   className="absolute inset-0 inline-block bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 pointer-events-none"
@@ -385,7 +340,6 @@ export default function Hero() {
           ))}
         </h1>
 
-        {/* Subtitel — typewriter effect */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -393,12 +347,11 @@ export default function Hero() {
           className="text-lg sm:text-xl text-white/60 leading-relaxed mb-10 max-w-xl mx-auto"
         >
           <TypewriterText
-            text="De Pokemon specialist van Nederland. Originele games, persoonlijk getest en met liefde verpakt."
+            text="De Nintendo specialist van Nederland — retro & modern. Originele games, persoonlijk getest en met liefde verpakt."
             delay={1}
           />
         </motion.p>
 
-        {/* Magnetic CTA knoppen */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -421,7 +374,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll-down indicator met bounce + fade-out bij scroll */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         style={{ opacity: scrollOpacity }}
@@ -442,7 +394,6 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Gradient overgang naar pagina */}
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f8fafc] to-transparent" />
     </section>
   );

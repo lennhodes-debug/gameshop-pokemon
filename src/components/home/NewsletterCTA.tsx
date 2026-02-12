@@ -23,7 +23,7 @@ function Sparkle({ delay }: { delay: number }) {
   );
 }
 
-const placeholders = ['trainer@pokemon.nl', 'ash@kanto.com', 'jouw@email.nl'];
+const placeholders = ['gamer@nintendo.nl', 'link@hyrule.com', 'jouw@email.nl'];
 
 export default function NewsletterCTA() {
   const [email, setEmail] = useState('');
@@ -149,7 +149,7 @@ export default function NewsletterCTA() {
                 </span>
               ))}
             </span>
-            <span>500+ trainers ontvangen al updates</span>
+            <span>500+ gamers ontvangen al updates</span>
           </p>
 
           {submitted ? (
