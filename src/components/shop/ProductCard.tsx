@@ -124,37 +124,32 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
-            <div className="relative py-6 flex items-center justify-center overflow-hidden bg-white/5">
-              <div
-                className="relative w-40 h-40 rounded-full overflow-hidden mx-auto border-2 group-hover:border-4 transition-all duration-300"
-                style={{ borderColor: `${typeInfo.bg[0]}50`, boxShadow: `0 0 20px ${typeInfo.bg[0]}20` }}
-              >
-                {displayImage && !imageError ? (
-                  <>
-                    {!imageLoaded && (
-                      <div className="absolute inset-0 rounded-full animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
+            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
+              {displayImage && !imageError ? (
+                <>
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
+                  )}
+                  <Image
+                    src={displayImage}
+                    alt={`${product.name} - ${product.platform}`}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className={cn(
+                      "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
+                      imageLoaded ? "opacity-100" : "opacity-0"
                     )}
-                    <Image
-                      src={displayImage}
-                      alt={`${product.name} - ${product.platform}`}
-                      fill
-                      sizes="160px"
-                      className={cn(
-                        "object-cover group-hover:scale-110 transition-transform duration-500",
-                        imageLoaded ? "opacity-100" : "opacity-0"
-                      )}
-                      onLoad={() => setImageLoaded(true)}
-                      onError={() => setImageError(true)}
-                    />
-                  </>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${typeInfo.bg[0]}40, ${typeInfo.bg[1]}60)` }}>
-                    <span className="text-white/60 text-lg font-black select-none">
-                      {platformLabel}
-                    </span>
-                  </div>
-                )}
-              </div>
+                    onLoad={() => setImageLoaded(true)}
+                    onError={() => setImageError(true)}
+                  />
+                </>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${typeInfo.bg[0]}40, ${typeInfo.bg[1]}60)` }}>
+                  <span className="text-white/60 text-lg font-black select-none">
+                    {platformLabel}
+                  </span>
+                </div>
+              )}
 
               {/* Platform label */}
               <div className="absolute top-2 left-3">
@@ -311,37 +306,32 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
       >
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
-          <div className="relative py-6 bg-slate-50 flex items-center justify-center overflow-hidden">
-            <div className={cn(
-              "relative w-36 h-36 rounded-full overflow-hidden mx-auto ring-2 ring-slate-200 group-hover:ring-emerald-300 group-hover:ring-4 transition-all duration-300",
-              !product.image || imageError ? `bg-gradient-to-br ${colors.from} ${colors.to}` : ''
-            )}>
-              {product.image && !imageError ? (
-                <>
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 rounded-full bg-slate-100 animate-pulse" />
+          <div className="relative h-52 bg-slate-50 flex items-center justify-center overflow-hidden">
+            {product.image && !imageError ? (
+              <>
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-slate-100 animate-pulse" />
+                )}
+                <Image
+                  src={product.image}
+                  alt={`${product.name} - ${product.platform}`}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className={cn(
+                    "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
+                    imageLoaded ? "opacity-100" : "opacity-0"
                   )}
-                  <Image
-                    src={product.image}
-                    alt={`${product.name} - ${product.platform}`}
-                    fill
-                    sizes="144px"
-                    className={cn(
-                      "object-cover group-hover:scale-110 transition-transform duration-500",
-                      imageLoaded ? "opacity-100" : "opacity-0"
-                    )}
-                    onLoad={() => setImageLoaded(true)}
-                    onError={() => setImageError(true)}
-                  />
-                </>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-white/60 text-lg font-black select-none">
-                    {platformLabel}
-                  </span>
-                </div>
-              )}
-            </div>
+                  onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageError(true)}
+                />
+              </>
+            ) : (
+              <div className={cn("w-full h-full flex items-center justify-center bg-gradient-to-br", colors.from, colors.to)}>
+                <span className="text-white/60 text-lg font-black select-none">
+                  {platformLabel}
+                </span>
+              </div>
+            )}
 
             {/* Platform label */}
             <div className="absolute top-2 left-3">

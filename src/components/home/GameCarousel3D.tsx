@@ -73,25 +73,22 @@ function CarouselCard({
       }}
     >
       <div className="w-full h-full rounded-2xl overflow-hidden bg-[#0a1628] border border-white/10 shadow-2xl group/ccard hover:border-emerald-500/40 transition-colors duration-300">
-        <Link href={`/shop/${product.sku}`} className="block w-full h-full flex flex-col items-center">
-          <div className="pt-4 pb-2 flex items-center justify-center">
-            <div className="relative rounded-full overflow-hidden ring-2 ring-white/10 group-hover/ccard:ring-emerald-500/40 transition-all duration-300"
-              style={{ width: cardWidth * 0.55, height: cardWidth * 0.55 }}>
-              {product.image ? (
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  sizes="120px"
-                  className="object-cover group-hover/ccard:scale-110 transition-transform duration-300"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-white/5">
-                  <span className="text-white/20 text-xs font-black">{product.platform}</span>
-                </div>
-              )}
-            </div>
+        <Link href={`/shop/${product.sku}`} className="block w-full h-full flex flex-col">
+          <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+            {product.image ? (
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                sizes="120px"
+                className="object-contain p-2 group-hover/ccard:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-white/5">
+                <span className="text-white/20 text-xs font-black">{product.platform}</span>
+              </div>
+            )}
           </div>
           <div className="px-3 pb-3 text-center">
             <p className="text-white text-[11px] font-bold line-clamp-2 leading-tight mb-1">{product.name}</p>
