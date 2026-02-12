@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, IMAGE_ROTATION, getPokemonType } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, IMAGE_ROTATION, getGameTheme } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -137,7 +137,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const hasCibOption = !!product.cibPrice;
-  const typeInfo = getPokemonType(product.sku);
+  const typeInfo = getGameTheme(product.sku, product.genre);
 
   // Accent kleur: per Pokémon game uniek, overige producten emerald
   const accentColor = typeInfo ? typeInfo.bg[0] : '#10b981';
