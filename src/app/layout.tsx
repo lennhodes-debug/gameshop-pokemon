@@ -27,13 +27,15 @@ export const metadata: Metadata = {
     template: '%s | Gameshop Enter',
   },
   description:
-    'Gameshop Enter is dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, GBA, 3DS en Game Boy, persoonlijk getest. 3000+ tevreden klanten en 1360+ reviews met een 5.0 score.',
+    'Gameshop Enter is dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest. 3000+ tevreden klanten en 1360+ reviews met een 5.0 score.',
   keywords: [
     'Nintendo games kopen',
     'Nintendo DS games',
     'Game Boy Advance games',
     'Nintendo 3DS games',
     'Game Boy games',
+    'Wii games kopen',
+    'Wii U games kopen',
     'retro Nintendo games',
     'tweedehands Nintendo games',
     'originele Nintendo cartridges',
@@ -54,7 +56,7 @@ export const metadata: Metadata = {
     siteName: 'Gameshop Enter',
     title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest met eigen foto\'s. 3000+ tevreden klanten, 5.0 score.',
+      'Dé Nintendo specialist van Nederland. Originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest met eigen foto\'s. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
         url: '/images/og-image.svg',
@@ -103,7 +105,7 @@ export default function RootLayout({
               '@type': 'Store',
               '@id': 'https://gameshopenter.nl/#store',
               name: 'Gameshop Enter',
-              description: 'Dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, GBA, 3DS en Game Boy, persoonlijk getest.',
+              description: 'Dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest.',
               url: 'https://gameshopenter.nl',
               logo: {
                 '@type': 'ImageObject',
@@ -142,6 +144,8 @@ export default function RootLayout({
                   { '@type': 'OfferCatalog', name: 'Nintendo DS Games' },
                   { '@type': 'OfferCatalog', name: 'Nintendo 3DS Games' },
                   { '@type': 'OfferCatalog', name: 'Game Boy Games' },
+                  { '@type': 'OfferCatalog', name: 'Wii Games' },
+                  { '@type': 'OfferCatalog', name: 'Wii U Games' },
                 ],
               },
               hasMerchantReturnPolicy: {

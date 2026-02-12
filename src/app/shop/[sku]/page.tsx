@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: productUrl,
     },
     openGraph: {
-      type: 'article',
+      type: 'website',
       url: productUrl,
       title: `${product.name} - ${product.platform} kopen | Gameshop Enter`,
       description,

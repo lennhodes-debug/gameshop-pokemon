@@ -225,7 +225,7 @@ function ShopContent() {
               </span>
             </h1>
             <p className="text-slate-400 text-lg max-w-xl">
-              Ontdek ons assortiment van originele Pokémon games — met eigen foto's
+              Ontdek ons assortiment van originele Nintendo games — met eigen foto's
             </p>
           </motion.div>
         </motion.div>

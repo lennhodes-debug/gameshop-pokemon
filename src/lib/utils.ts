@@ -310,6 +310,8 @@ export const GENRE_THEME_COLORS: Record<string, PokemonTypeInfo> = {
   'Strategie':   { name: 'strategy',   bg: ['#0891B2', '#0E7490'], glow: '8,145,178',    particle: '#22D3EE', label: 'Strategie' },
   'Simulatie':   { name: 'simulation', bg: ['#0EA5E9', '#0284C7'], glow: '14,165,233',   particle: '#38BDF8', label: 'Simulatie' },
   'Puzzel':      { name: 'puzzle',     bg: ['#06B6D4', '#0891B2'], glow: '6,182,212',    particle: '#22D3EE', label: 'Puzzel' },
+  'Muziek':      { name: 'music',     bg: ['#FF1493', '#8B008B'], glow: '255,20,147',   particle: '#FF69B4', label: 'Muziek' },
+  'Fitness':     { name: 'fitness',   bg: ['#10B981', '#059669'], glow: '16,185,129',   particle: '#34D399', label: 'Fitness' },
 };
 
 // Universele thema functie — werkt voor ALLE games (Pokémon + franchise + genre fallback)
