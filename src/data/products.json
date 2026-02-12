@@ -2187,7 +2187,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wii-004-super-mario-galaxy-2.webp",
+    "backImage": "/images/products/wii-004-super-mario-galaxy-2-back.webp"
   },
   {
     "sku": "WII-005",
@@ -2238,7 +2239,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wii-007-new-super-mario-bros-wii.webp",
+    "backImage": "/images/products/wii-007-new-super-mario-bros-wii-back.webp"
   },
   {
     "sku": "WII-008",
@@ -2255,7 +2257,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wii-008-donkey-kong-country-returns.webp",
+    "backImage": "/images/products/wii-008-donkey-kong-country-returns-back.webp"
   },
   {
     "sku": "WII-009",
@@ -2272,7 +2275,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wii-009-wii-sports.webp",
+    "backImage": "/images/products/wii-009-wii-sports-back.webp"
   },
   {
     "sku": "WII-010",
@@ -2306,7 +2310,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wii-011-mario-party-8.webp",
+    "backImage": "/images/products/wii-011-mario-party-8-back.webp"
   },
   {
     "sku": "WII-012",
@@ -2442,7 +2447,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wii-019-mario-strikers-charged-football.webp",
+    "backImage": "/images/products/wii-019-mario-strikers-charged-football-back.webp"
   },
   {
     "sku": "WII-020",
@@ -2646,7 +2652,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-001-mario-kart-8.webp",
+    "backImage": "/images/products/wiiu-001-mario-kart-8-back.webp"
   },
   {
     "sku": "WIIU-002",
@@ -2697,7 +2704,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-004-splatoon.webp",
+    "backImage": "/images/products/wiiu-004-splatoon-back.webp"
   },
   {
     "sku": "WIIU-005",
@@ -2731,7 +2739,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-006-zelda-wind-waker-hd.webp",
+    "backImage": "/images/products/wiiu-006-zelda-wind-waker-hd-back.webp"
   },
   {
     "sku": "WIIU-007",
@@ -2748,7 +2757,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-007-zelda-twilight-princess-hd.webp",
+    "backImage": "/images/products/wiiu-007-zelda-twilight-princess-hd-back.webp"
   },
   {
     "sku": "WIIU-008",
@@ -2765,7 +2775,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-008-new-super-mario-bros-u-luigi-u.webp",
+    "backImage": "/images/products/wiiu-008-new-super-mario-bros-u-luigi-u-back.webp"
   },
   {
     "sku": "WIIU-009",
@@ -2850,7 +2861,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-013-mario-party-10.webp",
+    "backImage": "/images/products/wiiu-013-mario-party-10-back.webp"
   },
   {
     "sku": "WIIU-014",
@@ -2901,7 +2913,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-016-captain-toad-treasure-tracker.webp",
+    "backImage": "/images/products/wiiu-016-captain-toad-treasure-tracker-back.webp"
   },
   {
     "sku": "WIIU-017",
@@ -2935,7 +2948,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": null
+    "image": "/images/products/wiiu-018-paper-mario-color-splash.webp",
+    "backImage": "/images/products/wiiu-018-paper-mario-color-splash-back.webp"
   },
   {
     "sku": "WIIU-019",
@@ -2970,5 +2984,347 @@
     "isConsole": false,
     "isPremium": false,
     "image": null
+  },
+  {
+    "sku": "WIIU-021",
+    "slug": "wiiu-021-wii-party-u",
+    "name": "Wii Party U",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Party",
+    "price": 15,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Wii Party U biedt meer dan 80 minigames die gebruik maken van de Wii U GamePad. Met TV Party, House Party en GamePad Party modi is er voor elk moment een passende speelstijl. Speel met tot 5 spelers en gebruik de GamePad voor asymmetrische gameplay. Van bordspellen tot actiegames, Wii Party U is de perfecte party game voor de Wii U. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-021-wii-party-u.webp",
+    "backImage": "/images/products/wiiu-021-wii-party-u-back.webp"
+  },
+  {
+    "sku": "WIIU-022",
+    "slug": "wiiu-022-pokken-tournament",
+    "name": "Pokkén Tournament",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Vecht",
+    "price": 15,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Pokkén Tournament is een uniek vechtspel waarin Pokémon in real-time 3D-gevechten strijden. Met speelbare Pokémon als Pikachu, Lucario, Machamp, Gengar en Suicune. Ontwikkeld door de makers van Tekken biedt het diepgaande vechtmechanismen. De Phase Shift tussen Field Phase en Duel Phase geeft gevechten een unieke flow. Met online multiplayer en lokale splitscreen. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-022-pokken-tournament.webp",
+    "backImage": "/images/products/wiiu-022-pokken-tournament-back.webp"
+  },
+  {
+    "sku": "WIIU-023",
+    "slug": "wiiu-023-mario-sonic-sochi-2014",
+    "name": "Mario & Sonic op de Olympische Winterspelen: Sotsji 2014",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Sport",
+    "price": 10,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Mario & Sonic op de Olympische Winterspelen: Sotsji 2014 brengt Mario en Sonic samen voor wintersporten op de Wii U. Met 24 evenementen waaronder skieen, schaatsen, bobsleeeen en snowboarden. De GamePad biedt unieke besturingsmogelijkheden. Dream Events voegen fantasie-elementen toe aan de Olympische disciplines. Met lokale multiplayer voor tot 4 spelers. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-023-mario-sonic-sochi-2014.webp",
+    "backImage": "/images/products/wiiu-023-mario-sonic-sochi-2014-back.webp"
+  },
+  {
+    "sku": "WIIU-024",
+    "slug": "wiiu-024-lego-jurassic-world",
+    "name": "LEGO Jurassic World",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Avontuur",
+    "price": 12,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "LEGO Jurassic World laat je alle vier de Jurassic Park-films herbeleven in LEGO-stijl. Speel als meer dan 100 personages en 20 dinosaurussen. Met co-op gameplay, puzzels en de kenmerkende LEGO-humor. Van de originele Jurassic Park tot Jurassic World — alle iconische momenten zijn speelbaar. Nederlandstalig. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-024-lego-jurassic-world.webp",
+    "backImage": "/images/products/wiiu-024-lego-jurassic-world-back.webp"
+  },
+  {
+    "sku": "WIIU-025",
+    "slug": "wiiu-025-just-dance-2014",
+    "name": "Just Dance 2014",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Muziek",
+    "price": 8,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Just Dance 2014 bevat 47 nieuwe nummers van artiesten als Lady Gaga, Daft Punk, Nicki Minaj en Robin Thicke. Inclusief Katy Perry's Roar als gratis download. Dans alleen of met vrienden in diverse modi. De Wii U GamePad biedt extra features als Puppet Master en Autodance. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-025-just-dance-2014.webp",
+    "backImage": "/images/products/wiiu-025-just-dance-2014-back.webp"
+  },
+  {
+    "sku": "WIIU-026",
+    "slug": "wiiu-026-nintendo-land",
+    "name": "Nintendo Land",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Party",
+    "price": 8,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Nintendo Land is het ultieme Wii U launch-spel met 12 attracties gebaseerd op Nintendo-franchises. Van Zelda: Battle Quest tot Metroid Blast en Mario Chase. De asymmetrische gameplay waarbij een speler de GamePad gebruikt en anderen Wii Remotes is vernieuwend. Perfekt om de mogelijkheden van de Wii U te demonstreren. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-026-nintendo-land.webp",
+    "backImage": "/images/products/wiiu-026-nintendo-land-back.webp"
+  },
+  {
+    "sku": "WIIU-027",
+    "slug": "wiiu-027-minecraft-wii-u-edition",
+    "name": "Minecraft: Wii U Edition",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Avontuur",
+    "price": 15,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Minecraft: Wii U Edition brengt het wereldfenomeen naar de Wii U met exclusieve Super Mario Mash-Up. Bouw, verken en overleef in een oneindige blokkenwonderwereld. Met Creative en Survival modus, lokale splitscreen voor tot 4 spelers en online multiplayer. De GamePad biedt een handige kaartweergave en off-TV play. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-027-minecraft-wii-u-edition.webp",
+    "backImage": "/images/products/wiiu-027-minecraft-wii-u-edition-back.webp"
+  },
+  {
+    "sku": "WIIU-028",
+    "slug": "wiiu-028-sonic-lost-world",
+    "name": "Sonic Lost World: Deadly Six Edition",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Platformer",
+    "price": 12,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Sonic Lost World: Deadly Six Edition voor de Wii U biedt snelle 3D-platformactie met de nieuwe Deadly Six-vijanden. Met exclusieve Color Powers, parkour-mechanismen en zowel 3D als 2D levels. De Deadly Six Edition bevat exclusieve content met nieuwe kleurkrachten. Co-op gameplay via GamePad en Wii Remote. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-028-sonic-lost-world.webp",
+    "backImage": "/images/products/wiiu-028-sonic-lost-world-back.webp"
+  },
+  {
+    "sku": "WIIU-029",
+    "slug": "wiiu-029-zelda-wind-waker-hd-selects",
+    "name": "The Legend of Zelda: The Wind Waker HD (Nintendo Selects)",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Avontuur",
+    "price": 25,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "The Legend of Zelda: The Wind Waker HD in de Nintendo Selects-serie. Dezelfde prachtige HD-remaster van het GameCube-klassiek, nu in de budget-lijn. Zeil over de Great Sea, verken eilanden en dungeons in cel-shaded stijl. Met verbeterde Swift Sail en Tingle Bottle. Een must-have Zelda-avontuur. Europese versie (PAL/EUR). Nintendo Selects editie. Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-029-zelda-wind-waker-hd-selects.webp",
+    "backImage": "/images/products/wiiu-029-zelda-wind-waker-hd-selects-back.webp"
+  },
+  {
+    "sku": "WIIU-030",
+    "slug": "wiiu-030-skylanders-imaginators",
+    "name": "Skylanders Imaginators",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Avontuur",
+    "price": 8,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Skylanders Imaginators voor de Wii U laat je je eigen Skylanders creeren. Met uitgebreide character creation en meer dan 30 speelbare Senseis. Het avontuurlijke gameplay combineert actie met verzamelelementen. Portal of Power en figuren apart verkrijgbaar. Nederlandstalige versie. Europese versie (PAL/EUR). Compleet met handleiding. Let op: game only, portal en figuren niet inbegrepen.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-030-skylanders-imaginators.webp",
+    "backImage": "/images/products/wiiu-030-skylanders-imaginators-back.webp"
+  },
+  {
+    "sku": "WIIU-031",
+    "slug": "wiiu-031-lego-batman-3-beyond-gotham",
+    "name": "LEGO Batman 3: Beyond Gotham",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Avontuur",
+    "price": 10,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "LEGO Batman 3: Beyond Gotham neemt de Caped Crusader mee de ruimte in. Met meer dan 150 speelbare DC Comics-personages waaronder Batman, Superman, Green Lantern en The Flash. Reis naar de Lantern-werelden en stop Brainiac. Co-op gameplay en de kenmerkende LEGO-humor. Nederlandstalig ondertiteld. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-031-lego-batman-3-beyond-gotham.webp",
+    "backImage": "/images/products/wiiu-031-lego-batman-3-beyond-gotham-back.webp"
+  },
+  {
+    "sku": "WIIU-032",
+    "slug": "wiiu-032-just-dance-2017",
+    "name": "Just Dance 2017",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Muziek",
+    "price": 10,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Just Dance 2017 bevat 40 nieuwe nummers en toegang tot 200+ songs via Just Dance Unlimited. Met hits van artiesten als Justin Bieber, Maroon 5, The Weeknd en Queen. Gebruik je smartphone als controller via de Just Dance Controller-app. Nieuwe Way to Play-modus. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-032-just-dance-2017.webp",
+    "backImage": "/images/products/wiiu-032-just-dance-2017-back.webp"
+  },
+  {
+    "sku": "WIIU-033",
+    "slug": "wiiu-033-mario-sonic-rio-2016",
+    "name": "Mario & Sonic op de Olympische Spelen: Rio 2016",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Sport",
+    "price": 12,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Mario & Sonic op de Olympische Spelen: Rio 2016 brengt Mario en Sonic samen in Brazilie. Met 17 sporten waaronder voetbal, rugby, zwemmen en atletiek. Amiibo-ondersteuning voor extra outfits en bonussen. De kleurrijke Braziliaanse sfeer en competitieve multiplayer maken dit de perfecte sportgame. Met lokale en online multiplayer. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-033-mario-sonic-rio-2016.webp",
+    "backImage": "/images/products/wiiu-033-mario-sonic-rio-2016-back.webp"
+  },
+  {
+    "sku": "WIIU-034",
+    "slug": "wiiu-034-lego-dimensions",
+    "name": "LEGO Dimensions",
+    "platform": "Wii U",
+    "category": "Games > Wii U",
+    "genre": "Avontuur",
+    "price": 8,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "LEGO Dimensions combineert LEGO-bouw met een videogame-avontuur door meerdere LEGO-werelden. Van Batman en Lord of the Rings tot Doctor Who en Ghostbusters. Met de Toy Pad worden fysieke LEGO-figuren in het spel gebracht. Uitbreidbaar met Level Packs, Team Packs en Fun Packs. Europese versie (PAL/EUR). Compleet met handleiding. Let op: game only, Toy Pad en figuren niet inbegrepen.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wiiu-034-lego-dimensions.webp",
+    "backImage": "/images/products/wiiu-034-lego-dimensions-back.webp"
+  },
+  {
+    "sku": "WII-031",
+    "slug": "wii-031-sonic-and-the-secret-rings",
+    "name": "Sonic and the Secret Rings",
+    "platform": "Wii",
+    "category": "Games > Wii",
+    "genre": "Platformer",
+    "price": 8,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Sonic and the Secret Rings is een exclusief Wii-avontuur waarin Sonic door de wereld van Duizend-en-een-Nacht raast. Met motion controls kantel je de Wii Remote om Sonic door de on-rails levels te sturen. Verzamel ringen, ontwijken obstakels en versla de boze djinn Erazor Djinn. Met een Party-modus voor tot 4 spelers en meer dan 40 minigames. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wii-031-sonic-and-the-secret-rings.webp",
+    "backImage": "/images/products/wii-031-sonic-and-the-secret-rings-back.webp"
+  },
+  {
+    "sku": "WII-032",
+    "slug": "wii-032-sonic-unleashed",
+    "name": "Sonic Unleashed",
+    "platform": "Wii",
+    "category": "Games > Wii",
+    "genre": "Platformer",
+    "price": 10,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Sonic Unleashed combineert razendsnelle dag-levels met krachtige weerwolf-nachtsecties. Overdag race je als Sonic door spectaculaire 3D-levels over de hele wereld. 's Nachts transformeer je in de Werehog met brawler-gameplay. Verken diverse locaties van Griekenland tot China. De dag-levels behoren tot de snelste Sonic-gameplay ooit. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wii-032-sonic-unleashed.webp",
+    "backImage": "/images/products/wii-032-sonic-unleashed-back.webp"
+  },
+  {
+    "sku": "WII-033",
+    "slug": "wii-033-new-super-mario-bros-wii-selects",
+    "name": "New Super Mario Bros. Wii (Nintendo Selects)",
+    "platform": "Wii",
+    "category": "Games > Wii",
+    "genre": "Platformer",
+    "price": 20,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "New Super Mario Bros. Wii in de Nintendo Selects budget-lijn. Dezelfde klassieke 2D Mario-platformer met tot 4 spelers simultaan cooperatief of competitief. Met Penguin Suit en Propeller Mushroom power-ups. 80 levels verdeeld over 8 werelden. Super Guide helpt minder ervaren spelers. Nintendo Selects editie. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wii-033-new-super-mario-bros-wii-selects.webp",
+    "backImage": "/images/products/wii-033-new-super-mario-bros-wii-selects-back.webp"
+  },
+  {
+    "sku": "WII-034",
+    "slug": "wii-034-wii-party",
+    "name": "Wii Party",
+    "platform": "Wii",
+    "category": "Games > Wii",
+    "genre": "Party",
+    "price": 10,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Wii Party bevat meer dan 80 minigames en 13 party modes voor tot 4 spelers. Van bordspellen tot huis-party games en duo-uitdagingen. De Mii-personages staan centraal in het feest. Met Bingo, Spin Off, Board Game Island en meer. De minigames maken creatief gebruik van de Wii Remote. Volledig Nederlandstalig. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wii-034-wii-party.webp",
+    "backImage": "/images/products/wii-034-wii-party-back.webp"
+  },
+  {
+    "sku": "WII-035",
+    "slug": "wii-035-wario-land-the-shake-dimension",
+    "name": "Wario Land: The Shake Dimension",
+    "platform": "Wii",
+    "category": "Games > Wii",
+    "genre": "Platformer",
+    "price": 20,
+    "condition": "Gebruikt",
+    "completeness": "Compleet in doos (CIB)",
+    "type": "simple",
+    "description": "Wario Land: The Shake Dimension is een prachtig handgetekende 2D-platformer voor de Wii. Schud de Wii Remote om munten uit vijanden te schudden en verborgen schatten te onthullen. Wario's hebzucht leidt hem door exotische levels vol verborgen geheimen. De animatiestijl is uniek in het Nintendo-portfolio. Met geheime levels en uitdagingen voor verzamelaars. Europese versie (PAL/EUR). Compleet met handleiding.",
+    "weight": 0.1,
+    "isConsole": false,
+    "isPremium": false,
+    "image": "/images/products/wii-035-wario-land-the-shake-dimension.webp",
+    "backImage": "/images/products/wii-035-wario-land-the-shake-dimension-back.webp"
   }
 ]
