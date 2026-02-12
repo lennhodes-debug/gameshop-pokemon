@@ -25,6 +25,10 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
   const spotlightY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const spotlightBg = useMotionTemplate`radial-gradient(400px circle at ${spotlightX}% ${spotlightY}%, rgba(16,185,129,0.15), transparent 60%)`;
 
+  // 3D tilt effect
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 200, damping: 25 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 200, damping: 25 });
+
   const colors = PLATFORM_COLORS[platform.name] || { from: 'from-slate-500', to: 'to-slate-700' };
   const label = PLATFORM_LABELS[platform.name] || platform.name;
 
@@ -49,7 +53,12 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => { setHovered(false); mouseX.set(0.5); mouseY.set(0.5); }}
           whileHover={{ y: -6, transition: { duration: 0.2 } }}
-          className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-xl hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-500"
+          className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-[0_0_30px_rgba(16,185,129,0.15),0_0_60px_rgba(16,185,129,0.05)] hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-500"
+          style={{
+            transformStyle: 'preserve-3d',
+            rotateX: hovered ? rotateX : 0,
+            rotateY: hovered ? rotateY : 0,
+          }}
         >
           {/* Spotlight effect on hover */}
           {hovered && (
@@ -109,9 +118,14 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white text-sm">{platform.name}</h3>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-gradient-to-r ${colors.from} ${colors.to} text-white`}>
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.05, type: 'spring', stiffness: 300, damping: 15 }}
+                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-gradient-to-r ${colors.from} ${colors.to} text-white`}
+                >
                   {platform.count} games
-                </span>
+                </motion.span>
               </div>
             </div>
             <motion.div
@@ -149,7 +163,7 @@ export default function PlatformGrid() {
             {platforms.length} Platforms
           </span>
           <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
-            <TextReveal text="Shop per " delay={0.1} /><span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">platform</span>
+            <TextReveal text="Shop per " delay={0.1} /><span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 animate-aurora" style={{ backgroundSize: '200% 100%' }}>platform</span>
           </h2>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Pokémon games per platform — van Game Boy tot 3DS

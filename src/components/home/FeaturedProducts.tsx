@@ -9,6 +9,39 @@ import TextReveal from '@/components/ui/TextReveal';
 import MagneticButton from '@/components/ui/MagneticButton';
 import Button from '@/components/ui/Button';
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 50,
+    scale: 0.85,
+    rotateX: -15,
+    filter: 'blur(12px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotateX: 0,
+    filter: 'blur(0px)',
+    transition: {
+      type: 'spring' as const,
+      stiffness: 150,
+      damping: 20,
+      mass: 0.8,
+    }
+  },
+};
+
 export default function FeaturedProducts() {
   const products = useMemo(() => getFeaturedProducts(), []);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,6 +77,11 @@ export default function FeaturedProducts() {
         className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.06] rounded-full blur-[120px]"
         style={{ y: bgY }}
       />
+      {/* Subtiel grid pattern */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+      }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -78,9 +116,11 @@ export default function FeaturedProducts() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="relative h-1 w-40 rounded-full mt-3 origin-left overflow-hidden bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 animate-aurora"
-              style={{ backgroundSize: '200% 100%' }}
-            />
+              className="relative h-1 w-40 rounded-full mt-3 origin-left overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 animate-aurora" style={{ backgroundSize: '200% 100%' }} />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+            </motion.div>
             <p className="text-slate-500 dark:text-slate-400 mt-3 text-base lg:text-lg">Premium games en consoles die je niet wilt missen</p>
           </div>
           <MagneticButton strength={0.15}>
@@ -120,32 +160,34 @@ export default function FeaturedProducts() {
           ))}
         </motion.div>
 
-        {/* Desktop: grid — Staggered fade-up entrance */}
-        <div ref={containerRef} className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
-            <motion.div
-              key={product.sku}
-              initial={{
-                opacity: 0,
-                y: 40,
-                scale: 0.95,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-              }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-            >
+        {/* Mobile carousel progress dots */}
+        <div className="flex justify-center gap-1.5 mt-4 sm:hidden">
+          {products.map((_, i) => (
+            <div
+              key={i}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === 0 ? 'w-6 bg-emerald-500' : 'w-1.5 bg-slate-300'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Desktop: grid — Wave cascade entrance */}
+        <motion.div
+          ref={containerRef}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6"
+          style={{ perspective: '1200px' }}
+        >
+          {products.map((product) => (
+            <motion.div key={product.sku} variants={cardVariants}>
               <ProductCard product={product} />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Mobile CTA */}
         <motion.div
