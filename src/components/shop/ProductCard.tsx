@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, IMAGE_ROTATION } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, IMAGE_ROTATION, getPokemonType } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -137,6 +137,11 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const hasCibOption = !!product.cibPrice;
+  const typeInfo = getPokemonType(product.sku);
+
+  // Accent kleur: per Pokémon game uniek, overige producten emerald
+  const accentColor = typeInfo ? typeInfo.bg[0] : '#10b981';
+  const accentGlow = typeInfo ? typeInfo.glow : '16,185,129';
 
   // Huidige variant image
   const displayImage = (hasCibOption && selectedVariant === 'cib') ? product.cibImage : product.image;
@@ -168,12 +173,13 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
+        className="relative bg-white rounded-2xl border overflow-hidden shadow-sm transition-all duration-300 flex flex-col"
         style={{
           transform: `translateY(${isHovered ? -4 : 0}px)`,
           transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+          borderColor: isHovered ? `rgba(${accentGlow},0.3)` : '#e2e8f0',
           boxShadow: isHovered
-            ? '0 12px 36px rgba(16,185,129,0.14), 0 6px 16px rgba(0,0,0,0.08)'
+            ? `0 12px 36px rgba(${accentGlow},0.14), 0 6px 16px rgba(0,0,0,0.08)`
             : undefined,
         }}
         ref={cardRef}
@@ -256,8 +262,15 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </div>
         </Link>
 
-        {/* Scheidingslijn */}
-        <div className="h-px bg-slate-100" />
+        {/* Scheidingslijn met accent kleur */}
+        <div
+          className="h-[2px] transition-all duration-300"
+          style={{
+            background: typeInfo
+              ? `linear-gradient(90deg, ${typeInfo.bg[0]}40, ${typeInfo.bg[0]}, ${typeInfo.bg[1]}40)`
+              : '#f1f5f9',
+          }}
+        />
 
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
@@ -267,7 +280,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </div>
 
           <Link href={`/shop/${product.sku}`}>
-            <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+            <h3
+              className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 transition-colors"
+              style={{ color: isHovered ? accentColor : undefined }}
+            >
               <HighlightText text={product.name} query={searchQuery} />
             </h3>
           </Link>
@@ -295,18 +311,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </span>
               )}
               {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
-                <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
+                <span className="block text-[10px] font-semibold mt-0.5" style={{ color: accentColor }}>Gratis verzending</span>
               )}
             </div>
             <button
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
-              className={cn(
-                "h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300",
-                addedToCart
-                  ? "bg-emerald-500"
-                  : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-md hover:shadow-emerald-500/25"
-              )}
+              className="h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300"
+              style={{
+                background: addedToCart
+                  ? accentColor
+                  : `linear-gradient(135deg, ${accentColor}, ${typeInfo ? typeInfo.bg[1] : '#14b8a6'})`,
+                boxShadow: !addedToCart && isHovered ? `0 4px 12px rgba(${accentGlow},0.25)` : undefined,
+              }}
             >
               {addedToCart ? (
                 <span className="flex items-center gap-1">
