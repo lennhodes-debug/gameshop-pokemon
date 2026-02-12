@@ -15,17 +15,18 @@ function itemKey(item: CartItem): string {
 }
 
 export default function WinkelwagenPage() {
-  const { items, addItem, removeItem, updateQuantity, getTotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
+  const { items, addItem, removeItem, updateQuantity, getTotal, getSubtotal, clearCart, discountCode, discountAmount, discountDescription, applyDiscount, removeDiscount } = useCart();
   const [couponInput, setCouponInput] = useState('');
   const [couponMessage, setCouponMessage] = useState<{ text: string; success: boolean } | null>(null);
   const { addToast } = useToast();
   const [showClearConfirm, setShowClearConfirm] = useState(false);
-  const subtotal = getTotal();
+  const rawSubtotal = getSubtotal();
+  const discountedSubtotal = getTotal();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const shipping = getShippingCost(itemCount, subtotal);
-  const total = subtotal + shipping;
-  const freeShippingProgress = Math.min((subtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
-  const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+  const shipping = getShippingCost(itemCount, rawSubtotal);
+  const total = rawSubtotal - discountAmount + shipping;
+  const freeShippingProgress = Math.min((rawSubtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
+  const remainingForFreeShipping = FREE_SHIPPING_THRESHOLD - rawSubtotal;
 
   // Recent bekeken producten voor lege winkelwagen
   const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
@@ -169,7 +170,7 @@ export default function WinkelwagenPage() {
             {/* Cart items */}
             <div className="lg:col-span-2 space-y-3">
               {/* Free shipping progress bar */}
-              {subtotal > 0 && subtotal < FREE_SHIPPING_THRESHOLD && (
+              {rawSubtotal > 0 && rawSubtotal < FREE_SHIPPING_THRESHOLD && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -197,7 +198,7 @@ export default function WinkelwagenPage() {
                 </motion.div>
               )}
 
-              {subtotal >= FREE_SHIPPING_THRESHOLD && (
+              {rawSubtotal >= FREE_SHIPPING_THRESHOLD && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -444,7 +445,7 @@ export default function WinkelwagenPage() {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Subtotaal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(subtotal)}</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(rawSubtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Verzendkosten</span>

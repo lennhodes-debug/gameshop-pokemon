@@ -109,7 +109,6 @@ export default function RootLayout({
               },
               image: 'https://gameshopenter.nl/images/og-image.png',
               email: 'gameshopenter@gmail.com',
-              telephone: '+31-6-00000000',
               founder: {
                 '@type': 'Person',
                 name: 'Lenn Hodes',
@@ -154,7 +153,7 @@ export default function RootLayout({
                 '@type': 'OfferShippingDetails',
                 shippingRate: {
                   '@type': 'MonetaryAmount',
-                  value: '3.95',
+                  value: '4.95',
                   currency: 'EUR',
                 },
                 shippingDestination: {

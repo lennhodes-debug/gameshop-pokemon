@@ -97,8 +97,8 @@ export default function AfrekenPage() {
   const rawSubtotal = getSubtotal();
   const subtotal = getTotal();
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const shipping = getShippingCost(itemCount, subtotal);
-  const total = subtotal + shipping;
+  const shipping = getShippingCost(itemCount, rawSubtotal);
+  const total = rawSubtotal - discountAmount + shipping;
 
   // Form completion progress
   const progress = useMemo(() => {

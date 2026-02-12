@@ -1,14 +1,16 @@
 <html>
   <head></head>
   <body>
-    <form name="contact" data-netlify="true" hidden>
+    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <p class="hidden"><label>Vul dit niet in: <input name="bot-field" /></label></p>
       <input type="hidden" name="form-name" value="contact" />
       <input name="naam" type="text" />
       <input name="email" type="email" />
       <input name="onderwerp" type="text" />
       <textarea name="bericht"></textarea>
     </form>
-    <form name="newsletter" data-netlify="true" hidden>
+    <form name="newsletter" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <p class="hidden"><label>Vul dit niet in: <input name="bot-field" /></label></p>
       <input type="hidden" name="form-name" value="newsletter" />
       <input name="email" type="email" />
     </form>

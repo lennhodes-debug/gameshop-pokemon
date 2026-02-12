@@ -160,9 +160,9 @@ export default function GameMarquee() {
   const allProducts = getAllProducts().filter((p) => p.image);
   // Verdeel in 3 rijen voor meer diepte
   const third = Math.ceil(allProducts.length / 3);
-  const row1 = allProducts.slice(0, third);
-  const row2 = allProducts.slice(third, third * 2);
-  const row3 = allProducts.slice(third * 2);
+  const row1 = allProducts.slice(0, Math.min(third, 16));
+  const row2 = allProducts.slice(third, Math.min(third * 2, third + 16));
+  const row3 = allProducts.slice(third * 2, Math.min(allProducts.length, third * 2 + 16));
 
   return (
     <section className="relative py-16 sm:py-24 bg-[#050810] overflow-hidden">
