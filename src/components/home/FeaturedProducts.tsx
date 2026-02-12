@@ -22,21 +22,17 @@ const containerVariants = {
 const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 50,
-    scale: 0.85,
-    rotateX: -15,
-    filter: 'blur(12px)',
+    y: 40,
+    scale: 0.92,
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    rotateX: 0,
-    filter: 'blur(0px)',
     transition: {
       type: 'spring' as const,
-      stiffness: 150,
-      damping: 20,
+      stiffness: 120,
+      damping: 18,
       mass: 0.8,
     }
   },

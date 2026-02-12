@@ -378,7 +378,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             <button
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
-              className="h-9 px-4 rounded-xl text-white text-xs font-bold transition-all duration-300"
+              className={cn("h-9 px-4 rounded-xl text-white text-xs font-bold transition-all duration-300", addedToCart && "animate-scale-bounce")}
               style={{
                 background: addedToCart
                   ? accentColor

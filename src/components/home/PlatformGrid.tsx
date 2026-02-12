@@ -166,7 +166,7 @@ export default function PlatformGrid() {
             <TextReveal text="Shop per " delay={0.1} /><span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 animate-aurora" style={{ backgroundSize: '200% 100%' }}>platform</span>
           </h2>
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
-            Nintendo games per platform — van Game Boy tot 3DS
+            Nintendo games per platform — van Game Boy tot Wii U
           </p>
           <motion.div
             initial={{ scaleX: 0 }}

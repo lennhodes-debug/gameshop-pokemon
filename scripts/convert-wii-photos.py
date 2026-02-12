@@ -1,17 +1,54 @@
 #!/usr/bin/env python3
-"""Convert Wii/Wii U photos to 1000x1000 WebP and map to products."""
+"""Convert Wii/Wii U photos to 1000x1000 WebP with rotation correction."""
 
 import os
 import json
-from PIL import Image
+from PIL import Image, ImageOps, ExifTags
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(BASE, "images", "wii")
 DST_DIR = os.path.join(BASE, "public", "images", "products")
 PRODUCTS_JSON = os.path.join(BASE, "src", "data", "products.json")
 
+# Per-SKU rotation correction (counter-clockwise degrees to straighten)
+# Based on visual analysis of each photo's clockwise tilt
+ROTATION_CORRECTIONS = {
+    "WII-004": 4,    # Super Mario Galaxy 2
+    "WII-007": 2,    # New Super Mario Bros Wii
+    "WII-008": 3,    # Donkey Kong Country Returns
+    "WII-009": 3,    # Wii Sports
+    "WII-011": 2,    # Mario Party 8
+    "WII-019": 2,    # Mario Strikers Charged Football
+    "WII-031": 3,    # Sonic and the Secret Rings
+    "WII-032": 3,    # Sonic Unleashed
+    "WII-033": 2,    # New Super Mario Bros Wii Selects
+    "WII-034": 3,    # Wii Party
+    "WII-035": 4,    # Wario Land Shake Dimension
+    "WIIU-001": 4,   # Mario Kart 8
+    "WIIU-004": 3,   # Splatoon
+    "WIIU-006": 3,   # Zelda Wind Waker HD
+    "WIIU-007": 3,   # Zelda Twilight Princess HD
+    "WIIU-008": 2,   # New Super Mario Bros U + Luigi U
+    "WIIU-013": 3,   # Mario Party 10
+    "WIIU-016": 3,   # Captain Toad Treasure Tracker
+    "WIIU-018": 3,   # Paper Mario Color Splash
+    "WIIU-021": 3,   # Wii Party U
+    "WIIU-022": 2,   # Pokken Tournament
+    "WIIU-023": 3,   # Mario & Sonic Sochi 2014
+    "WIIU-024": 3,   # LEGO Jurassic World
+    "WIIU-025": 3,   # Just Dance 2014
+    "WIIU-026": 3,   # Nintendo Land
+    "WIIU-027": 3,   # Minecraft Wii U Edition
+    "WIIU-028": 3,   # Sonic Lost World
+    "WIIU-029": 3,   # Zelda Wind Waker HD Selects
+    "WIIU-030": 3,   # Skylanders Imaginators
+    "WIIU-031": 3,   # LEGO Batman 3
+    "WIIU-032": 3,   # Just Dance 2017
+    "WIIU-033": 3,   # Mario & Sonic Rio 2016
+    "WIIU-034": 3,   # LEGO Dimensions
+}
+
 # Photo mapping: filename timestamp -> (sku, slug_suffix, is_back)
-# Based on manual identification of all 68 photos
 PHOTO_MAP = [
     # Wii U games
     ("04 16 24", "WIIU-006", "zelda-wind-waker-hd", False),
@@ -52,7 +89,7 @@ PHOTO_MAP = [
     ("04 21 56", "WII-032", "sonic-unleashed", False),
     ("04 22 00", "WII-032", "sonic-unleashed", True),
     # Back to Wii U
-    ("04 22 06", "WIIU-029", "zelda-wind-waker-hd-selects", False),  # Nintendo Selects edition
+    ("04 22 06", "WIIU-029", "zelda-wind-waker-hd-selects", False),
     ("04 22 10", "WIIU-029", "zelda-wind-waker-hd-selects", True),
     # Wii
     ("04 22 16", "WII-019", "mario-strikers-charged-football", False),
@@ -60,11 +97,10 @@ PHOTO_MAP = [
     # Wii U
     ("04 22 27", "WIIU-030", "skylanders-imaginators", False),
     ("04 22 38", "WIIU-030", "skylanders-imaginators", True),
-    # Wii U
     ("04 22 49", "WIIU-016", "captain-toad-treasure-tracker", False),
     ("04 22 52", "WIIU-016", "captain-toad-treasure-tracker", True),
     # Wii
-    ("04 22 58", "WII-033", "new-super-mario-bros-wii-selects", False),  # Nintendo Selects
+    ("04 22 58", "WII-033", "new-super-mario-bros-wii-selects", False),
     ("04 23 02", "WII-033", "new-super-mario-bros-wii-selects", True),
     ("04 23 07", "WII-008", "donkey-kong-country-returns", False),
     ("04 23 11", "WII-008", "donkey-kong-country-returns", True),
@@ -93,13 +129,34 @@ PHOTO_MAP = [
     ("04 25 07", "WIIU-034", "lego-dimensions", True),
 ]
 
-def convert_image(src_path, dst_path, size=1000):
-    """Convert image to WebP at size x size."""
+
+def convert_image(src_path, dst_path, rotation_deg=0, size=1000):
+    """Convert image to WebP at size x size with rotation correction."""
     img = Image.open(src_path)
+
+    # Apply EXIF orientation first
+    img = ImageOps.exif_transpose(img)
+
     img = img.convert("RGB")
+
+    # Apply rotation correction (counter-clockwise to fix clockwise tilt)
+    if rotation_deg != 0:
+        img = img.rotate(rotation_deg, resample=Image.BICUBIC, expand=True,
+                         fillcolor=(255, 255, 255))
+
+    # Crop 5% from edges to reduce background/hand visibility after rotation
+    w, h = img.size
+    crop_pct = 0.05
+    left = int(w * crop_pct)
+    top = int(h * crop_pct)
+    right = int(w * (1 - crop_pct))
+    bottom = int(h * (1 - crop_pct))
+    img = img.crop((left, top, right, bottom))
+
     # Resize maintaining aspect ratio, then pad to square
     img.thumbnail((size, size), Image.LANCZOS)
-    # Create square canvas
+
+    # Create square canvas with white background
     canvas = Image.new("RGB", (size, size), (255, 255, 255))
     x = (size - img.width) // 2
     y = (size - img.height) // 2
@@ -107,10 +164,10 @@ def convert_image(src_path, dst_path, size=1000):
     canvas.save(dst_path, "WEBP", quality=85)
     return True
 
+
 def main():
     os.makedirs(DST_DIR, exist_ok=True)
 
-    # Build image path mapping: sku -> {image, backImage}
     image_map = {}
     converted = 0
     skipped = 0
@@ -128,6 +185,9 @@ def main():
             print(f"MISSING: {src_path}")
             continue
 
+        # Get rotation correction for this SKU
+        rotation = ROTATION_CORRECTIONS.get(sku, 3)
+
         # Build output filename
         sku_lower = sku.lower()
         if is_back:
@@ -138,10 +198,9 @@ def main():
         dst_path = os.path.join(DST_DIR, dst_filename)
 
         try:
-            convert_image(src_path, dst_path)
+            convert_image(src_path, dst_path, rotation_deg=rotation)
             converted += 1
 
-            # Track paths
             if sku not in image_map:
                 image_map[sku] = {}
 
@@ -156,11 +215,10 @@ def main():
 
     print(f"Converted {converted} images, skipped {skipped} duplicates")
 
-    # Now update products.json
+    # Update products.json with image paths
     with open(PRODUCTS_JSON, "r") as f:
         products = json.load(f)
 
-    # Update existing products with image paths
     updated = 0
     for product in products:
         sku = product["sku"]
@@ -171,207 +229,12 @@ def main():
                 product["backImage"] = image_map[sku]["backImage"]
             updated += 1
 
-    # Add new products that don't exist yet
-    existing_skus = {p["sku"] for p in products}
-
-    NEW_PRODUCTS = [
-        # New Wii U games
-        {
-            "sku": "WIIU-021", "slug": "wiiu-021-wii-party-u",
-            "name": "Wii Party U", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Party",
-            "price": 15, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Wii Party U biedt meer dan 80 minigames die gebruik maken van de Wii U GamePad. Met TV Party, House Party en GamePad Party modi is er voor elk moment een passende speelstijl. Speel met tot 5 spelers en gebruik de GamePad voor asymmetrische gameplay. Van bordspellen tot actiegames, Wii Party U is de perfecte party game voor de Wii U. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-022", "slug": "wiiu-022-pokken-tournament",
-            "name": "Pokk\u00e9n Tournament", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Vecht",
-            "price": 15, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Pokk\u00e9n Tournament is een uniek vechtspel waarin Pok\u00e9mon in real-time 3D-gevechten strijden. Met speelbare Pok\u00e9mon als Pikachu, Lucario, Machamp, Gengar en Suicune. Ontwikkeld door de makers van Tekken biedt het diepgaande vechtmechanismen. De Phase Shift tussen Field Phase en Duel Phase geeft gevechten een unieke flow. Met online multiplayer en lokale splitscreen. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-023", "slug": "wiiu-023-mario-sonic-sochi-2014",
-            "name": "Mario & Sonic op de Olympische Winterspelen: Sotsji 2014", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Sport",
-            "price": 10, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Mario & Sonic op de Olympische Winterspelen: Sotsji 2014 brengt Mario en Sonic samen voor wintersporten op de Wii U. Met 24 evenementen waaronder skieen, schaatsen, bobsleeeen en snowboarden. De GamePad biedt unieke besturingsmogelijkheden. Dream Events voegen fantasie-elementen toe aan de Olympische disciplines. Met lokale multiplayer voor tot 4 spelers. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-024", "slug": "wiiu-024-lego-jurassic-world",
-            "name": "LEGO Jurassic World", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Avontuur",
-            "price": 12, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "LEGO Jurassic World laat je alle vier de Jurassic Park-films herbeleven in LEGO-stijl. Speel als meer dan 100 personages en 20 dinosaurussen. Met co-op gameplay, puzzels en de kenmerkende LEGO-humor. Van de originele Jurassic Park tot Jurassic World \u2014 alle iconische momenten zijn speelbaar. Nederlandstalig. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-025", "slug": "wiiu-025-just-dance-2014",
-            "name": "Just Dance 2014", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Muziek",
-            "price": 8, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Just Dance 2014 bevat 47 nieuwe nummers van artiesten als Lady Gaga, Daft Punk, Nicki Minaj en Robin Thicke. Inclusief Katy Perry's Roar als gratis download. Dans alleen of met vrienden in diverse modi. De Wii U GamePad biedt extra features als Puppet Master en Autodance. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-026", "slug": "wiiu-026-nintendo-land",
-            "name": "Nintendo Land", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Party",
-            "price": 8, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Nintendo Land is het ultieme Wii U launch-spel met 12 attracties gebaseerd op Nintendo-franchises. Van Zelda: Battle Quest tot Metroid Blast en Mario Chase. De asymmetrische gameplay waarbij een speler de GamePad gebruikt en anderen Wii Remotes is vernieuwend. Perfekt om de mogelijkheden van de Wii U te demonstreren. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-027", "slug": "wiiu-027-minecraft-wii-u-edition",
-            "name": "Minecraft: Wii U Edition", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Avontuur",
-            "price": 15, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Minecraft: Wii U Edition brengt het wereldfenomeen naar de Wii U met exclusieve Super Mario Mash-Up. Bouw, verken en overleef in een oneindige blokkenwonderwereld. Met Creative en Survival modus, lokale splitscreen voor tot 4 spelers en online multiplayer. De GamePad biedt een handige kaartweergave en off-TV play. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-028", "slug": "wiiu-028-sonic-lost-world",
-            "name": "Sonic Lost World: Deadly Six Edition", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Platformer",
-            "price": 12, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Sonic Lost World: Deadly Six Edition voor de Wii U biedt snelle 3D-platformactie met de nieuwe Deadly Six-vijanden. Met exclusieve Color Powers, parkour-mechanismen en zowel 3D als 2D levels. De Deadly Six Edition bevat exclusieve content met nieuwe kleurkrachten. Co-op gameplay via GamePad en Wii Remote. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-029", "slug": "wiiu-029-zelda-wind-waker-hd-selects",
-            "name": "The Legend of Zelda: The Wind Waker HD (Nintendo Selects)", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Avontuur",
-            "price": 25, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "The Legend of Zelda: The Wind Waker HD in de Nintendo Selects-serie. Dezelfde prachtige HD-remaster van het GameCube-klassiek, nu in de budget-lijn. Zeil over de Great Sea, verken eilanden en dungeons in cel-shaded stijl. Met verbeterde Swift Sail en Tingle Bottle. Een must-have Zelda-avontuur. Europese versie (PAL/EUR). Nintendo Selects editie. Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-030", "slug": "wiiu-030-skylanders-imaginators",
-            "name": "Skylanders Imaginators", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Avontuur",
-            "price": 8, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Skylanders Imaginators voor de Wii U laat je je eigen Skylanders creeren. Met uitgebreide character creation en meer dan 30 speelbare Senseis. Het avontuurlijke gameplay combineert actie met verzamelelementen. Portal of Power en figuren apart verkrijgbaar. Nederlandstalige versie. Europese versie (PAL/EUR). Compleet met handleiding. Let op: game only, portal en figuren niet inbegrepen.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-031", "slug": "wiiu-031-lego-batman-3-beyond-gotham",
-            "name": "LEGO Batman 3: Beyond Gotham", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Avontuur",
-            "price": 10, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "LEGO Batman 3: Beyond Gotham neemt de Caped Crusader mee de ruimte in. Met meer dan 150 speelbare DC Comics-personages waaronder Batman, Superman, Green Lantern en The Flash. Reis naar de Lantern-werelden en stop Brainiac. Co-op gameplay en de kenmerkende LEGO-humor. Nederlandstalig ondertiteld. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-032", "slug": "wiiu-032-just-dance-2017",
-            "name": "Just Dance 2017", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Muziek",
-            "price": 10, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Just Dance 2017 bevat 40 nieuwe nummers en toegang tot 200+ songs via Just Dance Unlimited. Met hits van artiesten als Justin Bieber, Maroon 5, The Weeknd en Queen. Gebruik je smartphone als controller via de Just Dance Controller-app. Nieuwe Way to Play-modus. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-033", "slug": "wiiu-033-mario-sonic-rio-2016",
-            "name": "Mario & Sonic op de Olympische Spelen: Rio 2016", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Sport",
-            "price": 12, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Mario & Sonic op de Olympische Spelen: Rio 2016 brengt Mario en Sonic samen in Brazilie. Met 17 sporten waaronder voetbal, rugby, zwemmen en atletiek. Amiibo-ondersteuning voor extra outfits en bonussen. De kleurrijke Braziliaanse sfeer en competitieve multiplayer maken dit de perfecte sportgame. Met lokale en online multiplayer. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WIIU-034", "slug": "wiiu-034-lego-dimensions",
-            "name": "LEGO Dimensions", "platform": "Wii U",
-            "category": "Games > Wii U", "genre": "Avontuur",
-            "price": 8, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "LEGO Dimensions combineert LEGO-bouw met een videogame-avontuur door meerdere LEGO-werelden. Van Batman en Lord of the Rings tot Doctor Who en Ghostbusters. Met de Toy Pad worden fysieke LEGO-figuren in het spel gebracht. Uitbreidbaar met Level Packs, Team Packs en Fun Packs. Europese versie (PAL/EUR). Compleet met handleiding. Let op: game only, Toy Pad en figuren niet inbegrepen.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        # New Wii games
-        {
-            "sku": "WII-031", "slug": "wii-031-sonic-and-the-secret-rings",
-            "name": "Sonic and the Secret Rings", "platform": "Wii",
-            "category": "Games > Wii", "genre": "Platformer",
-            "price": 8, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Sonic and the Secret Rings is een exclusief Wii-avontuur waarin Sonic door de wereld van Duizend-en-een-Nacht raast. Met motion controls kantel je de Wii Remote om Sonic door de on-rails levels te sturen. Verzamel ringen, ontwijken obstakels en versla de boze djinn Erazor Djinn. Met een Party-modus voor tot 4 spelers en meer dan 40 minigames. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WII-032", "slug": "wii-032-sonic-unleashed",
-            "name": "Sonic Unleashed", "platform": "Wii",
-            "category": "Games > Wii", "genre": "Platformer",
-            "price": 10, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Sonic Unleashed combineert razendsnelle dag-levels met krachtige weerwolf-nachtsecties. Overdag race je als Sonic door spectaculaire 3D-levels over de hele wereld. 's Nachts transformeer je in de Werehog met brawler-gameplay. Verken diverse locaties van Griekenland tot China. De dag-levels behoren tot de snelste Sonic-gameplay ooit. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WII-033", "slug": "wii-033-new-super-mario-bros-wii-selects",
-            "name": "New Super Mario Bros. Wii (Nintendo Selects)", "platform": "Wii",
-            "category": "Games > Wii", "genre": "Platformer",
-            "price": 20, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "New Super Mario Bros. Wii in de Nintendo Selects budget-lijn. Dezelfde klassieke 2D Mario-platformer met tot 4 spelers simultaan cooperatief of competitief. Met Penguin Suit en Propeller Mushroom power-ups. 80 levels verdeeld over 8 werelden. Super Guide helpt minder ervaren spelers. Nintendo Selects editie. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WII-034", "slug": "wii-034-wii-party",
-            "name": "Wii Party", "platform": "Wii",
-            "category": "Games > Wii", "genre": "Party",
-            "price": 10, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Wii Party bevat meer dan 80 minigames en 13 party modes voor tot 4 spelers. Van bordspellen tot huis-party games en duo-uitdagingen. De Mii-personages staan centraal in het feest. Met Bingo, Spin Off, Board Game Island en meer. De minigames maken creatief gebruik van de Wii Remote. Volledig Nederlandstalig. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-        {
-            "sku": "WII-035", "slug": "wii-035-wario-land-the-shake-dimension",
-            "name": "Wario Land: The Shake Dimension", "platform": "Wii",
-            "category": "Games > Wii", "genre": "Platformer",
-            "price": 20, "condition": "Gebruikt",
-            "completeness": "Compleet in doos (CIB)", "type": "simple",
-            "description": "Wario Land: The Shake Dimension is een prachtig handgetekende 2D-platformer voor de Wii. Schud de Wii Remote om munten uit vijanden te schudden en verborgen schatten te onthullen. Wario's hebzucht leidt hem door exotische levels vol verborgen geheimen. De animatiestijl is uniek in het Nintendo-portfolio. Met geheime levels en uitdagingen voor verzamelaars. Europese versie (PAL/EUR). Compleet met handleiding.",
-            "weight": 0.1, "isConsole": False, "isPremium": False
-        },
-    ]
-
-    added = 0
-    for product in NEW_PRODUCTS:
-        sku = product["sku"]
-        if sku not in existing_skus:
-            # Add image paths if we have them
-            if sku in image_map:
-                if "image" in image_map[sku]:
-                    product["image"] = image_map[sku]["image"]
-                if "backImage" in image_map[sku]:
-                    product["backImage"] = image_map[sku]["backImage"]
-            else:
-                product["image"] = None
-            products.append(product)
-            added += 1
-
-    # Write updated products.json
     with open(PRODUCTS_JSON, "w") as f:
         json.dump(products, f, indent=2, ensure_ascii=False)
 
-    print(f"Updated {updated} existing products with images")
-    print(f"Added {added} new products")
+    print(f"Updated {updated} products with images")
     print(f"Total products: {len(products)}")
+
 
 if __name__ == "__main__":
     main()
