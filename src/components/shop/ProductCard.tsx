@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getPokemonType, PokemonTypeInfo, IMAGE_ROTATION } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, IMAGE_ROTATION, getPokemonType } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -29,28 +29,6 @@ function HighlightText({ text, query }: { text: string; query?: string }) {
           : part
       )}
     </>
-  );
-}
-
-// Holographic shine overlay
-function HoloShine({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
-  return (
-    <div
-      className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none z-20 rounded-2xl overflow-hidden"
-      style={{
-        background: `
-          radial-gradient(
-            circle at ${mouseX}% ${mouseY}%,
-            rgba(255,255,255,0.3) 0%,
-            rgba(120,220,255,0.15) 20%,
-            rgba(200,120,255,0.1) 40%,
-            rgba(255,180,100,0.05) 60%,
-            transparent 80%
-          )
-        `,
-        mixBlendMode: 'overlay',
-      }}
-    />
   );
 }
 
@@ -158,13 +136,15 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
-  const typeInfo = getPokemonType(product.sku);
-  const isPokemon = !!typeInfo;
   const hasCibOption = !!product.cibPrice;
+  const typeInfo = getPokemonType(product.sku);
 
-  // Huidige variant image/price
+  // Accent kleur: per Pokémon game uniek, overige producten emerald
+  const accentColor = typeInfo ? typeInfo.bg[0] : '#10b981';
+  const accentGlow = typeInfo ? typeInfo.glow : '16,185,129';
+
+  // Huidige variant image
   const displayImage = (hasCibOption && selectedVariant === 'cib') ? product.cibImage : product.image;
-  const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : getEffectivePrice(product);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -189,234 +169,17 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     setTimeout(() => setAddedToCart(false), 1500);
   };
 
-  // === POKEMON TYPE CARD ===
-  if (isPokemon && typeInfo) {
-    return (
-      <div className="group">
-        <div
-          ref={cardRef}
-          onMouseMove={handleMouseMove}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
-          className="relative rounded-2xl overflow-hidden flex flex-col will-change-transform"
-          style={{
-            transform: `translateY(${isHovered ? -6 : 0}px)`,
-            transition: 'transform 0.3s ease-out, box-shadow 0.3s ease',
-            background: `linear-gradient(135deg, ${typeInfo.bg[0]}18 0%, ${typeInfo.bg[1]}30 100%)`,
-            border: `1.5px solid ${typeInfo.bg[0]}40`,
-            boxShadow: isHovered
-              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 12px 40px rgba(0,0,0,0.25)`
-              : `0 0 12px rgba(${typeInfo.glow}, 0.15), 0 4px 16px rgba(0,0,0,0.1)`,
-          }}
-        >
-          {/* Holographic shine */}
-          <HoloShine mouseX={mousePos.x} mouseY={mousePos.y} />
-
-          {/* Shine sweep overlay */}
-          <div
-            className="absolute inset-0 z-30 pointer-events-none overflow-hidden rounded-2xl"
-            aria-hidden="true"
-          >
-            <div
-              className="absolute inset-0 transition-transform duration-[600ms] ease-out"
-              style={{
-                transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
-                background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 60%, transparent 100%)',
-              }}
-            />
-          </div>
-
-          {/* Product afbeelding */}
-          <Link href={`/shop/${product.sku}`}>
-            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
-              {displayImage && !imageError ? (
-                <>
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 animate-pulse" style={{ background: `${typeInfo.bg[0]}20` }} />
-                  )}
-                  <Image
-                    src={displayImage}
-                    alt={`${product.name} - ${product.platform}`}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    className={cn(
-                      "object-contain p-4 group-hover:scale-105 transition-transform duration-500",
-                      imageLoaded ? "opacity-100" : "opacity-0"
-                    )}
-                    style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
-                    onLoad={() => setImageLoaded(true)}
-                    onError={() => setImageError(true)}
-                  />
-                </>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${typeInfo.bg[0]}40, ${typeInfo.bg[1]}60)` }}>
-                  <span className="text-white/60 text-lg font-black select-none">
-                    {platformLabel}
-                  </span>
-                </div>
-              )}
-
-              {/* Platform label */}
-              <div className="absolute top-2 left-3">
-                <span className="px-2 py-0.5 rounded-md bg-black/30 text-white/80 text-[10px] font-medium backdrop-blur-sm">
-                  {platformLabel}
-                </span>
-              </div>
-
-              {/* Badges rechts */}
-              <div className="absolute top-2 right-3 flex flex-col gap-1.5 items-end">
-                {isOnSale(product) && (
-                  <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold shadow-sm">
-                    -{getSalePercentage(product)}%
-                  </span>
-                )}
-                <button
-                  onClick={handleToggleWishlist}
-                  aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
-                  className="p-1.5 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all z-30"
-                  style={{
-                    transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
-                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  }}
-                >
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill={isWishlisted ? '#ef4444' : 'none'} stroke={isWishlisted ? '#ef4444' : 'white'} strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </Link>
-
-          {/* Gradient scheiding */}
-          <div
-            className="h-px"
-            style={{ background: `linear-gradient(90deg, transparent, ${typeInfo.bg[0]}60, transparent)` }}
-          />
-
-          {/* Content */}
-          <div className="p-4 flex flex-col flex-1" style={{ background: `linear-gradient(180deg, ${typeInfo.bg[1]}10 0%, ${typeInfo.bg[1]}20 100%)` }}>
-            {/* CIB / Los toggle */}
-            {hasCibOption && (
-              <div className="flex rounded-lg overflow-hidden mb-2.5 border" style={{ borderColor: `${typeInfo.bg[0]}40` }}>
-                <button
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedVariant('los'); setImageLoaded(false); }}
-                  className={cn(
-                    "flex-1 py-1.5 text-[11px] font-bold transition-all duration-200",
-                    selectedVariant === 'los'
-                      ? "text-white"
-                      : "text-slate-500 hover:text-slate-700 bg-white/80"
-                  )}
-                  style={selectedVariant === 'los' ? { background: `linear-gradient(135deg, ${typeInfo.bg[0]}, ${typeInfo.bg[1]})` } : undefined}
-                >
-                  Los
-                </button>
-                <button
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedVariant('cib'); setImageLoaded(false); }}
-                  className={cn(
-                    "flex-1 py-1.5 text-[11px] font-bold transition-all duration-200",
-                    selectedVariant === 'cib'
-                      ? "text-white"
-                      : "text-slate-500 hover:text-slate-700 bg-white/80"
-                  )}
-                  style={selectedVariant === 'cib' ? { background: `linear-gradient(135deg, ${typeInfo.bg[0]}, ${typeInfo.bg[1]})` } : undefined}
-                >
-                  Met doos
-                </button>
-              </div>
-            )}
-
-            <div className="flex flex-wrap gap-1.5 mb-2.5">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border"
-                style={{ color: typeInfo.bg[0], borderColor: `${typeInfo.bg[0]}40`, background: `${typeInfo.bg[0]}10` }}>
-                {product.condition}
-              </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-                {(hasCibOption && selectedVariant === 'cib') ? 'CIB' : isCIB ? 'CIB' : product.completeness}
-              </span>
-            </div>
-
-            <Link href={`/shop/${product.sku}`}>
-              <h3 className="font-bold text-white text-sm leading-snug mb-1 line-clamp-2 group-hover:text-opacity-80 transition-colors"
-                style={{ color: isHovered ? typeInfo.bg[0] : undefined }}>
-                <HighlightText text={product.name} query={searchQuery} />
-              </h3>
-            </Link>
-
-            {product.description && (
-              <p className="text-xs text-slate-400 line-clamp-1 mb-3">
-                {product.description}
-              </p>
-            )}
-
-            <div className="flex items-center justify-between pt-3 mt-auto border-t" style={{ borderColor: `${typeInfo.bg[0]}15` }}>
-              <div>
-                {hasCibOption && selectedVariant === 'cib' ? (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-extrabold tracking-tight" style={{ color: typeInfo.bg[0] }}>
-                      {formatPrice(displayPrice)}
-                    </span>
-                    <span className="text-sm text-slate-400 line-through">
-                      {formatPrice(product.price)}
-                    </span>
-                  </div>
-                ) : isOnSale(product) ? (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-extrabold tracking-tight" style={{ color: typeInfo.bg[0] }}>
-                      {formatPrice(getEffectivePrice(product))}
-                    </span>
-                    <span className="text-sm text-slate-400 line-through">
-                      {formatPrice(product.price)}
-                    </span>
-                  </div>
-                ) : (
-                  <span className="text-xl font-extrabold text-white tracking-tight">
-                    {formatPrice(displayPrice)}
-                  </span>
-                )}
-                {displayPrice >= FREE_SHIPPING_THRESHOLD && (
-                  <span className="block text-[10px] text-emerald-400 font-semibold mt-0.5">Gratis verzending</span>
-                )}
-              </div>
-              <button
-                onClick={handleAddToCart}
-                aria-label={`${product.name} toevoegen aan winkelwagen`}
-                className={cn(
-                  "h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300",
-                  addedToCart ? "bg-emerald-500" : "hover:shadow-lg"
-                )}
-                style={addedToCart ? undefined : {
-                  background: `linear-gradient(135deg, ${typeInfo.bg[0]}, ${typeInfo.bg[1]})`,
-                  boxShadow: isHovered ? `0 4px 15px rgba(${typeInfo.glow}, 0.4)` : undefined,
-                }}
-              >
-                {addedToCart ? (
-                  <span className="flex items-center gap-1">
-                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                    Toegevoegd
-                  </span>
-                ) : (
-                  '+ Winkelmand'
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // === STANDAARD CARD (consoles, accessoires) ===
+  // === STANDAARD CARD (alle producten uniform) ===
   return (
     <div className="group">
       <div
-        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
+        className="relative bg-white rounded-2xl border overflow-hidden shadow-sm transition-all duration-300 flex flex-col"
         style={{
           transform: `translateY(${isHovered ? -4 : 0}px)`,
           transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+          borderColor: isHovered ? `rgba(${accentGlow},0.3)` : '#e2e8f0',
           boxShadow: isHovered
-            ? '0 12px 36px rgba(16,185,129,0.14), 0 6px 16px rgba(0,0,0,0.08)'
+            ? `0 12px 36px rgba(${accentGlow},0.14), 0 6px 16px rgba(0,0,0,0.08)`
             : undefined,
         }}
         ref={cardRef}
@@ -499,8 +262,15 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </div>
         </Link>
 
-        {/* Scheidingslijn */}
-        <div className="h-px bg-slate-100" />
+        {/* Scheidingslijn met accent kleur */}
+        <div
+          className="h-[2px] transition-all duration-300"
+          style={{
+            background: typeInfo
+              ? `linear-gradient(90deg, ${typeInfo.bg[0]}40, ${typeInfo.bg[0]}, ${typeInfo.bg[1]}40)`
+              : '#f1f5f9',
+          }}
+        />
 
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
@@ -510,7 +280,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </div>
 
           <Link href={`/shop/${product.sku}`}>
-            <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+            <h3
+              className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 transition-colors"
+              style={{ color: isHovered ? accentColor : undefined }}
+            >
               <HighlightText text={product.name} query={searchQuery} />
             </h3>
           </Link>
@@ -538,18 +311,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </span>
               )}
               {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
-                <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
+                <span className="block text-[10px] font-semibold mt-0.5" style={{ color: accentColor }}>Gratis verzending</span>
               )}
             </div>
             <button
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
-              className={cn(
-                "h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300",
-                addedToCart
-                  ? "bg-emerald-500"
-                  : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-md hover:shadow-emerald-500/25"
-              )}
+              className="h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300"
+              style={{
+                background: addedToCart
+                  ? accentColor
+                  : `linear-gradient(135deg, ${accentColor}, ${typeInfo ? typeInfo.bg[1] : '#14b8a6'})`,
+                boxShadow: !addedToCart && isHovered ? `0 4px 12px rgba(${accentGlow},0.25)` : undefined,
+              }}
             >
               {addedToCart ? (
                 <span className="flex items-center gap-1">

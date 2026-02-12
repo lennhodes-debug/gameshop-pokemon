@@ -42,14 +42,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const effectivePrice = getEffectivePrice(product);
   const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
-  const typeInfo = getPokemonType(product.sku);
 
   const hasCibOption = !!product.cibPrice;
   const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : effectivePrice;
   const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
   const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
 
-  // Type-based accent color (fallback to emerald)
+  // Accent kleur: per Pokémon game uniek, overige producten emerald
+  const typeInfo = getPokemonType(product.sku);
   const accent = typeInfo ? typeInfo.bg[0] : '#10b981';
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
