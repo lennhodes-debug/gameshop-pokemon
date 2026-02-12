@@ -7,15 +7,15 @@ import Link from 'next/link';
 import { getAllProducts, type Product } from '@/lib/products';
 import { formatPrice, PLATFORM_LABELS, IMAGE_ROTATION } from '@/lib/utils';
 
-const CARD_COUNT_DESKTOP = 14;
-const CARD_COUNT_MOBILE = 10;
-const ROTATION_DURATION = 22;
-const RADIUS_DESKTOP = 440;
-const RADIUS_MOBILE = 250;
-const CARD_W_DESKTOP = 200;
-const CARD_H_DESKTOP = 280;
-const CARD_W_MOBILE = 140;
-const CARD_H_MOBILE = 195;
+const CARD_COUNT_DESKTOP = 12;
+const CARD_COUNT_MOBILE = 8;
+const ROTATION_DURATION = 30;
+const RADIUS_DESKTOP = 480;
+const RADIUS_MOBILE = 220;
+const CARD_W_DESKTOP = 180;
+const CARD_H_DESKTOP = 260;
+const CARD_W_MOBILE = 130;
+const CARD_H_MOBILE = 180;
 
 function CarouselCard({
   product,
@@ -40,27 +40,28 @@ function CarouselCard({
   const rotateYDeg = useTransform(angle, (a: number) => `${(a * 180) / Math.PI}deg`);
   const cardOpacity = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    if (cosVal < -0.4) return 0;
-    return 0.25 + 0.75 * ((cosVal + 0.4) / 1.4);
+    if (cosVal < -0.3) return 0;
+    return 0.15 + 0.85 * ((cosVal + 0.3) / 1.3);
   });
   const cardScale = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    return 0.65 + 0.35 * ((cosVal + 1) / 2);
+    return 0.55 + 0.45 * ((cosVal + 1) / 2);
   });
   const zIndex = useTransform(angle, (a: number) => Math.round(Math.cos(a) * 100));
   const cardFilter = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    if (cosVal > 0.6) return 'blur(0px) brightness(1.05)';
-    if (cosVal > 0.2) return 'blur(0.5px) brightness(0.95)';
-    if (cosVal > 0) return 'blur(1.5px) brightness(0.85)';
-    return 'blur(3px) brightness(0.7)';
+    if (cosVal > 0.7) return 'blur(0px) brightness(1.1) saturate(1.1)';
+    if (cosVal > 0.3) return 'blur(0.3px) brightness(1)';
+    if (cosVal > 0) return 'blur(1px) brightness(0.85)';
+    return 'blur(2.5px) brightness(0.6)';
   });
   // Glow op voorgrond kaarten
   const glowShadow = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    if (cosVal > 0.7) return '0 0 40px rgba(16,185,129,0.25), 0 8px 32px rgba(0,0,0,0.5)';
-    if (cosVal > 0.3) return '0 0 20px rgba(16,185,129,0.1), 0 4px 20px rgba(0,0,0,0.4)';
-    return '0 2px 12px rgba(0,0,0,0.3)';
+    if (cosVal > 0.8) return '0 0 50px rgba(16,185,129,0.3), 0 0 80px rgba(16,185,129,0.1), 0 12px 40px rgba(0,0,0,0.6)';
+    if (cosVal > 0.5) return '0 0 30px rgba(16,185,129,0.15), 0 8px 30px rgba(0,0,0,0.5)';
+    if (cosVal > 0.2) return '0 0 15px rgba(16,185,129,0.05), 0 4px 20px rgba(0,0,0,0.4)';
+    return '0 2px 8px rgba(0,0,0,0.2)';
   });
 
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -128,7 +129,7 @@ export default function GameCarousel3D() {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const rotation = useMotionValue(0);
-  const springRotation = useSpring(rotation, { stiffness: 60, damping: 20 });
+  const springRotation = useSpring(rotation, { stiffness: 40, damping: 25, mass: 1.2 });
   const isDragging = useRef(false);
   const autoRotateEnabled = useRef(true);
   const dragStartX = useRef(0);
@@ -147,7 +148,7 @@ export default function GameCarousel3D() {
   const radius = isMobile ? RADIUS_MOBILE : RADIUS_DESKTOP;
   const cardWidth = isMobile ? CARD_W_MOBILE : CARD_W_DESKTOP;
   const cardHeight = isMobile ? CARD_H_MOBILE : CARD_H_DESKTOP;
-  const containerHeight = isMobile ? 360 : 500;
+  const containerHeight = isMobile ? 340 : 480;
 
   const carouselProducts = useMemo(() => {
     const withImage = getAllProducts().filter(p => p.image);
@@ -186,7 +187,7 @@ export default function GameCarousel3D() {
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     if (!isDragging.current) return;
     const dx = e.clientX - dragStartX.current;
-    rotation.set(dragStartRotation.current + dx * 0.005);
+    rotation.set(dragStartRotation.current + dx * 0.004);
   }, [rotation]);
 
   const handlePointerUp = useCallback(() => {
@@ -197,10 +198,12 @@ export default function GameCarousel3D() {
   }, []);
 
   return (
-    <section className="relative bg-[#050810] py-16 lg:py-28 overflow-hidden">
+    <section className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
       {/* Achtergrond effecten */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_80%,rgba(6,182,212,0.04),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_90%,rgba(16,185,129,0.08),transparent_40%)]" />
+      {/* Vloer highlight */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-emerald-900/[0.04] to-transparent" />
 
       {/* Header */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
@@ -231,7 +234,8 @@ export default function GameCarousel3D() {
           className="relative mx-auto cursor-grab active:cursor-grabbing select-none touch-none"
           style={{
             height: containerHeight,
-            perspective: '1200px',
+            perspective: '1000px',
+            perspectiveOrigin: '50% 40%',
           }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -257,7 +261,8 @@ export default function GameCarousel3D() {
           </div>
 
           {/* Reflectie glow onder de carousel */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-24 bg-gradient-to-t from-emerald-500/[0.06] via-emerald-500/[0.02] to-transparent blur-2xl pointer-events-none" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-32 bg-gradient-to-t from-emerald-500/[0.08] via-emerald-500/[0.03] to-transparent blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[40%] h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent pointer-events-none" />
         </div>
       )}
 
