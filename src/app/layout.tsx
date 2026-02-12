@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -11,11 +11,11 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import ScrollProgress from '@/components/layout/ScrollProgress';
 import { cn } from '@/lib/utils';
 
-const jakarta = Plus_Jakarta_Sans({
-  weight: ['300', '400', '500', '600', '700', '800'],
-  subsets: ['latin'],
+const jakarta = localFont({
+  src: '../fonts/plus-jakarta-sans-latin-wght-normal.woff2',
   display: 'swap',
   variable: '--font-jakarta',
+  weight: '300 800',
 });
 
 const siteUrl = 'https://gameshopenter.nl';
