@@ -793,8 +793,8 @@ export default function GameCarousel3D() {
         <motion.div
           className="relative mx-auto select-none touch-none"
           style={{ height: containerHeight }}
-          initial={{ opacity: 0, scale: 0.7, rotateX: 20, filter: 'blur(20px)' }}
-          whileInView={{ opacity: 1, scale: 1, rotateX: 0, filter: 'blur(0px)' }}
+          initial={{ opacity: 0, scale: 0.85, filter: 'blur(12px)' }}
+          whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >

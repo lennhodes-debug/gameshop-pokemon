@@ -158,9 +158,7 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
         onMouseLeave={() => setHovered(false)}
         className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/30 hover:bg-white/[0.08] hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing"
         style={{
-          transform: hovered
-            ? `perspective(600px) rotateX(${(mousePos.y - 50) * -0.06}deg) rotateY(${(mousePos.x - 50) * 0.06}deg)`
-            : 'perspective(600px) rotateX(0deg) rotateY(0deg)',
+          transform: 'none',
           transition: 'transform 0.3s ease',
         }}
       >

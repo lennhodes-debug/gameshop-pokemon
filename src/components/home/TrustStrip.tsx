@@ -90,9 +90,9 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.85, rotateX: 12, filter: 'blur(12px)' },
+  hidden: { opacity: 0, y: 40, scale: 0.95, filter: 'blur(8px)' },
   visible: {
-    opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0px)',
+    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
     transition: { type: 'spring' as const, stiffness: 180, damping: 18 },
   },
 } as const;
@@ -118,13 +118,12 @@ function TrustCard({ item }: { item: typeof trustItems[0] }) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    const rotateX = (0.5 - y) * 12;
-    const rotateY = (x - 0.5) * 12;
-    e.currentTarget.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    void x; void y;
+    e.currentTarget.style.transform = 'scale(1.02)';
   }, []);
 
   const handleCardMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.transform = 'perspective(500px) rotateX(0deg) rotateY(0deg) scale(1)';
+    e.currentTarget.style.transform = 'scale(1)';
   }, []);
 
   return (

@@ -27,9 +27,7 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
   const spotlightY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const spotlightBg = useMotionTemplate`radial-gradient(400px circle at ${spotlightX}% ${spotlightY}%, rgba(16,185,129,0.15), transparent 60%)`;
 
-  // 3D tilt effect
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 200, damping: 25 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 200, damping: 25 });
+  // 3D tilt uitgeschakeld
 
   const colors = PLATFORM_COLORS[platform.name] || { from: 'from-slate-500', to: 'to-slate-700' };
   const label = PLATFORM_LABELS[platform.name] || platform.name;
@@ -57,9 +55,6 @@ function PlatformCard({ platform, index }: { platform: { name: string; count: nu
           whileHover={{ y: -6, transition: { duration: 0.2 } }}
           className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-[0_0_30px_rgba(16,185,129,0.15),0_0_60px_rgba(16,185,129,0.05)] hover:border-emerald-200/50 dark:hover:border-emerald-500/30 transition-all duration-500"
           style={{
-            transformStyle: 'preserve-3d',
-            rotateX: hovered ? rotateX : 0,
-            rotateY: hovered ? rotateY : 0,
           }}
         >
           {/* Spotlight effect on hover */}

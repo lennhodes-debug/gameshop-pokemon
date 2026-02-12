@@ -101,8 +101,8 @@ function ArcadeCounter({ value, suffix, label, icon, index }: {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 45, scale: 0.85, rotateX: 12, filter: 'blur(10px)' }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 45, scale: 0.95, filter: 'blur(8px)' }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] as const }}
       whileHover={{ y: -8, scale: 1.04, transition: { type: 'spring', stiffness: 280, damping: 18 } }}
