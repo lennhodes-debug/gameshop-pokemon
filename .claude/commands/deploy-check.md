@@ -1,12 +1,15 @@
 Pre-deploy verificatie checklist:
 
-1. **Build** — `npm run build` moet slagen zonder errors
-2. **Lint** — `npm run lint` mag geen errors hebben
-3. **Routes** — Verifieer dat alle routes in Header.tsx en Footer.tsx bestaan
-4. **SEO** — Check metadata, robots.txt, sitemap.xml completheid
-5. **Afbeeldingen** — Check op ontbrekende product afbeeldingen
-6. **Data integriteit** — Verifieer products.json structuur en verplichte velden
-7. **Security** — Run npm audit, check op hardcoded secrets
-8. **Git** — Check of alles gecommit en gepusht is
+## Checks
 
-Rapporteer een GO/NO-GO beslissing met eventuele blokkerende issues.
+1. **Build** — `npm run build` (noteer aantal pagina's)
+2. **Lint** — `npm run lint` (geen errors)
+3. **Routes** — Links in Header.tsx en Footer.tsx bestaan
+4. **SEO** — robots.ts, sitemap.ts, root metadata
+5. **Afbeeldingen** — Producten met image veld: bestanden bestaan
+6. **Data** — products.json: verplichte velden, unieke SKU's, isPremium correct
+7. **Security** — `npm audit`, geen hardcoded secrets
+8. **Git** — Alles gecommit en gepusht
+
+## Eindoordeel
+**GO** of **NO-GO** met eventuele blokkerende issues.

@@ -1,12 +1,16 @@
 Maak een pull request:
 
-1. Check dat alles werkt: `npm run build`
-2. Gebruik de code-reviewer subagent voor een self-review
-3. Fix eventuele CRITICAL of HIGH findings
-4. Maak de PR met `gh pr create` en dit format:
+## Stappen
 
+1. **Build** — `npm run build` moet slagen
+
+2. **Review** — `code-reviewer` subagent, fix CRITICAL/HIGH findings
+
+3. **PR aanmaken** met `gh pr create`:
+
+```
 ## Wat
-[Korte beschrijving]
+[Korte beschrijving — 1-2 zinnen]
 
 ## Waarom
 [Motivatie/context]
@@ -15,7 +19,15 @@ Maak een pull request:
 [Technische aanpak]
 
 ## Checklist
-- [ ] Build slaagt (`npm run build`)
+- [ ] `npm run build` slaagt
 - [ ] Geen TypeScript errors
 - [ ] Nederlandse UI teksten
 - [ ] products.json niet onbedoeld overschreven
+- [ ] Responsive op mobile/tablet/desktop
+```
+
+4. **Push** als dat nog niet gebeurd is
+
+## Regels
+- PR titel: max 70 tekens, Nederlands
+- PR body: Nederlands, gestructureerd

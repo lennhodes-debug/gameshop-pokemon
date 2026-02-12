@@ -1,11 +1,26 @@
 Fix een GitHub issue:
 
-1. Lees het issue met `gh issue view $ARGUMENTS`
-2. Gebruik de researcher subagent om de relevante code te vinden
-3. Maak een fix branch: `git checkout -b fix/$ARGUMENTS`
-4. Implementeer de fix
-5. Run `npm run build` om te valideren
-6. Commit en push
-7. Maak een PR
+## Stappen
+
+1. **Lees het issue** — `gh issue view $ARGUMENTS`
+   - Begrijp het probleem, verwacht vs werkelijk gedrag
+   - Noteer reproductie-stappen
+
+2. **Onderzoek** — Gebruik de `researcher` subagent om de relevante code te vinden
+   - Traceer de dataflow van het probleem
+   - Identificeer de root cause
+
+3. **Implementeer de fix**
+   - Lees het bestand VOORDAT je het wijzigt
+   - Maak de minimale wijziging die het probleem oplost
+   - Geen extra refactoring of verbeteringen
+
+4. **Valideer** — `npm run build` om te verifieren
+
+5. **Commit en push** naar de huidige branch
+   - Nederlands commit message: "Fix #{issue-nummer}: {beschrijving}"
+
+6. **Maak een PR** met `gh pr create`
+   - Refereer het issue: "Fixes #$ARGUMENTS"
 
 Issue nummer: $ARGUMENTS
