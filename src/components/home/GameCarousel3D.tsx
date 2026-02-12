@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring, useAnimationFrame, useTransform } fr
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllProducts, type Product } from '@/lib/products';
-import { formatPrice, PLATFORM_LABELS, IMAGE_ROTATION } from '@/lib/utils';
+import { formatPrice, PLATFORM_LABELS, IMAGE_ROTATION, getGameTheme } from '@/lib/utils';
 
 const CARD_COUNT_DESKTOP = 12;
 const CARD_COUNT_MOBILE = 8;
@@ -34,6 +34,10 @@ function CarouselCard({
   cardWidth: number;
   cardHeight: number;
 }) {
+  const gameTheme = getGameTheme(product.sku, product.genre);
+  const cardGlow = gameTheme ? gameTheme.glow : '16,185,129';
+  const cardAccent = gameTheme ? gameTheme.bg[0] : '#10b981';
+
   const slotAngle = (2 * Math.PI / totalCards) * index;
 
   const angle = useTransform(rotation, (r: number) => slotAngle + r);
@@ -55,12 +59,12 @@ function CarouselCard({
     if (cosVal > 0) return 'blur(1px) brightness(0.85)';
     return 'blur(2.5px) brightness(0.6)';
   });
-  // Glow op voorgrond kaarten
+  // Glow op voorgrond kaarten — per-game kleur
   const glowShadow = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    if (cosVal > 0.8) return '0 0 50px rgba(16,185,129,0.3), 0 0 80px rgba(16,185,129,0.1), 0 12px 40px rgba(0,0,0,0.6)';
-    if (cosVal > 0.5) return '0 0 30px rgba(16,185,129,0.15), 0 8px 30px rgba(0,0,0,0.5)';
-    if (cosVal > 0.2) return '0 0 15px rgba(16,185,129,0.05), 0 4px 20px rgba(0,0,0,0.4)';
+    if (cosVal > 0.8) return `0 0 50px rgba(${cardGlow},0.3), 0 0 80px rgba(${cardGlow},0.1), 0 12px 40px rgba(0,0,0,0.6)`;
+    if (cosVal > 0.5) return `0 0 30px rgba(${cardGlow},0.15), 0 8px 30px rgba(0,0,0,0.5)`;
+    if (cosVal > 0.2) return `0 0 15px rgba(${cardGlow},0.05), 0 4px 20px rgba(0,0,0,0.4)`;
     return '0 2px 8px rgba(0,0,0,0.2)';
   });
 
@@ -85,7 +89,12 @@ function CarouselCard({
         borderRadius: 16,
       }}
     >
-      <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#0d1a30] to-[#0a1220] border border-white/[0.08] group/ccard hover:border-emerald-400/50 transition-all duration-300">
+      <div
+        className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#0d1a30] to-[#0a1220] border border-white/[0.08] group/ccard transition-all duration-300"
+        style={{ ['--card-accent' as string]: cardAccent }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${cardAccent}80`; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+      >
         <Link href={`/shop/${product.sku}`} className="block w-full h-full flex flex-col">
           {/* Afbeelding */}
           <div className="relative flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-white/[0.03] to-transparent">
@@ -109,14 +118,14 @@ function CarouselCard({
           </div>
 
           {/* Gradient scheiding */}
-          <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+          <div className="h-px bg-gradient-to-r from-transparent to-transparent" style={{ background: `linear-gradient(to right, transparent, ${cardAccent}4D, transparent)` }} />
 
           {/* Info */}
           <div className="px-3 py-3 text-center bg-gradient-to-b from-[#0a1220] to-[#070e1a]">
-            <p className="text-white text-[11px] font-bold line-clamp-2 leading-tight mb-1.5 group-hover/ccard:text-emerald-300 transition-colors">
+            <p className="text-white text-[11px] font-bold line-clamp-2 leading-tight mb-1.5 transition-colors group-hover/ccard:opacity-90" style={{ ['--tw-text-opacity' as string]: 1 }}>
               {product.name}
             </p>
-            <p className="text-emerald-400/70 text-[10px] font-medium mb-1">{platformLabel}</p>
+            <p className="text-[10px] font-medium mb-1" style={{ color: `${cardAccent}B3` }}>{platformLabel}</p>
             <p className="text-white font-extrabold text-sm tracking-tight">{formatPrice(product.price)}</p>
           </div>
         </Link>

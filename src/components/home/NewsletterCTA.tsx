@@ -1,12 +1,35 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+
+function Sparkle({ delay }: { delay: number }) {
+  const angle = Math.random() * 360;
+  const distance = 40 + Math.random() * 60;
+  const size = 3 + Math.random() * 4;
+  return (
+    <motion.div
+      className="absolute rounded-full bg-white"
+      style={{ width: size, height: size, left: '50%', top: '50%' }}
+      initial={{ x: 0, y: 0, opacity: 1, scale: 0 }}
+      animate={{
+        x: Math.cos(angle * Math.PI / 180) * distance,
+        y: Math.sin(angle * Math.PI / 180) * distance,
+        opacity: [0, 1, 0],
+        scale: [0, 1, 0],
+      }}
+      transition={{ duration: 0.8, delay, ease: 'easeOut' }}
+    />
+  );
+}
+
+const placeholders = ['trainer@pokemon.nl', 'ash@kanto.com', 'jouw@email.nl'];
 
 export default function NewsletterCTA() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -17,6 +40,13 @@ export default function NewsletterCTA() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex(prev => (prev + 1) % placeholders.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,37 +136,54 @@ export default function NewsletterCTA() {
           <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
             Mis geen enkele aanwinst
           </h2>
-          <p className="text-lg text-white/70 mb-10 max-w-lg mx-auto">
+          <p className="text-lg text-white/70 mb-4 max-w-lg mx-auto">
             Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
           </p>
 
+          {/* Social proof - moved above form */}
+          <p className="text-white/50 text-sm mb-8 flex items-center justify-center gap-2">
+            <span className="flex -space-x-1.5">
+              {['E', 'T', 'L', 'K'].map((letter, i) => (
+                <span key={i} className="h-6 w-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-[10px] font-bold text-white/70">
+                  {letter}
+                </span>
+              ))}
+            </span>
+            <span>500+ trainers ontvangen al updates</span>
+          </p>
+
           {submitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20"
-            >
+            <div className="relative">
+              {[...Array(12)].map((_, i) => (
+                <Sparkle key={i} delay={0.1 + i * 0.05} />
+              ))}
               <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 15, delay: 0.2 }}
-                className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center"
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20"
               >
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 15, delay: 0.2 }}
+                  className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center"
+                >
+                  <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                  className="text-left"
+                >
+                  <span className="text-white font-bold block">Je staat op de lijst!</span>
+                  <span className="text-white/60 text-sm">Je ontvangt als eerste updates over nieuwe aanwinsten.</span>
+                </motion.div>
               </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="text-left"
-              >
-                <span className="text-white font-bold block">Je staat op de lijst!</span>
-                <span className="text-white/60 text-sm">Je ontvangt als eerste updates over nieuwe aanwinsten.</span>
-              </motion.div>
-            </motion.div>
+            </div>
           ) : (
             <>
             <form onSubmit={handleSubmit} name="newsletter" className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
@@ -146,7 +193,7 @@ export default function NewsletterCTA() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Jouw e-mailadres"
+                  placeholder={placeholders[placeholderIndex]}
                   aria-label="E-mailadres voor nieuwsbrief"
                   required
                   disabled={isSubmitting}
@@ -158,14 +205,19 @@ export default function NewsletterCTA() {
                 disabled={isSubmitting}
                 whileHover={isSubmitting ? {} : { scale: 1.03, y: -1 }}
                 whileTap={isSubmitting ? {} : { scale: 0.97 }}
-                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl hover:bg-emerald-50 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl hover:bg-emerald-50 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative overflow-hidden"
               >
                 {isSubmitting ? (
                   <>
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-4 w-4 border-2 border-emerald-600 border-t-transparent rounded-full" />
                     Aanmelden...
                   </>
-                ) : 'Aanmelden'}
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-300/20 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-1000" />
+                    <span className="relative">Aanmelden</span>
+                  </>
+                )}
               </motion.button>
             </form>
             </>
@@ -181,8 +233,7 @@ export default function NewsletterCTA() {
             </motion.p>
           )}
 
-          <p className="text-white/50 text-xs mt-6 mb-3">Sluit je aan bij 500+ Pokémon trainers</p>
-          <p className="text-white/60 text-xs">
+          <p className="text-white/60 text-xs mt-6">
             Geen spam, alleen relevante updates. Je kunt je altijd afmelden.
           </p>
         </motion.div>

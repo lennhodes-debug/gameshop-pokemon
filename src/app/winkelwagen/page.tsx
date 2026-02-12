@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, getShippingCost } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, getShippingCost, getGameTheme } from '@/lib/utils';
 import { getAllProducts, Product } from '@/lib/products';
 import { CartItem } from '@/lib/cart';
 
@@ -235,6 +235,8 @@ export default function WinkelwagenPage() {
                   const key = itemKey(item);
                   const img = getCartItemImage(item);
                   const price = getCartItemPrice(item);
+                  const gameTheme = getGameTheme(item.product.sku, item.product.genre);
+                  const itemAccent = gameTheme ? gameTheme.bg[0] : '#10b981';
                   return (
                     <motion.div
                       key={key}
@@ -244,6 +246,7 @@ export default function WinkelwagenPage() {
                       exit={{ opacity: 0, x: -40, scale: 0.95, filter: 'blur(4px)', height: 0, marginBottom: 0, padding: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
                       className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-4 flex gap-4 shadow-sm hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
+                      style={{ borderLeft: `3px solid ${itemAccent}` }}
                     >
                       {/* Product image */}
                       <Link href={`/shop/${item.product.sku}`} className="flex-shrink-0">
@@ -263,7 +266,7 @@ export default function WinkelwagenPage() {
                       </Link>
 
                       <div className="flex-1 min-w-0">
-                        <Link href={`/shop/${item.product.sku}`} className="font-bold text-slate-900 dark:text-white text-sm hover:text-emerald-600 transition-colors line-clamp-1">
+                        <Link href={`/shop/${item.product.sku}`} className="font-bold text-slate-900 dark:text-white text-sm transition-colors line-clamp-1" style={{ color: itemAccent }}>
                           {item.product.name}
                         </Link>
                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1.5">

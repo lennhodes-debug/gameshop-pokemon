@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, getShippingCost } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, getShippingCost, getGameTheme } from '@/lib/utils';
 import { useToast } from '@/components/ui/Toast';
 
 interface FormData {
@@ -497,6 +497,7 @@ export default function AfrekenPage() {
                     const img = getCartItemImage(item);
                     const price = getCartItemPrice(item);
                     const key = item.variant ? `${item.product.sku}:${item.variant}` : item.product.sku;
+                    const gameTheme = getGameTheme(item.product.sku, item.product.genre);
                     return (
                       <motion.div key={key} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.05 }} className="flex items-center gap-3">
                         <div className={`w-12 h-12 rounded-lg ${img ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden flex-shrink-0`}>
@@ -507,7 +508,7 @@ export default function AfrekenPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                          <p className="text-xs font-bold line-clamp-1" style={{ color: gameTheme?.bg[0] || '#0f172a' }}>
                             {item.product.name}
                             {item.variant === 'cib' && <span className="ml-1 text-amber-600 dark:text-amber-400">(CIB)</span>}
                           </p>

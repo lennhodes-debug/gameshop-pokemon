@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 const reviews = [
   {
@@ -135,15 +135,33 @@ function StarRating() {
 }
 
 function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  }, []);
+
   return (
     <motion.div
       className="flex-shrink-0 w-[320px]"
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
     >
-      <blockquote className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/25 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 overflow-hidden">
-        {/* Hover glow */}
-        <div className="absolute -top-16 -right-16 w-32 h-32 bg-emerald-500/0 group-hover/card:bg-emerald-500/10 rounded-full blur-3xl transition-all duration-500 pointer-events-none" />
+      <blockquote
+        onMouseMove={handleMouseMove}
+        className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/25 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing"
+      >
+        {/* Mouse-follow spotlight glow */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
+          style={{
+            background: `radial-gradient(300px circle at ${mousePos.x}% ${mousePos.y}%, rgba(16,185,129,0.12), transparent 60%)`,
+          }}
+        />
         {/* Quote mark */}
         <div className="absolute top-3 right-4 text-4xl text-white/[0.08] group-hover/card:text-emerald-500/15 font-serif transition-all duration-500 select-none" aria-hidden="true">
           &ldquo;
@@ -156,7 +174,13 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
         <footer className="mt-4 relative z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs font-bold shrink-0">{review.name ? review.name[0].toUpperCase() : 'G'}</div>
+              {/* Avatar met gradient ring */}
+              <div className="relative">
+                <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 blur-[1px]" />
+                <div className="relative h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                  {review.name ? review.name[0].toUpperCase() : 'G'}
+                </div>
+              </div>
               <cite className="text-white/60 text-xs font-medium not-italic">{review.name}</cite>
             </div>
             <span className="text-emerald-400/60 text-xs group-hover/card:text-emerald-400 transition-colors duration-300">
@@ -199,7 +223,8 @@ export default function ReviewsStrip() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.9, duration: 0.4 }}
-              className="text-white font-bold text-lg"
+              whileHover={{ scale: 1.1, textShadow: '0 0 15px rgba(16,185,129,0.5)' }}
+              className="text-white font-bold text-lg cursor-default"
             >
               5.0
             </motion.span>
@@ -235,21 +260,33 @@ export default function ReviewsStrip() {
 
       <div className="space-y-4">
         {/* Row 1 */}
-        <motion.div className="flex gap-4" style={{ x: x1 }}>
-          <div className="flex animate-marquee-slow gap-4">
+        <motion.div className="flex gap-4 cursor-grab active:cursor-grabbing" style={{ x: x1 }}>
+          <motion.div
+            className="flex animate-marquee-slow gap-4 md:animate-marquee-slow"
+            drag="x"
+            dragConstraints={{ left: -1500, right: 0 }}
+            dragElastic={0.1}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
+          >
             {[...reviews.slice(0, 6), ...reviews.slice(0, 6)].map((review, i) => (
               <ReviewCard key={i} review={review} />
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Row 2 */}
-        <motion.div className="flex gap-4" style={{ x: x2 }}>
-          <div className="flex animate-marquee-reverse-slow gap-4">
+        <motion.div className="flex gap-4 cursor-grab active:cursor-grabbing" style={{ x: x2 }}>
+          <motion.div
+            className="flex animate-marquee-reverse-slow gap-4 md:animate-marquee-reverse-slow"
+            drag="x"
+            dragConstraints={{ left: -1500, right: 0 }}
+            dragElastic={0.1}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
+          >
             {[...reviews.slice(6), ...reviews.slice(6)].map((review, i) => (
               <ReviewCard key={i} review={review} />
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 
