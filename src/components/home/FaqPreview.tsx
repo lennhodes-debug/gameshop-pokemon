@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Accordion from '@/components/ui/Accordion';
@@ -9,15 +9,15 @@ import Button from '@/components/ui/Button';
 const faqItems = [
   {
     question: 'Zijn alle producten origineel en getest?',
-    answer: 'Ja, alle 790+ producten die wij verkopen zijn 100% origineel. Elk product wordt persoonlijk getest op werking voordat het wordt aangeboden. Wij verkopen geen reproducties of namaakproducten.',
+    answer: 'Ja, alle 100+ producten die wij verkopen zijn 100% origineel. Elk product wordt persoonlijk getest op werking voordat het wordt aangeboden. Wij verkopen geen reproducties of namaakproducten.',
   },
   {
     question: 'Hoe worden bestellingen verzonden?',
-    answer: 'Alle bestellingen worden zorgvuldig verpakt in bubbeltjesfolie en stevige dozen, en verzonden via PostNL. De verzendkosten bedragen €3,95. Bij bestellingen boven de €100 is de verzending gratis.',
+    answer: 'Alle bestellingen worden zorgvuldig verpakt in bubbeltjesfolie en stevige dozen, en verzonden via PostNL. De verzendkosten bedragen vanaf \u20AC4,95. Bij bestellingen boven de \u20AC100 is de verzending gratis.',
   },
   {
     question: 'Kan ik mijn games bij jullie verkopen?',
-    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor al onze 790+ producten. Stuur ons een e-mail met welke games of consoles je wilt verkopen en wij maken een eerlijk bod.',
+    answer: 'Ja! Op onze inkooppagina kun je de inkoopprijzen bekijken voor al onze 100+ producten. Stuur ons een e-mail met welke games of consoles je wilt verkopen en wij maken een eerlijk bod.',
   },
   {
     question: 'Wat is het retourbeleid?',
@@ -48,6 +48,8 @@ const fadeUp = {
 
 export default function FaqPreview() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -123,10 +125,35 @@ export default function FaqPreview() {
             style={{ opacity: glowOpacity }}
           />
 
-          <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-emerald-200 dark:hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-500 group">
+          <div
+            className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-emerald-200 dark:hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-500 group"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              setMousePos({
+                x: ((e.clientX - rect.left) / rect.width) * 100,
+                y: ((e.clientY - rect.top) / rect.height) * 100,
+              });
+            }}
+          >
+            {/* Mouse-following glow effect */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl"
+              style={{
+                background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, rgba(16,185,129,0.06), transparent 60%)`
+              }}
+            />
             {/* Animated corner accents on hover */}
             <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-transparent group-hover:border-emerald-400/40 rounded-tl-2xl transition-all duration-500 pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-transparent group-hover:border-emerald-400/40 rounded-br-2xl transition-all duration-500 pointer-events-none" />
+
+            {/* FAQ count indicator */}
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Top 5 vragen</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500">
+                <Link href="/faq" className="hover:text-emerald-500 transition-colors">Alle {'>'}20 vragen</Link>
+              </span>
+            </div>
+
             <Accordion items={faqItems} staggerVariant={fadeUp} />
           </div>
         </motion.div>
