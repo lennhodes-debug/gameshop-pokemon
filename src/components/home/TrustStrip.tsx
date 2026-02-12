@@ -78,7 +78,7 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
-      className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl hover:border-slate-200/80 dark:hover:border-slate-600 transition-all duration-300 overflow-hidden"
+      className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-xl hover:border-slate-200/80 dark:hover:border-slate-600 transition-all duration-300 overflow-hidden"
     >
       {/* Spotlight on hover */}
       {hovered && (
@@ -92,7 +92,7 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
 
       {/* Animated icon container */}
       <motion.div
-        className={`relative h-14 w-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}
+        className={`relative h-16 w-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}
         style={{ boxShadow: hovered ? `0 8px 30px ${item.glow}` : undefined }}
         whileHover={{ scale: 1.1, rotate: 5 }}
         transition={{ type: 'spring', stiffness: 300 }}
@@ -106,7 +106,7 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
         />
       </motion.div>
 
-      <h3 className="relative z-10 font-bold text-slate-900 dark:text-white mb-1 text-sm lg:text-base">{item.title}</h3>
+      <h3 className="relative z-10 font-bold text-slate-900 dark:text-white mb-1 text-base lg:text-lg">{item.title}</h3>
       <p className="relative z-10 text-sm text-slate-500 dark:text-slate-400">{item.description}</p>
     </motion.div>
   );
@@ -116,6 +116,7 @@ export default function TrustStrip() {
   return (
     <section className="bg-[#f8fafc] dark:bg-slate-900 py-12 lg:py-16 -mt-1">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">Waarom Gameshop Enter?</p>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {trustItems.map((item, index) => (
             <TrustCard key={index} item={item} index={index} />

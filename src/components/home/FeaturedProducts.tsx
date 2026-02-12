@@ -37,11 +37,11 @@ export default function FeaturedProducts() {
     <section ref={sectionRef} className="relative bg-white dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
       {/* Subtle animated background */}
       <motion.div
-        className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.03] rounded-full blur-[150px]"
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.05] rounded-full blur-[150px]"
         style={{ y: bgY }}
       />
       <motion.div
-        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.03] rounded-full blur-[120px]"
+        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.05] rounded-full blur-[120px]"
         style={{ y: bgY }}
       />
 
@@ -78,10 +78,10 @@ export default function FeaturedProducts() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="relative h-[3px] w-32 rounded-full mt-3 origin-left overflow-hidden bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 animate-aurora"
+              className="relative h-1 w-40 rounded-full mt-3 origin-left overflow-hidden bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 animate-aurora"
               style={{ backgroundSize: '200% 100%' }}
             />
-            <p className="text-slate-500 dark:text-slate-400 mt-3 text-sm lg:text-base">Premium games en consoles die je niet wilt missen</p>
+            <p className="text-slate-500 dark:text-slate-400 mt-3 text-base lg:text-lg">Premium games en consoles die je niet wilt missen</p>
           </div>
           <MagneticButton strength={0.15}>
             <Link
