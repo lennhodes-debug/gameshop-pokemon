@@ -3,6 +3,27 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+const FLOATING_POKEBALLS = [
+  { size: 20, x: '10%', y: '20%', delay: 0, duration: 8 },
+  { size: 14, x: '85%', y: '15%', delay: 2, duration: 10 },
+  { size: 18, x: '75%', y: '70%', delay: 1, duration: 9 },
+  { size: 12, x: '20%', y: '75%', delay: 3, duration: 11 },
+  { size: 16, x: '50%', y: '10%', delay: 4, duration: 7 },
+  { size: 10, x: '40%', y: '85%', delay: 2.5, duration: 12 },
+];
+
+function MiniPokeball({ size }: { size: number }) {
+  const r = size / 2;
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} className="opacity-[0.06]">
+      <circle cx={r} cy={r} r={r - 1} fill="none" stroke="white" strokeWidth="1" />
+      <line x1="1" y1={r} x2={r - 3} y2={r} stroke="white" strokeWidth="1" />
+      <line x1={r + 3} y1={r} x2={size - 1} y2={r} stroke="white" strokeWidth="1" />
+      <circle cx={r} cy={r} r={3} fill="none" stroke="white" strokeWidth="1" />
+    </svg>
+  );
+}
+
 function PokeballBg() {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
@@ -29,6 +50,28 @@ function PokeballBg() {
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
       />
+
+      {/* Zwevende mini Pokéballs */}
+      {FLOATING_POKEBALLS.map((ball, i) => (
+        <motion.div
+          key={i}
+          className="absolute"
+          style={{ left: ball.x, top: ball.y }}
+          animate={{
+            y: [0, -15, 5, -10, 0],
+            x: [0, 8, -5, 3, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: ball.duration,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: ball.delay,
+          }}
+        >
+          <MiniPokeball size={ball.size} />
+        </motion.div>
+      ))}
     </div>
   );
 }

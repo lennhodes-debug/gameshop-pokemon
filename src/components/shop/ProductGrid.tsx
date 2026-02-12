@@ -43,7 +43,7 @@ export default function ProductGrid({ products, onQuickView, searchQuery }: Prod
           viewport={{ once: true, margin: '-60px' }}
           transition={{
             duration: 0.5,
-            delay: (index % 4) * 0.08,
+            delay: (Math.floor(index / 4) * 0.06) + ((index % 4) * 0.08),
             ease: [0.16, 1, 0.3, 1] as const,
           }}
         >
