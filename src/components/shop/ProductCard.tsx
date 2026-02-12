@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
@@ -54,6 +54,76 @@ function HoloShine({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
   );
 }
 
+// Fly-to-cart animatie: maakt een mini thumbnail die naar het cart icoon vliegt
+function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undefined) {
+  if (!imageSrc) return;
+  const cartIcon = document.getElementById('cart-icon-target');
+  if (!cartIcon) return;
+
+  const cardRect = cardEl.getBoundingClientRect();
+  const cartRect = cartIcon.getBoundingClientRect();
+
+  const flyEl = document.createElement('div');
+  flyEl.style.cssText = `
+    position: fixed;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    pointer-events: none;
+    left: ${cardRect.left + cardRect.width / 2 - 25}px;
+    top: ${cardRect.top + 40}px;
+    transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(16,185,129,0.4);
+  `;
+
+  const img = document.createElement('img');
+  img.src = imageSrc;
+  img.style.cssText = 'width:100%;height:100%;object-fit:contain;padding:4px;background:white;border-radius:12px;';
+  flyEl.appendChild(img);
+  document.body.appendChild(flyEl);
+
+  requestAnimationFrame(() => {
+    flyEl.style.left = `${cartRect.left + cartRect.width / 2 - 12}px`;
+    flyEl.style.top = `${cartRect.top + cartRect.height / 2 - 12}px`;
+    flyEl.style.width = '24px';
+    flyEl.style.height = '24px';
+    flyEl.style.opacity = '0.3';
+    flyEl.style.transform = 'scale(0.3)';
+  });
+
+  // Cart badge bounce
+  setTimeout(() => {
+    cartIcon.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    cartIcon.style.transform = 'scale(1.2)';
+    setTimeout(() => { cartIcon.style.transform = 'scale(1)'; }, 300);
+  }, 600);
+
+  setTimeout(() => flyEl.remove(), 800);
+}
+
+// Wishlist helper functies
+function getWishlist(): string[] {
+  try {
+    const data = localStorage.getItem('gameshop-wishlist');
+    return data ? JSON.parse(data) : [];
+  } catch { return []; }
+}
+
+function toggleWishlistItem(sku: string): boolean {
+  const list = getWishlist();
+  const idx = list.indexOf(sku);
+  if (idx >= 0) {
+    list.splice(idx, 1);
+    localStorage.setItem('gameshop-wishlist', JSON.stringify(list));
+    return false;
+  }
+  list.push(sku);
+  localStorage.setItem('gameshop-wishlist', JSON.stringify(list));
+  return true;
+}
+
 const ProductCard = React.memo(function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
   const { addToast } = useToast();
@@ -63,7 +133,27 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [heartBounce, setHeartBounce] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Initialiseer wishlist state
+  useEffect(() => {
+    setIsWishlisted(getWishlist().includes(product.sku));
+  }, [product.sku]);
+
+  const handleToggleWishlist = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const newState = toggleWishlistItem(product.sku);
+    setIsWishlisted(newState);
+    setHeartBounce(true);
+    setTimeout(() => setHeartBounce(false), 400);
+    addToast(
+      newState ? `${product.name} op verlanglijst gezet` : `${product.name} van verlanglijst verwijderd`,
+      newState ? 'success' : 'info'
+    );
+  }, [product.sku, product.name, addToast]);
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -92,35 +182,49 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     const label = variant ? `${product.name} (CIB)` : product.name;
     setAddedToCart(true);
     addToast(`${label} toegevoegd aan winkelwagen`, 'success', undefined, (displayImage || product.image) || undefined);
+    // Fly-to-cart animatie
+    if (cardRef.current) {
+      flyToCartAnimation(cardRef.current, displayImage || product.image);
+    }
     setTimeout(() => setAddedToCart(false), 1500);
   };
-
-  // 3D tilt berekening
-  const tiltX = isHovered ? (mousePos.y - 50) * -0.2 : 0;
-  const tiltY = isHovered ? (mousePos.x - 50) * 0.2 : 0;
 
   // === POKEMON TYPE CARD ===
   if (isPokemon && typeInfo) {
     return (
-      <div className="group" style={{ perspective: '800px' }}>
+      <div className="group">
         <div
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
-          className="relative rounded-2xl overflow-hidden flex flex-col transition-all duration-300 will-change-transform"
+          className="relative rounded-2xl overflow-hidden flex flex-col will-change-transform"
           style={{
-            transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-            transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
+            transform: `translateY(${isHovered ? -6 : 0}px)`,
+            transition: 'transform 0.3s ease-out, box-shadow 0.3s ease',
             background: `linear-gradient(135deg, ${typeInfo.bg[0]}18 0%, ${typeInfo.bg[1]}30 100%)`,
             border: `1.5px solid ${typeInfo.bg[0]}40`,
             boxShadow: isHovered
-              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 8px 32px rgba(0,0,0,0.2)`
+              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 12px 40px rgba(0,0,0,0.25)`
               : `0 0 12px rgba(${typeInfo.glow}, 0.15), 0 4px 16px rgba(0,0,0,0.1)`,
           }}
         >
           {/* Holographic shine */}
           <HoloShine mouseX={mousePos.x} mouseY={mousePos.y} />
+
+          {/* Shine sweep overlay */}
+          <div
+            className="absolute inset-0 z-30 pointer-events-none overflow-hidden rounded-2xl"
+            aria-hidden="true"
+          >
+            <div
+              className="absolute inset-0 transition-transform duration-[600ms] ease-out"
+              style={{
+                transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 60%, transparent 100%)',
+              }}
+            />
+          </div>
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
@@ -166,6 +270,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                     -{getSalePercentage(product)}%
                   </span>
                 )}
+                <button
+                  onClick={handleToggleWishlist}
+                  aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
+                  className="p-1.5 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all z-30"
+                  style={{
+                    transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
+                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }}
+                >
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill={isWishlisted ? '#ef4444' : 'none'} stroke={isWishlisted ? '#ef4444' : 'white'} strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                  </svg>
+                </button>
               </div>
             </div>
           </Link>
@@ -294,10 +411,12 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
+        className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:border-emerald-200/60 transition-all duration-300 flex flex-col"
         style={{
+          transform: `translateY(${isHovered ? -4 : 0}px)`,
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
           boxShadow: isHovered
-            ? '0 8px 30px rgba(16,185,129,0.12), 0 4px 12px rgba(0,0,0,0.06)'
+            ? '0 12px 36px rgba(16,185,129,0.14), 0 6px 16px rgba(0,0,0,0.08)'
             : undefined,
         }}
         ref={cardRef}
@@ -305,6 +424,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
       >
+        {/* Shine sweep overlay */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-2xl"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute inset-0 transition-transform duration-[600ms] ease-out"
+            style={{
+              transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 40%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.15) 60%, transparent 100%)',
+            }}
+          />
+        </div>
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div className="relative h-52 bg-slate-50 flex items-center justify-center overflow-hidden">
@@ -350,6 +482,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </span>
               )}
               {product.isConsole && <Badge variant="console">CONSOLE</Badge>}
+              <button
+                onClick={handleToggleWishlist}
+                aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
+                className="p-1.5 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:bg-white transition-all z-30"
+                style={{
+                  transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
+                  transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                }}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill={isWishlisted ? '#ef4444' : 'none'} stroke={isWishlisted ? '#ef4444' : '#94a3b8'} strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              </button>
             </div>
           </div>
         </Link>

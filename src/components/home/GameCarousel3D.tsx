@@ -9,13 +9,13 @@ import { formatPrice, PLATFORM_LABELS, IMAGE_ROTATION } from '@/lib/utils';
 
 const CARD_COUNT_DESKTOP = 14;
 const CARD_COUNT_MOBILE = 10;
-const ROTATION_DURATION = 20;
-const RADIUS_DESKTOP = 420;
-const RADIUS_MOBILE = 240;
-const CARD_W_DESKTOP = 190;
-const CARD_H_DESKTOP = 270;
-const CARD_W_MOBILE = 130;
-const CARD_H_MOBILE = 185;
+const ROTATION_DURATION = 22;
+const RADIUS_DESKTOP = 440;
+const RADIUS_MOBILE = 250;
+const CARD_W_DESKTOP = 200;
+const CARD_H_DESKTOP = 280;
+const CARD_W_MOBILE = 140;
+const CARD_H_MOBILE = 195;
 
 function CarouselCard({
   product,
@@ -40,20 +40,30 @@ function CarouselCard({
   const rotateYDeg = useTransform(angle, (a: number) => `${(a * 180) / Math.PI}deg`);
   const cardOpacity = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    if (cosVal < -0.3) return 0;
-    return 0.3 + 0.7 * ((cosVal + 0.3) / 1.3);
+    if (cosVal < -0.4) return 0;
+    return 0.25 + 0.75 * ((cosVal + 0.4) / 1.4);
   });
   const cardScale = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    return 0.7 + 0.3 * ((cosVal + 1) / 2);
+    return 0.65 + 0.35 * ((cosVal + 1) / 2);
   });
   const zIndex = useTransform(angle, (a: number) => Math.round(Math.cos(a) * 100));
   const cardFilter = useTransform(angle, (a: number) => {
     const cosVal = Math.cos(a);
-    if (cosVal > 0.5) return 'blur(0px)';
-    if (cosVal > 0) return 'blur(1px)';
-    return 'blur(2px)';
+    if (cosVal > 0.6) return 'blur(0px) brightness(1.05)';
+    if (cosVal > 0.2) return 'blur(0.5px) brightness(0.95)';
+    if (cosVal > 0) return 'blur(1.5px) brightness(0.85)';
+    return 'blur(3px) brightness(0.7)';
   });
+  // Glow op voorgrond kaarten
+  const glowShadow = useTransform(angle, (a: number) => {
+    const cosVal = Math.cos(a);
+    if (cosVal > 0.7) return '0 0 40px rgba(16,185,129,0.25), 0 8px 32px rgba(0,0,0,0.5)';
+    if (cosVal > 0.3) return '0 0 20px rgba(16,185,129,0.1), 0 4px 20px rgba(0,0,0,0.4)';
+    return '0 2px 12px rgba(0,0,0,0.3)';
+  });
+
+  const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
 
   return (
     <motion.div
@@ -70,18 +80,21 @@ function CarouselCard({
         scale: cardScale,
         filter: cardFilter,
         zIndex,
+        boxShadow: glowShadow,
+        borderRadius: 16,
       }}
     >
-      <div className="w-full h-full rounded-2xl overflow-hidden bg-[#0a1628] border border-white/10 shadow-2xl group/ccard hover:border-emerald-500/40 transition-colors duration-300">
+      <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#0d1a30] to-[#0a1220] border border-white/[0.08] group/ccard hover:border-emerald-400/50 transition-all duration-300">
         <Link href={`/shop/${product.sku}`} className="block w-full h-full flex flex-col">
-          <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+          {/* Afbeelding */}
+          <div className="relative flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-white/[0.03] to-transparent">
             {product.image ? (
               <Image
                 src={product.image}
                 alt={product.name}
                 fill
-                sizes="120px"
-                className="object-contain p-2 group-hover/ccard:scale-105 transition-transform duration-300"
+                sizes="200px"
+                className="object-contain p-3 group-hover/ccard:scale-110 transition-transform duration-500"
                 style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                 loading="lazy"
               />
@@ -90,11 +103,20 @@ function CarouselCard({
                 <span className="text-white/20 text-xs font-black">{product.platform}</span>
               </div>
             )}
+            {/* Subtle top shine */}
+            <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-white/[0.06] to-transparent pointer-events-none" />
           </div>
-          <div className="px-3 pb-3 text-center">
-            <p className="text-white text-[11px] font-bold line-clamp-2 leading-tight mb-1">{product.name}</p>
-            <p className="text-emerald-400 text-[10px] font-medium">{PLATFORM_LABELS[product.platform] || product.platform}</p>
-            <p className="text-white font-extrabold text-sm mt-1">{formatPrice(product.price)}</p>
+
+          {/* Gradient scheiding */}
+          <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+
+          {/* Info */}
+          <div className="px-3 py-3 text-center bg-gradient-to-b from-[#0a1220] to-[#070e1a]">
+            <p className="text-white text-[11px] font-bold line-clamp-2 leading-tight mb-1.5 group-hover/ccard:text-emerald-300 transition-colors">
+              {product.name}
+            </p>
+            <p className="text-emerald-400/70 text-[10px] font-medium mb-1">{platformLabel}</p>
+            <p className="text-white font-extrabold text-sm tracking-tight">{formatPrice(product.price)}</p>
           </div>
         </Link>
       </div>
@@ -106,7 +128,7 @@ export default function GameCarousel3D() {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const rotation = useMotionValue(0);
-  const springRotation = useSpring(rotation, { stiffness: 80, damping: 25 });
+  const springRotation = useSpring(rotation, { stiffness: 60, damping: 20 });
   const isDragging = useRef(false);
   const autoRotateEnabled = useRef(true);
   const dragStartX = useRef(0);
@@ -125,7 +147,7 @@ export default function GameCarousel3D() {
   const radius = isMobile ? RADIUS_MOBILE : RADIUS_DESKTOP;
   const cardWidth = isMobile ? CARD_W_MOBILE : CARD_W_DESKTOP;
   const cardHeight = isMobile ? CARD_H_MOBILE : CARD_H_DESKTOP;
-  const containerHeight = isMobile ? 340 : 460;
+  const containerHeight = isMobile ? 360 : 500;
 
   const carouselProducts = useMemo(() => {
     const withImage = getAllProducts().filter(p => p.image);
@@ -175,26 +197,30 @@ export default function GameCarousel3D() {
   }, []);
 
   return (
-    <section className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-      {/* Radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_70%)]" />
+    <section className="relative bg-[#050810] py-16 lg:py-28 overflow-hidden">
+      {/* Achtergrond effecten */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_80%,rgba(6,182,212,0.04),transparent_50%)]" />
 
       {/* Header */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/[0.08] border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
             Collectie
           </span>
           <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight">
-            Ontdek onze games
+            Ontdek onze{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
+              games
+            </span>
           </h2>
-          <p className="text-slate-400 mt-3 max-w-lg mx-auto">
-            Draai door onze collectie originele Pokémon games — sleep om te draaien
+          <p className="text-slate-400 mt-3 max-w-lg mx-auto text-sm lg:text-base">
+            Draai door onze collectie originele Pokémon games
           </p>
         </motion.div>
       </div>
@@ -205,7 +231,7 @@ export default function GameCarousel3D() {
           className="relative mx-auto cursor-grab active:cursor-grabbing select-none touch-none"
           style={{
             height: containerHeight,
-            perspective: '1000px',
+            perspective: '1200px',
           }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -229,6 +255,9 @@ export default function GameCarousel3D() {
               />
             ))}
           </div>
+
+          {/* Reflectie glow onder de carousel */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-24 bg-gradient-to-t from-emerald-500/[0.06] via-emerald-500/[0.02] to-transparent blur-2xl pointer-events-none" />
         </div>
       )}
 
@@ -238,12 +267,20 @@ export default function GameCarousel3D() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 1 }}
-        className="text-center mt-4"
+        className="text-center mt-6"
       >
-        <span className="text-slate-500 text-xs flex items-center justify-center gap-1.5">
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <span className="text-slate-500 text-xs flex items-center justify-center gap-2">
+          <motion.svg
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+            animate={{ x: [-2, 2, -2] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-          </svg>
+          </motion.svg>
           Sleep om te draaien
         </span>
       </motion.div>

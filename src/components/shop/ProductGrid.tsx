@@ -38,9 +38,9 @@ export default function ProductGrid({ products, onQuickView, searchQuery }: Prod
       {products.map((product, index) => (
         <motion.div
           key={product.sku}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
+          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{
             duration: 0.5,
             delay: (Math.floor(index / 4) * 0.06) + ((index % 4) * 0.08),
