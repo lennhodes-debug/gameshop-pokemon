@@ -646,7 +646,7 @@ export default function AfrekenPage() {
         </form>
       </div>
       {/* Mobiele sticky totaalbalk */}
-      <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-30 lg:hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-t border-slate-200 dark:border-slate-700 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+      <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-30 lg:hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-t border-slate-200 dark:border-slate-700 px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)]">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{items.reduce((s, i) => s + i.quantity, 0)} items</p>

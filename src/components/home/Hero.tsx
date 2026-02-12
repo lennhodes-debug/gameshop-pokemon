@@ -212,7 +212,7 @@ export default function Hero() {
       </motion.div>
 
       {/* Gradient overgang naar pagina */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050810] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f8fafc] to-transparent" />
     </section>
   );
 }
