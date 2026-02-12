@@ -104,6 +104,7 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   '3DS-006': 'ice',       // Gates to Infinity — Kyurem
   '3DS-007': 'psychic',   // Ultra Sun — Necrozma Dusk Mane
   '3DS-008': 'ghost',     // Ultra Moon — Necrozma Dawn Wings
+  '3DS-009': 'electric',  // Detective Pikachu
   '3DS-010': 'dark',      // Y — Yveltal
   '3DS-011': 'steel',     // Sun — Solgaleo
 };
@@ -169,4 +170,147 @@ export function getPokemonType(sku: string): PokemonTypeInfo | null {
   const typeName = POKEMON_TYPE_MAP[sku];
   if (!typeName) return null;
   return POKEMON_TYPE_COLORS[typeName] || null;
+}
+
+// Franchise thema's — kleurschema's voor niet-Pokémon games
+export const FRANCHISE_THEME_MAP: Record<string, string> = {
+  // Nintendo DS — niet-Pokémon games
+  'DS-023': 'mystery',    // Another Code: Two Memories
+  'DS-024': 'rpg',        // Dragon Quest IX
+  'DS-025': 'puzzle',     // Tetris Party Deluxe
+  'DS-026': 'platformer', // Rayman DS
+  'DS-027': 'mario',      // Mario & Luigi: Partners in Time
+  'DS-028': 'rpg',        // Final Fantasy Crystal Chronicles
+  'DS-029': 'party',      // Rayman Raving Rabbids
+  'DS-030': 'mario',      // Mario Party DS
+  'DS-031': 'puzzle',     // Tetris DS
+  'DS-032': 'yoshi',      // Yoshi Touch & Go
+  'DS-033': 'sports',     // Mario & Sonic Olympic Games
+  'DS-034': 'mario',      // Mario vs. DK: Mini-Land Mayhem
+  'DS-035': 'racing',     // Mario Kart DS
+  'DS-036': 'zelda',      // Zelda: Phantom Hourglass
+  'DS-037': 'mario',      // New Super Mario Bros
+  'DS-038': 'metroid',    // Metroid Prime Hunters
+  'DS-039': 'mario',      // Super Mario 64 DS
+  'DS-040': 'layton',     // Professor Layton
+  'DS-041': 'mario',      // Mario & Luigi: Bowser's Inside Story
+  'DS-042': 'mario',      // Mario Party DS (CIB)
+  'DS-043': 'peach',      // Super Princess Peach
+  'DS-044': 'mario',      // New Super Mario Bros
+  'DS-045': 'kingdom',    // Kingdom Hearts 358/2 Days
+  'DS-046': 'layton',     // Professor Layton: Doos van Pandora
+  'DS-047': 'layton',     // Professor Layton: Verloren Toekomst
+  'DS-048': 'racing',     // Mario Kart DS
+  'DS-049': 'rpg',        // Children of Mana
+  'DS-050': 'fighter',    // Dragon Ball Z
+  'DS-051': 'sports',     // Mario & Sonic Winter Games
+  'DS-052': 'mario',      // Super Mario 64 DS
+  'DS-053': 'yoshi',      // Yoshi's Island DS
+  'DS-054': 'zelda',      // Zelda: Spirit Tracks
+  'DS-055': 'sports',     // Mario & Sonic Olympic Games
+  'DS-056': 'rpg',        // Spectrobes
+  'DS-057': 'action',     // Bomberman
+  'DS-058': 'gta',        // GTA: Chinatown Wars
+
+  // Nintendo 3DS — niet-Pokémon games
+  '3DS-012': 'rpg',       // Miitopia
+  '3DS-013': 'cooking',   // Cooking Mama 4
+  '3DS-014': 'animalcrossing', // Animal Crossing: New Leaf
+  '3DS-015': 'animalcrossing', // Animal Crossing: Happy Home Designer
+  '3DS-016': 'donkeykong', // DK Country Returns 3D
+  '3DS-017': 'kirby',     // Kirby: Planet Robobot
+  '3DS-018': 'wario',     // WarioWare Gold
+  '3DS-019': 'luigi',     // Luigi's Mansion
+  '3DS-020': 'yoshi',     // Yoshi's New Island
+  '3DS-021': 'sports',    // Mario & Sonic Rio 2016
+  '3DS-022': 'fighter',   // Tekken 3D
+  '3DS-023': 'zelda',     // Zelda: Tri Force Heroes
+  '3DS-024': 'mario',     // Super Mario Maker 3DS
+  '3DS-025': 'sports',    // Mario Tennis Open
+  '3DS-026': 'racing',    // Mario Kart 7
+  '3DS-027': 'sports',    // Mario & Sonic London 2012
+  '3DS-028': 'zelda',     // Zelda: A Link Between Worlds
+  '3DS-029': 'fireemblem', // Fire Emblem Echoes
+  '3DS-030': 'luigi',     // Luigi's Mansion 2
+  '3DS-031': 'mario',     // Paper Mario: Sticker Star
+  '3DS-032': 'party',     // Mario Party: Top 100
+  '3DS-033': 'party',     // Mario Party: Star Rush
+  '3DS-034': 'party',     // Mario Party: Island Tour
+  '3DS-035': 'mario',     // New Super Mario Bros 2
+  '3DS-036': 'monster',   // Monster Hunter Generations
+  '3DS-037': 'party',     // Mario Party: Island Tour
+  '3DS-038': 'fighter',   // Street Fighter IV 3D
+  '3DS-039': 'racing',    // Mario Kart 7
+  '3DS-040': 'sports',    // Inazuma Eleven 3
+  '3DS-041': 'mario',     // New Super Mario Bros 2
+  '3DS-042': 'action',    // Kid Icarus: Uprising
+  '3DS-043': 'sports',    // Inazuma Eleven GO: Shadow
+  '3DS-044': 'zelda',     // Zelda: A Link Between Worlds
+  '3DS-045': 'smash',     // Super Smash Bros
+  '3DS-046': 'mario',     // Super Mario 3D Land
+  '3DS-047': 'sports',    // Inazuma Eleven 3: Team Ogre
+  '3DS-048': 'fireemblem', // Fire Emblem Fates: Conquest
+  '3DS-049': 'layton',    // Professor Layton: Masker der Wonderen
+  '3DS-050': 'action',    // LEGO City Undercover
+};
+
+export const FRANCHISE_THEME_COLORS: Record<string, PokemonTypeInfo> = {
+  mario:          { name: 'mario',          bg: ['#E52521', '#C41E1C'], glow: '229,37,33',    particle: '#FF4040', label: 'Mario' },
+  zelda:          { name: 'zelda',          bg: ['#B89B3E', '#7A6B2A'], glow: '184,155,62',   particle: '#D4B44A', label: 'Zelda' },
+  luigi:          { name: 'luigi',          bg: ['#3FAF3D', '#2E8B2C'], glow: '63,175,61',    particle: '#50D84E', label: 'Luigi' },
+  yoshi:          { name: 'yoshi',          bg: ['#7BC242', '#5CA032'], glow: '123,194,66',    particle: '#90D856', label: 'Yoshi' },
+  kirby:          { name: 'kirby',          bg: ['#FF69B4', '#D14D8F'], glow: '255,105,180',   particle: '#FF8AC8', label: 'Kirby' },
+  donkeykong:     { name: 'donkeykong',     bg: ['#D97706', '#A35B05'], glow: '217,119,6',     particle: '#F09020', label: 'DK' },
+  peach:          { name: 'peach',          bg: ['#F472B6', '#DB2777'], glow: '244,114,182',   particle: '#F9A8D4', label: 'Peach' },
+  wario:          { name: 'wario',          bg: ['#EAB308', '#CA8A04'], glow: '234,179,8',     particle: '#FCD34D', label: 'Wario' },
+  racing:         { name: 'racing',         bg: ['#2563EB', '#1D4ED8'], glow: '37,99,235',     particle: '#60A5FA', label: 'Race' },
+  sports:         { name: 'sports',         bg: ['#16A34A', '#15803D'], glow: '22,163,74',     particle: '#4ADE80', label: 'Sport' },
+  party:          { name: 'party',          bg: ['#A855F7', '#7E22CE'], glow: '168,85,247',    particle: '#C084FC', label: 'Party' },
+  puzzle:         { name: 'puzzle',         bg: ['#06B6D4', '#0891B2'], glow: '6,182,212',     particle: '#22D3EE', label: 'Puzzel' },
+  rpg:            { name: 'rpg',            bg: ['#7C3AED', '#5B21B6'], glow: '124,58,237',    particle: '#A78BFA', label: 'RPG' },
+  fighter:        { name: 'fighter',        bg: ['#DC2626', '#991B1B'], glow: '220,38,38',     particle: '#F87171', label: 'Vecht' },
+  platformer:     { name: 'platformer',     bg: ['#F59E0B', '#D97706'], glow: '245,158,11',    particle: '#FCD34D', label: 'Platform' },
+  action:         { name: 'action',         bg: ['#EA580C', '#C2410C'], glow: '234,88,12',     particle: '#FB923C', label: 'Actie' },
+  layton:         { name: 'layton',         bg: ['#92400E', '#78350F'], glow: '146,64,14',     particle: '#B45309', label: 'Layton' },
+  mystery:        { name: 'mystery',        bg: ['#475569', '#334155'], glow: '71,85,105',     particle: '#94A3B8', label: 'Mystery' },
+  metroid:        { name: 'metroid',        bg: ['#DC2626', '#7F1D1D'], glow: '220,38,38',     particle: '#EF4444', label: 'Metroid' },
+  gta:            { name: 'gta',            bg: ['#1E293B', '#0F172A'], glow: '30,41,59',      particle: '#475569', label: 'GTA' },
+  kingdom:        { name: 'kingdom',        bg: ['#1E40AF', '#1E3A8A'], glow: '30,64,175',     particle: '#3B82F6', label: 'Kingdom Hearts' },
+  animalcrossing: { name: 'animalcrossing', bg: ['#78C850', '#5EA83A'], glow: '120,200,80',    particle: '#A0E870', label: 'Animal Crossing' },
+  fireemblem:     { name: 'fireemblem',     bg: ['#1E40AF', '#7F1D1D'], glow: '30,64,175',     particle: '#3B82F6', label: 'Fire Emblem' },
+  cooking:        { name: 'cooking',        bg: ['#F97316', '#EA580C'], glow: '249,115,22',    particle: '#FB923C', label: 'Cooking' },
+  monster:        { name: 'monster',        bg: ['#854D0E', '#713F12'], glow: '133,77,14',     particle: '#A16207', label: 'Monster Hunter' },
+  smash:          { name: 'smash',          bg: ['#EF4444', '#1D4ED8'], glow: '239,68,68',     particle: '#F87171', label: 'Smash Bros' },
+};
+
+// Genre-gebaseerde fallback kleuren voor games zonder specifieke franchise
+export const GENRE_THEME_COLORS: Record<string, PokemonTypeInfo> = {
+  'RPG':         { name: 'rpg',        bg: ['#7C3AED', '#5B21B6'], glow: '124,58,237',   particle: '#A78BFA', label: 'RPG' },
+  'Avontuur':    { name: 'adventure',  bg: ['#059669', '#047857'], glow: '5,150,105',    particle: '#34D399', label: 'Avontuur' },
+  'Platformer':  { name: 'platformer', bg: ['#F59E0B', '#D97706'], glow: '245,158,11',   particle: '#FCD34D', label: 'Platform' },
+  'Actie':       { name: 'action',     bg: ['#EA580C', '#C2410C'], glow: '234,88,12',    particle: '#FB923C', label: 'Actie' },
+  'Race':        { name: 'racing',     bg: ['#2563EB', '#1D4ED8'], glow: '37,99,235',    particle: '#60A5FA', label: 'Race' },
+  'Vecht':       { name: 'fighter',    bg: ['#DC2626', '#991B1B'], glow: '220,38,38',    particle: '#F87171', label: 'Vecht' },
+  'Party':       { name: 'party',      bg: ['#A855F7', '#7E22CE'], glow: '168,85,247',   particle: '#C084FC', label: 'Party' },
+  'Shooter':     { name: 'shooter',    bg: ['#475569', '#334155'], glow: '71,85,105',    particle: '#94A3B8', label: 'Shooter' },
+  'Sport':       { name: 'sports',     bg: ['#16A34A', '#15803D'], glow: '22,163,74',    particle: '#4ADE80', label: 'Sport' },
+  'Strategie':   { name: 'strategy',   bg: ['#0891B2', '#0E7490'], glow: '8,145,178',    particle: '#22D3EE', label: 'Strategie' },
+  'Simulatie':   { name: 'simulation', bg: ['#0EA5E9', '#0284C7'], glow: '14,165,233',   particle: '#38BDF8', label: 'Simulatie' },
+  'Puzzel':      { name: 'puzzle',     bg: ['#06B6D4', '#0891B2'], glow: '6,182,212',    particle: '#22D3EE', label: 'Puzzel' },
+};
+
+// Universele thema functie — werkt voor ALLE games (Pokémon + franchise + genre fallback)
+export function getGameTheme(sku: string, genre?: string): PokemonTypeInfo | null {
+  // Eerst check Pokémon types
+  const pokemonType = POKEMON_TYPE_MAP[sku];
+  if (pokemonType) return POKEMON_TYPE_COLORS[pokemonType] || null;
+
+  // Dan check franchise thema's
+  const franchise = FRANCHISE_THEME_MAP[sku];
+  if (franchise) return FRANCHISE_THEME_COLORS[franchise] || null;
+
+  // Tenslotte genre fallback
+  if (genre && GENRE_THEME_COLORS[genre]) return GENRE_THEME_COLORS[genre];
+
+  return null;
 }
