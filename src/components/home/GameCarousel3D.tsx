@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring, useAnimationFrame, useTransform } fr
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllProducts, type Product } from '@/lib/products';
-import { formatPrice, PLATFORM_LABELS } from '@/lib/utils';
+import { formatPrice, PLATFORM_LABELS, IMAGE_ROTATION } from '@/lib/utils';
 
 const CARD_COUNT_DESKTOP = 14;
 const CARD_COUNT_MOBILE = 10;
@@ -82,6 +82,7 @@ function CarouselCard({
                 fill
                 sizes="120px"
                 className="object-contain p-2 group-hover/ccard:scale-105 transition-transform duration-300"
+                style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(1.1)` } : undefined}
                 loading="lazy"
               />
             ) : (

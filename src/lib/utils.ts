@@ -48,33 +48,53 @@ export const FREE_SHIPPING_THRESHOLD = 100;
 export const POKEMON_TYPE_MAP: Record<string, string> = {
   'GBA-001': 'dragon',    // Emerald — Rayquaza
   'GBA-002': 'water',     // Sapphire EUR — Kyogre
-  'GBA-004': 'fire',      // FireRed USA — Charizard
-
-  'GBA-006': 'grass',     // LeafGreen USA — Venusaur
   'DS-001':  'ghost',     // Platinum — Giratina
-  'DS-002':  'psychic',   // SoulSilver — Lugia
   'DS-003':  'fire',      // HeartGold — Ho-Oh
-
-  'DS-005':  'dragon',    // Black — Reshiram
   'DS-007':  'normal',    // Ranger Guardian Signs
   'DS-008':  'normal',    // Ranger Shadows of Almia
   'DS-009':  'steel',     // MD Explorers of Time — Dialga
-  '3DS-001': 'fairy',     // X — Xerneas
-
   '3DS-003': 'water',     // Alpha Sapphire — Kyogre
   '3DS-004': 'ghost',     // Moon — Lunala
-  'DS-010':  'steel',     // Diamond EUR — Dialga
   'DS-011':  'water',     // MD Blue Rescue Team — Squirtle
-  'DS-012':  'fire',      // MD Explorers of Sky — Charizard
   'DS-013':  'normal',    // Ranger
   'DS-014':  'ghost',     // MD Explorers of Darkness
-  'DS-015':  'normal',    // Conquest
   'DS-016':  'dragon',    // Black 2 — Black Kyurem
   'DS-017':  'dragon',    // White 2 — White Kyurem
   'DS-018':  'steel',     // Diamond USA — Dialga
   'DS-019':  'ghost',     // Platinum USA — Giratina
-  'DS-020':  'water',     // Pearl USA — Palkia
   'DS-021':  'fire',      // HeartGold USA — Ho-Oh
+};
+
+// Rotatie-correctie per product (graden, negatief = tegen klok in)
+export const IMAGE_ROTATION: Record<string, number> = {
+  'GBA-001': -6,   // Emerald
+  'GBA-002': -6,   // Sapphire EUR
+  'DS-001':  -12,  // Platinum
+  'DS-003':  -3,   // HeartGold
+  'DS-007':  -3,   // Ranger Guardian Signs
+  'DS-008':  -5,   // Ranger Shadows of Almia
+  'DS-009':  -2,   // MD Explorers of Time
+  'DS-011':  -3,   // MD Blue Rescue Team
+  'DS-013':  -3,   // Ranger
+  'DS-014':  -3,   // MD Explorers of Darkness
+  'DS-016':  -2,   // Black 2
+  'DS-017':  -2,   // White 2
+  'DS-018':  -3,   // Diamond USA
+  'DS-019':  -5,   // Platinum USA
+  'DS-021':  -5,   // HeartGold USA
+  'DS-022':  -5,   // Dash
+  '3DS-003': -3,   // Alpha Sapphire
+  '3DS-004': -2,   // Moon
+  '3DS-006': -5,   // Gates to Infinity
+  '3DS-007': -3,   // Ultra Sun
+  '3DS-008': -3,   // Ultra Moon
+  '3DS-010': -3,   // Pokemon Y
+  '3DS-011': -2,   // Pokemon Sun
+  'GB-002':  -2,   // Gold
+  'GB-003':  -2,   // Blue
+  'GB-004':  -3,   // Yellow
+  'GB-005':  -2,   // Silver
+  'GB-006':  -2,   // Crystal
 };
 
 export interface PokemonTypeInfo {
