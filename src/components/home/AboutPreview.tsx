@@ -10,11 +10,18 @@ import { getAllProducts } from '@/lib/products';
 
 const gameCount = getAllProducts().length;
 
+const STAT_ICONS = {
+  users: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128H5.228A2 2 0 013 17.208V17.21c0-2.4 1.942-4.34 4.34-4.34h.132c.635 0 1.263.092 1.862.27M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>,
+  star: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>,
+  trophy: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0116.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.023 6.023 0 01-2.77.896m5.25-6.124V2.721" /></svg>,
+  gamepad: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.39 48.39 0 01-4.163-.3c.186 1.613.466 3.2.836 4.748a48.354 48.354 0 009.57 0c.37-1.548.65-3.135.836-4.748a48.39 48.39 0 01-4.163.3.64.64 0 01-.657-.643v0z" /></svg>,
+} as const;
+
 const STATS = [
-  { value: 3000, suffix: '+', label: 'Tevreden klanten', icon: '👥' },
-  { value: 1360, suffix: '+', label: 'Reviews', icon: '⭐' },
-  { value: 5, suffix: '.0', label: 'Marktplaats score', icon: '🏆' },
-  { value: gameCount, suffix: '+', label: 'Pokémon games', icon: '🎮' },
+  { value: 3000, suffix: '+', label: 'Tevreden klanten', icon: STAT_ICONS.users },
+  { value: 1360, suffix: '+', label: 'Reviews', icon: STAT_ICONS.star },
+  { value: 5, suffix: '.0', label: 'Marktplaats score', icon: STAT_ICONS.trophy },
+  { value: gameCount, suffix: '+', label: 'Pokémon games', icon: STAT_ICONS.gamepad },
 ];
 
 function ArcadeDigit({ digit, delay }: { digit: string; delay: number }) {
@@ -75,7 +82,7 @@ function ArcadeDigit({ digit, delay }: { digit: string; delay: number }) {
 }
 
 function ArcadeCounter({ value, suffix, label, icon, index }: {
-  value: number; suffix: string; label: string; icon: string; index: number;
+  value: number; suffix: string; label: string; icon: React.ReactNode; index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -122,7 +129,7 @@ function ArcadeCounter({ value, suffix, label, icon, index }: {
       }} />
 
       <div className="relative z-10">
-        <div className="text-xl mb-3">{icon}</div>
+        <div className="text-emerald-400 mb-3 flex justify-center">{icon}</div>
 
         {/* Arcade digit display */}
         <div className="flex items-center justify-center gap-[3px] mb-2">
@@ -176,7 +183,7 @@ export default function AboutPreview() {
 
       {/* Dot grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(16,185,129,0.8) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
@@ -213,7 +220,7 @@ export default function AboutPreview() {
               tot Gameshop Enter: dé Pokémon specialist van Nederland. Alle
               games zijn 100% origineel en persoonlijk getest.
             </p>
-            <p className="text-slate-500 leading-relaxed mb-8">
+            <p className="text-slate-400 leading-relaxed mb-8">
               Met meer dan 3.000 tevreden klanten, 1.360+ reviews en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
               Van klassieke Game Boy en DS titels tot 3DS releases

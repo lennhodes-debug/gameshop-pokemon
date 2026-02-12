@@ -138,6 +138,8 @@ export default function NewsletterCTA() {
               </motion.div>
             </motion.div>
           ) : (
+            <>
+            <p className="text-white/50 text-sm mb-4">Sluit je aan bij 500+ Pokémon trainers</p>
             <form onSubmit={handleSubmit} name="newsletter" className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
               <input type="hidden" name="form-name" value="newsletter" />
               <div className="flex-1 relative">
@@ -157,7 +159,7 @@ export default function NewsletterCTA() {
                 disabled={isSubmitting}
                 whileHover={isSubmitting ? {} : { scale: 1.03, y: -1 }}
                 whileTap={isSubmitting ? {} : { scale: 0.97 }}
-                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl transition-shadow disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl hover:bg-emerald-50 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
@@ -167,6 +169,7 @@ export default function NewsletterCTA() {
                 ) : 'Aanmelden'}
               </motion.button>
             </form>
+            </>
           )}
 
           {error && (
@@ -179,7 +182,7 @@ export default function NewsletterCTA() {
             </motion.p>
           )}
 
-          <p className="text-white/40 text-xs mt-6">
+          <p className="text-white/50 text-xs mt-6">
             Geen spam, alleen relevante updates. Je kunt je altijd afmelden.
           </p>
         </motion.div>

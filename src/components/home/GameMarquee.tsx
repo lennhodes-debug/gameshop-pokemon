@@ -132,7 +132,7 @@ function VelocityMarqueeRow({
             <Link
               key={`${copyIndex}-${product.sku}`}
               href={`/shop/${product.sku}`}
-              className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 group/card hover:scale-105 transition-transform duration-300"
+              className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden shrink-0 border border-white/[0.08] group/card hover:scale-105 transition-transform duration-300"
             >
               <Image
                 src={product.image!}
@@ -168,13 +168,14 @@ export default function GameMarquee() {
       <div className="relative">
         {/* Titel */}
         <div className="text-center mb-10 px-4">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+          <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-[11px] font-semibold text-emerald-400 mb-4">Onze Collectie</span>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-2">
             Ontdek ons{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
               assortiment
             </span>
           </h2>
-          <p className="text-sm text-white/40">Alle games in onze collectie</p>
+          <p className="text-sm text-white/50">Alle games in onze collectie</p>
         </div>
 
         {/* Fade edges */}
