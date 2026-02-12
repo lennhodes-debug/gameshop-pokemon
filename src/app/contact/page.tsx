@@ -203,7 +203,10 @@ export default function ContactPage() {
                 { dag: 'Zondag', tijd: 'Gesloten', actief: false },
               ].map((item) => (
                 <div key={item.dag} className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700 last:border-0">
-                  <span className="text-sm text-slate-600 dark:text-slate-300 font-medium">{item.dag}</span>
+                  <span className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 font-medium">
+                    <span className={`h-2 w-2 rounded-full flex-shrink-0 ${item.actief ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
+                    {item.dag}
+                  </span>
                   <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>{item.tijd}</span>
                 </div>
               ))}
@@ -265,111 +268,132 @@ export default function ContactPage() {
             className="lg:col-span-3"
             id="contactform"
           >
-            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 lg:p-8">
-              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Stuur een bericht</h2>
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="py-12 text-center"
-                >
+            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+              {/* Gradient top-border accent */}
+              <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+
+              <div className="p-6 lg:p-8">
+                <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Stuur een bericht</h2>
+                {submitted ? (
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: 'spring', bounce: 0.5, delay: 0.1 }}
-                    className="h-16 w-16 mx-auto rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/20 dark:to-teal-500/20 flex items-center justify-center mb-5"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="py-12 text-center"
                   >
-                    <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', bounce: 0.5, delay: 0.1 }}
+                      className="h-16 w-16 mx-auto rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/20 dark:to-teal-500/20 flex items-center justify-center mb-5"
+                    >
+                      <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </motion.div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Bericht verzonden!</h3>
+                    <p className="text-slate-500 dark:text-slate-400 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold transition-colors"
+                    >
+                      Nog een bericht sturen
+                    </button>
                   </motion.div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Bericht verzonden!</h3>
-                  <p className="text-slate-500 dark:text-slate-400 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold transition-colors"
-                  >
-                    Nog een bericht sturen
-                  </button>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} name="contact" className="space-y-5" noValidate>
-                  <input type="hidden" name="form-name" value="contact" />
-                  {submitError && (
-                    <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30">
-                      <p className="text-sm text-red-600 dark:text-red-400 font-medium">{submitError}</p>
+                ) : (
+                  <form onSubmit={handleSubmit} name="contact" className="space-y-5" noValidate>
+                    <input type="hidden" name="form-name" value="contact" />
+                    {submitError && (
+                      <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30">
+                        <p className="text-sm text-red-600 dark:text-red-400 font-medium">{submitError}</p>
+                      </div>
+                    )}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
+                        <input
+                          id="name"
+                          type="text"
+                          value={formData.naam}
+                          onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
+                          onBlur={() => handleBlur('naam')}
+                          className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          placeholder="Je naam"
+                        />
+                        {getError('naam') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('naam')}</p>}
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail *</label>
+                        <input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                          onBlur={() => handleBlur('email')}
+                          className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          placeholder="je@email.nl"
+                        />
+                        {getError('email') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('email')}</p>}
+                      </div>
                     </div>
-                  )}
-                  <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
-                      <input
-                        id="name"
-                        type="text"
-                        value={formData.naam}
-                        onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
-                        onBlur={() => handleBlur('naam')}
-                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
-                        placeholder="Je naam"
-                      />
-                      {getError('naam') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('naam')}</p>}
+                      <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp *</label>
+                      <div className="relative">
+                        <select
+                          id="subject"
+                          value={formData.onderwerp}
+                          onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
+                          onBlur={() => handleBlur('onderwerp')}
+                          className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 pr-10 text-sm text-slate-900 dark:text-white focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                        >
+                          <option value="">Selecteer een onderwerp</option>
+                          <option value="Vraag over een bestelling">Vraag over een bestelling</option>
+                          <option value="Vraag over een product">Vraag over een product</option>
+                          <option value="Retourzending">Retourzending</option>
+                          <option value="Advies over een Pokémon game">Advies over een Pokémon game</option>
+                          <option value="Overig">Overig</option>
+                        </select>
+                        <svg className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                      </div>
+                      {getError('onderwerp') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('onderwerp')}</p>}
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail *</label>
-                      <input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                        onBlur={() => handleBlur('email')}
-                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
-                        placeholder="je@email.nl"
+                      <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht *</label>
+                      <textarea
+                        id="message"
+                        rows={5}
+                        maxLength={500}
+                        value={formData.bericht}
+                        onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
+                        onBlur={() => handleBlur('bericht')}
+                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                        placeholder="Typ je bericht... (minimaal 10 tekens)"
                       />
-                      {getError('email') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('email')}</p>}
+                      <div className="flex justify-between mt-1">
+                        {getError('bericht') ? (
+                          <p className="text-xs text-red-500 font-medium">{getError('bericht')}</p>
+                        ) : (
+                          <span />
+                        )}
+                        <span className={`text-xs ml-auto ${formData.bericht.length >= 10 ? 'text-slate-400' : 'text-slate-300'}`}>
+                          {formData.bericht.length}/500
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp *</label>
-                    <div className="relative">
-                      <select
-                        id="subject"
-                        value={formData.onderwerp}
-                        onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
-                        onBlur={() => handleBlur('onderwerp')}
-                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 pr-10 text-sm text-slate-900 dark:text-white focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
-                      >
-                        <option value="">Selecteer een onderwerp</option>
-                        <option value="Vraag over een bestelling">Vraag over een bestelling</option>
-                        <option value="Vraag over een product">Vraag over een product</option>
-                        <option value="Retourzending">Retourzending</option>
-                        <option value="Advies over een Pokémon game">Advies over een Pokémon game</option>
-                        <option value="Overig">Overig</option>
-                      </select>
-                      <svg className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-                    </div>
-                    {getError('onderwerp') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('onderwerp')}</p>}
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht *</label>
-                    <textarea
-                      id="message"
-                      rows={5}
-                      value={formData.bericht}
-                      onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
-                      onBlur={() => handleBlur('bericht')}
-                      className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
-                      placeholder="Typ je bericht... (minimaal 10 tekens)"
-                    />
-                    {getError('bericht') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('bericht')}</p>}
-                  </div>
-                  <Button type="submit" size="lg" className="w-full">
-                    Versturen
-                    <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                    </svg>
-                  </Button>
-                </form>
-              )}
+                    <Button type="submit" size="lg" className="w-full">
+                      Versturen
+                      <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                      </svg>
+                    </Button>
+                  </form>
+                )}
+
+                {/* Social proof */}
+                <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-400">
+                  <span className="flex text-amber-400">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                  <span>5.0 score op Marktplaats — 1360+ reviews</span>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
