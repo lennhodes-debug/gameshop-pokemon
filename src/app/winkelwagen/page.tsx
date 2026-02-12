@@ -246,7 +246,7 @@ export default function WinkelwagenPage() {
                     >
                       {/* Product image */}
                       <Link href={`/shop/${item.product.sku}`} className="flex-shrink-0">
-                        <div className={`w-20 h-20 rounded-xl ${img ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
+                        <div className={`w-24 h-24 rounded-xl ${img ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
                           {img ? (
                             <Image
                               src={img}
@@ -281,7 +281,7 @@ export default function WinkelwagenPage() {
                               aria-label={`Aantal ${item.product.name} verminderen`}
                               className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
                             >
-                              -
+                              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" d="M5 12h14" /></svg>
                             </motion.button>
                             <motion.span
                               key={item.quantity}
@@ -299,7 +299,7 @@ export default function WinkelwagenPage() {
                               aria-label={`Aantal ${item.product.name} verhogen`}
                               className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
-                              +
+                              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" d="M12 5v14m-7-7h14" /></svg>
                             </motion.button>
                             <motion.button
                               whileTap={{ scale: 0.9 }}
@@ -496,7 +496,7 @@ export default function WinkelwagenPage() {
                               if (result.success) setCouponInput('');
                               setTimeout(() => setCouponMessage(null), 4000);
                             }}
-                            className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-600 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 transition-all"
+                            className="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 text-sm font-semibold transition-all"
                           >
                             Toepassen
                           </button>
@@ -552,19 +552,21 @@ export default function WinkelwagenPage() {
                 </div>
 
                 {/* Trust signals */}
-                <div className="mt-6 space-y-2">
-                  {[
-                    'Veilig betalen via iDEAL, creditcard of PayPal',
-                    'Verzending via PostNL binnen 1-3 werkdagen',
-                    '14 dagen bedenktijd',
-                  ].map((text, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-slate-500 dark:text-slate-400">
-                      <svg className="h-3.5 w-3.5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                      </svg>
-                      {text}
-                    </div>
-                  ))}
+                <div className="mt-6 bg-slate-50 rounded-xl p-4 border border-slate-100">
+                  <div className="space-y-2">
+                    {[
+                      'Veilig betalen via iDEAL, creditcard of PayPal',
+                      'Verzending via PostNL binnen 1-3 werkdagen',
+                      '14 dagen bedenktijd',
+                    ].map((text, i) => (
+                      <div key={i} className="flex items-start gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <svg className="h-3.5 w-3.5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                        {text}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -77,7 +77,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.shop.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 hover:translate-x-1 text-sm transition-all duration-200 inline-block">
+                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 text-sm transition-all duration-200 block px-3 py-1.5 -mx-3 rounded-lg hover:bg-white/[0.04] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -97,7 +97,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.info.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 hover:translate-x-1 text-sm transition-all duration-200 inline-block">
+                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 text-sm transition-all duration-200 block px-3 py-1.5 -mx-3 rounded-lg hover:bg-white/[0.04] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -108,7 +108,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.juridisch.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 hover:translate-x-1 text-sm transition-all duration-200 inline-block">
+                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 text-sm transition-all duration-200 block px-3 py-1.5 -mx-3 rounded-lg hover:bg-white/[0.04] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -172,7 +172,7 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 pt-8 border-t border-white/[0.06]"
+          className="mt-12 pt-6 border-t border-white/[0.06]"
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-400 text-sm">

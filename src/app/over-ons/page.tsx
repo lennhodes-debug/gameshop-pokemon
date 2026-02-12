@@ -487,7 +487,7 @@ export default function OverOnsPage() {
       {/* === STATS BAR with glowing cards === */}
       <section className="relative bg-white dark:bg-slate-800 border-b border-slate-100 dark:border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
             {stats.map((stat, i) => (
               <motion.div
                 key={i}
@@ -639,7 +639,7 @@ export default function OverOnsPage() {
                   <div className={`flex-1 ml-20 lg:ml-0 ${i % 2 === 0 ? 'lg:pr-20 lg:text-right' : 'lg:pl-20'}`}>
                     <motion.div
                       whileHover={{ y: -4, scale: 1.01 }}
-                      className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all duration-500 group"
+                      className="bg-white/[0.04] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all duration-500 group"
                     >
                       <span className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${item.color} text-white text-xs font-bold mb-3 shadow-lg`}>
                         {item.year}

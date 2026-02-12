@@ -265,7 +265,7 @@ export default function ContactPage() {
             className="lg:col-span-3"
             id="contactform"
           >
-            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8">
+            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300 p-6 lg:p-8">
               <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Stuur een bericht</h2>
               {submitted ? (
                 <motion.div
@@ -330,20 +330,23 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp *</label>
-                    <select
-                      id="subject"
-                      value={formData.onderwerp}
-                      onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
-                      onBlur={() => handleBlur('onderwerp')}
-                      className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
-                    >
-                      <option value="">Selecteer een onderwerp</option>
-                      <option value="Vraag over een bestelling">Vraag over een bestelling</option>
-                      <option value="Vraag over een product">Vraag over een product</option>
-                      <option value="Retourzending">Retourzending</option>
-                      <option value="Advies over een Pokémon game">Advies over een Pokémon game</option>
-                      <option value="Overig">Overig</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        id="subject"
+                        value={formData.onderwerp}
+                        onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
+                        onBlur={() => handleBlur('onderwerp')}
+                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 pr-10 text-sm text-slate-900 dark:text-white focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                      >
+                        <option value="">Selecteer een onderwerp</option>
+                        <option value="Vraag over een bestelling">Vraag over een bestelling</option>
+                        <option value="Vraag over een product">Vraag over een product</option>
+                        <option value="Retourzending">Retourzending</option>
+                        <option value="Advies over een Pokémon game">Advies over een Pokémon game</option>
+                        <option value="Overig">Overig</option>
+                      </select>
+                      <svg className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+                    </div>
                     {getError('onderwerp') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('onderwerp')}</p>}
                   </div>
                   <div>
