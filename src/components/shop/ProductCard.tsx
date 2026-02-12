@@ -170,76 +170,30 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative rounded-2xl border overflow-hidden transition-all duration-300 flex flex-col"
+        className="relative rounded-2xl overflow-hidden transition-all duration-300 flex flex-col"
         style={{
           transform: `translateY(${isHovered ? -6 : 0}px)`,
-          transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease',
-          borderColor: isHovered ? `rgba(${accentGlow},0.35)` : '#e2e8f0',
+          transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease',
           background: 'white',
           boxShadow: isHovered
-            ? `0 16px 40px rgba(${accentGlow},0.18), 0 8px 20px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(${accentGlow},0.08)`
-            : '0 1px 3px rgba(0,0,0,0.06)',
+            ? `0 16px 40px rgba(${accentGlow},0.18), 0 8px 20px rgba(0,0,0,0.08)`
+            : '0 2px 8px rgba(0,0,0,0.08)',
         }}
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
       >
-        {/* Shine sweep — versterkt met kleuraccent */}
-        <div
-          className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-2xl"
-          aria-hidden="true"
-        >
-          <div
-            className="absolute inset-0 transition-transform duration-[700ms] ease-out"
-            style={{
-              transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
-              background: `linear-gradient(90deg, transparent 0%, rgba(${accentGlow},0.06) 35%, rgba(255,255,255,0.18) 50%, rgba(${accentGlow},0.06) 65%, transparent 100%)`,
-            }}
-          />
-        </div>
+        {/* Shine sweep — verwijderd voor cleaner look */}
 
-        {/* Hover border glow animatie */}
-        {isHovered && (
-          <div
-            className="absolute inset-0 rounded-2xl pointer-events-none z-10"
-            style={{
-              boxShadow: `inset 0 0 0 1px rgba(${accentGlow},0.15)`,
-            }}
-          />
-        )}
+        {/* Hover border glow animatie — verwijderd voor cleaner look */}
 
         {/* Afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div
             className="relative h-56 flex items-center justify-center overflow-hidden"
-            style={{
-              background: typeInfo
-                ? `linear-gradient(160deg, ${accentColor}10 0%, #f8fafc 30%, ${accentAlt}08 70%, ${accentColor}05 100%)`
-                : '#f8fafc',
-            }}
+            style={{ background: '#f8fafc' }}
           >
-            {/* Aura glow */}
-            {typeInfo && (
-              <div
-                className="absolute inset-0 pointer-events-none transition-opacity duration-500"
-                style={{
-                  opacity: isHovered ? 0.6 : 0.2,
-                  background: `radial-gradient(ellipse at ${mousePos.x}% ${mousePos.y}%, rgba(${accentGlow},0.15) 0%, transparent 60%)`,
-                }}
-              />
-            )}
-
-            {/* Achtergrondpatroon */}
-            {typeInfo && (
-              <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.04]">
-                {/* Diagonale lijnen */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  backgroundImage: `repeating-linear-gradient(135deg, ${accentColor}, ${accentColor} 1px, transparent 1px, transparent 16px)`,
-                }} />
-              </div>
-            )}
 
             {product.image && !imageError ? (
               <>
@@ -252,16 +206,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className={cn(
-                    "object-contain p-5 transition-all duration-700 ease-out",
+                    "object-contain p-5 transition-all duration-500 ease-out",
                     imageLoaded ? "opacity-100" : "opacity-0",
-                    isHovered ? "scale-[1.1]" : "scale-100"
+                    isHovered ? "scale-105" : "scale-100"
                   )}
-                  style={{
-                    transform: isHovered
-                      ? `scale(1.1) translate(${(mousePos.x - 50) * -0.15}px, ${(mousePos.y - 50) * -0.15}px)`
-                      : 'scale(1) translate(0px, 0px)',
-                    transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  }}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />
@@ -327,23 +275,11 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </button>
             </div>
 
-            {/* Bottom fade */}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
-              style={{ background: 'linear-gradient(to top, white, transparent)' }}
-            />
+            {/* Bottom fade — verwijderd */}
           </div>
         </Link>
 
-        {/* Scheidingslijn */}
-        <div
-          className="h-[2px] transition-all duration-500"
-          style={{
-            background: typeInfo
-              ? `linear-gradient(90deg, transparent, ${accentColor}${isHovered ? 'cc' : '60'}, ${accentAlt}${isHovered ? 'cc' : '60'}, transparent)`
-              : '#f1f5f9',
-          }}
-        />
+        {/* Scheidingslijn — verwijderd */}
 
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
@@ -367,7 +303,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             </p>
           )}
 
-          <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-100">
+          <div className="flex items-center justify-between pt-3 mt-auto">
             <div>
               {isOnSale(product) ? (
                 <div className="flex items-baseline gap-2">
