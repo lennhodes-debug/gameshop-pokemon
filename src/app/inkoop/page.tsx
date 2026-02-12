@@ -18,7 +18,7 @@ export default function InkoopPage() {
   };
 
   const generateMailto = () => {
-    const subject = encodeURIComponent('Inkoop aanvraag — Pok\u00e9mon games verkopen');
+    const subject = encodeURIComponent('Inkoop aanvraag \u2014 Pok\u00e9mon games verkopen');
     const body = encodeURIComponent(
       `Hallo Gameshop Enter,\n\nIk wil graag Pok\u00e9mon games verkopen.\n\nNaam: ${form.naam}\nE-mail: ${form.email}\nTelefoon: ${form.telefoon || 'Niet opgegeven'}\nPlatform: ${form.platform || 'Niet opgegeven'}\n\nBeschrijving:\n${form.beschrijving}\n\n(Foto's worden als bijlage meegestuurd)\n\nMet vriendelijke groet,\n${form.naam}`
     );
@@ -32,6 +32,12 @@ export default function InkoopPage() {
       window.location.href = generateMailto();
     }, 300);
   };
+
+  const steps = [
+    { step: '1', title: "Maak foto's", desc: "Maak duidelijke foto's van je Pok\u00e9mon games", icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z' },
+    { step: '2', title: 'Stuur ze op', desc: 'Vul het formulier in en stuur je foto\'s via e-mail', icon: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
+    { step: '3', title: 'Ontvang je bod', desc: 'Wij reageren binnen 24 uur met een eerlijk bod', icon: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
+  ];
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -63,29 +69,43 @@ export default function InkoopPage() {
               Stuur foto&apos;s van je Pok&eacute;mon games, dan doen wij je een eerlijk bod. Simpel en snel.
             </p>
 
-            {/* 3 Steps */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
-              {[
-                { step: '1', title: "Maak foto's", desc: "Maak duidelijke foto's van je Pok\u00e9mon games", icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z' },
-                { step: '2', title: 'Stuur ze op', desc: 'Vul het formulier in en stuur je foto\'s via e-mail', icon: 'M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5' },
-                { step: '3', title: 'Ontvang je bod', desc: 'Wij reageren binnen 24 uur met een eerlijk bod', icon: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
-              ].map((item) => (
-                <motion.div
-                  key={item.step}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + parseInt(item.step) * 0.1 }}
-                  className="flex flex-col items-center gap-2 bg-white/[0.04] rounded-xl px-4 py-5 border border-white/[0.06]"
-                >
-                  <span className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white mb-1 shadow-lg shadow-emerald-500/20">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                    </svg>
-                  </span>
-                  <h3 className="text-white font-bold text-sm">{item.title}</h3>
-                  <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-                </motion.div>
-              ))}
+            {/* 3 Steps met connectors */}
+            <div className="relative max-w-2xl mx-auto">
+              {/* Horizontale connector lijn (alleen desktop) */}
+              <div className="hidden sm:block absolute top-[2.75rem] left-[calc(16.67%+20px)] right-[calc(16.67%+20px)] h-px bg-gradient-to-r from-emerald-500/40 via-teal-500/40 to-emerald-500/40 z-0" />
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {steps.map((item, index) => (
+                  <div key={item.step} className="relative">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 + parseInt(item.step) * 0.1 }}
+                      className="relative flex flex-col items-center gap-2 bg-white/[0.04] rounded-xl px-4 py-5 border border-white/[0.06]"
+                    >
+                      <span className="relative flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white mb-1 shadow-lg shadow-emerald-500/20">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                        </svg>
+                        <span className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-white text-[#050810] text-[10px] font-bold flex items-center justify-center shadow-sm">
+                          {item.step}
+                        </span>
+                      </span>
+                      <h3 className="text-white font-bold text-sm">{item.title}</h3>
+                      <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
+                    </motion.div>
+
+                    {/* Verticale connector (alleen mobile, niet na laatste stap) */}
+                    {index < steps.length - 1 && (
+                      <div className="flex sm:hidden justify-center py-1.5">
+                        <svg className="h-4 w-4 text-emerald-500/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
@@ -239,6 +259,22 @@ export default function InkoopPage() {
                       </svg>
                       Verstuur via e-mail
                     </motion.button>
+
+                    {/* Trust signals onder submit button */}
+                    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pt-2">
+                      {[
+                        'Reactie binnen 24 uur',
+                        'Eerlijk bod op basis van marktwaarde',
+                        'Betaling binnen 2 werkdagen',
+                      ].map((text) => (
+                        <span key={text} className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                          <svg className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                          </svg>
+                          {text}
+                        </span>
+                      ))}
+                    </div>
                   </form>
                 </motion.div>
               )}
@@ -279,6 +315,17 @@ export default function InkoopPage() {
                     </div>
                   </motion.div>
                 ))}
+              </div>
+            </div>
+
+            {/* Marktplaats review callout */}
+            <div className="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+              <div className="flex text-amber-400 text-sm tracking-tight">
+                <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+              </div>
+              <div>
+                <span className="text-sm font-bold text-slate-900 dark:text-white">5.0</span>
+                <span className="text-xs text-slate-500 ml-1">op Marktplaats</span>
               </div>
             </div>
 

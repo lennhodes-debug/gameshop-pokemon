@@ -137,6 +137,19 @@ body {
 }
 .animate-badge-in { animation: badge-in 0.3s ease-out; }
 
+/* 404 pagina shake effect */
+@keyframes notfound-shake {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  10% { transform: translateX(-6px) translateY(2px); }
+  20% { transform: translateX(5px) translateY(-3px); }
+  30% { transform: translateX(-4px) translateY(1px); }
+  40% { transform: translateX(3px) translateY(-2px); }
+  50% { transform: translateX(-2px) translateY(1px); }
+  60% { transform: translateX(2px) translateY(-1px); }
+  70% { transform: translateX(-1px) translateY(0); }
+  80% { transform: translateX(1px) translateY(0); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
