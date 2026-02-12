@@ -16,7 +16,8 @@
     "isPremium": true,
     "image": "/images/products/gba-001-pokemon-emerald.webp",
     "inkoopPrijs": 34,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "backImage": "/images/products/gba-001-pokemon-emerald-back.webp"
   },
   {
     "sku": "GBA-002",
@@ -214,7 +215,9 @@
     "image": "/images/products/ds-011-pokemon-md-blue-rescue-team.webp",
     "backImage": "/images/products/ds-011-pokemon-md-blue-rescue-team-back.webp",
     "inkoopPrijs": 12,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "cibImage": "/images/products/ds-011-pokemon-md-blue-rescue-team-cib.webp",
+    "cibBackImage": "/images/products/ds-011-pokemon-md-blue-rescue-team-cib-back.webp"
   },
   {
     "sku": "DS-013",
@@ -234,7 +237,9 @@
     "image": "/images/products/ds-013-pokemon-ranger.webp",
     "backImage": "/images/products/ds-013-pokemon-ranger-back.webp",
     "inkoopPrijs": 8,
-    "inkoopFeatured": false
+    "inkoopFeatured": false,
+    "cibImage": "/images/products/ds-013-pokemon-ranger-cib.webp",
+    "cibBackImage": "/images/products/ds-013-pokemon-ranger-cib-back.webp"
   },
   {
     "sku": "DS-014",
@@ -254,7 +259,9 @@
     "image": "/images/products/ds-014-pokemon-md-explorers-of-darkness.webp",
     "backImage": "/images/products/ds-014-pokemon-md-explorers-of-darkness-back.webp",
     "inkoopPrijs": 10,
-    "inkoopFeatured": false
+    "inkoopFeatured": false,
+    "cibImage": "/images/products/ds-014-pokemon-md-explorers-of-darkness-cib.webp",
+    "cibBackImage": "/images/products/ds-014-pokemon-md-explorers-of-darkness-cib-back.webp"
   },
   {
     "sku": "DS-016",
@@ -274,7 +281,9 @@
     "image": "/images/products/ds-016-pokemon-black-2.webp",
     "backImage": "/images/products/ds-016-pokemon-black-2-back.webp",
     "inkoopPrijs": 22,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "cibImage": "/images/products/ds-016-pokemon-black-2-cib.webp",
+    "cibBackImage": "/images/products/ds-016-pokemon-black-2-cib-back.webp"
   },
   {
     "sku": "DS-017",
@@ -294,7 +303,9 @@
     "image": "/images/products/ds-017-pokemon-white-2.webp",
     "backImage": "/images/products/ds-017-pokemon-white-2-back.webp",
     "inkoopPrijs": 22,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "cibImage": "/images/products/ds-017-pokemon-white-2-cib.webp",
+    "cibBackImage": "/images/products/ds-017-pokemon-white-2-cib-back.webp"
   },
   {
     "sku": "DS-018",
@@ -314,7 +325,9 @@
     "image": "/images/products/ds-018-pokemon-diamond-usa.webp",
     "backImage": "/images/products/ds-018-pokemon-diamond-usa-back.webp",
     "inkoopPrijs": 14,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "cibImage": "/images/products/ds-018-pokemon-diamond-usa-cib.webp",
+    "cibBackImage": "/images/products/ds-018-pokemon-diamond-usa-cib-back.webp"
   },
   {
     "sku": "DS-019",
@@ -334,7 +347,9 @@
     "image": "/images/products/ds-019-pokemon-platinum-usa.webp",
     "backImage": "/images/products/ds-019-pokemon-platinum-usa-back.webp",
     "inkoopPrijs": 28,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "cibImage": "/images/products/ds-019-pokemon-platinum-usa-cib.webp",
+    "cibBackImage": "/images/products/ds-019-pokemon-platinum-usa-cib-back.webp"
   },
   {
     "sku": "DS-021",
@@ -354,7 +369,9 @@
     "image": "/images/products/ds-021-pokemon-heartgold-usa.webp",
     "backImage": "/images/products/ds-021-pokemon-heartgold-usa-back.webp",
     "inkoopPrijs": 34,
-    "inkoopFeatured": true
+    "inkoopFeatured": true,
+    "cibImage": "/images/products/ds-021-pokemon-heartgold-usa-cib.webp",
+    "cibBackImage": "/images/products/ds-021-pokemon-heartgold-usa-cib-back.webp"
   },
   {
     "sku": "3DS-006",
@@ -372,7 +389,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-006-pokemon-mystery-dungeon-gates-to-infinity.webp",
-    "backImage": "/images/products/3ds-006-pokemon-mystery-dungeon-gates-to-infinity-back.webp"
+    "backImage": "/images/products/3ds-006-pokemon-mystery-dungeon-gates-to-infinity-back.webp",
+    "cibImage": "/images/products/3ds-006-pokemon-mystery-dungeon-gates-to-infinity-cib.webp",
+    "cibBackImage": "/images/products/3ds-006-pokemon-mystery-dungeon-gates-to-infinity-cib-back.webp"
   },
   {
     "sku": "3DS-007",
@@ -390,7 +409,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-007-pokemon-ultra-sun.webp",
-    "backImage": "/images/products/3ds-007-pokemon-ultra-sun-back.webp"
+    "backImage": "/images/products/3ds-007-pokemon-ultra-sun-back.webp",
+    "cibImage": "/images/products/3ds-007-pokemon-ultra-sun-cib.webp",
+    "cibBackImage": "/images/products/3ds-007-pokemon-ultra-sun-cib-back.webp"
   },
   {
     "sku": "3DS-008",
@@ -408,7 +429,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-008-pokemon-ultra-moon.webp",
-    "backImage": "/images/products/3ds-008-pokemon-ultra-moon-back.webp"
+    "backImage": "/images/products/3ds-008-pokemon-ultra-moon-back.webp",
+    "cibImage": "/images/products/3ds-008-pokemon-ultra-moon-cib.webp",
+    "cibBackImage": "/images/products/3ds-008-pokemon-ultra-moon-cib-back.webp"
   },
   {
     "sku": "3DS-010",
@@ -426,7 +449,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-010-pokemon-y.webp",
-    "backImage": "/images/products/3ds-010-pokemon-y-back.webp"
+    "backImage": "/images/products/3ds-010-pokemon-y-back.webp",
+    "cibImage": "/images/products/3ds-010-pokemon-y-cib.webp",
+    "cibBackImage": "/images/products/3ds-010-pokemon-y-cib-back.webp"
   },
   {
     "sku": "3DS-011",
@@ -444,7 +469,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-011-pokemon-sun.webp",
-    "backImage": "/images/products/3ds-011-pokemon-sun-back.webp"
+    "backImage": "/images/products/3ds-011-pokemon-sun-back.webp",
+    "cibImage": "/images/products/3ds-011-pokemon-sun-cib.webp",
+    "cibBackImage": "/images/products/3ds-011-pokemon-sun-cib-back.webp"
   },
   {
     "sku": "DS-022",
@@ -462,7 +489,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-022-pokemon-dash.webp",
-    "backImage": "/images/products/ds-022-pokemon-dash-back.webp"
+    "backImage": "/images/products/ds-022-pokemon-dash-back.webp",
+    "cibImage": "/images/products/ds-022-pokemon-dash-cib.webp",
+    "cibBackImage": "/images/products/ds-022-pokemon-dash-cib-back.webp"
   },
   {
     "sku": "GB-002",
@@ -677,7 +706,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-010-pokemon-diamond-eur.webp",
-    "backImage": "/images/products/ds-010-pokemon-diamond-eur-back.webp"
+    "backImage": "/images/products/ds-010-pokemon-diamond-eur-back.webp",
+    "cibImage": "/images/products/ds-010-pokemon-diamond-eur-cib.webp",
+    "cibBackImage": "/images/products/ds-010-pokemon-diamond-eur-cib-back.webp"
   },
   {
     "sku": "DS-012",
@@ -695,7 +726,9 @@
     "isConsole": false,
     "isPremium": true,
     "image": "/images/products/ds-012-pokemon-md-explorers-of-sky.webp",
-    "backImage": "/images/products/ds-012-pokemon-md-explorers-of-sky-back.webp"
+    "backImage": "/images/products/ds-012-pokemon-md-explorers-of-sky-back.webp",
+    "cibImage": "/images/products/ds-012-pokemon-md-explorers-of-sky-cib.webp",
+    "cibBackImage": "/images/products/ds-012-pokemon-md-explorers-of-sky-cib-back.webp"
   },
   {
     "sku": "DS-015",
@@ -731,7 +764,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/ds-020-pokemon-pearl-usa.webp",
-    "backImage": "/images/products/ds-020-pokemon-pearl-usa-back.webp"
+    "backImage": "/images/products/ds-020-pokemon-pearl-usa-back.webp",
+    "cibImage": "/images/products/ds-020-pokemon-pearl-usa-cib.webp",
+    "cibBackImage": "/images/products/ds-020-pokemon-pearl-usa-cib-back.webp"
   },
   {
     "sku": "GB-001",
@@ -806,7 +841,9 @@
     "isConsole": false,
     "isPremium": false,
     "image": "/images/products/3ds-009-detective-pikachu.webp",
-    "backImage": "/images/products/3ds-009-detective-pikachu-back.webp"
+    "backImage": "/images/products/3ds-009-detective-pikachu-back.webp",
+    "cibImage": "/images/products/3ds-009-detective-pikachu-cib.webp",
+    "cibBackImage": "/images/products/3ds-009-detective-pikachu-cib-back.webp"
   },
   {
     "sku": "3DS-001",
@@ -823,10 +860,11 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": null,
+    "image": "/images/products/3ds-001-pokemon-x.webp",
     "cibImage": "/images/products/3ds-001-pokemon-x-cib.webp",
     "cibBackImage": "/images/products/3ds-001-pokemon-x-cib-back.webp",
-    "cibPrice": 45
+    "cibPrice": 45,
+    "backImage": "/images/products/3ds-001-pokemon-x-back.webp"
   },
   {
     "sku": "3DS-012",
@@ -2328,8 +2366,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-006-zelda-wind-waker-hd.webp",
-    "backImage": "/images/products/wiiu-006-zelda-wind-waker-hd-back.webp"
+    "image": "/images/products/wiiu-006-the-legend-of-zelda-the-wind-waker-hd.webp",
+    "backImage": "/images/products/wiiu-006-the-legend-of-zelda-the-wind-waker-hd-back.webp"
   },
   {
     "sku": "WIIU-007",
@@ -2346,8 +2384,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-007-zelda-twilight-princess-hd.webp",
-    "backImage": "/images/products/wiiu-007-zelda-twilight-princess-hd-back.webp"
+    "image": "/images/products/wiiu-007-the-legend-of-zelda-twilight-princess-hd.webp",
+    "backImage": "/images/products/wiiu-007-the-legend-of-zelda-twilight-princess-hd-back.webp"
   },
   {
     "sku": "WIIU-008",
@@ -2364,8 +2402,8 @@
     "weight": 0.1,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/wiiu-008-new-super-mario-bros-u-luigi-u.webp",
-    "backImage": "/images/products/wiiu-008-new-super-mario-bros-u-luigi-u-back.webp"
+    "image": "/images/products/wiiu-008-new-super-mario-bros-u.webp",
+    "backImage": "/images/products/wiiu-008-new-super-mario-bros-u-back.webp"
   },
   {
     "sku": "WIIU-013",
