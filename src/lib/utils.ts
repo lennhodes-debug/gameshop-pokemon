@@ -110,37 +110,6 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   // Wii — Pokémon games
 };
 
-// Rotatie-correctie per product (graden, negatief = tegen klok in)
-export const IMAGE_ROTATION: Record<string, number> = {
-  'GBA-001': -6,   // Emerald
-  'GBA-002': -6,   // Sapphire EUR
-  'DS-001':  -12,  // Platinum
-  'DS-003':  -3,   // HeartGold
-  'DS-007':  -3,   // Ranger Guardian Signs
-  'DS-008':  -5,   // Ranger Shadows of Almia
-  'DS-009':  -2,   // MD Explorers of Time
-  'DS-011':  -3,   // MD Blue Rescue Team
-  'DS-013':  -3,   // Ranger
-  'DS-014':  -3,   // MD Explorers of Darkness
-  'DS-016':  -2,   // Black 2
-  'DS-017':  -2,   // White 2
-  'DS-018':  -3,   // Diamond USA
-  'DS-019':  -5,   // Platinum USA
-  'DS-021':  -5,   // HeartGold USA
-  'DS-022':  -5,   // Dash
-  '3DS-003': -3,   // Alpha Sapphire
-  '3DS-004': -2,   // Moon
-  '3DS-006': -5,   // Gates to Infinity
-  '3DS-007': -3,   // Ultra Sun
-  '3DS-008': -3,   // Ultra Moon
-  '3DS-010': -3,   // Pokemon Y
-  '3DS-011': -2,   // Pokemon Sun
-  'GB-002':  -2,   // Gold
-  'GB-003':  -2,   // Blue
-  'GB-004':  -3,   // Yellow
-  'GB-005':  -2,   // Silver
-  'GB-006':  -2,   // Crystal
-};
 
 export interface PokemonTypeInfo {
   name: string;

@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, IMAGE_ROTATION, getGameTheme } from '@/lib/utils';
+import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getGameTheme } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
@@ -246,7 +246,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                     imageLoaded ? "opacity-100" : "opacity-0",
                     isHovered ? "scale-[1.08]" : "scale-100"
                   )}
-                  style={IMAGE_ROTATION[product.sku] ? { transform: `rotate(${IMAGE_ROTATION[product.sku]}deg) scale(${isHovered ? 1.15 : 1.1})` } : undefined}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />
