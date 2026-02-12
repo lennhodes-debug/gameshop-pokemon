@@ -182,7 +182,7 @@ export default function NewsletterCTA() {
             </motion.p>
           )}
 
-          <p className="text-white/50 text-xs mt-6">
+          <p className="text-white/60 text-xs mt-6">
             Geen spam, alleen relevante updates. Je kunt je altijd afmelden.
           </p>
         </motion.div>

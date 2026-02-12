@@ -154,6 +154,13 @@ export default function PlatformGrid() {
           <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             Pokémon games per platform — van Game Boy tot 3DS
           </p>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-1 w-20 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full mx-auto mt-4 origin-center"
+          />
         </motion.div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">

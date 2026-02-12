@@ -487,7 +487,8 @@ export default function AfrekenPage() {
 
             {/* Right: Order summary */}
             <motion.div {...fadeUp} transition={{ delay: 0.2, duration: 0.5 }} className="lg:col-span-1">
-              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-lg">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-lg overflow-hidden">
+                <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 rounded-t-2xl -mx-6 -mt-6 mb-6" />
                 <h3 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Je bestelling</h3>
 
                 <div className="space-y-3 mb-6 max-h-64 overflow-y-auto pr-1">

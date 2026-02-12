@@ -172,7 +172,7 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 pt-6 border-t border-white/[0.06]"
+          className="mt-12 pt-8 border-t border-white/[0.06]"
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-400 text-sm">

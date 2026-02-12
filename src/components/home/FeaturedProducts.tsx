@@ -37,11 +37,11 @@ export default function FeaturedProducts() {
     <section ref={sectionRef} className="relative bg-white dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
       {/* Subtle animated background */}
       <motion.div
-        className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.05] rounded-full blur-[150px]"
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/[0.06] rounded-full blur-[150px]"
         style={{ y: bgY }}
       />
       <motion.div
-        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.05] rounded-full blur-[120px]"
+        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.06] rounded-full blur-[120px]"
         style={{ y: bgY }}
       />
 
