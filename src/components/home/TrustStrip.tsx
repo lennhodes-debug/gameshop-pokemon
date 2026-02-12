@@ -1,7 +1,38 @@
 'use client';
 
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+function AnimatedNumber({ value, suffix = '', duration = 2000 }: { value: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !hasAnimated) {
+        setHasAnimated(true);
+        const startTime = performance.now();
+        const animate = (now: number) => {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // easeOutExpo
+          const eased = 1 - Math.pow(2, -10 * progress);
+          setCount(Math.floor(value * eased));
+          if (progress < 1) requestAnimationFrame(animate);
+          else setCount(value);
+        };
+        requestAnimationFrame(animate);
+      }
+    }, { threshold: 0.3 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value, duration, hasAnimated]);
+
+  return <span ref={ref}>{count.toLocaleString('nl-NL')}{suffix}</span>;
+}
 
 const trustItems = [
   {
@@ -14,6 +45,7 @@ const trustItems = [
     description: 'Alle producten persoonlijk getest',
     gradient: 'from-emerald-500 to-teal-500',
     glow: 'rgba(16,185,129,0.2)',
+    animatedValue: null as null | { value: number; suffix: string },
   },
   {
     icon: (
@@ -25,6 +57,7 @@ const trustItems = [
     description: 'Bubbeltjesfolie + stevige doos via PostNL',
     gradient: 'from-cyan-500 to-blue-500',
     glow: 'rgba(6,182,212,0.2)',
+    animatedValue: null as null | { value: number; suffix: string },
   },
   {
     icon: (
@@ -36,6 +69,7 @@ const trustItems = [
     description: 'Vanaf €100 — anders vanaf €4,95',
     gradient: 'from-sky-500 to-blue-500',
     glow: 'rgba(14,165,233,0.2)',
+    animatedValue: null as null | { value: number; suffix: string },
   },
   {
     icon: (
@@ -47,10 +81,24 @@ const trustItems = [
     description: 'Geen gedoe — gewoon terugsturen',
     gradient: 'from-amber-500 to-orange-500',
     glow: 'rgba(245,158,11,0.2)',
+    animatedValue: { value: 14, suffix: ' dagen bedenktijd' },
   },
 ];
 
-function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number }) {
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.9, filter: 'blur(10px)' },
+  visible: {
+    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+    transition: { type: 'spring' as const, stiffness: 200, damping: 20 },
+  },
+} as const;
+
+function TrustCard({ item }: { item: typeof trustItems[0] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const mouseX = useMotionValue(0.5);
@@ -67,17 +115,35 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
     mouseY.set((e.clientY - rect.top) / rect.height);
   }, [mouseX, mouseY]);
 
+  const handleCardMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const rotateX = (0.5 - y) * 12;
+    const rotateY = (x - 0.5) * 12;
+    e.currentTarget.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  }, []);
+
+  const handleCardMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.transform = 'perspective(500px) rotateX(0deg) rotateY(0deg) scale(1)';
+  }, []);
+
   return (
     <motion.div
       ref={ref}
-      onMouseMove={handleMouseMove}
+      variants={cardVariants}
+      onMouseMove={(e) => {
+        handleMouseMove(e);
+        handleCardMouseMove(e);
+      }}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setHovered(false); mouseX.set(0.5); mouseY.set(0.5); }}
-      initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -6, transition: { duration: 0.2 } }}
+      onMouseLeave={(e) => {
+        setHovered(false);
+        mouseX.set(0.5);
+        mouseY.set(0.5);
+        handleCardMouseLeave(e);
+      }}
+      style={{ transition: 'transform 0.3s ease' }}
       className="relative group flex flex-col items-center text-center p-6 lg:p-8 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-xl hover:border-slate-200/80 dark:hover:border-slate-600 transition-all duration-300 overflow-hidden"
     >
       {/* Spotlight on hover */}
@@ -102,11 +168,17 @@ function TrustCard({ item, index }: { item: typeof trustItems[0]; index: number 
         <motion.div
           className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${item.gradient}`}
           animate={{ scale: [1, 1.4, 1.4], opacity: [0.3, 0, 0] }}
-          transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
+          transition={{ duration: 2, repeat: Infinity }}
         />
       </motion.div>
 
-      <h3 className="relative z-10 font-bold text-slate-900 dark:text-white mb-1 text-base lg:text-lg">{item.title}</h3>
+      <h3 className="relative z-10 font-bold text-slate-900 dark:text-white mb-1 text-base lg:text-lg">
+        {item.animatedValue ? (
+          <AnimatedNumber value={item.animatedValue.value} suffix={item.animatedValue.suffix} />
+        ) : (
+          item.title
+        )}
+      </h3>
       <p className="relative z-10 text-sm text-slate-500 dark:text-slate-400">{item.description}</p>
     </motion.div>
   );
@@ -117,11 +189,17 @@ export default function TrustStrip() {
     <section className="bg-[#f8fafc] dark:bg-slate-900 py-12 lg:py-16 -mt-1">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">Waarom Gameshop Enter?</p>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6"
+        >
           {trustItems.map((item, index) => (
-            <TrustCard key={index} item={item} index={index} />
+            <TrustCard key={index} item={item} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
