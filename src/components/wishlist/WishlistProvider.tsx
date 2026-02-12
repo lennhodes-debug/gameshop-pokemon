@@ -33,7 +33,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       const shared = params.get('wishlist');
       if (shared) {
         try {
-          const decoded = parseSkuList(JSON.parse(atob(shared)));
+          if (shared.length > 2000) return; // Voorkom abuse met extreem lange URLs
+          const parsed = parseSkuList(JSON.parse(atob(shared)));
+          const decoded = parsed.slice(0, 50); // Max 50 items
           if (decoded.length > 0) {
             setItems(decoded);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(decoded));
