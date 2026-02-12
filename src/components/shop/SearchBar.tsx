@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn, formatPrice, PLATFORM_LABELS } from '@/lib/utils';
-import { searchProducts, Product, isOnSale, getEffectivePrice } from '@/lib/products';
+import { searchProducts, isOnSale, getEffectivePrice } from '@/lib/products';
 
 interface SearchBarProps {
   value: string;
@@ -65,7 +65,6 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
   }, [showDropdown, suggestions, highlightIndex]);
 
   const handleBlur = useCallback(() => {
-    // Vertraag zodat klik op suggestie nog werkt
     setTimeout(() => setIsFocused(false), 200);
   }, []);
 
@@ -77,7 +76,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
       }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
     >
-      {/* Glow effect when focused */}
+      {/* Focus glow */}
       <AnimatePresence>
         {isFocused && (
           <motion.div
@@ -126,7 +125,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
         />
 
         <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
-          {/* Clear button */}
+          {/* Wis knop */}
           <AnimatePresence>
             {value && (
               <motion.button
@@ -144,7 +143,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
             )}
           </AnimatePresence>
 
-          {/* Keyboard shortcut hint */}
+          {/* Sneltoets hint */}
           {!value && (
             <div className="hidden sm:flex items-center gap-1 text-xs text-slate-400 dark:text-slate-500">
               <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 font-mono text-[10px]">⌘K</kbd>
@@ -153,7 +152,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
         </div>
       </div>
 
-      {/* Autocomplete dropdown */}
+      {/* Autocomplete */}
       <AnimatePresence>
         {showDropdown && (
           <motion.div
@@ -180,7 +179,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                 )}
                 onMouseEnter={() => setHighlightIndex(i)}
               >
-                {/* Thumbnail */}
+                {/* Afbeelding */}
                 <div className="h-10 w-10 rounded-lg bg-slate-100 dark:bg-slate-700 overflow-hidden flex-shrink-0">
                   {product.image ? (
                     <Image
@@ -197,13 +196,13 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                   )}
                 </div>
 
-                {/* Info */}
+                {/* Details */}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{product.name}</p>
                   <p className="text-xs text-slate-400">{product.platform}</p>
                 </div>
 
-                {/* Price */}
+                {/* Prijs */}
                 <div className="text-right flex-shrink-0">
                   {isOnSale(product) ? (
                     <>
@@ -217,7 +216,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
               </Link>
             ))}
 
-            {/* Alle resultaten link */}
+            {/* Alle resultaten */}
             <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-100 dark:border-slate-700">
               <span className="text-xs text-slate-500 dark:text-slate-400">
                 Druk op <kbd className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-600 text-[10px] font-mono">Enter</kbd> voor alle resultaten
@@ -227,7 +226,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
         )}
       </AnimatePresence>
 
-      {/* Result count indicator */}
+      {/* Resultaat teller */}
       <AnimatePresence>
         {value && !showDropdown && resultCount !== undefined && (
           <motion.div

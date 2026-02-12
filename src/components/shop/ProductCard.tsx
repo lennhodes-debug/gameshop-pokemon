@@ -32,7 +32,6 @@ function HighlightText({ text, query }: { text: string; query?: string }) {
   );
 }
 
-// Fly-to-cart animatie: maakt een mini thumbnail die naar het cart icoon vliegt
 function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undefined) {
   if (!imageSrc) return;
   const cartIcon = document.getElementById('cart-icon-target');
@@ -71,7 +70,7 @@ function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undef
     flyEl.style.transform = 'scale(0.3)';
   });
 
-  // Cart badge bounce
+  // Cart icon bounce
   setTimeout(() => {
     cartIcon.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
     cartIcon.style.transform = 'scale(1.2)';
@@ -81,7 +80,6 @@ function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undef
   setTimeout(() => flyEl.remove(), 800);
 }
 
-// Wishlist helper functies
 function getWishlist(): string[] {
   try {
     const data = localStorage.getItem('gameshop-wishlist');
@@ -115,7 +113,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const [heartBounce, setHeartBounce] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Initialiseer wishlist state
   useEffect(() => {
     setIsWishlisted(getWishlist().includes(product.sku));
   }, [product.sku]);
@@ -139,11 +136,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const hasCibOption = !!product.cibPrice;
   const typeInfo = getGameTheme(product.sku, product.genre);
 
-  // Accent kleur: per Pokémon game uniek, overige producten emerald
+  // Accent kleur: per game uniek, standaard emerald
   const accentColor = typeInfo ? typeInfo.bg[0] : '#10b981';
   const accentGlow = typeInfo ? typeInfo.glow : '16,185,129';
 
-  // Huidige variant image
   const displayImage = (hasCibOption && selectedVariant === 'cib') ? product.cibImage : product.image;
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -162,14 +158,12 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     const label = variant ? `${product.name} (CIB)` : product.name;
     setAddedToCart(true);
     addToast(`${label} toegevoegd aan winkelwagen`, 'success', undefined, (displayImage || product.image) || undefined);
-    // Fly-to-cart animatie
     if (cardRef.current) {
       flyToCartAnimation(cardRef.current, displayImage || product.image);
     }
     setTimeout(() => setAddedToCart(false), 1500);
   };
 
-  // === IMMERSIVE PER-GAME THEMED CARD ===
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const typeLabel = typeInfo?.label;
 
@@ -191,7 +185,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
       >
-        {/* Shine sweep overlay */}
+        {/* Shine sweep */}
         <div
           className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-2xl"
           aria-hidden="true"
@@ -205,7 +199,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           />
         </div>
 
-        {/* Product afbeelding met thema achtergrond */}
+        {/* Afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div
             className="relative h-56 flex items-center justify-center overflow-hidden"
@@ -215,7 +209,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 : '#f8fafc',
             }}
           >
-            {/* Subtiele aura glow achter de afbeelding */}
+            {/* Aura glow */}
             {typeInfo && (
               <div
                 className="absolute inset-0 pointer-events-none transition-opacity duration-500"
@@ -226,7 +220,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               />
             )}
 
-            {/* Achtergrond patronen per type */}
+            {/* Achtergrondpatroon */}
             {typeInfo && (
               <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.04]">
                 {/* Diagonale lijnen */}
@@ -265,7 +259,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </div>
             )}
 
-            {/* Platform + Type labels */}
+            {/* Platform + type labels */}
             <div className="absolute top-2.5 left-3 flex items-center gap-1.5">
               <span
                 className="px-2.5 py-1 rounded-lg text-[11px] font-semibold backdrop-blur-sm"
@@ -291,7 +285,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               )}
             </div>
 
-            {/* Badges rechts */}
+            {/* Badges */}
             <div className="absolute top-2.5 right-3 flex flex-col gap-1.5 items-end">
               {isOnSale(product) && (
                 <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold shadow-sm">
@@ -318,19 +312,15 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </button>
             </div>
 
-            {/* Bottom fade voor zachte overgang naar content */}
+            {/* Bottom fade */}
             <div
               className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none"
-              style={{
-                background: typeInfo
-                  ? `linear-gradient(to top, white, transparent)`
-                  : 'linear-gradient(to top, white, transparent)',
-              }}
+              style={{ background: 'linear-gradient(to top, white, transparent)' }}
             />
           </div>
         </Link>
 
-        {/* Scheidingslijn met accent kleur - nu breder en levendiger */}
+        {/* Scheidingslijn */}
         <div
           className="h-[2px] transition-all duration-500"
           style={{

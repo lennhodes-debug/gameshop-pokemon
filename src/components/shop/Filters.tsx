@@ -123,7 +123,7 @@ export default function Filters({
 
   return (
     <div className="space-y-4">
-      {/* Top row: Category pills + Sort */}
+      {/* Categorie + sortering */}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <PillGroup
           label="Categorie"
@@ -139,7 +139,7 @@ export default function Filters({
         <SortSelect value={sortBy} onChange={onSortChange} />
       </div>
 
-      {/* Platform pills — Game Boy variants grouped */}
+      {/* Platform filter */}
       <PillGroup
         label="Platform"
         options={[
@@ -156,7 +156,7 @@ export default function Filters({
         onChange={onPlatformChange}
       />
 
-      {/* Toggle more filters */}
+      {/* Meer/minder filters toggle */}
       <motion.button
         onClick={() => setShowAllFilters(!showAllFilters)}
         className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors px-3 py-2 rounded-xl bg-slate-50 border border-slate-200"
@@ -216,7 +216,7 @@ export default function Filters({
         )}
       </AnimatePresence>
 
-      {/* Extended filters */}
+      {/* Uitgebreide filters */}
       <AnimatePresence>
         {showAllFilters && (
           <motion.div

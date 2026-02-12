@@ -6,8 +6,6 @@ import { useRef, useState, useEffect } from 'react';
 import Button from '@/components/ui/Button';
 import { getAllProducts } from '@/lib/products';
 
-/* ====== ARCADE SCOREBORD ====== */
-
 const gameCount = getAllProducts().length;
 
 const STAT_ICONS = {
@@ -21,7 +19,7 @@ const STATS = [
   { value: 3000, suffix: '+', label: 'Tevreden klanten', icon: STAT_ICONS.users },
   { value: 1360, suffix: '+', label: 'Reviews', icon: STAT_ICONS.star },
   { value: 5, suffix: '.0', label: 'Marktplaats score', icon: STAT_ICONS.trophy },
-  { value: gameCount, suffix: '+', label: 'Pokémon games', icon: STAT_ICONS.gamepad },
+  { value: gameCount, suffix: '+', label: 'Nintendo games', icon: STAT_ICONS.gamepad },
 ];
 
 function ArcadeDigit({ digit, delay }: { digit: string; delay: number }) {
@@ -162,8 +160,6 @@ function ArcadeCounter({ value, suffix, label, icon, index }: {
   );
 }
 
-/* ====== MAIN COMPONENT ====== */
-
 export default function AboutPreview() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -213,18 +209,18 @@ export default function AboutPreview() {
             </span>
             <h2 className="text-3xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-6">
               Al sinds 2018 de{' '}
-              <span className="gradient-text">Pokémon specialist</span>
+              <span className="gradient-text">Nintendo specialist</span>
             </h2>
             <p className="text-lg text-slate-400 leading-relaxed mb-6">
-              Wat begon met het verkopen van kaarten op Marktplaats groeide uit
-              tot Gameshop Enter: dé Pokémon specialist van Nederland. Alle
+              Wat begon met het verkopen van games op Marktplaats groeide uit
+              tot Gameshop Enter: dé Nintendo specialist van Nederland. Alle
               games zijn 100% origineel en persoonlijk getest.
             </p>
             <p className="text-slate-400 leading-relaxed mb-8">
               Met meer dan 3.000 tevreden klanten, 1.360+ reviews en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
               Van klassieke Game Boy en DS titels tot 3DS releases
-              — bij ons vind je het allemaal. Heb je zelf Pokémon games liggen? Je kunt ze ook bij ons verkopen.
+              — bij ons vind je het allemaal. Heb je zelf Nintendo games liggen? Je kunt ze ook bij ons verkopen.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link href="/over-ons">

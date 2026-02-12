@@ -16,13 +16,6 @@ import {
 import { getAllProducts, Product } from '@/lib/products';
 import { formatPrice } from '@/lib/utils';
 
-/**
- * VelocityMarqueeRow
- *
- * Rij van game-thumbnails die continu scrolt met een basesnelheid.
- * De scroll-velocity van de pagina wordt gebruikt om de marquee
- * te versnellen: snel scrollen = snellere marquee.
- */
 function VelocityMarqueeRow({
   products,
   baseVelocity = -2,
@@ -139,7 +132,6 @@ function VelocityMarqueeRow({
                 className="object-contain w-full h-full p-1 transition-transform duration-500 group-hover/card:scale-110"
                 loading="lazy"
               />
-              {/* Hover overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2">
                 <span className="text-white text-[9px] sm:text-[10px] font-bold leading-tight line-clamp-2 mb-0.5">
                   {product.name}
@@ -158,7 +150,6 @@ function VelocityMarqueeRow({
 
 export default function GameMarquee() {
   const allProducts = getAllProducts().filter((p) => p.image);
-  // Verdeel in 3 rijen voor meer diepte
   const third = Math.ceil(allProducts.length / 3);
   const row1 = allProducts.slice(0, Math.min(third, 16));
   const row2 = allProducts.slice(third, Math.min(third * 2, third + 16));
@@ -166,11 +157,9 @@ export default function GameMarquee() {
 
   return (
     <section className="relative py-16 sm:py-24 bg-[#050810] overflow-hidden">
-      {/* Achtergrond */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
 
       <div className="relative">
-        {/* Titel */}
         <div className="text-center mb-12 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -194,21 +183,17 @@ export default function GameMarquee() {
           </motion.div>
         </div>
 
-        {/* Fade edges */}
         <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10" />
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-l from-[#050810] via-[#050810]/80 to-transparent z-10" />
 
-        {/* Rij 1: klein, snel, wazig — achtergrond laag */}
         <div className="mb-3 opacity-40" style={{ filter: 'blur(1px)' }}>
           <VelocityMarqueeRow products={row3} baseVelocity={-3} size="sm" />
         </div>
 
-        {/* Rij 2: medium, gemiddelde snelheid — middenlaag */}
         <div className="mb-3 opacity-70" style={{ filter: 'blur(0.3px)' }}>
           <VelocityMarqueeRow products={row2} baseVelocity={2} size="md" />
         </div>
 
-        {/* Rij 3: groot, langzaam — voorgrond */}
         <div>
           <VelocityMarqueeRow products={row1} baseVelocity={-1.5} size="lg" />
         </div>
