@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
@@ -54,6 +54,76 @@ function HoloShine({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
   );
 }
 
+// Fly-to-cart animatie: maakt een mini thumbnail die naar het cart icoon vliegt
+function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undefined) {
+  if (!imageSrc) return;
+  const cartIcon = document.getElementById('cart-icon-target');
+  if (!cartIcon) return;
+
+  const cardRect = cardEl.getBoundingClientRect();
+  const cartRect = cartIcon.getBoundingClientRect();
+
+  const flyEl = document.createElement('div');
+  flyEl.style.cssText = `
+    position: fixed;
+    z-index: 9999;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    pointer-events: none;
+    left: ${cardRect.left + cardRect.width / 2 - 25}px;
+    top: ${cardRect.top + 40}px;
+    transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(16,185,129,0.4);
+  `;
+
+  const img = document.createElement('img');
+  img.src = imageSrc;
+  img.style.cssText = 'width:100%;height:100%;object-fit:contain;padding:4px;background:white;border-radius:12px;';
+  flyEl.appendChild(img);
+  document.body.appendChild(flyEl);
+
+  requestAnimationFrame(() => {
+    flyEl.style.left = `${cartRect.left + cartRect.width / 2 - 12}px`;
+    flyEl.style.top = `${cartRect.top + cartRect.height / 2 - 12}px`;
+    flyEl.style.width = '24px';
+    flyEl.style.height = '24px';
+    flyEl.style.opacity = '0.3';
+    flyEl.style.transform = 'scale(0.3)';
+  });
+
+  // Cart badge bounce
+  setTimeout(() => {
+    cartIcon.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    cartIcon.style.transform = 'scale(1.2)';
+    setTimeout(() => { cartIcon.style.transform = 'scale(1)'; }, 300);
+  }, 600);
+
+  setTimeout(() => flyEl.remove(), 800);
+}
+
+// Wishlist helper functies
+function getWishlist(): string[] {
+  try {
+    const data = localStorage.getItem('gameshop-wishlist');
+    return data ? JSON.parse(data) : [];
+  } catch { return []; }
+}
+
+function toggleWishlistItem(sku: string): boolean {
+  const list = getWishlist();
+  const idx = list.indexOf(sku);
+  if (idx >= 0) {
+    list.splice(idx, 1);
+    localStorage.setItem('gameshop-wishlist', JSON.stringify(list));
+    return false;
+  }
+  list.push(sku);
+  localStorage.setItem('gameshop-wishlist', JSON.stringify(list));
+  return true;
+}
+
 const ProductCard = React.memo(function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
   const { addToast } = useToast();
@@ -63,7 +133,27 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [heartBounce, setHeartBounce] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Initialiseer wishlist state
+  useEffect(() => {
+    setIsWishlisted(getWishlist().includes(product.sku));
+  }, [product.sku]);
+
+  const handleToggleWishlist = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const newState = toggleWishlistItem(product.sku);
+    setIsWishlisted(newState);
+    setHeartBounce(true);
+    setTimeout(() => setHeartBounce(false), 400);
+    addToast(
+      newState ? `${product.name} op verlanglijst gezet` : `${product.name} van verlanglijst verwijderd`,
+      newState ? 'success' : 'info'
+    );
+  }, [product.sku, product.name, addToast]);
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -92,6 +182,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     const label = variant ? `${product.name} (CIB)` : product.name;
     setAddedToCart(true);
     addToast(`${label} toegevoegd aan winkelwagen`, 'success', undefined, (displayImage || product.image) || undefined);
+    // Fly-to-cart animatie
+    if (cardRef.current) {
+      flyToCartAnimation(cardRef.current, displayImage || product.image);
+    }
     setTimeout(() => setAddedToCart(false), 1500);
   };
 
@@ -176,6 +270,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                     -{getSalePercentage(product)}%
                   </span>
                 )}
+                <button
+                  onClick={handleToggleWishlist}
+                  aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
+                  className="p-1.5 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-all z-30"
+                  style={{
+                    transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
+                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }}
+                >
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill={isWishlisted ? '#ef4444' : 'none'} stroke={isWishlisted ? '#ef4444' : 'white'} strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                  </svg>
+                </button>
               </div>
             </div>
           </Link>
@@ -375,6 +482,19 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </span>
               )}
               {product.isConsole && <Badge variant="console">CONSOLE</Badge>}
+              <button
+                onClick={handleToggleWishlist}
+                aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
+                className="p-1.5 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:bg-white transition-all z-30"
+                style={{
+                  transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
+                  transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                }}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill={isWishlisted ? '#ef4444' : 'none'} stroke={isWishlisted ? '#ef4444' : '#94a3b8'} strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                </svg>
+              </button>
             </div>
           </div>
         </Link>
