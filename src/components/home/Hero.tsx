@@ -92,7 +92,7 @@ function MagneticCTA({
         onMouseLeave={handleMouseLeave}
         className={
           primary
-            ? 'inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-shadow duration-300'
+            ? 'inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all duration-300 animate-pulse-glow'
             : 'inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.08] border border-white/[0.12] text-white font-bold text-sm hover:bg-white/[0.14] transition-all duration-300'
         }
       >

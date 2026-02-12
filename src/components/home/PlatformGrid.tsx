@@ -13,8 +13,6 @@ const PLATFORM_IMAGES: Record<string, string> = {
   'Nintendo DS': '/images/nintendo/ds-console.webp',
   'Game Boy / Color': '/images/nintendo/gameboy-console.webp',
   'Game Boy Advance': '/images/nintendo/gba-console.webp',
-  'Wii': '/images/nintendo/wii-console.webp',
-  'Wii U': '/images/nintendo/wiiu-console.webp',
 };
 
 function PlatformCard({ platform, index }: { platform: { name: string; count: number }; index: number }) {

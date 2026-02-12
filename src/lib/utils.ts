@@ -108,9 +108,6 @@ export const POKEMON_TYPE_MAP: Record<string, string> = {
   '3DS-010': 'dark',      // Y — Yveltal
   '3DS-011': 'steel',     // Sun — Solgaleo
   // Wii — Pokémon games
-  'WII-018': 'electric',  // Pokémon Battle Revolution — stadium thema
-  'WII-026': 'electric',  // PokéPark Wii: Pikachu's Adventure
-  'WII-027': 'electric',  // PokéPark 2: Wonders Beyond
 };
 
 // Rotatie-correctie per product (graden, negatief = tegen klok in)
@@ -257,61 +254,28 @@ export const FRANCHISE_THEME_MAP: Record<string, string> = {
   '3DS-049': 'layton',    // Professor Layton: Masker der Wonderen
   '3DS-050': 'action',    // LEGO City Undercover
 
-  // Wii games
-  'WII-001': 'racing',     // Mario Kart Wii
-  'WII-002': 'smash',      // Super Smash Bros. Brawl
-  'WII-003': 'mario',      // Super Mario Galaxy
+  // Wii games (alleen games met eigen fotografie)
   'WII-004': 'mario',      // Super Mario Galaxy 2
-  'WII-005': 'zelda',      // Zelda: Twilight Princess
-  'WII-006': 'zelda',      // Zelda: Skyward Sword
   'WII-007': 'mario',      // New Super Mario Bros. Wii
   'WII-008': 'donkeykong', // Donkey Kong Country Returns
   'WII-009': 'sports',     // Wii Sports
-  'WII-010': 'sports',     // Wii Sports Resort
   'WII-011': 'party',      // Mario Party 8
-  'WII-012': 'party',      // Mario Party 9
-  'WII-013': 'kirby',      // Kirby's Adventure Wii
-  'WII-014': 'kirby',      // Kirby's Epic Yarn
-  'WII-015': 'metroid',    // Metroid Prime 3: Corruption
-  'WII-016': 'rpg',        // Xenoblade Chronicles
-  'WII-017': 'fireemblem', // Fire Emblem: Radiant Dawn
   'WII-019': 'sports',     // Mario Strikers Charged Football
-  'WII-020': 'mario',      // Super Paper Mario
-  'WII-021': 'sports',     // Mario & Sonic Olympic Games
-  'WII-022': 'party',      // Wii Play
-  'WII-023': 'sonic',      // Sonic Colors
-  'WII-024': 'platformer', // Rayman Origins
-  'WII-025': 'animalcrossing', // Animal Crossing: Let's Go to the City
-  'WII-028': 'pikmin',     // Pikmin 2 (New Play Control!)
-  'WII-029': 'sports',     // Wii Fit Plus
-  'WII-030': 'zelda',      // Zelda: Skyward Sword LE
   'WII-031': 'sonic',      // Sonic and the Secret Rings
   'WII-032': 'sonic',      // Sonic Unleashed
   'WII-033': 'mario',      // New Super Mario Bros. Wii (Selects)
   'WII-034': 'party',      // Wii Party
   'WII-035': 'wario',      // Wario Land: The Shake Dimension
 
-  // Wii U games
+  // Wii U games (alleen games met eigen fotografie)
   'WIIU-001': 'racing',     // Mario Kart 8
-  'WIIU-002': 'smash',      // Super Smash Bros. for Wii U
-  'WIIU-003': 'mario',      // Super Mario 3D World
   'WIIU-004': 'splatoon',   // Splatoon
-  'WIIU-005': 'zelda',      // Zelda: Breath of the Wild
   'WIIU-006': 'zelda',      // Zelda: Wind Waker HD
   'WIIU-007': 'zelda',      // Zelda: Twilight Princess HD
   'WIIU-008': 'mario',      // New Super Mario Bros. U
-  'WIIU-009': 'donkeykong', // DK Country: Tropical Freeze
-  'WIIU-010': 'action',     // Bayonetta 2
-  'WIIU-011': 'pikmin',     // Pikmin 3
-  'WIIU-012': 'rpg',        // Xenoblade Chronicles X
   'WIIU-013': 'party',      // Mario Party 10
-  'WIIU-014': 'mario',      // Super Mario Maker
-  'WIIU-015': 'luigi',      // New Super Luigi U
   'WIIU-016': 'puzzle',     // Captain Toad: Treasure Tracker
-  'WIIU-017': 'yoshi',      // Yoshi's Woolly World
   'WIIU-018': 'mario',      // Paper Mario: Color Splash
-  'WIIU-019': 'kirby',      // Kirby and the Rainbow Paintbrush
-  'WIIU-020': 'zelda',      // Hyrule Warriors
   'WIIU-021': 'party',      // Wii Party U
   'WIIU-022': 'fighter',    // Pokkén Tournament
   'WIIU-023': 'sports',     // Mario & Sonic Sochi 2014
