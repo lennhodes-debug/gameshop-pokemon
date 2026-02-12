@@ -216,21 +216,27 @@ export default function Header() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="lg:hidden overflow-hidden glass border-t border-white/[0.06]"
               >
                 <nav ref={mobileNavRef} className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1" aria-label="Mobiele navigatie">
-                  {navLinks.map((link) => (
-                    <Link
+                  {navLinks.map((link, i) => (
+                    <motion.div
                       key={link.href}
-                      href={link.href}
-                      className={cn(
-                        'block px-4 py-3 rounded-xl text-sm font-medium transition-all',
-                        isActive(link.href) ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
-                      )}
+                      initial={{ opacity: 0, x: -20, filter: 'blur(4px)' }}
+                      animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                      transition={{ delay: 0.05 + i * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      {link.label}
-                    </Link>
+                      <Link
+                        href={link.href}
+                        className={cn(
+                          'block px-4 py-3 rounded-xl text-sm font-medium transition-all',
+                          isActive(link.href) ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
                   ))}
                   <div className="border-t border-white/[0.06] mt-2 pt-2">
                     <Link

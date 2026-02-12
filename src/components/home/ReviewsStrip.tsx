@@ -136,6 +136,7 @@ function StarRating() {
 
 function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [hovered, setHovered] = useState(false);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -148,22 +149,38 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
   return (
     <motion.div
       className="flex-shrink-0 w-[320px]"
-      whileHover={{ y: -4, scale: 1.02 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+      whileHover={{ y: -6, scale: 1.03 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 22 }}
     >
       <blockquote
         onMouseMove={handleMouseMove}
-        className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/25 hover:bg-white/[0.07] hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="group/card relative rounded-2xl bg-white/[0.04] backdrop-blur-sm border border-white/[0.08] p-5 h-full hover:border-emerald-500/30 hover:bg-white/[0.08] hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 overflow-hidden cursor-grab active:cursor-grabbing"
+        style={{
+          transform: hovered
+            ? `perspective(600px) rotateX(${(mousePos.y - 50) * -0.06}deg) rotateY(${(mousePos.x - 50) * 0.06}deg)`
+            : 'perspective(600px) rotateX(0deg) rotateY(0deg)',
+          transition: 'transform 0.3s ease',
+        }}
       >
-        {/* Mouse-follow spotlight glow */}
+        {/* Mouse-follow spotlight glow — versterkt */}
         <div
           className="absolute inset-0 pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"
           style={{
-            background: `radial-gradient(300px circle at ${mousePos.x}% ${mousePos.y}%, rgba(16,185,129,0.12), transparent 60%)`,
+            background: `radial-gradient(250px circle at ${mousePos.x}% ${mousePos.y}%, rgba(16,185,129,0.18), transparent 60%)`,
           }}
         />
-        {/* Quote mark */}
-        <div className="absolute top-3 right-4 text-4xl text-white/[0.08] group-hover/card:text-emerald-500/15 font-serif transition-all duration-500 select-none" aria-hidden="true">
+
+        {/* Top accent lijn */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
+
+        {/* Quote mark — met glow */}
+        <div
+          className="absolute top-3 right-4 text-4xl text-white/[0.08] group-hover/card:text-emerald-500/20 font-serif transition-all duration-500 select-none"
+          aria-hidden="true"
+          style={{ textShadow: hovered ? '0 0 20px rgba(16,185,129,0.3)' : 'none' }}
+        >
           &ldquo;
         </div>
 
@@ -174,20 +191,20 @@ function ReviewCard({ review }: { review: (typeof reviews)[0] }) {
         <footer className="mt-4 relative z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              {/* Avatar met gradient ring */}
+              {/* Avatar met gradient ring — nu altijd zichtbaar, sterker op hover */}
               <div className="relative">
-                <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 blur-[1px]" />
-                <div className="relative h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 opacity-30 group-hover/card:opacity-100 transition-opacity duration-300 blur-[1px]" />
+                <div className="relative h-8 w-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-lg shadow-emerald-500/20">
                   {review.name ? review.name[0].toUpperCase() : 'G'}
                 </div>
               </div>
-              <cite className="text-white/60 text-xs font-medium not-italic">{review.name}</cite>
+              <cite className="text-white/60 text-xs font-medium not-italic group-hover/card:text-white/80 transition-colors duration-300">{review.name}</cite>
             </div>
-            <span className="text-emerald-400/60 text-xs group-hover/card:text-emerald-400 transition-colors duration-300">
+            <span className="text-emerald-400/50 text-xs group-hover/card:text-emerald-400 transition-colors duration-300 font-medium">
               {review.product}
             </span>
           </div>
-          <time className="block text-white/40 text-[11px] mt-1">{review.date}</time>
+          <time className="block text-white/30 text-[11px] mt-1 group-hover/card:text-white/50 transition-colors duration-300">{review.date}</time>
         </footer>
       </blockquote>
     </motion.div>

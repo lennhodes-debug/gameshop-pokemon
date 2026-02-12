@@ -140,6 +140,7 @@ function MiniPokeball({ size }: { size: number }) {
 function HeroBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+      {/* Primaire pokeball — langzame rotatie */}
       <motion.svg
         viewBox="0 0 200 200"
         className="w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-[0.05]"
@@ -153,6 +154,18 @@ function HeroBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
         <circle cx="100" cy="100" r="12" fill="white" fillOpacity="0.3" />
       </motion.svg>
 
+      {/* Secundaire ring — tegengestelde rotatie met gestreepte lijn */}
+      <motion.svg
+        viewBox="0 0 200 200"
+        className="absolute w-[400px] h-[400px] lg:w-[550px] lg:h-[550px] opacity-[0.025]"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+      >
+        <circle cx="100" cy="100" r="95" fill="none" stroke="white" strokeWidth="1.5" strokeDasharray="8 12" />
+        <circle cx="100" cy="100" r="50" fill="none" stroke="white" strokeWidth="1" strokeDasharray="4 8" />
+      </motion.svg>
+
+      {/* Pulserende glow — primair */}
       <motion.div
         className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
         style={{
@@ -166,6 +179,7 @@ function HeroBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
           opacity: { times: [0, 0.5, 1], duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 },
         }}
       />
+      {/* Glow — secundair */}
       <motion.div
         className="absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full"
         style={{
@@ -175,6 +189,15 @@ function HeroBg({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 12, delay: 0.2 }}
+      />
+      {/* Diepte-laag: verre ademende glow */}
+      <motion.div
+        className="absolute w-[500px] h-[500px] lg:w-[700px] lg:h-[700px] rounded-full"
+        style={{
+          background: 'radial-gradient(circle, rgba(6,182,212,0.04) 0%, transparent 60%)',
+        }}
+        animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {FLOATING_ICONS.map((ball, i) => {
@@ -307,15 +330,15 @@ export default function Hero() {
               {i > 0 && <br />}
               <span className="inline-block overflow-hidden" style={{ perspective: '600px' }}>
                 <motion.span
-                  className={`inline-block ${i === 1 ? 'bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400' : ''}`}
-                  initial={{ y: '120%', rotateX: -80, opacity: 0 }}
-                  animate={{ y: '0%', rotateX: 0, opacity: 1 }}
+                  className={`inline-block ${i === 1 ? 'bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 animate-text-shimmer' : ''}`}
+                  initial={{ y: '120%', rotateX: -80, opacity: 0, filter: 'blur(8px)' }}
+                  animate={{ y: '0%', rotateX: 0, opacity: 1, filter: 'blur(0px)' }}
                   transition={{
-                    duration: 0.8,
+                    duration: 0.9,
                     delay: 0.3 + i * 0.15,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  style={{ transformOrigin: 'bottom center' }}
+                  style={{ transformOrigin: 'bottom center', backgroundSize: i === 1 ? '200% auto' : undefined }}
                 >
                   {word}
                 </motion.span>
@@ -393,6 +416,15 @@ export default function Hero() {
           </svg>
         </motion.div>
       </motion.div>
+
+      {/* Geanimeerde gradient lijn boven de overgang */}
+      <motion.div
+        className="absolute bottom-24 left-0 right-0 h-px"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(16,185,129,0.3), rgba(6,182,212,0.3), transparent)' }}
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 1.5, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+      />
 
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f8fafc] to-transparent" />
     </section>

@@ -185,19 +185,29 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
       >
-        {/* Shine sweep */}
+        {/* Shine sweep — versterkt met kleuraccent */}
         <div
           className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-2xl"
           aria-hidden="true"
         >
           <div
-            className="absolute inset-0 transition-transform duration-[600ms] ease-out"
+            className="absolute inset-0 transition-transform duration-[700ms] ease-out"
             style={{
               transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
-              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 40%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.12) 60%, transparent 100%)',
+              background: `linear-gradient(90deg, transparent 0%, rgba(${accentGlow},0.06) 35%, rgba(255,255,255,0.18) 50%, rgba(${accentGlow},0.06) 65%, transparent 100%)`,
             }}
           />
         </div>
+
+        {/* Hover border glow animatie */}
+        {isHovered && (
+          <div
+            className="absolute inset-0 rounded-2xl pointer-events-none z-10"
+            style={{
+              boxShadow: `inset 0 0 0 1px rgba(${accentGlow},0.15)`,
+            }}
+          />
+        )}
 
         {/* Afbeelding */}
         <Link href={`/shop/${product.sku}`}>
@@ -242,10 +252,16 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className={cn(
-                    "object-contain p-5 transition-all duration-500",
+                    "object-contain p-5 transition-all duration-700 ease-out",
                     imageLoaded ? "opacity-100" : "opacity-0",
-                    isHovered ? "scale-[1.08]" : "scale-100"
+                    isHovered ? "scale-[1.1]" : "scale-100"
                   )}
+                  style={{
+                    transform: isHovered
+                      ? `scale(1.1) translate(${(mousePos.x - 50) * -0.15}px, ${(mousePos.y - 50) * -0.15}px)`
+                      : 'scale(1) translate(0px, 0px)',
+                    transition: 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />
