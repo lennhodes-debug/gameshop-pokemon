@@ -27,21 +27,61 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
 
   return (
     <section className="mt-16 lg:mt-24">
-      <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-16 lg:mb-24" />
+      {/* Gradient divider boven de sectie */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mb-16 lg:mb-24 origin-center"
+      />
+
+      {/* Badge pill */}
+      <motion.span
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4 }}
+        className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200 mb-4"
+      >
+        Vergelijkbaar
+      </motion.span>
+
+      {/* Heading met animatie */}
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3"
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mb-2"
       >
         Gerelateerde producten
       </motion.h2>
-      <div className="h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 mb-8" />
+
+      {/* Subtitel */}
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+        className="text-sm text-slate-500 mb-4"
+      >
+        Andere games die je misschien ook leuk vindt
+      </motion.p>
+
+      {/* Geanimeerde gradient lijn */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
+        className="h-1 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 mb-8 origin-left"
+      />
 
       {/* Mobile: draggable carousel */}
       <div className="sm:hidden relative overflow-hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[#050810] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[#050810] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[#f8fafc] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[#f8fafc] to-transparent z-10 pointer-events-none" />
         <motion.div
           ref={carouselRef}
           className="flex gap-4 cursor-grab active:cursor-grabbing"
@@ -58,15 +98,19 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         </motion.div>
       </div>
 
-      {/* Desktop: grid */}
+      {/* Desktop: grid met staggered entrance */}
       <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product, index) => (
           <motion.div
             key={product.sku}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.4, delay: index * 0.08 }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
           >
             <ProductCard product={product} />
           </motion.div>
