@@ -73,24 +73,27 @@ function CarouselCard({
       }}
     >
       <div className="w-full h-full rounded-2xl overflow-hidden bg-[#0a1628] border border-white/10 shadow-2xl group/ccard hover:border-emerald-500/40 transition-colors duration-300">
-        <Link href={`/shop/${product.sku}`} className="block w-full h-full">
-          <div className="relative w-full h-[68%] bg-gradient-to-b from-white/[0.03] to-transparent">
-            {product.image ? (
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                sizes="200px"
-                className="object-contain p-3 group-hover/ccard:scale-110 transition-transform duration-300"
-                loading="lazy"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <span className="text-white/20 text-2xl font-black">{product.platform}</span>
-              </div>
-            )}
+        <Link href={`/shop/${product.sku}`} className="block w-full h-full flex flex-col items-center">
+          <div className="pt-4 pb-2 flex items-center justify-center">
+            <div className="relative rounded-full overflow-hidden ring-2 ring-white/10 group-hover/ccard:ring-emerald-500/40 transition-all duration-300"
+              style={{ width: cardWidth * 0.55, height: cardWidth * 0.55 }}>
+              {product.image ? (
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="120px"
+                  className="object-cover group-hover/ccard:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-white/5">
+                  <span className="text-white/20 text-xs font-black">{product.platform}</span>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="px-3 pb-3">
+          <div className="px-3 pb-3 text-center">
             <p className="text-white text-[11px] font-bold line-clamp-2 leading-tight mb-1">{product.name}</p>
             <p className="text-emerald-400 text-[10px] font-medium">{PLATFORM_LABELS[product.platform] || product.platform}</p>
             <p className="text-white font-extrabold text-sm mt-1">{formatPrice(product.price)}</p>
@@ -103,6 +106,7 @@ function CarouselCard({
 
 export default function GameCarousel3D() {
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const rotation = useMotionValue(0);
   const springRotation = useSpring(rotation, { stiffness: 80, damping: 25 });
   const isDragging = useRef(false);
@@ -112,6 +116,7 @@ export default function GameCarousel3D() {
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    setMounted(true);
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener('resize', check);
@@ -197,35 +202,37 @@ export default function GameCarousel3D() {
       </div>
 
       {/* 3D Carousel */}
-      <div
-        className="relative mx-auto cursor-grab active:cursor-grabbing select-none touch-none"
-        style={{
-          height: containerHeight,
-          perspective: '1000px',
-        }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-      >
+      {mounted && (
         <div
-          className="relative w-full h-full"
-          style={{ transformStyle: 'preserve-3d' }}
+          className="relative mx-auto cursor-grab active:cursor-grabbing select-none touch-none"
+          style={{
+            height: containerHeight,
+            perspective: '1000px',
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
         >
-          {displayProducts.map((product, i) => (
-            <CarouselCard
-              key={product.sku}
-              product={product}
-              index={i}
-              totalCards={cardCount}
-              rotation={springRotation}
-              radius={radius}
-              cardWidth={cardWidth}
-              cardHeight={cardHeight}
-            />
-          ))}
+          <div
+            className="relative w-full h-full"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            {displayProducts.map((product, i) => (
+              <CarouselCard
+                key={product.sku}
+                product={product}
+                index={i}
+                totalCards={cardCount}
+                rotation={springRotation}
+                radius={radius}
+                cardWidth={cardWidth}
+                cardHeight={cardHeight}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Instructie hint */}
       <motion.div
