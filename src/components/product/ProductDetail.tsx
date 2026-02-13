@@ -111,18 +111,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             className="aspect-square rounded-2xl flex items-center justify-center overflow-hidden relative"
             style={{
               background: displayImage
-                ? `linear-gradient(145deg, ${accent}12 0%, #0a0e1a 40%, ${accentAlt}08 100%)`
+                ? `linear-gradient(145deg, ${accent}08 0%, #0a0e1a 40%, ${accentAlt}05 100%)`
                 : `linear-gradient(135deg, ${accent}, ${accentAlt})`,
-              border: `1.5px solid ${accent}25`,
-              boxShadow: `0 0 80px ${accent}12, 0 0 160px ${accent}06, 0 30px 60px rgba(0,0,0,0.4)`,
+              border: `1px solid ${accent}15`,
+              boxShadow: `0 25px 50px rgba(0,0,0,0.3)`,
             }}
           >
-            {/* Glow ring */}
-            <div className="absolute inset-0 rounded-2xl pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse at 30% 20%, rgba(${glowRgb}, 0.08) 0%, transparent 50%)`,
-              }}
-            />
 
             {displayImage && !imageError ? (
               <>
@@ -302,9 +296,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Beschrijving */}
           {product.description && (
-            <div className="mb-8 rounded-2xl p-6 backdrop-blur-sm"
-              style={{ background: `linear-gradient(135deg, ${accent}06, rgba(255,255,255,0.02))`, border: `1px solid ${accent}12` }}>
-              <h2 className="text-sm font-medium uppercase tracking-wider mb-3" style={{ color: accent }}>Beschrijving</h2>
+            <div className="mb-8 rounded-2xl p-6 bg-white/[0.03] border border-white/[0.06]">
+              <h2 className="text-sm font-medium uppercase tracking-wider mb-3 text-slate-400">Beschrijving</h2>
               <p className="text-slate-400 leading-relaxed text-[15px]">
                 {product.description}
               </p>
@@ -320,7 +313,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             }`}
             style={added ? undefined : {
               background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
-              boxShadow: `0 8px 30px rgba(${glowRgb}, 0.35), 0 2px 8px rgba(${glowRgb}, 0.2)`,
+              boxShadow: `0 4px 16px rgba(${glowRgb}, 0.25)`,
             }}
           >
             {added ? (
@@ -376,17 +369,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         transition={{ duration: 0.6, delay: 0.3 }}
       >
         <h2 className="text-2xl font-bold text-white tracking-tight mb-6">Specificaties</h2>
-        <div className="rounded-2xl border overflow-hidden" style={{ borderColor: `${accent}15` }}>
+        <div className="rounded-2xl border border-white/[0.06] overflow-hidden">
           {specs.map((spec, i) => (
             <div
               key={spec.label}
-              className={`flex items-center justify-between px-6 py-4 border-l-2 border-transparent hover:bg-white/[0.04] transition-colors duration-200 ${i < specs.length - 1 ? 'border-b' : ''}`}
-              style={{
-                background: i % 2 === 0 ? `${accent}04` : 'transparent',
-                borderColor: `${accent}10`,
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderLeftColor = accent; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderLeftColor = 'transparent'; }}
+              className={`flex items-center justify-between px-6 py-4 hover:bg-white/[0.04] transition-colors duration-200 ${i < specs.length - 1 ? 'border-b border-white/[0.06]' : ''} ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}
             >
               <span className="text-sm font-medium text-slate-500">{spec.label}</span>
               <span className="text-sm font-semibold text-slate-200">{spec.value}</span>
@@ -397,8 +384,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
       {/* Sticky mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-        <div className="backdrop-blur-md border-t px-4 py-3 flex items-center justify-between gap-3"
-          style={{ background: 'rgba(5,8,16,0.92)', borderColor: `${accent}20` }}>
+        <div className="backdrop-blur-md border-t border-white/[0.08] px-4 py-3 flex items-center justify-between gap-3"
+          style={{ background: 'rgba(5,8,16,0.92)' }}>
           <div className="min-w-0 flex-1">
             <p className="text-xs text-slate-500 truncate">{product.name}{selectedVariant === 'cib' ? ' (CIB)' : ''}</p>
             <p className="text-lg font-bold" style={{ color: accent }}>{formatPrice(displayPrice)}</p>
@@ -408,7 +395,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             className="flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-bold transition-all"
             style={added ? { background: '#10b981' } : {
               background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
-              boxShadow: `0 4px 15px rgba(${glowRgb}, 0.3)`,
             }}
           >
             {added ? 'Toegevoegd!' : 'In winkelwagen'}

@@ -144,11 +144,13 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : product.price;
   const currentImage = displayImage;
 
+  const variantTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const handleVariantSwitch = useCallback((variant: 'los' | 'cib') => {
     if (variant === selectedVariant) return;
+    if (variantTimeoutRef.current) clearTimeout(variantTimeoutRef.current);
     setImageTransition(true);
     setImageLoaded(false);
-    setTimeout(() => {
+    variantTimeoutRef.current = setTimeout(() => {
       setSelectedVariant(variant);
       setImageTransition(false);
     }, 150);

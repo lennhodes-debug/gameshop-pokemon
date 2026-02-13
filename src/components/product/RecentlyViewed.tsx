@@ -36,7 +36,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
         Eerder bekeken
       </motion.h2>
 
-      <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
+      <div className="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: 'thin' }}>
         {products.map((product, index) => {
           const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
           return (

@@ -64,9 +64,11 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
     }
   }, [showDropdown, suggestions, highlightIndex]);
 
+  const blurTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const handleBlur = useCallback(() => {
-    setTimeout(() => setIsFocused(false), 200);
+    blurTimerRef.current = setTimeout(() => setIsFocused(false), 200);
   }, []);
+  useEffect(() => () => { if (blurTimerRef.current) clearTimeout(blurTimerRef.current); }, []);
 
   return (
     <div className={cn('relative', className)}>
