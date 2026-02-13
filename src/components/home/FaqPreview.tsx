@@ -1,10 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Accordion from '@/components/ui/Accordion';
-import Button from '@/components/ui/Button';
 
 const faqItems = [
   {
@@ -29,157 +27,73 @@ const faqItems = [
   },
 ];
 
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
-
 const fadeUp = {
-  hidden: { opacity: 0, y: 25, filter: 'blur(8px)' },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
 export default function FaqPreview() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-
-  const glowOpacity = useSpring(
-    useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0.6, 0]),
-    { stiffness: 100, damping: 25 }
-  );
-  const iconRotate = useTransform(scrollYProgress, [0.2, 0.6], [0, 360]);
-
   return (
-    <section ref={sectionRef} className="relative bg-[#f8fafc] dark:bg-slate-900 py-16 lg:py-24 overflow-hidden">
-      {/* Subtle background glow */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-emerald-400 blur-[180px] pointer-events-none"
-        style={{ opacity: glowOpacity }}
-      />
-
-      <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-[#f8fafc] py-16 lg:py-24">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1, type: 'spring', stiffness: 300, damping: 15 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4"
-          >
-            <motion.svg
-              className="h-3.5 w-3.5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-              style={{ rotate: iconRotate }}
-            >
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-wider mb-4">
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-            </motion.svg>
+            </svg>
             FAQ
-          </motion.span>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">
+          </span>
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">
             Veelgestelde vragen
           </h2>
-          <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3, type: 'spring', stiffness: 100 }}
-            className="h-1 w-24 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 rounded-full mx-auto mb-4 origin-center"
-          />
-          <p className="text-lg text-slate-500 dark:text-slate-400">
+          <div className="h-1 w-20 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mx-auto mb-4" />
+          <p className="text-lg text-slate-500">
             Heb je een vraag? Wellicht vind je het antwoord hier
           </p>
         </motion.div>
 
-        {/* FAQ container with glow border on scroll */}
         <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          className="relative"
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          {/* Glow behind container */}
-          <motion.div
-            className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-emerald-400/20 via-emerald-400/20 to-emerald-400/20 blur-xl pointer-events-none"
-            style={{ opacity: glowOpacity }}
-          />
-
-          <div
-            className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8 hover:border-emerald-200 dark:hover:border-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-500 group"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setMousePos({
-                x: ((e.clientX - rect.left) / rect.width) * 100,
-                y: ((e.clientY - rect.top) / rect.height) * 100,
-              });
-            }}
-          >
-            {/* Mouse-following glow effect */}
-            <div
-              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl"
-              style={{
-                background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, rgba(16,185,129,0.06), transparent 60%)`
-              }}
-            />
-            {/* Animated corner accents on hover */}
-            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-transparent group-hover:border-emerald-400/40 rounded-tl-2xl transition-all duration-500 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-transparent group-hover:border-emerald-400/40 rounded-br-2xl transition-all duration-500 pointer-events-none" />
-
-            {/* FAQ count indicator */}
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Top 5 vragen</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500">
-                <Link href="/faq" className="hover:text-emerald-500 transition-colors">Alle {'>'}20 vragen</Link>
-              </span>
+              <span className="text-sm font-semibold text-slate-600">Top 5 vragen</span>
+              <Link href="/faq" className="text-xs text-slate-400 hover:text-emerald-500 transition-colors">
+                Alle {'>'}20 vragen
+              </Link>
             </div>
-
             <Accordion items={faqItems} staggerVariant={fadeUp} />
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
           className="text-center mt-8"
         >
-          <Link href="/faq">
-            <Button variant="outline" className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white group">
-              Bekijk alle vragen
-              <motion.svg
-                className="ml-2 h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </motion.svg>
-            </Button>
+          <Link
+            href="/faq"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:border-slate-300 hover:text-slate-900 transition-colors"
+          >
+            Bekijk alle vragen
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
           </Link>
         </motion.div>
       </div>
