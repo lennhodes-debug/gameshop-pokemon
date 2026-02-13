@@ -180,7 +180,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           background: 'white',
           boxShadow: isHovered
             ? '0 20px 50px rgba(0,0,0,0.08)'
-            : '0 1px 3px rgba(0,0,0,0.04)',
+            : 'none',
         }}
         ref={cardRef}
         onMouseEnter={() => setIsHovered(true)}
@@ -191,7 +191,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           <div
             className="relative h-56 flex items-center justify-center overflow-hidden"
             style={{
-              background: 'linear-gradient(160deg, #f8fafb 0%, #f1f5f9 50%, #eef2f7 100%)',
+              background: '#f8f9fa',
             }}
           >
             {/* Subtle accent glow behind image on hover */}
