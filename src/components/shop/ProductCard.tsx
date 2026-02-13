@@ -165,7 +165,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   };
 
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
-  const typeLabel = typeInfo?.label;
 
   return (
     <div className="group">
@@ -222,30 +221,17 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </div>
             )}
 
-            {/* Platform + type labels */}
-            <div className="absolute top-2.5 left-3 flex items-center gap-1.5">
+            {/* Platform label */}
+            <div className="absolute top-2.5 left-3">
               <span
                 className="px-2.5 py-1 rounded-lg text-[11px] font-semibold backdrop-blur-sm"
                 style={{
-                  background: typeInfo ? `rgba(${accentGlow},0.15)` : 'rgba(15,23,42,0.7)',
-                  color: typeInfo ? accentColor : 'white',
-                  border: typeInfo ? `1px solid rgba(${accentGlow},0.2)` : 'none',
+                  background: 'rgba(15,23,42,0.7)',
+                  color: 'white',
                 }}
               >
                 {product.platform}
               </span>
-              {typeLabel && (
-                <span
-                  className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider"
-                  style={{
-                    background: `${accentColor}18`,
-                    color: accentColor,
-                    border: `1px solid ${accentColor}25`,
-                  }}
-                >
-                  {typeLabel}
-                </span>
-              )}
             </div>
 
             {/* Badges */}
