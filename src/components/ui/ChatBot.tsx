@@ -831,50 +831,57 @@ function parseResponse(text: string): Omit<Message, 'id' | 'role'> {
 async function streamResponse(
   messages: ApiMessage[],
   onChunk: (text: string) => void,
-  onDone: (fullText: string) => void,
-  onError: () => void,
-) {
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages, stream: true }),
-    });
+): Promise<string> {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages, stream: true }),
+  });
 
-    if (!res.ok || !res.body) { onError(); return; }
+  if (!res.ok || !res.body) throw new Error('Stream failed');
 
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
-    let buffer = '';
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = '';
+  let buffer = '';
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
 
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop() || '';
 
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const data = line.slice(6).trim();
-        if (data === '[DONE]') continue;
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const data = line.slice(6).trim();
+      if (data === '[DONE]') continue;
 
-        try {
-          const parsed = JSON.parse(data);
-          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-            fullText += parsed.delta.text;
-            onChunk(fullText);
-          }
-        } catch { /* skip unparseable lines */ }
-      }
+      try {
+        const parsed = JSON.parse(data);
+        if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+          fullText += parsed.delta.text;
+          onChunk(fullText);
+        }
+      } catch { /* skip unparseable lines */ }
     }
-
-    onDone(fullText || '');
-  } catch {
-    onError();
   }
+
+  return fullText;
+}
+
+// ─── Non-streaming API call (fallback when streaming fails) ─
+async function fetchResponse(messages: ApiMessage[]): Promise<string> {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages, stream: false }),
+  });
+
+  if (!res.ok) throw new Error('API failed');
+  const data = await res.json();
+  return data.reply || '';
 }
 
 // ─── Component ──────────────────────────────────────────────
@@ -885,8 +892,8 @@ export default function ChatBot() {
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
-  const [aiAvailable, setAiAvailable] = useState(true);
   const [thinkingPhrase, setThinkingPhrase] = useState('');
+  const [aiMode, setAiMode] = useState<'streaming' | 'nonstreaming' | 'offline'>('streaming');
   const [unreadCount, setUnreadCount] = useState(0);
   const [showBubble, setShowBubble] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -983,7 +990,6 @@ export default function ChatBot() {
       timestamp: Date.now(),
     }]);
     setApiHistory([]);
-    setAiAvailable(true);
   }
 
   function handleAddToCart(product: typeof products[number]) {
@@ -1007,19 +1013,14 @@ export default function ChatBot() {
     const newHistory: ApiMessage[] = [...apiHistory, { role: 'user', content: trimmed }];
     setApiHistory(newHistory);
 
-    function addBotMessage(msg: Omit<Message, 'id'>) {
-      const botMsg: Message = { ...msg, id: `b-${Date.now()}`, timestamp: Date.now() };
-      setMessages(prev => [...prev, botMsg]);
-      if (!open) setUnreadCount(prev => prev + 1);
-    }
+    const streamBotId = `b-${Date.now()}`;
+    let aiResponse = '';
+    let streamStarted = false;
 
-    if (aiAvailable) {
-      const streamBotId = `b-${Date.now()}`;
-
-      let streamStarted = false;
-      await streamResponse(
-        newHistory,
-        (partialText) => {
+    // ── Strategy 1: Streaming (snelst, beste UX) ──
+    if (aiMode === 'streaming') {
+      try {
+        aiResponse = await streamResponse(newHistory, (partialText) => {
           if (!streamStarted) {
             streamStarted = true;
             setTyping(false);
@@ -1032,40 +1033,56 @@ export default function ChatBot() {
             return [...prev, { id: streamBotId, role: 'bot' as const, text: partialText, isStreaming: true, timestamp: Date.now() }];
           });
           scrollToBottom();
-        },
-        (fullText) => {
-          setTyping(false);
-          if (fullText) {
-            const parsed = parseResponse(fullText);
-            setMessages(prev => prev.map(m =>
-              m.id === streamBotId ? { ...m, ...parsed, isStreaming: false } : m
-            ));
-            setApiHistory(prev => [...prev, { role: 'assistant', content: fullText }]);
-            if (!open) setUnreadCount(prev => prev + 1);
-          } else {
-            const fb = fallbackResponse(trimmed);
-            setMessages(prev => {
-              const hasStream = prev.find(m => m.id === streamBotId);
-              if (hasStream) return prev.map(m => m.id === streamBotId ? { id: streamBotId, role: 'bot' as const, ...fb, isStreaming: false, timestamp: Date.now() } : m);
-              return [...prev, { id: streamBotId, role: 'bot' as const, ...fb, timestamp: Date.now() }];
-            });
-            setApiHistory(prev => [...prev, { role: 'assistant', content: fb.text }]);
-          }
-        },
-        () => {
-          setAiAvailable(false);
-          setTyping(false);
-          const fb = fallbackResponse(trimmed);
-          addBotMessage({ role: 'bot', ...fb });
-          setApiHistory(prev => [...prev, { role: 'assistant', content: fb.text }]);
-        },
-      );
-    } else {
-      await new Promise(r => setTimeout(r, 300 + Math.random() * 400));
-      const fb = fallbackResponse(trimmed);
-      addBotMessage({ role: 'bot', ...fb });
-      setApiHistory(prev => [...prev, { role: 'assistant', content: fb.text }]);
+        });
+      } catch {
+        // Streaming failed — downgrade to non-streaming for this + future messages
+        setAiMode('nonstreaming');
+      }
+    }
+
+    // ── Strategy 2: Non-streaming (als streaming faalt) ──
+    if (!aiResponse && aiMode !== 'offline') {
+      try {
+        aiResponse = await fetchResponse(newHistory);
+      } catch {
+        // Both API methods failed — offline mode for THIS session
+        setAiMode('offline');
+      }
+    }
+
+    // ── Process AI response ──
+    if (aiResponse) {
+      const parsed = parseResponse(aiResponse);
       setTyping(false);
+      setMessages(prev => {
+        const hasStream = prev.find(m => m.id === streamBotId);
+        if (hasStream) {
+          return prev.map(m => m.id === streamBotId ? { ...m, ...parsed, isStreaming: false } : m);
+        }
+        return [...prev, { id: streamBotId, role: 'bot' as const, ...parsed, timestamp: Date.now() }];
+      });
+      setApiHistory(prev => [...prev, { role: 'assistant', content: aiResponse }]);
+      if (!open) setUnreadCount(prev => prev + 1);
+      // API worked — re-enable streaming for next message
+      if (aiMode === 'nonstreaming') setAiMode('streaming');
+      return;
+    }
+
+    // ── Strategy 3: Fallback patterns (alleen als API echt down is) ──
+    setTyping(false);
+    const fb = fallbackResponse(trimmed);
+    const botMsg: Message = { id: streamBotId, role: 'bot', ...fb, timestamp: Date.now() };
+    setMessages(prev => {
+      const hasStream = prev.find(m => m.id === streamBotId);
+      if (hasStream) return prev.map(m => m.id === streamBotId ? botMsg : m);
+      return [...prev, botMsg];
+    });
+    setApiHistory(prev => [...prev, { role: 'assistant', content: fb.text }]);
+    if (!open) setUnreadCount(prev => prev + 1);
+
+    // Retry AI after 60 seconds in offline mode
+    if (aiMode === 'offline') {
+      setTimeout(() => setAiMode('streaming'), 60000);
     }
   }
 
@@ -1164,7 +1181,7 @@ export default function ChatBot() {
             <p className="text-emerald-100 text-xs flex items-center gap-1.5">
               {typing ? (
                 <><span className="w-1.5 h-1.5 rounded-full bg-amber-300 inline-block animate-pulse" /> {thinkingPhrase}</>
-              ) : aiAvailable ? (
+              ) : aiMode !== 'offline' ? (
                 <><span className="w-1.5 h-1.5 rounded-full bg-emerald-300 inline-block" /> AI-assistent</>
               ) : (
                 <><span className="w-1.5 h-1.5 rounded-full bg-emerald-300 inline-block" /> Online</>
