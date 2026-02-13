@@ -1,0 +1,785 @@
+[
+  {
+    "file": "Foto 11-02-2026, 02 07 16.jpg",
+    "side": "front",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "CIB, PEGI 3+ rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 07 45.jpg",
+    "side": "front",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "Blurry/overexposed accidental shot of same Diamond EUR case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 08 02.jpg",
+    "side": "front",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "Alternate angle of same Diamond EUR case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 08 27.jpg",
+    "side": "front",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "Best front shot of Diamond EUR case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 08 38.jpg",
+    "side": "back",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 08 55.jpg",
+    "side": "front",
+    "game": "Pokemon Mystery Dungeon: Blue Rescue Team",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-011",
+    "notes": "CIB, PEGI 3+ rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 09 10.jpg",
+    "side": "back",
+    "game": "Pokemon Mystery Dungeon: Blue Rescue Team",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-011",
+    "notes": "Back of case, Dutch text"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 09 22.jpg",
+    "side": "front",
+    "game": "Pokemon Ranger: Shadows of Almia",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-008",
+    "notes": "CIB, PEGI 3+ rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 09 29.jpg",
+    "side": "back",
+    "game": "Pokemon Ranger: Shadows of Almia",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-008",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 10 07.jpg",
+    "side": "front",
+    "game": "Pokemon Mystery Dungeon: Explorers of Sky",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-012",
+    "notes": "CIB, PEGI 3 rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 10 16.jpg",
+    "side": "back",
+    "game": "Pokemon Mystery Dungeon: Explorers of Sky",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-012",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 10 27.jpg",
+    "side": "front",
+    "game": "Pokemon Pearl (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": null,
+    "notes": "CIB, PEGI 3+ rating, clear case. No EUR Pearl entry in products.json yet"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 10 48.jpg",
+    "side": "back",
+    "game": "Pokemon Pearl (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": null,
+    "notes": "Back of case, Dutch text 'Welkom bij een nieuwe generatie Pokemon!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 11 14.jpg",
+    "side": "front",
+    "game": "Pokemon Mystery Dungeon: Explorers of Time",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-009",
+    "notes": "CIB, PEGI 3+ rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 11 20.jpg",
+    "side": "back",
+    "game": "Pokemon Mystery Dungeon: Explorers of Time",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-009",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 11 36.jpg",
+    "side": "front",
+    "game": "Pokemon Conquest (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": null,
+    "notes": "CIB in black case, ESRB E rating. DS-015 exists but without region qualifier - may be same item or separate"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 11 44.jpg",
+    "side": "back",
+    "game": "Pokemon Conquest (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": null,
+    "notes": "Back of USA case, English text, ESRB E, Koei Tecmo logo"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 11 52.jpg",
+    "side": "front",
+    "game": "Pokemon Platinum",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-001",
+    "notes": "CIB, PEGI 3+ rating, holographic cover, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 11 58.jpg",
+    "side": "back",
+    "game": "Pokemon Platinum",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-001",
+    "notes": "Back of case, Dutch text, PEGI Online logo, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 12 08.jpg",
+    "side": "front",
+    "game": "Pokemon Platinum (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-019",
+    "notes": "CIB in black case, ESRB E rating, holographic cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 12 19.jpg",
+    "side": "back",
+    "game": "Pokemon Platinum (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-019",
+    "notes": "Back of USA case, English text, ESRB E"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 12 32.jpg",
+    "side": "front",
+    "game": "Pokemon Pearl (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-020",
+    "notes": "CIB in black case, ESRB E rating, holographic cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 12 40.jpg",
+    "side": "back",
+    "game": "Pokemon Pearl (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-020",
+    "notes": "Back of USA case, English text"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 12 56.jpg",
+    "side": "front",
+    "game": "Pokemon HeartGold",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-003",
+    "notes": "CIB, PEGI 3 rating, clear case, gold Ho-Oh cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 13 00.jpg",
+    "side": "back",
+    "game": "Pokemon HeartGold",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-003",
+    "notes": "Back of case, Dutch text, Pokewalker accessoire mentioned, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 13 07.jpg",
+    "side": "front",
+    "game": "Pokemon HeartGold (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-021",
+    "notes": "CIB in black case, ESRB E rating, gold Ho-Oh cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 13 13.jpg",
+    "side": "back",
+    "game": "Pokemon HeartGold (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-021",
+    "notes": "Back of USA case, 'NOT FOR RESALE' sticker, English text, ESRB E"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 13 50.jpg",
+    "side": "front",
+    "game": "Pokemon SoulSilver",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": null,
+    "notes": "CIB, PEGI 3 rating, clear case, silver Lugia cover. No SoulSilver entry in products.json yet"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 13 55.jpg",
+    "side": "back",
+    "game": "Pokemon SoulSilver",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": null,
+    "notes": "Back of case, Dutch text, Pokewalker accessoire mentioned, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 14 11.jpg",
+    "side": "front",
+    "game": "Pokemon Ranger",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-013",
+    "notes": "CIB, PEGI 3+ rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 14 19.jpg",
+    "side": "back",
+    "game": "Pokemon Ranger",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-013",
+    "notes": "Back of case, Dutch text 'CAPTURE, GO! / VANG ZE!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 14 29.jpg",
+    "side": "front",
+    "game": "Pokemon Diamond (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-018",
+    "notes": "CIB in black case, ESRB E rating, holographic cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 14 37.jpg",
+    "side": "back",
+    "game": "Pokemon Diamond (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-018",
+    "notes": "Back of USA case, English text"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 14 45.jpg",
+    "side": "front",
+    "game": "Pokemon Mystery Dungeon: Explorers of Darkness",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-014",
+    "notes": "CIB, PEGI 3+ rating, clear case"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 14 55.jpg",
+    "side": "back",
+    "game": "Pokemon Mystery Dungeon: Explorers of Darkness",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-014",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 15 11.jpg",
+    "side": "front",
+    "game": "Pokemon Black 2",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-016",
+    "notes": "CIB, PEGI 3 rating, clear case, Black Kyurem cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 15 22.jpg",
+    "side": "back",
+    "game": "Pokemon Black 2",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-016",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 15 37.jpg",
+    "side": "front",
+    "game": "Pokemon White 2",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-017",
+    "notes": "CIB, PEGI 3 rating, clear case, White Kyurem cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 15 45.jpg",
+    "side": "back",
+    "game": "Pokemon White 2",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-017",
+    "notes": "Back of case, Dutch text 'Twee krachten verenigd...een nieuwe legende verrijst!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 15 54.jpg",
+    "side": "front",
+    "game": "Pokemon White",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": null,
+    "notes": "CIB, PEGI 3 rating, clear case, Zekrom cover. No White (1) entry in products.json yet"
+  },
+  {
+    "file": "Foto 11-02-2026, 02 16 12.jpg",
+    "side": "back",
+    "game": "Pokemon White",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": null,
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 58 37.jpg",
+    "side": "front",
+    "game": "Pokemon Moon",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-004",
+    "notes": "CIB, PEGI 7 rating, white 3DS case, Lunala cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 58 42.jpg",
+    "side": "back",
+    "game": "Pokemon Moon",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-004",
+    "notes": "Back of case, Dutch text 'Welkom in de wereld van Pokemon!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 58 52.jpg",
+    "side": "front",
+    "game": "Pokemon Mystery Dungeon: Gates to Infinity",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-006",
+    "notes": "CIB, PEGI 3 rating, white 3DS case"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 01.jpg",
+    "side": "back",
+    "game": "Pokemon Mystery Dungeon: Gates to Infinity",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-006",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 09.jpg",
+    "side": "front",
+    "game": "Pokemon Ultra Sun",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-007",
+    "notes": "CIB, PEGI 7 rating, white 3DS case, Dusk Mane Necrozma cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 16.jpg",
+    "side": "back",
+    "game": "Pokemon Ultra Sun",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-007",
+    "notes": "Back of case, Dutch text 'Aan de slag!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 25.jpg",
+    "side": "front",
+    "game": "Pokemon Ultra Moon",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-008",
+    "notes": "CIB, PEGI 7 rating, white 3DS case, Dawn Wings Necrozma cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 29.jpg",
+    "side": "back",
+    "game": "Pokemon Ultra Moon",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-008",
+    "notes": "Back of case, Dutch text 'Aan de slag!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 39.jpg",
+    "side": "front",
+    "game": "Detective Pikachu",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-009",
+    "notes": "CIB, PEGI 3 rating, yellow 3DS case, amiibo compatible"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 46.jpg",
+    "side": "back",
+    "game": "Detective Pikachu",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-009",
+    "notes": "Back of case, Dutch text, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 53.jpg",
+    "side": "front",
+    "game": "Pokemon X",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-001",
+    "notes": "CIB, PEGI 7 rating, white 3DS case, Xerneas cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 20 59 57.jpg",
+    "side": "back",
+    "game": "Pokemon X",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-001",
+    "notes": "Back of case, Dutch text 'De volgende evolutie in Pokemon!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 00 04.jpg",
+    "side": "front",
+    "game": "Pokemon Y",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-010",
+    "notes": "CIB, PEGI 7 rating, white 3DS case, Yveltal cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 00 27.jpg",
+    "side": "back",
+    "game": "Pokemon Y",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-010",
+    "notes": "Back of case, English text 'The next evolution in Pokemon!', UK/CA CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 00 35.jpg",
+    "side": "front",
+    "game": "Pokemon Dash",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-022",
+    "notes": "CIB, PEGI 3+ rating, clear case, Pikachu running cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 00 40.jpg",
+    "side": "back",
+    "game": "Pokemon Dash",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-022",
+    "notes": "Back of case, multi-language text (English/Dutch/French), CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 00 47.jpg",
+    "side": "front",
+    "game": "Pokemon Sun",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-011",
+    "notes": "CIB, PEGI 7 rating, white 3DS case, Solgaleo cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 00 51.jpg",
+    "side": "back",
+    "game": "Pokemon Sun",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-011",
+    "notes": "Back of case, Dutch text 'Welkom in de wereld van Pokemon!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 01 02.jpg",
+    "side": "front",
+    "game": "Pokemon Alpha Sapphire",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-003",
+    "notes": "CIB, PEGI 7 rating, blue 3DS case, Primal Kyogre cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 01 08.jpg",
+    "side": "back",
+    "game": "Pokemon Alpha Sapphire",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-003",
+    "notes": "Back of case, Dutch text 'Oude krachten komen terug!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 01 15.jpg",
+    "side": "front",
+    "game": "Pokemon Omega Ruby",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-002",
+    "notes": "CIB, PEGI 7 rating, red 3DS case, Primal Groudon cover"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 01 19.jpg",
+    "side": "back",
+    "game": "Pokemon Omega Ruby",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-002",
+    "notes": "Back of case, Dutch text 'Oude krachten komen terug!', CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 03 51.jpg",
+    "side": "front",
+    "game": "Pokemon Gold",
+    "platform": "Game Boy Color",
+    "region": "EUR",
+    "sku": "GB-002",
+    "notes": "Loose cartridge, gold/yellow GBC cart, code DMG-AAUP-EUR-1"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 03 57.jpg",
+    "side": "back",
+    "game": "Pokemon Gold",
+    "platform": "Game Boy Color",
+    "region": "EUR",
+    "sku": "GB-002",
+    "notes": "Back of gold cartridge, MADE IN JAPAN, PAT.PEND."
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 04.jpg",
+    "side": "front",
+    "game": "Pokemon Blue",
+    "platform": "Game Boy",
+    "region": "EUR",
+    "sku": "GB-003",
+    "notes": "Loose cartridge, blue GB cart, code DMG-APED-NOE (Nintendo of Europe), label text 'AUSSEN SICHTBARE SEITE'"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 10.jpg",
+    "side": "back",
+    "game": "Pokemon Blue",
+    "platform": "Game Boy",
+    "region": "EUR",
+    "sku": "GB-003",
+    "notes": "Back of blue cartridge, MADE IN JAPAN, PAT.PEND."
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 16.jpg",
+    "side": "front",
+    "game": "Pokemon Yellow",
+    "platform": "Game Boy",
+    "region": "EUR",
+    "sku": "GB-004",
+    "notes": "Loose cartridge, yellow GB cart, code DMG-APSU-EUR, Pikachu label"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 26.jpg",
+    "side": "front",
+    "game": "Pokemon Silver",
+    "platform": "Game Boy Color",
+    "region": "EUR",
+    "sku": "GB-005",
+    "notes": "Loose cartridge, silver/grey GBC cart, code DMG-AAXP-EUR, Lugia label"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 30.jpg",
+    "side": "back",
+    "game": "Pokemon Silver",
+    "platform": "Game Boy Color",
+    "region": "EUR",
+    "sku": "GB-005",
+    "notes": "Back of silver cartridge, MADE IN JAPAN, PAT.PEND."
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 35.jpg",
+    "side": "front",
+    "game": "Pokemon Crystal",
+    "platform": "Game Boy Color",
+    "region": "EUR",
+    "sku": "GB-006",
+    "notes": "Loose cartridge, transparent blue GBC cart, code CGB-BYTP-EUR, Suicune label"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 04 40.jpg",
+    "side": "back",
+    "game": "Pokemon Crystal",
+    "platform": "Game Boy Color",
+    "region": "EUR",
+    "sku": "GB-006",
+    "notes": "Back of transparent blue cartridge, PCB visible through shell"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 05 01.jpg",
+    "side": "front",
+    "game": "Pokemon Mystery Dungeon: Explorers of Sky",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-012",
+    "notes": "Loose DS cartridge, code NTR-C2SP-EUR visible on label"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 05 11.jpg",
+    "side": "back",
+    "game": "Pokemon Mystery Dungeon: Explorers of Sky",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-012",
+    "notes": "Back of DS cartridge, NTR-005 PAT.PEND., code C2SPN0J22"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 06 03.jpg",
+    "side": "front",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "Loose DS cartridge, code NTR-ADAP-EUR visible on label"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 06 06.jpg",
+    "side": "back",
+    "game": "Pokemon Diamond (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-010",
+    "notes": "Back of DS cartridge, NTR-005 PAT.PEND., code ADAPN5J22"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 06 48.jpg",
+    "side": "front",
+    "game": "Pokemon X",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-001",
+    "notes": "Loose 3DS cartridge, code LNA-CTR-EKJP-EUR visible"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 06 55.jpg",
+    "side": "back",
+    "game": "Pokemon X",
+    "platform": "3DS",
+    "region": "EUR",
+    "sku": "3DS-001",
+    "notes": "Back of 3DS cartridge, CTR-005 PAT.PEND., code EK.JPX60202"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 07 06.jpg",
+    "side": "front",
+    "game": "Pokemon Pearl (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-020",
+    "notes": "Loose DS cartridge, code NTR-APAE-USA visible on label"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 07 14.jpg",
+    "side": "back",
+    "game": "Pokemon Pearl (USA)",
+    "platform": "DS",
+    "region": "USA",
+    "sku": "DS-020",
+    "notes": "Back of DS cartridge, NTR-005 PAT.PEND., code APAEN5J34"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 07 31.jpg",
+    "side": "front",
+    "game": "Pokemon Conquest (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-015",
+    "notes": "Loose DS cartridge, code TWL-VPYP-UKV visible on label, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 07 38.jpg",
+    "side": "back",
+    "game": "Pokemon Conquest (EUR)",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-015",
+    "notes": "Back of DS cartridge, NTR-005 PAT.PEND., code VPYP10J22"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 07 45.jpg",
+    "side": "front",
+    "game": "Pokemon Sapphire (EUR)",
+    "platform": "GBA",
+    "region": "EUR",
+    "sku": "GBA-002",
+    "notes": "Loose GBA cartridge, transparent blue cart, code AGB-AXPP-EUR visible, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 07 59.jpg",
+    "side": "back",
+    "game": "Pokemon Sapphire (EUR)",
+    "platform": "GBA",
+    "region": "EUR",
+    "sku": "GBA-002",
+    "notes": "Back of transparent blue GBA cartridge, MODEL NO.AGB-002, PAT.PEND. MADE IN JAPAN"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 08 05.jpg",
+    "side": "front",
+    "game": "Pokemon Platinum",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-001",
+    "notes": "Loose DS cartridge, code NTR-CPUP-EUR visible on label, CE marking"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 08 12.jpg",
+    "side": "back",
+    "game": "Pokemon Platinum",
+    "platform": "DS",
+    "region": "EUR",
+    "sku": "DS-001",
+    "notes": "Back of DS cartridge, NTR-005 PAT.PEND., code CPUPN0J20"
+  },
+  {
+    "file": "Foto 11-02-2026, 21 48 31.png",
+    "side": "n/a",
+    "game": "n/a",
+    "platform": "n/a",
+    "region": "n/a",
+    "sku": null,
+    "notes": "Phone screenshot of Bol.com product listing: 'Geile Beer' bear carnival costume, EUR 39.50. Not a game cartridge."
+  }
+]
