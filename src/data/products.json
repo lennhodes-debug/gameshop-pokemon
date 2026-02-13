@@ -1187,7 +1187,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-030-mario-party-ds.webp"
+    "image": "/images/products/ds-030-mario-party-ds.webp",
+    "cibPrice": 19.5,
+    "cibImage": "/images/products/ds-042-mario-party-ds-cib.webp",
+    "cibBackImage": "/images/products/ds-042-mario-party-ds-cib-back.webp"
   },
   {
     "sku": "3DS-023",
@@ -1278,26 +1281,6 @@
     "cibBackImage": "/images/products/ds-032-yoshi-touch-and-go-cib-back.webp"
   },
   {
-    "sku": "DS-033",
-    "slug": "ds-033-mario-sonic-olympic-games-cib",
-    "name": "Mario & Sonic at the Olympic Games",
-    "platform": "Nintendo DS",
-    "category": "Games > DS",
-    "genre": "Sport",
-    "price": 9.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "De eerste crossover tussen Mario en Sonic! Neem deel aan de Olympische Spelen van Beijing 2008 met iconische personages van Nintendo en SEGA. Meer dan 20 olympische disciplines met touchscreen-bediening.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/ds-033-mario-sonic-olympic-games-cib.webp",
-    "backImage": "/images/products/ds-033-mario-sonic-olympic-games-cib-back.webp",
-    "cibImage": "/images/products/ds-033-mario-sonic-olympic-games-cib.webp",
-    "cibBackImage": "/images/products/ds-033-mario-sonic-olympic-games-cib-back.webp"
-  },
-  {
     "sku": "DS-034",
     "slug": "ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib",
     "name": "Mario vs. Donkey Kong: Mini-Land Mayhem!",
@@ -1316,26 +1299,6 @@
     "backImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib-back.webp",
     "cibImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib.webp",
     "cibBackImage": "/images/products/ds-034-mario-vs-donkey-kong-mini-land-mayhem-cib-back.webp"
-  },
-  {
-    "sku": "DS-035",
-    "slug": "ds-035-mario-kart-ds-cib",
-    "name": "Mario Kart DS",
-    "platform": "Nintendo DS",
-    "category": "Games > DS",
-    "genre": "Race",
-    "price": 19.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "Race met Mario en vrienden op 32 banen in het eerste draagbare Mario Kart met online multiplayer! Inclusief retro-banen uit eerdere Mario Kart-games en de Mission Mode. Compleet in originele doos.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/ds-035-mario-kart-ds-cib.webp",
-    "backImage": "/images/products/ds-035-mario-kart-ds-cib-back.webp",
-    "cibImage": "/images/products/ds-035-mario-kart-ds-cib.webp",
-    "cibBackImage": "/images/products/ds-035-mario-kart-ds-cib-back.webp"
   },
   {
     "sku": "DS-036",
@@ -1358,26 +1321,6 @@
     "cibBackImage": "/images/products/ds-036-zelda-phantom-hourglass-cib-back.webp"
   },
   {
-    "sku": "DS-037",
-    "slug": "ds-037-new-super-mario-bros-cib",
-    "name": "New Super Mario Bros.",
-    "platform": "Nintendo DS",
-    "category": "Games > DS",
-    "genre": "Platformer",
-    "price": 17.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "De terugkeer van klassiek 2D Mario-platformplezier! Spring, ren en vlieg door 80 levels verdeeld over 8 werelden. Met de Mega Mushroom en Mini Mushroom power-ups. Een van de bestverkochte DS-games ooit.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/ds-037-new-super-mario-bros-cib.webp",
-    "backImage": "/images/products/ds-037-new-super-mario-bros-cib-back.webp",
-    "cibImage": "/images/products/ds-037-new-super-mario-bros-cib.webp",
-    "cibBackImage": "/images/products/ds-037-new-super-mario-bros-cib-back.webp"
-  },
-  {
     "sku": "DS-038",
     "slug": "ds-038-metroid-prime-hunters-first-hunt-cib",
     "name": "Metroid Prime Hunters: First Hunt (Demo)",
@@ -1396,46 +1339,6 @@
     "backImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib-back.webp",
     "cibImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib.webp",
     "cibBackImage": "/images/products/ds-038-metroid-prime-hunters-first-hunt-cib-back.webp"
-  },
-  {
-    "sku": "DS-039",
-    "slug": "ds-039-super-mario-64-ds-cib",
-    "name": "Super Mario 64 DS",
-    "platform": "Nintendo DS",
-    "category": "Games > DS",
-    "genre": "Platformer",
-    "price": 22.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "De klassieker Super Mario 64 opnieuw uitgebracht voor de DS met extra speelbare personages! Speel als Mario, Luigi, Wario en Yoshi door meer dan 150 sterren. Met touchscreen-minigames en verbeterde graphics.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/ds-039-super-mario-64-ds-cib.webp",
-    "backImage": "/images/products/ds-039-super-mario-64-ds-cib-back.webp",
-    "cibImage": "/images/products/ds-039-super-mario-64-ds-cib.webp",
-    "cibBackImage": "/images/products/ds-039-super-mario-64-ds-cib-back.webp"
-  },
-  {
-    "sku": "DS-040",
-    "slug": "ds-040-professor-layton-verloren-toekomst-cib",
-    "name": "Professor Layton en de Verloren Toekomst",
-    "platform": "Nintendo DS",
-    "category": "Games > DS",
-    "genre": "Puzzel",
-    "price": 14.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "Professor Layton en Luke reizen naar de toekomst in dit meeslepende puzzelavontuur! Los meer dan 165 breinbrekers op terwijl je een mysterieus verhaal ontrafeld. Nederlandse versie. Compleet in doos.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/ds-040-professor-layton-verloren-toekomst-cib.webp",
-    "backImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib-back.webp",
-    "cibImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib.webp",
-    "cibBackImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib-back.webp"
   },
   {
     "sku": "DS-041",
@@ -1458,46 +1361,6 @@
     "cibBackImage": "/images/products/ds-041-mario-luigi-bowsers-inside-story-cib-back.webp"
   },
   {
-    "sku": "DS-042",
-    "slug": "ds-042-mario-party-ds-cib",
-    "name": "Mario Party DS (CIB)",
-    "platform": "Nintendo DS",
-    "category": "Games > DS",
-    "genre": "Party",
-    "price": 19.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "Het ultieme feestspel voor de Nintendo DS! Speel meer dan 70 minigames met maximaal 4 spelers via draadloze verbinding. Met 5 speelborden en Story Mode. Compleet in originele doos met handleiding.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/ds-042-mario-party-ds-cib.webp",
-    "backImage": "/images/products/ds-042-mario-party-ds-cib-back.webp",
-    "cibImage": "/images/products/ds-042-mario-party-ds-cib.webp",
-    "cibBackImage": "/images/products/ds-042-mario-party-ds-cib-back.webp"
-  },
-  {
-    "sku": "3DS-026",
-    "slug": "3ds-026-mario-kart-7-cib",
-    "name": "Mario Kart 7",
-    "platform": "Nintendo 3DS",
-    "category": "Games > 3DS",
-    "genre": "Race",
-    "price": 22.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "Race over land, zee en door de lucht in Mario Kart 7! Pas je kart aan met nieuwe onderdelen, vlieg met de glider en duik onder water. Online multiplayer en StreetPass-functionaliteit. Compleet in doos.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/3ds-026-mario-kart-7-cib.webp",
-    "backImage": "/images/products/3ds-026-mario-kart-7-cib-back.webp",
-    "cibImage": "/images/products/3ds-026-mario-kart-7-cib.webp",
-    "cibBackImage": "/images/products/3ds-026-mario-kart-7-cib-back.webp"
-  },
-  {
     "sku": "3DS-027",
     "slug": "3ds-027-mario-sonic-london-2012-cib",
     "name": "Mario & Sonic at the London 2012 Olympic Games",
@@ -1516,26 +1379,6 @@
     "backImage": "/images/products/3ds-027-mario-sonic-london-2012-cib-back.webp",
     "cibImage": "/images/products/3ds-027-mario-sonic-london-2012-cib.webp",
     "cibBackImage": "/images/products/3ds-027-mario-sonic-london-2012-cib-back.webp"
-  },
-  {
-    "sku": "3DS-028",
-    "slug": "3ds-028-zelda-link-between-worlds-cib",
-    "name": "The Legend of Zelda: A Link Between Worlds",
-    "platform": "Nintendo 3DS",
-    "category": "Games > 3DS",
-    "genre": "Avontuur",
-    "price": 27.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "De spirituele opvolger van A Link to the Past! Versmelt met muren om een 2D-schildering te worden in deze briljante Zelda-game. Met een open wereld structuur en prachtige 3D-effecten. Nintendo Selects editie.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/3ds-028-zelda-link-between-worlds-cib.webp",
-    "backImage": "/images/products/3ds-028-zelda-link-between-worlds-cib-back.webp",
-    "cibImage": "/images/products/3ds-028-zelda-link-between-worlds-cib.webp",
-    "cibBackImage": "/images/products/3ds-028-zelda-link-between-worlds-cib-back.webp"
   },
   {
     "sku": "3DS-029",
@@ -1638,46 +1481,6 @@
     "cibBackImage": "/images/products/3ds-033-mario-party-star-rush-cib-back.webp"
   },
   {
-    "sku": "3DS-034",
-    "slug": "3ds-034-mario-party-island-tour-cib",
-    "name": "Mario Party: Island Tour",
-    "platform": "Nintendo 3DS",
-    "category": "Games > 3DS",
-    "genre": "Party",
-    "price": 14.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "Feest op zeven verschillende speelborden in dit draagbare Mario Party-avontuur! Met 80 minigames en lokale multiplayer via Download Play. Nintendo Selects editie. Compleet in doos.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/3ds-034-mario-party-island-tour-cib.webp",
-    "backImage": "/images/products/3ds-034-mario-party-island-tour-cib-back.webp",
-    "cibImage": "/images/products/3ds-034-mario-party-island-tour-cib.webp",
-    "cibBackImage": "/images/products/3ds-034-mario-party-island-tour-cib-back.webp"
-  },
-  {
-    "sku": "3DS-035",
-    "slug": "3ds-035-new-super-mario-bros-2-cib",
-    "name": "New Super Mario Bros. 2",
-    "platform": "Nintendo 3DS",
-    "category": "Games > 3DS",
-    "genre": "Platformer",
-    "price": 19.5,
-    "condition": "Gebruikt",
-    "completeness": "Compleet in doos (CIB)",
-    "type": "simple",
-    "description": "Verzamel 1 miljoen munten in dit goudkoorts-platformspel! Met de Gold Flower power-up en co-op multiplayer. Klassiek 2D Mario-plezier met een twist, nu in stereoscopisch 3D.",
-    "weight": 0.08,
-    "isConsole": false,
-    "isPremium": false,
-    "image": "/images/products/3ds-035-new-super-mario-bros-2-cib.webp",
-    "backImage": "/images/products/3ds-035-new-super-mario-bros-2-cib-back.webp",
-    "cibImage": "/images/products/3ds-035-new-super-mario-bros-2-cib.webp",
-    "cibBackImage": "/images/products/3ds-035-new-super-mario-bros-2-cib-back.webp"
-  },
-  {
     "sku": "3DS-036",
     "slug": "3ds-036-monster-hunter-generations-cib",
     "name": "Monster Hunter Generations",
@@ -1712,7 +1515,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-037-mario-party-island-tour.webp"
+    "image": "/images/products/3ds-037-mario-party-island-tour.webp",
+    "cibPrice": 14.5,
+    "cibImage": "/images/products/3ds-034-mario-party-island-tour-cib.webp",
+    "cibBackImage": "/images/products/3ds-034-mario-party-island-tour-cib-back.webp"
   },
   {
     "sku": "3DS-038",
@@ -1746,7 +1552,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-039-mario-kart-7.webp"
+    "image": "/images/products/3ds-039-mario-kart-7.webp",
+    "cibPrice": 22.5,
+    "cibImage": "/images/products/3ds-026-mario-kart-7-cib.webp",
+    "cibBackImage": "/images/products/3ds-026-mario-kart-7-cib-back.webp"
   },
   {
     "sku": "3DS-040",
@@ -1780,7 +1589,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-041-new-super-mario-bros-2.webp"
+    "image": "/images/products/3ds-041-new-super-mario-bros-2.webp",
+    "cibPrice": 19.5,
+    "cibImage": "/images/products/3ds-035-new-super-mario-bros-2-cib.webp",
+    "cibBackImage": "/images/products/3ds-035-new-super-mario-bros-2-cib-back.webp"
   },
   {
     "sku": "3DS-042",
@@ -1831,7 +1643,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/3ds-044-zelda-link-between-worlds.webp"
+    "image": "/images/products/3ds-044-zelda-link-between-worlds.webp",
+    "cibPrice": 27.5,
+    "cibImage": "/images/products/3ds-028-zelda-link-between-worlds-cib.webp",
+    "cibBackImage": "/images/products/3ds-028-zelda-link-between-worlds-cib-back.webp"
   },
   {
     "sku": "3DS-045",
@@ -1967,7 +1782,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-044-new-super-mario-bros.webp"
+    "image": "/images/products/ds-044-new-super-mario-bros.webp",
+    "cibPrice": 17.5,
+    "cibImage": "/images/products/ds-037-new-super-mario-bros-cib.webp",
+    "cibBackImage": "/images/products/ds-037-new-super-mario-bros-cib-back.webp"
   },
   {
     "sku": "DS-045",
@@ -2018,7 +1836,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-047-professor-layton-verloren-toekomst.webp"
+    "image": "/images/products/ds-047-professor-layton-verloren-toekomst.webp",
+    "cibPrice": 14.5,
+    "cibImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib.webp",
+    "cibBackImage": "/images/products/ds-040-professor-layton-verloren-toekomst-cib-back.webp"
   },
   {
     "sku": "DS-048",
@@ -2035,7 +1856,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-048-mario-kart-ds.webp"
+    "image": "/images/products/ds-048-mario-kart-ds.webp",
+    "cibPrice": 19.5,
+    "cibImage": "/images/products/ds-035-mario-kart-ds-cib.webp",
+    "cibBackImage": "/images/products/ds-035-mario-kart-ds-cib-back.webp"
   },
   {
     "sku": "DS-049",
@@ -2103,7 +1927,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-052-super-mario-64-ds.webp"
+    "image": "/images/products/ds-052-super-mario-64-ds.webp",
+    "cibPrice": 22.5,
+    "cibImage": "/images/products/ds-039-super-mario-64-ds-cib.webp",
+    "cibBackImage": "/images/products/ds-039-super-mario-64-ds-cib-back.webp"
   },
   {
     "sku": "DS-053",
@@ -2154,7 +1981,10 @@
     "weight": 0.08,
     "isConsole": false,
     "isPremium": false,
-    "image": "/images/products/ds-055-mario-sonic-olympic-games.webp"
+    "image": "/images/products/ds-055-mario-sonic-olympic-games.webp",
+    "cibPrice": 9.5,
+    "cibImage": "/images/products/ds-033-mario-sonic-olympic-games-cib.webp",
+    "cibBackImage": "/images/products/ds-033-mario-sonic-olympic-games-cib-back.webp"
   },
   {
     "sku": "DS-056",

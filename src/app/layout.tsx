@@ -131,7 +131,7 @@ export default function RootLayout({
               },
               priceRange: '€5 - €300',
               currenciesAccepted: 'EUR',
-              paymentAccepted: 'iDEAL, Creditcard, PayPal, Bancontact, Apple Pay',
+              paymentAccepted: 'iDEAL',
               areaServed: {
                 '@type': 'Country',
                 name: 'NL',

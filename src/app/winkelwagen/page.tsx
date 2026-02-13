@@ -547,7 +547,7 @@ export default function WinkelwagenPage() {
 
                 {/* Payment methods */}
                 <div className="mt-5 flex items-center justify-center gap-2">
-                  {['iDEAL', 'Visa', 'PayPal'].map((m) => (
+                  {['iDEAL'].map((m) => (
                     <span key={m} className="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[10px] text-slate-500 dark:text-slate-400 font-semibold">
                       {m}
                     </span>
@@ -558,7 +558,7 @@ export default function WinkelwagenPage() {
                 <div className="mt-6 bg-slate-50 rounded-xl p-4 border border-slate-100">
                   <div className="space-y-2">
                     {[
-                      'Veilig betalen via iDEAL, creditcard of PayPal',
+                      'Veilig betalen via iDEAL',
                       'Verzending via PostNL binnen 1-3 werkdagen',
                       '14 dagen bedenktijd',
                     ].map((text, i) => (

@@ -34,7 +34,7 @@ export default function PrivacybeleidPage() {
               Wij maken gebruik van de volgende diensten voor het verwerken van gegevens:
             </p>
             <ul className="list-disc pl-6 text-slate-600 dark:text-slate-300 space-y-2">
-              <li><strong>Mollie:</strong> Verwerking van betalingen (iDEAL, creditcard, PayPal, Bancontact, Apple Pay). Betaalgegevens worden niet door ons opgeslagen.</li>
+              <li><strong>Mollie:</strong> Verwerking van betalingen (iDEAL). Betaalgegevens worden niet door ons opgeslagen.</li>
               <li><strong>Netlify:</strong> Hosting van onze website en verwerking van formulierinzendingen. Contact- en nieuwsbriefformulieren worden via Netlify Forms verwerkt en opgeslagen op Netlify-servers binnen de EU/VS.</li>
               <li><strong>PostNL:</strong> Verzending van bestellingen. Naam en afleveradres worden gedeeld voor bezorging.</li>
             </ul>

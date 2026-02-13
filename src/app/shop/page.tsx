@@ -196,9 +196,9 @@ function ShopContent() {
               <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emerald-400/30 to-transparent" />
             </motion.div>
 
-            <h1 className="text-4xl lg:text-7xl font-extrabold text-white tracking-tight mb-5">
+            <h1 className="text-4xl lg:text-7xl font-bold text-white tracking-tight mb-5">
               Onze{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300">
                 Collectie
               </span>
             </h1>
@@ -244,24 +244,24 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mb-6 overflow-hidden"
             >
-              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-2xl p-4">
+              <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                  <span className="text-sm font-semibold text-emerald-700 flex items-center gap-2">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                     </svg>
                     Nog {formatPrice(remainingForFreeShipping)} voor gratis verzending
                   </span>
-                  <Link href="/winkelwagen" className="text-xs text-emerald-600 dark:text-emerald-400 font-medium hover:underline">
+                  <Link href="/winkelwagen" className="text-xs text-emerald-600 font-medium hover:underline">
                     Bekijk wagen
                   </Link>
                 </div>
-                <div className="h-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden">
+                <div className="h-2 bg-emerald-100 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${freeShippingProgress}%` }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-                    className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full"
+                    className="h-full bg-emerald-500 rounded-full"
                   />
                 </div>
               </div>
@@ -311,7 +311,7 @@ function ShopContent() {
 
           {/* Prijs range filter */}
           <div className="mt-4 flex items-center gap-3">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide flex-shrink-0">Prijs</span>
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex-shrink-0">Prijs</span>
             <div className="flex items-center gap-2">
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
@@ -323,10 +323,10 @@ function ShopContent() {
                   value={priceMin}
                   onChange={(e) => setPriceMin(e.target.value)}
                   aria-label="Minimum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
-              <span className="text-slate-300 dark:text-slate-600">—</span>
+              <span className="text-slate-300">—</span>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
                 <input
@@ -337,7 +337,7 @@ function ShopContent() {
                   value={priceMax}
                   onChange={(e) => setPriceMax(e.target.value)}
                   aria-label="Maximum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
@@ -353,18 +353,18 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
             >
-              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1" role="status" aria-live="polite">
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filtered.length}</span> resultaten
+              <span className="text-sm text-slate-500 flex-shrink-0 mr-1" role="status" aria-live="polite">
+                <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
               </span>
 
               {([
-                { active: !!debouncedSearch, label: `\u201C${debouncedSearch}\u201D`, cls: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30', onClear: () => setSearch('') },
-                { active: !!platform, label: platform, cls: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30', onClear: () => setPlatform('') },
-                { active: !!genre, label: genre, cls: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30', onClear: () => setGenre('') },
-                { active: !!condition, label: condition, cls: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30', onClear: () => setCondition('') },
-                { active: !!category, label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : category === 'sale' ? 'Aanbiedingen' : category, cls: 'bg-cyan-50 dark:bg-cyan-900/20 border-cyan-200 dark:border-cyan-800 text-cyan-700 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-900/30', onClear: () => setCategory('') },
-                { active: !!completeness, label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', cls: 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/30', onClear: () => setCompleteness('') },
-                { active: !!(priceMin || priceMax), label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, cls: 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/30', onClear: () => { setPriceMin(''); setPriceMax(''); } },
+                { active: !!debouncedSearch, label: `\u201C${debouncedSearch}\u201D`, cls: 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100', onClear: () => setSearch('') },
+                { active: !!platform, label: platform, cls: 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100', onClear: () => setPlatform('') },
+                { active: !!genre, label: genre, cls: 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100', onClear: () => setGenre('') },
+                { active: !!condition, label: condition, cls: 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100', onClear: () => setCondition('') },
+                { active: !!category, label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : category === 'sale' ? 'Aanbiedingen' : category, cls: 'bg-cyan-50 border-cyan-200 text-cyan-700 hover:bg-cyan-100', onClear: () => setCategory('') },
+                { active: !!completeness, label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', cls: 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100', onClear: () => setCompleteness('') },
+                { active: !!(priceMin || priceMax), label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, cls: 'bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100', onClear: () => { setPriceMin(''); setPriceMax(''); } },
               ] as const).filter((c) => c.active).map((chip, i) => (
                 <button key={i} onClick={chip.onClear} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold transition-colors ${chip.cls}`}>
                   {chip.label}
@@ -374,7 +374,7 @@ function ShopContent() {
 
               {activeFilterCount > 1 && (
                 <>
-                  <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
+                  <div className="h-4 w-px bg-slate-200" />
                   <button
                     onClick={clearFilters}
                     className="text-xs text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
@@ -444,7 +444,7 @@ function ShopContent() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">Geen producten gevonden</h3>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">Geen producten gevonden</h3>
                 <p className="text-slate-400 text-sm mb-8 max-w-xs mx-auto">
                   {debouncedSearch
                     ? `Geen resultaten voor \u201C${debouncedSearch}\u201D`
@@ -452,7 +452,7 @@ function ShopContent() {
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all mb-10"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-semibold shadow-lg transition-all mb-10"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
@@ -462,13 +462,13 @@ function ShopContent() {
 
                 {/* Suggesties per platform */}
                 <div className="max-w-lg mx-auto">
-                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Populaire platforms</p>
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Populaire platforms</p>
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     {platforms.slice(0, 6).map((p) => (
                       <button
                         key={p}
                         onClick={() => { clearFilters(); setPlatform(p); }}
-                        className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                        className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-sm text-slate-600 font-medium hover:border-emerald-300 hover:text-emerald-600 transition-all"
                       >
                         {p}
                       </button>

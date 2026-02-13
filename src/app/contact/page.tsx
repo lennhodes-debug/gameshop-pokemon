@@ -12,7 +12,6 @@ const contactMethods = [
     href: 'mailto:gameshopenter@gmail.com',
     response: 'Reactie binnen 24 uur',
     gradient: 'from-emerald-500 to-teal-500',
-    glow: 'shadow-emerald-500/20',
   },
   {
     icon: 'M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z',
@@ -21,7 +20,6 @@ const contactMethods = [
     href: '#contactform',
     response: 'Reactie binnen 24 uur',
     gradient: 'from-cyan-500 to-blue-500',
-    glow: 'shadow-cyan-500/20',
   },
 ];
 
@@ -92,88 +90,66 @@ export default function ContactPage() {
 
   return (
     <div className="pt-20 lg:pt-24">
-      {/* Hero header */}
+      {/* Hero */}
       <div className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.08),transparent_50%)]" />
 
-        {/* Floating shapes */}
-        <motion.div
-          animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[20%] right-[15%] w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/[0.05] rotate-12"
-        />
-        <motion.div
-          animate={{ y: [0, 10, 0], rotate: [0, -8, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute bottom-[20%] left-[10%] w-14 h-14 rounded-full bg-emerald-500/[0.04] border border-emerald-500/[0.06]"
-        />
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.12 } },
-            }}
+          <motion.span
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6"
           >
-            <motion.span
-              variants={{ hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const } } }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Contact
-            </motion.span>
-            <motion.h1
-              variants={{ hidden: { opacity: 0, y: 30, filter: 'blur(10px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
-              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-5"
-            >
-              Neem{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
-                contact
-              </span>{' '}
-              op
-            </motion.h1>
-            <motion.p
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const } } }}
-              className="text-lg lg:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed"
-            >
-              Heb je een vraag, opmerking of hulp nodig? Wij staan voor je klaar en reageren binnen 24 uur.
-            </motion.p>
-          </motion.div>
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            Contact
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-5"
+          >
+            Neem{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
+              contact
+            </span>{' '}
+            op
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-lg lg:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed"
+          >
+            Heb je een vraag, opmerking of hulp nodig? Wij staan voor je klaar en reageren binnen 24 uur.
+          </motion.p>
         </div>
 
-        {/* Bottom gradient fade */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f8fafc] to-transparent" />
       </div>
 
-      {/* Contact methods cards */}
+      {/* Contact method cards */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
         <div className="grid sm:grid-cols-2 gap-4">
           {contactMethods.map((method, i) => (
             <motion.a
               key={method.label}
               href={method.href}
-              initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.6, delay: 0.4 + i * 0.15, ease: [0.16, 1, 0.3, 1] as const }}
-              whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
-              whileTap={{ scale: 0.98 }}
-              className={`group bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-lg ${method.glow} hover:shadow-xl transition-all duration-300 text-center`}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="group bg-white rounded-2xl border border-slate-100 p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center"
             >
-              <motion.div
-                className={`inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br ${method.gradient} items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                whileHover={{ rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 0.5 }}
-              >
+              <div className={`inline-flex h-14 w-14 rounded-2xl bg-gradient-to-br ${method.gradient} items-center justify-center text-white mb-4 shadow-lg`}>
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d={method.icon} />
                 </svg>
-              </motion.div>
-              <h3 className="font-bold text-slate-900 dark:text-white mb-1">{method.label}</h3>
-              <p className="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mb-2 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">{method.value}</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500">{method.response}</p>
+              </div>
+              <h3 className="font-bold text-slate-900 mb-1">{method.label}</h3>
+              <p className="text-emerald-600 font-semibold text-sm mb-2 group-hover:text-emerald-700 transition-colors">{method.value}</p>
+              <p className="text-xs text-slate-400">{method.response}</p>
             </motion.a>
           ))}
         </div>
@@ -184,78 +160,78 @@ export default function ContactPage() {
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Left column: info */}
           <motion.div
-            initial={{ opacity: 0, x: -30, filter: 'blur(8px)' }}
-            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as const }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">
+            <h2 className="text-2xl font-extrabold text-slate-900 mb-6 tracking-tight">
               Wij helpen je graag
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
-              Of je nu een vraag hebt over een product, je bestelling wilt opvolgen, of gewoon advies wilt over welke game of console het beste bij je past - we staan klaar om te helpen.
+            <p className="text-slate-500 leading-relaxed mb-8">
+              Of je nu een vraag hebt over een product, je bestelling wilt opvolgen, of gewoon advies wilt over welke game het beste bij je past &mdash; we staan klaar om te helpen.
             </p>
 
             {/* Openingstijden */}
             <div className="space-y-4 mb-8">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Openingstijden</h3>
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Openingstijden</h3>
               {[
                 { dag: 'Maandag t/m vrijdag', tijd: '09:00 — 17:00', actief: true },
                 { dag: 'Zaterdag', tijd: '10:00 — 14:00', actief: true },
                 { dag: 'Zondag', tijd: 'Gesloten', actief: false },
               ].map((item) => (
-                <div key={item.dag} className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700 last:border-0">
-                  <span className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 font-medium">
-                    <span className={`h-2 w-2 rounded-full flex-shrink-0 ${item.actief ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
+                <div key={item.dag} className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0">
+                  <span className="flex items-center gap-2 text-sm text-slate-600 font-medium">
+                    <span className={`h-2 w-2 rounded-full flex-shrink-0 ${item.actief ? 'bg-emerald-500' : 'bg-slate-300'}`} />
                     {item.dag}
                   </span>
-                  <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>{item.tijd}</span>
+                  <span className={`text-xs font-medium ${item.actief ? 'text-emerald-600' : 'text-slate-400'}`}>{item.tijd}</span>
                 </div>
               ))}
               <p className="text-xs text-slate-400">Reactie op e-mails binnen 24 uur op werkdagen</p>
             </div>
 
-            {/* Business details mini */}
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Bedrijfsgegevens</h3>
+            {/* Bedrijfsgegevens */}
+            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900 mb-3">Bedrijfsgegevens</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Bedrijf</span>
-                  <span className="text-slate-700 dark:text-slate-200 font-medium">Gameshop Enter</span>
+                  <span className="text-slate-700 font-medium">Gameshop Enter</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Eigenaar</span>
-                  <span className="text-slate-700 dark:text-slate-200 font-medium">Lenn Hodes</span>
+                  <span className="text-slate-700 font-medium">Lenn Hodes</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">KvK</span>
-                  <span className="text-slate-700 dark:text-slate-200 font-medium">93642474</span>
+                  <span className="text-slate-700 font-medium">93642474</span>
                 </div>
               </div>
             </div>
 
             {/* Snelle vragen */}
             <div className="mt-6 space-y-3">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Snelle antwoorden</h3>
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Snelle antwoorden</h3>
               {[
                 { q: 'Kan ik mijn bestelling afhalen?', a: 'Nee, wij zijn een online webshop. Alle bestellingen worden verzonden via PostNL.' },
                 { q: 'Hoe lang duurt de levering?', a: 'Bestellingen worden binnen 1-3 werkdagen bezorgd via PostNL.' },
                 { q: 'Kan ik games bij jullie verkopen?', a: 'Ja! Bekijk onze inkooppagina voor prijzen en stuur ons een e-mail.' },
               ].map((item) => (
-                <div key={item.q} className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
-                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">{item.q}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{item.a}</p>
+                <div key={item.q} className="p-3 rounded-xl bg-white border border-slate-100">
+                  <p className="text-xs font-semibold text-slate-700">{item.q}</p>
+                  <p className="text-xs text-slate-500 mt-1">{item.a}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-5 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-500/30 rounded-xl">
+            <div className="mt-5 p-4 bg-amber-50 border border-amber-200/60 rounded-xl">
               <div className="flex items-start gap-2.5">
-                <svg className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                 </svg>
-                <p className="text-xs text-amber-800 dark:text-amber-200 font-medium leading-relaxed">
+                <p className="text-xs text-amber-800 font-medium leading-relaxed">
                   Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL.
                 </p>
               </div>
@@ -264,19 +240,18 @@ export default function ContactPage() {
 
           {/* Right column: form */}
           <motion.div
-            initial={{ opacity: 0, x: 30, filter: 'blur(8px)' }}
-            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] as const }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-3"
             id="contactform"
           >
-            <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-              {/* Gradient top-border accent */}
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-md overflow-hidden">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
 
               <div className="p-6 lg:p-8">
-                <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Stuur een bericht</h2>
+                <h2 className="text-xl font-extrabold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>
                 {submitted ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -287,17 +262,17 @@ export default function ContactPage() {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: 'spring', bounce: 0.5, delay: 0.1 }}
-                      className="h-16 w-16 mx-auto rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/20 dark:to-teal-500/20 flex items-center justify-center mb-5"
+                      className="h-16 w-16 mx-auto rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center mb-5"
                     >
                       <svg className="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </motion.div>
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Bericht verzonden!</h3>
-                    <p className="text-slate-500 dark:text-slate-400 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Bericht verzonden!</h3>
+                    <p className="text-slate-500 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-semibold transition-colors"
+                      className="text-sm text-emerald-600 hover:text-emerald-700 font-semibold transition-colors"
                     >
                       Nog een bericht sturen
                     </button>
@@ -306,53 +281,53 @@ export default function ContactPage() {
                   <form onSubmit={handleSubmit} name="contact" className="space-y-5" noValidate>
                     <input type="hidden" name="form-name" value="contact" />
                     {submitError && (
-                      <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30">
-                        <p className="text-sm text-red-600 dark:text-red-400 font-medium">{submitError}</p>
+                      <div className="p-3 rounded-xl bg-red-50 border border-red-200">
+                        <p className="text-sm text-red-600 font-medium">{submitError}</p>
                       </div>
                     )}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Naam *</label>
+                        <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-1.5">Naam *</label>
                         <input
                           id="name"
                           type="text"
                           value={formData.naam}
                           onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
                           onBlur={() => handleBlur('naam')}
-                          className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                           placeholder="Je naam"
                         />
                         {getError('naam') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('naam')}</p>}
                       </div>
                       <div>
-                        <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">E-mail *</label>
+                        <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1.5">E-mail *</label>
                         <input
                           id="email"
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           onBlur={() => handleBlur('email')}
-                          className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                           placeholder="je@email.nl"
                         />
                         {getError('email') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('email')}</p>}
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Onderwerp *</label>
+                      <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 mb-1.5">Onderwerp *</label>
                       <div className="relative">
                         <select
                           id="subject"
                           value={formData.onderwerp}
                           onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
                           onBlur={() => handleBlur('onderwerp')}
-                          className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 pr-10 text-sm text-slate-900 dark:text-white focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          className={`block w-full rounded-xl border bg-white px-4 py-3 pr-10 text-sm text-slate-900 focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                         >
                           <option value="">Selecteer een onderwerp</option>
                           <option value="Vraag over een bestelling">Vraag over een bestelling</option>
                           <option value="Vraag over een product">Vraag over een product</option>
                           <option value="Retourzending">Retourzending</option>
-                          <option value="Advies over een Pokémon game">Advies over een Pokémon game</option>
+                          <option value="Advies over een Pok&eacute;mon game">Advies over een Pok&eacute;mon game</option>
                           <option value="Overig">Overig</option>
                         </select>
                         <svg className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
@@ -360,7 +335,7 @@ export default function ContactPage() {
                       {getError('onderwerp') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('onderwerp')}</p>}
                     </div>
                     <div>
-                      <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Bericht *</label>
+                      <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-1.5">Bericht *</label>
                       <textarea
                         id="message"
                         rows={5}
@@ -368,7 +343,7 @@ export default function ContactPage() {
                         value={formData.bericht}
                         onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
                         onBlur={() => handleBlur('bericht')}
-                        className={`block w-full rounded-xl border bg-white dark:bg-slate-700 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                        className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
                         placeholder="Typ je bericht... (minimaal 10 tekens)"
                       />
                       <div className="flex justify-between mt-1">
@@ -394,7 +369,7 @@ export default function ContactPage() {
                 {/* Social proof */}
                 <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-400">
                   <span className="flex text-amber-400">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                  <span>5.0 score op Marktplaats — 1360+ reviews</span>
+                  <span>5.0 score op Marktplaats &mdash; 1360+ reviews</span>
                 </div>
               </div>
             </div>

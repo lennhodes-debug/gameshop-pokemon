@@ -234,7 +234,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400 mb-5">
             <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full" style={{ background: accent, boxShadow: `0 0 8px ${accent}60` }} />
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: accent }} />
               {product.platform}
             </span>
             <span className="h-1 w-1 rounded-full bg-slate-600" />
@@ -243,7 +243,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Voorraad */}
           <div className="flex items-center gap-2 mb-6">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 8px rgba(52,211,153,0.5)' }} />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
             <span className="text-sm font-semibold text-emerald-400">Op voorraad</span>
             <span className="text-xs text-slate-500">— Vandaag besteld, morgen verzonden</span>
           </div>
@@ -281,7 +281,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Prijs */}
           <div className="flex flex-wrap items-baseline gap-3 mb-8">
             <span className="text-4xl sm:text-5xl font-extrabold tracking-tight tabular-nums"
-              style={{ color: accent, textShadow: `0 0 40px rgba(${glowRgb}, 0.3)` }}>
+              style={{ color: accent }}>
               {formatPrice(displayPrice)}
             </span>
             {hasCibOption && selectedVariant === 'cib' && (
@@ -314,7 +314,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Winkelwagen knop */}
           <motion.button
             onClick={handleAdd}
-            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className={`w-full sm:w-auto px-10 py-4 rounded-2xl text-white text-base font-bold transition-all duration-300 ${
               added ? 'bg-emerald-500' : ''
@@ -345,7 +344,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12', title: 'PostNL verzending', desc: freeShipping ? 'Gratis verzending' : 'Vanaf \u20AC4,95 via PostNL' },
-              { icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z', title: 'Veilig betalen', desc: 'iDEAL, creditcard, PayPal' },
+              { icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z', title: 'Veilig betalen', desc: 'Direct via iDEAL' },
               { icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182', title: '14 dagen retour', desc: 'Niet goed? Geld terug.' },
               { icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: '100% origineel', desc: 'Persoonlijk getest' },
             ].map((item) => (

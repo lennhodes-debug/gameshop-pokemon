@@ -23,7 +23,7 @@ const faqItems = [
   },
   {
     question: 'Welke betaalmethoden accepteren jullie?',
-    answer: 'Wij accepteren iDEAL, creditcard, PayPal, Bancontact en Apple Pay. Alle betalingen worden veilig verwerkt via Mollie.',
+    answer: 'Wij accepteren iDEAL. Alle betalingen worden veilig verwerkt via Mollie.',
   },
 ];
 

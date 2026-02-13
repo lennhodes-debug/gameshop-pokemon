@@ -61,7 +61,7 @@ const faqItems = [
   },
   {
     question: 'Welke betaalmethoden accepteren jullie?',
-    answer: 'Wij accepteren iDEAL, creditcard, PayPal, Bancontact en Apple Pay. Alle betalingen worden veilig verwerkt via Mollie. Je betaalgegevens worden nooit door ons opgeslagen.',
+    answer: 'Wij accepteren iDEAL. Alle betalingen worden veilig verwerkt via Mollie. Je betaalgegevens worden nooit door ons opgeslagen.',
     category: 'betaling',
   },
   {
