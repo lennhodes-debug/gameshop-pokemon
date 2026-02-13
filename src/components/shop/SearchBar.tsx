@@ -72,7 +72,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
     <div className={cn('relative', className)}>
       <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-          <svg className={cn("h-5 w-5 transition-colors duration-200", isFocused ? 'text-emerald-500' : 'text-slate-400')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className={cn("h-5 w-5 transition-colors duration-200", isFocused ? 'text-slate-600' : 'text-slate-400')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
@@ -93,7 +93,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
           className={cn(
             'relative w-full pl-12 pr-28 py-4 rounded-2xl border-2 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-200',
             isFocused
-              ? 'border-emerald-500/50 shadow-lg shadow-emerald-500/5'
+              ? 'border-slate-400 shadow-lg shadow-slate-200/50'
               : 'border-slate-200 shadow-sm hover:border-slate-300'
           )}
         />
@@ -144,7 +144,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                 aria-selected={i === highlightIndex}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 transition-colors',
-                  i === highlightIndex ? 'bg-emerald-50' : 'hover:bg-slate-50',
+                  i === highlightIndex ? 'bg-slate-50' : 'hover:bg-slate-50',
                   i < suggestions.length - 1 && 'border-b border-slate-100'
                 )}
                 onMouseEnter={() => setHighlightIndex(i)}

@@ -67,7 +67,7 @@ export default function FaqPreview() {
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-semibold text-slate-600">Top 5 vragen</span>
-              <Link href="/faq" className="text-xs text-slate-400 hover:text-emerald-500 transition-colors">
+              <Link href="/faq" className="text-xs text-slate-400 hover:text-slate-600 transition-colors">
                 Alle {'>'}20 vragen
               </Link>
             </div>

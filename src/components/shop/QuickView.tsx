@@ -90,7 +90,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
               role="dialog"
               aria-modal="true"
               aria-label={product ? `${product.name} snelle weergave` : ''}
-              className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-[90vh] overflow-y-auto"
               initial={{ scale: 0.9, y: 40 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 40, opacity: 0 }}
@@ -137,10 +137,10 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     <Badge variant="condition">{product.condition}</Badge>
                     <Badge variant="completeness">{isCIB ? 'CIB' : product.completeness}</Badge>
-                    {product.isPremium && <Badge variant="premium">PREMIUM</Badge>}
+                    {product.isPremium && <Badge variant="premium">Premium</Badge>}
                   </div>
 
-                  <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
                     {product.name}
                   </h2>
 
@@ -158,14 +158,14 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                     <div>
                       {isOnSale(product) ? (
                         <div className="flex items-baseline gap-2">
-                          <span className="text-3xl font-extrabold text-red-500 tracking-tight">
+                          <span className="text-3xl font-bold text-red-500 tracking-tight">
                             {formatPrice(getEffectivePrice(product))}
                           </span>
                           <span className="text-lg text-slate-400 line-through">{formatPrice(product.price)}</span>
                           <span className="text-xs font-bold text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
                         </div>
                       ) : (
-                        <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        <span className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
                           {formatPrice(product.price)}
                         </span>
                       )}
@@ -179,7 +179,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                     <div className="flex gap-3">
                       <button
                         onClick={handleAdd}
-                        className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all duration-300 flex items-center justify-center gap-2"
+                        className="flex-1 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:bg-slate-800"
                       >
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
