@@ -73,7 +73,7 @@ function BentoCard({
     >
       <Link href={`/shop/${product.sku}`} className="block h-full">
         <motion.div
-          className="relative h-full rounded-2xl overflow-hidden"
+          className="relative h-full rounded-2xl overflow-hidden border border-slate-100/80"
           style={{
             rotateX,
             rotateY,
@@ -81,10 +81,11 @@ function BentoCard({
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             boxShadow: hovered
-              ? `0 25px 60px -12px rgba(${glowRgb},0.2)`
-              : 'none',
-            transition: 'box-shadow 0.5s ease',
+              ? `0 25px 60px -12px rgba(${glowRgb},0.2), 0 8px 24px -4px rgba(0,0,0,0.06)`
+              : '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02)',
+            transition: 'box-shadow 0.5s ease, border-color 0.5s ease',
             background: 'white',
+            borderColor: hovered ? 'transparent' : undefined,
           }}
         >
           {/* Image area */}
@@ -93,6 +94,7 @@ function BentoCard({
               'relative overflow-hidden',
               isHero ? 'h-full' : 'h-[240px] sm:h-[260px] lg:h-[280px]',
             )}
+            style={{ background: '#fafbfc' }}
           >
             {product.image ? (
               <motion.div className="absolute inset-0" style={{ x: imgX, y: imgY }}>
@@ -110,6 +112,12 @@ function BentoCard({
                     isHero ? 'p-8 lg:p-14' : 'p-5 lg:p-6',
                     hovered ? 'scale-[1.08]' : 'scale-100',
                   )}
+                  style={{
+                    filter: hovered
+                      ? 'drop-shadow(0 8px 24px rgba(0,0,0,0.1))'
+                      : 'drop-shadow(0 4px 12px rgba(0,0,0,0.06))',
+                    transition: 'filter 0.5s ease',
+                  }}
                 />
               </motion.div>
             ) : (
@@ -119,6 +127,11 @@ function BentoCard({
                 </span>
               </div>
             )}
+
+            {/* Soft vignette edges to eliminate harsh image borders */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              boxShadow: 'inset 0 0 30px rgba(250,251,252,0.6)',
+            }} />
 
             {/* Themed radial glow on hover */}
             <div

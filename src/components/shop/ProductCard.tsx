@@ -173,14 +173,15 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative rounded-2xl overflow-hidden flex flex-col"
+        className="relative rounded-2xl overflow-hidden flex flex-col border border-slate-100/80"
         style={{
           transform: `translateY(${isHovered ? -4 : 0}px)`,
-          transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s ease',
+          transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s ease, border-color 0.5s ease',
           background: 'white',
           boxShadow: isHovered
-            ? '0 20px 50px rgba(0,0,0,0.08)'
-            : 'none',
+            ? '0 20px 50px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04)'
+            : '0 1px 3px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.015)',
+          borderColor: isHovered ? 'transparent' : undefined,
         }}
         ref={cardRef}
         onMouseEnter={() => setIsHovered(true)}
@@ -191,7 +192,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           <div
             className="relative h-56 flex items-center justify-center overflow-hidden"
             style={{
-              background: 'white',
+              background: '#fafbfc',
             }}
           >
             {/* Subtle accent glow behind image on hover */}
@@ -233,6 +234,11 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </span>
               </div>
             )}
+
+            {/* Soft vignette to eliminate harsh image edges */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              boxShadow: 'inset 0 0 24px rgba(250,251,252,0.5)',
+            }} />
 
             {/* Platform — minimal pill */}
             <div className="absolute top-3 left-3">
