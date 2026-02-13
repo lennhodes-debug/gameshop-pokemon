@@ -264,13 +264,13 @@ export default function InkoopPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-[0.2em] mb-10"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-medium uppercase tracking-[0.2em] mb-10"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Snel &amp; eerlijk
           </motion.div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-semibold text-white tracking-tight leading-[1.05] mb-8">
+          <h1 className="text-4xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-8">
             <span className="block">
               <CharReveal text="Nintendo games" delay={0.3} stagger={0.025} />
             </span>
@@ -297,7 +297,7 @@ export default function InkoopPage() {
             <Magnetic strength={0.25}>
               <button
                 onClick={scrollToForm}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold text-base shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-medium text-base shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Start je aanvraag
                 <motion.svg
@@ -346,7 +346,7 @@ export default function InkoopPage() {
                 <div className="text-3xl lg:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-sm font-semibold text-slate-800 mb-0.5">{stat.label}</div>
+                <div className="text-sm font-medium text-slate-800 mb-0.5">{stat.label}</div>
                 <div className="text-xs text-slate-400">{stat.sub}</div>
               </motion.div>
             ))}
@@ -416,7 +416,7 @@ export default function InkoopPage() {
                         <svg className="h-8 w-8 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                         </svg>
-                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
+                        <span className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
                       </div>
                     </div>
                   </motion.div>
@@ -491,7 +491,7 @@ export default function InkoopPage() {
                     </p>
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="text-sm text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
+                      className="text-sm text-emerald-600 font-medium hover:text-emerald-700 transition-colors"
                     >
                       Nieuw formulier invullen
                     </button>
@@ -506,7 +506,7 @@ export default function InkoopPage() {
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="inkoop-naam" className="block text-sm font-semibold text-slate-700 mb-2">Naam *</label>
+                          <label htmlFor="inkoop-naam" className="block text-sm font-medium text-slate-700 mb-2">Naam *</label>
                           <input
                             id="inkoop-naam"
                             type="text"
@@ -518,7 +518,7 @@ export default function InkoopPage() {
                           />
                         </div>
                         <div>
-                          <label htmlFor="inkoop-email" className="block text-sm font-semibold text-slate-700 mb-2">E-mail *</label>
+                          <label htmlFor="inkoop-email" className="block text-sm font-medium text-slate-700 mb-2">E-mail *</label>
                           <input
                             id="inkoop-email"
                             type="email"
@@ -533,7 +533,7 @@ export default function InkoopPage() {
 
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="inkoop-telefoon" className="block text-sm font-semibold text-slate-700 mb-2">
+                          <label htmlFor="inkoop-telefoon" className="block text-sm font-medium text-slate-700 mb-2">
                             Telefoon <span className="text-slate-400 font-normal">(optioneel)</span>
                           </label>
                           <input
@@ -546,7 +546,7 @@ export default function InkoopPage() {
                           />
                         </div>
                         <div>
-                          <label htmlFor="inkoop-platform" className="block text-sm font-semibold text-slate-700 mb-2">
+                          <label htmlFor="inkoop-platform" className="block text-sm font-medium text-slate-700 mb-2">
                             Platform <span className="text-slate-400 font-normal">(optioneel)</span>
                           </label>
                           <select
@@ -575,7 +575,7 @@ export default function InkoopPage() {
                       </div>
 
                       <div>
-                        <label htmlFor="inkoop-beschrijving" className="block text-sm font-semibold text-slate-700 mb-2">
+                        <label htmlFor="inkoop-beschrijving" className="block text-sm font-medium text-slate-700 mb-2">
                           Wat wil je verkopen? *
                         </label>
                         <textarea
@@ -609,7 +609,7 @@ export default function InkoopPage() {
                           type="submit"
                           whileHover={{ scale: 1.01, y: -2 }}
                           whileTap={{ scale: 0.98 }}
-                          className="w-full px-6 py-4.5 rounded-2xl bg-slate-900 text-white font-semibold text-base shadow-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2.5"
+                          className="w-full px-6 py-4.5 rounded-2xl bg-slate-900 text-white font-medium text-base shadow-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2.5"
                         >
                           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -667,7 +667,7 @@ export default function InkoopPage() {
                         </svg>
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-900 text-sm">{item.title}</p>
+                        <p className="font-medium text-slate-900 text-sm">{item.title}</p>
                         <p className="text-slate-500 text-xs leading-relaxed mt-0.5">{item.desc}</p>
                       </div>
                     </motion.div>
@@ -713,7 +713,7 @@ export default function InkoopPage() {
                   </p>
                   <a
                     href="mailto:gameshopenter@gmail.com?subject=Inkoop%20aanvraag"
-                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-sm font-semibold hover:bg-emerald-500/25 transition-all duration-300 hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-sm font-medium hover:bg-emerald-500/25 transition-all duration-300 hover:-translate-y-0.5"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
@@ -766,7 +766,7 @@ export default function InkoopPage() {
             <Magnetic strength={0.25}>
               <a
                 href="/shop"
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold text-base shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-medium text-base shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Bekijk alle producten
                 <motion.svg

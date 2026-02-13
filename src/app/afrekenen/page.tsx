@@ -180,7 +180,7 @@ export default function AfrekenPage() {
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-3">Je winkelwagen is leeg</h2>
             <p className="text-slate-500 dark:text-slate-400 mb-8">Voeg eerst producten toe aan je winkelwagen</p>
             <Link href="/shop">
-              <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all">
+              <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-medium shadow-lg hover:bg-slate-800 transition-all">
                 Naar de shop
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -237,12 +237,12 @@ export default function AfrekenPage() {
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/">
-                <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all">
+                <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-medium shadow-lg hover:bg-slate-800 transition-all">
                   Terug naar home
                 </motion.span>
               </Link>
               <Link href="/shop">
-                <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/[0.06] border border-white/[0.1] text-white font-semibold hover:bg-white/[0.1] hover:border-white/[0.15] transition-all">
+                <motion.span whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }} className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/[0.06] border border-white/[0.1] text-white font-medium hover:bg-white/[0.1] hover:border-white/[0.15] transition-all">
                   Verder winkelen
                 </motion.span>
               </Link>
@@ -293,7 +293,7 @@ export default function AfrekenPage() {
             ].map((step, i) => (
               <div key={step.num} className="flex items-center">
                 <div className="flex flex-col items-center">
-                  <div className={`h-9 w-9 rounded-xl flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                  <div className={`h-9 w-9 rounded-xl flex items-center justify-center text-sm font-medium transition-all duration-300 ${
                     step.active
                       ? 'bg-emerald-500 text-white'
                       : 'bg-slate-100 text-slate-400'
@@ -320,8 +320,8 @@ export default function AfrekenPage() {
           className="mb-8"
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Formulier voortgang</span>
-            <span className={`text-xs font-semibold ${progress === 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Formulier voortgang</span>
+            <span className={`text-xs font-medium ${progress === 100 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
               {progress}%{progress === 100 && ' — Klaar om af te rekenen!'}
             </span>
           </div>
@@ -344,7 +344,7 @@ export default function AfrekenPage() {
               {/* Personal info */}
               <motion.div {...fadeUp} transition={{ delay: 0.1, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
                 <h2 className="font-semibold text-slate-900 dark:text-white text-lg mb-6 flex items-center gap-3">
-                  <span className="h-7 w-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white text-xs font-semibold">1</span>
+                  <span className="h-7 w-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white text-xs font-medium">1</span>
                   Persoonlijke gegevens
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -356,7 +356,7 @@ export default function AfrekenPage() {
                     const error = getFieldError(field);
                     return (
                       <div key={field} className={colSpan ? 'sm:col-span-2' : ''}>
-                        <label htmlFor={`checkout-${field}`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <label htmlFor={`checkout-${field}`} className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
                         <input
                           id={`checkout-${field}`}
                           type={type || 'text'}
@@ -378,7 +378,7 @@ export default function AfrekenPage() {
               {/* Address */}
               <motion.div {...fadeUp} transition={{ delay: 0.2, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
                 <h2 className="font-semibold text-slate-900 dark:text-white text-lg mb-6 flex items-center gap-3">
-                  <span className="h-7 w-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white text-xs font-semibold">2</span>
+                  <span className="h-7 w-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white text-xs font-medium">2</span>
                   Bezorgadres
                 </h2>
                 <div className="grid sm:grid-cols-3 gap-4">
@@ -391,7 +391,7 @@ export default function AfrekenPage() {
                     const error = getFieldError(field);
                     return (
                       <div key={field} className={colSpan}>
-                        <label htmlFor={`checkout-${field}`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <label htmlFor={`checkout-${field}`} className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
                         <input
                           id={`checkout-${field}`}
                           type="text"
@@ -413,7 +413,7 @@ export default function AfrekenPage() {
               {/* Payment method */}
               <motion.div {...fadeUp} transition={{ delay: 0.3, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
                 <h2 className="font-semibold text-slate-900 dark:text-white text-lg mb-2 flex items-center gap-3">
-                  <span className="h-7 w-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white text-xs font-semibold">3</span>
+                  <span className="h-7 w-7 rounded-lg bg-emerald-500 flex items-center justify-center text-white text-xs font-medium">3</span>
                   Betaalmethode
                 </h2>
                 <p className="text-xs text-slate-400 dark:text-slate-500 mb-5 ml-11">Veilig betalen via Mollie</p>
@@ -434,7 +434,7 @@ export default function AfrekenPage() {
                         )}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white">{methode.label}</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">{methode.label}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-400">{methode.description}</p>
                       </div>
                     </label>
@@ -498,7 +498,7 @@ export default function AfrekenPage() {
                   {discountCode ? (
                     <div className="flex items-center justify-between bg-emerald-50 dark:bg-emerald-900/20 rounded-xl px-3 py-2">
                       <div>
-                        <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 block">{discountCode}</span>
+                        <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400 block">{discountCode}</span>
                         <span className="text-[10px] text-emerald-500">{discountDescription}</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -538,7 +538,7 @@ export default function AfrekenPage() {
                             if (result.success) setCouponInput('');
                             setTimeout(() => setCouponMessage(null), 4000);
                           }}
-                          className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-600 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 transition-all"
+                          className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-600 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-emerald-50 hover:text-emerald-600 dark:hover:bg-emerald-900/30 dark:hover:text-emerald-400 transition-all"
                         >
                           Toepassen
                         </button>
@@ -565,7 +565,7 @@ export default function AfrekenPage() {
                   disabled={isProcessing}
                   whileHover={isProcessing ? {} : { scale: 1.02, y: -1 }}
                   whileTap={isProcessing ? {} : { scale: 0.98 }}
-                  className={`w-full mt-6 px-6 py-4 rounded-2xl font-semibold shadow-lg transition-all flex items-center justify-center gap-2 ${isProcessing ? 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed shadow-none' : 'bg-slate-900 text-white hover:bg-slate-800'}`}
+                  className={`w-full mt-6 px-6 py-4 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-2 ${isProcessing ? 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed shadow-none' : 'bg-slate-900 text-white hover:bg-slate-800'}`}
                 >
                   {isProcessing ? (
                     <>
@@ -591,7 +591,7 @@ export default function AfrekenPage() {
 
                 <div className="mt-3 flex items-center justify-center gap-1.5 flex-wrap">
                   {['iDEAL'].map((m) => (
-                    <span key={m} className="px-2 py-1 rounded-md bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[9px] text-slate-500 dark:text-slate-400 font-semibold">{m}</span>
+                    <span key={m} className="px-2 py-1 rounded-md bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[9px] text-slate-500 dark:text-slate-400 font-medium">{m}</span>
                   ))}
                 </div>
 
@@ -621,7 +621,7 @@ export default function AfrekenPage() {
             type="submit"
             form="checkout-form"
             disabled={isProcessing}
-            className={`flex-1 max-w-[200px] px-5 py-3 rounded-xl font-semibold text-sm text-center shadow-lg ${isProcessing ? 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 shadow-none' : 'bg-slate-900 text-white'}`}
+            className={`flex-1 max-w-[200px] px-5 py-3 rounded-xl font-medium text-sm text-center shadow-lg ${isProcessing ? 'bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 shadow-none' : 'bg-slate-900 text-white'}`}
           >
             {isProcessing ? 'Verwerken...' : 'Afrekenen'}
           </button>

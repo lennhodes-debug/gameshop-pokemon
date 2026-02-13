@@ -42,7 +42,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4 }}
-        className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200 mb-4"
+        className="inline-block px-3 py-1 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-600 border border-emerald-200 mb-4"
       >
         Vergelijkbaar
       </motion.span>
@@ -53,7 +53,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-tight mb-2"
+        className="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-[-0.02em] mb-2"
       >
         Gerelateerde producten
       </motion.h2>

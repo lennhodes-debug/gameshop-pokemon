@@ -43,7 +43,7 @@ export default function CartCounter() {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.6, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-        className={`absolute -top-1.5 -right-1.5 h-5 min-w-5 flex items-center justify-center rounded-full text-[10px] font-semibold text-white px-1 ${
+        className={`absolute -top-1.5 -right-1.5 h-5 min-w-5 flex items-center justify-center rounded-full text-[10px] font-medium text-white px-1 ${
           isRainbow
             ? 'bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500 animate-gradient-x'
             : isGold

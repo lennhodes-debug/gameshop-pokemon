@@ -224,7 +224,7 @@ function StackingCard({ item, index, count, progress }: {
           {item.year}
         </div>
         <div className="relative z-10 flex flex-col justify-end h-full">
-          <span className="inline-block px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold uppercase tracking-[0.15em] w-fit mb-3">
+          <span className="inline-block px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-medium uppercase tracking-[0.15em] w-fit mb-3">
             {item.year}
           </span>
           <h3 className="text-2xl lg:text-3xl font-semibold mb-2 leading-tight">{item.title}</h3>
@@ -487,7 +487,7 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-[0.2em] mb-10"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-medium uppercase tracking-[0.2em] mb-10"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Het verhaal achter Gameshop Enter
@@ -497,7 +497,7 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl lg:text-8xl font-semibold text-white tracking-tight leading-[1.05] mb-8"
+            className="text-4xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-8"
           >
             Van hobby
             <br />
@@ -566,7 +566,7 @@ export default function OverOnsPage() {
                 <div className="text-4xl lg:text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-sm font-semibold text-slate-800 mb-0.5">{stat.label}</div>
+                <div className="text-sm font-medium text-slate-800 mb-0.5">{stat.label}</div>
                 <div className="text-xs text-slate-400">{stat.sub}</div>
               </motion.div>
             ))}
@@ -657,7 +657,7 @@ export default function OverOnsPage() {
                       <svg className="h-7 w-7 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                       </svg>
-                      <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
+                      <span className="text-[10px] font-medium text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
                     </div>
                   </div>
                   <h3 className="font-semibold text-slate-900 text-sm mt-5 mb-1">{step.title}</h3>
@@ -768,7 +768,7 @@ export default function OverOnsPage() {
                       <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-[10px] font-semibold uppercase tracking-wider">Geverifieerd</span>
+                      <span className="text-[10px] font-medium uppercase tracking-wider">Geverifieerd</span>
                     </div>
                   </div>
                 </div>
@@ -801,7 +801,7 @@ export default function OverOnsPage() {
                 ['Betaalmethode', 'iDEAL'],
               ].map(([label, value]) => (
                 <div key={label}>
-                  <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{label}</dt>
+                  <dt className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">{label}</dt>
                   <dd className="text-slate-900 font-medium">{value}</dd>
                 </div>
               ))}
