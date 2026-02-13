@@ -174,7 +174,7 @@ function HorizontalValues() {
             >
               <div className="relative group">
                 <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-emerald-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative bg-white/[0.03] border border-white/[0.06] rounded-3xl p-10 lg:p-14">
+                <div className="relative bg-white/[0.03] rounded-3xl p-10 lg:p-14">
                   <span className="text-[120px] lg:text-[160px] font-black bg-clip-text text-transparent bg-gradient-to-b from-white/[0.06] to-transparent leading-none block mb-4 select-none">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -487,7 +487,7 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-medium uppercase tracking-[0.2em] mb-10"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] text-emerald-400 text-xs font-medium uppercase tracking-[0.2em] mb-10"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Het verhaal achter Gameshop Enter
@@ -546,7 +546,7 @@ export default function OverOnsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/90 backdrop-blur-2xl rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8 lg:p-10"
+          className="bg-white/90 backdrop-blur-2xl rounded-2xl shadow-xl shadow-slate-200/50 p-8 lg:p-10"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
@@ -706,7 +706,7 @@ export default function OverOnsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="group relative h-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-7 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all duration-500">
+                <div className="group relative h-full bg-white/[0.03] rounded-2xl p-7 hover:bg-white/[0.06] transition-all duration-500">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className={`relative h-10 w-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}>
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -750,7 +750,7 @@ export default function OverOnsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="relative h-full bg-white rounded-2xl border border-slate-100 p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 group">
+                <div className="relative h-full bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 group">
                   <div className="flex gap-0.5 mb-5">
                     {[...Array(5)].map((_, s) => (
                       <svg key={s} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -759,7 +759,7 @@ export default function OverOnsPage() {
                     ))}
                   </div>
                   <p className="text-slate-600 leading-relaxed mb-6">&ldquo;{review.text}&rdquo;</p>
-                  <div className="flex items-center justify-between pt-5 border-t border-slate-100">
+                  <div className="flex items-center justify-between pt-5">
                     <div>
                       <div className="font-semibold text-slate-900">{review.name}</div>
                       <div className="text-xs text-slate-400 mt-0.5">Kocht: {review.product}</div>
@@ -815,10 +815,10 @@ export default function OverOnsPage() {
               </div>
             </div>
 
-            <div className="mt-10 pt-8 border-t border-slate-200">
+            <div className="mt-10 pt-8">
               <h3 className="text-lg font-semibold text-slate-900 mb-6">Onze condities</h3>
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="h-8 w-8 rounded-xl bg-emerald-50 flex items-center justify-center">
                       <svg className="h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -831,7 +831,7 @@ export default function OverOnsPage() {
                     Bijna nieuw &mdash; minimale tot geen gebruikssporen. Het product ziet er vrijwel ongebruikt uit en functioneert perfect.
                   </p>
                 </div>
-                <div className="rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
+                <div className="rounded-2xl bg-white p-5 shadow-sm">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="h-8 w-8 rounded-xl bg-blue-50 flex items-center justify-center">
                       <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
