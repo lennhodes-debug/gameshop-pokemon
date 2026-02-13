@@ -4,7 +4,6 @@ import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 
-const CollectionShowcase = dynamic(() => import('@/components/home/CollectionShowcase'));
 const ParallaxSection = dynamic(() => import('@/components/home/ParallaxSection'));
 const GameCarousel3D = dynamic(() => import('@/components/home/GameCarousel3D'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
@@ -20,7 +19,6 @@ export default function HomePage() {
       <Script src="/platform-intro.js" strategy="afterInteractive" />
       <Hero />
       <TrustStrip />
-      <CollectionShowcase />
       <ParallaxSection speed={0.15}>
         <FeaturedProducts />
       </ParallaxSection>
