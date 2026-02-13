@@ -34,17 +34,17 @@ export default function ProductGrid({ products, onQuickView, searchQuery }: Prod
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-7">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
       {products.map((product, index) => (
         <motion.div
           key={product.sku}
-          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, amount: 0.1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
-            duration: 0.5,
-            delay: (Math.floor(index / 4) * 0.06) + ((index % 4) * 0.08),
-            ease: [0.16, 1, 0.3, 1] as const,
+            duration: 0.6,
+            delay: Math.min((index % 4) * 0.06, 0.24),
+            ease: [0.25, 0.1, 0.25, 1],
           }}
         >
           <ProductCard product={product} onQuickView={onQuickView} searchQuery={searchQuery} />

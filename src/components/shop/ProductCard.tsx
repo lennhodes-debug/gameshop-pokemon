@@ -171,29 +171,40 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative rounded-2xl overflow-hidden transition-all duration-300 flex flex-col"
+        className="relative rounded-2xl overflow-hidden flex flex-col"
         style={{
-          transform: `translateY(${isHovered ? -6 : 0}px)`,
-          transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease',
+          transform: `translateY(${isHovered ? -4 : 0}px)`,
+          transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s ease',
           background: 'white',
           boxShadow: isHovered
-            ? `0 16px 40px rgba(${accentGlow},0.18), 0 8px 20px rgba(0,0,0,0.08)`
-            : '0 2px 8px rgba(0,0,0,0.08)',
+            ? `0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(${accentGlow},0.06)`
+            : '0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
         }}
         ref={cardRef}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Afbeelding */}
+        {/* Image stage — generous padding, premium backdrop */}
         <Link href={`/shop/${product.sku}`}>
           <div
-            className="relative h-56 flex items-center justify-center overflow-hidden"
-            style={{ background: '#f8fafc' }}
+            className="relative h-64 flex items-center justify-center overflow-hidden"
+            style={{
+              background: 'linear-gradient(160deg, #f8fafb 0%, #f1f5f9 50%, #eef2f7 100%)',
+            }}
           >
+            {/* Subtle accent glow behind image on hover */}
+            <div
+              className="absolute inset-0 transition-opacity duration-700 pointer-events-none"
+              style={{
+                opacity: isHovered ? 0.06 : 0,
+                background: `radial-gradient(circle at 50% 60%, ${accentColor}, transparent 70%)`,
+              }}
+            />
+
             {currentImage && !imageError ? (
               <>
                 {!imageLoaded && (
-                  <div className="absolute inset-0 animate-pulse" style={{ background: `${accentColor}08` }} />
+                  <div className="absolute inset-0 animate-pulse" style={{ background: '#f1f5f9' }} />
                 )}
                 <Image
                   src={currentImage}
@@ -201,36 +212,37 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className={cn(
-                    "object-contain p-5 transition-all duration-500 ease-out",
+                    "object-contain p-8 transition-all duration-700 ease-out",
                     imageLoaded && !imageTransition ? "opacity-100" : "opacity-0",
-                    isHovered ? "scale-105" : "scale-100"
+                    isHovered ? "scale-[1.03]" : "scale-100"
                   )}
+                  style={{
+                    filter: isHovered ? `drop-shadow(0 8px 24px rgba(${accentGlow},0.15))` : 'drop-shadow(0 4px 12px rgba(0,0,0,0.06))',
+                    transition: 'transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease, filter 0.7s ease',
+                  }}
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageError(true)}
                 />
               </>
             ) : (
               <div className={cn("w-full h-full flex items-center justify-center bg-gradient-to-br", colors.from, colors.to)}>
-                <span className="text-white/60 text-lg font-black select-none">
+                <span className="text-white/50 text-sm font-bold tracking-wider uppercase select-none">
                   {platformLabel}
                 </span>
               </div>
             )}
 
-            {/* Platform label */}
-            <div className="absolute top-2.5 left-3">
-              <span
-                className="px-2.5 py-1 rounded-lg text-[11px] font-semibold backdrop-blur-sm"
-                style={{ background: 'rgba(15,23,42,0.7)', color: 'white' }}
-              >
-                {product.platform}
+            {/* Platform — minimal pill */}
+            <div className="absolute top-3 left-3">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 bg-white/80 backdrop-blur-sm">
+                {platformLabel}
               </span>
             </div>
 
-            {/* Badges */}
-            <div className="absolute top-2.5 right-3 flex flex-col gap-1.5 items-end">
+            {/* Badges + wishlist */}
+            <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
               {isOnSale(product) && (
-                <span className="px-2 py-0.5 rounded-lg bg-red-500 text-white text-[11px] font-bold shadow-sm">
+                <span className="px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-bold">
                   -{getSalePercentage(product)}%
                 </span>
               )}
@@ -241,14 +253,14 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               <button
                 onClick={handleToggleWishlist}
                 aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
-                className="p-1.5 rounded-full backdrop-blur-sm shadow-sm transition-all z-30"
+                className="p-1.5 rounded-full backdrop-blur-sm transition-all z-30"
                 style={{
-                  background: isWishlisted ? `${accentColor}15` : 'rgba(255,255,255,0.85)',
+                  background: isWishlisted ? `${accentColor}12` : 'rgba(255,255,255,0.8)',
                   transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
                   transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease',
                 }}
               >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill={isWishlisted ? accentColor : 'none'} stroke={isWishlisted ? accentColor : '#94a3b8'} strokeWidth={2}>
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill={isWishlisted ? accentColor : 'none'} stroke={isWishlisted ? accentColor : '#cbd5e1'} strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
               </button>
@@ -256,127 +268,104 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </div>
         </Link>
 
-        {/* Content */}
-        <div className="p-4 flex flex-col flex-1">
-          {/* Variant toggle — alleen zichtbaar als product CIB optie heeft */}
+        {/* Content — clean, spacious */}
+        <div className="p-5 flex flex-col flex-1">
+          {/* Variant toggle */}
           {hasCibOption ? (
             <div className="mb-3">
               <div
                 className="relative inline-flex rounded-xl p-0.5 w-full"
                 style={{ background: '#f1f5f9' }}
               >
-                {/* Sliding indicator */}
                 <div
                   className="absolute top-0.5 bottom-0.5 rounded-[10px] transition-all duration-300 ease-out"
                   style={{
                     width: '50%',
                     left: selectedVariant === 'los' ? '2px' : 'calc(50% - 2px)',
                     background: 'white',
-                    boxShadow: `0 1px 3px rgba(0,0,0,0.1), 0 0 0 1px rgba(${accentGlow},0.08)`,
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
                   }}
                 />
                 <button
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleVariantSwitch('los'); }}
                   className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-semibold transition-colors duration-200 rounded-[10px]"
-                  style={{ color: selectedVariant === 'los' ? accentColor : '#94a3b8' }}
+                  style={{ color: selectedVariant === 'los' ? '#334155' : '#94a3b8' }}
                 >
-                  <span className="flex items-center justify-center gap-1">
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                    Los
-                  </span>
+                  Los
                 </button>
                 <button
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleVariantSwitch('cib'); }}
                   className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-semibold transition-colors duration-200 rounded-[10px]"
-                  style={{ color: selectedVariant === 'cib' ? accentColor : '#94a3b8' }}
+                  style={{ color: selectedVariant === 'cib' ? '#334155' : '#94a3b8' }}
                 >
-                  <span className="flex items-center justify-center gap-1">
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V15m0 0l-2.25-1.313M3 16.5v2.25M21 16.5v2.25M12 3v2.25m6.75 1.313l-2.25 1.313m0 0l-2.25-1.313M16.5 6.563V3.75m-9 2.813l2.25 1.313m0 0l2.25-1.313M7.5 6.563V3.75" />
-                    </svg>
-                    Compleet
-                  </span>
+                  Compleet (CIB)
                 </button>
               </div>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-1.5 mb-2.5">
+            <div className="flex flex-wrap gap-1.5 mb-3">
               <Badge variant="condition">{product.condition}</Badge>
               <Badge variant="completeness">{isCIB ? 'CIB' : product.completeness}</Badge>
             </div>
           )}
 
           <Link href={`/shop/${product.sku}`}>
-            <h3
-              className="font-bold text-slate-900 text-sm leading-snug mb-1 line-clamp-2 transition-colors duration-300"
-              style={{ color: isHovered ? accentColor : undefined }}
-            >
+            <h3 className="font-semibold text-slate-800 text-[13px] leading-snug mb-1.5 line-clamp-2 transition-colors duration-500 group-hover:text-slate-900">
               <HighlightText text={product.name} query={searchQuery} />
             </h3>
           </Link>
 
-          {product.description && (
-            <p className="text-xs text-slate-400 line-clamp-1 mb-3">
-              {product.description}
-            </p>
-          )}
-
-          <div className="flex items-center justify-between pt-3 mt-auto">
+          <div className="flex items-end justify-between pt-3 mt-auto border-t border-slate-100/80">
             <div>
               {hasCibOption ? (
                 <div>
-                  <span
-                    className="text-xl font-extrabold tracking-tight transition-colors duration-300"
-                    style={{ color: isHovered ? accentColor : '#0f172a' }}
-                  >
+                  <span className="text-lg font-bold tracking-tight text-slate-900 tabular-nums">
                     {formatPrice(displayPrice)}
                   </span>
                   {selectedVariant === 'cib' && (
-                    <span className="block text-[10px] text-slate-400 font-medium mt-0.5">
+                    <span className="block text-[10px] text-slate-400 mt-0.5">
                       Los vanaf {formatPrice(product.price)}
                     </span>
                   )}
                   {selectedVariant === 'los' && product.cibPrice && (
-                    <span className="block text-[10px] text-slate-400 font-medium mt-0.5">
-                      CIB voor {formatPrice(product.cibPrice)}
+                    <span className="block text-[10px] text-slate-400 mt-0.5">
+                      CIB {formatPrice(product.cibPrice)}
                     </span>
                   )}
                 </div>
               ) : isOnSale(product) ? (
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xl font-extrabold tracking-tight" style={{ color: accentColor }}>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-lg font-bold tracking-tight tabular-nums" style={{ color: accentColor }}>
                     {formatPrice(getEffectivePrice(product))}
                   </span>
-                  <span className="text-sm text-slate-400 line-through">
+                  <span className="text-xs text-slate-300 line-through tabular-nums">
                     {formatPrice(product.price)}
                   </span>
                 </div>
               ) : (
-                <span
-                  className="text-xl font-extrabold tracking-tight transition-colors duration-300"
-                  style={{ color: isHovered ? accentColor : '#0f172a' }}
-                >
+                <span className="text-lg font-bold tracking-tight text-slate-900 tabular-nums">
                   {formatPrice(product.price)}
                 </span>
               )}
               {displayPrice >= FREE_SHIPPING_THRESHOLD && (
-                <span className="block text-[10px] font-semibold mt-0.5" style={{ color: accentColor }}>Gratis verzending</span>
+                <span className="block text-[10px] text-emerald-500/70 font-medium mt-0.5">Gratis verzending</span>
               )}
             </div>
             <button
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
-              className={cn("h-9 px-4 rounded-xl text-white text-xs font-bold transition-all duration-300", addedToCart && "animate-scale-bounce")}
+              className={cn(
+                "h-9 px-4 rounded-xl text-xs font-semibold transition-all duration-500",
+                addedToCart && "animate-scale-bounce"
+              )}
               style={{
                 background: addedToCart
                   ? accentColor
-                  : `linear-gradient(135deg, ${accentColor}, ${accentAlt})`,
+                  : isHovered ? `linear-gradient(135deg, ${accentColor}, ${accentAlt})` : '#0f172a',
+                color: 'white',
                 boxShadow: isHovered && !addedToCart
-                  ? `0 4px 14px rgba(${accentGlow},0.3), 0 0 0 2px rgba(${accentGlow},0.08)`
+                  ? `0 4px 14px rgba(${accentGlow},0.25)`
                   : undefined,
-                transform: isHovered && !addedToCart ? 'scale(1.02)' : undefined,
               }}
             >
               {addedToCart ? (
@@ -384,10 +373,14 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
-                  Toegevoegd
                 </span>
               ) : (
-                '+ Winkelmand'
+                <span className="flex items-center gap-1.5">
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  Winkelmand
+                </span>
               )}
             </button>
           </div>
