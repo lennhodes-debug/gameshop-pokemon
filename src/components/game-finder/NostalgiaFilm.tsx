@@ -3,25 +3,24 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ─── SCENE TIMING ──────────────────────────────────────────
-// step → duration before advancing to next step (ms)
+// ─── SCENE TIMING (ms before advancing) ────────────────────
 const STEP_DURATIONS = [
   2000,  // 0: CRT boot
   2800,  // 1: "Gameshop Enter presenteert"
   500,   // 2: VHS glitch
-  4200,  // 3: Game Boy era
+  4800,  // 3: Game Boy boot sequence
   500,   // 4: VHS glitch
-  4200,  // 5: GBA era
+  4800,  // 5: GBA boot sequence
   500,   // 6: VHS glitch
-  4200,  // 7: DS era
+  4800,  // 7: DS boot sequence
   500,   // 8: VHS glitch
-  4200,  // 9: 3DS era
+  4800,  // 9: 3DS boot sequence
   900,   // 10: VHS full tracking
   4000,  // 11: Emotional text
-  // 12: Reveal — stays indefinitely
+  // 12: Reveal — stays
 ];
 
-// ─── FILM GRAIN OVERLAY ────────────────────────────────────
+// ─── PERSISTENT OVERLAYS ───────────────────────────────────
 
 function FilmGrain() {
   return (
@@ -35,39 +34,25 @@ function FilmGrain() {
   );
 }
 
-// ─── CRT SCANLINES ─────────────────────────────────────────
-
 function Scanlines() {
   return (
     <div className="pointer-events-none fixed inset-0 z-[65]">
       <div
         className="absolute inset-0 opacity-[0.06]"
         style={{
-          background: `repeating-linear-gradient(
-            0deg,
-            rgba(0,0,0,0.4) 0px,
-            rgba(0,0,0,0.4) 1px,
-            transparent 1px,
-            transparent 3px
-          )`,
+          background: `repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 1px, transparent 1px, transparent 3px)`,
         }}
       />
-      {/* Vignette */}
       <div
         className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)',
-        }}
+        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)' }}
       />
     </div>
   );
 }
 
-// ─── VHS TIMESTAMP ─────────────────────────────────────────
-
 function VHSTimestamp({ step }: { step: number }) {
   const [time, setTime] = useState('00:00:00');
-
   useEffect(() => {
     const start = Date.now();
     const iv = setInterval(() => {
@@ -78,15 +63,9 @@ function VHSTimestamp({ step }: { step: number }) {
     }, 1000);
     return () => clearInterval(iv);
   }, []);
-
   if (step < 1) return null;
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="fixed bottom-6 right-6 z-[72] font-mono text-[11px] text-white/20 tabular-nums"
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed bottom-6 right-6 z-[72] font-mono text-[11px] text-white/20 tabular-nums">
       <div className="flex items-center gap-2">
         <span className="h-1.5 w-1.5 rounded-full bg-red-500/60 animate-pulse" />
         <span>REC</span>
@@ -95,8 +74,6 @@ function VHSTimestamp({ step }: { step: number }) {
     </motion.div>
   );
 }
-
-// ─── LETTERBOX BARS ────────────────────────────────────────
 
 function Letterbox() {
   return (
@@ -107,447 +84,51 @@ function Letterbox() {
   );
 }
 
-// ─── CRT BOOT SEQUENCE ────────────────────────────────────
+// ─── CRT BOOT ──────────────────────────────────────────────
 
 function CRTBoot() {
   return (
-    <motion.div
-      key="boot"
-      className="fixed inset-0 flex items-center justify-center bg-black z-[60]"
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Horizontal line that expands */}
+    <motion.div key="boot" className="fixed inset-0 flex items-center justify-center bg-black z-[60]" exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
       <motion.div
         className="absolute bg-white/80"
         style={{ left: '10%', right: '10%', height: '2px', top: '50%', translateY: '-50%' }}
         initial={{ scaleX: 0, opacity: 0 }}
-        animate={{
-          scaleX: [0, 1, 1, 1],
-          scaleY: [1, 1, 200, 600],
-          opacity: [0, 0.9, 0.6, 0],
-        }}
-        transition={{
-          duration: 1.8,
-          times: [0, 0.3, 0.6, 1],
-          ease: 'easeInOut',
-        }}
+        animate={{ scaleX: [0, 1, 1, 1], scaleY: [1, 1, 200, 600], opacity: [0, 0.9, 0.6, 0] }}
+        transition={{ duration: 1.8, times: [0, 0.3, 0.6, 1], ease: 'easeInOut' }}
       />
-
-      {/* Brief phosphor flash */}
-      <motion.div
-        className="absolute inset-0 bg-white"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 0, 0.15, 0] }}
-        transition={{ duration: 1.8, times: [0, 0.55, 0.65, 0.8] }}
-      />
-
-      {/* Static noise appearing */}
-      <motion.div
-        className="absolute inset-0 opacity-0"
-        animate={{ opacity: [0, 0, 0.1, 0.05] }}
-        transition={{ duration: 1.8, times: [0, 0.5, 0.7, 1] }}
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundSize: '200px 200px',
-        }}
-      />
+      <motion.div className="absolute inset-0 bg-white" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 0.15, 0] }} transition={{ duration: 1.8, times: [0, 0.55, 0.65, 0.8] }} />
     </motion.div>
   );
 }
 
-// ─── VHS GLITCH TRANSITION ─────────────────────────────────
+// ─── VHS GLITCH ────────────────────────────────────────────
 
 function VHSGlitch() {
-  const bars = useMemo(
-    () =>
-      Array.from({ length: 14 }, (_, i) => ({
-        id: i,
-        y: Math.random() * 100,
-        h: Math.random() * 6 + 1,
-        delay: Math.random() * 0.2,
-        opacity: Math.random() * 0.5 + 0.1,
-      })),
-    [],
-  );
+  const bars = useMemo(() => Array.from({ length: 14 }, (_, i) => ({
+    id: i, y: Math.random() * 100, h: Math.random() * 6 + 1, delay: Math.random() * 0.2, opacity: Math.random() * 0.5 + 0.1,
+  })), []);
 
   return (
-    <motion.div
-      key="glitch"
-      className="fixed inset-0 z-[60] bg-black/90"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 1, 1, 0] }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.45, times: [0, 0.1, 0.7, 1] }}
-    >
-      {/* Static */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundSize: '150px 150px',
-        }}
-      />
-      {/* Distortion bars */}
+    <motion.div key="glitch" className="fixed inset-0 z-[60] bg-black/90" initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 1, 0] }} exit={{ opacity: 0 }} transition={{ duration: 0.45, times: [0, 0.1, 0.7, 1] }}>
+      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '150px 150px' }} />
       {bars.map((bar) => (
-        <motion.div
-          key={bar.id}
-          className="absolute left-0 right-0 bg-white"
-          style={{ top: `${bar.y}%`, height: `${bar.h}px`, opacity: bar.opacity }}
-          animate={{ scaleX: [0, 1.2, 0], x: ['-30%', '15%', '40%'] }}
-          transition={{ duration: 0.35, delay: bar.delay }}
-        />
+        <motion.div key={bar.id} className="absolute left-0 right-0 bg-white" style={{ top: `${bar.y}%`, height: `${bar.h}px`, opacity: bar.opacity }} animate={{ scaleX: [0, 1.2, 0], x: ['-30%', '15%', '40%'] }} transition={{ duration: 0.35, delay: bar.delay }} />
       ))}
     </motion.div>
   );
 }
 
-// ─── VHS FULL TRACKING ─────────────────────────────────────
+// ─── VHS TRACKING ──────────────────────────────────────────
 
 function VHSTracking() {
   return (
-    <motion.div
-      key="tracking"
-      className="fixed inset-0 z-[60] bg-black flex items-center justify-center"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 1, 1, 0] }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.85, times: [0, 0.1, 0.75, 1] }}
-    >
-      {/* Heavy static */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundSize: '200px 200px',
-        }}
-      />
-      {/* Rolling bar */}
-      <motion.div
-        className="absolute left-0 right-0 h-20 bg-white/[0.08]"
-        animate={{ top: ['-10%', '110%'] }}
-        transition={{ duration: 0.7, ease: 'linear' }}
-      />
-      {/* Chromatic "TRACKING" text */}
+    <motion.div key="tracking" className="fixed inset-0 z-[60] bg-black flex items-center justify-center" initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 1, 0] }} exit={{ opacity: 0 }} transition={{ duration: 0.85, times: [0, 0.1, 0.75, 1] }}>
+      <div className="absolute inset-0 opacity-30" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
+      <motion.div className="absolute left-0 right-0 h-20 bg-white/[0.08]" animate={{ top: ['-10%', '110%'] }} transition={{ duration: 0.7, ease: 'linear' }} />
       <div className="relative">
-        <span className="absolute text-3xl font-bold text-red-500/25 blur-[1px]" style={{ transform: 'translate(-3px, 1px)' }}>
-          TRACKING...
-        </span>
-        <span className="absolute text-3xl font-bold text-cyan-500/25 blur-[1px]" style={{ transform: 'translate(3px, -1px)' }}>
-          TRACKING...
-        </span>
-        <motion.span
-          className="text-3xl font-bold text-white/40"
-          animate={{ opacity: [0, 0.6, 0] }}
-          transition={{ duration: 0.7, times: [0, 0.4, 1] }}
-        >
-          TRACKING...
-        </motion.span>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── CONSOLE SVGs ──────────────────────────────────────────
-
-function GameBoySVG({ glowColor }: { glowColor: string }) {
-  return (
-    <svg viewBox="0 0 160 240" fill="none" className="w-full h-full">
-      {/* Body */}
-      <rect x="20" y="10" width="120" height="220" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      {/* Screen bezel */}
-      <rect x="35" y="25" width="90" height="80" rx="4" fill="rgba(0,0,0,0.4)" />
-      {/* Screen (glowing) */}
-      <rect x="42" y="32" width="76" height="66" rx="2" fill={glowColor} opacity="0.15" />
-      {/* Screen shine */}
-      <rect x="42" y="32" width="76" height="33" rx="2" fill="rgba(255,255,255,0.04)" />
-      {/* Power LED */}
-      <circle cx="38" cy="22" r="2.5" fill="#ef4444" opacity="0.8" />
-      {/* D-pad */}
-      <rect x="40" y="125" width="12" height="36" rx="2" fill="rgba(255,255,255,0.08)" />
-      <rect x="34" y="137" width="24" height="12" rx="2" fill="rgba(255,255,255,0.08)" />
-      {/* A B buttons */}
-      <circle cx="114" cy="135" r="10" fill="rgba(255,255,255,0.08)" />
-      <circle cx="96" cy="145" r="10" fill="rgba(255,255,255,0.08)" />
-      {/* A B labels */}
-      <text x="114" y="139" textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="8" fontWeight="bold">A</text>
-      <text x="96" y="149" textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="8" fontWeight="bold">B</text>
-      {/* Start Select */}
-      <rect x="56" y="175" width="18" height="6" rx="3" fill="rgba(255,255,255,0.06)" transform="rotate(-25 65 178)" />
-      <rect x="82" y="175" width="18" height="6" rx="3" fill="rgba(255,255,255,0.06)" transform="rotate(-25 91 178)" />
-      {/* Speaker grille */}
-      <line x1="95" y1="195" x2="115" y2="185" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" />
-      <line x1="95" y1="200" x2="115" y2="190" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" />
-      <line x1="95" y1="205" x2="115" y2="195" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" />
-      <line x1="95" y1="210" x2="115" y2="200" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" />
-      {/* Nintendo logo placeholder */}
-      <text x="80" y="117" textAnchor="middle" fill="rgba(255,255,255,0.08)" fontSize="7" letterSpacing="2" fontWeight="600">GAME BOY</text>
-    </svg>
-  );
-}
-
-function GBASVG({ glowColor }: { glowColor: string }) {
-  return (
-    <svg viewBox="0 0 280 160" fill="none" className="w-full h-full">
-      {/* Body — landscape */}
-      <rect x="10" y="10" width="260" height="140" rx="20" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      {/* Screen bezel */}
-      <rect x="75" y="22" width="130" height="90" rx="4" fill="rgba(0,0,0,0.4)" />
-      {/* Screen (glowing) */}
-      <rect x="82" y="28" width="116" height="78" rx="2" fill={glowColor} opacity="0.12" />
-      {/* Screen shine */}
-      <rect x="82" y="28" width="116" height="39" rx="2" fill="rgba(255,255,255,0.03)" />
-      {/* Power LED */}
-      <circle cx="75" cy="18" r="2" fill="#22c55e" opacity="0.7" />
-      {/* D-pad */}
-      <rect x="30" y="52" width="10" height="32" rx="2" fill="rgba(255,255,255,0.08)" />
-      <rect x="24" y="62" width="22" height="12" rx="2" fill="rgba(255,255,255,0.08)" />
-      {/* A B buttons */}
-      <circle cx="242" cy="62" r="9" fill="rgba(255,255,255,0.08)" />
-      <circle cx="226" cy="74" r="9" fill="rgba(255,255,255,0.08)" />
-      {/* Shoulder buttons */}
-      <rect x="10" y="6" width="60" height="8" rx="4" fill="rgba(255,255,255,0.04)" />
-      <rect x="210" y="6" width="60" height="8" rx="4" fill="rgba(255,255,255,0.04)" />
-      {/* Label */}
-      <text x="140" y="128" textAnchor="middle" fill="rgba(255,255,255,0.08)" fontSize="6" letterSpacing="2" fontWeight="600">GAME BOY ADVANCE</text>
-    </svg>
-  );
-}
-
-function DSSVG({ glowColor }: { glowColor: string }) {
-  return (
-    <svg viewBox="0 0 160 260" fill="none" className="w-full h-full">
-      {/* Top half */}
-      <rect x="10" y="5" width="140" height="115" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      {/* Top screen bezel */}
-      <rect x="22" y="14" width="116" height="86" rx="3" fill="rgba(0,0,0,0.4)" />
-      {/* Top screen (glowing) */}
-      <rect x="28" y="20" width="104" height="74" rx="2" fill={glowColor} opacity="0.12" />
-      {/* Top screen shine */}
-      <rect x="28" y="20" width="104" height="37" rx="2" fill="rgba(255,255,255,0.03)" />
-      {/* Hinge */}
-      <rect x="30" y="118" width="100" height="8" rx="4" fill="rgba(255,255,255,0.04)" />
-      {/* Bottom half */}
-      <rect x="5" y="124" width="150" height="130" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      {/* Bottom (touch) screen bezel */}
-      <rect x="22" y="133" width="116" height="86" rx="3" fill="rgba(0,0,0,0.4)" />
-      {/* Bottom screen */}
-      <rect x="28" y="139" width="104" height="74" rx="2" fill={glowColor} opacity="0.08" />
-      {/* D-pad */}
-      <rect x="18" y="228" width="8" height="20" rx="2" fill="rgba(255,255,255,0.06)" />
-      <rect x="12" y="234" width="20" height="8" rx="2" fill="rgba(255,255,255,0.06)" />
-      {/* ABXY */}
-      <circle cx="138" cy="232" r="5" fill="rgba(255,255,255,0.06)" />
-      <circle cx="128" cy="240" r="5" fill="rgba(255,255,255,0.06)" />
-      <circle cx="148" cy="240" r="5" fill="rgba(255,255,255,0.06)" />
-      <circle cx="138" cy="248" r="5" fill="rgba(255,255,255,0.06)" />
-      {/* Power LED */}
-      <circle cx="18" cy="130" r="2" fill="#22c55e" opacity="0.7" />
-    </svg>
-  );
-}
-
-function ThreeDSSVG({ glowColor }: { glowColor: string }) {
-  return (
-    <svg viewBox="0 0 170 260" fill="none" className="w-full h-full">
-      {/* Top half */}
-      <rect x="5" y="5" width="160" height="115" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      {/* Top screen bezel */}
-      <rect x="16" y="14" width="138" height="86" rx="4" fill="rgba(0,0,0,0.4)" />
-      {/* 3D depth layers (simulated) */}
-      <rect x="23" y="21" width="124" height="72" rx="2" fill={glowColor} opacity="0.06" />
-      <rect x="26" y="24" width="118" height="66" rx="2" fill={glowColor} opacity="0.08" />
-      <rect x="29" y="27" width="112" height="60" rx="2" fill={glowColor} opacity="0.10" />
-      {/* Screen shine */}
-      <rect x="29" y="27" width="112" height="30" rx="2" fill="rgba(255,255,255,0.03)" />
-      {/* 3D LED */}
-      <circle cx="155" cy="18" r="2" fill="#06b6d4" opacity="0.8" />
-      {/* Hinge */}
-      <rect x="30" y="118" width="110" height="8" rx="4" fill="rgba(255,255,255,0.04)" />
-      {/* Bottom half */}
-      <rect x="10" y="124" width="150" height="130" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
-      {/* Bottom (touch) screen */}
-      <rect x="30" y="134" width="110" height="82" rx="3" fill="rgba(0,0,0,0.4)" />
-      <rect x="36" y="140" width="98" height="70" rx="2" fill={glowColor} opacity="0.06" />
-      {/* Circle pad */}
-      <circle cx="28" cy="234" r="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-      <circle cx="28" cy="234" r="4" fill="rgba(255,255,255,0.06)" />
-      {/* ABXY */}
-      <circle cx="142" cy="228" r="5" fill="rgba(255,255,255,0.06)" />
-      <circle cx="132" cy="236" r="5" fill="rgba(255,255,255,0.06)" />
-      <circle cx="152" cy="236" r="5" fill="rgba(255,255,255,0.06)" />
-      <circle cx="142" cy="244" r="5" fill="rgba(255,255,255,0.06)" />
-      {/* Power LED */}
-      <circle cx="18" cy="130" r="2" fill="#3b82f6" opacity="0.7" />
-    </svg>
-  );
-}
-
-// ─── ERA SCENE ─────────────────────────────────────────────
-
-interface EraConfig {
-  year: string;
-  title: string;
-  subtitle: string;
-  quote: string;
-  glowColor: string;
-  bgGradient: string;
-  accentRgb: string;
-  Console: React.FC<{ glowColor: string }>;
-  consoleWidth: string;
-}
-
-const ERA_CONFIGS: Record<number, EraConfig> = {
-  3: {
-    year: '1989',
-    title: 'Game Boy',
-    subtitle: 'Het begin',
-    quote: 'Op de achterbank met een zaklamp.\nDe wereld verdwijnt.\nAlleen jij en je Game Boy.',
-    glowColor: '#9bbc0f',
-    bgGradient: 'radial-gradient(ellipse at 50% 60%, rgba(155,188,15,0.08), transparent 60%)',
-    accentRgb: '155, 188, 15',
-    Console: GameBoySVG,
-    consoleWidth: 'w-28 sm:w-36 lg:w-44',
-  },
-  5: {
-    year: '2001',
-    title: 'Game Boy Advance',
-    subtitle: '32-bit handheld',
-    quote: 'Meer kleuren. Meer levels.\nDatzelfde gevoel. Die zelfde magie.',
-    glowColor: '#818cf8',
-    bgGradient: 'radial-gradient(ellipse at 50% 60%, rgba(129,140,248,0.08), transparent 60%)',
-    accentRgb: '129, 140, 248',
-    Console: GBASVG,
-    consoleWidth: 'w-44 sm:w-56 lg:w-64',
-  },
-  7: {
-    year: '2004',
-    title: 'Nintendo DS',
-    subtitle: 'Dual screen',
-    quote: 'Twee schermen. Een touchscreen.\nAlles voelde nieuw. Alles kon.',
-    glowColor: '#38bdf8',
-    bgGradient: 'radial-gradient(ellipse at 50% 60%, rgba(56,189,248,0.08), transparent 60%)',
-    accentRgb: '56, 189, 248',
-    Console: DSSVG,
-    consoleWidth: 'w-28 sm:w-36 lg:w-44',
-  },
-  9: {
-    year: '2011',
-    title: 'Nintendo 3DS',
-    subtitle: 'Stereoscopisch 3D',
-    quote: 'Diepte zonder bril.\nHet voelde als magie.\nEen heel universum in je handen.',
-    glowColor: '#06b6d4',
-    bgGradient: 'radial-gradient(ellipse at 50% 60%, rgba(6,182,212,0.08), transparent 60%)',
-    accentRgb: '6, 182, 212',
-    Console: ThreeDSSVG,
-    consoleWidth: 'w-28 sm:w-40 lg:w-48',
-  },
-};
-
-function EraScene({ config }: { config: EraConfig }) {
-  const lines = config.quote.split('\n');
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[60] flex items-center justify-center"
-      style={{ background: '#050810' }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      {/* Era background glow */}
-      <div className="absolute inset-0" style={{ background: config.bgGradient }} />
-
-      {/* Huge year watermark */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.03, scale: 1 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-      >
-        <span className="text-[200px] sm:text-[280px] lg:text-[380px] font-black leading-none" style={{ color: `rgba(${config.accentRgb}, 1)` }}>
-          {config.year}
-        </span>
-      </motion.div>
-
-      <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 px-8 max-w-5xl mx-auto">
-        {/* Console SVG */}
-        <motion.div
-          className={`relative ${config.consoleWidth} flex-shrink-0`}
-          initial={{ opacity: 0, y: 30, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {/* Glow behind console */}
-          <div
-            className="absolute inset-0 blur-3xl opacity-20 scale-150"
-            style={{ background: `radial-gradient(circle, rgba(${config.accentRgb}, 0.4), transparent 70%)` }}
-          />
-          {/* Floating animation */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <config.Console glowColor={config.glowColor} />
-          </motion.div>
-          {/* Reflection */}
-          <div
-            className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-2/3 h-4 rounded-full blur-xl opacity-20"
-            style={{ background: `rgba(${config.accentRgb}, 0.5)` }}
-          />
-        </motion.div>
-
-        {/* Text content */}
-        <div className="text-center lg:text-left">
-          {/* Era badge */}
-          <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-            className="inline-flex items-center gap-2 mb-4"
-          >
-            <span className="h-px w-6" style={{ background: `rgba(${config.accentRgb}, 0.4)` }} />
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em]" style={{ color: `rgba(${config.accentRgb}, 0.6)` }}>
-              {config.subtitle}
-            </span>
-          </motion.div>
-
-          {/* Title */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white tracking-tight mb-2"
-          >
-            {config.title}
-          </motion.h2>
-
-          {/* Year */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.3 }}
-            transition={{ delay: 0.5 }}
-            className="text-sm font-mono text-white/30 mb-6"
-          >
-            {config.year}
-          </motion.p>
-
-          {/* Quote — typewriter style staggered lines */}
-          <div className="space-y-1.5">
-            {lines.map((line, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 + i * 0.5, duration: 0.5 }}
-                className="text-sm sm:text-base text-white/40 leading-relaxed font-light"
-              >
-                {line}
-              </motion.p>
-            ))}
-          </div>
-        </div>
+        <span className="absolute text-3xl font-bold text-red-500/25 blur-[1px]" style={{ transform: 'translate(-3px, 1px)' }}>TRACKING...</span>
+        <span className="absolute text-3xl font-bold text-cyan-500/25 blur-[1px]" style={{ transform: 'translate(3px, -1px)' }}>TRACKING...</span>
+        <motion.span className="text-3xl font-bold text-white/40" animate={{ opacity: [0, 0.6, 0] }} transition={{ duration: 0.7, times: [0, 0.4, 1] }}>TRACKING...</motion.span>
       </div>
     </motion.div>
   );
@@ -557,30 +138,443 @@ function EraScene({ config }: { config: EraConfig }) {
 
 function TitleScene() {
   return (
+    <motion.div key="title" className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#050810]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      <motion.p initial={{ opacity: 0, letterSpacing: '0.8em' }} animate={{ opacity: 0.5, letterSpacing: '0.4em' }} transition={{ duration: 1.2, ease: 'easeOut' }} className="text-sm sm:text-base font-light text-white uppercase tracking-[0.4em] mb-4">
+        Gameshop Enter
+      </motion.p>
+      <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 0.35, y: 0 }} transition={{ delay: 0.8, duration: 0.8 }} className="text-lg sm:text-xl text-white/35 italic">
+        presenteert
+      </motion.p>
+    </motion.div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+// BOOT SEQUENCE RECREATIONS
+// ═══════════════════════════════════════════════════════════
+
+// ─── GAME BOY BOOT (1989) ──────────────────────────────────
+// Nintendo logo drops from top to center on green monochrome screen.
+// Two-note "ding ding" represented as visual flash.
+
+function GameBoyBoot() {
+  // The classic Game Boy screen colors
+  const darkest = '#0f380f';
+  const dark = '#306230';
+  const light = '#8bac0f';
+  const lightest = '#9bbc0f';
+
+  return (
     <motion.div
-      key="title"
-      className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#050810]"
+      key="gb-boot"
+      className="fixed inset-0 z-[60] flex items-center justify-center"
+      style={{ background: darkest }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
     >
-      <motion.p
-        initial={{ opacity: 0, letterSpacing: '0.8em' }}
-        animate={{ opacity: 0.5, letterSpacing: '0.4em' }}
-        transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="text-sm sm:text-base font-light text-white uppercase tracking-[0.4em] mb-4"
+      {/* Green screen area */}
+      <div className="relative flex flex-col items-center">
+        {/* Screen bezel simulation */}
+        <div
+          className="relative w-[280px] sm:w-[340px] lg:w-[400px] aspect-square rounded-lg overflow-hidden"
+          style={{ background: dark, boxShadow: `0 0 80px rgba(155, 188, 15, 0.15), inset 0 0 40px rgba(0,0,0,0.3)` }}
+        >
+          {/* Screen inner */}
+          <div className="absolute inset-3 sm:inset-4 rounded flex flex-col items-center justify-center" style={{ background: light }}>
+            {/* Nintendo logo — drops from top */}
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ y: -120 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              {/* Pixel-style "Nintendo" text */}
+              <div className="relative">
+                <span
+                  className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-[0.15em] select-none"
+                  style={{ color: darkest, fontFamily: 'monospace' }}
+                >
+                  Nintendo
+                </span>
+                {/* Registered trademark */}
+                <span className="absolute -top-1 -right-4 text-[8px] font-bold" style={{ color: darkest }}>®</span>
+              </div>
+            </motion.div>
+
+            {/* "Ding" flash — appears after logo lands */}
+            <motion.div
+              className="absolute inset-0"
+              style={{ background: lightest }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0, 0, 0.6, 0, 0.4, 0] }}
+              transition={{ duration: 4, times: [0, 0.49, 0.5, 0.52, 0.56, 0.58, 0.62] }}
+            />
+
+            {/* Scanline effect on green screen */}
+            <div
+              className="absolute inset-0 opacity-10 pointer-events-none"
+              style={{ background: `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)` }}
+            />
+          </div>
+        </div>
+
+        {/* Era label underneath */}
+        <motion.div
+          className="mt-8 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0, 0, 1] }}
+          transition={{ duration: 4, times: [0, 0, 0.7, 0.85] }}
+        >
+          <p className="text-xs font-mono uppercase tracking-[0.3em]" style={{ color: lightest }}>
+            1989 &mdash; Game Boy
+          </p>
+          <p className="text-sm text-white/30 mt-2 font-light">
+            Op de achterbank met een zaklamp.
+          </p>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── GBA BOOT (2001) ───────────────────────────────────────
+// "GAME BOY" text flies in letter by letter from bottom-right,
+// changing colors → settles to blue. Sparkle sweeps across.
+// "ADVANCE" appears below.
+
+function GBABoot() {
+  const letters = 'GAMEBOY'.split('');
+  const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899'];
+
+  return (
+    <motion.div
+      key="gba-boot"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-white"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="relative flex flex-col items-center">
+        {/* GAME BOY letters flying in */}
+        <div className="flex gap-1 sm:gap-2 mb-2">
+          {letters.map((letter, i) => (
+            <motion.span
+              key={i}
+              className="text-4xl sm:text-5xl lg:text-7xl font-black select-none"
+              style={{ fontFamily: 'system-ui, sans-serif' }}
+              initial={{ opacity: 0, x: 200, y: 100, color: colors[i] }}
+              animate={{
+                opacity: 1,
+                x: 0,
+                y: 0,
+                color: ['#3b82f6', colors[i], '#6366f1', '#2563eb', '#1d4ed8'],
+              }}
+              transition={{
+                opacity: { delay: 0.3 + i * 0.12, duration: 0.3 },
+                x: { delay: 0.3 + i * 0.12, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                y: { delay: 0.3 + i * 0.12, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                color: { delay: 0.3 + i * 0.12, duration: 1.5, times: [0, 0.3, 0.5, 0.7, 1] },
+              }}
+            >
+              {letter === 'B' ? (
+                <span className="ml-3 sm:ml-4">{letter}</span>
+              ) : letter}
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Sparkle sweep across text */}
+        <motion.div
+          className="absolute top-0 h-20 sm:h-24 lg:h-28 w-16 pointer-events-none"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.8) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.8) 60%, transparent)',
+            filter: 'blur(2px)',
+          }}
+          initial={{ left: '-10%', opacity: 0 }}
+          animate={{ left: ['- 10%', '110%'], opacity: [0, 0, 1, 1, 0] }}
+          transition={{ delay: 1.8, duration: 0.8, ease: 'easeInOut', times: [0, 0.05, 0.1, 0.9, 1] }}
+        />
+
+        {/* TM */}
+        <motion.span
+          className="absolute top-0 right-0 -mr-6 text-[8px] font-bold text-blue-800"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          ™
+        </motion.span>
+
+        {/* "ADVANCE" text appearing */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ delay: 1.4, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="text-lg sm:text-xl lg:text-2xl font-bold tracking-[0.5em] text-blue-700 select-none" style={{ fontFamily: 'system-ui, sans-serif' }}>
+            ADVANCE
+          </span>
+        </motion.div>
+
+        {/* Nintendo logo below */}
+        <motion.p
+          className="mt-6 text-sm font-medium text-rose-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6 }}
+        >
+          Nintendo®
+        </motion.p>
+
+        {/* Era label */}
+        <motion.div
+          className="mt-10 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.2 }}
+        >
+          <p className="text-xs font-mono uppercase tracking-[0.3em] text-indigo-400">
+            2001 &mdash; Game Boy Advance
+          </p>
+          <p className="text-sm text-slate-400 mt-2 font-light">
+            Meer kleuren. Meer levels. Datzelfde gevoel.
+          </p>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── DS BOOT (2004) ────────────────────────────────────────
+// "Nintendo" logo fades in with dual "O" characters.
+// Large "DS" appears. The two O's slide together, touching
+// triggers burst of circles flying outward. Fade to black.
+
+function DSBoot() {
+  const burstCircles = useMemo(() =>
+    Array.from({ length: 16 }, (_, i) => ({
+      id: i,
+      angle: (i / 16) * Math.PI * 2,
+      distance: 150 + Math.random() * 200,
+      size: 8 + Math.random() * 12,
+      delay: Math.random() * 0.15,
+    })),
+  []);
+
+  return (
+    <motion.div
+      key="ds-boot"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-white"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="relative flex flex-col items-center">
+        {/* "Nintendo" text */}
+        <motion.div
+          className="flex items-center gap-0 mb-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 tracking-wide" style={{ fontFamily: 'system-ui, sans-serif' }}>
+            Nintend
+          </span>
+          {/* The two overlapping O's — one black, one gray underneath */}
+          <span className="relative inline-block w-8 sm:w-10 lg:w-12">
+            {/* Gray O (behind) */}
+            <motion.span
+              className="absolute text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-400"
+              style={{ fontFamily: 'system-ui, sans-serif' }}
+              initial={{ x: 8 }}
+              animate={{ x: [8, 8, 0] }}
+              transition={{ duration: 2.5, times: [0, 0.5, 0.7], ease: 'easeInOut' }}
+            >
+              O
+            </motion.span>
+            {/* Black O (front) */}
+            <motion.span
+              className="relative text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800"
+              style={{ fontFamily: 'system-ui, sans-serif' }}
+            >
+              O
+            </motion.span>
+          </span>
+        </motion.div>
+
+        {/* Large "DS" */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-center"
+        >
+          <span className="text-6xl sm:text-7xl lg:text-8xl font-black text-slate-800 tracking-tight" style={{ fontFamily: 'system-ui, sans-serif' }}>
+            DS
+          </span>
+        </motion.div>
+
+        {/* Burst of O circles — triggered at ~2s */}
+        {burstCircles.map((circle) => (
+          <motion.div
+            key={circle.id}
+            className="absolute rounded-full font-bold text-slate-300 flex items-center justify-center select-none"
+            style={{
+              width: circle.size,
+              height: circle.size,
+              fontSize: circle.size * 0.7,
+              fontFamily: 'system-ui, sans-serif',
+            }}
+            initial={{ x: 0, y: -20, opacity: 0, scale: 0 }}
+            animate={{
+              x: [0, 0, Math.cos(circle.angle) * circle.distance],
+              y: [-20, -20, Math.sin(circle.angle) * circle.distance - 20],
+              opacity: [0, 0, 0, 1, 1, 0],
+              scale: [0, 0, 0, 1, 1, 0.5],
+            }}
+            transition={{
+              duration: 3.5,
+              times: [0, 0.42, 0.43, 0.46, 0.7, 0.85],
+              delay: circle.delay,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
+            O
+          </motion.div>
+        ))}
+
+        {/* Fade to dark after burst */}
+        <motion.div
+          className="fixed inset-0 bg-[#050810] pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0, 0, 1] }}
+          transition={{ duration: 4.5, times: [0, 0, 0.72, 0.85] }}
+        />
+
+        {/* Era label (appears in dark) */}
+        <motion.div
+          className="fixed inset-0 flex items-center justify-center pointer-events-none z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0, 0, 1] }}
+          transition={{ duration: 4.5, times: [0, 0, 0.8, 0.92] }}
+        >
+          <div className="text-center">
+            <p className="text-xs font-mono uppercase tracking-[0.3em] text-sky-400">
+              2004 &mdash; Nintendo DS
+            </p>
+            <p className="text-sm text-white/30 mt-2 font-light">
+              Twee schermen. Eindeloze mogelijkheden.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── 3DS BOOT (2011) ───────────────────────────────────────
+// Black background. Red squares flash in corners.
+// "Nintendo" and "DS" text visible, then move backward (shrink).
+// Red "3" zooms in to fill the gap.
+
+function ThreeDSBoot() {
+  return (
+    <motion.div
+      key="3ds-boot"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Red squares in corners */}
+      <motion.div
+        className="absolute top-[15%] left-[15%] w-6 h-6 sm:w-8 sm:h-8"
+        style={{ background: '#dc2626' }}
+        animate={{ opacity: [0, 1, 0, 0, 0], scale: [0.5, 1, 0.5, 0, 0] }}
+        transition={{ duration: 3, times: [0, 0.1, 0.2, 0.25, 1] }}
+      />
+      <motion.div
+        className="absolute bottom-[15%] right-[15%] w-6 h-6 sm:w-8 sm:h-8"
+        style={{ background: '#dc2626' }}
+        animate={{ opacity: [0, 1, 0, 0, 0], scale: [0.5, 1, 0.5, 0, 0] }}
+        transition={{ duration: 3, times: [0, 0.1, 0.2, 0.25, 1] }}
+      />
+
+      <div className="relative flex items-center">
+        {/* "Nintendo" text — moves backward (shrinks) */}
+        <motion.span
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-wide"
+          style={{ fontFamily: 'system-ui, sans-serif' }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 1, 1, 0.7],
+            scale: [1, 1, 1, 0.7],
+            x: [0, 0, 0, -30],
+          }}
+          transition={{ duration: 3, times: [0, 0.15, 0.45, 0.7], ease: 'easeInOut' }}
+        >
+          Nintendo
+        </motion.span>
+
+        {/* The red "3" — zooms in dramatically between Nintendo and DS */}
+        <motion.span
+          className="text-6xl sm:text-7xl lg:text-9xl font-black mx-1"
+          style={{ color: '#dc2626', fontFamily: 'system-ui, sans-serif' }}
+          initial={{ opacity: 0, scale: 0, rotate: -15 }}
+          animate={{
+            opacity: [0, 0, 0, 1, 1],
+            scale: [0, 0, 0, 1.2, 1],
+            rotate: [- 15, -15, -15, 5, 0],
+          }}
+          transition={{ duration: 3, times: [0, 0, 0.5, 0.65, 0.75], ease: [0.16, 1, 0.3, 1] }}
+        >
+          3
+        </motion.span>
+
+        {/* "DS" text — moves backward too */}
+        <motion.span
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-wide"
+          style={{ fontFamily: 'system-ui, sans-serif' }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 1, 1, 0.7],
+            scale: [1, 1, 1, 0.7],
+            x: [0, 0, 0, 30],
+          }}
+          transition={{ duration: 3, times: [0, 0.15, 0.45, 0.7], ease: 'easeInOut' }}
+        >
+          DS
+        </motion.span>
+      </div>
+
+      {/* 3D LED glow */}
+      <motion.div
+        className="absolute w-3 h-3 rounded-full"
+        style={{ background: '#dc2626', boxShadow: '0 0 20px rgba(220, 38, 38, 0.6), 0 0 40px rgba(220, 38, 38, 0.3)' }}
+        initial={{ opacity: 0, top: '42%', right: '28%' }}
+        animate={{ opacity: [0, 0, 0, 1] }}
+        transition={{ duration: 3, times: [0, 0, 0.65, 0.75] }}
+      />
+
+      {/* Era label */}
+      <motion.div
+        className="absolute bottom-[20%] text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0, 0, 1] }}
+        transition={{ duration: 4.5, times: [0, 0, 0.78, 0.9] }}
       >
-        Gameshop Enter
-      </motion.p>
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 0.35, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-        className="text-lg sm:text-xl text-white/35 italic"
-      >
-        presenteert
-      </motion.p>
+        <p className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-400">
+          2011 &mdash; Nintendo 3DS
+        </p>
+        <p className="text-sm text-white/30 mt-2 font-light">
+          Een nieuwe dimensie. Letterlijk.
+        </p>
+      </motion.div>
     </motion.div>
   );
 }
@@ -595,16 +589,8 @@ function EmotionalScene() {
   ];
 
   return (
-    <motion.div
-      key="emotional"
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-[#050810]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <motion.div key="emotional" className="fixed inset-0 z-[60] flex items-center justify-center bg-[#050810]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.05),transparent_50%)]" />
-
       <div className="relative z-10 text-center px-8">
         {lines.map((line, i) => (
           <motion.p
@@ -612,14 +598,11 @@ function EmotionalScene() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.7, duration: 0.6 }}
-            className={`${
-              i === 2 ? 'text-lg sm:text-xl text-white/35 mt-4 font-light' : 'text-2xl sm:text-3xl lg:text-4xl font-semibold text-white/60 tracking-tight'
-            } leading-relaxed`}
+            className={`${i === 2 ? 'text-lg sm:text-xl text-white/35 mt-4 font-light' : 'text-2xl sm:text-3xl lg:text-4xl font-semibold text-white/60 tracking-tight'} leading-relaxed`}
           >
             {line}
           </motion.p>
         ))}
-
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -627,9 +610,7 @@ function EmotionalScene() {
           className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white/70 tracking-tight mt-8"
         >
           Die games verdienen een{' '}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
-            nieuw thuis.
-          </span>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">nieuw thuis.</span>
         </motion.p>
       </div>
     </motion.div>
@@ -640,74 +621,34 @@ function EmotionalScene() {
 
 function RevealScene({ onStart }: { onStart: () => void }) {
   return (
-    <motion.div
-      key="reveal"
-      className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#050810]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+    <motion.div key="reveal" className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-[#050810]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_50%)]" />
-
       <div className="relative z-10 text-center px-4">
-        {/* REC badge */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] mb-10"
-        >
+        <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ delay: 0.3, duration: 0.4 }} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] mb-10">
           <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-          <span className="text-[11px] font-mono text-white/40 uppercase tracking-[0.2em]">
-            REC &bull; 5 rondes &bull; Jouw smaak
-          </span>
+          <span className="text-[11px] font-mono text-white/40 uppercase tracking-[0.2em]">REC &bull; 5 rondes &bull; Jouw smaak</span>
         </motion.div>
 
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 30, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-5xl lg:text-[88px] font-light text-white tracking-[-0.03em] leading-[0.92] mb-6"
         >
-          Game
-          <br />
+          Game<br />
           <span className="relative">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-              Finder
-            </span>
-            {/* Chromatic aberration accent */}
-            <span
-              className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-red-400/20 to-transparent blur-[2px] select-none pointer-events-none"
-              aria-hidden
-              style={{ transform: 'translate(-2px, 1px)' }}
-            >
-              Finder
-            </span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Finder</span>
+            <span className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-red-400/20 to-transparent blur-[2px] select-none pointer-events-none" aria-hidden style={{ transform: 'translate(-2px, 1px)' }}>Finder</span>
           </span>
         </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="text-base text-white/35 max-w-md mx-auto mb-4"
-        >
-          Wij tonen je steeds twee games.
-          <br />
-          Kies welke je meer aanspreekt.
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="text-base text-white/35 max-w-md mx-auto mb-4">
+          Wij tonen je steeds twee games.<br />Kies welke je meer aanspreekt.
         </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1 }}
-          className="text-sm text-white/20 max-w-sm mx-auto mb-12 font-mono"
-        >
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-sm text-white/20 max-w-sm mx-auto mb-12 font-mono">
           Na 5 rondes kennen wij jouw smaak en vinden we jouw perfecte game.
         </motion.p>
 
-        {/* CTA */}
         <motion.button
           onClick={onStart}
           initial={{ opacity: 0, y: 16 }}
@@ -718,13 +659,7 @@ function RevealScene({ onStart }: { onStart: () => void }) {
           className="group inline-flex items-center justify-center h-14 px-10 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all duration-300"
         >
           Start de Game Finder
-          <svg
-            className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2.5}
-          >
+          <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
           </svg>
         </motion.button>
@@ -735,43 +670,30 @@ function RevealScene({ onStart }: { onStart: () => void }) {
 
 // ─── MAIN NOSTALGIA FILM ───────────────────────────────────
 
-interface NostalgiaFilmProps {
-  onStart: () => void;
-}
-
-export default function NostalgiaFilm({ onStart }: NostalgiaFilmProps) {
+export default function NostalgiaFilm({ onStart }: { onStart: () => void }) {
   const [step, setStep] = useState(0);
 
-  // Schedule all scene transitions
   useEffect(() => {
     let elapsed = 0;
     const timers: NodeJS.Timeout[] = [];
-
     STEP_DURATIONS.forEach((duration, i) => {
       elapsed += duration;
       timers.push(setTimeout(() => setStep(i + 1), elapsed));
     });
-
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const handleSkip = useCallback(() => {
-    setStep(12); // Jump to reveal
-  }, []);
+  const handleSkip = useCallback(() => setStep(12), []);
 
-  // Determine which visual to show based on step
   const isGlitch = step === 2 || step === 4 || step === 6 || step === 8;
-  const isEra = step === 3 || step === 5 || step === 7 || step === 9;
 
   return (
     <div className="fixed inset-0 bg-black z-50 overflow-hidden">
-      {/* Persistent layers */}
       <FilmGrain />
       <Scanlines />
       <Letterbox />
       <VHSTimestamp step={step} />
 
-      {/* Skip button — always visible after step 1 */}
       {step >= 1 && step < 12 && (
         <motion.button
           onClick={handleSkip}
@@ -783,29 +705,16 @@ export default function NostalgiaFilm({ onStart }: NostalgiaFilmProps) {
         </motion.button>
       )}
 
-      {/* Scene renderer */}
       <AnimatePresence mode="wait">
-        {/* CRT Boot */}
         {step === 0 && <CRTBoot key="boot" />}
-
-        {/* Title */}
         {step === 1 && <TitleScene key="title" />}
-
-        {/* VHS Glitch transitions */}
         {isGlitch && <VHSGlitch key={`glitch-${step}`} />}
-
-        {/* Era scenes */}
-        {isEra && ERA_CONFIGS[step] && (
-          <EraScene key={`era-${step}`} config={ERA_CONFIGS[step]} />
-        )}
-
-        {/* VHS Full tracking */}
+        {step === 3 && <GameBoyBoot key="gb" />}
+        {step === 5 && <GBABoot key="gba" />}
+        {step === 7 && <DSBoot key="ds" />}
+        {step === 9 && <ThreeDSBoot key="3ds" />}
         {step === 10 && <VHSTracking key="tracking" />}
-
-        {/* Emotional */}
         {step === 11 && <EmotionalScene key="emotional" />}
-
-        {/* Reveal — Game Finder */}
         {step >= 12 && <RevealScene key="reveal" onStart={onStart} />}
       </AnimatePresence>
     </div>
