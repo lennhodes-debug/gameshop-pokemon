@@ -9,7 +9,10 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import ScrollProgress from '@/components/layout/ScrollProgress';
+import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
+
+const BootSequence = dynamic(() => import('@/components/ui/BootSequence'));
 
 const jakarta = localFont({
   src: '../fonts/plus-jakarta-sans-latin-wght-normal.woff2',
@@ -186,6 +189,7 @@ export default function RootLayout({
           }}
         />
         <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
+        <BootSequence />
         <ScrollProgress />
         <CartProvider>
           <WishlistProvider>
