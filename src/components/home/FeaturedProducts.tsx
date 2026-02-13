@@ -78,11 +78,12 @@ function BentoCard({
             rotateX,
             rotateY,
             transformStyle: 'preserve-3d',
-            border: `1px solid ${hovered ? `rgba(${glowRgb},0.12)` : 'transparent'}`,
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
             boxShadow: hovered
-              ? `0 25px 60px -12px rgba(${glowRgb},0.2), 0 0 40px rgba(${glowRgb},0.04)`
+              ? `0 0 0 1px rgba(${glowRgb},0.12), 0 25px 60px -12px rgba(${glowRgb},0.2)`
               : 'none',
-            transition: 'border-color 0.4s ease, box-shadow 0.5s ease',
+            transition: 'box-shadow 0.5s ease',
             background: 'white',
           }}
         >
