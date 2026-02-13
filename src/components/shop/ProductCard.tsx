@@ -70,7 +70,6 @@ function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undef
     flyEl.style.transform = 'scale(0.3)';
   });
 
-  // Cart icon bounce
   setTimeout(() => {
     cartIcon.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
     cartIcon.style.transform = 'scale(1.2)';
@@ -106,11 +105,11 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const [addedToCart, setAddedToCart] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [heartBounce, setHeartBounce] = useState(false);
+  const [imageTransition, setImageTransition] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -136,19 +135,24 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const hasCibOption = !!product.cibPrice;
   const typeInfo = getGameTheme(product.sku, product.genre);
 
-  // Accent kleur: per game uniek, standaard emerald
   const accentColor = typeInfo ? typeInfo.bg[0] : '#10b981';
   const accentGlow = typeInfo ? typeInfo.glow : '16,185,129';
+  const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
 
-  const displayImage = (hasCibOption && selectedVariant === 'cib') ? product.cibImage : product.image;
+  // Afbeelding en prijs op basis van geselecteerde variant
+  const displayImage = (hasCibOption && selectedVariant === 'cib') ? (product.cibImage || product.image) : product.image;
+  const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : product.price;
+  const currentImage = displayImage;
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
-  }, []);
+  const handleVariantSwitch = useCallback((variant: 'los' | 'cib') => {
+    if (variant === selectedVariant) return;
+    setImageTransition(true);
+    setImageLoaded(false);
+    setTimeout(() => {
+      setSelectedVariant(variant);
+      setImageTransition(false);
+    }, 150);
+  }, [selectedVariant]);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -157,14 +161,12 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
     addItem(product, variant);
     const label = variant ? `${product.name} (CIB)` : product.name;
     setAddedToCart(true);
-    addToast(`${label} toegevoegd aan winkelwagen`, 'success', undefined, (displayImage || product.image) || undefined);
+    addToast(`${label} toegevoegd aan winkelwagen`, 'success', undefined, (currentImage || product.image) || undefined);
     if (cardRef.current) {
-      flyToCartAnimation(cardRef.current, displayImage || product.image);
+      flyToCartAnimation(cardRef.current, currentImage || product.image);
     }
     setTimeout(() => setAddedToCart(false), 1500);
   };
-
-  const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
 
   return (
     <div className="group">
@@ -179,34 +181,28 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             : '0 2px 8px rgba(0,0,0,0.08)',
         }}
         ref={cardRef}
-        onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => { setIsHovered(false); setMousePos({ x: 50, y: 50 }); }}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Shine sweep — verwijderd voor cleaner look */}
-
-        {/* Hover border glow animatie — verwijderd voor cleaner look */}
-
         {/* Afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div
             className="relative h-56 flex items-center justify-center overflow-hidden"
             style={{ background: '#f8fafc' }}
           >
-
-            {product.image && !imageError ? (
+            {currentImage && !imageError ? (
               <>
                 {!imageLoaded && (
                   <div className="absolute inset-0 animate-pulse" style={{ background: `${accentColor}08` }} />
                 )}
                 <Image
-                  src={product.image}
-                  alt={`${product.name} - ${product.platform}`}
+                  src={currentImage}
+                  alt={`${product.name} - ${product.platform}${selectedVariant === 'cib' ? ' (CIB)' : ''}`}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className={cn(
                     "object-contain p-5 transition-all duration-500 ease-out",
-                    imageLoaded ? "opacity-100" : "opacity-0",
+                    imageLoaded && !imageTransition ? "opacity-100" : "opacity-0",
                     isHovered ? "scale-105" : "scale-100"
                   )}
                   onLoad={() => setImageLoaded(true)}
@@ -225,10 +221,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             <div className="absolute top-2.5 left-3">
               <span
                 className="px-2.5 py-1 rounded-lg text-[11px] font-semibold backdrop-blur-sm"
-                style={{
-                  background: 'rgba(15,23,42,0.7)',
-                  color: 'white',
-                }}
+                style={{ background: 'rgba(15,23,42,0.7)', color: 'white' }}
               >
                 {product.platform}
               </span>
@@ -260,19 +253,60 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </svg>
               </button>
             </div>
-
-            {/* Bottom fade — verwijderd */}
           </div>
         </Link>
 
-        {/* Scheidingslijn — verwijderd */}
-
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
-          <div className="flex flex-wrap gap-1.5 mb-2.5">
-            <Badge variant="condition">{product.condition}</Badge>
-            <Badge variant="completeness">{isCIB ? 'CIB' : product.completeness}</Badge>
-          </div>
+          {/* Variant toggle — alleen zichtbaar als product CIB optie heeft */}
+          {hasCibOption ? (
+            <div className="mb-3">
+              <div
+                className="relative inline-flex rounded-xl p-0.5 w-full"
+                style={{ background: '#f1f5f9' }}
+              >
+                {/* Sliding indicator */}
+                <div
+                  className="absolute top-0.5 bottom-0.5 rounded-[10px] transition-all duration-300 ease-out"
+                  style={{
+                    width: '50%',
+                    left: selectedVariant === 'los' ? '2px' : 'calc(50% - 2px)',
+                    background: 'white',
+                    boxShadow: `0 1px 3px rgba(0,0,0,0.1), 0 0 0 1px rgba(${accentGlow},0.08)`,
+                  }}
+                />
+                <button
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleVariantSwitch('los'); }}
+                  className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-semibold transition-colors duration-200 rounded-[10px]"
+                  style={{ color: selectedVariant === 'los' ? accentColor : '#94a3b8' }}
+                >
+                  <span className="flex items-center justify-center gap-1">
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    Los
+                  </span>
+                </button>
+                <button
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleVariantSwitch('cib'); }}
+                  className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-semibold transition-colors duration-200 rounded-[10px]"
+                  style={{ color: selectedVariant === 'cib' ? accentColor : '#94a3b8' }}
+                >
+                  <span className="flex items-center justify-center gap-1">
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V15m0 0l-2.25-1.313M3 16.5v2.25M21 16.5v2.25M12 3v2.25m6.75 1.313l-2.25 1.313m0 0l-2.25-1.313M16.5 6.563V3.75m-9 2.813l2.25 1.313m0 0l2.25-1.313M7.5 6.563V3.75" />
+                    </svg>
+                    Compleet
+                  </span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-1.5 mb-2.5">
+              <Badge variant="condition">{product.condition}</Badge>
+              <Badge variant="completeness">{isCIB ? 'CIB' : product.completeness}</Badge>
+            </div>
+          )}
 
           <Link href={`/shop/${product.sku}`}>
             <h3
@@ -291,7 +325,26 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           <div className="flex items-center justify-between pt-3 mt-auto">
             <div>
-              {isOnSale(product) ? (
+              {hasCibOption ? (
+                <div>
+                  <span
+                    className="text-xl font-extrabold tracking-tight transition-colors duration-300"
+                    style={{ color: isHovered ? accentColor : '#0f172a' }}
+                  >
+                    {formatPrice(displayPrice)}
+                  </span>
+                  {selectedVariant === 'cib' && (
+                    <span className="block text-[10px] text-slate-400 font-medium mt-0.5">
+                      Los vanaf {formatPrice(product.price)}
+                    </span>
+                  )}
+                  {selectedVariant === 'los' && product.cibPrice && (
+                    <span className="block text-[10px] text-slate-400 font-medium mt-0.5">
+                      CIB voor {formatPrice(product.cibPrice)}
+                    </span>
+                  )}
+                </div>
+              ) : isOnSale(product) ? (
                 <div className="flex items-baseline gap-2">
                   <span className="text-xl font-extrabold tracking-tight" style={{ color: accentColor }}>
                     {formatPrice(getEffectivePrice(product))}
@@ -308,7 +361,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   {formatPrice(product.price)}
                 </span>
               )}
-              {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
+              {displayPrice >= FREE_SHIPPING_THRESHOLD && (
                 <span className="block text-[10px] font-semibold mt-0.5" style={{ color: accentColor }}>Gratis verzending</span>
               )}
             </div>
