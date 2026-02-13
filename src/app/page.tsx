@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
 import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
-import PlatformIntro from '@/components/home/PlatformIntro';
+
 const CollectionShowcase = dynamic(() => import('@/components/home/CollectionShowcase'));
 const ParallaxSection = dynamic(() => import('@/components/home/ParallaxSection'));
 const GameCarousel3D = dynamic(() => import('@/components/home/GameCarousel3D'));
@@ -16,7 +17,7 @@ const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
 export default function HomePage() {
   return (
     <>
-      <PlatformIntro />
+      <Script src="/platform-intro.js" strategy="afterInteractive" />
       <Hero />
       <TrustStrip />
       <CollectionShowcase />
