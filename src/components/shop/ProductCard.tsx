@@ -177,7 +177,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s ease',
           background: 'white',
           boxShadow: isHovered
-            ? `0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(${accentGlow},0.06)`
+            ? '0 20px 50px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)'
             : '0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
         }}
         ref={cardRef}
@@ -217,7 +217,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                     isHovered ? "scale-[1.03]" : "scale-100"
                   )}
                   style={{
-                    filter: isHovered ? `drop-shadow(0 8px 24px rgba(${accentGlow},0.15))` : 'drop-shadow(0 4px 12px rgba(0,0,0,0.06))',
+                    filter: isHovered ? 'drop-shadow(0 8px 20px rgba(0,0,0,0.08))' : 'drop-shadow(0 4px 12px rgba(0,0,0,0.04))',
                     transition: 'transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease, filter 0.7s ease',
                   }}
                   onLoad={() => setImageLoaded(true)}
@@ -234,7 +234,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
             {/* Platform — minimal pill */}
             <div className="absolute top-3 left-3">
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold text-slate-500 bg-white/80 backdrop-blur-sm">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-500 bg-white/90 backdrop-blur-sm border border-slate-200/60">
                 {platformLabel}
               </span>
             </div>
@@ -242,20 +242,21 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             {/* Badges + wishlist */}
             <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
               {isOnSale(product) && (
-                <span className="px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-bold">
+                <span className="px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-semibold">
                   -{getSalePercentage(product)}%
                 </span>
               )}
               {product.isPremium && (
-                <Badge variant="premium">PREMIUM</Badge>
+                <Badge variant="premium">Premium</Badge>
               )}
-              {product.isConsole && <Badge variant="console">CONSOLE</Badge>}
+              {product.isConsole && <Badge variant="console">Console</Badge>}
               <button
                 onClick={handleToggleWishlist}
                 aria-label={isWishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
-                className="p-1.5 rounded-full backdrop-blur-sm transition-all z-30"
+                className="p-1.5 rounded-lg backdrop-blur-sm transition-all z-30"
                 style={{
-                  background: isWishlisted ? `${accentColor}12` : 'rgba(255,255,255,0.8)',
+                  background: isWishlisted ? `${accentColor}12` : 'rgba(255,255,255,0.9)',
+                  border: '1px solid rgba(0,0,0,0.04)',
                   transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
                   transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease',
                 }}
@@ -304,8 +305,12 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             </div>
           ) : (
             <div className="flex flex-wrap gap-1.5 mb-3">
-              <Badge variant="condition">{product.condition}</Badge>
-              <Badge variant="completeness">{isCIB ? 'CIB' : product.completeness}</Badge>
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100">
+                {product.condition}
+              </span>
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100">
+                {isCIB ? 'CIB' : product.completeness}
+              </span>
             </div>
           )}
 
@@ -355,16 +360,16 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
               className={cn(
-                "h-9 px-4 rounded-xl text-xs font-semibold transition-all duration-500",
+                "h-9 px-4 rounded-xl text-xs font-semibold transition-all duration-300",
                 addedToCart && "animate-scale-bounce"
               )}
               style={{
                 background: addedToCart
                   ? accentColor
-                  : isHovered ? `linear-gradient(135deg, ${accentColor}, ${accentAlt})` : '#0f172a',
+                  : '#0f172a',
                 color: 'white',
                 boxShadow: isHovered && !addedToCart
-                  ? `0 4px 14px rgba(${accentGlow},0.25)`
+                  ? '0 2px 8px rgba(0,0,0,0.12)'
                   : undefined,
               }}
             >

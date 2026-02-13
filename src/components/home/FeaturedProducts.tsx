@@ -73,7 +73,7 @@ function BentoCard({
     >
       <Link href={`/shop/${product.sku}`} className="block h-full">
         <motion.div
-          className="relative h-full rounded-2xl lg:rounded-3xl overflow-hidden"
+          className="relative h-full rounded-2xl overflow-hidden"
           style={{
             rotateX,
             rotateY,
@@ -132,13 +132,11 @@ function BentoCard({
           {/* Platform badge */}
           <div className="absolute top-3 left-3 z-20">
             <span
-              className="px-2.5 py-1 rounded-xl text-[10px] font-bold backdrop-blur-sm shadow-sm transition-all duration-300"
+              className="px-2 py-0.5 rounded-md text-[10px] font-medium backdrop-blur-sm transition-all duration-300"
               style={{
-                background: hovered
-                  ? `rgba(${glowRgb},0.1)`
-                  : 'rgba(255,255,255,0.85)',
-                color: hovered ? accent : '#475569',
-                border: `1px solid ${hovered ? `rgba(${glowRgb},0.2)` : 'rgba(0,0,0,0.06)'}`,
+                background: 'rgba(255,255,255,0.9)',
+                color: '#64748b',
+                border: '1px solid rgba(0,0,0,0.06)',
               }}
             >
               {PLATFORM_LABELS[product.platform] || product.platform}
@@ -150,13 +148,13 @@ function BentoCard({
             <div className="absolute top-3 right-3 z-20">
               <span
                 className={cn(
-                  'px-2 py-0.5 rounded-lg text-[9px] font-bold text-white shadow-sm',
+                  'px-2 py-0.5 rounded-md text-[10px] font-medium border',
                   product.isPremium
-                    ? 'bg-gradient-to-r from-amber-400 to-amber-500'
-                    : 'bg-gradient-to-r from-blue-400 to-blue-500',
+                    ? 'bg-amber-50 text-amber-600 border-amber-100'
+                    : 'bg-blue-50 text-blue-600 border-blue-100',
                 )}
               >
-                {product.isPremium ? 'PREMIUM' : 'CONSOLE'}
+                {product.isPremium ? 'Premium' : 'Console'}
               </span>
             </div>
           )}
@@ -174,7 +172,7 @@ function BentoCard({
             <div className={cn('p-4', isHero && 'lg:p-6')}>
               <h3
                 className={cn(
-                  'font-bold leading-tight mb-1.5 line-clamp-2 transition-colors duration-300',
+                  'font-semibold leading-tight mb-1.5 line-clamp-2 transition-colors duration-300',
                   isHero ? 'text-base lg:text-xl' : 'text-sm',
                 )}
                 style={{ color: hovered ? accent : '#0f172a' }}
@@ -184,7 +182,7 @@ function BentoCard({
               <div className="flex items-center justify-between">
                 <span
                   className={cn(
-                    'font-black tracking-tight',
+                    'font-bold tracking-tight',
                     isHero ? 'text-xl lg:text-2xl' : 'text-lg',
                   )}
                   style={{ color: accent }}
@@ -222,7 +220,7 @@ function BrowseCard({ productCount }: { productCount: number }) {
       transition={{ type: 'spring', stiffness: 80, damping: 15, delay: 0.5 }}
     >
       <Link href="/shop" className="block h-full">
-        <div className="relative h-full min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] rounded-2xl lg:rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-6 flex flex-col justify-between group hover:shadow-xl hover:shadow-emerald-500/20 transition-all duration-500">
+        <div className="relative h-full min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-6 flex flex-col justify-between group hover:shadow-xl hover:shadow-black/10 transition-all duration-500">
           {/* Noise texture */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
             <svg width="100%" height="100%">
@@ -237,14 +235,14 @@ function BrowseCard({ productCount }: { productCount: number }) {
             <p className="text-white/60 text-[10px] font-semibold uppercase tracking-[0.2em] mb-3">
               Collectie
             </p>
-            <h3 className="text-white text-2xl lg:text-3xl font-black leading-tight">
+            <h3 className="text-white text-2xl lg:text-3xl font-bold leading-tight">
               Bekijk alle
               <br />
               {productCount} producten
             </h3>
           </div>
 
-          <div className="relative z-10 flex items-center gap-2 text-white font-bold text-sm">
+          <div className="relative z-10 flex items-center gap-2 text-white font-semibold text-sm">
             Ontdek meer
             <svg
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-2"
@@ -373,7 +371,7 @@ export default function FeaturedProducts() {
         >
           <Link
             href="/shop"
-            className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 w-full"
+            className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-slate-900 text-white font-semibold text-sm shadow-lg w-full"
           >
             Bekijk alle producten
           </Link>

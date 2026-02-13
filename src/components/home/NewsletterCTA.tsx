@@ -35,7 +35,7 @@ export default function NewsletterCTA() {
 
   return (
     <section className="relative py-24 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700" />
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900" />
 
       <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
@@ -101,7 +101,7 @@ export default function NewsletterCTA() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-4 rounded-2xl bg-white text-emerald-700 font-bold text-sm shadow-lg hover:bg-emerald-50 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="px-8 py-4 rounded-2xl bg-white text-slate-900 font-semibold text-sm shadow-lg hover:bg-white/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>

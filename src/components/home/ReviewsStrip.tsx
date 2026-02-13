@@ -23,7 +23,7 @@ const starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95
 function ReviewCard({ review }: { review: typeof reviews[0] }) {
   return (
     <div className="flex-shrink-0 w-[300px]">
-      <blockquote className="relative rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 h-full transition-colors duration-300 overflow-hidden">
+      <blockquote className="relative rounded-2xl p-5 h-full transition-colors duration-300 overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="flex gap-0.5 mb-3">
           {[...Array(5)].map((_, i) => (
             <svg key={i} className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -32,18 +32,18 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
           ))}
         </div>
 
-        <p className="text-white/60 text-[13px] leading-relaxed line-clamp-3 mb-4">
+        <p className="text-white/65 text-[13px] leading-relaxed line-clamp-3 mb-4">
           &ldquo;{review.text}&rdquo;
         </p>
 
         <footer className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded-full bg-white/[0.08] flex items-center justify-center text-white/60 text-[10px] font-bold shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="h-7 w-7 rounded-lg bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/50 text-[10px] font-semibold shrink-0">
               {review.name[0]}
             </div>
             <div>
-              <cite className="text-white/40 text-[11px] font-medium not-italic block">{review.name}</cite>
-              <span className="text-white/20 text-[10px]">{review.product}</span>
+              <cite className="text-white/50 text-[11px] font-medium not-italic block">{review.name}</cite>
+              <span className="text-white/25 text-[10px]">{review.product}</span>
             </div>
           </div>
         </footer>

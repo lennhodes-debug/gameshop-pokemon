@@ -95,7 +95,7 @@ export default function Header() {
                   {isActive(link.href) && (
                     <motion.span
                       layoutId="nav-indicator"
-                      className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
+                      className="absolute bottom-0 left-3 right-3 h-0.5 bg-emerald-400 rounded-full"
                       transition={{ type: 'spring', bounce: 0.25, duration: 0.5 }}
                     />
                   )}
@@ -169,10 +169,10 @@ export default function Header() {
                           <span className="text-[10px] text-slate-400">excl. verzending</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Link href="/winkelwagen" className="flex-1 px-3 py-2 rounded-lg border border-white/[0.1] text-white text-xs font-bold text-center hover:bg-white/[0.06] transition-colors">
+                          <Link href="/winkelwagen" className="flex-1 px-3 py-2 rounded-lg border border-white/[0.1] text-white text-xs font-semibold text-center hover:bg-white/[0.06] transition-colors">
                             Bekijken
                           </Link>
-                          <Link href="/afrekenen" className="flex-1 px-3 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold text-center shadow-lg shadow-emerald-500/20">
+                          <Link href="/afrekenen" className="flex-1 px-3 py-2 rounded-lg bg-white text-slate-900 text-xs font-semibold text-center">
                             Afrekenen
                           </Link>
                         </div>
@@ -253,7 +253,7 @@ export default function Header() {
                         Winkelwagen
                       </span>
                       {itemCount > 0 && (
-                        <span className="h-5 min-w-5 flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] font-bold px-1.5">
+                        <span className="h-5 min-w-5 flex items-center justify-center rounded-full bg-emerald-500 text-white text-[10px] font-semibold px-1.5">
                           {itemCount}
                         </span>
                       )}

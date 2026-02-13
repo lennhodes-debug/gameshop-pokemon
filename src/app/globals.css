@@ -10,15 +10,15 @@ body {
 }
 
 ::selection {
-  background-color: rgba(16, 185, 129, 0.3);
+  background-color: rgba(16, 185, 129, 0.2);
   color: #fff;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0e1a; }
-::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981, #0d9488); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399, #14b8a6); }
+/* Scrollbar — subtiel, niet afleidend */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
 
 @layer utilities {
   .glass {
@@ -51,13 +51,9 @@ body {
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400;
   }
-
-  .gradient-text-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500;
-  }
 }
 
-/* Marquee animatie (voor GameMarquee) */
+/* Marquee animatie */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -71,19 +67,9 @@ body {
 .animate-marquee-slow { animation: marquee 60s linear infinite; }
 .animate-marquee-reverse-slow { animation: marquee-reverse 60s linear infinite; }
 
-/* Aurora gradient animatie */
-@keyframes aurora {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-.animate-aurora {
-  background-size: 200% 200%;
-  animation: aurora 15s ease-in-out infinite;
-}
-
 /* Focus & accessibility */
 :focus-visible {
-  outline: 2px solid #10b981;
+  outline: 2px solid rgba(16, 185, 129, 0.6);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -103,12 +89,6 @@ body {
 }
 .skip-to-main:focus { top: 0; }
 
-/* Holographic glans sweep */
-@keyframes holo-sweep {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  100% { transform: translateX(200%) rotate(25deg); }
-}
-
 /* Badge shimmer */
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
@@ -123,7 +103,7 @@ body {
 }
 .animate-badge-in { animation: badge-in 0.3s ease-out; }
 
-/* 404 pagina shake effect */
+/* 404 pagina shake */
 @keyframes notfound-shake {
   0%, 100% { transform: translateX(0) translateY(0); }
   10% { transform: translateX(-6px) translateY(2px); }
@@ -136,7 +116,16 @@ body {
   80% { transform: translateX(1px) translateY(0); }
 }
 
-/* Page transition fade-in */
+/* Page transition */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-page-enter {
+  animation: page-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Fade in */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -145,17 +134,7 @@ body {
   animation: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Spin slow (voor gradient borders) */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.animate-spin-slow { animation: spin-slow 4s linear infinite; }
-
-/* Perspective hover container */
-.perspective-1000 { perspective: 1000px; }
-
-/* Smooth fade up voor scroll reveals */
+/* Fade up voor scroll reveals */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -164,7 +143,7 @@ body {
   animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Staggered entrance delay utilities */
+/* Staggered entrance delays */
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }
 .stagger-3 { animation-delay: 0.15s; }
@@ -172,16 +151,7 @@ body {
 .stagger-5 { animation-delay: 0.25s; }
 .stagger-6 { animation-delay: 0.3s; }
 
-/* Pulse glow voor CTA buttons */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 20px 4px rgba(16, 185, 129, 0.2); }
-}
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* Scale bounce voor toevoegen-aan-cart feedback */
+/* Scale bounce voor add-to-cart feedback */
 @keyframes scale-bounce {
   0% { transform: scale(1); }
   30% { transform: scale(0.92); }
@@ -192,207 +162,14 @@ body {
   animation: scale-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Float animatie voor zwevende elementen */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-.animate-float { animation: float 5s ease-in-out infinite; }
-.animate-float-slow { animation: float 8s ease-in-out infinite; }
-.animate-float-fast { animation: float 3s ease-in-out infinite; }
-
-/* Glow pulse voor ambient effecten */
-@keyframes glow-pulse-ambient {
-  0%, 100% { opacity: 0.4; filter: blur(40px); }
-  50% { opacity: 0.8; filter: blur(50px); }
-}
-.animate-glow-pulse-ambient { animation: glow-pulse-ambient 4s ease-in-out infinite; }
-
-/* Text shimmer voor gradient tekst */
-@keyframes text-shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-.animate-text-shimmer {
-  background-size: 200% auto;
-  animation: text-shimmer 4s linear infinite;
-}
-
-/* Bounce in met overshoot */
-@keyframes bounce-in {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.15); }
-  70% { transform: scale(0.95); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.animate-bounce-in { animation: bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-
-/* Slide up fade voor elegante entrances */
-@keyframes slide-up-fade {
-  from { opacity: 0; transform: translateY(30px) scale(0.96); filter: blur(6px); }
-  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
-}
-.animate-slide-up-fade {
-  animation: slide-up-fade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Slide in van rechts */
-@keyframes slide-in-right {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.animate-slide-in-right {
-  animation: slide-in-right 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Wiggle voor aandacht-trekken */
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  15% { transform: rotate(-3deg); }
-  30% { transform: rotate(3deg); }
-  45% { transform: rotate(-2deg); }
-  60% { transform: rotate(2deg); }
-  75% { transform: rotate(-1deg); }
-}
-.animate-wiggle { animation: wiggle 0.6s ease-in-out; }
-
-/* Sparkle voor premium elementen */
-@keyframes sparkle {
-  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1) rotate(180deg); }
-}
-
-/* Smooth page transition met blur */
-@keyframes page-enter {
-  from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0px); }
-}
-.animate-page-enter {
-  animation: page-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Stagger variaties (uitgebreid) */
-.stagger-7 { animation-delay: 0.35s; }
-.stagger-8 { animation-delay: 0.4s; }
-.stagger-9 { animation-delay: 0.45s; }
-.stagger-10 { animation-delay: 0.5s; }
-
-/* Sectie wave divider */
-.section-wave {
-  position: relative;
-}
-.section-wave::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: inherit;
-  clip-path: ellipse(55% 100% at 50% 100%);
-}
-
-/* Spotlight beam van boven */
-@keyframes spotlight-beam {
-  0%, 100% { opacity: 0.3; transform: scaleY(1) scaleX(1); }
-  50% { opacity: 0.6; transform: scaleY(1.05) scaleX(1.02); }
-}
-.animate-spotlight-beam { animation: spotlight-beam 3s ease-in-out infinite; }
-
-/* Carousel card entrance stagger */
-@keyframes carousel-card-in {
-  from { opacity: 0; transform: translateY(60px) scale(0.7) rotateY(45deg); filter: blur(12px); }
-  to { opacity: 1; transform: translateY(0) scale(1) rotateY(0deg); filter: blur(0px); }
-}
-.animate-carousel-card-in {
-  animation: carousel-card-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Orbiting sparkle rond voorste kaart */
-@keyframes orbit-sparkle {
-  0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-  100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
-}
-.animate-orbit-sparkle { animation: orbit-sparkle 6s linear infinite; }
-
-/* Glowing ring pulse */
-@keyframes ring-pulse {
-  0% { transform: scale(0.8); opacity: 0.6; }
-  50% { transform: scale(1.2); opacity: 0; }
-  100% { transform: scale(0.8); opacity: 0; }
-}
-.animate-ring-pulse { animation: ring-pulse 2s ease-out infinite; }
-
-/* Card 3D tilt hover */
-@keyframes card-tilt-reset {
-  to { transform: perspective(500px) rotateX(0deg) rotateY(0deg); }
-}
-
-/* Breathing glow voor achtergrond orbs */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.15); opacity: 0.8; }
-}
-.animate-breathe { animation: breathe 6s ease-in-out infinite; }
-.animate-breathe-slow { animation: breathe 10s ease-in-out infinite; }
-
-/* Morphing blob */
-@keyframes morph-blob {
-  0%, 100% { border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; }
-  25% { border-radius: 60% 40% 40% 60% / 40% 60% 40% 60%; }
-  50% { border-radius: 50% 50% 40% 60% / 60% 50% 60% 40%; }
-  75% { border-radius: 40% 60% 50% 50% / 50% 40% 50% 60%; }
-}
-.animate-morph-blob { animation: morph-blob 8s ease-in-out infinite; }
-
-/* Reveal line van links naar rechts */
-@keyframes reveal-line {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.animate-reveal-line { animation: reveal-line 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
-/* Gradient border spin */
-@keyframes gradient-spin {
-  from { --angle: 0deg; }
-  to { --angle: 360deg; }
-}
-
-/* Stagger variaties extra */
-.stagger-11 { animation-delay: 0.55s; }
-.stagger-12 { animation-delay: 0.6s; }
-
-/* Typewriter cursor blink */
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.animate-cursor-blink { animation: cursor-blink 1s ease-in-out infinite; }
-
-/* Elastic scale */
-@keyframes elastic-in {
-  0% { transform: scale(0); }
-  55% { transform: scale(1.08); }
-  75% { transform: scale(0.96); }
-  100% { transform: scale(1); }
-}
-.animate-elastic-in { animation: elastic-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-
-/* Ripple effect */
-@keyframes ripple {
-  0% { transform: scale(0); opacity: 0.5; }
-  100% { transform: scale(4); opacity: 0; }
-}
-.animate-ripple { animation: ripple 0.8s ease-out; }
-
-/* Slide down voor dropdown/menu */
+/* Slide down voor dropdowns */
 @keyframes slide-down-fade {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-slide-down-fade { animation: slide-down-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Stripe-inspired gradient mesh float */
+/* Stripe gradient mesh */
 @keyframes mesh-drift-1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   25% { transform: translate(80px, -60px) scale(1.15); }

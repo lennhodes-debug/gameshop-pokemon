@@ -1,7 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import Logo from './Logo';
 
 const footerLinks = {
@@ -25,7 +22,7 @@ const footerLinks = {
   ],
 };
 
-const paymentMethods = ['iDEAL', 'Creditcard', 'PayPal', 'Bancontact', 'Apple Pay'];
+const paymentMethods = ['iDEAL'];
 
 export default function Footer() {
   return (
@@ -35,13 +32,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-4"
-          >
+          <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3 mb-5">
               <Logo className="h-10 w-10" />
               <div className="flex flex-col">
@@ -50,47 +41,35 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-xs">
-              Dé Nintendo specialist van Nederland. Alle games zijn origineel en persoonlijk getest op werking.
+              D&eacute; Nintendo specialist van Nederland. Alle games zijn origineel en persoonlijk getest op werking.
             </p>
             <div className="flex items-center gap-2 text-sm text-slate-500">
               <div className="h-2 w-2 rounded-full bg-emerald-500" />
               <span>KvK: 93642474</span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Shop links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="lg:col-span-2"
-          >
+          <div className="lg:col-span-2">
             <h3 className="text-white font-semibold text-sm mb-4 tracking-wide">Shop</h3>
             <ul className="space-y-3">
               {footerLinks.shop.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 text-sm transition-colors duration-200">
+                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           {/* Info links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-2"
-          >
+          <div className="lg:col-span-2">
             <h3 className="text-white font-semibold text-sm mb-4 tracking-wide">Informatie</h3>
             <ul className="space-y-3">
               {footerLinks.info.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 text-sm transition-colors duration-200">
+                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
                     {link.label}
                   </Link>
                 </li>
@@ -101,25 +80,19 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.juridisch.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-slate-400 hover:text-emerald-400 text-sm transition-colors duration-200">
+                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors duration-200">
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           {/* Contact */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:col-span-4"
-          >
-            <a href="https://www.marktplaats.nl/u/gameshop-enter/100074714/" target="_blank" rel="noopener noreferrer" className="block mb-6 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-emerald-500/20 transition-colors group">
+          <div className="lg:col-span-4">
+            <a href="https://www.marktplaats.nl/u/gameshop-enter/100074714/" target="_blank" rel="noopener noreferrer" className="block mb-6 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] transition-colors group">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-emerald-400 text-xl font-extrabold">5.0</span>
+                <span className="text-emerald-400 text-xl font-bold">5.0</span>
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="h-3.5 w-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -129,12 +102,12 @@ export default function Footer() {
                 </div>
               </div>
               <p className="text-slate-300 text-sm font-semibold">1.360+ reviews op Marktplaats</p>
-              <p className="text-slate-500 text-xs mt-0.5 group-hover:text-slate-400 transition-colors">Bekijk onze reviews →</p>
+              <p className="text-slate-500 text-xs mt-0.5 group-hover:text-slate-400 transition-colors">Bekijk onze reviews &rarr;</p>
             </a>
 
             <h3 className="text-white font-semibold text-sm mb-4 tracking-wide">Contact</h3>
-            <a href="mailto:gameshopenter@gmail.com" className="flex items-center gap-3 text-slate-400 hover:text-emerald-400 text-sm transition-colors group">
-              <span className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-emerald-500/10 transition-colors">
+            <a href="mailto:gameshopenter@gmail.com" className="flex items-center gap-3 text-slate-400 hover:text-white text-sm transition-colors group">
+              <span className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
@@ -152,7 +125,7 @@ export default function Footer() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom bar */}
@@ -162,7 +135,7 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} Gameshop Enter. Alle rechten voorbehouden.
             </p>
             <p className="text-slate-500 text-xs">
-              Uitsluitend online webshop — verzending via PostNL
+              Uitsluitend online webshop &mdash; verzending via PostNL
             </p>
           </div>
         </div>
