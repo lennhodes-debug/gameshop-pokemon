@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, Suspense } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate, AnimatePresence } from 'framer-motion';
 import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { useCart } from '@/components/cart/CartProvider';
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
@@ -34,6 +34,20 @@ function ShopContent() {
   const [priceMax, setPriceMax] = useState(searchParams.get('priceMax') || '');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+
+  // Cursor spotlight op grid
+  const spotX = useMotionValue(0);
+  const spotY = useMotionValue(0);
+  const spotBg = useMotionTemplate`radial-gradient(600px circle at ${spotX}px ${spotY}px, rgba(16,185,129,0.04), transparent 70%)`;
+
+  const handleGridMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    spotX.set(e.clientX - rect.left);
+    spotY.set(e.clientY - rect.top);
+  }, [spotX, spotY]);
 
   const { getTotal, getItemCount } = useCart();
   const cartTotal = getTotal();
@@ -81,6 +95,18 @@ function ShopContent() {
   });
   const headerY = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  // Sticky toolbar: toon als searchbar uit beeld scrolt
+  useEffect(() => {
+    const el = searchBarRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0, rootMargin: '-80px 0px 0px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     setPage(1);
@@ -164,6 +190,65 @@ function ShopContent() {
 
   return (
     <div className="pt-16 lg:pt-20">
+      {/* Sticky compact toolbar — verschijnt bij scrollen */}
+      <AnimatePresence>
+        {showStickyBar && (
+          <motion.div
+            initial={{ y: -60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -60, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed top-16 lg:top-20 left-0 right-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-100/80"
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-3">
+              <div className="relative flex-1 max-w-sm">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Zoeken..."
+                  className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 bg-white/90 text-xs focus:outline-none focus:border-slate-400 transition-colors"
+                />
+              </div>
+
+              {activeFilterCount > 0 && (
+                <span className="px-2 py-1 rounded-md bg-slate-900 text-white text-[10px] font-medium">
+                  {activeFilterCount} filter{activeFilterCount > 1 ? 's' : ''}
+                </span>
+              )}
+
+              <span className="text-[11px] text-slate-400 hidden sm:block tabular-nums">
+                <span className="font-medium text-slate-600">{filtered.length}</span> items
+              </span>
+
+              <div className="flex items-center gap-0.5 bg-slate-100 rounded-lg p-0.5 ml-auto">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  aria-label="Grid weergave"
+                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'grid' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  aria-label="Lijst weergave"
+                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'list' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Cinematic hero header */}
       <div ref={headerRef} className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
@@ -271,6 +356,7 @@ function ShopContent() {
 
         {/* Search */}
         <motion.div
+          ref={searchBarRef}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -387,7 +473,7 @@ function ShopContent() {
           )}
         </AnimatePresence>
 
-        {/* Resultaten info balk */}
+        {/* Resultaten info balk + view toggle */}
         {!isSearching && filtered.length > 0 && (
           <div className="mt-6 flex items-center justify-between px-1 py-2">
             <p className="text-xs text-slate-400">
@@ -396,16 +482,47 @@ function ShopContent() {
                 <span className="text-slate-300"> &middot; pagina {page}/{totalPages}</span>
               )}
             </p>
-            {filtered.length > ITEMS_PER_PAGE && (
-              <p className="text-[11px] text-slate-300 hidden sm:block tabular-nums">
-                {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
-              </p>
-            )}
+
+            <div className="flex items-center gap-3">
+              {filtered.length > ITEMS_PER_PAGE && (
+                <p className="text-[11px] text-slate-300 hidden sm:block tabular-nums">
+                  {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
+                </p>
+              )}
+
+              {/* View mode toggle */}
+              <div className="flex items-center gap-0.5 bg-slate-100 rounded-lg p-0.5">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  aria-label="Grid weergave"
+                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'grid' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  aria-label="Lijst weergave"
+                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'list' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
-        {/* Products */}
-        <div className="mt-4">
+        {/* Products — met cursor spotlight */}
+        <div className="relative mt-4" onMouseMove={handleGridMouseMove}>
+          {/* Cursor spotlight overlay */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none z-10 rounded-3xl"
+            style={{ background: spotBg }}
+          />
+
           <AnimatePresence mode="wait">
             {isSearching ? (
               <motion.div
@@ -484,7 +601,7 @@ function ShopContent() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
               >
-                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} searchQuery={debouncedSearch || undefined} />
+                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} searchQuery={debouncedSearch || undefined} viewMode={viewMode} />
               </motion.div>
             )}
           </AnimatePresence>
