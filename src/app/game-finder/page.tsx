@@ -507,7 +507,6 @@ function OptionCard({
             <motion.h3
               className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1"
               style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-              layout
             >
               {option.label}
             </motion.h3>
@@ -1121,11 +1120,7 @@ export default function GameFinderPage() {
               </motion.div>
 
               {/* Options grid */}
-              <div className={`grid gap-4 sm:gap-5 mb-10 ${
-                currentQuestion.options.length === 2
-                  ? 'grid-cols-1 sm:grid-cols-2'
-                  : 'grid-cols-1 sm:grid-cols-2'
-              }`}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-10">
                 {currentQuestion.options.map((option, i) => (
                   <OptionCard
                     key={option.id}
