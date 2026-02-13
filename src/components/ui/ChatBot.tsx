@@ -14,201 +14,127 @@ interface Message {
   products?: typeof products[number][];
 }
 
-// ─── Knowledge Base ─────────────────────────────────────────
-const STORE_INFO = {
-  name: 'Gameshop Enter',
-  owner: 'Lenn Hodes',
-  email: 'gameshopenter@gmail.com',
-  instagram: '@gameshopenter',
-  specialty: 'Nintendo games',
-  rating: '5.0 uit 1.360+ reviews',
-  customers: '3.000+ tevreden klanten',
-  shipping: '€4,95 verzendkosten via PostNL, gratis boven €100',
-  shippingTime: '1-3 werkdagen',
-  returns: '14 dagen retourrecht, gratis retourneren',
-  payment: 'iDEAL, Creditcard, PayPal, Bancontact, Apple Pay',
-  platforms: ['Nintendo DS', 'Nintendo 3DS', 'Game Boy Advance', 'Game Boy / Color', 'Wii', 'Wii U'],
-  productCount: products.length,
-  priceRange: `€${Math.min(...products.map(p => p.price)).toFixed(2)} - €${Math.max(...products.map(p => p.price)).toFixed(2)}`,
-};
+interface ApiMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
 
+// ─── Quick Replies ──────────────────────────────────────────
 const QUICK_REPLIES = [
   'Welke games hebben jullie?',
   'Wat zijn de verzendkosten?',
   'Kan ik games verkopen?',
   'Zijn de games origineel?',
+  'Welke Pokémon games hebben jullie?',
+  'Hoe werkt retourneren?',
 ];
 
-// ─── Response Engine ────────────────────────────────────────
-function generateResponse(input: string): Omit<Message, 'id' | 'role'> {
+// ─── Fallback response engine (when API unavailable) ────────
+function fallbackResponse(input: string): string {
   const q = input.toLowerCase().trim();
 
-  // Greeting
-  if (/^(hoi|hi|hey|hallo|hello|goedemorgen|goedemiddag|goedenavond|yo|dag)/.test(q)) {
-    return {
-      text: `Hoi! 🐻 Ik ben Beertje, de mascotte van Gameshop Enter! Ik help je graag met al je vragen over onze Nintendo games. Wat kan ik voor je doen?`,
-    };
-  }
+  if (/^(hoi|hi|hey|hallo|hello|goedemorgen|goedemiddag|goedenavond|yo|dag)\b/.test(q))
+    return 'Hoi! 🐻 Ik ben Beertje, de mascotte van Gameshop Enter! Ik help je graag met al je vragen over onze Nintendo games. Wat kan ik voor je doen?';
 
-  // Product search
   if (/welke (games|spellen)|wat (heb|hebben) jullie|assortiment|collectie|aanbod/.test(q)) {
-    const platformCounts: Record<string, number> = {};
-    products.forEach(p => { platformCounts[p.platform] = (platformCounts[p.platform] || 0) + 1; });
-    const summary = Object.entries(platformCounts).map(([k, v]) => `${k}: ${v} games`).join('\n• ');
-    return {
-      text: `We hebben ${STORE_INFO.productCount} originele Nintendo games! 🎮\n\n• ${summary}\n\nAllemaal persoonlijk getest met eigen foto's. Bekijk onze shop voor het volledige aanbod!`,
-      links: [{ label: 'Naar de shop', href: '/shop' }],
-    };
+    const counts: Record<string, number> = {};
+    products.forEach(p => { counts[p.platform] = (counts[p.platform] || 0) + 1; });
+    return `We hebben ${products.length} originele Nintendo games! 🎮\n\n${Object.entries(counts).map(([k, v]) => `• ${k}: ${v} games`).join('\n')}\n\nBekijk /shop voor het volledige aanbod!`;
   }
 
-  // Specific platform
-  const platformMatch = q.match(/(game ?boy|gba|gb|ds|3ds|wii ?u|wii|switch|nintendo)/i);
-  if (platformMatch && /game|spel|wat|heb|zoek|koop/.test(q)) {
-    const pm = platformMatch[1].toLowerCase().replace(/\s/g, '');
-    const platformMap: Record<string, string> = {
-      'gameboy': 'Game Boy', 'gb': 'Game Boy', 'gba': 'Game Boy Advance',
-      'ds': 'Nintendo DS', '3ds': 'Nintendo 3DS', 'wii': 'Wii', 'wiiu': 'Wii U',
-    };
-    const platformName = Object.entries(platformMap).find(([k]) => pm.includes(k))?.[1];
-    if (platformName) {
-      const found = products.filter(p => p.platform.includes(platformName)).slice(0, 4);
-      if (found.length > 0) {
-        return {
-          text: `We hebben ${products.filter(p => p.platform.includes(platformName)).length} ${platformName} games! Hier zijn een paar toppers:`,
-          products: found,
-          links: [{ label: `Alle ${platformName} games`, href: `/shop?platform=${encodeURIComponent(platformName)}` }],
-        };
+  if (/verzend|bezorg|lever|shipping|postNL|pakket/.test(q))
+    return '📦 Verzending:\n• €4,95 via PostNL, gratis boven €100\n• Levertijd: 1-3 werkdagen\n• Met track & trace\n• Zorgvuldig verpakt';
+
+  if (/betal|ideal|creditcard|paypal|afrekenen/.test(q))
+    return '💳 We accepteren iDEAL, Creditcard, PayPal, Bancontact en Apple Pay. Alle betalingen zijn veilig.';
+
+  if (/retour|terugstu|ruil|terug|garantie|defect/.test(q))
+    return '↩️ 14 dagen retourrecht, gratis retourneren. Niet tevreden? Stuur het binnen 14 dagen terug. Defect? We lossen het direct op! Zie /retourbeleid';
+
+  if (/verkop|inkoop|inruil|trade|sell|opkop/.test(q))
+    return '🤝 Games verkopen? Dat kan! Wij kopen Nintendo games op tegen eerlijke prijzen. Bekijk /inkoop voor de inkoopprijzen of neem contact op via /contact';
+
+  if (/origineel|nep|fake|echt|authentiek|namaak/.test(q))
+    return '✅ 100% Origineel! Alle games zijn gegarandeerd originele Nintendo producten, persoonlijk gecontroleerd en getest. We verkopen NOOIT reproducties.';
+
+  if (/conditie|staat|kwaliteit|gebruikt|nieuw|cib|compleet/.test(q))
+    return '📋 Alle games worden persoonlijk getest. Elke game heeft eigen foto\'s — wat je ziet is wat je krijgt. Condities: "Zo goed als nieuw", "Gebruikt" of "Nieuw". CIB = Compleet in Doos.';
+
+  if (/contact|email|mail|bereik|instagram/.test(q))
+    return '📬 Email: gameshopenter@gmail.com\nInstagram: @gameshopenter\nOf gebruik /contact\n\nWe reageren meestal binnen 24 uur!';
+
+  if (/wie|over|eigenaar|verhaal/.test(q))
+    return '🐻 Gameshop Enter is dé Nintendo specialist van Nederland, opgericht door Lenn Hodes. 3.000+ tevreden klanten, 5.0 uit 1.360+ reviews! Meer op /over-ons';
+
+  if (/pok[eé]mon|pikachu/.test(q))
+    return `Pokémon fan? 🎯 We hebben ${products.filter(p => p.name.toLowerCase().includes('pok')).length}+ Pokémon games! Bekijk /shop?q=pokemon`;
+
+  if (/bedankt|thanks|dankje|top|super|geweldig/.test(q))
+    return 'Graag gedaan! 🐻✨ Nog meer vragen? Stel ze gerust!';
+
+  if (/prijs|kost|duur|goedkoop|budget/.test(q))
+    return `Onze prijzen variëren van €${Math.min(...products.map(p => p.price)).toFixed(2)} tot €${Math.max(...products.map(p => p.price)).toFixed(2)}. Bekijk /shop voor alle games!`;
+
+  return 'Dat is een goede vraag! 🤔 Ik kan je helpen met vragen over onze games, verzending, retour, inkoop en meer. Of neem contact op via /contact';
+}
+
+// ─── Extract links/products from AI response ────────────────
+function parseResponse(text: string): Omit<Message, 'id' | 'role'> {
+  const links: { label: string; href: string }[] = [];
+  const foundProducts: typeof products[number][] = [];
+
+  // Extract /route references and create links
+  const routeMap: Record<string, string> = {
+    '/shop': 'Naar de shop', '/inkoop': 'Inkoopprijzen', '/contact': 'Contact',
+    '/faq': 'FAQ', '/over-ons': 'Over ons', '/retourbeleid': 'Retourbeleid',
+    '/winkelwagen': 'Winkelwagen', '/privacybeleid': 'Privacybeleid',
+  };
+
+  Object.entries(routeMap).forEach(([route, label]) => {
+    if (text.includes(route)) {
+      links.push({ label, href: route });
+    }
+  });
+
+  // Extract shop search links
+  const searchMatch = text.match(/\/shop\?q=([^\s)]+)/);
+  if (searchMatch) {
+    links.push({ label: `Zoek: ${decodeURIComponent(searchMatch[1])}`, href: `/shop?q=${searchMatch[1]}` });
+  }
+
+  // Find mentioned product SKUs
+  const skuMatches = text.match(/\b([A-Z]{2,4}-\d{3})\b/g);
+  if (skuMatches) {
+    skuMatches.forEach(sku => {
+      const product = products.find(p => p.sku === sku);
+      if (product && !foundProducts.find(fp => fp.sku === sku)) {
+        foundProducts.push(product);
+        if (!links.find(l => l.href === `/shop/${sku}`)) {
+          links.push({ label: product.name, href: `/shop/${sku}` });
+        }
       }
+    });
+  }
+
+  // Find mentioned product names
+  const lowerText = text.toLowerCase();
+  products.forEach(p => {
+    if (foundProducts.length < 4 && lowerText.includes(p.name.toLowerCase()) && !foundProducts.find(fp => fp.sku === p.sku)) {
+      foundProducts.push(p);
     }
-  }
+  });
 
-  // Search for specific game
-  const searchTerms = q.replace(/(?:heb je|hebben jullie|is er|zoek|koop|prijs van|wat kost)\s*/g, '').trim();
-  if (searchTerms.length > 2) {
-    const found = products.filter(p =>
-      p.name.toLowerCase().includes(searchTerms) ||
-      p.slug.includes(searchTerms.replace(/\s/g, '-'))
-    ).slice(0, 4);
-    if (found.length > 0) {
-      return {
-        text: found.length === 1
-          ? `Gevonden! 🎉 ${found[0].name} voor ${found[0].platform} — €${found[0].price.toFixed(2)} (${found[0].condition})`
-          : `Ik heb ${found.length} resultaten gevonden:`,
-        products: found.length > 1 ? found : undefined,
-        links: found.length === 1 ? [{ label: 'Bekijk product', href: `/shop/${found[0].sku}` }] : undefined,
-      };
-    }
-  }
+  // Clean route references from displayed text
+  let cleanText = text;
+  Object.keys(routeMap).forEach(route => {
+    cleanText = cleanText.replace(new RegExp(`\\s*${route.replace('/', '\\/')}(?:\\?[^\\s)]*)?`, 'g'), '');
+  });
+  cleanText = cleanText.replace(/\s{2,}/g, ' ').trim();
 
-  // Pricing
-  if (/prijs|kost|duur|goedkoop|budget|betaalbaar/.test(q)) {
-    const cheap = products.filter(p => p.price <= 15).slice(0, 3);
-    return {
-      text: `Onze prijzen variëren van ${STORE_INFO.priceRange}. We hebben games voor elk budget! 💰\n\nBudget tips (onder €15):`,
-      products: cheap.length > 0 ? cheap : undefined,
-      links: [{ label: 'Shop op prijs', href: '/shop?sort=price-asc' }],
-    };
-  }
-
-  // Shipping
-  if (/verzend|bezorg|lever|shipping|postNL|pakket|opstu/.test(q)) {
-    return {
-      text: `📦 Verzending:\n\n• ${STORE_INFO.shipping}\n• Levertijd: ${STORE_INFO.shippingTime}\n• Verzending via PostNL met track & trace\n• Zorgvuldig verpakt voor veilig transport`,
-    };
-  }
-
-  // Payment
-  if (/betal|ideal|creditcard|paypal|afrekenen|betaalmethod/.test(q)) {
-    return {
-      text: `💳 Betaalmethoden:\n\n${STORE_INFO.payment}\n\nAlle betalingen zijn veilig en versleuteld.`,
-      links: [{ label: 'Naar winkelwagen', href: '/winkelwagen' }],
-    };
-  }
-
-  // Returns
-  if (/retour|terugstu|ruil|terug|garantie|defect/.test(q)) {
-    return {
-      text: `↩️ Retourbeleid:\n\n• ${STORE_INFO.returns}\n• Niet tevreden? Stuur het product binnen 14 dagen terug\n• Na ontvangst betalen wij het bedrag binnen 5 werkdagen terug\n• Defect bij ontvangst? We lossen het direct op!`,
-      links: [{ label: 'Volledig retourbeleid', href: '/retourbeleid' }],
-    };
-  }
-
-  // Sell / trade-in
-  if (/verkop|inkoop|inruil|trade|sell|opkop|aanbied/.test(q)) {
-    return {
-      text: `🤝 Games verkopen? Dat kan!\n\nWij kopen Nintendo games op tegen eerlijke prijzen. Bekijk onze inkoopprijzen op de inkoop pagina of stuur een bericht via het contactformulier met wat je wilt verkopen.`,
-      links: [
-        { label: 'Inkoopprijzen bekijken', href: '/inkoop' },
-        { label: 'Contact opnemen', href: '/contact' },
-      ],
-    };
-  }
-
-  // Originality / authenticity
-  if (/origineel|nep|fake|echt|authentiek|namaak|reproductie/.test(q)) {
-    return {
-      text: `✅ 100% Origineel!\n\nAlle games bij Gameshop Enter zijn gegarandeerd originele Nintendo producten. Elk product wordt persoonlijk gecontroleerd en getest voordat het wordt verstuurd. We verkopen NOOIT reproducties of namaak.`,
-    };
-  }
-
-  // Condition
-  if (/conditie|staat|kwaliteit|gebruikt|nieuw|cib|compleet|cartridge/.test(q)) {
-    return {
-      text: `📋 Over de conditie:\n\n• Alle games worden persoonlijk getest op werking\n• Elke game heeft eigen foto's — wat je ziet is wat je krijgt\n• Condities: "Zo goed als nieuw", "Gebruikt", "Nieuw"\n• CIB = Compleet in Doos (met handleiding)\n• Alle producten worden zorgvuldig beschreven`,
-    };
-  }
-
-  // Contact
-  if (/contact|email|mail|bereik|bel|telefoon|instagram|social/.test(q)) {
-    return {
-      text: `📬 Contact:\n\n• Email: ${STORE_INFO.email}\n• Instagram: ${STORE_INFO.instagram}\n• Of gebruik ons contactformulier\n\nWe reageren meestal binnen 24 uur!`,
-      links: [
-        { label: 'Contactformulier', href: '/contact' },
-        { label: 'Instagram', href: 'https://www.instagram.com/gameshopenter/' },
-      ],
-    };
-  }
-
-  // About
-  if (/wie|over|eigenaar|verhaal|ontstaan|achter/.test(q)) {
-    return {
-      text: `🐻 Over Gameshop Enter:\n\nGameshop Enter is dé Nintendo specialist van Nederland, opgericht door ${STORE_INFO.owner}. Met ${STORE_INFO.customers} en een ${STORE_INFO.rating} zijn we trots op onze service!\n\nElke game wordt persoonlijk getest en gefotografeerd.`,
-      links: [{ label: 'Meer over ons', href: '/over-ons' }],
-    };
-  }
-
-  // Pokémon specific
-  if (/pok[eé]mon|pikachu/.test(q)) {
-    const pokemon = products.filter(p => p.name.toLowerCase().includes('pok')).slice(0, 4);
-    return {
-      text: `Pokémon fan? Dan ben je bij ons aan het juiste adres! 🎯 We hebben een enorme collectie Pokémon games:`,
-      products: pokemon,
-      links: [{ label: 'Alle Pokémon games', href: '/shop?q=pokemon' }],
-    };
-  }
-
-  // FAQ
-  if (/faq|vraag|veelgesteld/.test(q)) {
-    return {
-      text: `Bekijk onze veelgestelde vragen pagina voor snelle antwoorden! Je kunt ook altijd hier aan mij vragen stellen. 😊`,
-      links: [{ label: 'FAQ pagina', href: '/faq' }],
-    };
-  }
-
-  // Thanks
-  if (/bedankt|thanks|dankje|dank je|top|super|geweldig|fijn/.test(q)) {
-    return {
-      text: `Graag gedaan! 🐻✨ Als je nog meer vragen hebt, stel ze gerust. Veel plezier met gamen!`,
-    };
-  }
-
-  // Fallback
   return {
-    text: `Hmm, daar weet ik niet direct het antwoord op. 🤔 Probeer een van deze vragen, of neem contact op met ons team!`,
-    links: [
-      { label: 'Contactformulier', href: '/contact' },
-      { label: 'FAQ', href: '/faq' },
-    ],
+    text: cleanText || text,
+    links: links.length > 0 ? links : undefined,
+    products: foundProducts.length > 0 ? foundProducts.slice(0, 4) : undefined,
   };
 }
 
@@ -216,9 +142,11 @@ function generateResponse(input: string): Omit<Message, 'id' | 'role'> {
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [apiHistory, setApiHistory] = useState<ApiMessage[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
+  const [aiAvailable, setAiAvailable] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -228,15 +156,8 @@ export default function ChatBot() {
     }
   }, []);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, typing, scrollToBottom]);
-
-  useEffect(() => {
-    if (open && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [open]);
+  useEffect(() => { scrollToBottom(); }, [messages, typing, scrollToBottom]);
+  useEffect(() => { if (open && inputRef.current) inputRef.current.focus(); }, [open]);
 
   function handleOpen() {
     setOpen(true);
@@ -245,25 +166,55 @@ export default function ChatBot() {
       setMessages([{
         id: 'welcome',
         role: 'bot',
-        text: `Hoi! 🐻 Ik ben Beertje, de hulpvaardige mascotte van Gameshop Enter! Stel me gerust een vraag over onze games, verzending, of wat dan ook.`,
+        text: 'Hoi! 🐻 Ik ben Beertje, de slimme assistent van Gameshop Enter! Stel me gerust een vraag — ik weet alles over onze Nintendo games, verzending, retour en meer.',
       }]);
     }
   }
 
-  function sendMessage(text: string) {
-    if (!text.trim()) return;
+  async function sendMessage(text: string) {
+    if (!text.trim() || typing) return;
+    const trimmed = text.trim();
 
-    const userMsg: Message = { id: `u-${Date.now()}`, role: 'user', text: text.trim() };
+    const userMsg: Message = { id: `u-${Date.now()}`, role: 'user', text: trimmed };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setTyping(true);
 
-    setTimeout(() => {
-      const response = generateResponse(text);
-      const botMsg: Message = { id: `b-${Date.now()}`, role: 'bot', ...response };
-      setMessages(prev => [...prev, botMsg]);
-      setTyping(false);
-    }, 600 + Math.random() * 800);
+    const newHistory: ApiMessage[] = [...apiHistory, { role: 'user', content: trimmed }];
+    setApiHistory(newHistory);
+
+    let responseText: string;
+
+    if (aiAvailable) {
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: newHistory }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          responseText = data.reply || fallbackResponse(trimmed);
+        } else {
+          // API not configured or error — use fallback silently
+          setAiAvailable(false);
+          responseText = fallbackResponse(trimmed);
+        }
+      } catch {
+        setAiAvailable(false);
+        responseText = fallbackResponse(trimmed);
+      }
+    } else {
+      responseText = fallbackResponse(trimmed);
+    }
+
+    const parsed = parseResponse(responseText);
+    const botMsg: Message = { id: `b-${Date.now()}`, role: 'bot', ...parsed };
+
+    setMessages(prev => [...prev, botMsg]);
+    setApiHistory(prev => [...prev, { role: 'assistant', content: responseText }]);
+    setTyping(false);
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -285,7 +236,7 @@ export default function ChatBot() {
           bg-gradient-to-br from-emerald-500 to-teal-600
           flex items-center justify-center
           transition-all duration-300 ease-out
-          ${open ? 'scale-90 rotate-0' : 'scale-100 hover:scale-110'}
+          ${open ? 'scale-90' : 'scale-100 hover:scale-110'}
           group-hover:shadow-emerald-500/25 group-hover:shadow-xl
         `}>
           {open ? (
@@ -295,7 +246,6 @@ export default function ChatBot() {
           ) : (
             <Image src="/images/mascot.svg" alt="Chat met Beertje" width={48} height={48} className="rounded-full" />
           )}
-          {/* Notification pulse */}
           {!open && !hasOpened && (
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse border-2 border-white" />
           )}
@@ -305,7 +255,7 @@ export default function ChatBot() {
       {/* Chat window */}
       <div className={`
         fixed bottom-24 right-5 z-[999]
-        w-[360px] max-w-[calc(100vw-40px)]
+        w-[380px] max-w-[calc(100vw-40px)]
         rounded-2xl overflow-hidden
         shadow-2xl shadow-black/20
         transition-all duration-300 ease-out origin-bottom-right
@@ -318,17 +268,18 @@ export default function ChatBot() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-white font-bold text-sm">Beertje</p>
-            <p className="text-emerald-100 text-xs">Gameshop Enter assistent</p>
+            <p className="text-emerald-100 text-xs flex items-center gap-1.5">
+              {aiAvailable ? (
+                <><span className="w-1.5 h-1.5 rounded-full bg-emerald-300 inline-block animate-pulse" /> AI-assistent</>
+              ) : (
+                <><span className="w-1.5 h-1.5 rounded-full bg-amber-300 inline-block" /> Gameshop Enter assistent</>
+              )}
+            </p>
           </div>
-          <div className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
         </div>
 
         {/* Messages */}
-        <div
-          ref={scrollRef}
-          className="h-[380px] max-h-[50vh] overflow-y-auto bg-slate-50 p-4 space-y-4"
-          style={{ scrollBehavior: 'smooth' }}
-        >
+        <div ref={scrollRef} className="h-[400px] max-h-[55vh] overflow-y-auto bg-slate-50 p-4 space-y-4" style={{ scrollBehavior: 'smooth' }}>
           {messages.map(msg => (
             <div key={msg.id} className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               {msg.role === 'bot' && (
@@ -336,9 +287,9 @@ export default function ChatBot() {
                   <Image src="/images/mascot.svg" alt="" width={24} height={24} />
                 </div>
               )}
-              <div className={`max-w-[80%] space-y-2 ${msg.role === 'user' ? 'items-end' : 'items-start'} flex flex-col`}>
+              <div className={`max-w-[82%] space-y-2 ${msg.role === 'user' ? 'items-end' : 'items-start'} flex flex-col`}>
                 <div className={`
-                  px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-line
+                  px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed whitespace-pre-line
                   ${msg.role === 'user'
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-br-md'
                     : 'bg-white text-slate-700 shadow-sm border border-slate-100 rounded-bl-md'
@@ -349,16 +300,13 @@ export default function ChatBot() {
 
                 {/* Product cards */}
                 {msg.products && msg.products.length > 0 && (
-                  <div className="space-y-2 w-full">
+                  <div className="space-y-1.5 w-full">
                     {msg.products.map(p => (
-                      <Link
-                        key={p.sku}
-                        href={`/shop/${p.sku}`}
-                        className="flex items-center gap-2 p-2 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-emerald-200 hover:shadow-md transition-all group"
-                      >
+                      <Link key={p.sku} href={`/shop/${p.sku}`}
+                        className="flex items-center gap-2.5 p-2 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-emerald-200 hover:shadow-md transition-all group">
                         {p.image && (
-                          <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0">
-                            <Image src={p.image} alt={p.name} width={48} height={48} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                          <div className="w-11 h-11 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0">
+                            <Image src={p.image} alt={p.name} width={44} height={44} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
@@ -375,11 +323,8 @@ export default function ChatBot() {
                 {msg.links && msg.links.length > 0 && (
                   <div className="flex flex-wrap gap-1.5">
                     {msg.links.map(link => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
-                      >
+                      <Link key={link.href} href={link.href}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100">
                         {link.label}
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M5 12h14M12 5l7 7-7 7" />
@@ -399,24 +344,21 @@ export default function ChatBot() {
                 <Image src="/images/mascot.svg" alt="" width={24} height={24} />
               </div>
               <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-slate-100">
-                <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="flex gap-1.5">
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             </div>
           )}
 
-          {/* Quick replies (show after welcome only) */}
+          {/* Quick replies */}
           {messages.length === 1 && !typing && (
             <div className="flex flex-wrap gap-1.5 pt-1">
               {QUICK_REPLIES.map(qr => (
-                <button
-                  key={qr}
-                  onClick={() => sendMessage(qr)}
-                  className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-200 rounded-full hover:bg-emerald-50 hover:border-emerald-300 transition-all shadow-sm"
-                >
+                <button key={qr} onClick={() => sendMessage(qr)}
+                  className="px-3 py-1.5 text-xs font-medium text-emerald-700 bg-white border border-emerald-200 rounded-full hover:bg-emerald-50 hover:border-emerald-300 transition-all shadow-sm">
                   {qr}
                 </button>
               ))}
@@ -426,19 +368,11 @@ export default function ChatBot() {
 
         {/* Input */}
         <form onSubmit={handleSubmit} className="bg-white border-t border-slate-100 p-3 flex gap-2">
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
+          <input ref={inputRef} type="text" value={input} onChange={e => setInput(e.target.value)}
             placeholder="Stel een vraag..."
-            className="flex-1 px-3 py-2 text-sm bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 placeholder:text-slate-400"
-          />
-          <button
-            type="submit"
-            disabled={!input.trim() || typing}
-            className="w-9 h-9 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center text-white disabled:opacity-40 hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex-shrink-0"
-          >
+            className="flex-1 px-3.5 py-2.5 text-sm bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 placeholder:text-slate-400" />
+          <button type="submit" disabled={!input.trim() || typing}
+            className="w-10 h-10 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center text-white disabled:opacity-40 hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex-shrink-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
             </svg>
