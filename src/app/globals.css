@@ -392,6 +392,25 @@ body {
 }
 .animate-slide-down-fade { animation: slide-down-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
+/* Stripe-inspired gradient mesh float */
+@keyframes mesh-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(80px, -60px) scale(1.15); }
+  50% { transform: translate(-40px, 40px) scale(0.95); }
+  75% { transform: translate(60px, 20px) scale(1.05); }
+}
+@keyframes mesh-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-70px, 50px) scale(0.9); }
+  50% { transform: translate(50px, -30px) scale(1.1); }
+  75% { transform: translate(-30px, -60px) scale(1.05); }
+}
+@keyframes mesh-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  33% { transform: translate(40px, 70px) scale(0.95); }
+  66% { transform: translate(-60px, -20px) scale(1.1); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
