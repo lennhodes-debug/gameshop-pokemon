@@ -40,24 +40,29 @@ const faqItems = [
     category: 'producten',
   },
   {
+    question: 'Wat betekenen de conditie-aanduidingen?',
+    answer: 'Wij hanteren twee condities: "Zo goed als nieuw" betekent dat het product in uitstekende staat verkeert, bijna nieuw, met minimale tot geen gebruikssporen. "Gebruikt" betekent dat het product tweedehands is en gebruikssporen kan vertonen, maar volledig functioneel is getest. Bij elke conditie vermelden wij ook de compleetheid, zoals "Compleet in doos (CIB)" of "Losse cartridge".',
+    category: 'producten',
+  },
+  {
     question: 'Hoe worden bestellingen verzonden?',
-    answer: 'Alle bestellingen worden zorgvuldig verpakt en verzonden via PostNL. De standaard verzendkosten bedragen 3,95 euro. Bij bestellingen met een totaalbedrag boven de 100 euro is de verzending gratis. Je ontvangt een track-and-trace code zodra je bestelling is verzonden.',
+    answer: 'Alle bestellingen worden zorgvuldig verpakt en verzonden via PostNL. De standaard verzendkosten bedragen €3,95. Bij bestellingen boven de €100 is de verzending gratis. Je ontvangt een track-and-trace code zodra je bestelling is verzonden.',
+    category: 'verzending',
+  },
+  {
+    question: 'Hoe lang duurt de levering?',
+    answer: 'Bestellingen worden binnen 1-2 werkdagen verzonden via PostNL. De levering duurt doorgaans 1-3 werkdagen na verzending. Je ontvangt een track-and-trace code zodra je bestelling is verzonden, zodat je je pakket kunt volgen.',
     category: 'verzending',
   },
   {
     question: 'Kan ik mijn bestelling afhalen?',
-    answer: 'Nee, Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL. Wij hebben geen fysieke winkel of afhaalpunt.',
+    answer: 'Nee, Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL.',
     category: 'verzending',
   },
   {
-    question: 'Wat betekenen de conditie-aanduidingen?',
-    answer: 'Wij hanteren drie condities: "Nieuw" betekent dat het product nog in de originele verzegelde verpakking zit. "Zo goed als nieuw" betekent dat het product in uitstekende staat verkeert met minimale gebruikssporen. "Gebruikt" betekent dat het product gebruikssporen vertoont maar volledig functioneel is. Bij elke conditie vermelden wij ook de compleetheid, zoals "Compleet in doos (CIB)" of "Losse cartridge".',
-    category: 'producten',
-  },
-  {
-    question: 'Wat is het retourbeleid?',
-    answer: 'Je hebt 14 dagen bedenktijd na ontvangst van je bestelling. Binnen deze periode kun je het product retourneren. Het product dient in dezelfde staat te worden geretourneerd als bij ontvangst. Neem contact met ons op via e-mail om een retourzending aan te melden.',
-    category: 'betaling',
+    question: 'Worden producten ook naar België verzonden?',
+    answer: 'Op dit moment verzenden wij uitsluitend binnen Nederland via PostNL. Verzending naar België is momenteel niet beschikbaar, maar we hopen dit in de toekomst aan te bieden.',
+    category: 'verzending',
   },
   {
     question: 'Welke betaalmethoden accepteren jullie?',
@@ -65,13 +70,13 @@ const faqItems = [
     category: 'betaling',
   },
   {
-    question: 'Worden er ook consoles verkocht?',
-    answer: 'Op dit moment zijn wij gespecialiseerd in Pokémon games voor Game Boy Advance, Nintendo DS, Nintendo 3DS en Game Boy Color. Consoles bieden wij momenteel niet aan, maar we raden aan om bij Marktplaats of andere retro-winkels te kijken voor de bijpassende hardware.',
-    category: 'producten',
+    question: 'Wat is het retourbeleid?',
+    answer: 'Je hebt 14 dagen bedenktijd na ontvangst van je bestelling. Binnen deze periode kun je het product retourneren. Het product dient in dezelfde staat te worden geretourneerd als bij ontvangst. Neem contact met ons op via e-mail om een retourzending aan te melden.',
+    category: 'betaling',
   },
   {
-    question: 'Hoe kan ik contact opnemen?',
-    answer: 'Je kunt ons bereiken via e-mail op gameshopenter@gmail.com. Wij streven ernaar om binnen 24 uur te reageren op alle berichten. Je kunt ook het contactformulier op onze contactpagina gebruiken.',
+    question: 'Wat als mijn product niet werkt?',
+    answer: 'Alle producten worden persoonlijk getest op werking voordat ze worden verzonden. Mocht er toch een probleem zijn, neem dan binnen 14 dagen contact met ons op via gameshopenter@gmail.com. Wij zorgen voor een passende oplossing, zoals een vervanging of terugbetaling.',
     category: 'betaling',
   },
   {
@@ -80,14 +85,9 @@ const faqItems = [
     category: 'inkoop',
   },
   {
-    question: 'Hoe lang duurt de levering?',
-    answer: 'Bestellingen worden binnen 1-2 werkdagen verzonden via PostNL. De levering duurt doorgaans 1-3 werkdagen na verzending. Je ontvangt een track-and-trace code zodra je bestelling is verzonden, zodat je je pakket kunt volgen.',
-    category: 'verzending',
-  },
-  {
-    question: 'Wat als mijn product niet werkt?',
-    answer: 'Alle producten worden persoonlijk getest op werking voordat ze worden verzonden. Mocht er toch een probleem zijn, neem dan binnen 14 dagen contact met ons op via gameshopenter@gmail.com. Wij zorgen voor een passende oplossing, zoals een vervanging of terugbetaling.',
-    category: 'betaling',
+    question: 'Worden er ook consoles verkocht?',
+    answer: 'Op dit moment zijn wij gespecialiseerd in Pokémon games voor Game Boy Advance, Nintendo DS, Nintendo 3DS en Game Boy Color. Consoles bieden wij momenteel niet aan, maar we raden aan om bij Marktplaats of andere retro-winkels te kijken voor de bijpassende hardware.',
+    category: 'producten',
   },
   {
     question: 'Voor welke platforms verkopen jullie Pokémon games?',
@@ -100,14 +100,14 @@ const faqItems = [
     category: 'producten',
   },
   {
-    question: 'Worden producten ook naar België verzonden?',
-    answer: 'Op dit moment verzenden wij uitsluitend binnen Nederland via PostNL. Verzending naar België is momenteel niet beschikbaar, maar we hopen dit in de toekomst aan te bieden.',
-    category: 'verzending',
-  },
-  {
     question: 'Kan de interne batterij van een cartridge leeg zijn?',
     answer: 'GBA-games zoals Emerald, Ruby en Sapphire hebben een interne batterij voor de klok-functie. Als deze leeg is, werken tijdgebonden events (bessen groeien, getijden) niet meer, maar de game en je saves werken nog gewoon. Wij vermelden de batterijstatus waar mogelijk. DS en 3DS games hebben geen interne batterij.',
     category: 'producten',
+  },
+  {
+    question: 'Hoe kan ik contact opnemen?',
+    answer: 'Je kunt ons bereiken via e-mail op gameshopenter@gmail.com of via het contactformulier op onze contactpagina. Wij streven ernaar om binnen 24 uur te reageren op alle berichten.',
+    category: 'betaling',
   },
 ];
 
@@ -124,25 +124,6 @@ const faqJsonLd = {
   })),
 };
 
-const heroStagger = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const heroChild = {
-  hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
 export default function FaqPage() {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
@@ -150,12 +131,10 @@ export default function FaqPage() {
   const filteredItems = useMemo(() => {
     let items = faqItems;
 
-    // Filter op categorie
     if (activeCategory) {
       items = items.filter((item) => item.category === activeCategory);
     }
 
-    // Filter op zoekterm
     if (search.trim()) {
       const q = search.toLowerCase();
       items = items.filter(
@@ -175,73 +154,64 @@ export default function FaqPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
+      {/* Hero */}
       <div className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.06),transparent_50%)]" />
-
-        <motion.div
-          animate={{ y: [0, -12, 0], rotate: [0, 3, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[15%] right-[12%] w-16 h-16 rounded-2xl bg-white/[0.02] border border-white/[0.04] rotate-12"
-        />
-        <motion.div
-          animate={{ y: [0, 8, 0], rotate: [0, -5, 0] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-          className="absolute bottom-[25%] left-[8%] w-10 h-10 rounded-full bg-emerald-500/[0.03] border border-emerald-500/[0.05]"
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_70%)]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            variants={heroStagger}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <motion.span variants={heroChild} className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
               FAQ
-            </motion.span>
-            <motion.h1 variants={heroChild} className="text-3xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">Veelgestelde vragen</motion.h1>
-            <motion.p variants={heroChild} className="text-lg text-slate-400 max-w-2xl">
+            </span>
+            <h1 className="text-3xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
+              Veelgestelde vragen
+            </h1>
+            <p className="text-lg text-slate-400 max-w-2xl">
               Antwoorden op de meest gestelde vragen over onze producten en service
-            </motion.p>
+            </p>
           </motion.div>
         </div>
       </div>
 
+      {/* Content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        {/* Categorie filter pills */}
+        {/* Categorie filter */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
+          transition={{ delay: 0.05, duration: 0.5 }}
           className="mb-4"
         >
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
-              <motion.button
+              <button
                 key={cat.value}
                 onClick={() => setActiveCategory(cat.value)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                   activeCategory === cat.value
                     ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
-                    : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-emerald-300 dark:hover:border-emerald-500/50'
+                    : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-300'
                 }`}
               >
                 {cat.label}
-              </motion.button>
+              </button>
             ))}
           </div>
-          <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 pl-1">
-            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filteredItems.length}</span> {filteredItems.length === 1 ? 'vraag' : 'vragen'} in {activeCategoryLabel.toLowerCase()}
+          <p className="mt-2.5 text-xs text-slate-500 pl-1">
+            <span className="font-semibold text-emerald-600">{filteredItems.length}</span>{' '}
+            {filteredItems.length === 1 ? 'vraag' : 'vragen'} in {activeCategoryLabel.toLowerCase()}
           </p>
         </motion.div>
 
         {/* Zoekbalk */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
           className="mb-6"
         >
           <div className="relative">
@@ -253,7 +223,7 @@ export default function FaqPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Zoek in veelgestelde vragen..."
-              className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all"
+              className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all"
             />
             <AnimatePresence>
               {search && (
@@ -262,7 +232,7 @@ export default function FaqPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   onClick={() => setSearch('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -272,24 +242,26 @@ export default function FaqPage() {
             </AnimatePresence>
           </div>
           {search && (
-            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 pl-1">
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filteredItems.length}</span> {filteredItems.length === 1 ? 'resultaat' : 'resultaten'} gevonden
+            <p className="mt-2 text-xs text-slate-500 pl-1">
+              <span className="font-semibold text-emerald-600">{filteredItems.length}</span>{' '}
+              {filteredItems.length === 1 ? 'resultaat' : 'resultaten'} gevonden
             </p>
           )}
         </motion.div>
 
+        {/* FAQ lijst */}
         <motion.div
-          initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-          className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm p-6 lg:p-8"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
         >
           {filteredItems.length > 0 ? (
             <Accordion items={filteredItems} />
           ) : (
             <div className="text-center py-12">
-              <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">
+              <p className="text-slate-500 text-sm mb-2">
                 {search ? (
                   <>Geen vragen gevonden voor &ldquo;{search}&rdquo;</>
                 ) : (
@@ -298,7 +270,7 @@ export default function FaqPage() {
               </p>
               <button
                 onClick={() => { setSearch(''); setActiveCategory(''); }}
-                className="text-sm text-emerald-600 dark:text-emerald-400 font-semibold hover:text-emerald-700 transition-colors"
+                className="text-sm text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
               >
                 Filters wissen
               </button>
@@ -306,17 +278,17 @@ export default function FaqPage() {
           )}
         </motion.div>
 
-        {/* CTA sectie */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-12 bg-gradient-to-br from-[#0a1628] to-[#0d1f3c] rounded-2xl p-8 text-center border border-white/[0.06]"
         >
           <h3 className="text-xl font-bold text-white mb-2">Staat je vraag er niet bij?</h3>
           <p className="text-slate-400 mb-6 max-w-md mx-auto">
-            Neem gerust contact met ons op. Wij reageren binnen 24 uur op alle berichten.
+            Neem gerust contact met ons op. Wij reageren binnen 24 uur.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
