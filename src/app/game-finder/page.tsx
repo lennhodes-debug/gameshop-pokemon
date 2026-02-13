@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllProducts, Product, getEffectivePrice } from '@/lib/products';
@@ -20,14 +20,14 @@ interface QuizAnswer {
   franchises: string[];
 }
 
-// ─── QUIZ QUESTIONS CONFIG ──────────────────────────────────
+// ─── QUIZ CONFIG ────────────────────────────────────────────
 
 interface QuizOption {
   id: string;
   label: string;
   sub: string;
-  icon: string; // SVG path
-  image: string; // background image path
+  emoji: string;
+  image: string;
   gradient: [string, string];
   glow: string;
 }
@@ -35,7 +35,8 @@ interface QuizOption {
 interface QuizQuestion {
   title: string;
   subtitle: string;
-  multi: boolean; // allow multiple selections
+  multi: boolean;
+  ambientGlow: string; // Background color theme per question
   options: QuizOption[];
 }
 
@@ -44,12 +45,13 @@ const QUESTIONS: QuizQuestion[] = [
     title: 'Wat voor games speel je het liefst?',
     subtitle: 'Kies er een of meerdere',
     multi: true,
+    ambientGlow: '124,58,237',
     options: [
       {
         id: 'RPG',
         label: 'RPG',
         sub: 'Diep verhaal, training, levels',
-        icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+        emoji: '\u2694\uFE0F',
         image: '/images/quiz/rpg.jpg',
         gradient: ['#7C3AED', '#5B21B6'],
         glow: '124,58,237',
@@ -58,7 +60,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'Avontuur',
         label: 'Avontuur',
         sub: 'Verkennen, puzzels, verhaal',
-        icon: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z',
+        emoji: '\uD83C\uDFDD\uFE0F',
         image: '/images/quiz/adventure.jpg',
         gradient: ['#059669', '#047857'],
         glow: '5,150,105',
@@ -67,7 +69,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'Platformer',
         label: 'Platformer',
         sub: 'Springen, rennen, actie',
-        icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z',
+        emoji: '\uD83C\uDF1F',
         image: '/images/quiz/platformer.jpg',
         gradient: ['#F59E0B', '#D97706'],
         glow: '245,158,11',
@@ -76,7 +78,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'Party',
         label: 'Party & Sport',
         sub: 'Samen spelen, competitie',
-        icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z',
+        emoji: '\uD83C\uDF89',
         image: '/images/quiz/party.jpg',
         gradient: ['#A855F7', '#7E22CE'],
         glow: '168,85,247',
@@ -87,12 +89,13 @@ const QUESTIONS: QuizQuestion[] = [
     title: 'Hoe speel je het liefst?',
     subtitle: 'Kies wat het beste bij je past',
     multi: false,
+    ambientGlow: '14,165,233',
     options: [
       {
         id: 'solo',
         label: 'Alleen',
         sub: 'Diep in het verhaal, op eigen tempo',
-        icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
+        emoji: '\uD83C\uDFAE',
         image: '/images/quiz/solo.jpg',
         gradient: ['#0EA5E9', '#0284C7'],
         glow: '14,165,233',
@@ -101,7 +104,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'samen',
         label: 'Met vrienden',
         sub: 'Party games, samen op de bank',
-        icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z',
+        emoji: '\uD83D\uDC6B',
         image: '/images/quiz/together.jpg',
         gradient: ['#EC4899', '#DB2777'],
         glow: '236,72,153',
@@ -112,12 +115,13 @@ const QUESTIONS: QuizQuestion[] = [
     title: 'Welk platform heeft je voorkeur?',
     subtitle: 'Kies er een of meerdere',
     multi: true,
+    ambientGlow: '99,102,241',
     options: [
       {
         id: 'Game Boy / Color',
         label: 'Game Boy',
         sub: 'De originele handheld (1989)',
-        icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3',
+        emoji: '\uD83D\uDFE2',
         image: '/images/platforms/gbc.webp',
         gradient: ['#84CC16', '#65A30D'],
         glow: '132,204,22',
@@ -126,7 +130,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'Game Boy Advance',
         label: 'GBA',
         sub: '32-bit handheld (2001)',
-        icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3',
+        emoji: '\uD83D\uDFE3',
         image: '/images/platforms/gba.webp',
         gradient: ['#6366F1', '#4F46E5'],
         glow: '99,102,241',
@@ -135,7 +139,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'Nintendo DS',
         label: 'Nintendo DS',
         sub: 'Dual screen (2004)',
-        icon: 'M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m-6 3.75l3 3m0 0l3-3m-3 3V1.5',
+        emoji: '\uD83D\uDDA5\uFE0F',
         image: '/images/platforms/ds.webp',
         gradient: ['#64748B', '#475569'],
         glow: '100,116,139',
@@ -144,7 +148,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'Nintendo 3DS',
         label: '3DS',
         sub: 'Stereoscopisch 3D (2011)',
-        icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z',
+        emoji: '\uD83D\uDD35',
         image: '/images/platforms/3ds.webp',
         gradient: ['#0EA5E9', '#0284C7'],
         glow: '14,165,233',
@@ -155,12 +159,13 @@ const QUESTIONS: QuizQuestion[] = [
     title: 'Welke franchise trekt je het meest?',
     subtitle: 'Kies er een of meerdere',
     multi: true,
+    ambientGlow: '239,68,68',
     options: [
       {
         id: 'pokemon',
-        label: 'Pokémon',
+        label: 'Pok\u00E9mon',
         sub: 'Vangen, trainen, vechten',
-        icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zm0 0c1.5 0 2.5-1.5 2.5-3S13.5 15 12 15s-2.5 1.5-2.5 3 1 3 2.5 3zm0-9a3 3 0 100-6 3 3 0 000 6z',
+        emoji: '\u26A1',
         image: '/images/quiz/pokemon.jpg',
         gradient: ['#EF4444', '#DC2626'],
         glow: '239,68,68',
@@ -169,7 +174,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'mario',
         label: 'Mario',
         sub: 'Platformer, kart, party',
-        icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+        emoji: '\uD83C\uDF44',
         image: '/images/quiz/mario.jpg',
         gradient: ['#E52521', '#C41E1C'],
         glow: '229,37,33',
@@ -178,7 +183,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'zelda',
         label: 'Zelda',
         sub: 'Avontuur, puzzels, dungeons',
-        icon: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z',
+        emoji: '\uD83D\uDDE1\uFE0F',
         image: '/images/quiz/zelda.jpg',
         gradient: ['#B89B3E', '#7A6B2A'],
         glow: '184,155,62',
@@ -187,7 +192,7 @@ const QUESTIONS: QuizQuestion[] = [
         id: 'surprise',
         label: 'Verrass me',
         sub: 'Ik sta open voor alles',
-        icon: 'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z',
+        emoji: '\u2728',
         image: '/images/quiz/surprise.jpg',
         gradient: ['#8B5CF6', '#6D28D9'],
         glow: '139,92,246',
@@ -196,10 +201,10 @@ const QUESTIONS: QuizQuestion[] = [
   },
 ];
 
-// ─── FRANCHISE KEYWORDS FOR MATCHING ────────────────────────
+// ─── FRANCHISE KEYWORDS ─────────────────────────────────────
 
 const FRANCHISE_KEYWORDS: Record<string, string[]> = {
-  pokemon: ['pokémon', 'pokemon', 'pikachu'],
+  pokemon: ['pok\u00E9mon', 'pokemon', 'pikachu'],
   mario: ['mario', 'luigi', 'peach', 'toad', 'yoshi', 'wario', 'donkey kong'],
   zelda: ['zelda', 'link'],
 };
@@ -214,44 +219,31 @@ function calculateMatches(answers: QuizAnswer, products: Product[]): Product[] {
       let score = 0;
       const name = p.name.toLowerCase();
 
-      // Genre match (biggest weight)
       if (answers.genres.length > 0) {
         if (answers.genres.includes(p.genre)) score += 15;
-        // Party preference also matches Vecht, Sport, Race
         if (answers.genres.includes('Party') && ['Vecht', 'Sport', 'Race', 'Party'].includes(p.genre)) score += 10;
       }
 
-      // Play style
       if (answers.playStyle === 'solo') {
         if (['RPG', 'Avontuur', 'Platformer', 'Strategie', 'Simulatie', 'Puzzel'].includes(p.genre)) score += 8;
       } else if (answers.playStyle === 'samen') {
         if (['Party', 'Sport', 'Vecht', 'Race'].includes(p.genre)) score += 12;
       }
 
-      // Platform match
       if (answers.platforms.length > 0) {
         if (answers.platforms.includes(p.platform)) score += 10;
       }
 
-      // Franchise match
       if (answers.franchises.length > 0) {
-        if (answers.franchises.includes('surprise')) {
-          // Random boost for surprise
-          score += Math.random() * 6;
-        }
+        if (answers.franchises.includes('surprise')) score += Math.random() * 6;
         for (const fId of answers.franchises) {
           const keywords = FRANCHISE_KEYWORDS[fId];
-          if (keywords && keywords.some(kw => name.includes(kw))) {
-            score += 14;
-          }
+          if (keywords && keywords.some(kw => name.includes(kw))) score += 14;
         }
       }
 
-      // Bonus for items with images (better UX)
       if (p.image) score += 2;
-      // Small premium bonus
       if (p.isPremium) score += 1;
-      // Slight randomness for variety
       score += Math.random() * 3;
 
       return { product: p, score };
@@ -261,24 +253,100 @@ function calculateMatches(answers: QuizAnswer, products: Product[]): Product[] {
     .map(s => s.product);
 }
 
+// ─── PARTICLE BURST (on card selection) ─────────────────────
+
+function SelectionBurst({ color, active }: { color: string; active: boolean }) {
+  const particles = useMemo(
+    () => Array.from({ length: 12 }, (_, i) => {
+      const angle = (i / 12) * Math.PI * 2;
+      return {
+        id: i,
+        x: Math.cos(angle) * (60 + Math.random() * 40),
+        y: Math.sin(angle) * (60 + Math.random() * 40),
+        size: 3 + Math.random() * 4,
+        delay: Math.random() * 0.15,
+      };
+    }),
+    [],
+  );
+
+  if (!active) return null;
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-20 flex items-center justify-center">
+      {particles.map(p => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{ width: p.size, height: p.size, backgroundColor: color }}
+          initial={{ x: 0, y: 0, opacity: 1, scale: 0 }}
+          animate={{ x: p.x, y: p.y, opacity: 0, scale: 1 }}
+          transition={{ duration: 0.6, delay: p.delay, ease: [0.16, 1, 0.3, 1] }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ─── FLOATING SHAPES (ambient background) ───────────────────
+
+function FloatingShapes({ glowColor }: { glowColor: string }) {
+  const shapes = useMemo(() => Array.from({ length: 6 }, (_, i) => ({
+    id: i,
+    x: `${10 + Math.random() * 80}%`,
+    y: `${10 + Math.random() * 80}%`,
+    size: 200 + Math.random() * 300,
+    duration: 15 + Math.random() * 10,
+    delay: Math.random() * 5,
+  })), []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {shapes.map(s => (
+        <motion.div
+          key={s.id}
+          className="absolute rounded-full blur-[100px]"
+          style={{
+            left: s.x,
+            top: s.y,
+            width: s.size,
+            height: s.size,
+            background: `rgba(${glowColor}, 0.04)`,
+          }}
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -40, 20, 0],
+            scale: [1, 1.2, 0.9, 1],
+          }}
+          transition={{
+            duration: s.duration,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: s.delay,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 // ─── CONFETTI ───────────────────────────────────────────────
 
 function ConfettiExplosion() {
   const particles = useMemo(
-    () =>
-      Array.from({ length: 50 }, (_, i) => ({
-        id: i,
-        x: (Math.random() - 0.5) * 600,
-        y: -(Math.random() * 400 + 100),
-        rotation: Math.random() * 720 - 360,
-        scale: Math.random() * 0.6 + 0.4,
-        color: ['#10b981', '#06b6d4', '#8b5cf6', '#f59e0b', '#ec4899', '#ef4444'][
-          Math.floor(Math.random() * 6)
-        ],
-        delay: Math.random() * 0.4,
-        w: Math.random() > 0.5 ? 8 : 5,
-        h: Math.random() > 0.5 ? 5 : 10,
-      })),
+    () => Array.from({ length: 60 }, (_, i) => ({
+      id: i,
+      x: (Math.random() - 0.5) * 700,
+      y: -(Math.random() * 500 + 100),
+      rotation: Math.random() * 720 - 360,
+      scale: Math.random() * 0.6 + 0.4,
+      color: ['#10b981', '#06b6d4', '#8b5cf6', '#f59e0b', '#ec4899', '#ef4444', '#3b82f6'][
+        Math.floor(Math.random() * 7)
+      ],
+      delay: Math.random() * 0.5,
+      w: Math.random() > 0.5 ? 8 : 5,
+      h: Math.random() > 0.5 ? 5 : 12,
+    })),
     [],
   );
 
@@ -291,14 +359,14 @@ function ConfettiExplosion() {
           style={{ width: p.w, height: p.h, backgroundColor: p.color }}
           initial={{ x: 0, y: 0, rotate: 0, scale: 0, opacity: 1 }}
           animate={{ x: p.x, y: p.y, rotate: p.rotation, scale: p.scale, opacity: [1, 1, 0] }}
-          transition={{ duration: 2, delay: p.delay, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 2.5, delay: p.delay, ease: [0.16, 1, 0.3, 1] }}
         />
       ))}
     </div>
   );
 }
 
-// ─── QUIZ OPTION CARD ───────────────────────────────────────
+// ─── 3D TILT OPTION CARD ────────────────────────────────────
 
 function OptionCard({
   option,
@@ -311,93 +379,214 @@ function OptionCard({
   onToggle: () => void;
   index: number;
 }) {
+  const cardRef = useRef<HTMLButtonElement>(null);
+  const [justSelected, setJustSelected] = useState(false);
+
+  // Mouse tracking for 3D tilt
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const cfg = { stiffness: 250, damping: 20 };
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), cfg);
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), cfg);
+
+  // Cursor spotlight position inside card
+  const spotX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), cfg);
+  const spotY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), cfg);
+  const spotlight = useMotionTemplate`radial-gradient(350px circle at ${spotX}% ${spotY}%, rgba(${option.glow},0.15), transparent 70%)`;
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  const handleMouseLeave = useCallback(() => {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  }, [mouseX, mouseY]);
+
+  const handleClick = useCallback(() => {
+    setJustSelected(true);
+    onToggle();
+    setTimeout(() => setJustSelected(false), 600);
+  }, [onToggle]);
+
   return (
-    <motion.button
-      onClick={onToggle}
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.15 + index * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.03, y: -4 }}
-      whileTap={{ scale: 0.97 }}
-      className="group relative text-left"
+    <motion.div
+      initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ delay: 0.12 + index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      style={{ perspective: 800 }}
     >
-      <div
-        className={`relative overflow-hidden rounded-2xl h-56 sm:h-64 transition-all duration-500 ${
-          selected ? 'shadow-xl' : 'shadow-md'
-        }`}
-        style={{
-          border: selected ? `2px solid rgba(${option.glow}, 0.6)` : '2px solid rgba(255,255,255,0.08)',
-          boxShadow: selected ? `0 12px 40px rgba(${option.glow}, 0.25)` : undefined,
-        }}
+      <motion.button
+        ref={cardRef}
+        onClick={handleClick}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        whileTap={{ scale: 0.96 }}
+        className="group relative text-left w-full"
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       >
-        {/* Background image via Next.js Image for sharp rendering */}
-        <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
-          <Image
-            src={option.image}
-            alt={option.label}
-            fill
-            sizes="(max-width: 640px) 100vw, 50vw"
-            className="object-cover"
-            quality={90}
-          />
-        </div>
-
-        {/* Brightness overlay for vivid look */}
-        <div className="absolute inset-0 mix-blend-soft-light bg-white/10" />
-
-        {/* Dark gradient overlay */}
         <div
-          className="absolute inset-0 transition-opacity duration-500"
+          className={`relative overflow-hidden rounded-2xl h-60 sm:h-72 transition-all duration-500 ${
+            selected ? 'shadow-2xl' : 'shadow-lg shadow-black/20'
+          }`}
           style={{
-            background: selected
-              ? `linear-gradient(to top, ${option.gradient[1]}ee 0%, ${option.gradient[0]}88 40%, transparent 100%)`
-              : 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.05) 100%)',
+            border: selected
+              ? `2px solid rgba(${option.glow}, 0.7)`
+              : '1px solid rgba(255,255,255,0.06)',
+            boxShadow: selected
+              ? `0 20px 60px -12px rgba(${option.glow}, 0.35), inset 0 1px 0 rgba(255,255,255,0.1)`
+              : undefined,
           }}
-        />
-
-        {/* Selected glow ring */}
-        {selected && (
-          <motion.div
-            className="absolute inset-0 pointer-events-none rounded-2xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            style={{ boxShadow: `inset 0 0 30px rgba(${option.glow}, 0.2)` }}
-          />
-        )}
-
-        {/* Content at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-          <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1 drop-shadow-lg">
-            {option.label}
-          </h3>
-          <p className="text-sm text-white/60 drop-shadow-md">
-            {option.sub}
-          </p>
-        </div>
-
-        {/* Checkmark */}
-        <motion.div
-          className="absolute top-4 right-4 z-10"
-          initial={false}
-          animate={selected ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
-          <div
-            className="h-7 w-7 rounded-full flex items-center justify-center shadow-lg"
-            style={{ background: `linear-gradient(135deg, ${option.gradient[0]}, ${option.gradient[1]})` }}
-          >
-            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
+          {/* Background image */}
+          <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110">
+            <Image
+              src={option.image}
+              alt={option.label}
+              fill
+              sizes="(max-width: 640px) 100vw, 50vw"
+              className="object-cover"
+              quality={90}
+            />
           </div>
-        </motion.div>
 
-        {/* Unselected circle outline */}
-        {!selected && (
-          <div className="absolute top-4 right-4 h-7 w-7 rounded-full border-2 border-white/30" />
-        )}
-      </div>
-    </motion.button>
+          {/* Color overlay shift on hover */}
+          <div
+            className="absolute inset-0 transition-all duration-700"
+            style={{
+              background: selected
+                ? `linear-gradient(135deg, ${option.gradient[0]}cc 0%, ${option.gradient[1]}99 50%, transparent 100%)`
+                : 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.05) 100%)',
+            }}
+          />
+
+          {/* Interactive cursor spotlight */}
+          <motion.div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+            style={{ background: spotlight }}
+          />
+
+          {/* Animated gradient border shimmer for selected */}
+          {selected && (
+            <motion.div
+              className="absolute inset-0 rounded-2xl pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              style={{
+                background: `linear-gradient(45deg, transparent 40%, rgba(${option.glow},0.1) 50%, transparent 60%)`,
+                backgroundSize: '200% 200%',
+              }}
+            />
+          )}
+
+          {/* Grid pattern overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.03] pointer-events-none"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px',
+            }}
+          />
+
+          {/* Emoji badge floating */}
+          <motion.div
+            className="absolute top-4 left-4 z-10 text-2xl sm:text-3xl select-none"
+            animate={selected ? { scale: [1, 1.3, 1], rotate: [0, 10, -10, 0] } : {}}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))' }}
+          >
+            {option.emoji}
+          </motion.div>
+
+          {/* Content at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
+            <motion.h3
+              className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1"
+              style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
+              layout
+            >
+              {option.label}
+            </motion.h3>
+            <p className="text-sm text-white/60" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+              {option.sub}
+            </p>
+          </div>
+
+          {/* Checkmark with spring animation */}
+          <motion.div
+            className="absolute top-4 right-4 z-10"
+            initial={false}
+            animate={selected ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+          >
+            <div
+              className="h-8 w-8 rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm"
+              style={{
+                background: `linear-gradient(135deg, ${option.gradient[0]}, ${option.gradient[1]})`,
+                boxShadow: `0 4px 15px rgba(${option.glow}, 0.4)`,
+              }}
+            >
+              <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            </div>
+          </motion.div>
+
+          {/* Unselected ring */}
+          {!selected && (
+            <div className="absolute top-4 right-4 h-8 w-8 rounded-full border-2 border-white/20 backdrop-blur-sm bg-black/10" />
+          )}
+
+          {/* Selection particle burst */}
+          <SelectionBurst
+            color={`rgba(${option.glow}, 0.8)`}
+            active={justSelected && selected}
+          />
+        </div>
+      </motion.button>
+    </motion.div>
+  );
+}
+
+// ─── CIRCULAR PROGRESS ──────────────────────────────────────
+
+function CircularProgress({ current, total }: { current: number; total: number }) {
+  const radius = 18;
+  const circumference = 2 * Math.PI * radius;
+  const progress = ((current + 1) / total) * circumference;
+
+  return (
+    <div className="relative h-12 w-12 flex items-center justify-center">
+      <svg className="absolute inset-0 -rotate-90" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+        <motion.circle
+          cx="24"
+          cy="24"
+          r={radius}
+          fill="none"
+          stroke="url(#progress-gradient)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          animate={{ strokeDashoffset: circumference - progress }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        />
+        <defs>
+          <linearGradient id="progress-gradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#10b981" />
+            <stop offset="100%" stopColor="#06b6d4" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span className="text-xs font-semibold text-white/60 tabular-nums">
+        {current + 1}/{total}
+      </span>
+    </div>
   );
 }
 
@@ -437,7 +626,21 @@ function ResultScreen({
 
   return (
     <div className="relative min-h-screen bg-[#050810] overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_50%)]" />
+      {/* Ambient glows */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/[0.06] blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] rounded-full bg-cyan-500/[0.04] blur-[100px]" />
+        <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full bg-violet-500/[0.03] blur-[80px]" />
+      </div>
+
+      {/* Grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
 
       {showConfetti && <ConfettiExplosion />}
 
@@ -453,7 +656,7 @@ function ResultScreen({
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/[0.04] mb-6"
+            className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] mb-6"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[11px] font-medium text-white/40 uppercase tracking-[0.2em]">
@@ -464,18 +667,29 @@ function ResultScreen({
 
         {/* Top pick */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.8, y: 40 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center mb-16"
         >
           <div className="relative mb-8">
-            <div className="absolute inset-0 blur-3xl opacity-20 scale-150">
+            <div className="absolute inset-0 blur-3xl opacity-25 scale-150">
               <div className="w-full h-full bg-gradient-to-b from-emerald-400 to-cyan-400 rounded-full" />
             </div>
+            {/* Rotating ring behind image */}
             <motion.div
-              className="relative w-52 h-52 lg:w-72 lg:h-72"
-              animate={{ y: [0, -10, 0] }}
+              className="absolute inset-[-20px] rounded-full border border-emerald-500/10"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            />
+            <motion.div
+              className="absolute inset-[-40px] rounded-full border border-dashed border-cyan-500/5"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            />
+            <motion.div
+              className="relative w-56 h-56 lg:w-80 lg:h-80"
+              animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
               {topPick.image && (
@@ -483,7 +697,7 @@ function ResultScreen({
                   src={topPick.image}
                   alt={topPick.name}
                   fill
-                  sizes="288px"
+                  sizes="320px"
                   className="object-contain drop-shadow-[0_20px_60px_rgba(16,185,129,0.3)]"
                   priority
                 />
@@ -497,7 +711,7 @@ function ResultScreen({
             transition={{ delay: 0.7 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-xs font-medium text-white/50 mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/[0.06] text-xs font-medium text-white/50 mb-4">
               <span className="h-1 w-1 rounded-full bg-emerald-400" />
               {platformLabel} &middot; {topPick.genre}
             </div>
@@ -531,7 +745,7 @@ function ResultScreen({
             </button>
             <Link
               href={`/shop/${topPick.sku}`}
-              className="inline-flex items-center justify-center gap-2 h-13 px-8 rounded-2xl bg-white/[0.06] text-white/80 text-sm font-medium hover:bg-white/[0.1] hover:text-white active:scale-[0.97] transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 h-13 px-8 rounded-2xl bg-white/[0.06] border border-white/[0.06] text-white/80 text-sm font-medium hover:bg-white/[0.1] hover:text-white active:scale-[0.97] transition-all duration-300"
             >
               Bekijk product
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -562,9 +776,9 @@ function ResultScreen({
                 >
                   <Link
                     href={`/shop/${p.sku}`}
-                    className="group flex flex-col items-center p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-300"
+                    className="group flex flex-col items-center p-5 rounded-2xl bg-white/[0.03] border border-white/[0.04] hover:bg-white/[0.06] hover:border-white/[0.08] transition-all duration-300"
                   >
-                    <div className="relative h-28 w-28 mb-3 group-hover:scale-105 transition-transform duration-300">
+                    <div className="relative h-28 w-28 mb-3 group-hover:scale-105 transition-transform duration-500">
                       {p.image && (
                         <Image
                           src={p.image}
@@ -632,11 +846,22 @@ export default function GameFinderPage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selections, setSelections] = useState<string[][]>(QUESTIONS.map(() => []));
   const [results, setResults] = useState<Product[]>([]);
+  const [direction, setDirection] = useState<1 | -1>(1);
 
   const currentQuestion = QUESTIONS[questionIndex];
   const currentSelection = selections[questionIndex];
   const totalQuestions = QUESTIONS.length;
-  const progress = (questionIndex / totalQuestions) * 100;
+
+  // Section-level cursor spotlight
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+  const sectionSpotlight = useMotionTemplate`radial-gradient(600px circle at ${cursorX}px ${cursorY}px, rgba(${currentQuestion?.ambientGlow || '16,185,129'},0.04), transparent 70%)`;
+
+  const handleSectionMouse = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    cursorX.set(e.clientX - rect.left);
+    cursorY.set(e.clientY - rect.top);
+  }, [cursorX, cursorY]);
 
   const toggleOption = useCallback((optionId: string) => {
     setSelections(prev => {
@@ -645,21 +870,12 @@ export default function GameFinderPage() {
       const q = QUESTIONS[questionIndex];
 
       if (q.multi) {
-        // Toggle in multi-select
         const idx = current.indexOf(optionId);
-        if (idx >= 0) {
-          current.splice(idx, 1);
-        } else {
-          current.push(optionId);
-        }
+        if (idx >= 0) current.splice(idx, 1);
+        else current.push(optionId);
       } else {
-        // Single select — replace
-        if (current[0] === optionId) {
-          current.length = 0;
-        } else {
-          current.length = 0;
-          current.push(optionId);
-        }
+        if (current[0] === optionId) current.length = 0;
+        else { current.length = 0; current.push(optionId); }
       }
       updated[questionIndex] = current;
       return updated;
@@ -667,10 +883,10 @@ export default function GameFinderPage() {
   }, [questionIndex]);
 
   const handleNext = useCallback(() => {
+    setDirection(1);
     if (questionIndex < totalQuestions - 1) {
       setQuestionIndex(i => i + 1);
     } else {
-      // Calculate results
       const answers: QuizAnswer = {
         genres: selections[0],
         playStyle: (selections[1][0] as 'solo' | 'samen') || null,
@@ -684,21 +900,26 @@ export default function GameFinderPage() {
   }, [questionIndex, totalQuestions, selections, allProducts]);
 
   const handleBack = useCallback(() => {
-    if (questionIndex > 0) {
-      setQuestionIndex(i => i - 1);
-    }
+    setDirection(-1);
+    if (questionIndex > 0) setQuestionIndex(i => i - 1);
   }, [questionIndex]);
 
-  const handleStart = useCallback(() => {
-    setPhase('quiz');
-  }, []);
+  const handleStart = useCallback(() => setPhase('quiz'), []);
 
   const restart = useCallback(() => {
     setPhase('intro');
     setQuestionIndex(0);
     setSelections(QUESTIONS.map(() => []));
     setResults([]);
+    setDirection(1);
   }, []);
+
+  // Slide variants based on direction
+  const slideVariants = {
+    enter: { opacity: 0, x: direction > 0 ? 60 : -60, filter: 'blur(4px)' },
+    center: { opacity: 1, x: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, x: direction > 0 ? -60 : 60, filter: 'blur(4px)' },
+  };
 
   return (
     <div className="min-h-screen">
@@ -710,24 +931,44 @@ export default function GameFinderPage() {
             className="relative min-h-screen bg-[#050810] flex items-center justify-center overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_50%)]" />
+            {/* Ambient glow orbs */}
+            <motion.div
+              className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.06] blur-[120px]"
+              animate={{ scale: [1, 1.2, 1], opacity: [0.06, 0.1, 0.06] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-cyan-500/[0.04] blur-[100px]"
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            />
+            <motion.div
+              className="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full bg-violet-500/[0.04] blur-[80px]"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+            />
+
+            {/* Grid pattern */}
             <div
               className="absolute inset-0 opacity-[0.015]"
               style={{
-                backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
-                backgroundSize: '32px 32px',
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)',
+                backgroundSize: '60px 60px',
               }}
             />
+
+            {/* Radial fade */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#050810_80%)]" />
 
             <div className="relative z-10 text-center px-4 max-w-lg mx-auto">
               <motion.div
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={{ opacity: 1, scaleX: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] mb-10"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] mb-10"
               >
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-[11px] font-medium text-white/40 uppercase tracking-[0.2em]">
@@ -741,16 +982,35 @@ export default function GameFinderPage() {
                 transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="text-5xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.92] mb-6"
               >
-                Game<br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-                  Finder
-                </span>
+                {'Game'.split('').map((char, i) => (
+                  <motion.span
+                    key={`a${i}`}
+                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    transition={{ duration: 0.6, delay: 0.3 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+                <br />
+                {'Finder'.split('').map((char, i) => (
+                  <motion.span
+                    key={`b${i}`}
+                    initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    transition={{ duration: 0.6, delay: 0.55 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                    className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
+                transition={{ delay: 0.8 }}
                 className="text-base text-white/35 max-w-sm mx-auto mb-4"
               >
                 Beantwoord 4 snelle vragen over jouw speelstijl en voorkeuren.
@@ -758,7 +1018,7 @@ export default function GameFinderPage() {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                transition={{ delay: 1 }}
                 className="text-sm text-white/20 max-w-sm mx-auto mb-12"
               >
                 Wij vinden de perfecte game voor jou uit onze collectie.
@@ -768,8 +1028,8 @@ export default function GameFinderPage() {
                 onClick={handleStart}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.5 }}
-                whileHover={{ scale: 1.03 }}
+                transition={{ delay: 1.2, duration: 0.5 }}
+                whileHover={{ scale: 1.03, boxShadow: '0 0 40px rgba(16,185,129,0.15)' }}
                 whileTap={{ scale: 0.97 }}
                 className="group inline-flex items-center justify-center h-14 px-10 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all duration-300"
               >
@@ -787,39 +1047,69 @@ export default function GameFinderPage() {
           <motion.div
             key={`quiz-${questionIndex}`}
             className="relative min-h-screen bg-[#050810] overflow-hidden"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -40 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            onMouseMove={handleSectionMouse}
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
+            {/* Animated ambient background that changes per question */}
+            <FloatingShapes glowColor={currentQuestion.ambientGlow} />
+
+            {/* Cursor-following spotlight */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: sectionSpotlight }}
+            />
+
+            {/* Subtle grid */}
+            <div
+              className="absolute inset-0 opacity-[0.015]"
+              style={{
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+                backgroundSize: '60px 60px',
+              }}
+            />
 
             <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-              {/* Progress */}
-              <div className="mb-10">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em]">
-                    Vraag {questionIndex + 1} van {totalQuestions}
-                  </span>
-                  <span className="text-[11px] font-medium text-white/20 tabular-nums">
-                    {Math.round(((questionIndex + 1) / totalQuestions) * 100)}%
-                  </span>
-                </div>
-                <div className="h-0.5 bg-white/[0.06] rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full"
-                    initial={{ width: `${progress}%` }}
-                    animate={{ width: `${((questionIndex + 1) / totalQuestions) * 100}%` }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  />
+              {/* Header row: circular progress + question label */}
+              <div className="flex items-center justify-between mb-8">
+                <CircularProgress current={questionIndex} total={totalQuestions} />
+                <div className="flex items-center gap-3">
+                  {Array.from({ length: totalQuestions }, (_, i) => (
+                    <motion.div
+                      key={i}
+                      className="relative h-1 rounded-full overflow-hidden"
+                      animate={{ width: i <= questionIndex ? 28 : 8 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div
+                        className={`absolute inset-0 rounded-full transition-colors duration-500 ${
+                          i < questionIndex
+                            ? 'bg-emerald-500'
+                            : i === questionIndex
+                              ? 'bg-white/40'
+                              : 'bg-white/[0.08]'
+                        }`}
+                      />
+                      {i === questionIndex && (
+                        <motion.div
+                          className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400"
+                          layoutId="active-bar"
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                    </motion.div>
+                  ))}
                 </div>
               </div>
 
-              {/* Question */}
+              {/* Question text */}
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
                 className="mb-8 lg:mb-10"
               >
                 <h2 className="text-2xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
@@ -831,7 +1121,7 @@ export default function GameFinderPage() {
               </motion.div>
 
               {/* Options grid */}
-              <div className={`grid gap-4 mb-10 ${
+              <div className={`grid gap-4 sm:gap-5 mb-10 ${
                 currentQuestion.options.length === 2
                   ? 'grid-cols-1 sm:grid-cols-2'
                   : 'grid-cols-1 sm:grid-cols-2'
@@ -857,8 +1147,10 @@ export default function GameFinderPage() {
                 <button
                   onClick={handleBack}
                   disabled={questionIndex === 0}
-                  className={`inline-flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
-                    questionIndex === 0 ? 'text-white/10 cursor-not-allowed' : 'text-white/30 hover:text-white/60'
+                  className={`inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
+                    questionIndex === 0
+                      ? 'text-white/10 cursor-not-allowed'
+                      : 'text-white/30 hover:text-white/60 hover:-translate-x-1'
                   }`}
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -867,38 +1159,23 @@ export default function GameFinderPage() {
                   Vorige
                 </button>
 
-                <button
+                <motion.button
                   onClick={handleNext}
                   disabled={currentSelection.length === 0}
+                  whileHover={currentSelection.length > 0 ? { scale: 1.02 } : {}}
+                  whileTap={currentSelection.length > 0 ? { scale: 0.97 } : {}}
                   className={`group inline-flex items-center justify-center h-12 px-8 rounded-xl text-sm font-medium transition-all duration-300 ${
                     currentSelection.length > 0
-                      ? 'bg-white text-slate-900 shadow-lg shadow-white/10 hover:shadow-white/20 active:scale-[0.97]'
+                      ? 'bg-white text-slate-900 shadow-lg shadow-white/10 hover:shadow-white/20'
                       : 'bg-white/[0.06] text-white/20 cursor-not-allowed'
                   }`}
                 >
                   {questionIndex < totalQuestions - 1 ? 'Volgende' : 'Bekijk resultaten'}
-                  <svg className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
-                </button>
+                </motion.button>
               </motion.div>
-
-              {/* Step dots */}
-              <div className="flex items-center justify-center gap-2 mt-10">
-                {Array.from({ length: totalQuestions }, (_, i) => (
-                  <motion.div
-                    key={i}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      i < questionIndex
-                        ? 'w-6 bg-emerald-500/60'
-                        : i === questionIndex
-                          ? 'w-4 bg-white/30'
-                          : 'w-1.5 bg-white/10'
-                    }`}
-                    layout
-                  />
-                ))}
-              </div>
             </div>
           </motion.div>
         )}
