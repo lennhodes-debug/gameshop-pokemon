@@ -270,7 +270,7 @@ export default function InkoopPage() {
             Snel &amp; eerlijk
           </motion.div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white tracking-tight leading-[1.05] mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-semibold text-white tracking-tight leading-[1.05] mb-8">
             <span className="block">
               <CharReveal text="Nintendo games" delay={0.3} stagger={0.025} />
             </span>
@@ -343,7 +343,7 @@ export default function InkoopPage() {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
+                <div className="text-3xl lg:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm font-semibold text-slate-800 mb-0.5">{stat.label}</div>
@@ -377,7 +377,7 @@ export default function InkoopPage() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="h-px w-12 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-6 origin-center"
             />
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 tracking-tight mb-4">
               <WordReveal text="Zo werkt het" />
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -416,11 +416,11 @@ export default function InkoopPage() {
                         <svg className="h-8 w-8 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                         </svg>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
+                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
                       </div>
                     </div>
                   </motion.div>
-                  <h3 className="font-bold text-slate-900 mt-6 mb-2 text-base">{step.title}</h3>
+                  <h3 className="font-semibold text-slate-900 mt-6 mb-2 text-base">{step.title}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed max-w-[180px] mx-auto">{step.desc}</p>
                 </motion.div>
               ))}
@@ -449,7 +449,7 @@ export default function InkoopPage() {
               transition={{ duration: 0.8 }}
               className="h-px w-12 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-6 origin-center"
             />
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 tracking-tight mb-4">
               <WordReveal text="Wat wil je verkopen?" />
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -485,7 +485,7 @@ export default function InkoopPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </motion.div>
-                    <h2 className="text-2xl font-bold text-slate-900 mb-3">Je e-mail app is geopend!</h2>
+                    <h2 className="text-2xl font-semibold text-slate-900 mb-3">Je e-mail app is geopend!</h2>
                     <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto leading-relaxed">
                       Vergeet niet je foto&apos;s als bijlage toe te voegen. We reageren binnen 24 uur met een eerlijk bod.
                     </p>
@@ -645,7 +645,7 @@ export default function InkoopPage() {
             >
               {/* Why sell to us */}
               <div className="bg-white rounded-2xl border border-slate-100 p-7 shadow-sm">
-                <h3 className="font-bold text-slate-900 text-lg mb-5">Waarom bij ons verkopen?</h3>
+                <h3 className="font-semibold text-slate-900 text-lg mb-5">Waarom bij ons verkopen?</h3>
                 <div className="space-y-5">
                   {[
                     { title: 'Eerlijk bod', desc: 'Wij doen je altijd een eerlijk bod op basis van marktwaarde', gradient: 'from-emerald-500 to-teal-500', icon: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
@@ -667,7 +667,7 @@ export default function InkoopPage() {
                         </svg>
                       </div>
                       <div>
-                        <p className="font-bold text-slate-900 text-sm">{item.title}</p>
+                        <p className="font-semibold text-slate-900 text-sm">{item.title}</p>
                         <p className="text-slate-500 text-xs leading-relaxed mt-0.5">{item.desc}</p>
                       </div>
                     </motion.div>
@@ -688,7 +688,7 @@ export default function InkoopPage() {
                     {'★★★★★'.split('').map((s, i) => <span key={i}>{s}</span>)}
                   </div>
                   <div>
-                    <span className="text-lg font-bold text-slate-900">5.0</span>
+                    <span className="text-lg font-semibold text-slate-900">5.0</span>
                     <span className="text-sm text-slate-500 ml-1.5">op Marktplaats</span>
                     <span className="block text-xs text-slate-400">1360+ reviews</span>
                   </div>
@@ -707,7 +707,7 @@ export default function InkoopPage() {
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.1),transparent_60%)]" />
 
                 <div className="relative">
-                  <h3 className="text-white font-bold mb-2">Liever direct contact?</h3>
+                  <h3 className="text-white font-semibold mb-2">Liever direct contact?</h3>
                   <p className="text-slate-400 text-sm leading-relaxed mb-5">
                     Stuur je foto&apos;s en beschrijving direct naar ons. We reageren binnen 24 uur.
                   </p>
@@ -753,7 +753,7 @@ export default function InkoopPage() {
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
+            <h2 className="text-4xl lg:text-6xl font-semibold text-white tracking-tight mb-6 leading-tight">
               Of liever{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
                 kopen

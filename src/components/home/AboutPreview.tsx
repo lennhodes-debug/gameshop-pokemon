@@ -42,7 +42,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   }, [value, hasAnimated]);
 
   return (
-    <span ref={ref} className="text-3xl lg:text-4xl font-bold text-white tabular-nums">
+    <span ref={ref} className="text-3xl lg:text-4xl font-semibold text-white tabular-nums">
       {count.toLocaleString('nl-NL')}{suffix}
     </span>
   );
@@ -88,7 +88,7 @@ export default function AboutPreview() {
             <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-5">
               Over ons
             </p>
-            <h2 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight mb-6">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-white leading-tight tracking-tight mb-6">
               Al sinds 2018 de Nintendo specialist
             </h2>
             <p className="text-base text-slate-400 leading-relaxed mb-6">

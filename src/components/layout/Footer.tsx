@@ -36,7 +36,7 @@ export default function Footer() {
             <Link href="/" className="inline-flex items-center gap-3 mb-5">
               <Logo className="h-10 w-10" />
               <div className="flex flex-col">
-                <span className="text-white font-bold text-xl leading-tight tracking-tight">Gameshop</span>
+                <span className="text-white font-semibold text-xl leading-tight tracking-tight">Gameshop</span>
                 <span className="text-emerald-400 text-[11px] font-semibold tracking-widest uppercase -mt-0.5">Enter</span>
               </div>
             </Link>
@@ -92,7 +92,7 @@ export default function Footer() {
           <div className="lg:col-span-4">
             <a href="https://www.marktplaats.nl/u/gameshop-enter/100074714/" target="_blank" rel="noopener noreferrer" className="block mb-6 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] transition-colors group">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-emerald-400 text-xl font-bold">5.0</span>
+                <span className="text-emerald-400 text-xl font-semibold">5.0</span>
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="h-3.5 w-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">

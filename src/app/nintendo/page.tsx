@@ -124,12 +124,12 @@ function GenerationCard({ gen, index }: { gen: Generation; index: number }) {
         <div className="flex items-start justify-between mb-4">
           <div>
             <span
-              className="text-[10px] font-bold uppercase tracking-[0.2em] block mb-1"
+              className="text-[10px] font-semibold uppercase tracking-[0.2em] block mb-1"
               style={{ color: `rgba(${gen.accentRgb}, 0.7)` }}
             >
               {gen.gen} — {gen.year}
             </span>
-            <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
               {gen.title}
             </h3>
           </div>
@@ -165,7 +165,7 @@ function GenerationCard({ gen, index }: { gen: Generation; index: number }) {
           <motion.span
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2 text-sm font-bold transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
             style={{ color: `rgba(${gen.accentRgb}, 0.8)` }}
           >
             Bekijk {gen.platform} games
@@ -229,7 +229,7 @@ export default function NintendoPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="inline-block px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-amber-400/80 text-[11px] font-bold uppercase tracking-[0.25em] mb-6"
+            className="inline-block px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-amber-400/80 text-[11px] font-semibold uppercase tracking-[0.25em] mb-6"
           >
             Gotta catch &apos;em all
           </motion.span>
@@ -238,7 +238,7 @@ export default function NintendoPage() {
             initial={{ opacity: 0, y: 40, filter: 'blur(15px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-[1.1]"
+            className="text-4xl sm:text-5xl lg:text-7xl font-semibold text-white tracking-tight mb-6 leading-[1.1]"
           >
             Nintendo{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-red-400 to-blue-400">
@@ -268,7 +268,7 @@ export default function NintendoPage() {
             animate={introInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-6">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight mb-6">
               Nintendo — pionier in gaming
             </h2>
             <div className="space-y-4 text-slate-400 text-[15px] leading-relaxed">
@@ -300,10 +300,10 @@ export default function NintendoPage() {
             transition={{ duration: 0.7 }}
             className="text-center mb-12"
           >
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-emerald-500/50 block mb-4">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-emerald-500/50 block mb-4">
               Vijf generaties
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight">
               De Pokemon die wij verkopen
             </h2>
             <p className="text-slate-400 text-sm mt-3 max-w-lg mx-auto">
@@ -330,7 +330,7 @@ export default function NintendoPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-4xl font-bold text-white tracking-tight mb-6"
+            className="text-2xl sm:text-4xl font-semibold text-white tracking-tight mb-6"
           >
             Ontdek onze{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
@@ -372,7 +372,7 @@ export default function NintendoPage() {
               <motion.span
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white font-bold hover:bg-white/[0.08] transition-all"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white font-semibold hover:bg-white/[0.08] transition-all"
               >
                 Pokemon games verkopen
               </motion.span>

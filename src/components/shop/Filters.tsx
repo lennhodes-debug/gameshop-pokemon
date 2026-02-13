@@ -160,7 +160,7 @@ export default function Filters({
         </svg>
         {showAllFilters ? 'Minder filters' : 'Meer filters'}
         {activeCount > 0 && (
-          <span className="h-5 w-5 rounded-full bg-slate-900 text-white text-[10px] font-bold flex items-center justify-center">
+          <span className="h-5 w-5 rounded-full bg-slate-900 text-white text-[10px] font-semibold flex items-center justify-center">
             {activeCount}
           </span>
         )}

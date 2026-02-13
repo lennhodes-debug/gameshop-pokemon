@@ -156,7 +156,7 @@ function PlatformCard({ platform, count, index }: {
                 {platform.era}
               </span>
 
-              <h3 className={`font-bold text-white tracking-tight leading-none mb-2 ${platform.span === 2 ? 'text-3xl sm:text-4xl lg:text-5xl' : 'text-2xl sm:text-3xl'}`}>
+              <h3 className={`font-semibold text-white tracking-tight leading-none mb-2 ${platform.span === 2 ? 'text-3xl sm:text-4xl lg:text-5xl' : 'text-2xl sm:text-3xl'}`}>
                 {platform.label}
               </h3>
 
@@ -243,7 +243,7 @@ export default function PlatformGrid() {
           className="text-center mb-16 lg:mb-20"
         >
           <div className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6" />
-          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-3">
+          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
             Shop per platform
           </h2>
           <p className="text-slate-400 max-w-md mx-auto">

@@ -127,7 +127,7 @@ function CursorMaskReveal() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollHighlight
             text={revealText}
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.25] tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 leading-[1.25] tracking-tight"
           />
         </div>
       </section>
@@ -151,11 +151,11 @@ function CursorMaskReveal() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-200 leading-[1.25] tracking-tight select-none">
+          <p className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-200 leading-[1.25] tracking-tight select-none">
             {dimText}
           </p>
           <motion.p
-            className="absolute inset-0 text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.25] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600"
+            className="absolute inset-0 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.25] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600"
             style={{ clipPath }}
           >
             {revealText}
@@ -211,10 +211,10 @@ function StackingCard({ item, index, count, progress }: {
           {item.year}
         </div>
         <div className="relative z-10 flex flex-col justify-end h-full">
-          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold uppercase tracking-widest w-fit mb-3">
+          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-semibold uppercase tracking-widest w-fit mb-3">
             {item.year}
           </span>
-          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 leading-tight">{item.title}</h3>
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 leading-tight">{item.title}</h3>
           <p className="text-white/80 text-sm lg:text-base leading-relaxed max-w-lg">{item.description}</p>
         </div>
       </motion.div>
@@ -241,7 +241,7 @@ function StackingTimeline() {
           className="text-center mb-16"
         >
           <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
-          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-3">
+          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
             Mijn reis
           </h2>
           <p className="text-slate-400 max-w-md mx-auto">
@@ -293,7 +293,7 @@ function PerspectiveQuote() {
           style={{ rotateX, scale: perspScale, opacity: quoteOpacity, y: quoteY }}
           className="text-center"
         >
-          <blockquote className="text-3xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
+          <blockquote className="text-3xl lg:text-5xl font-semibold text-slate-900 leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
             &ldquo;Retro gaming is meer dan nostalgie. Het is tijdloze klassiekers{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">bewaren</span>
             {' '}voor de volgende generatie.&rdquo;
@@ -348,7 +348,7 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white tracking-tight leading-[1.05] mb-8"
+            className="text-5xl sm:text-6xl lg:text-8xl font-semibold text-white tracking-tight leading-[1.05] mb-8"
           >
             Van hobby
             <br />
@@ -414,7 +414,7 @@ export default function OverOnsPage() {
                 transition={{ delay: i * 0.08, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
+                <div className="text-4xl lg:text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm font-semibold text-slate-800 mb-0.5">{stat.label}</div>
@@ -437,7 +437,7 @@ export default function OverOnsPage() {
           transition={{ duration: 0.6 }}
         >
           <div className="h-px w-16 bg-gradient-to-r from-emerald-500 to-teal-500 mb-8" />
-          <h2 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight mb-12 leading-[1.1]">
+          <h2 className="text-4xl lg:text-6xl font-semibold text-slate-900 tracking-tight mb-12 leading-[1.1]">
             Hoi, ik ben{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">Lenn</span>.
           </h2>
@@ -458,7 +458,7 @@ export default function OverOnsPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              Daarna waagde ik me aan iPhones en PlayStation consoles. Dat liep niet goed. Ik werd meerdere keren opgelicht. <strong className="text-slate-900 font-bold">Harde lessen</strong> &mdash; maar ze leerden me alles over vertrouwen, kwaliteitscontrole en eerlijk zakendoen.
+              Daarna waagde ik me aan iPhones en PlayStation consoles. Dat liep niet goed. Ik werd meerdere keren opgelicht. <strong className="text-slate-900 font-semibold">Harde lessen</strong> &mdash; maar ze leerden me alles over vertrouwen, kwaliteitscontrole en eerlijk zakendoen.
             </motion.p>
 
             <motion.p
@@ -467,7 +467,7 @@ export default function OverOnsPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              Uiteindelijk keerde ik terug naar mijn echte passie: <strong className="text-slate-900 font-bold">Nintendo</strong>. Originele games inkopen, elke cartridge persoonlijk testen, en met zorg doorverkopen aan liefhebbers. Die focus op kwaliteit en originaliteit maakte het verschil.
+              Uiteindelijk keerde ik terug naar mijn echte passie: <strong className="text-slate-900 font-semibold">Nintendo</strong>. Originele games inkopen, elke cartridge persoonlijk testen, en met zorg doorverkopen aan liefhebbers. Die focus op kwaliteit en originaliteit maakte het verschil.
             </motion.p>
 
             <motion.p
@@ -476,7 +476,7 @@ export default function OverOnsPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              Vandaag studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe. Die combinatie maakt Gameshop Enter niet alleen een webshop &mdash; maar een <strong className="text-slate-900 font-bold">specialist die je bij naam kent</strong>.
+              Vandaag studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe. Die combinatie maakt Gameshop Enter niet alleen een webshop &mdash; maar een <strong className="text-slate-900 font-semibold">specialist die je bij naam kent</strong>.
             </motion.p>
           </div>
         </motion.div>
@@ -492,7 +492,7 @@ export default function OverOnsPage() {
             className="text-center mb-20"
           >
             <div className="h-px w-12 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 tracking-tight mb-4">
               Van inkoop tot levering
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -525,10 +525,10 @@ export default function OverOnsPage() {
                       <svg className="h-7 w-7 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                       </svg>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
+                      <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.15em]">{step.num}</span>
                     </div>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm mt-5 mb-1">{step.title}</h3>
+                  <h3 className="font-semibold text-slate-900 text-sm mt-5 mb-1">{step.title}</h3>
                   <p className="text-xs text-slate-500 leading-relaxed max-w-[150px] mx-auto">{step.desc}</p>
                 </motion.div>
               ))}
@@ -550,7 +550,7 @@ export default function OverOnsPage() {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-4">
               Waarom Gameshop Enter
             </h2>
             <p className="text-slate-400 max-w-md mx-auto">
@@ -580,7 +580,7 @@ export default function OverOnsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                     </svg>
                   </div>
-                  <h3 className="font-bold text-white text-lg mb-2">{item.title}</h3>
+                  <h3 className="font-semibold text-white text-lg mb-2">{item.title}</h3>
                   <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
@@ -596,7 +596,7 @@ export default function OverOnsPage() {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="h-px w-12 bg-gradient-to-r from-amber-400 to-orange-400 mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-3">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 tracking-tight mb-3">
               Wat klanten zeggen
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -635,7 +635,7 @@ export default function OverOnsPage() {
                       <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-[10px] font-bold uppercase tracking-wider">Geverifieerd</span>
+                      <span className="text-[10px] font-semibold uppercase tracking-wider">Geverifieerd</span>
                     </div>
                   </div>
                 </div>
@@ -655,7 +655,7 @@ export default function OverOnsPage() {
             transition={{ duration: 0.6 }}
           >
             <div className="h-px w-12 bg-gradient-to-r from-slate-300 to-slate-400 mb-8" />
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">Bedrijfsgegevens</h2>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-8">Bedrijfsgegevens</h2>
 
             <div className="grid sm:grid-cols-2 gap-x-12 gap-y-6">
               {[
@@ -683,7 +683,7 @@ export default function OverOnsPage() {
             </div>
 
             <div className="mt-10 pt-8 border-t border-slate-200">
-              <h3 className="text-lg font-bold text-slate-900 mb-6">Onze condities</h3>
+              <h3 className="text-lg font-semibold text-slate-900 mb-6">Onze condities</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="rounded-2xl bg-white border border-slate-100 p-5 shadow-sm">
                   <div className="flex items-center gap-3 mb-2">
@@ -692,7 +692,7 @@ export default function OverOnsPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                       </svg>
                     </span>
-                    <h4 className="font-bold text-slate-900">Zo goed als nieuw</h4>
+                    <h4 className="font-semibold text-slate-900">Zo goed als nieuw</h4>
                   </div>
                   <p className="text-sm text-slate-500 leading-relaxed">
                     Bijna nieuw &mdash; minimale tot geen gebruikssporen. Het product ziet er vrijwel ongebruikt uit en functioneert perfect.
@@ -705,7 +705,7 @@ export default function OverOnsPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </span>
-                    <h4 className="font-bold text-slate-900">Gebruikt</h4>
+                    <h4 className="font-semibold text-slate-900">Gebruikt</h4>
                   </div>
                   <p className="text-sm text-slate-500 leading-relaxed">
                     2de hands &mdash; normale gebruikssporen aanwezig. Het product is volledig getest op werking en functioneert naar behoren.
@@ -728,7 +728,7 @@ export default function OverOnsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
+            <h2 className="text-4xl lg:text-6xl font-semibold text-white tracking-tight mb-6 leading-tight">
               Klaar om te{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
                 shoppen

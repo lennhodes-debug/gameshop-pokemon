@@ -75,7 +75,7 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-3">
               <Logo className="h-9 w-9 lg:h-10 lg:w-10" />
               <div className="flex flex-col">
-                <span className="text-white font-bold text-lg leading-tight tracking-tight">Gameshop</span>
+                <span className="text-white font-semibold text-lg leading-tight tracking-tight">Gameshop</span>
                 <span className="text-emerald-400 text-[11px] font-semibold tracking-widest uppercase -mt-0.5">Enter</span>
               </div>
             </Link>
@@ -152,7 +152,7 @@ export default function Header() {
                                 {item.product.image ? (
                                   <Image src={item.product.image} alt={item.product.name} width={40} height={40} className="object-contain p-0.5" />
                                 ) : (
-                                  <span className="text-white/20 text-[7px] font-bold">{PLATFORM_LABELS[item.product.platform]}</span>
+                                  <span className="text-white/20 text-[7px] font-semibold">{PLATFORM_LABELS[item.product.platform]}</span>
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
@@ -165,7 +165,7 @@ export default function Header() {
                       </div>
                       <div className="mt-3 pt-3 border-t border-white/[0.06]">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-bold text-white">{formatPrice(getTotal())}</span>
+                          <span className="text-sm font-semibold text-white">{formatPrice(getTotal())}</span>
                           <span className="text-[10px] text-slate-400">excl. verzending</span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -299,7 +299,7 @@ export default function Header() {
                 <span className="relative">
                   {item.icon}
                   {'badge' in item && typeof item.badge === 'number' && item.badge > 0 && (
-                    <span className="absolute -top-1.5 -right-2 h-4 min-w-4 flex items-center justify-center rounded-full bg-emerald-500 text-white text-[9px] font-bold px-1">
+                    <span className="absolute -top-1.5 -right-2 h-4 min-w-4 flex items-center justify-center rounded-full bg-emerald-500 text-white text-[9px] font-semibold px-1">
                       {item.badge}
                     </span>
                   )}

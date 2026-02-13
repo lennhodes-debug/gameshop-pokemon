@@ -31,7 +31,7 @@ export default function Accordion({ items, className, staggerVariant }: Accordio
               <div className="flex items-center gap-3 pr-4">
                 <motion.span
                   className={cn(
-                    'flex-shrink-0 h-7 w-7 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-300',
+                    'flex-shrink-0 h-7 w-7 rounded-lg flex items-center justify-center text-xs font-semibold transition-all duration-300',
                     isOpen
                       ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
                       : 'bg-slate-100 text-slate-400 group-hover/faq:bg-emerald-50 group-hover/faq:text-emerald-500'

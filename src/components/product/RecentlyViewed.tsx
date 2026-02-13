@@ -31,7 +31,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-6"
+        className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight mb-6"
       >
         Eerder bekeken
       </motion.h2>
@@ -70,7 +70,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
                 <h3 className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                   {product.name}
                 </h3>
-                <span className="text-xs font-bold text-slate-900 dark:text-white">
+                <span className="text-xs font-semibold text-slate-900 dark:text-white">
                   {formatPrice(product.price)}
                 </span>
               </Link>

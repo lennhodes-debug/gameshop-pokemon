@@ -208,7 +208,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-white/[0.06] text-slate-300 border border-white/[0.08]">
               {product.condition}
             </span>
-            <span className="px-3 py-1 rounded-lg text-xs font-bold"
+            <span className="px-3 py-1 rounded-lg text-xs font-semibold"
               style={{ background: `${accent}15`, color: accent, border: `1px solid ${accent}30` }}>
               {(hasCibOption && selectedVariant === 'cib') ? 'Compleet in doos (CIB)' : isCIB ? 'CIB' : product.completeness}
             </span>
@@ -220,7 +220,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* Titel */}
-          <h1 className="text-3xl lg:text-4xl font-bold text-white tracking-tight mb-2">
+          <h1 className="text-3xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
             {product.name}
           </h1>
           <div className="h-1 w-16 rounded-full mb-5" style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }} />
@@ -245,12 +245,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Variant toggle */}
           {hasCibOption && (
             <div className="mb-5">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kies variant</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Kies variant</p>
               <div className="inline-flex rounded-2xl p-1.5 gap-1"
                 style={{ background: `${accent}08`, border: `1.5px solid ${accent}18` }}>
                 <button
                   onClick={() => { setSelectedVariant('los'); setImageLoaded(false); }}
-                  className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300"
+                  className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
                   style={selectedVariant === 'los'
                     ? { background: `linear-gradient(135deg, ${accent}, ${accentAlt})`, color: 'white', boxShadow: `0 4px 15px ${accent}40` }
                     : { color: '#94a3b8' }
@@ -260,7 +260,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </button>
                 <button
                   onClick={() => { setSelectedVariant('cib'); setImageLoaded(false); }}
-                  className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300"
+                  className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
                   style={selectedVariant === 'cib'
                     ? { background: `linear-gradient(135deg, ${accent}, ${accentAlt})`, color: 'white', boxShadow: `0 4px 15px ${accent}40` }
                     : { color: '#94a3b8' }
@@ -274,7 +274,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Prijs */}
           <div className="flex flex-wrap items-baseline gap-3 mb-8">
-            <span className="text-4xl sm:text-5xl font-bold tracking-tight tabular-nums"
+            <span className="text-4xl sm:text-5xl font-semibold tracking-tight tabular-nums"
               style={{ color: accent }}>
               {formatPrice(displayPrice)}
             </span>
@@ -308,7 +308,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <motion.button
             onClick={handleAdd}
             whileTap={{ scale: 0.98 }}
-            className={`w-full sm:w-auto px-10 py-4 rounded-2xl text-white text-base font-bold transition-all duration-300 ${
+            className={`w-full sm:w-auto px-10 py-4 rounded-2xl text-white text-base font-semibold transition-all duration-300 ${
               added ? 'bg-emerald-500' : ''
             }`}
             style={added ? undefined : {
@@ -352,7 +352,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   </svg>
                 </div>
                 <div>
-                  <span className="font-bold text-white text-sm block">{item.title}</span>
+                  <span className="font-semibold text-white text-sm block">{item.title}</span>
                   <span className="text-slate-500 text-xs">{item.desc}</span>
                 </div>
               </div>
@@ -368,7 +368,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <h2 className="text-2xl font-bold text-white tracking-tight mb-6">Specificaties</h2>
+        <h2 className="text-2xl font-semibold text-white tracking-tight mb-6">Specificaties</h2>
         <div className="rounded-2xl border border-white/[0.06] overflow-hidden">
           {specs.map((spec, i) => (
             <div
@@ -388,11 +388,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           style={{ background: 'rgba(5,8,16,0.92)' }}>
           <div className="min-w-0 flex-1">
             <p className="text-xs text-slate-500 truncate">{product.name}{selectedVariant === 'cib' ? ' (CIB)' : ''}</p>
-            <p className="text-lg font-bold" style={{ color: accent }}>{formatPrice(displayPrice)}</p>
+            <p className="text-lg font-semibold" style={{ color: accent }}>{formatPrice(displayPrice)}</p>
           </div>
           <button
             onClick={handleAdd}
-            className="flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-bold transition-all"
+            className="flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-semibold transition-all"
             style={added ? { background: '#10b981' } : {
               background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
             }}

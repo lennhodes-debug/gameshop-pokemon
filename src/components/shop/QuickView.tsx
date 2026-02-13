@@ -144,7 +144,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                     {product.isPremium && <Badge variant="premium">Premium</Badge>}
                   </div>
 
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2">
                     {product.name}
                   </h2>
 
@@ -162,14 +162,14 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                     <div>
                       {isOnSale(product) ? (
                         <div className="flex items-baseline gap-2">
-                          <span className="text-3xl font-bold text-red-500 tracking-tight">
+                          <span className="text-3xl font-semibold text-red-500 tracking-tight">
                             {formatPrice(getEffectivePrice(product))}
                           </span>
                           <span className="text-lg text-slate-400 line-through">{formatPrice(product.price)}</span>
-                          <span className="text-xs font-bold text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
+                          <span className="text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
                         </div>
                       ) : (
-                        <span className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+                        <span className="text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
                           {formatPrice(product.price)}
                         </span>
                       )}

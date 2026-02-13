@@ -43,7 +43,7 @@ export default function VerlanglijstPage() {
         </div>
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-2">
+            <h1 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-2">
               Verlang
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-rose-400">lijst</span>
             </h1>
@@ -66,7 +66,7 @@ export default function VerlanglijstPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Je verlanglijst is leeg</h2>
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">Je verlanglijst is leeg</h2>
             <p className="text-slate-500 dark:text-slate-400 mb-6">Klik op het hartje bij een product om het op te slaan.</p>
             <Link
               href="/shop"
@@ -88,7 +88,7 @@ export default function VerlanglijstPage() {
             >
               <button
                 onClick={handleAddAll}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-all"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -141,7 +141,7 @@ export default function VerlanglijstPage() {
                               className="h-full w-full object-contain"
                             />
                           ) : (
-                            <span className="h-full w-full flex items-center justify-center text-xs font-bold text-slate-300 dark:text-slate-500">
+                            <span className="h-full w-full flex items-center justify-center text-xs font-semibold text-slate-300 dark:text-slate-500">
                               {platformLabel}
                             </span>
                           )}
@@ -149,18 +149,18 @@ export default function VerlanglijstPage() {
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                          <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                             {product.name}
                           </p>
                           <p className="text-xs text-slate-400 mt-0.5">{product.platform}</p>
                           <div className="mt-2 flex items-baseline gap-2">
                             {onSale ? (
                               <>
-                                <span className="text-base font-bold text-red-500">{formatPrice(price)}</span>
+                                <span className="text-base font-semibold text-red-500">{formatPrice(price)}</span>
                                 <span className="text-xs text-slate-400 line-through">{formatPrice(product.price)}</span>
                               </>
                             ) : (
-                              <span className="text-base font-bold text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
+                              <span className="text-base font-semibold text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
                             )}
                           </div>
                         </div>

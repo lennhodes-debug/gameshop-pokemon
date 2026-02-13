@@ -76,7 +76,7 @@ export default function ReviewsStrip() {
           <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
             Reviews
           </p>
-          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-3">
+          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
             1.360+ tevreden klanten
           </h2>
           <div className="inline-flex items-center gap-2.5">

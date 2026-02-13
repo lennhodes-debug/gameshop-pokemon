@@ -109,7 +109,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-5"
+            className="text-4xl sm:text-5xl lg:text-7xl font-semibold text-white tracking-tight mb-5"
           >
             Neem{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
@@ -147,7 +147,7 @@ export default function ContactPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d={method.icon} />
                 </svg>
               </div>
-              <h3 className="font-bold text-slate-900 mb-1">{method.label}</h3>
+              <h3 className="font-semibold text-slate-900 mb-1">{method.label}</h3>
               <p className="text-emerald-600 font-semibold text-sm mb-2 group-hover:text-emerald-700 transition-colors">{method.value}</p>
               <p className="text-xs text-slate-400">{method.response}</p>
             </motion.a>
@@ -166,7 +166,7 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <h2 className="text-2xl font-bold text-slate-900 mb-6 tracking-tight">
+            <h2 className="text-2xl font-semibold text-slate-900 mb-6 tracking-tight">
               Wij helpen je graag
             </h2>
             <p className="text-slate-500 leading-relaxed mb-8">
@@ -183,7 +183,7 @@ export default function ContactPage() {
 
             {/* Bedrijfsgegevens */}
             <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-              <h3 className="text-sm font-bold text-slate-900 mb-3">Bedrijfsgegevens</h3>
+              <h3 className="text-sm font-semibold text-slate-900 mb-3">Bedrijfsgegevens</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Bedrijf</span>
@@ -202,7 +202,7 @@ export default function ContactPage() {
 
             {/* Snelle vragen */}
             <div className="mt-6 space-y-3">
-              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Snelle antwoorden</h3>
+              <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Snelle antwoorden</h3>
               {[
                 { q: 'Kan ik mijn bestelling afhalen?', a: 'Nee, wij zijn een online webshop. Alle bestellingen worden verzonden via PostNL.' },
                 { q: 'Hoe lang duurt de levering?', a: 'Bestellingen worden binnen 1-3 werkdagen bezorgd via PostNL.' },
@@ -240,7 +240,7 @@ export default function ContactPage() {
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
 
               <div className="p-6 lg:p-8">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>
+                <h2 className="text-xl font-semibold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>
                 {submitted ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -257,7 +257,7 @@ export default function ContactPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </motion.div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Bericht verzonden!</h3>
+                    <h3 className="text-xl font-semibold text-slate-900 mb-2">Bericht verzonden!</h3>
                     <p className="text-slate-500 mb-6">Bedankt voor je bericht. Wij reageren zo snel mogelijk, meestal binnen 24 uur.</p>
                     <button
                       onClick={() => setSubmitted(false)}

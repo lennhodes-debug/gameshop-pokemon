@@ -167,7 +167,7 @@ export default function FaqPage() {
             <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
               FAQ
             </span>
-            <h1 className="text-3xl lg:text-6xl font-bold text-white tracking-tight mb-4">
+            <h1 className="text-3xl lg:text-6xl font-semibold text-white tracking-tight mb-4">
               Veelgestelde vragen
             </h1>
             <p className="text-lg text-slate-400 max-w-2xl">
@@ -286,14 +286,14 @@ export default function FaqPage() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-12 bg-gradient-to-br from-[#0a1628] to-[#0d1f3c] rounded-2xl p-8 text-center border border-white/[0.06]"
         >
-          <h3 className="text-xl font-bold text-white mb-2">Staat je vraag er niet bij?</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">Staat je vraag er niet bij?</h3>
           <p className="text-slate-400 mb-6 max-w-md mx-auto">
             Neem gerust contact met ons op. Wij reageren binnen 24 uur.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="mailto:gameshopenter@gmail.com"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-shadow"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-shadow"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />

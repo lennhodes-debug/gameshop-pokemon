@@ -161,7 +161,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                       className="h-full w-full object-contain"
                     />
                   ) : (
-                    <span className="h-full w-full flex items-center justify-center text-[8px] font-bold text-slate-400">
+                    <span className="h-full w-full flex items-center justify-center text-[8px] font-semibold text-slate-400">
                       {PLATFORM_LABELS[product.platform] || product.platform}
                     </span>
                   )}
@@ -175,11 +175,11 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                 <div className="text-right flex-shrink-0">
                   {isOnSale(product) ? (
                     <>
-                      <span className="text-sm font-bold text-red-500">{formatPrice(getEffectivePrice(product))}</span>
+                      <span className="text-sm font-semibold text-red-500">{formatPrice(getEffectivePrice(product))}</span>
                       <span className="text-[10px] text-slate-400 line-through block">{formatPrice(product.price)}</span>
                     </>
                   ) : (
-                    <span className="text-sm font-bold text-slate-900">{formatPrice(product.price)}</span>
+                    <span className="text-sm font-semibold text-slate-900">{formatPrice(product.price)}</span>
                   )}
                 </div>
               </Link>

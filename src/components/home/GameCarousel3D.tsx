@@ -162,7 +162,7 @@ export default function GameCarousel3D() {
           <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
             Collectie
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1]">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.1]">
             Ontdek onze games
           </h2>
         </motion.div>
@@ -274,7 +274,7 @@ export default function GameCarousel3D() {
                           draggable={false}
                         />
                       ) : (
-                        <span className="text-white/15 text-sm font-bold">{pLabel}</span>
+                        <span className="text-white/15 text-sm font-semibold">{pLabel}</span>
                       )}
 
                       {/* Subtiele overlay voor niet-actieve kaarten */}
@@ -285,7 +285,7 @@ export default function GameCarousel3D() {
 
                     {/* Info */}
                     <div className="px-4 pb-4 pt-1 text-center">
-                      <p className={`text-white font-bold line-clamp-2 leading-snug mb-1 transition-all duration-300 ${isActive ? 'text-sm' : 'text-xs'}`}>
+                      <p className={`text-white font-semibold line-clamp-2 leading-snug mb-1 transition-all duration-300 ${isActive ? 'text-sm' : 'text-xs'}`}>
                         {product.name}
                       </p>
                       <div className="flex items-center justify-center gap-2 mb-2">
@@ -298,7 +298,7 @@ export default function GameCarousel3D() {
                         )}
                       </div>
                       <p
-                        className={`font-bold transition-all duration-300 ${isActive ? 'text-lg' : 'text-base'}`}
+                        className={`font-semibold transition-all duration-300 ${isActive ? 'text-lg' : 'text-base'}`}
                         style={{ color: cardAccent }}
                       >
                         {formatPrice(product.price)}
@@ -359,14 +359,14 @@ export default function GameCarousel3D() {
                 }}
               >
                 <div className="text-left">
-                  <p className="text-white text-sm font-bold group-hover:text-emerald-400 transition-colors">
+                  <p className="text-white text-sm font-semibold group-hover:text-emerald-400 transition-colors">
                     {activeProduct.name}
                   </p>
                   <p className="text-slate-500 text-xs mt-0.5">
                     {PLATFORM_LABELS[activeProduct.platform] || activeProduct.platform}
                   </p>
                 </div>
-                <span className="text-lg font-bold" style={{ color: accentColor }}>
+                <span className="text-lg font-semibold" style={{ color: accentColor }}>
                   {formatPrice(activeProduct.price)}
                 </span>
                 <span

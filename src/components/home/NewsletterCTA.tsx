@@ -50,7 +50,7 @@ export default function NewsletterCTA() {
             </svg>
           </div>
 
-          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-4">
             Mis geen enkele aanwinst
           </h2>
           <p className="text-lg text-white/70 mb-4 max-w-lg mx-auto">
@@ -60,7 +60,7 @@ export default function NewsletterCTA() {
           <p className="text-white/50 text-sm mb-8 flex items-center justify-center gap-2">
             <span className="flex -space-x-1.5">
               {['E', 'T', 'L', 'K'].map((letter, i) => (
-                <span key={i} className="h-6 w-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-[10px] font-bold text-white/70">
+                <span key={i} className="h-6 w-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-[10px] font-semibold text-white/70">
                   {letter}
                 </span>
               ))}
@@ -81,7 +81,7 @@ export default function NewsletterCTA() {
                 </svg>
               </div>
               <div className="text-left">
-                <span className="text-white font-bold block">Je staat op de lijst!</span>
+                <span className="text-white font-semibold block">Je staat op de lijst!</span>
                 <span className="text-white/60 text-sm">Je ontvangt als eerste updates over nieuwe aanwinsten.</span>
               </div>
             </motion.div>

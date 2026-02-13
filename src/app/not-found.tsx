@@ -162,7 +162,7 @@ export default function NotFound() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             >
-              <h1 className="text-[120px] sm:text-[160px] lg:text-[200px] font-bold leading-none tracking-tighter">
+              <h1 className="text-[120px] sm:text-[160px] lg:text-[200px] font-semibold leading-none tracking-tighter">
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white/20 to-white/[0.03] select-none">
                   404
                 </span>
@@ -184,7 +184,7 @@ export default function NotFound() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight flex items-center justify-center gap-3">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-4 tracking-tight flex items-center justify-center gap-3">
                       <svg className="h-6 w-6 sm:h-7 sm:w-7 text-red-400 flex-shrink-0" viewBox="0 0 200 200" fill="none">
                         <circle cx="100" cy="100" r="90" stroke="currentColor" strokeWidth="8"/>
                         <line x1="10" y1="100" x2="190" y2="100" stroke="currentColor" strokeWidth="8"/>
@@ -208,7 +208,7 @@ export default function NotFound() {
                     key="gameover"
                     initial={{ opacity: 0, scale: 1.2 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight"
+                    className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-4 tracking-tight"
                   >
                     Game{' '}
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-rose-400">
@@ -262,7 +262,7 @@ export default function NotFound() {
                   <motion.span
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.97 }}
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/[0.06] border border-white/[0.1] text-white font-bold hover:bg-white/[0.1] hover:border-white/[0.15] transition-all"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/[0.06] border border-white/[0.1] text-white font-semibold hover:bg-white/[0.1] hover:border-white/[0.15] transition-all"
                   >
                     Bekijk de shop
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

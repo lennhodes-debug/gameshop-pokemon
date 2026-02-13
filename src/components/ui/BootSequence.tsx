@@ -114,7 +114,7 @@ export default function BootSequence() {
               }}
             >
               <span
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
+                className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight"
                 style={{
                   color: '#e2e8f0',
                   textShadow: phase >= 2 ? '0 0 30px rgba(16,185,129,0.3)' : 'none',
@@ -135,7 +135,7 @@ export default function BootSequence() {
               transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <span
-                className="text-lg sm:text-xl lg:text-2xl font-bold tracking-[0.4em] uppercase"
+                className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-[0.4em] uppercase"
                 style={{
                   background: 'linear-gradient(90deg, #10b981, #14b8a6, #06b6d4)',
                   WebkitBackgroundClip: 'text',

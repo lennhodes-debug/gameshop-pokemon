@@ -53,7 +53,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight mb-2"
+        className="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-tight mb-2"
       >
         Gerelateerde producten
       </motion.h2>

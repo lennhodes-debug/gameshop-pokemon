@@ -228,7 +228,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </>
             ) : (
               <div className={cn("w-full h-full flex items-center justify-center bg-gradient-to-br", colors.from, colors.to)}>
-                <span className="text-white/50 text-sm font-bold tracking-wider uppercase select-none">
+                <span className="text-white/50 text-sm font-semibold tracking-wider uppercase select-none">
                   {platformLabel}
                 </span>
               </div>
@@ -326,7 +326,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             <div>
               {hasCibOption ? (
                 <div>
-                  <span className="text-lg font-bold tracking-tight text-slate-900 tabular-nums">
+                  <span className="text-lg font-semibold tracking-tight text-slate-900 tabular-nums">
                     {formatPrice(displayPrice)}
                   </span>
                   {selectedVariant === 'cib' && (
@@ -342,7 +342,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 </div>
               ) : isOnSale(product) ? (
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-lg font-bold tracking-tight tabular-nums" style={{ color: accentColor }}>
+                  <span className="text-lg font-semibold tracking-tight tabular-nums" style={{ color: accentColor }}>
                     {formatPrice(getEffectivePrice(product))}
                   </span>
                   <span className="text-xs text-slate-300 line-through tabular-nums">
@@ -350,7 +350,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   </span>
                 </div>
               ) : (
-                <span className="text-lg font-bold tracking-tight text-slate-900 tabular-nums">
+                <span className="text-lg font-semibold tracking-tight text-slate-900 tabular-nums">
                   {formatPrice(product.price)}
                 </span>
               )}

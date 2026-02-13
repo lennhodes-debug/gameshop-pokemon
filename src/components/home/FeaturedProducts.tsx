@@ -113,7 +113,7 @@ function BentoCard({
               </motion.div>
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-                <span className="text-slate-400 font-bold text-lg">
+                <span className="text-slate-400 font-semibold text-lg">
                   {PLATFORM_LABELS[product.platform] || product.platform}
                 </span>
               </div>
@@ -182,7 +182,7 @@ function BentoCard({
               <div className="flex items-center justify-between">
                 <span
                   className={cn(
-                    'font-bold tracking-tight',
+                    'font-semibold tracking-tight',
                     isHero ? 'text-xl lg:text-2xl' : 'text-lg',
                   )}
                   style={{ color: accent }}
@@ -235,7 +235,7 @@ function BrowseCard({ productCount }: { productCount: number }) {
             <p className="text-white/60 text-[10px] font-semibold uppercase tracking-[0.2em] mb-3">
               Collectie
             </p>
-            <h3 className="text-white text-2xl lg:text-3xl font-bold leading-tight">
+            <h3 className="text-white text-2xl lg:text-3xl font-semibold leading-tight">
               Bekijk alle
               <br />
               {productCount} producten
@@ -311,7 +311,7 @@ export default function FeaturedProducts() {
             <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.3em] mb-4">
               Uitgelicht
             </p>
-            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 tracking-tight">
               Toppers uit de collectie
             </h2>
             <p className="text-slate-400 mt-3 text-sm max-w-md">

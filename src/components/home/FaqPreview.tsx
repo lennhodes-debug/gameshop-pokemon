@@ -50,7 +50,7 @@ export default function FaqPreview() {
           <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.3em] mb-4">
             FAQ
           </p>
-          <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-3 tracking-tight">
+          <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 mb-3 tracking-tight">
             Veelgestelde vragen
           </h2>
           <p className="text-sm text-slate-400 max-w-md mx-auto">

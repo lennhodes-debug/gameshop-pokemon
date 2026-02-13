@@ -196,7 +196,7 @@ function ShopContent() {
               <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emerald-400/30 to-transparent" />
             </motion.div>
 
-            <h1 className="text-4xl lg:text-7xl font-bold text-white tracking-tight mb-5">
+            <h1 className="text-4xl lg:text-7xl font-semibold text-white tracking-tight mb-5">
               Onze{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300">
                 Collectie
