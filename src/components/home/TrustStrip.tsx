@@ -51,34 +51,58 @@ export default function TrustStrip() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          {/* Desktop: inline met dividers */}
+          {/* Desktop: glassmorphism pills */}
           <div className="hidden lg:flex items-center justify-between">
             {trustItems.map((item, index) => (
-              <div key={index} className="flex items-center">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                className="flex items-center"
+              >
                 {index > 0 && (
                   <div className="h-8 w-px bg-slate-200/80 mx-8" />
                 )}
-                <div className="flex items-center gap-3">
-                  <div className="text-emerald-600/70">{item.icon}</div>
+                <div className="flex items-center gap-3 group cursor-default">
+                  <div className="text-emerald-600/70 transition-colors duration-300 group-hover:text-emerald-500">
+                    {item.icon}
+                  </div>
                   <div>
-                    <p className="text-[13px] font-semibold text-slate-800 leading-tight">{item.title}</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">{item.subtitle}</p>
+                    <p className="text-[13px] font-semibold text-slate-800 leading-tight transition-colors duration-300 group-hover:text-slate-900">
+                      {item.title}
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      {item.subtitle}
+                    </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          {/* Mobile: 2x2 grid, compact */}
+          {/* Mobile: 2x2 grid */}
           <div className="grid grid-cols-2 gap-4 lg:hidden">
             {trustItems.map((item, index) => (
-              <div key={index} className="flex items-center gap-2.5">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.06 }}
+                className="flex items-center gap-2.5"
+              >
                 <div className="text-emerald-600/70 shrink-0">{item.icon}</div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-800 leading-tight">{item.title}</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">{item.subtitle}</p>
+                  <p className="text-xs font-semibold text-slate-800 leading-tight">
+                    {item.title}
+                  </p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">
+                    {item.subtitle}
+                  </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
