@@ -27,6 +27,7 @@ interface QuizOption {
   label: string;
   sub: string;
   icon: string; // SVG path
+  image: string; // background image path
   gradient: [string, string];
   glow: string;
 }
@@ -49,6 +50,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'RPG',
         sub: 'Diep verhaal, training, levels',
         icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+        image: '/images/quiz/rpg.jpg',
         gradient: ['#7C3AED', '#5B21B6'],
         glow: '124,58,237',
       },
@@ -57,6 +59,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Avontuur',
         sub: 'Verkennen, puzzels, verhaal',
         icon: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z',
+        image: '/images/quiz/adventure.jpg',
         gradient: ['#059669', '#047857'],
         glow: '5,150,105',
       },
@@ -65,6 +68,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Platformer',
         sub: 'Springen, rennen, actie',
         icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z',
+        image: '/images/quiz/platformer.jpg',
         gradient: ['#F59E0B', '#D97706'],
         glow: '245,158,11',
       },
@@ -73,6 +77,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Party & Sport',
         sub: 'Samen spelen, competitie',
         icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z',
+        image: '/images/quiz/party.jpg',
         gradient: ['#A855F7', '#7E22CE'],
         glow: '168,85,247',
       },
@@ -88,6 +93,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Alleen',
         sub: 'Diep in het verhaal, op eigen tempo',
         icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
+        image: '/images/quiz/solo.jpg',
         gradient: ['#0EA5E9', '#0284C7'],
         glow: '14,165,233',
       },
@@ -96,6 +102,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Met vrienden',
         sub: 'Party games, samen op de bank',
         icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z',
+        image: '/images/quiz/together.jpg',
         gradient: ['#EC4899', '#DB2777'],
         glow: '236,72,153',
       },
@@ -111,6 +118,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Game Boy',
         sub: 'De originele handheld (1989)',
         icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3',
+        image: '/images/platforms/gbc.webp',
         gradient: ['#84CC16', '#65A30D'],
         glow: '132,204,22',
       },
@@ -119,6 +127,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'GBA',
         sub: '32-bit handheld (2001)',
         icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3',
+        image: '/images/platforms/gba.webp',
         gradient: ['#6366F1', '#4F46E5'],
         glow: '99,102,241',
       },
@@ -127,6 +136,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Nintendo DS',
         sub: 'Dual screen (2004)',
         icon: 'M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m-6 3.75l3 3m0 0l3-3m-3 3V1.5',
+        image: '/images/platforms/ds.webp',
         gradient: ['#64748B', '#475569'],
         glow: '100,116,139',
       },
@@ -135,6 +145,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: '3DS',
         sub: 'Stereoscopisch 3D (2011)',
         icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z',
+        image: '/images/platforms/3ds.webp',
         gradient: ['#0EA5E9', '#0284C7'],
         glow: '14,165,233',
       },
@@ -150,6 +161,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Pokémon',
         sub: 'Vangen, trainen, vechten',
         icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zm0 0c1.5 0 2.5-1.5 2.5-3S13.5 15 12 15s-2.5 1.5-2.5 3 1 3 2.5 3zm0-9a3 3 0 100-6 3 3 0 000 6z',
+        image: '/images/quiz/pokemon.jpg',
         gradient: ['#EF4444', '#DC2626'],
         glow: '239,68,68',
       },
@@ -158,6 +170,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Mario',
         sub: 'Platformer, kart, party',
         icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+        image: '/images/quiz/mario.jpg',
         gradient: ['#E52521', '#C41E1C'],
         glow: '229,37,33',
       },
@@ -166,6 +179,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Zelda',
         sub: 'Avontuur, puzzels, dungeons',
         icon: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z',
+        image: '/images/quiz/zelda.jpg',
         gradient: ['#B89B3E', '#7A6B2A'],
         glow: '184,155,62',
       },
@@ -174,6 +188,7 @@ const QUESTIONS: QuizQuestion[] = [
         label: 'Verrass me',
         sub: 'Ik sta open voor alles',
         icon: 'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z',
+        image: '/images/quiz/surprise.jpg',
         gradient: ['#8B5CF6', '#6D28D9'],
         glow: '139,92,246',
       },
@@ -307,78 +322,80 @@ function OptionCard({
       className="group relative text-left"
     >
       <div
-        className={`relative overflow-hidden rounded-2xl p-6 sm:p-7 transition-all duration-500 ${
-          selected
-            ? 'bg-white/[0.1] ring-2 shadow-lg'
-            : 'bg-white/[0.03] hover:bg-white/[0.06] ring-1 ring-white/[0.06]'
+        className={`relative overflow-hidden rounded-2xl h-56 sm:h-64 transition-all duration-500 ${
+          selected ? 'shadow-xl' : 'shadow-md'
         }`}
         style={{
-          boxShadow: selected ? `0 8px 32px rgba(${option.glow}, 0.15), inset 0 0 20px rgba(${option.glow}, 0.05)` : undefined,
-          borderColor: selected ? `rgba(${option.glow}, 0.5)` : 'transparent',
-          border: selected ? `2px solid rgba(${option.glow}, 0.5)` : '2px solid transparent',
-          outline: selected ? `2px solid rgba(${option.glow}, 0.5)` : undefined,
-          outlineOffset: selected ? '2px' : undefined,
+          border: selected ? `2px solid rgba(${option.glow}, 0.6)` : '2px solid rgba(255,255,255,0.08)',
+          boxShadow: selected ? `0 12px 40px rgba(${option.glow}, 0.25)` : undefined,
         }}
       >
-        {/* Gradient glow on selected */}
+        {/* Background image via Next.js Image for sharp rendering */}
+        <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+          <Image
+            src={option.image}
+            alt={option.label}
+            fill
+            sizes="(max-width: 640px) 100vw, 50vw"
+            className="object-cover"
+            quality={90}
+          />
+        </div>
+
+        {/* Brightness overlay for vivid look */}
+        <div className="absolute inset-0 mix-blend-soft-light bg-white/10" />
+
+        {/* Dark gradient overlay */}
+        <div
+          className="absolute inset-0 transition-opacity duration-500"
+          style={{
+            background: selected
+              ? `linear-gradient(to top, ${option.gradient[1]}ee 0%, ${option.gradient[0]}88 40%, transparent 100%)`
+              : 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.05) 100%)',
+          }}
+        />
+
+        {/* Selected glow ring */}
         {selected && (
           <motion.div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none rounded-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            style={{
-              background: `radial-gradient(ellipse at 50% 80%, rgba(${option.glow}, 0.1), transparent 60%)`,
-            }}
+            style={{ boxShadow: `inset 0 0 30px rgba(${option.glow}, 0.2)` }}
           />
         )}
 
-        {/* Icon */}
-        <div
-          className={`relative h-11 w-11 rounded-xl flex items-center justify-center mb-4 transition-all duration-500 ${
-            selected ? 'shadow-lg' : ''
-          }`}
-          style={{
-            background: selected
-              ? `linear-gradient(135deg, ${option.gradient[0]}, ${option.gradient[1]})`
-              : 'rgba(255,255,255,0.06)',
-            boxShadow: selected ? `0 4px 16px rgba(${option.glow}, 0.3)` : 'none',
-          }}
-        >
-          <svg
-            className={`h-5 w-5 transition-colors duration-500 ${selected ? 'text-white' : 'text-white/40'}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1.5}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d={option.icon} />
-          </svg>
+        {/* Content at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
+          <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1 drop-shadow-lg">
+            {option.label}
+          </h3>
+          <p className="text-sm text-white/60 drop-shadow-md">
+            {option.sub}
+          </p>
         </div>
-
-        {/* Label */}
-        <h3 className={`text-lg font-semibold mb-1 transition-colors duration-300 ${selected ? 'text-white' : 'text-white/70'}`}>
-          {option.label}
-        </h3>
-        <p className={`text-sm leading-relaxed transition-colors duration-300 ${selected ? 'text-white/50' : 'text-white/25'}`}>
-          {option.sub}
-        </p>
 
         {/* Checkmark */}
         <motion.div
-          className="absolute top-4 right-4"
+          className="absolute top-4 right-4 z-10"
           initial={false}
           animate={selected ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
         >
           <div
-            className="h-6 w-6 rounded-full flex items-center justify-center"
+            className="h-7 w-7 rounded-full flex items-center justify-center shadow-lg"
             style={{ background: `linear-gradient(135deg, ${option.gradient[0]}, ${option.gradient[1]})` }}
           >
-            <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
         </motion.div>
+
+        {/* Unselected circle outline */}
+        {!selected && (
+          <div className="absolute top-4 right-4 h-7 w-7 rounded-full border-2 border-white/30" />
+        )}
       </div>
     </motion.button>
   );

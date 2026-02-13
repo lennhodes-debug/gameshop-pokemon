@@ -51,16 +51,20 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function getFeaturedProducts(): Product[] {
-  const products = getAllProducts();
+  const all = getAllProducts();
   const hasImage = (p: Product) => !!p.image;
-  const premiumPool = shuffleArray(products.filter(p => p.isPremium && hasImage(p)));
-  const premium = premiumPool.slice(0, 4);
+  // Deterministic: sort by price descending so server & client always agree
+  const premium = all.filter(p => p.isPremium && hasImage(p))
+    .sort((a, b) => b.price - a.price)
+    .slice(0, 4);
   const usedSkus = new Set(premium.map(p => p.sku));
-  const consolePool = shuffleArray(products.filter(p => p.isConsole && hasImage(p) && !usedSkus.has(p.sku)));
-  const consoles = consolePool.slice(0, 2);
+  const consoles = all.filter(p => p.isConsole && hasImage(p) && !usedSkus.has(p.sku))
+    .sort((a, b) => b.price - a.price)
+    .slice(0, 2);
   consoles.forEach(p => usedSkus.add(p.sku));
-  const othersPool = shuffleArray(products.filter(p => !usedSkus.has(p.sku) && hasImage(p) && p.price > 25));
-  const others = othersPool.slice(0, 2);
+  const others = all.filter(p => !usedSkus.has(p.sku) && hasImage(p) && p.price > 25)
+    .sort((a, b) => b.price - a.price)
+    .slice(0, 2);
   return [...premium, ...consoles, ...others].slice(0, 8);
 }
 
