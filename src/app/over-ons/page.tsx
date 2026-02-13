@@ -14,12 +14,12 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number;
 
   useEffect(() => {
     if (!isInView) return;
-    const duration = 1800;
+    const duration = 2000;
     const start = performance.now();
     function tick(now: number) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased = 1 - Math.pow(1 - progress, 4);
       setCount(Math.round(eased * target));
       if (progress < 1) requestAnimationFrame(tick);
     }
@@ -29,7 +29,7 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number;
   return <span ref={ref}>{prefix}{count.toLocaleString('nl-NL')}{suffix}</span>;
 }
 
-// ─── SCROLL HIGHLIGHT (mobile fallback) ─────────────────────
+// ─── SCROLL WORD (Apple-style progressive text reveal) ──────
 
 function ScrollWord({ word, progress, start, end }: {
   word: string;
@@ -37,19 +37,21 @@ function ScrollWord({ word, progress, start, end }: {
   start: number;
   end: number;
 }) {
-  const opacity = useTransform(progress, [start, end], [0.1, 1]);
+  const opacity = useTransform(progress, [start, end], [0.08, 1]);
+  const blur = useTransform(progress, [start, end], [4, 0]);
+  const filterStr = useMotionTemplate`blur(${blur}px)`;
   return (
-    <motion.span className="inline-block mr-[0.28em]" style={{ opacity }}>
+    <motion.span className="inline-block mr-[0.3em]" style={{ opacity, filter: filterStr }}>
       {word}
     </motion.span>
   );
 }
 
-function ScrollHighlight({ text, className = '' }: { text: string; className?: string }) {
+function ScrollParagraph({ text, className = '' }: { text: string; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 0.85', 'end 0.35'],
+    offset: ['start 0.9', 'end 0.3'],
   });
   const words = text.split(' ');
 
@@ -68,64 +70,292 @@ function ScrollHighlight({ text, className = '' }: { text: string; className?: s
   );
 }
 
-// ─── DATA ───────────────────────────────────────────────────
+// ─── MAGNETIC HOVER ─────────────────────────────────────────
+
+function Magnetic({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ x: springX, y: springY }}
+      onMouseMove={(e) => {
+        if (!ref.current) return;
+        const rect = ref.current.getBoundingClientRect();
+        x.set((e.clientX - rect.left - rect.width / 2) * 0.3);
+        y.set((e.clientY - rect.top - rect.height / 2) * 0.3);
+      }}
+      onMouseLeave={() => { x.set(0); y.set(0); }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── NOISE TEXTURE ──────────────────────────────────────────
+
+function NoiseOverlay() {
+  return (
+    <svg className="pointer-events-none fixed inset-0 z-[200] h-full w-full opacity-[0.025]" aria-hidden>
+      <filter id="noise-over-ons">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#noise-over-ons)" />
+    </svg>
+  );
+}
+
+// ─── HORIZONTAL SCROLL SECTION ──────────────────────────────
+// Sticky container met horizontale scroll op basis van verticaal scrollen
+
+function HorizontalValues() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ['5%', '-65%']);
+
+  const values = [
+    { word: 'Origineel', sub: 'Elke game gecontroleerd op authenticiteit' },
+    { word: 'Getest', sub: 'Persoonlijk getest op werking en save-functie' },
+    { word: 'Eerlijk', sub: 'Transparante prijzen, geen verborgen kosten' },
+    { word: 'Persoonlijk', sub: 'Geen anonieme webshop — wij kennen onze klanten' },
+    { word: 'Vakkundig', sub: 'Studie Ondernemerschap aan het Saxion' },
+  ];
+
+  return (
+    <div ref={containerRef} className="relative h-[300vh]">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden bg-[#050810]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
+
+        <motion.div
+          style={{ x }}
+          className="flex gap-16 lg:gap-24 px-[10vw] will-change-transform"
+        >
+          {/* Intro card */}
+          <div className="flex-shrink-0 w-[90vw] sm:w-[60vw] lg:w-[40vw] flex flex-col justify-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mb-8" />
+              <h2 className="text-4xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.1] mb-6">
+                Waar wij
+                <br />
+                voor{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
+                  staan
+                </span>.
+              </h2>
+              <p className="text-lg text-slate-400 leading-relaxed max-w-md">
+                Vijf principes die elk product, elke interactie en elke beslissing bij Gameshop Enter vormgeven.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Value cards */}
+          {values.map((val, i) => (
+            <motion.div
+              key={i}
+              className="flex-shrink-0 w-[85vw] sm:w-[50vw] lg:w-[35vw] flex items-center"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="relative group">
+                <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-emerald-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative bg-white/[0.03] border border-white/[0.06] rounded-3xl p-10 lg:p-14">
+                  <span className="text-[120px] lg:text-[160px] font-black bg-clip-text text-transparent bg-gradient-to-b from-white/[0.06] to-transparent leading-none block mb-4 select-none">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="text-3xl lg:text-4xl font-semibold text-white tracking-tight mb-4">
+                    {val.word}
+                  </h3>
+                  <p className="text-slate-400 text-lg leading-relaxed">
+                    {val.sub}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+// ─── STACKING CARDS TIMELINE ────────────────────────────────
 
 const timeline = [
-  { year: '2018', title: 'De eerste stappen', description: 'Op mijn 14e begon ik met het verkopen van games en verzamelkaarten op Marktplaats. Wat begon als zakgeld verdienen, werd al snel een echte passie.', color: 'from-purple-500 to-violet-500' },
-  { year: '2019', title: 'Vallen en opstaan', description: 'Ik waagde me aan iPhones en PS5 consoles. Werd meerdere keren opgelicht. Harde lessen over vertrouwen en kwaliteitscontrole.', color: 'from-slate-500 to-slate-600' },
-  { year: '2020', title: 'Terug naar de passie', description: 'Na de tegenslagen terug naar mijn roots: Nintendo. Originele games inkopen, testen en doorverkopen met focus op kwaliteit.', color: 'from-amber-500 to-orange-500' },
-  { year: '2022', title: 'Gameshop Enter', description: 'De focus op originele Nintendo games groeide snel. Het werd tijd voor een echte naam. Gameshop Enter was geboren.', color: 'from-emerald-500 to-teal-500' },
-  { year: '2023', title: 'Studie & praktijk', description: 'Start studie Ondernemerschap en Retailmanagement aan het Saxion. Theorie en praktijk versterken elkaar.', color: 'from-cyan-500 to-blue-500' },
-  { year: '2024', title: '3000+ klanten', description: 'Meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score.', color: 'from-amber-400 to-yellow-500' },
-  { year: 'Nu', title: 'D\u00e9 specialist', description: 'Gameshop Enter is d\u00e9 retro gaming specialist van Nederland. Originele games, eigen fotografie, persoonlijke service.', color: 'from-emerald-400 to-cyan-400' },
+  { year: '2018', title: 'De eerste stappen', description: 'Op mijn 14e begon ik met het verkopen van games en verzamelkaarten op Marktplaats. Nintendo DS, Game Boy, alles. Wat begon als zakgeld verdienen, werd een echte passie.', color: 'from-violet-500 to-purple-600' },
+  { year: '2019', title: 'Vallen en opstaan', description: 'Ik waagde me aan iPhones en PlayStation consoles. Werd meerdere keren opgelicht. Harde lessen — maar ze leerden me alles over vertrouwen en kwaliteitscontrole.', color: 'from-slate-500 to-slate-700' },
+  { year: '2020', title: 'Terug naar de passie', description: 'Na de tegenslagen terug naar mijn roots: Nintendo. Originele games inkopen, testen en met zorg doorverkopen. Focus op kwaliteit boven kwantiteit.', color: 'from-amber-500 to-orange-600' },
+  { year: '2022', title: 'Gameshop Enter', description: 'Tijd voor een echte naam. Gameshop Enter werd opgericht als dé plek voor originele, geteste Nintendo games met eerlijke prijzen.', color: 'from-emerald-500 to-teal-600' },
+  { year: '2023', title: 'Studie & praktijk', description: 'Start studie Ondernemerschap en Retailmanagement aan het Saxion. Elke les direct toepasbaar op de webshop.', color: 'from-cyan-500 to-blue-600' },
+  { year: '2024', title: '3000+ tevreden klanten', description: 'Meer dan 3000 blije klanten en 1360+ reviews met een perfecte 5.0 score op Marktplaats. De groei gaat door.', color: 'from-amber-400 to-yellow-500' },
+  { year: 'Nu', title: 'Dé gaming specialist', description: 'Gameshop Enter is dé retro gaming specialist van Nederland. Originele games, eigen fotografie, persoonlijke service — van Game Boy tot Switch.', color: 'from-emerald-400 to-cyan-500' },
 ];
 
-const processSteps = [
-  { num: '01', title: 'Selectie', desc: 'Zorgvuldig zoeken naar originele games bij betrouwbare bronnen', icon: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z', gradient: 'from-violet-500 to-purple-500' },
-  { num: '02', title: 'Authenticatie', desc: 'Elke game gecontroleerd op originaliteit \u2014 geen reproducties', icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z', gradient: 'from-emerald-500 to-teal-500' },
-  { num: '03', title: 'Testen', desc: 'Persoonlijk getest op werking \u2014 save, batterij, connectie', icon: 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085', gradient: 'from-cyan-500 to-blue-500' },
-  { num: '04', title: 'Fotografie', desc: 'Eigen productfoto\'s \u2014 wat je ziet is wat je krijgt', icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z', gradient: 'from-amber-500 to-orange-500' },
-  { num: '05', title: 'Verpakken', desc: 'Bubbeltjesenvelop of versterkte doos \u2014 beschermd en veilig', icon: 'M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25', gradient: 'from-rose-500 to-pink-500' },
-  { num: '06', title: 'Verzending', desc: 'PostNL volgende werkdag met track & trace', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75h-2.25A2.25 2.25 0 0016.5 15v.75', gradient: 'from-teal-500 to-emerald-500' },
-];
+function StackingCard({ item, index, count, progress }: {
+  item: typeof timeline[0];
+  index: number; count: number;
+  progress: ReturnType<typeof useScroll>['scrollYProgress'];
+}) {
+  const targetScale = 1 - ((count - index) * 0.02);
+  const scale = useTransform(progress, [index / count, 1], [1, targetScale]);
 
-// ─── CURSOR MASK REVEAL ─────────────────────────────────────
-// Twee tekst-lagen: dim achtergrond + gradient tekst onthuld door een circulaire mask die de cursor volgt.
-// Op hover groeit de mask van 40px naar 380px. Mobile fallback: ScrollHighlight.
+  return (
+    <div className="h-[32vh] lg:h-[36vh] sticky" style={{ top: `${100 + index * 25}px` }}>
+      <motion.div
+        style={{ scale, transformOrigin: 'top center' }}
+        className={`relative h-full bg-gradient-to-br ${item.color} rounded-3xl p-8 lg:p-12 text-white shadow-2xl overflow-hidden`}
+      >
+        <div className="absolute top-0 right-4 lg:right-8 text-[80px] lg:text-[140px] font-black text-white/[0.06] leading-none select-none pointer-events-none">
+          {item.year}
+        </div>
+        <div className="relative z-10 flex flex-col justify-end h-full">
+          <span className="inline-block px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold uppercase tracking-[0.15em] w-fit mb-3">
+            {item.year}
+          </span>
+          <h3 className="text-2xl lg:text-3xl font-semibold mb-2 leading-tight">{item.title}</h3>
+          <p className="text-white/80 text-sm lg:text-base leading-relaxed max-w-lg">{item.description}</p>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
-function CursorMaskReveal() {
+function StackingTimeline() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  return (
+    <section className="relative bg-[#050810] overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
+
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-36">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
+          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
+            Mijn reis
+          </h2>
+          <p className="text-slate-400 max-w-md mx-auto">
+            Elk hoofdstuk heeft me gevormd tot wie ik nu ben.
+          </p>
+        </motion.div>
+      </div>
+
+      <div ref={containerRef} className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-[15vh]">
+        {timeline.map((item, i) => (
+          <StackingCard key={i} item={item} index={i} count={timeline.length} progress={scrollYProgress} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── 3D PERSPECTIVE QUOTE ───────────────────────────────────
+
+function PerspectiveQuote() {
+  const quoteRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: quoteRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [30, 0, 0, -30]);
+  const perspScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.85, 1, 1, 0.85]);
+  const quoteOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const quoteY = useTransform(scrollYProgress, [0, 0.5, 1], [50, 0, -50]);
+  const lineScaleX = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+
+  return (
+    <section ref={quoteRef} className="relative py-32 lg:py-44 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/20 to-white" />
+
+      <div className="absolute top-[12%] left-[6%] text-[200px] lg:text-[280px] font-serif text-emerald-500/[0.03] select-none leading-none pointer-events-none">&ldquo;</div>
+      <div className="absolute bottom-[12%] right-[6%] text-[200px] lg:text-[280px] font-serif text-emerald-500/[0.03] select-none leading-none pointer-events-none">&rdquo;</div>
+
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8" style={{ perspective: '1200px' }}>
+        <motion.div
+          style={{ rotateX, scale: perspScale, opacity: quoteOpacity, y: quoteY }}
+          className="text-center"
+        >
+          <blockquote className="text-3xl lg:text-5xl font-semibold text-slate-900 leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
+            &ldquo;Gaming is meer dan een hobby. Het is{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">tijdloze klassiekers</span>
+            {' '}bewaren voor de volgende generatie.&rdquo;
+          </blockquote>
+
+          <motion.div
+            className="mx-auto w-20 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent mb-6 origin-center"
+            style={{ scaleX: lineScaleX }}
+          />
+
+          <p className="text-sm text-slate-400 font-medium tracking-wide">
+            &mdash; Lenn Hodes, oprichter
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ─── CURSOR SPOTLIGHT REVEAL ────────────────────────────────
+// Desktop: tekst wordt onthuld door cursor-gestuurde spotlight
+// Mobile: scroll-based progressive reveal
+
+function CursorSpotlight() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const size = useSpring(40, { stiffness: 180, damping: 22 });
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const size = useSpring(50, { stiffness: 180, damping: 22 });
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
   useEffect(() => {
-    size.set(isHovered ? 380 : 40);
+    size.set(isHovered ? 400 : 50);
   }, [isHovered, size]);
 
-  const handleMaskMove = useCallback((e: React.MouseEvent) => {
+  const handleMove = useCallback((e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    x.set(e.clientX - rect.left);
-    y.set(e.clientY - rect.top);
-  }, [x, y]);
+    mx.set(e.clientX - rect.left);
+    my.set(e.clientY - rect.top);
+  }, [mx, my]);
 
-  const clipPath = useMotionTemplate`circle(${size}px at ${x}px ${y}px)`;
+  const clipPath = useMotionTemplate`circle(${size}px at ${mx}px ${my}px)`;
 
   const dimText = 'Een webshop met games. Niets bijzonders, toch? Gewoon een plek waar je Nintendo games koopt. Net als honderd andere winkels online.';
-  const revealText = 'Wij zijn anders. Elke game persoonlijk geselecteerd, gecontroleerd op originaliteit, persoonlijk getest en met eigen fotografie vastgelegd. Geen anonieme webshop \u2014 een specialist die je bij naam kent.';
+  const revealText = 'Wij zijn anders. Elke game persoonlijk geselecteerd, gecontroleerd op originaliteit, getest en met eigen fotografie vastgelegd. Geen anonieme webshop — een specialist die je bij naam kent.';
 
   if (isMobile) {
     return (
       <section className="py-24 lg:py-36">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollHighlight
+          <ScrollParagraph
             text={revealText}
             className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 leading-[1.25] tracking-tight"
           />
@@ -146,12 +376,12 @@ function CursorMaskReveal() {
         />
         <div
           ref={containerRef}
-          className="relative cursor-none"
-          onMouseMove={handleMaskMove}
+          className="relative cursor-none select-none"
+          onMouseMove={handleMove}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <p className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-200 leading-[1.25] tracking-tight select-none">
+          <p className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-200 leading-[1.25] tracking-tight">
             {dimText}
           </p>
           <motion.p
@@ -189,146 +419,65 @@ function CursorMaskReveal() {
   );
 }
 
-// ─── STACKING CARDS TIMELINE ────────────────────────────────
-// Cards met position:sticky die op elkaar stapelen bij scrollen.
-// Eerdere cards schalen iets naar beneden voor depth-effect.
+// ─── PROCESS STEPS ──────────────────────────────────────────
 
-function StackingCard({ item, index, count, progress }: {
-  item: { year: string; title: string; description: string; color: string };
-  index: number; count: number;
-  progress: ReturnType<typeof useScroll>['scrollYProgress'];
-}) {
-  const targetScale = 1 - ((count - index) * 0.025);
-  const scale = useTransform(progress, [index / count, 1], [1, targetScale]);
-
-  return (
-    <div className="h-[30vh] lg:h-[35vh] sticky" style={{ top: `${100 + index * 25}px` }}>
-      <motion.div
-        style={{ scale, transformOrigin: 'top center' }}
-        className={`relative h-full bg-gradient-to-br ${item.color} rounded-2xl p-6 sm:p-8 lg:p-12 text-white shadow-2xl overflow-hidden`}
-      >
-        <div className="absolute top-2 right-4 lg:right-8 text-[80px] lg:text-[140px] font-black text-white/[0.07] leading-none select-none pointer-events-none">
-          {item.year}
-        </div>
-        <div className="relative z-10 flex flex-col justify-end h-full">
-          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-semibold uppercase tracking-widest w-fit mb-3">
-            {item.year}
-          </span>
-          <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 leading-tight">{item.title}</h3>
-          <p className="text-white/80 text-sm lg:text-base leading-relaxed max-w-lg">{item.description}</p>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-function StackingTimeline() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  return (
-    <section className="relative bg-[#050810] overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.05),transparent_70%)]" />
-
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-36">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
-          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
-            Mijn reis
-          </h2>
-          <p className="text-slate-400 max-w-md mx-auto">
-            Elk hoofdstuk heeft me gevormd tot wie ik nu ben.
-          </p>
-        </motion.div>
-      </div>
-
-      <div ref={containerRef} className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-[15vh]">
-        {timeline.map((item, i) => (
-          <StackingCard
-            key={i}
-            item={item}
-            index={i}
-            count={timeline.length}
-            progress={scrollYProgress}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── 3D PERSPECTIVE QUOTE ───────────────────────────────────
-// Quote die in 3D roteert (rotateX) op basis van scroll positie.
-
-function PerspectiveQuote() {
-  const quoteRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: quoteRef,
-    offset: ['start end', 'end start'],
-  });
-
-  const rotateX = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [35, 0, 0, -35]);
-  const perspScale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1, 1, 0.8]);
-  const quoteOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const quoteY = useTransform(scrollYProgress, [0, 0.5, 1], [60, 0, -60]);
-  const lineScaleX = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
-
-  return (
-    <section ref={quoteRef} className="relative py-32 lg:py-44 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/20 to-white" />
-
-      <div className="absolute top-[12%] left-[6%] text-[200px] lg:text-[280px] font-serif text-emerald-500/[0.03] select-none leading-none pointer-events-none">&ldquo;</div>
-      <div className="absolute bottom-[12%] right-[6%] text-[200px] lg:text-[280px] font-serif text-emerald-500/[0.03] select-none leading-none pointer-events-none">&rdquo;</div>
-
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8" style={{ perspective: '1200px' }}>
-        <motion.div
-          style={{ rotateX, scale: perspScale, opacity: quoteOpacity, y: quoteY }}
-          className="text-center"
-        >
-          <blockquote className="text-3xl lg:text-5xl font-semibold text-slate-900 leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
-            &ldquo;Retro gaming is meer dan nostalgie. Het is tijdloze klassiekers{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">bewaren</span>
-            {' '}voor de volgende generatie.&rdquo;
-          </blockquote>
-
-          <motion.div
-            className="mx-auto w-20 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent mb-6 origin-center"
-            style={{ scaleX: lineScaleX }}
-          />
-
-          <p className="text-sm text-slate-400 font-medium tracking-wide">
-            &mdash; Lenn Hodes, oprichter
-          </p>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
+const processSteps = [
+  { num: '01', title: 'Selectie', desc: 'Zorgvuldig zoeken naar originele games bij betrouwbare bronnen', icon: 'M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z', gradient: 'from-violet-500 to-purple-500' },
+  { num: '02', title: 'Authenticatie', desc: 'Elke game gecontroleerd op originaliteit — geen reproducties', icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z', gradient: 'from-emerald-500 to-teal-500' },
+  { num: '03', title: 'Testen', desc: 'Persoonlijk getest op werking — save, batterij, connectie', icon: 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085', gradient: 'from-cyan-500 to-blue-500' },
+  { num: '04', title: 'Fotografie', desc: 'Eigen productfoto\'s — wat je ziet is wat je krijgt', icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z', gradient: 'from-amber-500 to-orange-500' },
+  { num: '05', title: 'Verpakken', desc: 'Bubbeltjesenvelop of versterkte doos — beschermd en veilig', icon: 'M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25', gradient: 'from-rose-500 to-pink-500' },
+  { num: '06', title: 'Verzending', desc: 'PostNL volgende werkdag met track & trace', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75h-2.25A2.25 2.25 0 0016.5 15v.75', gradient: 'from-teal-500 to-emerald-500' },
+];
 
 // ─── PAGE ───────────────────────────────────────────────────
 
 export default function OverOnsPage() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroY = useTransform(heroScroll, [0, 1], [0, 180]);
+  const heroOpacity = useTransform(heroScroll, [0, 0.6], [1, 0]);
 
-  const { scrollYProgress: heroScrollProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const heroY = useTransform(heroScrollProgress, [0, 1], [0, 150]);
-  const heroOpacity = useTransform(heroScrollProgress, [0, 0.6], [1, 0]);
+  // Cursor tracking for hero mesh
+  const cursorX = useMotionValue(0.5);
+  const cursorY = useMotionValue(0.5);
+  const springCfg = { stiffness: 30, damping: 25 };
+  const cx = useSpring(cursorX, springCfg);
+  const cy = useSpring(cursorY, springCfg);
+  const orbX = useTransform(cx, [0, 1], ['-10%', '10%']);
+  const orbY = useTransform(cy, [0, 1], ['-10%', '10%']);
+  const orb2X = useTransform(cx, [0, 1], ['85%', '65%']);
+  const orb2Y = useTransform(cy, [0, 1], ['70%', '50%']);
+
+  const handleHeroMouse = useCallback((e: React.MouseEvent) => {
+    if (!heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    cursorX.set((e.clientX - rect.left) / rect.width);
+    cursorY.set((e.clientY - rect.top) / rect.height);
+  }, [cursorX, cursorY]);
 
   return (
     <div className="pt-20 lg:pt-24">
+      <NoiseOverlay />
 
       {/* ── HERO ────────────────────────────────────────── */}
-      <div ref={heroRef} className="relative bg-[#050810] min-h-[85vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.06),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_50%)]" />
+      <div
+        ref={heroRef}
+        className="relative bg-[#050810] min-h-[90vh] flex items-center justify-center overflow-hidden"
+        onMouseMove={handleHeroMouse}
+      >
+        {/* Interactive mesh orbs */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0a1628] to-[#050810]" />
+          <motion.div
+            className="absolute w-[700px] h-[700px] rounded-full opacity-[0.12] blur-[140px] pointer-events-none"
+            style={{ left: orbX, top: orbY, background: 'radial-gradient(circle, #10b981, transparent 70%)' }}
+          />
+          <motion.div
+            className="absolute w-[500px] h-[500px] rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
+            style={{ left: orb2X, top: orb2Y, background: 'radial-gradient(circle, #06b6d4, transparent 70%)' }}
+          />
+        </div>
 
         <motion.div
           className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
@@ -340,14 +489,14 @@ export default function OverOnsPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-[0.2em] mb-10"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Het verhaal achter Gameshop Enter
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl sm:text-6xl lg:text-8xl font-semibold text-white tracking-tight leading-[1.05] mb-8"
           >
             Van hobby
@@ -391,13 +540,13 @@ export default function OverOnsPage() {
       </div>
 
       {/* ── STATS BAR ───────────────────────────────────── */}
-      <section className="relative -mt-12 z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <section className="relative -mt-14 z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/90 backdrop-blur-xl rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8 lg:p-10"
+          className="bg-white/90 backdrop-blur-2xl rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8 lg:p-10"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
@@ -426,7 +575,7 @@ export default function OverOnsPage() {
       </section>
 
       {/* ── CURSOR MASK REVEAL ──────────────────────────── */}
-      <CursorMaskReveal />
+      <CursorSpotlight />
 
       {/* ── HET VERHAAL ──────────────────────────────────── */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
@@ -443,44 +592,27 @@ export default function OverOnsPage() {
           </h2>
 
           <div className="space-y-8 text-lg lg:text-xl text-slate-600 leading-relaxed">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               In 2018, op mijn veertiende, begon ik met het verkopen van games en verzamelkaarten op Marktplaats. Nintendo DS, Game Boy, alles wat ik kon vinden. Wat begon als zakgeld verdienen, werd al snel een echte passie.
             </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               Daarna waagde ik me aan iPhones en PlayStation consoles. Dat liep niet goed. Ik werd meerdere keren opgelicht. <strong className="text-slate-900 font-semibold">Harde lessen</strong> &mdash; maar ze leerden me alles over vertrouwen, kwaliteitscontrole en eerlijk zakendoen.
             </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               Uiteindelijk keerde ik terug naar mijn echte passie: <strong className="text-slate-900 font-semibold">Nintendo</strong>. Originele games inkopen, elke cartridge persoonlijk testen, en met zorg doorverkopen aan liefhebbers. Die focus op kwaliteit en originaliteit maakte het verschil.
             </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               Vandaag studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe. Die combinatie maakt Gameshop Enter niet alleen een webshop &mdash; maar een <strong className="text-slate-900 font-semibold">specialist die je bij naam kent</strong>.
             </motion.p>
           </div>
         </motion.div>
       </section>
+
+      {/* ── HORIZONTAL VALUES ────────────────────────────── */}
+      <HorizontalValues />
 
       {/* ── ONS PROCES ───────────────────────────────────── */}
       <section className="relative py-24 lg:py-32 overflow-hidden bg-slate-50">
@@ -545,7 +677,7 @@ export default function OverOnsPage() {
 
       {/* ── WAAROM WIJ ───────────────────────────────────── */}
       <section className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.08),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_50%)]" />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
@@ -563,8 +695,8 @@ export default function OverOnsPage() {
               { title: '100% Origineel', desc: 'Elke game gecontroleerd op originaliteit. Geen reproducties, gegarandeerd echt.', gradient: 'from-emerald-400 to-teal-400', icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
               { title: 'Persoonlijk getest', desc: 'Elk product handmatig getest op werking. Werkt het niet? Dan verkopen we het niet.', gradient: 'from-cyan-400 to-blue-400', icon: 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63' },
               { title: 'Eigen fotografie', desc: 'Wat je op de website ziet is exact wat je ontvangt. Geen stock foto\'s, geen verrassingen.', gradient: 'from-amber-400 to-orange-400', icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z' },
-              { title: 'Veilig betalen', desc: 'Betaal direct en veilig via iDEAL. Geen extra kosten.', gradient: 'from-violet-400 to-purple-400', icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z' },
-              { title: 'Snelle verzending', desc: 'Volgende werkdag bezorgd via PostNL met track & trace. Gratis boven \u20AC100.', gradient: 'from-rose-400 to-pink-400', icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z' },
+              { title: 'Veilig betalen', desc: 'Betaal direct en veilig via iDEAL. Geen extra kosten, geen gedoe.', gradient: 'from-violet-400 to-purple-400', icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z' },
+              { title: 'Snelle verzending', desc: 'Volgende werkdag bezorgd via PostNL met track & trace. Gratis boven €100.', gradient: 'from-rose-400 to-pink-400', icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z' },
               { title: '14 dagen retour', desc: 'Niet tevreden? Stuur het terug voor volledige terugbetaling. Zonder gedoe.', gradient: 'from-teal-400 to-emerald-400', icon: 'M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3' },
             ].map((item, i) => (
               <motion.div
@@ -574,14 +706,15 @@ export default function OverOnsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="relative h-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-7 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all duration-300">
-                  <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}>
+                <div className="group relative h-full bg-white/[0.03] border border-white/[0.06] rounded-2xl p-7 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all duration-500">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className={`relative h-10 w-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}>
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                     </svg>
                   </div>
-                  <h3 className="font-semibold text-white text-lg mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                  <h3 className="relative font-semibold text-white text-lg mb-2">{item.title}</h3>
+                  <p className="relative text-sm text-slate-400 leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -606,9 +739,9 @@ export default function OverOnsPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Mark V.', text: 'Snelle levering, perfect verpakt en de game werkt uitstekend. Precies wat ik verwachtte op basis van de foto\'s. Topservice!', product: 'Pok\u00E9mon HeartGold' },
+              { name: 'Mark V.', text: 'Snelle levering, perfect verpakt en de game werkt uitstekend. Precies wat ik verwachtte op basis van de foto\'s. Topservice!', product: 'Pokémon HeartGold' },
               { name: 'Sanne K.', text: 'Eindelijk een betrouwbare verkoper voor retro games. Alles origineel, netjes getest en supersnel geleverd. Zeker weer bestellen!', product: 'Mario Kart DS' },
-              { name: 'Thomas B.', text: 'De mooiste Nintendo collectie die ik online heb gevonden. Lenn reageert snel op vragen en de verpakking was echt top. Aanrader!', product: 'Pok\u00E9mon Emerald' },
+              { name: 'Thomas B.', text: 'De mooiste Nintendo collectie die ik online heb gevonden. Lenn reageert snel op vragen en de verpakking was echt top. Aanrader!', product: 'Pokémon Emerald' },
             ].map((review, i) => (
               <motion.div
                 key={i}
@@ -617,7 +750,7 @@ export default function OverOnsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="relative h-full bg-white rounded-2xl border border-slate-100 p-8 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                <div className="relative h-full bg-white rounded-2xl border border-slate-100 p-8 shadow-sm hover:shadow-lg transition-shadow duration-300 group">
                   <div className="flex gap-0.5 mb-5">
                     {[...Array(5)].map((_, s) => (
                       <svg key={s} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -719,7 +852,7 @@ export default function OverOnsPage() {
 
       {/* ── CTA ──────────────────────────────────────────── */}
       <section className="relative bg-[#050810] py-32 lg:py-44 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_55%)]" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -736,16 +869,18 @@ export default function OverOnsPage() {
               ?
             </h2>
             <p className="text-lg text-slate-400 mb-12 max-w-xl mx-auto">
-              Ontdek ons complete assortiment originele Nintendo games &mdash; elke game persoonlijk getest en gefotografeerd.
+              Ontdek ons complete assortiment originele Nintendo games &mdash; van Game Boy tot Switch, elke game persoonlijk getest en gefotografeerd.
             </p>
-            <Link href="/shop">
-              <Button size="lg">
-                Bekijk alle producten
-                <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </Button>
-            </Link>
+            <Magnetic className="inline-block">
+              <Link href="/shop">
+                <Button size="lg">
+                  Bekijk alle producten
+                  <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </Button>
+              </Link>
+            </Magnetic>
           </motion.div>
         </div>
       </section>
