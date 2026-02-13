@@ -13,6 +13,7 @@ import { useCart } from '@/components/cart/CartProvider';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
+  { href: '/game-finder', label: 'Game Finder' },
   { href: '/inkoop', label: 'Inkoop' },
   { href: '/over-ons', label: 'Over ons' },
   { href: '/faq', label: 'FAQ' },
