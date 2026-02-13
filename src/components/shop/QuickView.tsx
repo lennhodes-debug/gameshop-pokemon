@@ -114,7 +114,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
 
               <div className="flex flex-col sm:flex-row">
                 {/* Image */}
-                <div className={`relative sm:w-1/2 aspect-square sm:aspect-auto sm:min-h-[320px] ${product.image ? 'bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center`}>
+                <div className={`relative sm:w-1/2 aspect-square sm:aspect-auto sm:min-h-[320px] ${product.image ? 'bg-white dark:bg-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center`}>
                   {product.image ? (
                     <Image
                       src={product.image}

@@ -49,7 +49,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
               className="flex-shrink-0 snap-start"
             >
               <Link href={`/shop/${product.sku}`} className="group block w-[160px]">
-                <div className={`relative aspect-square rounded-xl overflow-hidden ${product.image ? 'bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} mb-2`}>
+                <div className={`relative aspect-square rounded-xl overflow-hidden ${product.image ? 'bg-white dark:bg-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} mb-2`}>
                   {product.image ? (
                     <Image
                       src={product.image}

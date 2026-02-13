@@ -244,7 +244,7 @@ export default function GameCarousel3D() {
                       boxShadow: isActive
                         ? `0 0 80px rgba(${accentGlow},0.12), 0 24px 80px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)`
                         : '0 8px 32px rgba(0,0,0,0.5)',
-                      border: isActive ? `1px solid rgba(${accentGlow},0.1)` : 'none',
+                      border: 'none',
                       cursor: isActive ? 'pointer' : 'default',
                     }}
                   >

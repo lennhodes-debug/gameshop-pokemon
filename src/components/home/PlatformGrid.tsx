@@ -207,10 +207,10 @@ function PlatformCard({ platform, count, index }: {
             {platform.year}
           </div>
 
-          {/* Border glow on hover */}
+          {/* Glow on hover */}
           <div
             className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-            style={{ boxShadow: `inset 0 0 0 1px rgba(${platform.glow}, 0.15)` }}
+            style={{ boxShadow: `inset 0 0 30px rgba(${platform.glow}, 0.06)` }}
           />
         </motion.div>
       </Link>

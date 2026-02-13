@@ -145,7 +145,7 @@ export default function WinkelwagenPage() {
                     const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
                     return (
                       <Link key={product.sku} href={`/shop/${product.sku}`} className="group">
-                        <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`}`}>
+                        <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-white dark:bg-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`}`}>
                           {product.image ? (
                             <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
                           ) : (
@@ -244,12 +244,12 @@ export default function WinkelwagenPage() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -40, scale: 0.95, filter: 'blur(4px)', height: 0, marginBottom: 0, padding: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-4 flex gap-4 shadow-sm hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
+                      className="bg-white dark:bg-slate-800 rounded-2xl p-4 flex gap-4 shadow-sm hover:shadow-md transition-all duration-300"
                       style={{ borderLeft: `2px solid ${itemAccent}` }}
                     >
                       {/* Product image */}
                       <Link href={`/shop/${item.product.sku}`} className="flex-shrink-0">
-                        <div className={`w-24 h-24 rounded-xl ${img ? 'bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
+                        <div className={`w-24 h-24 rounded-xl ${img ? 'bg-white dark:bg-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
                           {img ? (
                             <Image
                               src={img}

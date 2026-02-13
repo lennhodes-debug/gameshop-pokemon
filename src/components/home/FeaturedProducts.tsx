@@ -81,7 +81,7 @@ function BentoCard({
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             boxShadow: hovered
-              ? `0 0 0 1px rgba(${glowRgb},0.12), 0 25px 60px -12px rgba(${glowRgb},0.2)`
+              ? `0 25px 60px -12px rgba(${glowRgb},0.2)`
               : 'none',
             transition: 'box-shadow 0.5s ease',
             background: 'white',
