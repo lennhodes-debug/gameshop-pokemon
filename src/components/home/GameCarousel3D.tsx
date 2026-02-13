@@ -159,18 +159,12 @@ export default function GameCarousel3D() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em] mb-5">
+          <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
             Collectie
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
-            Ontdek onze{' '}
-            <span className="gradient-text">
-              games
-            </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1]">
+            Ontdek onze games
           </h2>
-          <p className="text-slate-600 mt-4 max-w-sm mx-auto text-xs">
-            Sleep of gebruik pijltjestoetsen
-          </p>
         </motion.div>
       </div>
 
@@ -304,7 +298,7 @@ export default function GameCarousel3D() {
                         )}
                       </div>
                       <p
-                        className={`font-extrabold transition-all duration-300 ${isActive ? 'text-lg' : 'text-base'}`}
+                        className={`font-bold transition-all duration-300 ${isActive ? 'text-lg' : 'text-base'}`}
                         style={{ color: cardAccent }}
                       >
                         {formatPrice(product.price)}
@@ -372,7 +366,7 @@ export default function GameCarousel3D() {
                     {PLATFORM_LABELS[activeProduct.platform] || activeProduct.platform}
                   </p>
                 </div>
-                <span className="text-lg font-extrabold" style={{ color: accentColor }}>
+                <span className="text-lg font-bold" style={{ color: accentColor }}>
                   {formatPrice(activeProduct.price)}
                 </span>
                 <span

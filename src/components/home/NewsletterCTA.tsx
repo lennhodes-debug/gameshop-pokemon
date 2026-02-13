@@ -50,7 +50,7 @@ export default function NewsletterCTA() {
             </svg>
           </div>
 
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
+          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">
             Mis geen enkele aanwinst
           </h2>
           <p className="text-lg text-white/70 mb-4 max-w-lg mx-auto">

@@ -174,7 +174,7 @@ function BentoCard({
             <div className={cn('p-4', isHero && 'lg:p-6')}>
               <h3
                 className={cn(
-                  'font-extrabold leading-tight mb-1.5 line-clamp-2 transition-colors duration-300',
+                  'font-bold leading-tight mb-1.5 line-clamp-2 transition-colors duration-300',
                   isHero ? 'text-base lg:text-xl' : 'text-sm',
                 )}
                 style={{ color: hovered ? accent : '#0f172a' }}
@@ -310,21 +310,14 @@ export default function FeaturedProducts() {
           className="flex items-end justify-between mb-12 lg:mb-16"
         >
           <div>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-emerald-600 text-xs font-semibold uppercase tracking-[0.25em] mb-4"
-            >
+            <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.3em] mb-4">
               Uitgelicht
-            </motion.p>
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            </p>
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight">
               Toppers uit de collectie
             </h2>
-            <p className="text-slate-400 mt-3 text-sm lg:text-base max-w-md">
-              Handgeselecteerde games en consoles &mdash; elk exemplaar
-              persoonlijk getest
+            <p className="text-slate-400 mt-3 text-sm max-w-md">
+              Handgeselecteerde games &mdash; elk exemplaar persoonlijk getest
             </p>
           </div>
           <Link

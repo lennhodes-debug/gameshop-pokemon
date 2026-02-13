@@ -42,7 +42,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   }, [value, hasAnimated]);
 
   return (
-    <span ref={ref} className="text-3xl lg:text-4xl font-extrabold text-white tabular-nums">
+    <span ref={ref} className="text-3xl lg:text-4xl font-bold text-white tabular-nums">
       {count.toLocaleString('nl-NL')}{suffix}
     </span>
   );
@@ -85,12 +85,11 @@ export default function AboutPreview() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6">
+            <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-5">
               Over ons
-            </span>
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-6">
-              Al sinds 2018 de{' '}
-              <span className="gradient-text">Nintendo specialist</span>
+            </p>
+            <h2 className="text-3xl lg:text-5xl font-bold text-white leading-tight tracking-tight mb-6">
+              Al sinds 2018 de Nintendo specialist
             </h2>
             <p className="text-base text-slate-400 leading-relaxed mb-6">
               Wat begon met het verkopen van games op Marktplaats groeide uit

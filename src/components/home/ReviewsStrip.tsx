@@ -73,20 +73,22 @@ export default function ReviewsStrip() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="inline-flex items-center gap-2.5 mb-5">
+          <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
+            Reviews
+          </p>
+          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-3">
+            1.360+ tevreden klanten
+          </h2>
+          <div className="inline-flex items-center gap-2.5">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <svg key={i} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <svg key={i} className="h-3.5 w-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d={starPath} />
                 </svg>
               ))}
             </div>
-            <span className="text-white/60 text-sm font-medium">5.0 op Marktplaats</span>
+            <span className="text-white/40 text-sm font-medium">5.0 op Marktplaats</span>
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
-            1.360+ tevreden klanten
-          </h2>
-          <p className="text-slate-500 text-sm">Wat onze klanten zeggen</p>
         </motion.div>
       </div>
 
