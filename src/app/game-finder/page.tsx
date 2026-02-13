@@ -8,6 +8,7 @@ import { getAllProducts, Product, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_LABELS } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
+import NostalgiaFilm from '@/components/game-finder/NostalgiaFilm';
 
 // ─── TYPES ──────────────────────────────────────────────────
 
@@ -694,19 +695,7 @@ export default function GameFinderPage() {
   const [currentPair, setCurrentPair] = useState<[Product, Product] | null>(null);
   const [results, setResults] = useState<Product[]>([]);
   const [exitingSide, setExitingSide] = useState<'left' | 'right' | null>(null);
-  const [introStep, setIntroStep] = useState(0);
-
-  // Intro cinematic sequence
-  useEffect(() => {
-    if (phase !== 'intro') return;
-    const timers = [
-      setTimeout(() => setIntroStep(1), 600),   // "Gameshop Enter"
-      setTimeout(() => setIntroStep(2), 2200),   // "Presenteert"
-      setTimeout(() => setIntroStep(3), 3800),   // "Game Finder" title
-      setTimeout(() => setIntroStep(4), 5000),   // CTA button
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [phase]);
+  // No more introStep — NostalgiaFilm handles the intro cinematic
 
   // Generate first pair when entering battle phase
   useEffect(() => {
@@ -772,7 +761,6 @@ export default function GameFinderPage() {
 
   const restart = useCallback(() => {
     setPhase('intro');
-    setIntroStep(0);
     setRound(0);
     setPrefs({ genres: {}, platforms: {}, priceSum: 0, priceCount: 0, completeness: {} });
     setUsedSkus(new Set());
@@ -781,38 +769,11 @@ export default function GameFinderPage() {
     setExitingSide(null);
   }, []);
 
-  // Gaming SVG icons for intro decoration
-  const gamingIcons = useMemo(
-    () => [
-      // Game Boy silhouette
-      <svg key="gb" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="4" width="28" height="40" rx="4" /><rect x="14" y="8" width="20" height="14" rx="2" /><circle cx="20" cy="30" r="2.5" /><circle cx="28" cy="30" r="2.5" /><line x1="21" y1="36" x2="27" y2="36" /><line x1="21" y1="38" x2="27" y2="38" /></svg>,
-      // Game controller
-      <svg key="ctrl" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 20c0-4.4 3.6-8 8-8h16c4.4 0 8 3.6 8 8v4c0 6-4 12-8 12h-2l-2-4h-8l-2 4h-2c-4 0-8-6-8-12v-4z" /><line x1="16" y1="19" x2="16" y2="25" /><line x1="13" y1="22" x2="19" y2="22" /><circle cx="30" cy="20" r="1.5" /><circle cx="34" cy="24" r="1.5" /></svg>,
-      // Cartridge
-      <svg key="cart" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="6" width="28" height="36" rx="3" /><rect x="14" y="10" width="20" height="12" rx="2" /><rect x="16" y="34" width="4" height="6" rx="1" /><rect x="22" y="34" width="4" height="6" rx="1" /><rect x="28" y="34" width="4" height="6" rx="1" /></svg>,
-      // D-pad
-      <svg key="dpad" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 8h8v12h12v8H28v12h-8V28H8v-8h12V8z" rx="2" /></svg>,
-      // Star / power-up
-      <svg key="star" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M24 4l5.5 11.2 12.4 1.8-9 8.8 2.1 12.3L24 32.4 12.9 38l2.1-12.3-9-8.8 12.4-1.8z" /></svg>,
-      // Heart / life
-      <svg key="heart" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M24 42s-16-9.2-16-21c0-5.5 4.5-10 10-10 3.3 0 6 1.6 6 1.6s2.7-1.6 6-1.6c5.5 0 10 4.5 10 10 0 11.8-16 21-16 21z" /></svg>,
-      // Pokeball shape
-      <svg key="poke" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="24" r="18" /><line x1="6" y1="24" x2="42" y2="24" /><circle cx="24" cy="24" r="5" /><circle cx="24" cy="24" r="2" /></svg>,
-      // Handheld DS
-      <svg key="ds" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="2" width="28" height="20" rx="3" /><rect x="13" y="5" width="22" height="14" rx="2" /><rect x="10" y="26" width="28" height="20" rx="3" /><rect x="13" y="29" width="22" height="14" rx="2" /><line x1="10" y1="24" x2="38" y2="24" /></svg>,
-      // Trophy
-      <svg key="trophy" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M16 6h16v16c0 4.4-3.6 8-8 8s-8-3.6-8-8V6z" /><path d="M16 10h-4c-2.2 0-4 1.8-4 4v2c0 2.2 1.8 4 4 4h4" /><path d="M32 10h4c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4h-4" /><line x1="24" y1="30" x2="24" y2="36" /><path d="M16 42h16v-2c0-2.2-1.8-4-4-4h-8c-2.2 0-4 1.8-4 4v2z" /></svg>,
-      // Lightning bolt
-      <svg key="bolt" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M28 4L12 28h12L20 44l16-24H24z" /></svg>,
-      // Pixel mushroom (1-up)
-      <svg key="mush" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M10 24c0-7.7 6.3-14 14-14s14 6.3 14 14H10z" /><rect x="18" y="24" width="12" height="14" rx="2" /><circle cx="18" cy="17" r="3" /><circle cx="30" cy="17" r="3" /><circle cx="24" cy="14" r="2" /></svg>,
-      // Shield / power
-      <svg key="shield" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M24 4L8 12v12c0 10 6.8 19.3 16 22 9.2-2.7 16-12 16-22V12L24 4z" /><path d="M20 22l4 4 8-8" /></svg>,
-    ],
-    [],
-  );
-
   const progress = ((round + (exitingSide ? 1 : 0)) / TOTAL_ROUNDS) * 100;
+
+  const handleFilmStart = useCallback(() => {
+    setPhase('battle');
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -823,210 +784,12 @@ export default function GameFinderPage() {
         )}
       </AnimatePresence>
 
+      {/* ── NOSTALGIA FILM INTRO ──────────────────── */}
+      {phase === 'intro' && (
+        <NostalgiaFilm onStart={handleFilmStart} />
+      )}
+
       <AnimatePresence mode="wait">
-        {/* ── CINEMATIC INTRO ──────────────────────── */}
-        {phase === 'intro' && (
-          <motion.div
-            key="intro"
-            className="relative min-h-screen bg-[#050810] flex flex-col items-center justify-center overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <CRTOverlay />
-
-            {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#080c18] to-[#050810]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
-
-            {/* Floating gaming icons in background */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {gamingIcons.map((icon, i) => {
-                const positions = [
-                  { left: '6%', top: '12%' }, { right: '8%', top: '8%' },
-                  { left: '3%', top: '50%' }, { right: '5%', top: '45%' },
-                  { left: '12%', bottom: '20%' }, { right: '12%', bottom: '15%' },
-                  { left: '25%', top: '6%' }, { right: '25%', top: '15%' },
-                  { left: '18%', bottom: '10%' }, { right: '20%', bottom: '25%' },
-                  { left: '35%', bottom: '5%' }, { right: '35%', top: '5%' },
-                ];
-                const pos = positions[i] || positions[0];
-                const sizes = [36, 28, 32, 24, 30, 26, 34, 28, 32, 24, 26, 30];
-                const size = sizes[i] || 28;
-                return (
-                  <motion.div
-                    key={i}
-                    className="absolute text-white/[0.04]"
-                    style={{ ...pos, width: size, height: size }}
-                    animate={{
-                      y: [0, -12 - (i % 3) * 4, 0],
-                      opacity: introStep >= 1 ? [0.03, 0.08, 0.03] : 0,
-                      rotate: [0, 5 - i * 2, -(5 - i * 2), 0],
-                    }}
-                    transition={{
-                      duration: 10 + i * 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: i * 0.5,
-                    }}
-                  >
-                    {icon}
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Cinematic content */}
-            <div className="relative z-10 text-center px-4">
-              {/* Step 1: "Gameshop Enter" */}
-              <AnimatePresence>
-                {introStep >= 1 && introStep < 3 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-4"
-                  >
-                    <p className="text-sm lg:text-base font-mono text-white/30 uppercase tracking-[0.4em]">
-                      Gameshop Enter
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Step 2: "Presenteert" */}
-              <AnimatePresence>
-                {introStep >= 2 && introStep < 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <p className="text-lg lg:text-xl text-white/50 italic tracking-wide">presenteert</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Step 3: "Game Finder" title */}
-              {introStep >= 3 && (
-                <>
-                  {/* REC badge */}
-                  <motion.div
-                    initial={{ opacity: 0, scaleX: 0 }}
-                    animate={{ opacity: 1, scaleX: 1 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] mb-10"
-                  >
-                    <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                    <span className="text-[11px] font-mono text-white/40 uppercase tracking-[0.2em]">
-                      REC &bull; 5 rondes &bull; Jouw smaak
-                    </span>
-                  </motion.div>
-
-                  <motion.h1
-                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-5xl lg:text-[88px] font-light text-white tracking-[-0.03em] leading-[0.92] mb-6"
-                  >
-                    Game
-                    <br />
-                    <span className="relative">
-                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-                        Finder
-                      </span>
-                      {/* Chromatic aberration accent */}
-                      <span
-                        className="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-red-400/20 to-transparent blur-[2px] select-none pointer-events-none"
-                        aria-hidden
-                        style={{ transform: 'translate(-2px, 1px)' }}
-                      >
-                        Finder
-                      </span>
-                    </span>
-                  </motion.h1>
-
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-base text-white/35 max-w-md mx-auto mb-4"
-                  >
-                    Wij tonen je steeds twee games.
-                    <br />
-                    Kies welke je meer aanspreekt.
-                  </motion.p>
-
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="text-sm text-white/20 max-w-sm mx-auto mb-12 font-mono"
-                  >
-                    Na 5 rondes kennen wij jouw smaak en vinden we jouw perfecte game.
-                  </motion.p>
-                </>
-              )}
-
-              {/* Step 4: CTA */}
-              {introStep >= 4 && (
-                <motion.button
-                  onClick={() => setPhase('battle')}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="group inline-flex items-center justify-center h-14 px-10 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all duration-300"
-                >
-                  Start de Game Finder
-                  <svg
-                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2.5}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
-                  </svg>
-                </motion.button>
-              )}
-
-              {/* Stats */}
-              {introStep >= 4 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="mt-16 flex items-center justify-center gap-10 text-xs text-white/25 font-mono"
-                >
-                  {[
-                    { num: '5', label: 'Rondes' },
-                    {
-                      num:
-                        String(allProducts.filter((p) => p.image && !p.isConsole).length) + '+',
-                      label: 'Games',
-                    },
-                    { num: '1', label: 'Match' },
-                  ].map((item) => (
-                    <div key={item.label} className="flex flex-col items-center gap-1.5">
-                      <span className="text-lg font-semibold text-white/40 tabular-nums">
-                        {item.num}
-                      </span>
-                      <span className="uppercase tracking-wider text-[10px]">{item.label}</span>
-                    </div>
-                  ))}
-                </motion.div>
-              )}
-            </div>
-
-            {/* Bottom fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050810] to-transparent pointer-events-none" />
-          </motion.div>
-        )}
 
         {/* ── BATTLE PHASE ──────────────────────── */}
         {phase === 'battle' && currentPair && (
