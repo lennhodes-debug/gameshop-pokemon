@@ -658,6 +658,145 @@ export default function OverOnsPage() {
         </div>
       </section>
 
+      {/* === ONS PROCES — Apple-style horizontal process === */}
+      <section className="relative py-24 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-slate-50/80 to-white" />
+
+        {/* Decoratieve lijnen */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: 'linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)',
+          backgroundSize: '120px 120px',
+        }} />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">
+              Ons proces
+            </span>
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+              Van inkoop tot levering
+            </h2>
+            <p className="text-slate-500 mt-3 max-w-lg mx-auto">
+              Elk product doorloopt ons zorgvuldige 6-stappen proces voordat het bij jou thuis wordt bezorgd.
+            </p>
+          </motion.div>
+
+          <div className="relative">
+            {/* Verbindingslijn */}
+            <div className="hidden lg:block absolute top-[52px] left-[8%] right-[8%] h-px bg-slate-200" />
+            <motion.div
+              className="hidden lg:block absolute top-[52px] left-[8%] right-[8%] h-px bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 origin-left"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            />
+
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-4">
+              {[
+                {
+                  step: '01',
+                  title: 'Selectie',
+                  desc: 'Zorgvuldig zoeken naar originele Pokémon games bij betrouwbare bronnen',
+                  icon: (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                  ),
+                  gradient: 'from-violet-500 to-purple-500',
+                },
+                {
+                  step: '02',
+                  title: 'Authenticatie',
+                  desc: 'Elke game wordt gecontroleerd op originaliteit — geen reproducties',
+                  icon: (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                    </svg>
+                  ),
+                  gradient: 'from-emerald-500 to-teal-500',
+                },
+                {
+                  step: '03',
+                  title: 'Testen',
+                  desc: 'Persoonlijk getest op werking — save files, batterij, verbinding',
+                  icon: (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.421 48.421 0 0 1-4.185-.07c-.514-.058-.91-.465-.91-.982V4.045a2.07 2.07 0 0 1 1.507-1.98 48.452 48.452 0 0 1 7.396 0 2.07 2.07 0 0 1 1.507 1.98v.57c0 .517-.396.924-.91.982a48.421 48.421 0 0 1-4.185.07.64.64 0 0 1-.657-.643v0Z" />
+                    </svg>
+                  ),
+                  gradient: 'from-cyan-500 to-blue-500',
+                },
+                {
+                  step: '04',
+                  title: 'Fotografie',
+                  desc: 'Eigen productfoto\'s — wat je ziet is exact wat je ontvangt',
+                  icon: (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+                    </svg>
+                  ),
+                  gradient: 'from-amber-500 to-orange-500',
+                },
+                {
+                  step: '05',
+                  title: 'Verpakken',
+                  desc: 'Bubbeltjesenvelop of versterkte doos — beschermd en veilig',
+                  icon: (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25" />
+                    </svg>
+                  ),
+                  gradient: 'from-rose-500 to-pink-500',
+                },
+                {
+                  step: '06',
+                  title: 'Verzending',
+                  desc: 'PostNL volgende werkdag — met track & trace',
+                  icon: (
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0H21M3.375 14.25h.008M21 12.75h-2.25A2.25 2.25 0 0 0 16.5 15v.75m0 0H3.375m13.125 0h.008M3.375 14.25V6.75a2.25 2.25 0 0 1 2.25-2.25H12" />
+                    </svg>
+                  ),
+                  gradient: 'from-teal-500 to-emerald-500',
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-center group"
+                >
+                  {/* Stap icoon */}
+                  <motion.div
+                    whileHover={{ y: -6, scale: 1.05 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                    className={`relative mx-auto h-[104px] w-[104px] rounded-3xl bg-gradient-to-br ${item.gradient} p-px mb-5 shadow-lg group-hover:shadow-xl transition-shadow duration-300`}
+                  >
+                    <div className="h-full w-full rounded-3xl bg-white flex flex-col items-center justify-center gap-1.5">
+                      <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white`}>
+                        {item.icon}
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.step}</span>
+                    </div>
+                  </motion.div>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1.5">{item.title}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed max-w-[160px] mx-auto">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* === CINEMATIC GAME SHOWCASE — Velocity + 3D Perspective + Card Flip === */}
       <section ref={showcaseRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
         {/* Subtiel radial glow */}
@@ -901,6 +1040,235 @@ export default function OverOnsPage() {
             </div>
           </div>
         </motion.div>
+      </section>
+
+      {/* === WAAROM GAMESHOP ENTER — Differentiator grid === */}
+      <section className="relative bg-[#050810] py-24 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.08),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.06),transparent_50%)]" />
+
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }} />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
+              Het verschil
+            </span>
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight">
+              Waarom Gameshop Enter
+            </h2>
+            <p className="text-slate-400 mt-3 max-w-lg mx-auto">
+              Geen anonieme marktplaatsverkoper, maar een specialist die je bij naam kent.
+            </p>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                title: '100% Origineel',
+                desc: 'Elke game is gecontroleerd op originaliteit. Geen reproducties, geen namaak — gegarandeerd echt.',
+                icon: (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                  </svg>
+                ),
+                gradient: 'from-emerald-400 to-teal-400',
+              },
+              {
+                title: 'Persoonlijk getest',
+                desc: 'Elk product wordt handmatig getest op werking. Werkt het niet? Dan verkopen we het niet.',
+                icon: (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
+                  </svg>
+                ),
+                gradient: 'from-cyan-400 to-blue-400',
+              },
+              {
+                title: 'Eigen fotografie',
+                desc: 'Wat je op de website ziet, is exact het product dat je ontvangt. Geen stock foto\'s.',
+                icon: (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+                  </svg>
+                ),
+                gradient: 'from-amber-400 to-orange-400',
+              },
+              {
+                title: 'Eerlijke prijzen',
+                desc: 'Marktconforme prijzen op basis van PriceCharting data. Geen woekerprijzen, geen verborgen kosten.',
+                icon: (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                ),
+                gradient: 'from-violet-400 to-purple-400',
+              },
+              {
+                title: 'Snelle verzending',
+                desc: 'Volgende werkdag bezorgd via PostNL met track & trace. Gratis verzending boven €100.',
+                icon: (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                  </svg>
+                ),
+                gradient: 'from-rose-400 to-pink-400',
+              },
+              {
+                title: '14 dagen retour',
+                desc: 'Niet tevreden? Stuur het binnen 14 dagen terug voor volledige terugbetaling. Zonder gedoe.',
+                icon: (
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                  </svg>
+                ),
+                gradient: 'from-teal-400 to-emerald-400',
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className="group"
+              >
+                <div className="relative h-full bg-white/[0.04] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-7 hover:bg-white/[0.07] hover:border-emerald-500/20 transition-all duration-500">
+                  {/* Glow on hover */}
+                  <div className={`absolute -inset-px rounded-2xl bg-gradient-to-r ${item.gradient} opacity-0 group-hover:opacity-[0.08] transition-opacity duration-500 blur-xl`} />
+
+                  <div className="relative">
+                    <div className={`h-11 w-11 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white mb-4 shadow-lg`}>
+                      {item.icon}
+                    </div>
+                    <h3 className="font-bold text-white text-lg mb-2 group-hover:text-emerald-300 transition-colors duration-300">{item.title}</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* === KLANTREVIEWS — Social Proof === */}
+      <section className="relative py-24 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/20 to-white" />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-xs font-semibold uppercase tracking-widest mb-4">
+              Reviews
+            </span>
+            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+              Wat klanten zeggen
+            </h2>
+            <p className="text-slate-500 mt-3 max-w-lg mx-auto">
+              1360+ reviews met een perfecte 5.0 score op Marktplaats
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Mark V.',
+                text: 'Snelle levering, perfect verpakt en de game werkt perfect. Duidelijke foto\'s op de website — precies wat ik verwachtte. Topservice!',
+                product: 'Pokémon HeartGold',
+                rating: 5,
+              },
+              {
+                name: 'Sanne K.',
+                text: 'Eindelijk een betrouwbare verkoper voor Pokémon games. Alles origineel, netjes getest en supersnel geleverd. Zeker weer bestellen!',
+                product: 'Pokémon Platinum',
+                rating: 5,
+              },
+              {
+                name: 'Thomas B.',
+                text: 'De mooiste DS-collectie die ik online heb gevonden. Lenn reageert snel op vragen en de verpakking was echt top. Aanrader!',
+                product: 'Pokémon Black 2',
+                rating: 5,
+              },
+            ].map((review, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30, rotateX: -5 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                style={{ transformPerspective: 800 }}
+              >
+                <div className="relative h-full bg-white rounded-2xl border border-slate-100 p-7 shadow-sm hover:shadow-lg transition-all duration-500 group">
+                  {/* Gradient accent line */}
+                  <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
+
+                  {/* Stars */}
+                  <div className="flex gap-0.5 mb-4">
+                    {[...Array(review.rating)].map((_, s) => (
+                      <svg key={s} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-slate-600 leading-relaxed mb-5 text-sm">&ldquo;{review.text}&rdquo;</p>
+
+                  {/* Author */}
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <div>
+                      <div className="font-semibold text-slate-900 text-sm">{review.name}</div>
+                      <div className="text-xs text-slate-400">Kocht: {review.product}</div>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">
+                      <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-[10px] font-bold uppercase tracking-wider">Geverifieerd</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Marktplaats trust badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="text-center mt-10"
+          >
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white border border-slate-200 shadow-sm">
+              <div className="flex -space-x-1">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <span className="text-sm font-semibold text-slate-700">5.0 op Marktplaats</span>
+              <span className="text-xs text-slate-400">|</span>
+              <span className="text-sm text-slate-500">1360+ reviews</span>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* === EPIC CTA === */}
