@@ -34,8 +34,23 @@ export default function NewsletterCTA() {
   };
 
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden">
+    <section className="relative py-24 lg:py-32 overflow-hidden">
+      {/* Multi-layered gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.3),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]" />
+
+      {/* Dot grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+        }}
+      />
+
+      {/* Top radial shine */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_70%)] pointer-events-none" />
 
       <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
@@ -57,7 +72,7 @@ export default function NewsletterCTA() {
             Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
           </p>
 
-          <p className="text-white/50 text-sm mb-8 flex items-center justify-center gap-2">
+          <p className="text-white/40 text-sm mb-8 flex items-center justify-center gap-2">
             <span className="flex -space-x-1.5">
               {['E', 'T', 'L', 'K'].map((letter, i) => (
                 <span key={i} className="h-6 w-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-[10px] font-semibold text-white/70">
@@ -96,13 +111,15 @@ export default function NewsletterCTA() {
                 aria-label="E-mailadres voor nieuwsbrief"
                 required
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-4 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 text-white placeholder:text-white/50 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/40 transition-all disabled:opacity-60"
+                className="flex-1 px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-white placeholder:text-white/40 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/15 transition-all disabled:opacity-60"
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-4 rounded-2xl bg-white text-slate-900 font-semibold text-sm shadow-lg hover:bg-white/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="relative px-8 py-4 rounded-2xl bg-white text-slate-900 font-semibold text-sm shadow-lg hover:shadow-xl hover:bg-white/95 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 overflow-hidden group"
               >
+                {/* Button shine sweep */}
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 {isSubmitting ? (
                   <>
                     <div className="h-4 w-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
@@ -125,7 +142,7 @@ export default function NewsletterCTA() {
             </motion.p>
           )}
 
-          <p className="text-white/50 text-xs mt-6">
+          <p className="text-white/30 text-xs mt-6">
             Geen spam, alleen relevante updates. Je kunt je altijd afmelden.
           </p>
         </motion.div>

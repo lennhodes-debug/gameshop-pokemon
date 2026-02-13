@@ -64,14 +64,17 @@ export default function FaqPreview() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-semibold text-slate-600">Top 5 vragen</span>
-              <Link href="/faq" className="text-xs text-slate-400 hover:text-slate-600 transition-colors">
-                Alle {'>'}20 vragen
-              </Link>
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+            <div className="p-6 lg:p-8">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-semibold text-slate-600">Top 5 vragen</span>
+                <Link href="/faq" className="text-xs text-slate-400 hover:text-slate-600 transition-colors">
+                  Alle {'>'}20 vragen
+                </Link>
+              </div>
+              <Accordion items={faqItems} staggerVariant={fadeUp} />
             </div>
-            <Accordion items={faqItems} staggerVariant={fadeUp} />
           </div>
         </motion.div>
 
@@ -84,10 +87,10 @@ export default function FaqPreview() {
         >
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:border-slate-300 hover:text-slate-900 transition-colors"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:border-slate-300 hover:text-slate-900 transition-all group"
           >
             Bekijk alle vragen
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </Link>
