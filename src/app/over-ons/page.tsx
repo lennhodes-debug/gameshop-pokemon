@@ -31,6 +31,35 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number;
   return <span ref={ref}>{prefix}{count.toLocaleString('nl-NL')}{suffix}</span>;
 }
 
+// Character-by-character reveal — Awwwards-style cinematic text
+function CharReveal({ text, className = '', delay = 0, stagger = 0.02 }: { text: string; className?: string; delay?: number; stagger?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const chars = text.split('');
+
+  return (
+    <span ref={ref} className={`inline ${className}`}>
+      {chars.map((char, i) => (
+        <span key={i} className="inline-block overflow-hidden">
+          <motion.span
+            className="inline-block"
+            initial={{ y: '120%', rotateX: -90, opacity: 0 }}
+            animate={isInView ? { y: 0, rotateX: 0, opacity: 1 } : {}}
+            transition={{
+              duration: 0.5,
+              delay: delay + i * stagger,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            style={{ transformOrigin: 'bottom' }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </motion.span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
 // Word-by-word reveal — Apple-style staggered text
 function WordReveal({ text, className = '', delay = 0 }: { text: string; className?: string; delay?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -59,6 +88,50 @@ function WordReveal({ text, className = '', delay = 0 }: { text: string; classNa
   );
 }
 
+// Scroll-linked paragraph opacity — Apple-style text that fades based on scroll position
+function ScrollParagraph({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.9', 'start 0.3'],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.15, 1]);
+  const blur = useTransform(scrollYProgress, [0, 1], [4, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [15, 0]);
+
+  return (
+    <motion.p ref={ref} className={className} style={{ opacity, y, filter: useMotionTemplate`blur(${blur}px)` }}>
+      {children}
+    </motion.p>
+  );
+}
+
+// Magnetic element — follows cursor with spring physics
+function Magnetic({ children, strength = 0.35 }: { children: React.ReactNode; strength?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20, mass: 0.5 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20, mass: 0.5 });
+
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * strength);
+    y.set((e.clientY - centerY) * strength);
+  }, [x, y, strength]);
+
+  const handleLeave = useCallback(() => { x.set(0); y.set(0); }, [x, y]);
+
+  return (
+    <motion.div ref={ref} onMouseMove={handleMove} onMouseLeave={handleLeave} style={{ x: springX, y: springY }}>
+      {children}
+    </motion.div>
+  );
+}
+
 // Paragraph fade — each paragraph fades in with blur
 function ParagraphReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return (
@@ -70,6 +143,21 @@ function ParagraphReveal({ children, delay = 0 }: { children: React.ReactNode; d
     >
       {children}
     </motion.p>
+  );
+}
+
+// Noise texture overlay for premium feel
+function NoiseOverlay({ opacity = 0.03 }: { opacity?: number }) {
+  return (
+    <div
+      className="absolute inset-0 pointer-events-none z-[1]"
+      style={{
+        opacity,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: '128px 128px',
+      }}
+    />
   );
 }
 
@@ -208,8 +296,9 @@ export default function OverOnsPage() {
         onMouseMove={handleHeroMove}
         className="relative bg-[#050810] min-h-[90vh] flex items-center justify-center overflow-hidden"
       >
-        {/* Layered backgrounds */}
-        <motion.div className="absolute inset-0 pointer-events-none" style={{ background: heroGlow }} />
+        {/* Noise + Layered backgrounds */}
+        <NoiseOverlay opacity={0.04} />
+        <motion.div className="absolute inset-0 pointer-events-none z-0" style={{ background: heroGlow }} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.08),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_50%)]" />
 
@@ -263,13 +352,13 @@ export default function OverOnsPage() {
           </motion.div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white tracking-tight leading-[1.05] mb-8">
-            <WordReveal text="Van kaarten" className="block" delay={0.3} />
-            <WordReveal text="op Marktplaats" className="block" delay={0.5} />
+            <CharReveal text="Van kaarten" className="block" delay={0.3} stagger={0.025} />
+            <CharReveal text="op Marktplaats" className="block" delay={0.6} stagger={0.025} />
             <span className="block mt-2">
-              <WordReveal text="tot Pokémon" className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400" delay={0.7} />
+              <CharReveal text="tot Pokémon" className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400" delay={0.95} stagger={0.03} />
             </span>
             <span className="block">
-              <WordReveal text="specialist." className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400" delay={0.9} />
+              <CharReveal text="specialist." className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400" delay={1.3} stagger={0.03} />
             </span>
           </h1>
 
@@ -360,32 +449,29 @@ export default function OverOnsPage() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="h-px w-16 bg-gradient-to-r from-emerald-500 to-teal-500 mb-8 origin-left"
           />
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-12 leading-[1.1]"
-          >
-            Hoi, ik ben <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">Lenn</span>.
-          </motion.h2>
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-12 leading-[1.1]">
+            <WordReveal text="Hoi, ik ben" delay={0} />
+            {' '}
+            <CharReveal text="Lenn" className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600" delay={0.4} stagger={0.06} />
+            <CharReveal text="." className="text-slate-900" delay={0.7} />
+          </h2>
 
-          <div className="space-y-7 text-lg lg:text-xl text-slate-600 leading-relaxed">
-            <ParagraphReveal delay={0}>
+          <div className="space-y-8 text-lg lg:text-xl text-slate-600 leading-relaxed">
+            <ScrollParagraph>
               In 2018, op mijn veertiende, verkocht ik mijn eerste verzamelkaarten op Marktplaats. Pokémon-kaarten, Nintendo-kaarten — alles wat ik kon vinden. Het was het begin van iets groters.
-            </ParagraphReveal>
+            </ScrollParagraph>
 
-            <ParagraphReveal delay={0.1}>
+            <ScrollParagraph>
               Daarna waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed. Ik werd meerdere keren opgelicht. <strong className="text-slate-900 font-bold">Harde lessen</strong> — maar ze leerden me alles over vertrouwen, kwaliteitscontrole en eerlijk zakendoen.
-            </ParagraphReveal>
+            </ScrollParagraph>
 
-            <ParagraphReveal delay={0.15}>
+            <ScrollParagraph>
               Uiteindelijk keerde ik terug naar mijn echte passie: <strong className="text-slate-900 font-bold">Pokémon</strong>. Originele games inkopen, elke cartridge persoonlijk testen, en met zorg doorverkopen aan liefhebbers zoals ik. Die focus op kwaliteit en originaliteit maakte het verschil.
-            </ParagraphReveal>
+            </ScrollParagraph>
 
-            <ParagraphReveal delay={0.2}>
+            <ScrollParagraph>
               Vandaag studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe. Die combinatie maakt Gameshop Enter niet alleen een webshop — maar een <strong className="text-slate-900 font-bold">specialist die je bij naam kent</strong>.
-            </ParagraphReveal>
+            </ScrollParagraph>
           </div>
         </motion.div>
       </section>
@@ -469,6 +555,7 @@ export default function OverOnsPage() {
           TIMELINE — Donkere sectie met animated lijn
           ═══════════════════════════════════════════════════════════ */}
       <section ref={timelineRef} className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
+        <NoiseOverlay opacity={0.035} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.05),transparent_70%)]" />
 
         {/* Atmospheric particles */}
@@ -562,6 +649,7 @@ export default function OverOnsPage() {
           GAME SHOWCASE — Velocity marquee
           ═══════════════════════════════════════════════════════════ */}
       <section ref={showcaseRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+        <NoiseOverlay opacity={0.03} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
@@ -604,15 +692,17 @@ export default function OverOnsPage() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="text-center"
           >
-            <motion.blockquote
-              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 1 }}
-              className="text-3xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight mb-8 max-w-3xl mx-auto"
-            >
-              &ldquo;Retro gaming is meer dan nostalgie. Het is tijdloze klassiekers <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">bewaren</span> voor de volgende generatie.&rdquo;
-            </motion.blockquote>
+            <blockquote className="text-3xl lg:text-5xl font-bold text-slate-900 leading-tight tracking-tight mb-8 max-w-3xl mx-auto">
+              <WordReveal text="&ldquo;Retro gaming is meer" delay={0.1} />
+              {' '}
+              <WordReveal text="dan nostalgie. Het is" delay={0.3} />
+              {' '}
+              <WordReveal text="tijdloze klassiekers" delay={0.5} />
+              {' '}
+              <CharReveal text="bewaren" className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600" delay={0.7} stagger={0.04} />
+              {' '}
+              <WordReveal text="voor de volgende generatie.&rdquo;" delay={1.0} />
+            </blockquote>
 
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
@@ -639,6 +729,7 @@ export default function OverOnsPage() {
           WAAROM WIJ — Dark glassmorphism grid
           ═══════════════════════════════════════════════════════════ */}
       <section className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
+        <NoiseOverlay opacity={0.035} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.08),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.06),transparent_50%)]" />
 
@@ -821,6 +912,7 @@ export default function OverOnsPage() {
           CTA — Full-screen cinematic
           ═══════════════════════════════════════════════════════════ */}
       <section className="relative bg-[#050810] py-32 lg:py-44 overflow-hidden">
+        <NoiseOverlay opacity={0.035} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.12),transparent_55%)]" />
 
         {/* Floating shapes */}
@@ -852,14 +944,24 @@ export default function OverOnsPage() {
             <p className="text-lg text-slate-400 mb-12 max-w-xl mx-auto">
               Ontdek ons complete assortiment originele Pokémon games — elke game persoonlijk getest en gefotografeerd.
             </p>
-            <Link href="/shop">
-              <Button size="lg">
-                Bekijk alle producten
-                <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </Button>
-            </Link>
+            <Magnetic strength={0.25}>
+              <Link href="/shop">
+                <Button size="lg">
+                  Bekijk alle producten
+                  <motion.svg
+                    className="ml-2 h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </motion.svg>
+                </Button>
+              </Link>
+            </Magnetic>
           </motion.div>
         </div>
       </section>
