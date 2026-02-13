@@ -110,9 +110,11 @@ function MarqueeRow({
             <Link
               key={`${copyIndex}-${product.sku}`}
               href={`/shop/${product.sku}`}
-              className="relative w-40 h-40 sm:w-52 sm:h-52 shrink-0 rounded-2xl overflow-hidden group/card bg-white/[0.04] transition-all duration-500"
+              className="relative w-40 h-40 sm:w-52 sm:h-52 shrink-0 rounded-2xl overflow-hidden group/card transition-all duration-500"
               style={{
-                boxShadow: 'none',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
               }}
             >
               <Image

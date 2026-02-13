@@ -5,6 +5,7 @@ import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 
 const ParallaxSection = dynamic(() => import('@/components/home/ParallaxSection'));
+const WhyChooseUs = dynamic(() => import('@/components/home/WhyChooseUs'));
 const GameCarousel3D = dynamic(() => import('@/components/home/GameCarousel3D'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
 const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
@@ -22,6 +23,7 @@ export default function HomePage() {
       <ParallaxSection speed={0.15}>
         <FeaturedProducts />
       </ParallaxSection>
+      <WhyChooseUs />
       <GameCarousel3D />
       <PlatformGrid />
       <GameMarquee />
