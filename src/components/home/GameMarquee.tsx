@@ -14,16 +14,13 @@ import {
   wrap,
 } from 'framer-motion';
 import { getAllProducts, Product } from '@/lib/products';
-import { formatPrice } from '@/lib/utils';
 
-function VelocityMarqueeRow({
+function MarqueeRow({
   products,
-  baseVelocity = -2,
-  size = 'md',
+  baseVelocity = -1.5,
 }: {
   products: Product[];
   baseVelocity?: number;
-  size?: 'sm' | 'md' | 'lg';
 }) {
   const items = products.filter((p) => p.image);
 
@@ -34,7 +31,7 @@ function VelocityMarqueeRow({
     damping: 50,
     stiffness: 400,
   });
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 3], {
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 2], {
     clamp: false,
   });
 
@@ -63,10 +60,9 @@ function VelocityMarqueeRow({
       const child = children[i] as HTMLElement;
       width += child.offsetWidth;
     }
-    const gap = size === 'sm' ? 12 : size === 'lg' ? 20 : 16;
-    width += setSize * gap;
+    width += setSize * 20;
     setSingleSetWidth(width);
-  }, [items.length, size]);
+  }, [items.length]);
 
   useEffect(() => {
     measureWidth();
@@ -91,7 +87,7 @@ function VelocityMarqueeRow({
         directionFactor.current = 1;
       }
       moveBy +=
-        directionFactor.current * Math.abs(velocity) * (delta / 1000) * 30;
+        directionFactor.current * Math.abs(velocity) * (delta / 1000) * 20;
     }
 
     baseX.set(baseX.get() + moveBy);
@@ -102,19 +98,11 @@ function VelocityMarqueeRow({
     return wrap(-singleSetWidth, 0, v);
   });
 
-  const sizeClasses = {
-    sm: 'w-20 h-20 sm:w-24 sm:h-24 rounded-lg',
-    md: 'w-28 h-28 sm:w-36 sm:h-36 rounded-xl',
-    lg: 'w-36 h-36 sm:w-44 sm:h-44 rounded-2xl',
-  };
-  const gapClasses = { sm: 'gap-3', md: 'gap-4', lg: 'gap-5' };
-  const imgSizes = { sm: 96, md: 144, lg: 176 };
-
   return (
     <div className="flex overflow-hidden">
       <motion.div
         ref={containerRef}
-        className={`flex ${gapClasses[size]} shrink-0`}
+        className="flex gap-5 shrink-0"
         style={{ x }}
       >
         {Array.from({ length: 4 }, (_, copyIndex) =>
@@ -122,22 +110,23 @@ function VelocityMarqueeRow({
             <Link
               key={`${copyIndex}-${product.sku}`}
               href={`/shop/${product.sku}`}
-              className={`relative ${sizeClasses[size]} overflow-hidden shrink-0 border border-white/[0.08] group/card transition-all duration-300 hover:border-emerald-400/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]`}
+              className="relative w-40 h-40 sm:w-52 sm:h-52 shrink-0 rounded-2xl overflow-hidden group/card bg-white/[0.04] transition-all duration-500"
+              style={{
+                boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
+              }}
             >
               <Image
                 src={product.image!}
                 alt={product.name}
-                width={imgSizes[size]}
-                height={imgSizes[size]}
-                className="object-contain w-full h-full p-1 transition-transform duration-500 group-hover/card:scale-110"
+                width={208}
+                height={208}
+                className="object-contain w-full h-full p-4 sm:p-5 transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover/card:scale-105"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2">
-                <span className="text-white text-[9px] sm:text-[10px] font-bold leading-tight line-clamp-2 mb-0.5">
+              {/* Subtle name on hover */}
+              <div className="absolute bottom-0 left-0 right-0 p-3 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500">
+                <span className="text-white/80 text-[10px] sm:text-[11px] font-semibold leading-tight line-clamp-1">
                   {product.name}
-                </span>
-                <span className="text-emerald-400 text-[9px] font-bold">
-                  {formatPrice(product.price)}
                 </span>
               </div>
             </Link>
@@ -150,49 +139,36 @@ function VelocityMarqueeRow({
 
 export default function GameMarquee() {
   const allProducts = getAllProducts().filter((p) => p.image);
-  const third = Math.ceil(allProducts.length / 3);
-  const row1 = allProducts.slice(0, Math.min(third, 16));
-  const row2 = allProducts.slice(third, Math.min(third * 2, third + 16));
-  const row3 = allProducts.slice(third * 2, Math.min(allProducts.length, third * 2 + 16));
+  const half = Math.ceil(allProducts.length / 2);
+  const row1 = allProducts.slice(0, Math.min(half, 18));
+  const row2 = allProducts.slice(half, Math.min(allProducts.length, half + 18));
 
   return (
-    <section className="relative py-16 sm:py-24 bg-[#050810] overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_70%)]" />
-
+    <section className="relative py-20 sm:py-28 bg-[#050810] overflow-hidden">
       <div className="relative">
-        <div className="text-center mb-12 px-4">
+        <div className="text-center mb-16 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <p className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em] mb-5">
-              Assortiment
+            <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
+              Collectie
             </p>
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
-              Al onze{' '}
-              <span className="gradient-text">games</span>
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
+              Alle games
             </h2>
-            <p className="text-xs text-slate-600 max-w-sm mx-auto">
-              Scroll sneller om de collectie te versnellen
-            </p>
           </motion.div>
         </div>
 
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-l from-[#050810] via-[#050810]/80 to-transparent z-10" />
+        {/* Edge fades */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-[#050810] to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-[#050810] to-transparent z-10" />
 
-        <div className="mb-3 opacity-40" style={{ filter: 'blur(1px)' }}>
-          <VelocityMarqueeRow products={row3} baseVelocity={-3} size="sm" />
-        </div>
-
-        <div className="mb-3 opacity-70" style={{ filter: 'blur(0.3px)' }}>
-          <VelocityMarqueeRow products={row2} baseVelocity={2} size="md" />
-        </div>
-
-        <div>
-          <VelocityMarqueeRow products={row1} baseVelocity={-1.5} size="lg" />
+        <div className="space-y-5">
+          <MarqueeRow products={row1} baseVelocity={-1.2} />
+          <MarqueeRow products={row2} baseVelocity={1} />
         </div>
       </div>
     </section>
