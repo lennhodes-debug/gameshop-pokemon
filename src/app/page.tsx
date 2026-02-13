@@ -3,7 +3,6 @@ import Hero from '@/components/home/Hero';
 import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 
-const PlatformIntro = dynamic(() => import('@/components/home/PlatformIntro'));
 const CollectionShowcase = dynamic(() => import('@/components/home/CollectionShowcase'));
 const ParallaxSection = dynamic(() => import('@/components/home/ParallaxSection'));
 const GameCarousel3D = dynamic(() => import('@/components/home/GameCarousel3D'));
@@ -17,7 +16,6 @@ const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
 export default function HomePage() {
   return (
     <>
-      <PlatformIntro />
       <Hero />
       <TrustStrip />
       <CollectionShowcase />
