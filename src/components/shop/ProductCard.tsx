@@ -191,7 +191,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           <div
             className="relative h-56 flex items-center justify-center overflow-hidden"
             style={{
-              background: '#f8f9fa',
+              background: 'white',
             }}
           >
             {/* Subtle accent glow behind image on hover */}
