@@ -1,305 +1,249 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllProducts, Product, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_LABELS } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
-import NostalgiaFilm from '@/components/game-finder/NostalgiaFilm';
 
 // ─── TYPES ──────────────────────────────────────────────────
 
-type Phase = 'intro' | 'battle' | 'transition' | 'result';
+type Phase = 'intro' | 'quiz' | 'result';
 
-interface UserPrefs {
-  genres: Record<string, number>;
-  platforms: Record<string, number>;
-  priceSum: number;
-  priceCount: number;
-  completeness: Record<string, number>;
+interface QuizAnswer {
+  genres: string[];
+  playStyle: 'solo' | 'samen' | null;
+  platforms: string[];
+  franchises: string[];
 }
 
-// ─── CRT SCANLINES OVERLAY ─────────────────────────────────
+// ─── QUIZ QUESTIONS CONFIG ──────────────────────────────────
 
-function CRTOverlay() {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-50">
-      {/* Scanlines */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          background: `repeating-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.3),
-            rgba(0, 0, 0, 0.3) 1px,
-            transparent 1px,
-            transparent 2px
-          )`,
-        }}
-      />
-      {/* RGB sub-pixel columns */}
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          background: `repeating-linear-gradient(
-            90deg,
-            rgba(255, 0, 0, 0.03),
-            rgba(0, 255, 0, 0.03) 1px,
-            rgba(0, 0, 255, 0.03) 2px,
-            transparent 3px
-          )`,
-        }}
-      />
-      {/* Vignette */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%)',
-        }}
-      />
-    </div>
-  );
+interface QuizOption {
+  id: string;
+  label: string;
+  sub: string;
+  icon: string; // SVG path
+  gradient: [string, string];
+  glow: string;
 }
 
-// ─── VHS STATIC TRANSITION ─────────────────────────────────
-
-function VHSTransition({ onComplete }: { onComplete: () => void }) {
-  useEffect(() => {
-    const t = setTimeout(onComplete, 800);
-    return () => clearTimeout(t);
-  }, [onComplete]);
-
-  const bars = useMemo(
-    () =>
-      Array.from({ length: 20 }, (_, i) => ({
-        id: i,
-        y: Math.random() * 100,
-        h: Math.random() * 8 + 2,
-        delay: Math.random() * 0.3,
-        opacity: Math.random() * 0.6 + 0.2,
-      })),
-    [],
-  );
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[60] bg-black"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 1, 1, 0] }}
-      transition={{ duration: 0.8, times: [0, 0.1, 0.7, 1] }}
-    >
-      {/* Static noise */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
-          backgroundSize: '200px 200px',
-        }}
-      />
-      {/* Horizontal distortion bars */}
-      {bars.map((bar) => (
-        <motion.div
-          key={bar.id}
-          className="absolute left-0 right-0 bg-white"
-          style={{ top: `${bar.y}%`, height: `${bar.h}px`, opacity: bar.opacity }}
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: [0, 1.5, 0], x: ['-20%', '10%', '30%'] }}
-          transition={{ duration: 0.5, delay: bar.delay }}
-        />
-      ))}
-      {/* Chromatic aberration text */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative"
-        >
-          <span className="absolute text-4xl font-bold text-red-500/30 blur-[1px]" style={{ transform: 'translate(-3px, 1px)' }}>
-            TRACKING...
-          </span>
-          <span className="absolute text-4xl font-bold text-cyan-500/30 blur-[1px]" style={{ transform: 'translate(3px, -1px)' }}>
-            TRACKING...
-          </span>
-          <span className="text-4xl font-bold text-white/60">TRACKING...</span>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
+interface QuizQuestion {
+  title: string;
+  subtitle: string;
+  multi: boolean; // allow multiple selections
+  options: QuizOption[];
 }
 
-// ─── HOLOGRAPHIC GAME CARD ─────────────────────────────────
+const QUESTIONS: QuizQuestion[] = [
+  {
+    title: 'Wat voor games speel je het liefst?',
+    subtitle: 'Kies er een of meerdere',
+    multi: true,
+    options: [
+      {
+        id: 'RPG',
+        label: 'RPG',
+        sub: 'Diep verhaal, training, levels',
+        icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+        gradient: ['#7C3AED', '#5B21B6'],
+        glow: '124,58,237',
+      },
+      {
+        id: 'Avontuur',
+        label: 'Avontuur',
+        sub: 'Verkennen, puzzels, verhaal',
+        icon: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z',
+        gradient: ['#059669', '#047857'],
+        glow: '5,150,105',
+      },
+      {
+        id: 'Platformer',
+        label: 'Platformer',
+        sub: 'Springen, rennen, actie',
+        icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z',
+        gradient: ['#F59E0B', '#D97706'],
+        glow: '245,158,11',
+      },
+      {
+        id: 'Party',
+        label: 'Party & Sport',
+        sub: 'Samen spelen, competitie',
+        icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z',
+        gradient: ['#A855F7', '#7E22CE'],
+        glow: '168,85,247',
+      },
+    ],
+  },
+  {
+    title: 'Hoe speel je het liefst?',
+    subtitle: 'Kies wat het beste bij je past',
+    multi: false,
+    options: [
+      {
+        id: 'solo',
+        label: 'Alleen',
+        sub: 'Diep in het verhaal, op eigen tempo',
+        icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
+        gradient: ['#0EA5E9', '#0284C7'],
+        glow: '14,165,233',
+      },
+      {
+        id: 'samen',
+        label: 'Met vrienden',
+        sub: 'Party games, samen op de bank',
+        icon: 'M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z',
+        gradient: ['#EC4899', '#DB2777'],
+        glow: '236,72,153',
+      },
+    ],
+  },
+  {
+    title: 'Welk platform heeft je voorkeur?',
+    subtitle: 'Kies er een of meerdere',
+    multi: true,
+    options: [
+      {
+        id: 'Game Boy / Color',
+        label: 'Game Boy',
+        sub: 'De originele handheld (1989)',
+        icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3',
+        gradient: ['#84CC16', '#65A30D'],
+        glow: '132,204,22',
+      },
+      {
+        id: 'Game Boy Advance',
+        label: 'GBA',
+        sub: '32-bit handheld (2001)',
+        icon: 'M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3',
+        gradient: ['#6366F1', '#4F46E5'],
+        glow: '99,102,241',
+      },
+      {
+        id: 'Nintendo DS',
+        label: 'Nintendo DS',
+        sub: 'Dual screen (2004)',
+        icon: 'M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m-6 3.75l3 3m0 0l3-3m-3 3V1.5',
+        gradient: ['#64748B', '#475569'],
+        glow: '100,116,139',
+      },
+      {
+        id: 'Nintendo 3DS',
+        label: '3DS',
+        sub: 'Stereoscopisch 3D (2011)',
+        icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z',
+        gradient: ['#0EA5E9', '#0284C7'],
+        glow: '14,165,233',
+      },
+    ],
+  },
+  {
+    title: 'Welke franchise trekt je het meest?',
+    subtitle: 'Kies er een of meerdere',
+    multi: true,
+    options: [
+      {
+        id: 'pokemon',
+        label: 'Pokémon',
+        sub: 'Vangen, trainen, vechten',
+        icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zm0 0c1.5 0 2.5-1.5 2.5-3S13.5 15 12 15s-2.5 1.5-2.5 3 1 3 2.5 3zm0-9a3 3 0 100-6 3 3 0 000 6z',
+        gradient: ['#EF4444', '#DC2626'],
+        glow: '239,68,68',
+      },
+      {
+        id: 'mario',
+        label: 'Mario',
+        sub: 'Platformer, kart, party',
+        icon: 'M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z',
+        gradient: ['#E52521', '#C41E1C'],
+        glow: '229,37,33',
+      },
+      {
+        id: 'zelda',
+        label: 'Zelda',
+        sub: 'Avontuur, puzzels, dungeons',
+        icon: 'M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z',
+        gradient: ['#B89B3E', '#7A6B2A'],
+        glow: '184,155,62',
+      },
+      {
+        id: 'surprise',
+        label: 'Verrass me',
+        sub: 'Ik sta open voor alles',
+        icon: 'M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z',
+        gradient: ['#8B5CF6', '#6D28D9'],
+        glow: '139,92,246',
+      },
+    ],
+  },
+];
 
-function HoloCard({
-  product,
-  side,
-  onPick,
-  isExiting,
-  isChosen,
-}: {
-  product: Product;
-  side: 'left' | 'right';
-  onPick: () => void;
-  isExiting: boolean;
-  isChosen: boolean;
-}) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
+// ─── FRANCHISE KEYWORDS FOR MATCHING ────────────────────────
 
-  const springCfg = { stiffness: 150, damping: 20 };
-  const x = useSpring(mouseX, springCfg);
-  const y = useSpring(mouseY, springCfg);
+const FRANCHISE_KEYWORDS: Record<string, string[]> = {
+  pokemon: ['pokémon', 'pokemon', 'pikachu'],
+  mario: ['mario', 'luigi', 'peach', 'toad', 'yoshi', 'wario', 'donkey kong'],
+  zelda: ['zelda', 'link'],
+};
 
-  // 3D rotation from mouse
-  const rotateX = useTransform(y, [0, 1], [12, -12]);
-  const rotateY = useTransform(x, [0, 1], [-12, 12]);
+// ─── MATCH CALCULATOR ───────────────────────────────────────
 
-  // Holographic shine position
-  const shineX = useTransform(x, [0, 1], [0, 100]);
-  const shineY = useTransform(y, [0, 1], [0, 100]);
+function calculateMatches(answers: QuizAnswer, products: Product[]): Product[] {
+  const pool = products.filter(p => !!p.image && !p.isConsole);
 
-  // Rainbow hue rotation
-  const hueRotate = useTransform(x, [0, 1], [0, 360]);
+  return pool
+    .map(p => {
+      let score = 0;
+      const name = p.name.toLowerCase();
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!cardRef.current) return;
-      const rect = cardRef.current.getBoundingClientRect();
-      mouseX.set((e.clientX - rect.left) / rect.width);
-      mouseY.set((e.clientY - rect.top) / rect.height);
-    },
-    [mouseX, mouseY],
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    mouseX.set(0.5);
-    mouseY.set(0.5);
-  }, [mouseX, mouseY]);
-
-  const price = getEffectivePrice(product);
-  const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
-
-  return (
-    <motion.div
-      className="relative cursor-pointer select-none"
-      style={{ perspective: 800 }}
-      initial={{ opacity: 0, x: side === 'left' ? -60 : 60, scale: 0.85 }}
-      animate={
-        isExiting
-          ? isChosen
-            ? { opacity: 0, scale: 1.15, y: -40, transition: { duration: 0.5 } }
-            : { opacity: 0, scale: 0.7, filter: 'grayscale(100%) blur(4px)', transition: { duration: 0.5 } }
-          : { opacity: 1, x: 0, scale: 1 }
+      // Genre match (biggest weight)
+      if (answers.genres.length > 0) {
+        if (answers.genres.includes(p.genre)) score += 15;
+        // Party preference also matches Vecht, Sport, Race
+        if (answers.genres.includes('Party') && ['Vecht', 'Sport', 'Race', 'Party'].includes(p.genre)) score += 10;
       }
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      onClick={onPick}
-    >
-      <motion.div
-        ref={cardRef}
-        className="relative group"
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
-      >
-        {/* Card body */}
-        <div className="relative w-56 sm:w-64 lg:w-72 rounded-2xl overflow-hidden bg-gradient-to-b from-slate-800 to-slate-900 shadow-2xl shadow-black/50">
-          {/* Holographic shine overlay */}
-          <motion.div
-            className="absolute inset-0 z-10 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: useTransform(
-                [shineX, shineY, hueRotate] as never,
-                ([sx, sy, hue]: [number, number, number]) =>
-                  `radial-gradient(circle at ${sx}% ${sy}%, hsla(${hue}, 80%, 70%, 0.25) 0%, hsla(${hue + 60}, 80%, 60%, 0.15) 30%, hsla(${hue + 120}, 80%, 50%, 0.08) 60%, transparent 80%)`,
-              ),
-            }}
-          />
 
-          {/* Glare highlight */}
-          <motion.div
-            className="absolute inset-0 z-10 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: useTransform(
-                [shineX, shineY] as never,
-                ([sx, sy]: [number, number]) =>
-                  `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.2) 0%, transparent 50%)`,
-              ),
-            }}
-          />
+      // Play style
+      if (answers.playStyle === 'solo') {
+        if (['RPG', 'Avontuur', 'Platformer', 'Strategie', 'Simulatie', 'Puzzel'].includes(p.genre)) score += 8;
+      } else if (answers.playStyle === 'samen') {
+        if (['Party', 'Sport', 'Vecht', 'Race'].includes(p.genre)) score += 12;
+      }
 
-          {/* Game cover image */}
-          <div className="relative aspect-square bg-gradient-to-b from-slate-700/30 to-transparent p-3">
-            <div className="relative w-full h-full">
-              {product.image && (
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 640px) 224px, (max-width: 1024px) 256px, 288px"
-                  className="object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-transform duration-500 group-hover:scale-[1.05]"
-                  priority
-                />
-              )}
-            </div>
+      // Platform match
+      if (answers.platforms.length > 0) {
+        if (answers.platforms.includes(p.platform)) score += 10;
+      }
 
-            {/* Rainbow border shimmer */}
-            <motion.div
-              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{
-                background: useTransform(
-                  hueRotate,
-                  (hue: number) =>
-                    `conic-gradient(from ${hue}deg, rgba(255,0,0,0.15), rgba(255,165,0,0.15), rgba(255,255,0,0.15), rgba(0,128,0,0.15), rgba(0,0,255,0.15), rgba(75,0,130,0.15), rgba(238,130,238,0.15), rgba(255,0,0,0.15))`,
-                ),
-                mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                maskComposite: 'exclude',
-                WebkitMaskComposite: 'xor',
-                padding: '2px',
-              }}
-            />
-          </div>
+      // Franchise match
+      if (answers.franchises.length > 0) {
+        if (answers.franchises.includes('surprise')) {
+          // Random boost for surprise
+          score += Math.random() * 6;
+        }
+        for (const fId of answers.franchises) {
+          const keywords = FRANCHISE_KEYWORDS[fId];
+          if (keywords && keywords.some(kw => name.includes(kw))) {
+            score += 14;
+          }
+        }
+      }
 
-          {/* Info section */}
-          <div className="p-4 lg:p-5 relative z-20">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-0.5 rounded-full bg-white/[0.06] text-[10px] font-medium text-white/40">
-                {platformLabel}
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-white/[0.06] text-[10px] font-medium text-white/40">
-                {product.genre}
-              </span>
-            </div>
-            <h3 className="text-sm lg:text-base font-semibold text-white leading-tight mb-2 line-clamp-2">
-              {product.name}
-            </h3>
-            <div className="flex items-center justify-between">
-              <span className="text-base lg:text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 tabular-nums">
-                {formatPrice(price)}
-              </span>
-              <span className="text-[10px] text-white/25">{product.condition}</span>
-            </div>
-          </div>
+      // Bonus for items with images (better UX)
+      if (p.image) score += 2;
+      // Small premium bonus
+      if (p.isPremium) score += 1;
+      // Slight randomness for variety
+      score += Math.random() * 3;
 
-          {/* CRT scanline on card */}
-          <div
-            className="absolute inset-0 pointer-events-none rounded-2xl opacity-[0.03] z-20"
-            style={{
-              background: `repeating-linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4) 1px, transparent 1px, transparent 3px)`,
-            }}
-          />
-        </div>
-
-        {/* Card glow */}
-        <div className="absolute -inset-4 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10 blur-xl bg-gradient-to-b from-emerald-500/10 to-cyan-500/10" />
-      </motion.div>
-    </motion.div>
-  );
+      return { product: p, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 12)
+    .map(s => s.product);
 }
 
 // ─── CONFETTI ───────────────────────────────────────────────
@@ -307,7 +251,7 @@ function HoloCard({
 function ConfettiExplosion() {
   const particles = useMemo(
     () =>
-      Array.from({ length: 60 }, (_, i) => ({
+      Array.from({ length: 50 }, (_, i) => ({
         id: i,
         x: (Math.random() - 0.5) * 600,
         y: -(Math.random() * 400 + 100),
@@ -325,7 +269,7 @@ function ConfettiExplosion() {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
-      {particles.map((p) => (
+      {particles.map(p => (
         <motion.div
           key={p.id}
           className="absolute left-1/2 top-1/3 rounded-sm"
@@ -339,125 +283,105 @@ function ConfettiExplosion() {
   );
 }
 
-// ─── SMART PAIRING ──────────────────────────────────────────
+// ─── QUIZ OPTION CARD ───────────────────────────────────────
 
-function createSmartPairs(
-  products: Product[],
-  prefs: UserPrefs,
-  round: number,
-  usedSkus: Set<string>,
-): [Product, Product] | null {
-  const pool = products.filter((p) => !!p.image && !p.isConsole && !usedSkus.has(p.sku));
-  if (pool.length < 2) return null;
+function OptionCard({
+  option,
+  selected,
+  onToggle,
+  index,
+}: {
+  option: QuizOption;
+  selected: boolean;
+  onToggle: () => void;
+  index: number;
+}) {
+  return (
+    <motion.button
+      onClick={onToggle}
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.15 + index * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ scale: 1.03, y: -4 }}
+      whileTap={{ scale: 0.97 }}
+      className="group relative text-left"
+    >
+      <div
+        className={`relative overflow-hidden rounded-2xl p-6 sm:p-7 transition-all duration-500 ${
+          selected
+            ? 'bg-white/[0.1] ring-2 shadow-lg'
+            : 'bg-white/[0.03] hover:bg-white/[0.06] ring-1 ring-white/[0.06]'
+        }`}
+        style={{
+          boxShadow: selected ? `0 8px 32px rgba(${option.glow}, 0.15), inset 0 0 20px rgba(${option.glow}, 0.05)` : undefined,
+          borderColor: selected ? `rgba(${option.glow}, 0.5)` : 'transparent',
+          border: selected ? `2px solid rgba(${option.glow}, 0.5)` : '2px solid transparent',
+          outline: selected ? `2px solid rgba(${option.glow}, 0.5)` : undefined,
+          outlineOffset: selected ? '2px' : undefined,
+        }}
+      >
+        {/* Gradient glow on selected */}
+        {selected && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            style={{
+              background: `radial-gradient(ellipse at 50% 80%, rgba(${option.glow}, 0.1), transparent 60%)`,
+            }}
+          />
+        )}
 
-  // Shuffle helper
-  const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
+        {/* Icon */}
+        <div
+          className={`relative h-11 w-11 rounded-xl flex items-center justify-center mb-4 transition-all duration-500 ${
+            selected ? 'shadow-lg' : ''
+          }`}
+          style={{
+            background: selected
+              ? `linear-gradient(135deg, ${option.gradient[0]}, ${option.gradient[1]})`
+              : 'rgba(255,255,255,0.06)',
+            boxShadow: selected ? `0 4px 16px rgba(${option.glow}, 0.3)` : 'none',
+          }}
+        >
+          <svg
+            className={`h-5 w-5 transition-colors duration-500 ${selected ? 'text-white' : 'text-white/40'}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d={option.icon} />
+          </svg>
+        </div>
 
-  if (round === 0) {
-    // Round 1: RPG vs Platformer/Actie — discover genre preference
-    const rpg = shuffle(pool.filter((p) => p.genre === 'RPG'));
-    const action = shuffle(pool.filter((p) => ['Platformer', 'Actie', 'Avontuur'].includes(p.genre)));
-    if (rpg.length > 0 && action.length > 0) return [rpg[0], action[0]];
-  }
+        {/* Label */}
+        <h3 className={`text-lg font-semibold mb-1 transition-colors duration-300 ${selected ? 'text-white' : 'text-white/70'}`}>
+          {option.label}
+        </h3>
+        <p className={`text-sm leading-relaxed transition-colors duration-300 ${selected ? 'text-white/50' : 'text-white/25'}`}>
+          {option.sub}
+        </p>
 
-  if (round === 1) {
-    // Round 2: Different platforms within preferred genre area
-    const topGenres = Object.entries(prefs.genres)
-      .sort((a, b) => b[1] - a[1])
-      .map(([g]) => g);
-    const candidates = shuffle(
-      pool.filter((p) => topGenres.includes(p.genre) || topGenres.length === 0),
-    );
-    // Find two from different platforms
-    for (let i = 0; i < candidates.length; i++) {
-      for (let j = i + 1; j < candidates.length; j++) {
-        if (candidates[i].platform !== candidates[j].platform) {
-          return [candidates[i], candidates[j]];
-        }
-      }
-    }
-  }
-
-  if (round === 2) {
-    // Round 3: Budget vs Premium — discover price preference
-    const budget = shuffle(pool.filter((p) => getEffectivePrice(p) < 20));
-    const premium = shuffle(pool.filter((p) => getEffectivePrice(p) >= 35));
-    if (budget.length > 0 && premium.length > 0) return [budget[0], premium[0]];
-  }
-
-  if (round === 3) {
-    // Round 4: CIB vs Los — discover completeness preference
-    const cib = shuffle(pool.filter((p) => p.completeness.toLowerCase().includes('compleet')));
-    const los = shuffle(pool.filter((p) => !p.completeness.toLowerCase().includes('compleet')));
-    if (cib.length > 0 && los.length > 0) return [cib[0], los[0]];
-  }
-
-  if (round === 4) {
-    // Round 5: Two games matching top preferences — the final refinement
-    const topGenres = Object.entries(prefs.genres)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([g]) => g);
-    const topPlatforms = Object.entries(prefs.platforms)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([p]) => p);
-
-    const scored = shuffle(pool)
-      .map((p) => {
-        let s = 0;
-        if (topGenres.includes(p.genre)) s += 5;
-        if (topPlatforms.includes(p.platform)) s += 3;
-        return { p, s };
-      })
-      .sort((a, b) => b.s - a.s);
-
-    if (scored.length >= 2) return [scored[0].p, scored[1].p];
-  }
-
-  // Fallback: random pair
-  const shuffled = shuffle(pool);
-  return shuffled.length >= 2 ? [shuffled[0], shuffled[1]] : null;
-}
-
-// ─── MATCH CALCULATOR ───────────────────────────────────────
-
-function calculateMatches(prefs: UserPrefs, products: Product[]): Product[] {
-  const topGenres = Object.entries(prefs.genres)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4)
-    .map(([g]) => g);
-  const topPlatforms = Object.entries(prefs.platforms)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4)
-    .map(([p]) => p);
-  const avgPrice = prefs.priceCount > 0 ? prefs.priceSum / prefs.priceCount : 25;
-  const prefersCIB =
-    (prefs.completeness['cib'] || 0) > (prefs.completeness['los'] || 0);
-
-  return products
-    .filter((p) => !!p.image && !p.isConsole)
-    .map((p) => {
-      let score = 0;
-      if (topGenres.includes(p.genre)) score += 12;
-      if (topPlatforms.includes(p.platform)) score += 8;
-      // Price proximity (closer = better)
-      const price = getEffectivePrice(p);
-      const priceDiff = Math.abs(price - avgPrice);
-      score += Math.max(0, 6 - priceDiff / 10);
-      // Completeness preference
-      const isCIB = p.completeness.toLowerCase().includes('compleet');
-      if (prefersCIB && isCIB) score += 4;
-      if (!prefersCIB && !isCIB) score += 4;
-      // Bonus for premium
-      if (p.isPremium) score += 1;
-      // Small random factor to vary results
-      score += Math.random() * 2;
-      return { product: p, score };
-    })
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 12)
-    .map((s) => s.product);
+        {/* Checkmark */}
+        <motion.div
+          className="absolute top-4 right-4"
+          initial={false}
+          animate={selected ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        >
+          <div
+            className="h-6 w-6 rounded-full flex items-center justify-center"
+            style={{ background: `linear-gradient(135deg, ${option.gradient[0]}, ${option.gradient[1]})` }}
+          >
+            <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+        </motion.div>
+      </div>
+    </motion.button>
+  );
 }
 
 // ─── RESULT SCREEN ──────────────────────────────────────────
@@ -496,13 +420,12 @@ function ResultScreen({
 
   return (
     <div className="relative min-h-screen bg-[#050810] overflow-hidden">
-      <CRTOverlay />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_50%)]" />
 
       {showConfetti && <ConfettiExplosion />}
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 lg:pt-36 pb-20">
-        {/* VHS style header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -515,9 +438,9 @@ function ResultScreen({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/[0.04] mb-6"
           >
-            <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-[11px] font-medium text-white/40 uppercase tracking-[0.2em] font-mono">
-              REC &bull; Jouw perfecte match
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] font-medium text-white/40 uppercase tracking-[0.2em]">
+              Jouw perfecte match
             </span>
           </motion.div>
         </motion.div>
@@ -530,7 +453,6 @@ function ResultScreen({
           className="flex flex-col items-center mb-16"
         >
           <div className="relative mb-8">
-            {/* Glow behind image */}
             <div className="absolute inset-0 blur-3xl opacity-20 scale-150">
               <div className="w-full h-full bg-gradient-to-b from-emerald-400 to-cyan-400 rounded-full" />
             </div>
@@ -610,8 +532,8 @@ function ResultScreen({
             transition={{ delay: 1.2 }}
           >
             <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10" />
-            <p className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] text-center mb-8 font-mono">
-              // Meer op basis van jouw smaak
+            <p className="text-xs font-medium text-white/30 uppercase tracking-[0.2em] text-center mb-8">
+              Meer op basis van jouw smaak
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {others.map((p, i) => (
@@ -637,7 +559,7 @@ function ResultScreen({
                       )}
                     </div>
                     <div className="text-center">
-                      <p className="text-[10px] text-white/25 mb-1 font-mono">
+                      <p className="text-[10px] text-white/25 mb-1">
                         {PLATFORM_LABELS[p.platform] || p.platform}
                       </p>
                       <p className="text-sm font-medium text-white/80 group-hover:text-white transition-colors mb-1 line-clamp-2">
@@ -654,22 +576,31 @@ function ResultScreen({
           </motion.div>
         )}
 
-        {/* Restart */}
+        {/* Actions */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}
-          className="mt-16 text-center"
+          className="mt-16 flex items-center justify-center gap-6"
         >
           <button
             onClick={onRestart}
-            className="text-sm text-white/30 hover:text-white/60 transition-colors inline-flex items-center gap-2 font-mono"
+            className="text-sm text-white/30 hover:text-white/60 transition-colors inline-flex items-center gap-2"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
             </svg>
-            Opnieuw spelen
+            Opnieuw
           </button>
+          <Link
+            href="/shop"
+            className="text-sm text-white/30 hover:text-white/60 transition-colors inline-flex items-center gap-2"
+          >
+            Bekijk alle games
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </Link>
         </motion.div>
       </div>
     </div>
@@ -678,162 +609,190 @@ function ResultScreen({
 
 // ─── MAIN PAGE ──────────────────────────────────────────────
 
-const TOTAL_ROUNDS = 5;
-
 export default function GameFinderPage() {
   const allProducts = useMemo(() => getAllProducts(), []);
   const [phase, setPhase] = useState<Phase>('intro');
-  const [round, setRound] = useState(0);
-  const [prefs, setPrefs] = useState<UserPrefs>({
-    genres: {},
-    platforms: {},
-    priceSum: 0,
-    priceCount: 0,
-    completeness: {},
-  });
-  const [usedSkus, setUsedSkus] = useState<Set<string>>(new Set());
-  const [currentPair, setCurrentPair] = useState<[Product, Product] | null>(null);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selections, setSelections] = useState<string[][]>(QUESTIONS.map(() => []));
   const [results, setResults] = useState<Product[]>([]);
-  const [exitingSide, setExitingSide] = useState<'left' | 'right' | null>(null);
-  // No more introStep — NostalgiaFilm handles the intro cinematic
 
-  // Generate first pair when entering battle phase
-  useEffect(() => {
-    if (phase === 'battle' && !currentPair) {
-      const pair = createSmartPairs(allProducts, prefs, round, usedSkus);
-      setCurrentPair(pair);
-    }
-  }, [phase, currentPair, allProducts, prefs, round, usedSkus]);
+  const currentQuestion = QUESTIONS[questionIndex];
+  const currentSelection = selections[questionIndex];
+  const totalQuestions = QUESTIONS.length;
+  const progress = (questionIndex / totalQuestions) * 100;
 
-  const handlePick = useCallback(
-    (chosen: Product, rejected: Product, side: 'left' | 'right') => {
-      setExitingSide(side);
+  const toggleOption = useCallback((optionId: string) => {
+    setSelections(prev => {
+      const updated = [...prev];
+      const current = [...updated[questionIndex]];
+      const q = QUESTIONS[questionIndex];
 
-      // Update preferences
-      setPrefs((prev) => {
-        const updated = { ...prev };
-        updated.genres = { ...prev.genres };
-        updated.genres[chosen.genre] = (updated.genres[chosen.genre] || 0) + 2;
-        updated.genres[rejected.genre] = (updated.genres[rejected.genre] || 0) - 1;
-
-        updated.platforms = { ...prev.platforms };
-        updated.platforms[chosen.platform] = (updated.platforms[chosen.platform] || 0) + 2;
-
-        updated.priceSum = prev.priceSum + getEffectivePrice(chosen);
-        updated.priceCount = prev.priceCount + 1;
-
-        updated.completeness = { ...prev.completeness };
-        const isCIB = chosen.completeness.toLowerCase().includes('compleet');
-        updated.completeness[isCIB ? 'cib' : 'los'] =
-          (updated.completeness[isCIB ? 'cib' : 'los'] || 0) + 1;
-
-        return updated;
-      });
-
-      // Track used SKUs
-      setUsedSkus((prev) => {
-        const next = new Set(prev);
-        next.add(chosen.sku);
-        next.add(rejected.sku);
-        return next;
-      });
-
-      // Next round or result
-      setTimeout(() => {
-        setExitingSide(null);
-        if (round + 1 >= TOTAL_ROUNDS) {
-          // Show VHS transition then results
-          setPhase('transition');
+      if (q.multi) {
+        // Toggle in multi-select
+        const idx = current.indexOf(optionId);
+        if (idx >= 0) {
+          current.splice(idx, 1);
         } else {
-          setRound((r) => r + 1);
-          setCurrentPair(null); // trigger new pair generation
+          current.push(optionId);
         }
-      }, 600);
-    },
-    [round],
-  );
+      } else {
+        // Single select — replace
+        if (current[0] === optionId) {
+          current.length = 0;
+        } else {
+          current.length = 0;
+          current.push(optionId);
+        }
+      }
+      updated[questionIndex] = current;
+      return updated;
+    });
+  }, [questionIndex]);
 
-  const handleTransitionComplete = useCallback(() => {
-    const matched = calculateMatches(prefs, allProducts);
-    setResults(matched);
-    setPhase('result');
-  }, [prefs, allProducts]);
+  const handleNext = useCallback(() => {
+    if (questionIndex < totalQuestions - 1) {
+      setQuestionIndex(i => i + 1);
+    } else {
+      // Calculate results
+      const answers: QuizAnswer = {
+        genres: selections[0],
+        playStyle: (selections[1][0] as 'solo' | 'samen') || null,
+        platforms: selections[2],
+        franchises: selections[3],
+      };
+      const matched = calculateMatches(answers, allProducts);
+      setResults(matched);
+      setPhase('result');
+    }
+  }, [questionIndex, totalQuestions, selections, allProducts]);
+
+  const handleBack = useCallback(() => {
+    if (questionIndex > 0) {
+      setQuestionIndex(i => i - 1);
+    }
+  }, [questionIndex]);
+
+  const handleStart = useCallback(() => {
+    setPhase('quiz');
+  }, []);
 
   const restart = useCallback(() => {
     setPhase('intro');
-    setRound(0);
-    setPrefs({ genres: {}, platforms: {}, priceSum: 0, priceCount: 0, completeness: {} });
-    setUsedSkus(new Set());
-    setCurrentPair(null);
+    setQuestionIndex(0);
+    setSelections(QUESTIONS.map(() => []));
     setResults([]);
-    setExitingSide(null);
-  }, []);
-
-  const progress = ((round + (exitingSide ? 1 : 0)) / TOTAL_ROUNDS) * 100;
-
-  const handleFilmStart = useCallback(() => {
-    setPhase('battle');
   }, []);
 
   return (
     <div className="min-h-screen">
-      {/* VHS Transition overlay */}
-      <AnimatePresence>
-        {phase === 'transition' && (
-          <VHSTransition onComplete={handleTransitionComplete} />
-        )}
-      </AnimatePresence>
-
-      {/* ── NOSTALGIA FILM INTRO ──────────────────── */}
-      {phase === 'intro' && (
-        <NostalgiaFilm onStart={handleFilmStart} />
-      )}
-
       <AnimatePresence mode="wait">
-
-        {/* ── BATTLE PHASE ──────────────────────── */}
-        {phase === 'battle' && currentPair && (
+        {/* ── INTRO ──────────────────────────────── */}
+        {phase === 'intro' && (
           <motion.div
-            key={`battle-${round}`}
-            className="relative min-h-screen bg-[#050810] overflow-hidden"
+            key="intro"
+            className="relative min-h-screen bg-[#050810] flex items-center justify-center overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5 }}
           >
-            <CRTOverlay />
-
-            {/* Background */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_50%)]" />
             <div
               className="absolute inset-0 opacity-[0.015]"
               style={{
-                backgroundImage:
-                  'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
-                backgroundSize: '40px 40px',
+                backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+                backgroundSize: '32px 32px',
               }}
             />
 
-            <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-              {/* Header */}
-              <div className="mb-8 lg:mb-10">
-                {/* Progress bar */}
+            <div className="relative z-10 text-center px-4 max-w-lg mx-auto">
+              <motion.div
+                initial={{ opacity: 0, scaleX: 0 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] mb-10"
+              >
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[11px] font-medium text-white/40 uppercase tracking-[0.2em]">
+                  4 vragen &bull; Jouw smaak
+                </span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-5xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.92] mb-6"
+              >
+                Game<br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+                  Finder
+                </span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="text-base text-white/35 max-w-sm mx-auto mb-4"
+              >
+                Beantwoord 4 snelle vragen over jouw speelstijl en voorkeuren.
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="text-sm text-white/20 max-w-sm mx-auto mb-12"
+              >
+                Wij vinden de perfecte game voor jou uit onze collectie.
+              </motion.p>
+
+              <motion.button
+                onClick={handleStart}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="group inline-flex items-center justify-center h-14 px-10 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 transition-all duration-300"
+              >
+                Start de quiz
+                <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ── QUIZ ───────────────────────────────── */}
+        {phase === 'quiz' && (
+          <motion.div
+            key={`quiz-${questionIndex}`}
+            className="relative min-h-screen bg-[#050810] overflow-hidden"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
+
+            <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
+              {/* Progress */}
+              <div className="mb-10">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-                    <span className="text-[11px] font-mono text-white/30 uppercase tracking-[0.15em]">
-                      Ronde {round + 1} / {TOTAL_ROUNDS}
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-mono text-white/20 tabular-nums">
-                    {Math.round(progress)}%
+                  <span className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em]">
+                    Vraag {questionIndex + 1} van {totalQuestions}
+                  </span>
+                  <span className="text-[11px] font-medium text-white/20 tabular-nums">
+                    {Math.round(((questionIndex + 1) / totalQuestions) * 100)}%
                   </span>
                 </div>
                 <div className="h-0.5 bg-white/[0.06] rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full"
-                    initial={{ width: `${((round) / TOTAL_ROUNDS) * 100}%` }}
-                    animate={{ width: `${progress}%` }}
+                    initial={{ width: `${progress}%` }}
+                    animate={{ width: `${((questionIndex + 1) / totalQuestions) * 100}%` }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   />
                 </div>
@@ -843,80 +802,86 @@ export default function GameFinderPage() {
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="text-center mb-8 lg:mb-12"
+                transition={{ duration: 0.4 }}
+                className="mb-8 lg:mb-10"
               >
-                <h2 className="text-2xl lg:text-4xl font-semibold text-white tracking-tight">
-                  Welke spreekt je meer aan?
+                <h2 className="text-2xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
+                  {currentQuestion.title}
                 </h2>
-                <p className="text-sm text-white/25 mt-2 font-mono">
-                  Klik op de game die je het liefst zou spelen
+                <p className="text-sm text-white/25">
+                  {currentQuestion.subtitle}
                 </p>
               </motion.div>
 
-              {/* Card battle area */}
-              <div className="flex items-center justify-center gap-6 lg:gap-12">
-                {/* Left card */}
-                <HoloCard
-                  product={currentPair[0]}
-                  side="left"
-                  onPick={() => handlePick(currentPair[0], currentPair[1], 'left')}
-                  isExiting={exitingSide !== null}
-                  isChosen={exitingSide === 'left'}
-                />
-
-                {/* VS badge */}
-                <motion.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.4, type: 'spring', stiffness: 200, damping: 15 }}
-                  className="relative flex-shrink-0"
-                >
-                  <div className="relative h-14 w-14 lg:h-16 lg:w-16 rounded-full bg-gradient-to-b from-slate-700 to-slate-800 flex items-center justify-center shadow-xl shadow-black/30">
-                    <span className="text-xs lg:text-sm font-bold text-white/60 font-mono tracking-wider">
-                      VS
-                    </span>
-                    {/* Pulsating ring */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full"
-                      style={{ border: '1px solid rgba(16, 185, 129, 0.2)' }}
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0, 0.3] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </div>
-                </motion.div>
-
-                {/* Right card */}
-                <HoloCard
-                  product={currentPair[1]}
-                  side="right"
-                  onPick={() => handlePick(currentPair[1], currentPair[0], 'right')}
-                  isExiting={exitingSide !== null}
-                  isChosen={exitingSide === 'right'}
-                />
+              {/* Options grid */}
+              <div className={`grid gap-4 mb-10 ${
+                currentQuestion.options.length === 2
+                  ? 'grid-cols-1 sm:grid-cols-2'
+                  : 'grid-cols-1 sm:grid-cols-2'
+              }`}>
+                {currentQuestion.options.map((option, i) => (
+                  <OptionCard
+                    key={option.id}
+                    option={option}
+                    selected={currentSelection.includes(option.id)}
+                    onToggle={() => toggleOption(option.id)}
+                    index={i}
+                  />
+                ))}
               </div>
 
-              {/* Round dots */}
+              {/* Navigation */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex items-center justify-center gap-2 mt-10"
+                transition={{ delay: 0.5 }}
+                className="flex items-center justify-between"
               >
-                {Array.from({ length: TOTAL_ROUNDS }, (_, i) => (
+                <button
+                  onClick={handleBack}
+                  disabled={questionIndex === 0}
+                  className={`inline-flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
+                    questionIndex === 0 ? 'text-white/10 cursor-not-allowed' : 'text-white/30 hover:text-white/60'
+                  }`}
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                  </svg>
+                  Vorige
+                </button>
+
+                <button
+                  onClick={handleNext}
+                  disabled={currentSelection.length === 0}
+                  className={`group inline-flex items-center justify-center h-12 px-8 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    currentSelection.length > 0
+                      ? 'bg-white text-slate-900 shadow-lg shadow-white/10 hover:shadow-white/20 active:scale-[0.97]'
+                      : 'bg-white/[0.06] text-white/20 cursor-not-allowed'
+                  }`}
+                >
+                  {questionIndex < totalQuestions - 1 ? 'Volgende' : 'Bekijk resultaten'}
+                  <svg className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </button>
+              </motion.div>
+
+              {/* Step dots */}
+              <div className="flex items-center justify-center gap-2 mt-10">
+                {Array.from({ length: totalQuestions }, (_, i) => (
                   <motion.div
                     key={i}
                     className={`h-1.5 rounded-full transition-all duration-500 ${
-                      i < round
+                      i < questionIndex
                         ? 'w-6 bg-emerald-500/60'
-                        : i === round
+                        : i === questionIndex
                           ? 'w-4 bg-white/30'
                           : 'w-1.5 bg-white/10'
                     }`}
                     layout
                   />
                 ))}
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
