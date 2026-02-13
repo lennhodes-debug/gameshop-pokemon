@@ -164,9 +164,16 @@ function ShopContent() {
 
   return (
     <div className="pt-16 lg:pt-20">
-      {/* Animated hero header */}
-      <div ref={headerRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_50%)]" />
+      {/* Cinematic hero header */}
+      <div ref={headerRef} className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.06),transparent_50%)]" />
+
+        {/* Subtle grid */}
+        <div className="absolute inset-0 opacity-[0.015]" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+        }} />
 
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
@@ -177,27 +184,53 @@ function ShopContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
           >
-            <motion.span
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-4"
+              className="flex items-center gap-4 mb-8"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {allProducts.length} producten beschikbaar
-            </motion.span>
+              <span className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em]">
+                {allProducts.length} producten
+              </span>
+              <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emerald-400/30 to-transparent" />
+            </motion.div>
 
-            <h1 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight mb-3">
+            <h1 className="text-4xl lg:text-7xl font-extrabold text-white tracking-tight mb-5">
               Onze{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
                 Collectie
               </span>
             </h1>
-            <p className="text-slate-400 text-lg max-w-xl">
-              Ontdek ons assortiment van originele Nintendo games — met eigen foto's
+            <p className="text-white/30 text-base lg:text-lg font-light max-w-lg mb-6">
+              Originele Nintendo games — persoonlijk getest, met eigen productfoto&apos;s
             </p>
+
+            <div className="flex items-center gap-6 text-white/20 text-xs">
+              <span className="flex items-center gap-1.5">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
+                </svg>
+                Eigen foto&apos;s
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                </svg>
+                100% origineel
+              </span>
+              <span className="flex items-center gap-1.5">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                </svg>
+                Gratis vanaf &euro;100
+              </span>
+            </div>
           </motion.div>
         </motion.div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f8fafc] to-transparent" />
       </div>
 
       {/* Main content */}
@@ -356,15 +389,15 @@ function ShopContent() {
 
         {/* Resultaten info balk */}
         {!isSearching && filtered.length > 0 && (
-          <div className="mt-6 flex items-center justify-between bg-white/60 backdrop-blur-sm rounded-xl px-4 py-2.5 border border-slate-100">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
+          <div className="mt-6 flex items-center justify-between px-1 py-2">
+            <p className="text-xs text-slate-400">
+              <span className="font-semibold text-slate-600">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
               {totalPages > 1 && (
-                <span className="text-slate-400 dark:text-slate-500"> &middot; pagina {page} van {totalPages}</span>
+                <span className="text-slate-300"> &middot; pagina {page}/{totalPages}</span>
               )}
             </p>
             {filtered.length > ITEMS_PER_PAGE && (
-              <p className="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">
+              <p className="text-[11px] text-slate-300 hidden sm:block tabular-nums">
                 {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
               </p>
             )}
@@ -384,12 +417,16 @@ function ShopContent() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
               >
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
-                    <div className="aspect-square bg-slate-100 dark:bg-slate-700 animate-pulse" />
-                    <div className="p-4 space-y-2">
-                      <div className="h-3 w-3/4 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
-                      <div className="h-3 w-1/2 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
-                      <div className="h-5 w-1/3 rounded bg-slate-100 dark:bg-slate-700 animate-pulse mt-3" />
+                  <div key={i} className="rounded-2xl overflow-hidden" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                    <div className="h-56 bg-gradient-to-b from-slate-50 to-slate-100/50 animate-pulse" />
+                    <div className="p-4 bg-white space-y-2.5">
+                      <div className="h-2.5 w-16 rounded-full bg-slate-100 animate-pulse" />
+                      <div className="h-3 w-3/4 rounded-full bg-slate-100 animate-pulse" />
+                      <div className="h-2.5 w-1/2 rounded-full bg-slate-50 animate-pulse" />
+                      <div className="flex items-center justify-between pt-3">
+                        <div className="h-5 w-16 rounded-full bg-slate-100 animate-pulse" />
+                        <div className="h-9 w-24 rounded-xl bg-slate-100 animate-pulse" />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -400,17 +437,17 @@ function ShopContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="text-center py-20"
+                className="text-center py-24"
               >
-                <div className="h-20 w-20 mx-auto rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mb-6">
-                  <svg className="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div className="h-16 w-16 mx-auto rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
+                  <svg className="h-7 w-7 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Geen producten gevonden</h3>
-                <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Geen producten gevonden</h3>
+                <p className="text-slate-400 text-sm mb-8 max-w-xs mx-auto">
                   {debouncedSearch
-                    ? `Geen resultaten voor "${debouncedSearch}". Probeer een andere zoekterm.`
+                    ? `Geen resultaten voor \u201C${debouncedSearch}\u201D`
                     : 'Pas je filters aan om producten te vinden.'}
                 </p>
                 <button
@@ -459,64 +496,57 @@ function ShopContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-14 flex flex-col items-center gap-4"
+            className="mt-16 flex flex-col items-center gap-5"
           >
-            {/* Page info */}
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Pagina <span className="font-semibold text-slate-700 dark:text-slate-200">{page}</span> van <span className="font-semibold text-slate-700 dark:text-slate-200">{totalPages}</span>
-            </p>
-
-            <div className="flex items-center gap-2">
-              <motion.button
+            <div className="flex items-center gap-1.5">
+              <button
                 onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 disabled={page === 1}
                 aria-label="Vorige pagina"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="h-10 w-10 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 disabled:opacity-20 disabled:cursor-not-allowed transition-all flex items-center justify-center"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
-              </motion.button>
+              </button>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-0.5">
                 {Array.from({ length: totalPages }, (_, i) => i + 1)
                   .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 2)
                   .map((p, idx, arr) => (
                     <span key={p} className="flex items-center">
                       {idx > 0 && arr[idx - 1] !== p - 1 && (
-                        <span className="px-0.5 sm:px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
+                        <span className="px-1 text-slate-300 text-xs">...</span>
                       )}
-                      <motion.button
+                      <button
                         onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className={`h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
+                        className={`h-10 w-10 rounded-xl text-sm font-semibold transition-all duration-300 ${
                           p === page
-                            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25'
-                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                            ? 'bg-slate-900 text-white'
+                            : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'
                         }`}
                       >
                         {p}
-                      </motion.button>
+                      </button>
                     </span>
                   ))}
               </div>
 
-              <motion.button
+              <button
                 onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 disabled={page === totalPages}
                 aria-label="Volgende pagina"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="h-10 w-10 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 disabled:opacity-20 disabled:cursor-not-allowed transition-all flex items-center justify-center"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
-              </motion.button>
+              </button>
             </div>
+
+            <p className="text-[11px] text-slate-300 tabular-nums">
+              Pagina {page} van {totalPages}
+            </p>
           </motion.div>
         )}
       </div>
@@ -531,12 +561,12 @@ export default function ShopPage() {
   return (
     <Suspense fallback={
       <div className="pt-16 lg:pt-20">
-        <div className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%)]" />
+        <div className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="h-4 w-32 rounded bg-white/10 animate-pulse mb-4" />
-            <div className="h-12 w-64 rounded bg-white/10 animate-pulse mb-3" />
-            <div className="h-6 w-96 rounded bg-white/5 animate-pulse" />
+            <div className="h-3 w-24 rounded-full bg-white/5 animate-pulse mb-8" />
+            <div className="h-12 w-72 rounded-lg bg-white/5 animate-pulse mb-5" />
+            <div className="h-4 w-96 rounded-full bg-white/[0.03] animate-pulse" />
           </div>
         </div>
       </div>

@@ -115,7 +115,7 @@ const processSteps = [
   {
     num: '01',
     title: "Maak foto's",
-    desc: 'Maak duidelijke foto\'s van je Pokémon games — voor- en achterkant',
+    desc: 'Maak duidelijke foto\'s van je games of consoles — voor- en achterkant',
     icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z',
     gradient: 'from-amber-500 to-orange-500',
   },
@@ -178,9 +178,9 @@ export default function InkoopPage() {
   };
 
   const generateMailto = () => {
-    const subject = encodeURIComponent('Inkoop aanvraag — Pokémon games verkopen');
+    const subject = encodeURIComponent('Inkoop aanvraag — Nintendo games verkopen');
     const body = encodeURIComponent(
-      `Hallo Gameshop Enter,\n\nIk wil graag Pokémon games verkopen.\n\nNaam: ${form.naam}\nE-mail: ${form.email}\nTelefoon: ${form.telefoon || 'Niet opgegeven'}\nPlatform: ${form.platform || 'Niet opgegeven'}\n\nBeschrijving:\n${form.beschrijving}\n\n(Foto's worden als bijlage meegestuurd)\n\nMet vriendelijke groet,\n${form.naam}`
+      `Hallo Gameshop Enter,\n\nIk wil graag Nintendo games/consoles verkopen.\n\nNaam: ${form.naam}\nE-mail: ${form.email}\nTelefoon: ${form.telefoon || 'Niet opgegeven'}\nPlatform: ${form.platform || 'Niet opgegeven'}\n\nBeschrijving:\n${form.beschrijving}\n\n(Foto's worden als bijlage meegestuurd)\n\nMet vriendelijke groet,\n${form.naam}`
     );
     return `mailto:gameshopenter@gmail.com?subject=${subject}&body=${body}`;
   };
@@ -272,7 +272,7 @@ export default function InkoopPage() {
 
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white tracking-tight leading-[1.05] mb-8">
             <span className="block">
-              <CharReveal text="Pokémon games" delay={0.3} stagger={0.025} />
+              <CharReveal text="Nintendo games" delay={0.3} stagger={0.025} />
             </span>
             <span className="block mt-2">
               <CharReveal text="verkopen?" className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400" delay={0.7} stagger={0.03} />
@@ -285,8 +285,8 @@ export default function InkoopPage() {
             transition={{ delay: 1.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg lg:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed mb-12"
           >
-            Stuur foto&apos;s van je games, dan doen wij je een eerlijk bod.
-            Simpel, snel, en altijd op basis van marktwaarde.
+            Stuur foto&apos;s van je games of consoles, dan doen wij je een eerlijk bod.
+            Van Game Boy tot Switch — alles van Nintendo is welkom.
           </motion.p>
 
           <motion.div
@@ -556,10 +556,19 @@ export default function InkoopPage() {
                             className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white appearance-none bg-no-repeat bg-[right_14px_center] bg-[length:16px_16px] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke-width%3D%222%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M19.5%208.25l-7.5%207.5-7.5-7.5%22%2F%3E%3C%2Fsvg%3E')]"
                           >
                             <option value="">Kies platform...</option>
-                            <option value="Nintendo DS">Nintendo DS</option>
+                            <option value="Nintendo Switch">Nintendo Switch</option>
                             <option value="Nintendo 3DS">Nintendo 3DS</option>
+                            <option value="Nintendo DS">Nintendo DS</option>
+                            <option value="Wii U">Wii U</option>
+                            <option value="Wii">Wii</option>
+                            <option value="GameCube">GameCube</option>
+                            <option value="Nintendo 64">Nintendo 64</option>
+                            <option value="SNES">SNES</option>
+                            <option value="NES">NES</option>
                             <option value="Game Boy Advance">Game Boy Advance</option>
                             <option value="Game Boy / Color">Game Boy / Color</option>
+                            <option value="Game & Watch">Game &amp; Watch</option>
+                            <option value="Sega">Sega</option>
                             <option value="Meerdere / Anders">Meerdere / Anders</option>
                           </select>
                         </div>
@@ -567,7 +576,7 @@ export default function InkoopPage() {
 
                       <div>
                         <label htmlFor="inkoop-beschrijving" className="block text-sm font-semibold text-slate-700 mb-2">
-                          Welke Pokémon games wil je verkopen? *
+                          Wat wil je verkopen? *
                         </label>
                         <textarea
                           id="inkoop-beschrijving"
@@ -576,7 +585,7 @@ export default function InkoopPage() {
                           onChange={(e) => updateField('beschrijving', e.target.value)}
                           rows={5}
                           className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 bg-slate-50/50 focus:bg-white"
-                          placeholder="Beschrijf welke games je wilt verkopen. Vermeld de staat en of je de originele doos nog hebt."
+                          placeholder="Beschrijf wat je wilt verkopen (bijv. Pokémon games, SNES cartridges, Game Boy, lege doosjes, consoles). Vermeld de staat en of je de originele doos nog hebt."
                         />
                       </div>
 
@@ -639,9 +648,9 @@ export default function InkoopPage() {
                 <h3 className="font-extrabold text-slate-900 text-lg mb-5">Waarom bij ons verkopen?</h3>
                 <div className="space-y-5">
                   {[
-                    { title: 'Eerlijke prijzen', desc: 'Gebaseerd op actuele marktwaarde (PriceCharting)', gradient: 'from-emerald-500 to-teal-500', icon: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
+                    { title: 'Eerlijk bod', desc: 'Wij doen je altijd een eerlijk bod op basis van marktwaarde', gradient: 'from-emerald-500 to-teal-500', icon: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
                     { title: 'Snelle afhandeling', desc: 'Reactie binnen 24u, betaling binnen 2 dagen', gradient: 'from-cyan-500 to-blue-500', icon: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z' },
-                    { title: 'Pokémon specialist', desc: 'DS, 3DS, GBA, Game Boy — alle generaties', gradient: 'from-violet-500 to-purple-500', icon: 'M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.491 48.491 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z' },
+                    { title: 'Nintendo specialist', desc: 'Game Boy tot Switch, SNES tot Wii U — alles welkom', gradient: 'from-violet-500 to-purple-500', icon: 'M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.491 48.491 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z' },
                     { title: 'Gratis verzending', desc: 'Stuur je pakket gratis op via PostNL', gradient: 'from-amber-500 to-orange-500', icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12' },
                   ].map((item, i) => (
                     <motion.div
@@ -752,7 +761,7 @@ export default function InkoopPage() {
               ?
             </h2>
             <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">
-              Ontdek ons complete assortiment originele Pokémon games — elke game persoonlijk getest.
+              Ontdek ons complete assortiment originele Nintendo games — elke game persoonlijk getest.
             </p>
             <Magnetic strength={0.25}>
               <a
