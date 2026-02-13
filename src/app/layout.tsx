@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 
 const BootSequence = dynamic(() => import('@/components/ui/BootSequence'));
+const ChatBot = dynamic(() => import('@/components/ui/ChatBot'));
 
 const inter = Inter({
   subsets: ['latin'],
@@ -202,6 +203,7 @@ export default function RootLayout({
               </main>
               <Footer />
               <BackToTop />
+              <ChatBot />
             </ToastProvider>
           </WishlistProvider>
         </CartProvider>
