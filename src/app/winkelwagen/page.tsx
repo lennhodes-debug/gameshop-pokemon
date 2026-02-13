@@ -245,7 +245,7 @@ export default function WinkelwagenPage() {
                       exit={{ opacity: 0, x: -40, scale: 0.95, filter: 'blur(4px)', height: 0, marginBottom: 0, padding: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
                       className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-4 flex gap-4 shadow-sm hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
-                      style={{ borderLeft: `3px solid ${itemAccent}` }}
+                      style={{ borderLeft: `2px solid ${itemAccent}` }}
                     >
                       {/* Product image */}
                       <Link href={`/shop/${item.product.sku}`} className="flex-shrink-0">

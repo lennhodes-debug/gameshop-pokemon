@@ -138,7 +138,7 @@ export default function GameCarousel3D() {
   if (total === 0) return null;
 
   return (
-    <section ref={sectionRef} className="relative bg-[#050810] py-28 lg:py-40 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
       {/* Dynamische achtergrond die verandert per actieve game */}
       <motion.div className="absolute inset-0 transition-colors duration-1000" style={{ opacity: bgOpacity }}>
         <div
@@ -152,7 +152,7 @@ export default function GameCarousel3D() {
       </motion.div>
 
       {/* Header */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 text-center z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center z-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -162,7 +162,7 @@ export default function GameCarousel3D() {
           <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
             Collectie
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.1]">
+          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight leading-[1.1]">
             Ontdek onze games
           </h2>
         </motion.div>

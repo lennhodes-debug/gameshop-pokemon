@@ -198,7 +198,7 @@ export default function Filters({
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
             className="overflow-hidden"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 pb-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2 pb-1">
               <PillGroup
                 label="Conditie"
                 options={[

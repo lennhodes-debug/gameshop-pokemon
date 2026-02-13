@@ -33,7 +33,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mb-16 lg:mb-24 origin-center"
+        className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mb-8 lg:mb-12 origin-center"
       />
 
       {/* Badge pill */}
@@ -108,7 +108,7 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
             viewport={{ once: true, margin: '-50px' }}
             transition={{
               duration: 0.5,
-              delay: index * 0.1,
+              delay: index * 0.06,
               ease: [0.16, 1, 0.3, 1],
             }}
           >

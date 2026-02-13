@@ -73,7 +73,7 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
 
 export default function AboutPreview() {
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden">
+    <section className="relative py-20 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-[#050810]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.04),transparent_60%)]" />
 

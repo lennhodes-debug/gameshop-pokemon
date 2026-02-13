@@ -34,7 +34,7 @@ export default function NewsletterCTA() {
   };
 
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden">
+    <section className="relative py-20 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900" />
 
       <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

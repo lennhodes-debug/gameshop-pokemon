@@ -289,7 +289,7 @@ export default function FeaturedProducts() {
 
   return (
     <section
-      className="relative bg-white py-16 lg:py-28 overflow-hidden"
+      className="relative bg-white py-20 lg:py-28 overflow-hidden"
       onMouseMove={handleSectionMove}
     >
       {/* Cursor spotlight */}

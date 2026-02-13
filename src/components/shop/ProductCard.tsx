@@ -189,7 +189,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         {/* Image stage — generous padding, premium backdrop */}
         <Link href={`/shop/${product.sku}`}>
           <div
-            className="relative h-64 flex items-center justify-center overflow-hidden"
+            className="relative h-56 flex items-center justify-center overflow-hidden"
             style={{
               background: 'linear-gradient(160deg, #f8fafb 0%, #f1f5f9 50%, #eef2f7 100%)',
             }}
@@ -214,7 +214,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className={cn(
-                    "object-contain p-8 transition-all duration-700 ease-out",
+                    "object-contain p-6 transition-all duration-700 ease-out",
                     imageLoaded && !imageTransition ? "opacity-100" : "opacity-0",
                     isHovered ? "scale-[1.03]" : "scale-100"
                   )}
@@ -272,7 +272,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         </Link>
 
         {/* Content — clean, spacious */}
-        <div className="p-5 flex flex-col flex-1">
+        <div className="p-4 flex flex-col flex-1">
           {/* Variant toggle */}
           {hasCibOption ? (
             <div className="mb-3">

@@ -111,7 +111,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             className="aspect-square rounded-2xl flex items-center justify-center overflow-hidden relative"
             style={{
               background: displayImage
-                ? `linear-gradient(145deg, ${accent}08 0%, #0a0e1a 40%, ${accentAlt}05 100%)`
+                ? `linear-gradient(145deg, ${accent}10 0%, #0f1320 50%, ${accentAlt}08 100%)`
                 : `linear-gradient(135deg, ${accent}, ${accentAlt})`,
               border: `1px solid ${accent}15`,
               boxShadow: `0 25px 50px rgba(0,0,0,0.3)`,
@@ -129,7 +129,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className={cn(
-                    "object-contain p-8 lg:p-12 transition-all duration-700",
+                    "object-contain p-6 lg:p-8 transition-all duration-700",
                     imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                   )}
                   priority
@@ -220,7 +220,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* Titel */}
-          <h1 className="text-3xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
             {product.name}
           </h1>
           <div className="h-1 w-16 rounded-full mb-5" style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }} />
@@ -383,7 +383,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       </motion.div>
 
       {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="backdrop-blur-md border-t border-white/[0.08] px-4 py-3 flex items-center justify-between gap-3"
           style={{ background: 'rgba(5,8,16,0.92)' }}>
           <div className="min-w-0 flex-1">

@@ -38,7 +38,7 @@ const fadeUp = {
 
 export default function FaqPreview() {
   return (
-    <section className="relative bg-[#f8fafc] py-16 lg:py-24">
+    <section className="relative bg-[#f8fafc] py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

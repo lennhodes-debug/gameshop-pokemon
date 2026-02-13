@@ -230,7 +230,7 @@ export default function PlatformGrid() {
   }, [dbPlatforms]);
 
   return (
-    <section className="relative bg-[#050810] py-24 lg:py-36 overflow-hidden">
+    <section className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(99,102,241,0.06),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.04),transparent_50%)]" />
 

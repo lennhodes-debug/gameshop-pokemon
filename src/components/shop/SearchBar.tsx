@@ -135,7 +135,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden z-50"
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/40 overflow-hidden z-50"
             role="listbox"
           >
             {suggestions.map((product, i) => (
