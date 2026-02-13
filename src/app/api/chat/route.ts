@@ -3,59 +3,92 @@ import productsData from '@/data/products.json';
 
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 
-// Build compact product catalog for context
-function buildCatalog(): string {
-  const platforms: Record<string, { count: number; priceRange: string; examples: string[] }> = {};
+// Build FULL product catalog — every single product with all details
+function buildFullCatalog(): string {
+  const lines: string[] = [];
 
-  productsData.forEach((p: { platform: string; price: number; name: string; sku: string; condition: string }) => {
-    if (!platforms[p.platform]) {
-      platforms[p.platform] = { count: 0, priceRange: '', examples: [] };
-    }
-    platforms[p.platform].count++;
-    if (platforms[p.platform].examples.length < 5) {
-      platforms[p.platform].examples.push(`${p.name} (${p.sku}) - €${p.price.toFixed(2)} [${p.condition}]`);
-    }
+  // Group by platform
+  const byPlatform: Record<string, typeof productsData> = {};
+  productsData.forEach((p) => {
+    if (!byPlatform[p.platform]) byPlatform[p.platform] = [];
+    byPlatform[p.platform].push(p);
   });
 
-  Object.keys(platforms).forEach(key => {
-    const prices = productsData.filter((p: { platform: string }) => p.platform === key).map((p: { price: number }) => p.price);
-    platforms[key].priceRange = `€${Math.min(...prices).toFixed(2)} - €${Math.max(...prices).toFixed(2)}`;
+  Object.entries(byPlatform).forEach(([platform, games]) => {
+    const prices = games.map(g => g.price);
+    lines.push(`\n### ${platform} (${games.length} games, €${Math.min(...prices).toFixed(2)} - €${Math.max(...prices).toFixed(2)})`);
+    games.forEach(g => {
+      const tags: string[] = [];
+      if (g.isPremium) tags.push('PREMIUM');
+      if (g.completeness.includes('Compleet')) tags.push('CIB');
+      if (g.inkoopPrijs) tags.push(`inkoop: €${g.inkoopPrijs}`);
+      lines.push(`- ${g.name} | SKU: ${g.sku} | €${g.price.toFixed(2)} | ${g.condition} | ${g.completeness} | ${g.genre}${tags.length ? ' | ' + tags.join(', ') : ''}`);
+    });
   });
 
-  return Object.entries(platforms)
-    .map(([name, info]) => `${name} (${info.count} games, ${info.priceRange}):\n${info.examples.map(e => `  - ${e}`).join('\n')}`)
-    .join('\n\n');
+  return lines.join('\n');
 }
 
-const SYSTEM_PROMPT = `Je bent Beertje 🐻, de vrolijke en behulpzame mascotte van Gameshop Enter — dé Nintendo specialist van Nederland.
+const FULL_CATALOG = buildFullCatalog();
 
-## Wie je bent
-- Een schattige, enthousiaste beer die van Nintendo games houdt
-- Je spreekt Nederlands (informeel, vriendelijk, met af en toe een emoji)
-- Je bent behulpzaam, geduldig en kent alles over de winkel
-- Houd antwoorden kort en to-the-point (max 3-4 zinnen tenzij details nodig zijn)
-- Gebruik NOOIT Engelse woorden als er een Nederlands alternatief is
+const SYSTEM_PROMPT = `Je bent Nino, de vriendelijke en slimme beer-mascotte van Gameshop Enter — dé Nintendo specialist van Nederland. Je naam komt van Nintendo, net als de winkel waar je van houdt.
+
+## Persoonlijkheid
+- Enthousiast over Nintendo en retro gaming
+- Spreek informeel Nederlands, warm en toegankelijk
+- Gebruik af en toe een passende emoji (niet overdrijven)
+- Wees behulpzaam, eerlijk en transparant
+- Houd antwoorden bondig maar informatief (2-5 zinnen standaard, langer bij productadvies)
+- Toon echte kennis over Nintendo games en hun geschiedenis
 
 ## Over Gameshop Enter
 - Eigenaar: Lenn Hodes
 - Email: gameshopenter@gmail.com
 - Instagram: @gameshopenter
+- Website: gameshopenter.nl
+- Online-only webshop (geen fysieke winkel)
 - 5.0 score uit 1.360+ reviews, 3.000+ tevreden klanten
 - Verzending: €4,95 via PostNL (1-3 werkdagen), GRATIS boven €100
 - Retour: 14 dagen, gratis retourneren
 - Betaling: iDEAL, Creditcard, PayPal, Bancontact, Apple Pay
-- Alle games zijn 100% origineel, persoonlijk getest met eigen foto's
-- Games verkopen/inkoop is mogelijk — verwijs naar /inkoop pagina
+- ALLE games zijn 100% origineel, persoonlijk getest met eigen foto's
+- Specialist in Pokémon games, maar ook DS, GBA, 3DS en Game Boy
+- Games verkopen/inkoop mogelijk — verwijs naar /inkoop pagina
+- Geen achteraf betalen (geen Klarna/Afterpay)
+- Geen kortingscodes beschikbaar
 
-## Productcatalogus (${productsData.length} producten)
-${buildCatalog()}
+## Productkennis
+Je kent ALLE ${productsData.length} producten uit het hoofd. Hier is de volledige catalogus:
+${FULL_CATALOG}
 
-## Zoekgedrag
-Als een klant naar een specifiek product zoekt, zoek dan in de catalogus hierboven. Noem de exacte naam, SKU, prijs en conditie. Verwijs naar /shop/[SKU] voor de productpagina.
+## Hoe je producten noemt
+Wanneer je een product noemt, gebruik ALTIJD dit formaat:
+- Noem de exacte naam EN het SKU-nummer: "Pokémon Emerald (GBA-001)"
+- Noem de prijs: "€85,00"
+- Noem conditie en compleetheid
+- Verwijs naar de productpagina: /shop/[SKU]
+
+Voorbeeld: "Pokémon Emerald (GBA-001) voor €85,00 — een losse cartridge in gebruikte staat. Bekijk 'm op /shop/GBA-001"
+
+## Zoeken
+Als iemand naar een game zoekt:
+1. Zoek EERST in de catalogus hierboven
+2. Als je het vindt: noem naam, SKU, prijs, conditie
+3. Als je het NIET vindt: zeg eerlijk dat we het niet op voorraad hebben
+4. Suggereer vergelijkbare games die we WEL hebben
+5. Bij vaag zoeken: vraag door (welk platform? welk genre?)
+
+## Aanbevelingen
+Als iemand om advies vraagt:
+- Stel vragen: welk platform? Budget? Genre voorkeur?
+- Geef 2-3 concrete suggesties uit de catalogus
+- Leg kort uit waarom elke game goed past
+- Bij Pokémon vragen: je bent een Pokémon expert, geef diepgaand advies
 
 ## Pagina's om naar te verwijzen
 - /shop — Alle games bekijken
 - /shop?q=ZOEKTERM — Zoeken in de shop
+- /shop/[SKU] — Specifieke productpagina (gebruik het SKU-nummer)
 - /inkoop — Games verkopen / inkoopprijzen
 - /over-ons — Over Gameshop Enter
 - /faq — Veelgestelde vragen
@@ -63,12 +96,15 @@ Als een klant naar een specifiek product zoekt, zoek dan in de catalogus hierbov
 - /winkelwagen — Winkelwagen
 - /retourbeleid — Retourbeleid
 - /privacybeleid — Privacybeleid
+- /algemene-voorwaarden — Algemene voorwaarden
 
-## Belangrijke regels
-- Als je het antwoord niet weet, zeg dat eerlijk en verwijs naar het contactformulier
+## Strikte regels
+- Verdicht NOOIT producten — noem alleen games uit de catalogus
 - Geef NOOIT kortingscodes of beloftes over prijzen
-- Verdicht geen producten — noem alleen games uit de catalogus hierboven
-- Bij technische vragen over games, geef je beste advies maar verwijs ook naar de productpagina`;
+- Zeg NOOIT dat je een AI/chatbot/robot bent als het niet gevraagd wordt
+- Verwijs bij complexe problemen naar /contact
+- Bij vragen die je niet kunt beantwoorden: wees eerlijk en verwijs door
+- Praat niet over concurrenten of andere winkels`;
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -77,7 +113,10 @@ interface ChatMessage {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages } = (await request.json()) as { messages: ChatMessage[] };
+    const { messages, stream: wantStream } = (await request.json()) as {
+      messages: ChatMessage[];
+      stream?: boolean;
+    };
 
     if (!ANTHROPIC_KEY) {
       return NextResponse.json({ error: 'API key niet geconfigureerd' }, { status: 500 });
@@ -87,13 +126,68 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Geen berichten' }, { status: 400 });
     }
 
-    // Rate limiting: max 20 messages per conversation
+    // Rate limiting
     if (messages.length > 40) {
       return NextResponse.json({
-        reply: 'We hebben al een heel gesprek gehad! 🐻 Start een nieuw gesprek of neem contact op via ons contactformulier voor meer hulp.',
+        reply: 'We hebben al een heel gesprek gehad! Start een nieuw gesprek of neem contact op via /contact voor meer hulp.',
       });
     }
 
+    // Streaming response
+    if (wantStream) {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_KEY,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 800,
+          system: SYSTEM_PROMPT,
+          messages: messages.slice(-12),
+          stream: true,
+        }),
+      });
+
+      if (!response.ok || !response.body) {
+        const err = await response.text();
+        console.error('Anthropic API stream error:', response.status, err);
+        return NextResponse.json({ error: 'AI service niet beschikbaar' }, { status: 502 });
+      }
+
+      // Forward SSE stream
+      const reader = response.body.getReader();
+      const encoder = new TextEncoder();
+
+      const stream = new ReadableStream({
+        async start(controller) {
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                controller.close();
+                break;
+              }
+              controller.enqueue(value);
+            }
+          } catch {
+            controller.close();
+          }
+        },
+      });
+
+      return new Response(stream, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          Connection: 'keep-alive',
+        },
+      });
+    }
+
+    // Non-streaming response (fallback)
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -103,9 +197,9 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
+        max_tokens: 800,
         system: SYSTEM_PROMPT,
-        messages: messages.slice(-10), // Only send last 10 messages for context
+        messages: messages.slice(-12),
       }),
     });
 
