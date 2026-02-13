@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import { getAllProducts, type Product } from '@/lib/products';
 
-// ─── HELPERS ───────────────────────────────────────────────
+// ─── REUSABLE HELPERS ─────────────────────────────────────
 
 function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number; suffix?: string; prefix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -31,15 +31,13 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number;
   return <span ref={ref}>{prefix}{count.toLocaleString('nl-NL')}{suffix}</span>;
 }
 
-// Character-by-character reveal — Awwwards-style cinematic text
 function CharReveal({ text, className = '', delay = 0, stagger = 0.02 }: { text: string; className?: string; delay?: number; stagger?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
-  const chars = text.split('');
 
   return (
     <span ref={ref} className={`inline ${className}`}>
-      {chars.map((char, i) => (
+      {text.split('').map((char, i) => (
         <span key={i} className="inline-block overflow-hidden">
           <motion.span
             className="inline-block"
@@ -60,15 +58,13 @@ function CharReveal({ text, className = '', delay = 0, stagger = 0.02 }: { text:
   );
 }
 
-// Word-by-word reveal — Apple-style staggered text
 function WordReveal({ text, className = '', delay = 0 }: { text: string; className?: string; delay?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
-  const words = text.split(' ');
 
   return (
     <span ref={ref} className={`inline ${className}`}>
-      {words.map((word, i) => (
+      {text.split(' ').map((word, i) => (
         <span key={i} className="inline-block overflow-hidden mr-[0.3em]">
           <motion.span
             className="inline-block"
@@ -88,7 +84,6 @@ function WordReveal({ text, className = '', delay = 0 }: { text: string; classNa
   );
 }
 
-// Scroll-linked paragraph opacity — Apple-style text that fades based on scroll position
 function ScrollParagraph({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({
@@ -106,7 +101,44 @@ function ScrollParagraph({ children, className = '' }: { children: React.ReactNo
   );
 }
 
-// Magnetic element — follows cursor with spring physics
+/* Apple-style scroll word highlight — elk woord licht op van dim naar helder terwijl je scrollt */
+function ScrollWord({ word, progress, start, end }: {
+  word: string;
+  progress: ReturnType<typeof useScroll>['scrollYProgress'];
+  start: number;
+  end: number;
+}) {
+  const opacity = useTransform(progress, [start, end], [0.1, 1]);
+  return (
+    <motion.span className="inline-block mr-[0.28em]" style={{ opacity }}>
+      {word}
+    </motion.span>
+  );
+}
+
+function ScrollHighlight({ text, className = '' }: { text: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.85', 'end 0.35'],
+  });
+  const words = text.split(' ');
+
+  return (
+    <p ref={ref} className={className}>
+      {words.map((word, i) => (
+        <ScrollWord
+          key={i}
+          word={word}
+          progress={scrollYProgress}
+          start={i / words.length}
+          end={Math.min((i + 2) / words.length, 1)}
+        />
+      ))}
+    </p>
+  );
+}
+
 function Magnetic({ children, strength = 0.35 }: { children: React.ReactNode; strength?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -117,36 +149,17 @@ function Magnetic({ children, strength = 0.35 }: { children: React.ReactNode; st
   const handleMove = useCallback((e: React.MouseEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * strength);
-    y.set((e.clientY - centerY) * strength);
+    x.set((e.clientX - (rect.left + rect.width / 2)) * strength);
+    y.set((e.clientY - (rect.top + rect.height / 2)) * strength);
   }, [x, y, strength]);
 
-  const handleLeave = useCallback(() => { x.set(0); y.set(0); }, [x, y]);
-
   return (
-    <motion.div ref={ref} onMouseMove={handleMove} onMouseLeave={handleLeave} style={{ x: springX, y: springY }}>
+    <motion.div ref={ref} onMouseMove={handleMove} onMouseLeave={() => { x.set(0); y.set(0); }} style={{ x: springX, y: springY }}>
       {children}
     </motion.div>
   );
 }
 
-// Paragraph fade — each paragraph fades in with blur
-function ParagraphReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <motion.p
-      initial={{ opacity: 0, y: 25, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.p>
-  );
-}
-
-// Noise texture overlay for premium feel
 function NoiseOverlay({ opacity = 0.03 }: { opacity?: number }) {
   return (
     <div
@@ -161,7 +174,6 @@ function NoiseOverlay({ opacity = 0.03 }: { opacity?: number }) {
   );
 }
 
-// Velocity-driven marquee row
 function VelocityRow({
   items, baseVelocity, size, blur, opacity, depth, velocityFactor,
 }: {
@@ -198,7 +210,7 @@ function VelocityRow({
     <motion.div className="relative mb-3" style={{ opacity, transform: `translateZ(${depth}px)`, filter: blur }}>
       <motion.div ref={rowRef} className={`flex ${gapClass}`} style={{ x: baseX }}>
         {repeated.map((product, i) => (
-          <div key={`${product.sku}-${i}`} className={`flex-shrink-0 ${sizeClass} overflow-hidden group/card relative transition-shadow duration-300 ${size === 'lg' ? 'hover:shadow-[0_0_20px_rgba(16,185,129,0.5)]' : ''}`}>
+          <div key={`${product.sku}-${i}`} className={`flex-shrink-0 ${sizeClass} overflow-hidden group/card relative`}>
             <Image src={product.image!} alt={product.name} width={size === 'sm' ? 80 : size === 'md' ? 128 : 176} height={size === 'sm' ? 80 : size === 'md' ? 128 : 176} className="object-cover w-full h-full transition-transform duration-300 group-hover/card:scale-110" loading="lazy" />
             {(size === 'md' || size === 'lg') && (
               <div className="absolute inset-0 bg-black/0 group-hover/card:bg-black/50 transition-all duration-300 flex items-end p-2 opacity-0 group-hover/card:opacity-100">
@@ -215,13 +227,13 @@ function VelocityRow({
 // ─── DATA ──────────────────────────────────────────────────
 
 const timeline = [
-  { year: '2018', title: 'De eerste stappen', description: 'Op mijn 14e begon ik met het verkopen van verzamelkaarten op Marktplaats. Wat begon als zakgeld verdienen, werd al snel een echte passie.', color: 'from-purple-500 to-violet-500' },
+  { year: '2018', title: 'De eerste stappen', description: 'Op mijn 14e begon ik met het verkopen van games en verzamelkaarten op Marktplaats. Wat begon als zakgeld verdienen, werd al snel een echte passie.', color: 'from-purple-500 to-violet-500' },
   { year: '2019', title: 'Vallen en opstaan', description: 'Ik waagde me aan iPhones en PS5 consoles. Werd meerdere keren opgelicht. Harde lessen over vertrouwen en kwaliteitscontrole.', color: 'from-slate-500 to-slate-600' },
-  { year: '2020', title: 'Terug naar de passie', description: 'Na de tegenslagen terug naar mijn roots: Nintendo. Originele Pokémon-games inkopen, testen en doorverkopen.', color: 'from-amber-500 to-orange-500' },
-  { year: '2022', title: 'Gameshop Enter', description: 'De focus op originele Pokémon-games groeide snel. Het werd tijd voor een echte naam. Gameshop Enter was geboren.', color: 'from-emerald-500 to-teal-500' },
+  { year: '2020', title: 'Terug naar de passie', description: 'Na de tegenslagen terug naar mijn roots: Nintendo. Originele games inkopen, testen en doorverkopen met focus op kwaliteit.', color: 'from-amber-500 to-orange-500' },
+  { year: '2022', title: 'Gameshop Enter', description: 'De focus op originele Nintendo games groeide snel. Het werd tijd voor een echte naam. Gameshop Enter was geboren.', color: 'from-emerald-500 to-teal-500' },
   { year: '2023', title: 'Studie & praktijk', description: 'Start studie Ondernemerschap en Retailmanagement aan het Saxion. Theorie en praktijk versterken elkaar.', color: 'from-cyan-500 to-blue-500' },
   { year: '2024', title: '3000+ klanten', description: 'Meer dan 3000 tevreden klanten en 1360+ reviews op Marktplaats met een perfecte 5.0 score.', color: 'from-amber-400 to-yellow-500' },
-  { year: 'Nu', title: 'Dé specialist', description: 'Gameshop Enter is dé Pokémon games specialist van Nederland. Originele games, eigen fotografie, persoonlijke service.', color: 'from-emerald-400 to-cyan-400' },
+  { year: 'Nu', title: 'Dé specialist', description: 'Gameshop Enter is dé retro gaming specialist van Nederland. Originele games, eigen fotografie, persoonlijke service.', color: 'from-emerald-400 to-cyan-400' },
 ];
 
 const processSteps = [
@@ -252,7 +264,7 @@ export default function OverOnsPage() {
   const heroMouseY = useMotionValue(0.5);
   const heroGlowX = useSpring(useTransform(heroMouse, [0, 1], [20, 80]), { stiffness: 50, damping: 20 });
   const heroGlowY = useSpring(useTransform(heroMouseY, [0, 1], [20, 80]), { stiffness: 50, damping: 20 });
-  const heroGlow = useMotionTemplate`radial-gradient(800px circle at ${heroGlowX}% ${heroGlowY}%, rgba(16,185,129,0.15), transparent 50%)`;
+  const heroGlow = useMotionTemplate`radial-gradient(800px circle at ${heroGlowX}% ${heroGlowY}%, rgba(16,185,129,0.12), transparent 50%)`;
 
   // Timeline scroll line
   const { scrollYProgress: timelineProgress } = useScroll({ target: timelineRef, offset: ['start end', 'end start'] });
@@ -289,21 +301,20 @@ export default function OverOnsPage() {
     <div className="pt-20 lg:pt-24">
 
       {/* ═══════════════════════════════════════════════════════════
-          CINEMATIC HERO — Full-screen parallax met word-by-word reveal
+          CINEMATIC HERO — Full-screen met character reveal
           ═══════════════════════════════════════════════════════════ */}
       <div
         ref={heroRef}
         onMouseMove={handleHeroMove}
         className="relative bg-[#050810] min-h-[90vh] flex items-center justify-center overflow-hidden"
       >
-        {/* Noise + Layered backgrounds */}
         <NoiseOverlay opacity={0.04} />
         <motion.div className="absolute inset-0 pointer-events-none z-0" style={{ background: heroGlow }} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.08),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_50%)]" />
 
         {/* Subtle grid */}
-        <div className="absolute inset-0 opacity-[0.025]" style={{
+        <div className="absolute inset-0 opacity-[0.02]" style={{
           backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
           backgroundSize: '80px 80px',
         }} />
@@ -319,22 +330,6 @@ export default function OverOnsPage() {
           transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
           className="absolute bottom-[20%] left-[10%] w-48 h-48 rounded-full bg-cyan-500/[0.04] blur-3xl"
         />
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.03, 0.06, 0.03] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-          className="absolute top-[40%] left-[50%] w-96 h-96 -translate-x-1/2 rounded-full bg-teal-500/[0.03] blur-3xl"
-        />
-
-        {/* Particle dust */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-px h-px rounded-full bg-emerald-400"
-            style={{ top: `${8 + (i * 4.7) % 84}%`, left: `${3 + (i * 5.3) % 94}%` }}
-            animate={{ opacity: [0, 0.6, 0], scale: [0, 2, 0] }}
-            transition={{ duration: 2.5 + i * 0.3, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
-          />
-        ))}
 
         {/* Content */}
         <motion.div
@@ -352,13 +347,10 @@ export default function OverOnsPage() {
           </motion.div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white tracking-tight leading-[1.05] mb-8">
-            <CharReveal text="Van kaarten" className="block" delay={0.3} stagger={0.025} />
-            <CharReveal text="op Marktplaats" className="block" delay={0.6} stagger={0.025} />
+            <CharReveal text="Van hobby" className="block" delay={0.3} stagger={0.025} />
+            <CharReveal text="naar gaming" className="block" delay={0.55} stagger={0.025} />
             <span className="block mt-2">
-              <CharReveal text="tot Pokémon" className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400" delay={0.95} stagger={0.03} />
-            </span>
-            <span className="block">
-              <CharReveal text="specialist." className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400" delay={1.3} stagger={0.03} />
+              <CharReveal text="specialist." className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400" delay={0.85} stagger={0.03} />
             </span>
           </h1>
 
@@ -368,7 +360,7 @@ export default function OverOnsPage() {
             transition={{ delay: 1.2, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg lg:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed"
           >
-            Het eerlijke verhaal van Lenn Hodes — van tegenslagen en harde lessen tot de Pokémon specialist van Nederland.
+            Het eerlijke verhaal van Lenn Hodes — van harde lessen op Marktplaats tot een webshop met 3000+ tevreden klanten.
           </motion.p>
 
           {/* Scroll indicator */}
@@ -391,14 +383,13 @@ export default function OverOnsPage() {
           </motion.div>
         </motion.div>
 
-        {/* Bottom gradient fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
-          STATS — Grote nummers met glassmorphism
+          STATS — Glassmorphism bar
           ═══════════════════════════════════════════════════════════ */}
-      <section className="relative -mt-12 z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+      <section className="relative -mt-12 z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -433,7 +424,39 @@ export default function OverOnsPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          HET VERHAAL — Cinematic storytelling met fade+blur reveals
+          VALUES MANIFESTO — Apple-style scroll word highlight
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="py-24 lg:py-36">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="h-px w-16 bg-gradient-to-r from-emerald-500 to-teal-500 mb-12 origin-left"
+          />
+
+          <ScrollHighlight
+            text="Elke game die wij verkopen is handmatig geselecteerd, gecontroleerd op originaliteit, persoonlijk getest op werking en met eigen fotografie vastgelegd. Wat je op onze website ziet, is precies wat je ontvangt. Geen stock foto's. Geen reproducties. Geen verrassingen."
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.25] tracking-tight"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-12 flex items-center gap-4"
+          >
+            <div className="h-px flex-1 bg-gradient-to-r from-emerald-200 to-transparent" />
+            <span className="text-sm font-medium text-emerald-600 tracking-wide">Dat is onze belofte</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-emerald-200 to-transparent" />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          HET VERHAAL — Scroll-linked storytelling
           ═══════════════════════════════════════════════════════════ */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
         <motion.div
@@ -458,15 +481,15 @@ export default function OverOnsPage() {
 
           <div className="space-y-8 text-lg lg:text-xl text-slate-600 leading-relaxed">
             <ScrollParagraph>
-              In 2018, op mijn veertiende, verkocht ik mijn eerste verzamelkaarten op Marktplaats. Pokémon-kaarten, Nintendo-kaarten — alles wat ik kon vinden. Het was het begin van iets groters.
+              In 2018, op mijn veertiende, begon ik met het verkopen van games en verzamelkaarten op Marktplaats. Nintendo DS, Game Boy, alles wat ik kon vinden. Wat begon als zakgeld verdienen, werd al snel een echte passie.
             </ScrollParagraph>
 
             <ScrollParagraph>
-              Daarna waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed. Ik werd meerdere keren opgelicht. <strong className="text-slate-900 font-bold">Harde lessen</strong> — maar ze leerden me alles over vertrouwen, kwaliteitscontrole en eerlijk zakendoen.
+              Daarna waagde ik me aan iPhones en PlayStation consoles. Dat liep niet goed. Ik werd meerdere keren opgelicht. <strong className="text-slate-900 font-bold">Harde lessen</strong> — maar ze leerden me alles over vertrouwen, kwaliteitscontrole en eerlijk zakendoen.
             </ScrollParagraph>
 
             <ScrollParagraph>
-              Uiteindelijk keerde ik terug naar mijn echte passie: <strong className="text-slate-900 font-bold">Pokémon</strong>. Originele games inkopen, elke cartridge persoonlijk testen, en met zorg doorverkopen aan liefhebbers zoals ik. Die focus op kwaliteit en originaliteit maakte het verschil.
+              Uiteindelijk keerde ik terug naar mijn echte passie: <strong className="text-slate-900 font-bold">Nintendo</strong>. Originele games inkopen, elke cartridge persoonlijk testen, en met zorg doorverkopen aan liefhebbers. Die focus op kwaliteit en originaliteit maakte het verschil.
             </ScrollParagraph>
 
             <ScrollParagraph>
@@ -477,10 +500,10 @@ export default function OverOnsPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          ONS PROCES — Apple-style stappen
+          ONS PROCES — Apple-style stappen met gradient lijn
           ═══════════════════════════════════════════════════════════ */}
       <section className="relative py-24 lg:py-32 overflow-hidden bg-slate-50">
-        <div className="absolute inset-0 opacity-[0.025]" style={{
+        <div className="absolute inset-0 opacity-[0.02]" style={{
           backgroundImage: 'linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px), linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px)',
           backgroundSize: '80px 80px',
         }} />
@@ -507,7 +530,6 @@ export default function OverOnsPage() {
             </p>
           </motion.div>
 
-          {/* Process line + steps */}
           <div className="relative">
             <div className="hidden lg:block absolute top-[56px] left-[8%] right-[8%] h-px bg-slate-200" />
             <motion.div
@@ -552,22 +574,11 @@ export default function OverOnsPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          TIMELINE — Donkere sectie met animated lijn
+          TIMELINE — Animated vertical lijn met scroll-linked voortgang
           ═══════════════════════════════════════════════════════════ */}
       <section ref={timelineRef} className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
         <NoiseOverlay opacity={0.035} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.05),transparent_70%)]" />
-
-        {/* Atmospheric particles */}
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-emerald-400/20"
-            style={{ top: `${12 + (i * 8.5) % 76}%`, left: `${6 + (i * 11.3) % 88}%` }}
-            animate={{ y: [0, -20, 0], opacity: [0.1, 0.5, 0.1] }}
-            transition={{ duration: 4 + i * 0.5, repeat: Infinity, delay: i * 0.7 }}
-          />
-        ))}
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -592,7 +603,6 @@ export default function OverOnsPage() {
           </motion.div>
 
           <div className="relative">
-            {/* Animated vertical line */}
             <div className="absolute left-6 lg:left-1/2 top-0 bottom-0 w-px bg-white/[0.06] lg:-translate-x-px" />
             <motion.div
               className="absolute left-6 lg:left-1/2 top-0 w-px bg-gradient-to-b from-emerald-400 via-teal-400 to-cyan-400 lg:-translate-x-px origin-top"
@@ -609,7 +619,6 @@ export default function OverOnsPage() {
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   className={`relative flex items-start gap-8 lg:gap-0 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
                 >
-                  {/* Node */}
                   <div className="absolute left-6 lg:left-1/2 -translate-x-1/2 z-10">
                     <motion.div
                       whileInView={{ scale: [0, 1.2, 1] }}
@@ -617,11 +626,10 @@ export default function OverOnsPage() {
                       transition={{ duration: 0.5, delay: 0.15, type: 'spring', stiffness: 250 }}
                       className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shadow-lg ring-4 ring-[#050810]`}
                     >
-                      <span className="text-xs font-extrabold">{item.year === 'Nu' ? '→' : item.year.slice(-2)}</span>
+                      <span className="text-xs font-extrabold">{item.year === 'Nu' ? '\u2192' : item.year.slice(-2)}</span>
                     </motion.div>
                   </div>
 
-                  {/* Card */}
                   <div className={`flex-1 ml-20 lg:ml-0 ${i % 2 === 0 ? 'lg:pr-20 lg:text-right' : 'lg:pl-20'}`}>
                     <motion.div
                       whileHover={{ y: -4 }}
@@ -646,7 +654,7 @@ export default function OverOnsPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          GAME SHOWCASE — Velocity marquee
+          GAME SHOWCASE — Velocity-driven marquee met depth layers
           ═══════════════════════════════════════════════════════════ */}
       <section ref={showcaseRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
         <NoiseOverlay opacity={0.03} />
@@ -680,7 +688,6 @@ export default function OverOnsPage() {
       <section ref={missionRef} className="relative py-32 lg:py-44 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/20 to-white" />
 
-        {/* Decorative marks */}
         <div className="absolute top-[12%] left-[6%] text-[240px] font-serif text-emerald-500/[0.03] select-none leading-none">&ldquo;</div>
         <div className="absolute bottom-[12%] right-[6%] text-[240px] font-serif text-emerald-500/[0.03] select-none leading-none">&rdquo;</div>
 
@@ -754,9 +761,9 @@ export default function OverOnsPage() {
             {[
               { title: '100% Origineel', desc: 'Elke game gecontroleerd op originaliteit. Geen reproducties, gegarandeerd echt.', gradient: 'from-emerald-400 to-teal-400', icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' },
               { title: 'Persoonlijk getest', desc: 'Elk product handmatig getest op werking. Werkt het niet? Dan verkopen we het niet.', gradient: 'from-cyan-400 to-blue-400', icon: 'M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63' },
-              { title: 'Eigen fotografie', desc: 'Wat je op de website ziet is exact wat je ontvangt. Geen stock foto\'s.', gradient: 'from-amber-400 to-orange-400', icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z' },
-              { title: 'Eerlijke prijzen', desc: 'Marktconforme prijzen op basis van PriceCharting. Geen woekerprijzen, geen verborgen kosten.', gradient: 'from-violet-400 to-purple-400', icon: 'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-              { title: 'Snelle verzending', desc: 'Volgende werkdag bezorgd via PostNL met track & trace. Gratis boven €100.', gradient: 'from-rose-400 to-pink-400', icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z' },
+              { title: 'Eigen fotografie', desc: 'Wat je op de website ziet is exact wat je ontvangt. Geen stock foto\'s, geen verrassingen.', gradient: 'from-amber-400 to-orange-400', icon: 'M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z' },
+              { title: 'Eerlijke prijzen', desc: 'Marktconforme prijzen. Geen woekerprijzen, geen verborgen kosten, altijd transparant.', gradient: 'from-violet-400 to-purple-400', icon: 'M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+              { title: 'Snelle verzending', desc: 'Volgende werkdag bezorgd via PostNL met track & trace. Gratis boven \u20AC100.', gradient: 'from-rose-400 to-pink-400', icon: 'M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z' },
               { title: '14 dagen retour', desc: 'Niet tevreden? Stuur het terug voor volledige terugbetaling. Zonder gedoe.', gradient: 'from-teal-400 to-emerald-400', icon: 'M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3' },
             ].map((item, i) => (
               <motion.div
@@ -811,9 +818,9 @@ export default function OverOnsPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Mark V.', text: 'Snelle levering, perfect verpakt en de game werkt uitstekend. Precies wat ik verwachtte op basis van de foto\'s. Topservice!', product: 'Pokémon HeartGold' },
-              { name: 'Sanne K.', text: 'Eindelijk een betrouwbare verkoper voor Pokémon games. Alles origineel, netjes getest en supersnel geleverd. Zeker weer bestellen!', product: 'Pokémon Platinum' },
-              { name: 'Thomas B.', text: 'De mooiste DS-collectie die ik online heb gevonden. Lenn reageert snel op vragen en de verpakking was echt top. Aanrader!', product: 'Pokémon Black 2' },
+              { name: 'Mark V.', text: 'Snelle levering, perfect verpakt en de game werkt uitstekend. Precies wat ik verwachtte op basis van de foto\'s. Topservice!', product: 'Pok\u00E9mon HeartGold' },
+              { name: 'Sanne K.', text: 'Eindelijk een betrouwbare verkoper voor retro games. Alles origineel, netjes getest en supersnel geleverd. Zeker weer bestellen!', product: 'Mario Kart DS' },
+              { name: 'Thomas B.', text: 'De mooiste Nintendo collectie die ik online heb gevonden. Lenn reageert snel op vragen en de verpakking was echt top. Aanrader!', product: 'Pok\u00E9mon Emerald' },
             ].map((review, i) => (
               <motion.div
                 key={i}
@@ -825,7 +832,6 @@ export default function OverOnsPage() {
                 <div className="relative h-full bg-white rounded-2xl border border-slate-100 p-8 shadow-sm hover:shadow-xl transition-all duration-500 group">
                   <div className="absolute top-0 inset-x-8 h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
 
-                  {/* Stars */}
                   <div className="flex gap-0.5 mb-5">
                     {[...Array(5)].map((_, s) => (
                       <svg key={s} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -881,7 +887,7 @@ export default function OverOnsPage() {
                 ['Eigenaar', 'Lenn Hodes'],
                 ['KvK-nummer', '93642474'],
                 ['Actief sinds', '2018'],
-                ['Specialisatie', 'Originele Pokémon games'],
+                ['Specialisatie', 'Originele Nintendo games'],
                 ['Platforms', 'DS, GBA, 3DS, Game Boy'],
               ].map(([label, value], i) => (
                 <motion.div
@@ -915,7 +921,6 @@ export default function OverOnsPage() {
         <NoiseOverlay opacity={0.035} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.12),transparent_55%)]" />
 
-        {/* Floating shapes */}
         <motion.div
           animate={{ y: [0, -20, 0], rotate: [12, 18, 12] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
@@ -942,7 +947,7 @@ export default function OverOnsPage() {
               ?
             </h2>
             <p className="text-lg text-slate-400 mb-12 max-w-xl mx-auto">
-              Ontdek ons complete assortiment originele Pokémon games — elke game persoonlijk getest en gefotografeerd.
+              Ontdek ons complete assortiment originele Nintendo games — elke game persoonlijk getest en gefotografeerd.
             </p>
             <Magnetic strength={0.25}>
               <Link href="/shop">
