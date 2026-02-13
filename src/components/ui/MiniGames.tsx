@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // ─── Types ──────────────────────────────────────────────────
-type GameId = 'menu' | 'memory' | 'snake' | 'whack' | 'speed' | 'racer' | 'darts';
+type GameId = 'menu' | 'memory' | 'snake' | 'whack' | 'speed' | 'racer' | 'darts' | 'blackjack';
 
 interface HighScores {
   memory: number;
@@ -13,6 +13,7 @@ interface HighScores {
   speed: number;
   racer: number;
   darts: number;
+  blackjack: number;
 }
 
 const STORAGE_KEY = 'gameshop-minigames';
@@ -20,8 +21,8 @@ const STORAGE_KEY = 'gameshop-minigames';
 function loadScores(): HighScores {
   try {
     const d = localStorage.getItem(STORAGE_KEY);
-    return d ? JSON.parse(d) : { memory: 0, snake: 0, whack: 0, speed: 0, racer: 0, darts: 0 };
-  } catch { return { memory: 0, snake: 0, whack: 0, speed: 0, racer: 0, darts: 0 }; }
+    return d ? JSON.parse(d) : { memory: 0, snake: 0, whack: 0, speed: 0, racer: 0, darts: 0, blackjack: 0 };
+  } catch { return { memory: 0, snake: 0, whack: 0, speed: 0, racer: 0, darts: 0, blackjack: 0 }; }
 }
 
 function saveScore(game: keyof HighScores, score: number) {
@@ -1030,151 +1031,256 @@ function SpeedGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
 }
 
 // ═══════════════════════════════════════════════════════════════
-// GAME 5: Mini Racer — top-down Mario Kart style
+// GAME 5: Mini Kart — Mario Kart style met items & lives
 // ═══════════════════════════════════════════════════════════════
 const RACER_LANES = 3;
-const RACER_ROWS = 12;
+const RACER_ROWS = 14;
+type RacerItem = 'mushroom' | 'star' | 'shell' | null;
+type ObsType = 'kart' | 'banana' | 'coin' | 'itembox';
+type RacerObstacle = { lane: number; row: number; type: ObsType; id: number; color: string };
+const KART_COLORS = ['#ef4444', '#8b5cf6', '#f97316', '#0ea5e9', '#ec4899', '#f43f5e'];
 
-type RacerObstacle = { lane: number; row: number; type: 'kart' | 'banana' | 'coin'; id: number };
+// Item box SVG
+function ItemBox({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="3" width="18" height="18" rx="4" fill="#fbbf24" />
+      <rect x="5" y="5" width="14" height="14" rx="2.5" fill="#f59e0b" />
+      <text x="12" y="16" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">?</text>
+    </svg>
+  );
+}
 
-const OBSTACLE_COLORS = ['#ef4444', '#8b5cf6', '#f97316', '#0ea5e9', '#ec4899'];
+// Banana peel SVG
+function Banana({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none">
+      <path d="M6 16 C4 12 5 6 10 4 C12 3 14 4 14 6 C14 9 11 13 8 15 Z" fill="#fbbf24" />
+      <path d="M10 4 C12 3 14 4 14 6" stroke="#92400e" strokeWidth="1" fill="none" />
+      <path d="M7 14 C6 11 7 7 10 5" stroke="#d97706" strokeWidth="0.8" fill="none" />
+      <circle cx="10" cy="3.5" r="1" fill="#65a30d" />
+    </svg>
+  );
+}
+
+// Shell SVG
+function Shell({ size = 20, color = '#10b981' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none">
+      <ellipse cx="10" cy="11" rx="8" ry="6" fill={color} />
+      <ellipse cx="10" cy="11" rx="6" ry="4.5" fill="white" opacity="0.2" />
+      <path d="M4 11 Q7 7 10 11 Q13 7 16 11" stroke="white" strokeWidth="1" opacity="0.3" fill="none" />
+      <ellipse cx="10" cy="10" rx="2" ry="1.5" fill="white" opacity="0.4" />
+    </svg>
+  );
+}
 
 function RacerGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
   const [playerLane, setPlayerLane] = useState(1);
   const [obstacles, setObstacles] = useState<RacerObstacle[]>([]);
   const [score, setScore] = useState(0);
   const [coins, setCoins] = useState(0);
+  const [lives, setLives] = useState(3);
   const [gameOver, setGameOver] = useState(false);
   const [started, setStarted] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showHitEffect, setShowHitEffect] = useState(false);
   const [speed, setSpeed] = useState(1);
+  const [item, setItem] = useState<RacerItem>(null);
+  const [boosting, setBoosting] = useState(false);
+  const [invincible, setInvincible] = useState(false);
+  const [tilt, setTilt] = useState(0); // -1 left, 0 center, 1 right
+  const [shellFlying, setShellFlying] = useState(false);
+  const [exhaust, setExhaust] = useState<{ id: number; x: number }[]>([]);
   const tickRef = useRef<ReturnType<typeof setInterval>>(undefined);
   const spawnRef = useRef<ReturnType<typeof setInterval>>(undefined);
   const obstacleId = useRef(0);
+  const exhaustId = useRef(0);
   const gameOverRef = useRef(false);
   const playerLaneRef = useRef(1);
+  const livesRef = useRef(3);
+  const itemRef = useRef<RacerItem>(null);
+  const invincibleRef = useRef(false);
+  const boostRef = useRef(false);
 
   const startGame = useCallback(() => {
-    setPlayerLane(1);
-    playerLaneRef.current = 1;
-    setObstacles([]);
-    setScore(0);
-    setCoins(0);
-    setGameOver(false);
-    gameOverRef.current = false;
-    setStarted(true);
-    setShowConfetti(false);
-    setShowHitEffect(false);
-    setSpeed(1);
+    setPlayerLane(1); playerLaneRef.current = 1;
+    setObstacles([]); setScore(0); setCoins(0);
+    setLives(3); livesRef.current = 3;
+    setGameOver(false); gameOverRef.current = false;
+    setStarted(true); setShowConfetti(false); setShowHitEffect(false);
+    setSpeed(1); setItem(null); itemRef.current = null;
+    setBoosting(false); boostRef.current = false;
+    setInvincible(false); invincibleRef.current = false;
+    setTilt(0); setShellFlying(false); setExhaust([]);
     obstacleId.current = 0;
   }, []);
 
-  // Game tick - move obstacles down and check collisions
+  // Game tick
   useEffect(() => {
     if (!started || gameOver) return;
-
     tickRef.current = setInterval(() => {
       if (gameOverRef.current) return;
 
       setObstacles(prev => {
-        const moved = prev.map(o => ({ ...o, row: o.row + 1 }));
+        const spd = boostRef.current ? 2 : 1;
+        const moved = prev.map(o => ({ ...o, row: o.row + spd }));
+        const playerRow = RACER_ROWS - 2;
+        const hitZone = moved.filter(o => o.row >= playerRow - 1 && o.row <= playerRow + 1 && o.lane === playerLaneRef.current);
 
-        // Check collisions with player (row 10 = player position)
-        const collision = moved.find(o => o.row === RACER_ROWS - 2 && o.lane === playerLaneRef.current && o.type !== 'coin');
-        const coinHit = moved.find(o => o.row === RACER_ROWS - 2 && o.lane === playerLaneRef.current && o.type === 'coin');
-
-        if (coinHit) {
-          setCoins(c => c + 1);
-          setScore(s => s + 25);
+        for (const h of hitZone) {
+          if (h.type === 'coin') {
+            setCoins(c => c + 1);
+            setScore(s => s + 25);
+            h.row = 999; // mark for removal
+          } else if (h.type === 'itembox') {
+            // Pick up item
+            const items: RacerItem[] = ['mushroom', 'star', 'shell'];
+            const picked = items[Math.floor(Math.random() * items.length)];
+            itemRef.current = picked;
+            setItem(picked);
+            h.row = 999;
+          } else if (!invincibleRef.current) {
+            // Hit obstacle
+            livesRef.current--;
+            setLives(livesRef.current);
+            setShowHitEffect(true);
+            setTimeout(() => setShowHitEffect(false), 400);
+            h.row = 999;
+            if (livesRef.current <= 0) {
+              gameOverRef.current = true;
+              setGameOver(true);
+              return prev;
+            }
+            // Brief invincibility after hit
+            invincibleRef.current = true; setInvincible(true);
+            setTimeout(() => { invincibleRef.current = false; setInvincible(false); }, 1500);
+          } else {
+            // Invincible — destroy
+            setScore(s => s + 15);
+            h.row = 999;
+          }
         }
 
-        if (collision) {
-          gameOverRef.current = true;
-          setGameOver(true);
-          setShowHitEffect(true);
-          return prev;
-        }
-
-        // Remove off-screen, score for survived obstacles
-        const surviving = moved.filter(o => o.row < RACER_ROWS);
-        const passed = moved.filter(o => o.row >= RACER_ROWS && o.type !== 'coin');
-        if (passed.length > 0) {
-          setScore(s => s + passed.length * 10);
-        }
-
-        return surviving.filter(o => !(o.type === 'coin' && o.row === RACER_ROWS - 2 && o.lane === playerLaneRef.current));
+        const surviving = moved.filter(o => o.row < RACER_ROWS && o.row !== 999);
+        const passed = moved.filter(o => o.row >= RACER_ROWS && (o.type === 'kart' || o.type === 'banana'));
+        if (passed.length > 0) setScore(s => s + passed.length * 10);
+        return surviving;
       });
 
-      setScore(s => s + 1);
-    }, Math.max(80, 200 - speed * 5));
+      setScore(s => s + (boostRef.current ? 3 : 1));
 
+      // Exhaust particles
+      exhaustId.current++;
+      setExhaust(prev => {
+        const next = [...prev, { id: exhaustId.current, x: playerLaneRef.current }];
+        return next.slice(-6);
+      });
+
+    }, Math.max(60, 180 - speed * 6));
     return () => { if (tickRef.current) clearInterval(tickRef.current); };
   }, [started, gameOver, speed]);
 
   // Spawn obstacles
   useEffect(() => {
     if (!started || gameOver) return;
-
     spawnRef.current = setInterval(() => {
       if (gameOverRef.current) return;
       const lane = Math.floor(Math.random() * RACER_LANES);
-      const isCoin = Math.random() < 0.3;
-      const isBanana = !isCoin && Math.random() < 0.3;
+      const r = Math.random();
+      const type: ObsType = r < 0.25 ? 'coin' : r < 0.35 ? 'itembox' : r < 0.5 ? 'banana' : 'kart';
       setObstacles(prev => [...prev, {
-        lane,
-        row: -1,
-        type: isCoin ? 'coin' : isBanana ? 'banana' : 'kart',
-        id: obstacleId.current++,
+        lane, row: -1, type, id: obstacleId.current++,
+        color: KART_COLORS[Math.floor(Math.random() * KART_COLORS.length)],
       }]);
-    }, Math.max(400, 900 - speed * 20));
-
+    }, Math.max(350, 850 - speed * 20));
     return () => { if (spawnRef.current) clearInterval(spawnRef.current); };
   }, [started, gameOver, speed]);
 
-  // Speed up over time
+  // Speed up
   useEffect(() => {
     if (!started || gameOver) return;
-    const timer = setInterval(() => setSpeed(s => s + 1), 3000);
-    return () => clearInterval(timer);
+    const t = setInterval(() => setSpeed(s => s + 1), 3500);
+    return () => clearInterval(t);
   }, [started, gameOver]);
 
-  // Keyboard controls
+  // Keyboard
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (gameOverRef.current) return;
       if ((e.key === 'ArrowLeft' || e.key === 'a') && playerLaneRef.current > 0) {
+        e.preventDefault();
         playerLaneRef.current--;
         setPlayerLane(playerLaneRef.current);
+        setTilt(-1); setTimeout(() => setTilt(0), 200);
         if (!started) startGame();
       }
       if ((e.key === 'ArrowRight' || e.key === 'd') && playerLaneRef.current < RACER_LANES - 1) {
+        e.preventDefault();
         playerLaneRef.current++;
         setPlayerLane(playerLaneRef.current);
+        setTilt(1); setTimeout(() => setTilt(0), 200);
         if (!started) startGame();
+      }
+      if ((e.key === ' ' || e.key === 'ArrowUp') && itemRef.current) {
+        e.preventDefault();
+        useItem();
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [started, startGame]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [started]);
 
-  useEffect(() => {
-    if (gameOver && started) {
-      const finalScore = score + coins * 25;
-      onScore(finalScore);
-      if (finalScore >= 200) setShowConfetti(true);
+  const useItem = () => {
+    const currentItem = itemRef.current;
+    if (!currentItem) return;
+    itemRef.current = null;
+    setItem(null);
+
+    if (currentItem === 'mushroom') {
+      boostRef.current = true; setBoosting(true);
+      setTimeout(() => { boostRef.current = false; setBoosting(false); }, 2500);
+    } else if (currentItem === 'star') {
+      invincibleRef.current = true; setInvincible(true);
+      setTimeout(() => { invincibleRef.current = false; setInvincible(false); }, 4000);
+    } else if (currentItem === 'shell') {
+      setShellFlying(true);
+      // Destroy nearest obstacle in player lane
+      setTimeout(() => {
+        setObstacles(prev => {
+          const inLane = prev.filter(o => o.lane === playerLaneRef.current && o.type === 'kart');
+          if (inLane.length > 0) {
+            const nearest = inLane.reduce((a, b) => a.row > b.row ? a : b);
+            setScore(s => s + 20);
+            return prev.filter(o => o.id !== nearest.id);
+          }
+          return prev;
+        });
+        setShellFlying(false);
+      }, 300);
     }
-  }, [gameOver, started, score, coins, onScore]);
+  };
 
   const moveLane = (dir: -1 | 1) => {
     if (gameOverRef.current) return;
     const newLane = Math.max(0, Math.min(RACER_LANES - 1, playerLaneRef.current + dir));
     playerLaneRef.current = newLane;
     setPlayerLane(newLane);
+    setTilt(dir); setTimeout(() => setTilt(0), 200);
     if (!started) startGame();
   };
 
-  const laneWidth = 100 / RACER_LANES;
+  useEffect(() => {
+    if (gameOver && started) {
+      const finalScore = score + coins * 25;
+      onScore(finalScore);
+      if (finalScore >= 300) setShowConfetti(true);
+    }
+  }, [gameOver, started, score, coins, onScore]);
+
+  const laneW = 100 / RACER_LANES;
+  const kmh = Math.round((speed + (boosting ? 4 : 0)) * 35);
 
   return (
     <div className="relative flex flex-col h-full">
@@ -1183,24 +1289,29 @@ function RacerGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
         <button onClick={onBack} className="text-slate-400 hover:text-white transition-colors p-1">
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
         </button>
-        <div className="flex items-center gap-3 text-[11px]">
-          <span className="text-emerald-400 font-bold">{score} pts</span>
-          <span className="text-amber-400 font-medium">{coins} munten</span>
-          <span className="text-cyan-400">Snelheid {speed}</span>
+        <div className="flex items-center gap-2 text-[11px]">
+          {/* Lives */}
+          <span className="flex gap-0.5">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Heart key={i} size={12} color={i < lives ? '#ef4444' : '#334155'} />
+            ))}
+          </span>
+          <span className="text-emerald-400 font-bold">{score}</span>
+          <span className="text-amber-400">{coins}<span className="text-[8px] ml-0.5">×</span></span>
         </div>
       </div>
 
       {gameOver ? (
         <motion.div
           className="flex-1 flex flex-col items-center justify-center gap-3 px-4"
-          initial={showHitEffect ? { x: -5 } : {}}
-          animate={showHitEffect ? { x: [5, -5, 3, -3, 0] } : {}}
-          transition={{ duration: 0.4 }}
+          initial={{ x: -5 }} animate={{ x: [5, -5, 3, -3, 0] }} transition={{ duration: 0.4 }}
         >
           <GameBear size={64} mood="sad" />
-          <p className="text-white font-bold text-xl">Crash!</p>
-          <p className="text-slate-400 text-sm">{coins} munten verzameld</p>
-          <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-emerald-400 font-bold text-3xl">{score} pts</motion.p>
+          <p className="text-white font-bold text-xl">Race Voorbij!</p>
+          <div className="flex gap-4 text-sm text-slate-400">
+            <span>{score} m</span><span>{coins} munten</span>
+          </div>
+          <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-emerald-400 font-bold text-3xl">{score + coins * 25} pts</motion.p>
           <button onClick={startGame} className="mt-3 px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-semibold hover:from-red-400 hover:to-orange-400 transition-all shadow-lg shadow-red-500/20">
             Opnieuw racen
           </button>
@@ -1210,90 +1321,181 @@ function RacerGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
           <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
             <Kart size={64} color="#ef4444" />
           </motion.div>
-          <p className="text-white font-bold text-xl">Mini Racer</p>
-          <p className="text-slate-400 text-xs text-center">Ontwijken en munten pakken! Pijltjestoetsen of knoppen.</p>
+          <p className="text-white font-bold text-xl">Mini Kart</p>
+          <p className="text-slate-400 text-xs text-center max-w-[200px]">Race, ontwijkobstakels, pak items en verzamel munten!</p>
+          <div className="flex gap-3 text-[10px] text-slate-500 mt-1">
+            <span className="flex items-center gap-1"><Mushroom size={14} color="#10b981" /> Boost</span>
+            <span className="flex items-center gap-1"><Star size={14} color="#fbbf24" /> Ster</span>
+            <span className="flex items-center gap-1"><Shell size={14} /> Shell</span>
+          </div>
           <button onClick={startGame} className="mt-3 px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-semibold hover:from-red-400 hover:to-orange-400 transition-all shadow-lg shadow-red-500/20">
             Start Race!
           </button>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center px-3 pb-3">
+        <div className="flex-1 flex flex-col items-center px-3 pb-2">
           {/* Race track */}
-          <div
+          <motion.div
             className="relative w-full max-w-[260px] flex-1 rounded-xl overflow-hidden"
-            style={{ background: '#1a1a2e' }}
+            style={{ background: 'linear-gradient(180deg, #111827, #1a1a2e)' }}
+            animate={showHitEffect ? { x: [4, -4, 3, -3, 0] } : {}}
+            transition={{ duration: 0.3 }}
           >
+            {/* Speed lines overlay */}
+            {(boosting || speed > 3) && (
+              <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+                {Array.from({ length: boosting ? 8 : 4 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-px"
+                    style={{
+                      left: `${10 + Math.random() * 80}%`,
+                      height: `${20 + Math.random() * 30}%`,
+                      top: '-10%',
+                      background: boosting
+                        ? `linear-gradient(to bottom, transparent, rgba(251,191,36,${0.15 + Math.random() * 0.15}), transparent)`
+                        : `linear-gradient(to bottom, transparent, rgba(255,255,255,${0.04 + Math.random() * 0.04}), transparent)`,
+                    }}
+                    animate={{ y: ['0%', '200%'] }}
+                    transition={{ duration: boosting ? 0.3 : 0.6, repeat: Infinity, delay: Math.random() * 0.3, ease: 'linear' }}
+                  />
+                ))}
+              </div>
+            )}
+
             {/* Lane dividers */}
             {Array.from({ length: RACER_LANES - 1 }).map((_, i) => (
-              <div
-                key={i}
-                className="absolute top-0 bottom-0 w-px"
-                style={{
-                  left: `${((i + 1) * 100) / RACER_LANES}%`,
-                  backgroundImage: 'repeating-linear-gradient(to bottom, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 12px, transparent 12px, transparent 24px)',
-                  animation: 'roadScroll 0.5s linear infinite',
-                }}
-              />
+              <div key={i} className="absolute top-0 bottom-0 w-px" style={{
+                left: `${((i + 1) * 100) / RACER_LANES}%`,
+                backgroundImage: 'repeating-linear-gradient(to bottom, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 12px, transparent 12px, transparent 28px)',
+                animation: `roadScroll ${boosting ? '0.2s' : '0.5s'} linear infinite`,
+              }} />
             ))}
 
-            {/* Road edge markings */}
-            <div className="absolute top-0 bottom-0 left-0 w-1" style={{ background: 'linear-gradient(to bottom, #ef4444, #f59e0b)' }} />
-            <div className="absolute top-0 bottom-0 right-0 w-1" style={{ background: 'linear-gradient(to bottom, #ef4444, #f59e0b)' }} />
+            {/* Road edges */}
+            <div className="absolute top-0 bottom-0 left-0 w-1.5" style={{
+              background: 'repeating-linear-gradient(to bottom, #ef4444 0px, #ef4444 8px, #fbbf24 8px, #fbbf24 16px)',
+              animation: `roadScroll ${boosting ? '0.2s' : '0.5s'} linear infinite`,
+            }} />
+            <div className="absolute top-0 bottom-0 right-0 w-1.5" style={{
+              background: 'repeating-linear-gradient(to bottom, #ef4444 0px, #ef4444 8px, #fbbf24 8px, #fbbf24 16px)',
+              animation: `roadScroll ${boosting ? '0.2s' : '0.5s'} linear infinite`,
+            }} />
 
             {/* Obstacles */}
             {obstacles.map(obs => (
-              <motion.div
+              <div
                 key={obs.id}
                 className="absolute flex items-center justify-center"
                 style={{
-                  left: `${obs.lane * laneWidth + laneWidth / 2}%`,
+                  left: `${obs.lane * laneW + laneW / 2}%`,
                   top: `${(obs.row / RACER_ROWS) * 100}%`,
                   transform: 'translate(-50%, -50%)',
-                  width: 32,
-                  height: 32,
                 }}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
               >
                 {obs.type === 'coin' ? (
-                  <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
-                    <Coin size={22} />
+                  <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}>
+                    <Coin size={20} />
+                  </motion.div>
+                ) : obs.type === 'itembox' ? (
+                  <motion.div animate={{ y: [0, -3, 0], rotate: [0, 5, -5, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>
+                    <ItemBox size={24} />
                   </motion.div>
                 ) : obs.type === 'banana' ? (
-                  <span className="text-xl">🍌</span>
+                  <Banana size={20} />
                 ) : (
-                  <Kart size={28} color={OBSTACLE_COLORS[obs.id % OBSTACLE_COLORS.length]} />
+                  <Kart size={26} color={obs.color} />
                 )}
+              </div>
+            ))}
+
+            {/* Shell projectile */}
+            {shellFlying && (
+              <motion.div
+                className="absolute z-20"
+                style={{ left: `${playerLane * laneW + laneW / 2}%`, transform: 'translateX(-50%)' }}
+                initial={{ bottom: '15%' }}
+                animate={{ bottom: '90%' }}
+                transition={{ duration: 0.3 }}
+              >
+                <Shell size={18} color="#10b981" />
               </motion.div>
+            )}
+
+            {/* Exhaust particles */}
+            {exhaust.map(e => (
+              <motion.div
+                key={e.id}
+                className="absolute z-5 rounded-full"
+                style={{
+                  left: `${e.x * laneW + laneW / 2}%`,
+                  bottom: '6%',
+                  width: 4, height: 4,
+                  background: boosting ? 'rgba(251,191,36,0.5)' : 'rgba(148,163,184,0.2)',
+                  transform: 'translateX(-50%)',
+                }}
+                initial={{ opacity: 0.8, y: 0, scale: 1 }}
+                animate={{ opacity: 0, y: 20, scale: 0.3 }}
+                transition={{ duration: 0.5 }}
+              />
             ))}
 
             {/* Player kart */}
             <motion.div
-              className="absolute flex items-center justify-center"
-              animate={{ left: `${playerLane * laneWidth + laneWidth / 2}%` }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              className="absolute z-20 flex items-center justify-center"
+              animate={{
+                left: `${playerLane * laneW + laneW / 2}%`,
+                rotate: tilt * 12,
+              }}
+              transition={{ left: { type: 'spring', stiffness: 500, damping: 25 }, rotate: { duration: 0.15 } }}
               style={{
                 bottom: '8%',
                 transform: 'translateX(-50%)',
-                filter: 'drop-shadow(0 0 8px rgba(16,185,129,0.4))',
+                filter: invincible
+                  ? 'drop-shadow(0 0 12px rgba(251,191,36,0.6))'
+                  : boosting
+                    ? 'drop-shadow(0 0 10px rgba(239,68,68,0.5))'
+                    : 'drop-shadow(0 0 6px rgba(16,185,129,0.3))',
               }}
             >
-              <Kart size={36} color="#10b981" />
+              <motion.div
+                animate={invincible ? { scale: [1, 1.08, 1], rotate: [0, 5, -5, 0] } : {}}
+                transition={{ duration: 0.4, repeat: invincible ? Infinity : 0 }}
+              >
+                <Kart size={34} color={invincible ? '#fbbf24' : boosting ? '#ef4444' : '#10b981'} />
+              </motion.div>
             </motion.div>
-          </div>
 
-          {/* Controls */}
-          <div className="flex gap-3 mt-3">
-            <button
-              onClick={() => moveLane(-1)}
-              className="h-12 w-16 rounded-xl bg-white/10 flex items-center justify-center text-white/70 active:bg-emerald-500/30 transition-colors"
-            >
+            {/* Speed display */}
+            <div className="absolute bottom-1 right-2 text-[8px] text-white/20 font-mono tabular-nums">
+              {kmh} km/h
+            </div>
+          </motion.div>
+
+          {/* Controls bar */}
+          <div className="flex items-center gap-2 mt-2 w-full max-w-[260px]">
+            <button onClick={() => moveLane(-1)}
+              className="h-11 flex-1 rounded-xl bg-white/[0.06] flex items-center justify-center text-white/60 active:bg-emerald-500/20 transition-colors">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
             </button>
+
+            {/* Item button */}
             <button
-              onClick={() => moveLane(1)}
-              className="h-12 w-16 rounded-xl bg-white/10 flex items-center justify-center text-white/70 active:bg-emerald-500/30 transition-colors"
+              onClick={useItem}
+              className="h-11 w-14 rounded-xl flex items-center justify-center transition-all"
+              style={{
+                background: item ? 'rgba(251,191,36,0.15)' : 'rgba(255,255,255,0.03)',
+                boxShadow: item ? '0 0 15px rgba(251,191,36,0.15)' : 'none',
+              }}
             >
+              {item === 'mushroom' ? <Mushroom size={22} color="#10b981" /> :
+               item === 'star' ? <Star size={22} color="#fbbf24" /> :
+               item === 'shell' ? <Shell size={22} /> :
+               <span className="text-white/15 text-[10px]">ITEM</span>}
+            </button>
+
+            <button onClick={() => moveLane(1)}
+              className="h-11 flex-1 rounded-xl bg-white/[0.06] flex items-center justify-center text-white/60 active:bg-emerald-500/20 transition-colors">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
             </button>
           </div>
@@ -1304,95 +1506,183 @@ function RacerGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
 }
 
 // ═══════════════════════════════════════════════════════════════
-// GAME 6: Darts — gooi op het bord!
+// GAME 6: Darts — sleep en gooi zelf!
 // ═══════════════════════════════════════════════════════════════
 const DART_RINGS = [
-  { maxR: 0.08, score: 50, label: 'Bullseye!', color: '#fbbf24' },
-  { maxR: 0.18, score: 25, label: 'Inner Bull', color: '#10b981' },
-  { maxR: 0.35, score: 15, label: 'Triple Ring', color: '#ef4444' },
-  { maxR: 0.55, score: 10, label: 'Goed schot', color: '#10b981' },
-  { maxR: 0.75, score: 5, label: 'Outer Ring', color: '#ef4444' },
-  { maxR: 1.0, score: 2, label: 'Rand', color: '#1e293b' },
+  { maxR: 0.06, score: 50, label: 'BULLSEYE!', color: '#fbbf24' },
+  { maxR: 0.14, score: 25, label: 'Inner Bull!', color: '#10b981' },
+  { maxR: 0.28, score: 15, label: 'Triple!', color: '#ef4444' },
+  { maxR: 0.45, score: 10, label: 'Goed!', color: '#10b981' },
+  { maxR: 0.65, score: 5, label: 'Buiten ring', color: '#ef4444' },
+  { maxR: 0.85, score: 2, label: 'Rand...', color: '#64748b' },
+  { maxR: 2.0, score: 0, label: 'Mis!', color: '#1e293b' },
 ];
+
+// Dart pin SVG for thrown darts
+function DartPin({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size * 2.5} viewBox="0 0 10 25" fill="none">
+      <polygon points="5,0 3,6 7,6" fill="#94a3b8" />
+      <rect x="4" y="6" width="2" height="14" rx="1" fill="#f59e0b" />
+      <rect x="2.5" y="18" width="5" height="4" rx="1" fill="#8b5cf6" opacity="0.7" />
+      <rect x="3" y="21" width="4" height="3" rx="0.5" fill="#ef4444" opacity="0.5" />
+    </svg>
+  );
+}
 
 function DartsGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
   const [darts, setDarts] = useState<{ x: number; y: number; score: number }[]>([]);
   const [totalScore, setTotalScore] = useState(0);
   const [dartsLeft, setDartsLeft] = useState(5);
   const [gameOver, setGameOver] = useState(false);
-  const [aimX, setAimX] = useState(0.5);
-  const [aimY, setAimY] = useState(0.5);
+  const [dragging, setDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+  const [dragCurrent, setDragCurrent] = useState<{ x: number; y: number } | null>(null);
   const [throwing, setThrowing] = useState(false);
+  const [throwAnim, setThrowAnim] = useState<{ startX: number; startY: number; endX: number; endY: number } | null>(null);
   const [lastHitLabel, setLastHitLabel] = useState('');
   const [lastHitScore, setLastHitScore] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const boardRef = useRef<HTMLDivElement>(null);
-  const aimRef = useRef({ x: 0.5, y: 0.5, vx: 0.012, vy: 0.008, angle: 0 });
-  const animRef = useRef<number>(0);
-
-  // Aim wobble animation
-  useEffect(() => {
-    if (gameOver || throwing) return;
-    const animate = () => {
-      const aim = aimRef.current;
-      aim.angle += 0.03;
-      const wobbleX = Math.sin(aim.angle) * 0.08 + Math.sin(aim.angle * 1.7) * 0.04;
-      const wobbleY = Math.cos(aim.angle * 0.8) * 0.08 + Math.cos(aim.angle * 2.1) * 0.03;
-      aim.x = 0.5 + wobbleX;
-      aim.y = 0.5 + wobbleY;
-      setAimX(aim.x);
-      setAimY(aim.y);
-      animRef.current = requestAnimationFrame(animate);
-    };
-    animRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animRef.current);
-  }, [gameOver, throwing]);
-
-  const throwDart = () => {
-    if (throwing || gameOver || dartsLeft <= 0) return;
-    setThrowing(true);
-
-    // Add some randomness to where it lands
-    const jitter = 0.03;
-    const finalX = aimRef.current.x + (Math.random() - 0.5) * jitter;
-    const finalY = aimRef.current.y + (Math.random() - 0.5) * jitter;
-
-    // Calculate distance from center (0-1 scale, where 1 = edge of board)
-    const dx = finalX - 0.5;
-    const dy = finalY - 0.5;
-    const dist = Math.sqrt(dx * dx + dy * dy) * 2; // Normalize: 0.5 radius -> 1.0
-
-    // Find which ring
-    const ring = DART_RINGS.find(r => dist <= r.maxR) || DART_RINGS[DART_RINGS.length - 1];
-
-    setTimeout(() => {
-      setDarts(prev => [...prev, { x: finalX, y: finalY, score: ring.score }]);
-      setTotalScore(s => s + ring.score);
-      setLastHitLabel(ring.label);
-      setLastHitScore(ring.score);
-      setDartsLeft(d => d - 1);
-      setThrowing(false);
-
-      if (dartsLeft <= 1) {
-        const finalTotal = totalScore + ring.score;
-        setGameOver(true);
-        onScore(finalTotal);
-        if (finalTotal >= 100) setShowConfetti(true);
-      }
-    }, 300);
-  };
+  const [boardShake, setBoardShake] = useState(false);
+  const [wind, setWind] = useState(0); // -1 to 1
+  const areaRef = useRef<HTMLDivElement>(null);
 
   const resetGame = () => {
     setDarts([]);
     setTotalScore(0);
     setDartsLeft(5);
     setGameOver(false);
+    setDragging(false);
+    setDragStart(null);
+    setDragCurrent(null);
     setThrowing(false);
+    setThrowAnim(null);
     setLastHitLabel('');
     setLastHitScore(0);
     setShowConfetti(false);
-    aimRef.current = { x: 0.5, y: 0.5, vx: 0.012, vy: 0.008, angle: 0 };
+    setBoardShake(false);
+    setWind((Math.random() - 0.5) * 0.6);
   };
+
+  useEffect(() => { resetGame(); }, []);
+
+  // Change wind between throws
+  useEffect(() => {
+    if (!throwing && dartsLeft < 5 && dartsLeft > 0) {
+      setWind((Math.random() - 0.5) * (0.4 + (5 - dartsLeft) * 0.1));
+    }
+  }, [dartsLeft, throwing]);
+
+  const getRelPos = (clientX: number, clientY: number) => {
+    if (!areaRef.current) return { x: 0, y: 0 };
+    const rect = areaRef.current.getBoundingClientRect();
+    return {
+      x: (clientX - rect.left) / rect.width,
+      y: (clientY - rect.top) / rect.height,
+    };
+  };
+
+  const handleDragStart = (clientX: number, clientY: number) => {
+    if (throwing || gameOver || dartsLeft <= 0) return;
+    const pos = getRelPos(clientX, clientY);
+    // Only start drag from bottom throw zone (below board)
+    if (pos.y < 0.55) return;
+    setDragging(true);
+    setDragStart(pos);
+    setDragCurrent(pos);
+    setLastHitLabel('');
+  };
+
+  const handleDragMove = (clientX: number, clientY: number) => {
+    if (!dragging) return;
+    setDragCurrent(getRelPos(clientX, clientY));
+  };
+
+  const handleDragEnd = () => {
+    if (!dragging || !dragStart || !dragCurrent) {
+      setDragging(false);
+      return;
+    }
+
+    const dx = dragStart.x - dragCurrent.x;
+    const dy = dragStart.y - dragCurrent.y;
+    const power = Math.sqrt(dx * dx + dy * dy);
+
+    if (power < 0.05) {
+      // Too weak — cancel
+      setDragging(false);
+      setDragStart(null);
+      setDragCurrent(null);
+      return;
+    }
+
+    setDragging(false);
+    setThrowing(true);
+
+    // Calculate where dart lands based on drag direction + power + wind
+    const throwAngle = Math.atan2(dy, dx);
+    const throwPower = Math.min(power * 2.5, 1.2);
+
+    // Target position: center (0.5, 0.3 board center) offset by throw vector + wind
+    const aimX = 0.5 - Math.cos(throwAngle) * (0.5 - throwPower * 0.5) + wind * 0.08;
+    const aimY = 0.3 - Math.sin(throwAngle) * (0.5 - throwPower * 0.3);
+
+    // Clamp to board area
+    const landX = Math.max(0.05, Math.min(0.95, aimX));
+    const landY = Math.max(0.05, Math.min(0.55, aimY));
+
+    // Animate dart flight
+    setThrowAnim({
+      startX: dragStart.x,
+      startY: dragStart.y,
+      endX: landX,
+      endY: landY,
+    });
+
+    setTimeout(() => {
+      // Score calculation: distance from board center (0.5, 0.3)
+      const distX = landX - 0.5;
+      const distY = landY - 0.3;
+      const dist = Math.sqrt(distX * distX + distY * distY);
+
+      const ring = DART_RINGS.find(r => dist <= r.maxR) || DART_RINGS[DART_RINGS.length - 1];
+      const dartScore = ring.score;
+
+      setDarts(prev => [...prev, { x: landX, y: landY, score: dartScore }]);
+      setTotalScore(s => s + dartScore);
+      setLastHitLabel(ring.label);
+      setLastHitScore(dartScore);
+      setThrowAnim(null);
+      setBoardShake(true);
+      setTimeout(() => setBoardShake(false), 200);
+
+      if (dartScore >= 50) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 1200);
+      }
+
+      const remaining = dartsLeft - 1;
+      setDartsLeft(remaining);
+
+      if (remaining <= 0) {
+        const finalTotal = totalScore + dartScore;
+        setTimeout(() => {
+          setGameOver(true);
+          onScore(finalTotal);
+          if (finalTotal >= 100) setShowConfetti(true);
+        }, 500);
+      }
+
+      setThrowing(false);
+      setDragStart(null);
+      setDragCurrent(null);
+    }, 350);
+  };
+
+  // Draw power / trajectory
+  const dragPower = dragStart && dragCurrent
+    ? Math.min(Math.sqrt((dragStart.x - dragCurrent.x) ** 2 + (dragStart.y - dragCurrent.y) ** 2) / 0.4, 1)
+    : 0;
 
   return (
     <div className="relative flex flex-col h-full">
@@ -1403,20 +1693,26 @@ function DartsGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
         </button>
         <div className="flex items-center gap-3 text-[11px]">
           <span className="text-emerald-400 font-bold">{totalScore} pts</span>
-          <span className="text-amber-400 font-medium">{dartsLeft} pijlen</span>
+          {/* Darts remaining */}
+          <span className="flex gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="transition-all" style={{ opacity: i < dartsLeft ? 1 : 0.2 }}>
+                <DartPin size={6} />
+              </div>
+            ))}
+          </span>
         </div>
       </div>
 
-      {/* Darts remaining indicator */}
-      <div className="flex justify-center gap-1.5 px-3 mb-2">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div
-            key={i}
-            className="h-1.5 flex-1 rounded-full transition-all duration-300"
-            style={{ background: i < dartsLeft ? '#f59e0b' : 'rgba(255,255,255,0.05)' }}
-          />
-        ))}
-      </div>
+      {/* Wind indicator */}
+      {!gameOver && dartsLeft < 5 && dartsLeft > 0 && (
+        <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-500 px-3 mb-1">
+          <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span>Wind: {wind > 0.1 ? '→' : wind < -0.1 ? '←' : '—'} {Math.abs(wind * 100).toFixed(0)}%</span>
+        </div>
+      )}
 
       {gameOver ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4">
@@ -1424,11 +1720,16 @@ function DartsGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
             <GameBear size={64} mood={totalScore >= 100 ? 'excited' : totalScore >= 50 ? 'happy' : 'thinking'} />
           </motion.div>
           <p className="text-white font-bold text-xl">
-            {totalScore >= 150 ? 'Kampioen!' : totalScore >= 100 ? 'Geweldig!' : totalScore >= 50 ? 'Niet slecht!' : 'Oefenen!'}
+            {totalScore >= 150 ? 'Kampioen!' : totalScore >= 100 ? 'Geweldig!' : totalScore >= 50 ? 'Niet slecht!' : 'Oefenen maar!'}
           </p>
-          <div className="flex gap-3 text-xs text-slate-400">
+          <div className="flex gap-2 text-xs text-slate-400">
             {darts.map((d, i) => (
-              <span key={i} className="px-2 py-1 rounded-lg bg-white/5">{d.score}</span>
+              <span key={i} className="px-2 py-1 rounded-lg text-[11px] font-medium" style={{
+                background: d.score >= 25 ? 'rgba(251,191,36,0.15)' : d.score >= 10 ? 'rgba(16,185,129,0.1)' : 'rgba(255,255,255,0.04)',
+                color: d.score >= 25 ? '#fbbf24' : d.score >= 10 ? '#10b981' : '#64748b',
+              }}>
+                {d.score}
+              </span>
             ))}
           </div>
           <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-emerald-400 font-bold text-3xl">{totalScore} pts</motion.p>
@@ -1437,132 +1738,566 @@ function DartsGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
           </button>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center px-3 pb-3">
-          {/* Hit feedback */}
+        <div
+          ref={areaRef}
+          className="flex-1 flex flex-col items-center px-3 pb-2 select-none touch-none relative"
+          onMouseDown={(e) => handleDragStart(e.clientX, e.clientY)}
+          onMouseMove={(e) => handleDragMove(e.clientX, e.clientY)}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={() => { if (dragging) handleDragEnd(); }}
+          onTouchStart={(e) => handleDragStart(e.touches[0].clientX, e.touches[0].clientY)}
+          onTouchMove={(e) => { e.preventDefault(); handleDragMove(e.touches[0].clientX, e.touches[0].clientY); }}
+          onTouchEnd={handleDragEnd}
+        >
+          {/* Score popup */}
           <AnimatePresence>
-            {lastHitLabel && (
+            {lastHitLabel && !throwing && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="mb-2 text-center"
+                initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                animate={{ opacity: 1, y: -5, scale: 1 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="absolute top-2 z-50 text-center pointer-events-none"
               >
-                <span className="text-amber-400 font-bold text-sm">{lastHitLabel}</span>
-                <span className="text-emerald-400 font-bold text-sm ml-2">+{lastHitScore}</span>
+                <p className={`font-black text-xl ${lastHitScore >= 25 ? 'text-amber-400' : lastHitScore >= 10 ? 'text-emerald-400' : lastHitScore > 0 ? 'text-slate-300' : 'text-red-400'}`}>
+                  {lastHitScore > 0 ? `+${lastHitScore}` : 'Mis!'}
+                </p>
+                <p className="text-[10px] text-white/40">{lastHitLabel}</p>
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Dartboard */}
-          <div
-            ref={boardRef}
-            onClick={throwDart}
-            className="relative w-full max-w-[240px] aspect-square rounded-full cursor-crosshair overflow-hidden"
-            style={{ background: '#0f172a' }}
+          <motion.div
+            className="relative w-full max-w-[220px] aspect-square rounded-full overflow-hidden"
+            style={{ background: '#0a0e1a' }}
+            animate={boardShake ? { rotate: [0, 1.5, -1.5, 1, 0] } : {}}
+            transition={{ duration: 0.2 }}
           >
-            {/* Board rings */}
             <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
-              {/* Outer board */}
-              <circle cx="50" cy="50" r="50" fill="#1e293b" />
-              {/* Scoring rings - from outside in */}
-              <circle cx="50" cy="50" r="48" fill="#0f172a" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="37" fill="#ef4444" opacity="0.15" stroke="rgba(239,68,68,0.3)" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="27" fill="#10b981" opacity="0.15" stroke="rgba(16,185,129,0.3)" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="17" fill="#ef4444" opacity="0.2" stroke="rgba(239,68,68,0.4)" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="9" fill="#10b981" opacity="0.25" stroke="rgba(16,185,129,0.5)" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="4" fill="#fbbf24" opacity="0.5" stroke="rgba(251,191,36,0.6)" strokeWidth="0.5" />
-              {/* Crosshair lines */}
-              <line x1="50" y1="2" x2="50" y2="98" stroke="rgba(255,255,255,0.06)" strokeWidth="0.3" />
-              <line x1="2" y1="50" x2="98" y2="50" stroke="rgba(255,255,255,0.06)" strokeWidth="0.3" />
-              {/* Number markers */}
-              {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(angle => (
-                <line
-                  key={angle}
-                  x1={50 + Math.cos(angle * Math.PI / 180) * 42}
-                  y1={50 + Math.sin(angle * Math.PI / 180) * 42}
-                  x2={50 + Math.cos(angle * Math.PI / 180) * 48}
-                  y2={50 + Math.sin(angle * Math.PI / 180) * 48}
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth="0.5"
-                />
+              {/* Board background */}
+              <circle cx="50" cy="50" r="50" fill="#0f172a" />
+              {/* Wire frame sectors */}
+              {Array.from({ length: 20 }).map((_, i) => {
+                const angle = (i * 18) * Math.PI / 180;
+                return (
+                  <line key={i}
+                    x1={50 + Math.cos(angle) * 4}
+                    y1={50 + Math.sin(angle) * 4}
+                    x2={50 + Math.cos(angle) * 48}
+                    y2={50 + Math.sin(angle) * 48}
+                    stroke="rgba(255,255,255,0.04)" strokeWidth="0.3"
+                  />
+                );
+              })}
+              {/* Scoring rings */}
+              <circle cx="50" cy="50" r="43" fill="none" stroke="#ef4444" strokeWidth="8" opacity="0.12" />
+              <circle cx="50" cy="50" r="33" fill="none" stroke="#10b981" strokeWidth="8" opacity="0.12" />
+              <circle cx="50" cy="50" r="23" fill="none" stroke="#ef4444" strokeWidth="8" opacity="0.15" />
+              <circle cx="50" cy="50" r="14" fill="none" stroke="#10b981" strokeWidth="6" opacity="0.15" />
+              <circle cx="50" cy="50" r="7" fill="#10b981" opacity="0.2" />
+              <circle cx="50" cy="50" r="3.5" fill="#fbbf24" opacity="0.5" />
+              <circle cx="50" cy="50" r="1.5" fill="white" opacity="0.6" />
+              {/* Wire rings */}
+              {[48, 43, 38, 33, 28, 23, 18, 14, 10, 7, 3.5].map((r, i) => (
+                <circle key={i} cx="50" cy="50" r={r} fill="none" stroke="rgba(148,163,184,0.08)" strokeWidth="0.3" />
               ))}
+              {/* Score labels */}
+              <text x="50" y="6" textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="3">2</text>
+              <text x="50" y="16" textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="3">5</text>
+              <text x="50" y="26" textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="3">10</text>
+              <text x="50" y="36" textAnchor="middle" fill="rgba(255,255,255,0.15)" fontSize="3">15</text>
+              <text x="50" y="44" textAnchor="middle" fill="rgba(255,255,255,0.2)" fontSize="2.5">25</text>
+              <text x="50" y="52" textAnchor="middle" fill="rgba(251,191,36,0.3)" fontSize="2.5">50</text>
             </svg>
 
             {/* Thrown darts */}
             {darts.map((dart, i) => (
               <motion.div
                 key={i}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="absolute z-20"
+                initial={{ scale: 0, opacity: 0, y: -20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 12 }}
+                className="absolute z-20 pointer-events-none"
                 style={{
                   left: `${dart.x * 100}%`,
                   top: `${dart.y * 100}%`,
-                  transform: 'translate(-50%, -50%)',
+                  transform: 'translate(-50%, -80%)',
                 }}
               >
-                <div className="relative">
-                  <div className="w-3 h-3 rounded-full bg-gradient-to-br from-amber-400 to-red-500 shadow-lg shadow-amber-500/40" />
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-white" />
-                </div>
+                <DartPin size={8} />
               </motion.div>
             ))}
 
-            {/* Aim crosshair */}
-            {!throwing && (
+            {/* Flying dart animation */}
+            {throwAnim && (
               <motion.div
                 className="absolute z-30 pointer-events-none"
-                style={{
-                  left: `${aimX * 100}%`,
-                  top: `${aimY * 100}%`,
-                  transform: 'translate(-50%, -50%)',
+                initial={{
+                  left: `${throwAnim.startX * 100}%`,
+                  top: `${throwAnim.startY * 100}%`,
+                  scale: 1.5,
+                  opacity: 0.6,
                 }}
+                animate={{
+                  left: `${throwAnim.endX * 100}%`,
+                  top: `${throwAnim.endY * 100}%`,
+                  scale: 1,
+                  opacity: 1,
+                }}
+                transition={{ duration: 0.3, ease: [0.2, 0, 0.2, 1] }}
+                style={{ transform: 'translate(-50%, -80%)' }}
               >
-                <div className="relative w-8 h-8">
-                  <div className="absolute inset-0 rounded-full border-2 border-white/40" />
-                  <div className="absolute top-1/2 left-0 right-0 h-px bg-white/40" />
-                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/40" />
+                <DartPin size={10} />
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Throw zone */}
+          <div className="flex-1 w-full max-w-[220px] relative flex flex-col items-center justify-center mt-2">
+            {/* Drag trajectory preview */}
+            {dragging && dragStart && dragCurrent && (
+              <svg className="absolute inset-0 w-full h-full pointer-events-none z-40" style={{ overflow: 'visible' }}>
+                <line
+                  x1={`${dragStart.x * 100}%`}
+                  y1={`${(dragStart.y - 0.55) / 0.45 * 100}%`}
+                  x2={`${dragCurrent.x * 100}%`}
+                  y2={`${(dragCurrent.y - 0.55) / 0.45 * 100}%`}
+                  stroke="rgba(239,68,68,0.4)"
+                  strokeWidth="2"
+                  strokeDasharray="4 4"
+                />
+                {/* Arrow tip */}
+                <circle
+                  cx={`${dragCurrent.x * 100}%`}
+                  cy={`${(dragCurrent.y - 0.55) / 0.45 * 100}%`}
+                  r="4"
+                  fill="rgba(239,68,68,0.5)"
+                />
+              </svg>
+            )}
+
+            {/* Power meter */}
+            {dragging && (
+              <div className="absolute top-0 left-0 right-0 flex items-center gap-2 px-2">
+                <span className="text-[9px] text-slate-500">Kracht</span>
+                <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
                   <motion.div
-                    className="absolute inset-1 rounded-full border border-emerald-400/60"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${dragPower * 100}%`,
+                      background: dragPower > 0.7 ? '#ef4444' : dragPower > 0.4 ? '#f59e0b' : '#10b981',
+                    }}
                   />
                 </div>
+              </div>
+            )}
+
+            {/* Hand / dart ready indicator */}
+            {!throwing && !dragging && (
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="flex flex-col items-center gap-1"
+              >
+                <DartPin size={16} />
+                <p className="text-slate-500 text-[10px] mt-1">
+                  Sleep omhoog om te gooien!
+                </p>
               </motion.div>
             )}
 
-            {/* Throwing dart animation */}
-            {throwing && (
+            {dragging && (
               <motion.div
-                initial={{ scale: 2, opacity: 0.5 }}
-                animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="absolute z-30 pointer-events-none"
-                style={{
-                  left: `${aimX * 100}%`,
-                  top: `${aimY * 100}%`,
-                  transform: 'translate(-50%, -50%)',
-                }}
+                initial={{ scale: 1 }}
+                animate={{ scale: 1.1 }}
+                className="text-[10px] text-amber-400/60 font-medium"
               >
-                <div className="w-4 h-4 rounded-full bg-amber-400 shadow-lg shadow-amber-400/50" />
+                Laat los om te gooien!
               </motion.div>
             )}
           </div>
 
-          <motion.p
-            className="text-slate-500 text-xs mt-3"
-            animate={{ opacity: [0.4, 0.8, 0.4] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            Klik op het bord om te gooien!
-          </motion.p>
+          {/* Score legend */}
+          <div className="flex gap-1.5 text-[8px] text-slate-600 mt-1">
+            <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-amber-400/50" /> 50</span>
+            <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500/30" /> 25</span>
+            <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-red-500/25" /> 15</span>
+            <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500/20" /> 10</span>
+            <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-red-500/15" /> 5</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
-          {/* Score rings legend */}
-          <div className="flex gap-2 mt-2 text-[9px] text-slate-600">
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400/50" /> 50</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500/30" /> 25</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500/30" /> 15</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500/20" /> 10</span>
+// ═══════════════════════════════════════════════════════════════
+// GAME 7: Blackjack — met Mario-thema kaarten
+// ═══════════════════════════════════════════════════════════════
+// Card suits with game characters
+const SUITS = ['♠', '♥', '♦', '♣'] as const;
+const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'] as const;
+
+function cardValue(rank: string): number {
+  if (rank === 'A') return 11;
+  if (['K', 'Q', 'J'].includes(rank)) return 10;
+  return parseInt(rank);
+}
+
+function handValue(hand: { rank: string; suit: string }[]): number {
+  let total = hand.reduce((s, c) => s + cardValue(c.rank), 0);
+  let aces = hand.filter(c => c.rank === 'A').length;
+  while (total > 21 && aces > 0) { total -= 10; aces--; }
+  return total;
+}
+
+// Mario-themed card face
+function GameCard({ rank, suit, faceDown = false, small = false }: { rank: string; suit: string; faceDown?: boolean; small?: boolean }) {
+  const w = small ? 44 : 56;
+  const h = small ? 64 : 80;
+  const isRed = suit === '♥' || suit === '♦';
+  const color = isRed ? '#ef4444' : '#1e293b';
+
+  if (faceDown) {
+    return (
+      <div className="rounded-lg overflow-hidden shadow-lg" style={{ width: w, height: h, background: '#1e40af' }}>
+        <div className="w-full h-full flex items-center justify-center" style={{
+          background: 'repeating-conic-gradient(#1e40af 0% 25%, #2563eb 0% 50%) 50% / 12px 12px',
+        }}>
+          <div className="w-6 h-6 rounded bg-amber-400 flex items-center justify-center text-xs font-black text-amber-800">?</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Character for face cards
+  const faceChar = rank === 'J' ? <Mushroom size={small ? 18 : 24} color="#ef4444" /> :
+                   rank === 'Q' ? <Star size={small ? 18 : 24} color="#f59e0b" /> :
+                   rank === 'K' ? <Ghost size={small ? 18 : 24} color="#8b5cf6" /> :
+                   rank === 'A' ? <GameBear size={small ? 18 : 24} mood="excited" /> : null;
+
+  return (
+    <div className="rounded-lg overflow-hidden shadow-lg relative" style={{ width: w, height: h, background: 'white' }}>
+      {/* Top-left rank + suit */}
+      <div className="absolute top-1 left-1.5 flex flex-col items-center leading-none">
+        <span className="font-bold" style={{ fontSize: small ? 10 : 13, color }}>{rank}</span>
+        <span style={{ fontSize: small ? 8 : 11, color }}>{suit}</span>
+      </div>
+      {/* Center */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        {faceChar || (
+          <span className="font-bold" style={{ fontSize: small ? 16 : 22, color }}>{suit}</span>
+        )}
+      </div>
+      {/* Bottom-right (rotated) */}
+      <div className="absolute bottom-1 right-1.5 flex flex-col items-center leading-none rotate-180">
+        <span className="font-bold" style={{ fontSize: small ? 10 : 13, color }}>{rank}</span>
+        <span style={{ fontSize: small ? 8 : 11, color }}>{suit}</span>
+      </div>
+    </div>
+  );
+}
+
+// Blackjack card icon for menu
+function CardIcon({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="3" width="14" height="18" rx="2" fill="white" stroke="#e2e8f0" strokeWidth="0.5" />
+      <text x="5" y="11" fill="#1e293b" fontSize="6" fontWeight="bold">A</text>
+      <text x="5" y="17" fill="#1e293b" fontSize="5">♠</text>
+      <rect x="8" y="3" width="14" height="18" rx="2" fill="#1e40af" />
+      <rect x="12" y="8" width="6" height="6" rx="1" fill="#fbbf24" />
+      <text x="15" y="13" textAnchor="middle" fill="#92400e" fontSize="5" fontWeight="bold">?</text>
+    </svg>
+  );
+}
+
+function BlackjackGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
+  const [deck, setDeck] = useState<{ rank: string; suit: string }[]>([]);
+  const [playerHand, setPlayerHand] = useState<{ rank: string; suit: string }[]>([]);
+  const [dealerHand, setDealerHand] = useState<{ rank: string; suit: string }[]>([]);
+  const [phase, setPhase] = useState<'bet' | 'play' | 'dealer' | 'result'>('bet');
+  const [bet, setBet] = useState(25);
+  const [chips, setChips] = useState(100);
+  const [result, setResult] = useState('');
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [roundsWon, setRoundsWon] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  const createDeck = useCallback(() => {
+    const d: { rank: string; suit: string }[] = [];
+    for (const suit of SUITS) for (const rank of RANKS) d.push({ rank, suit });
+    // Shuffle
+    for (let i = d.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [d[i], d[j]] = [d[j], d[i]];
+    }
+    return d;
+  }, []);
+
+  const deal = useCallback(() => {
+    let d = deck.length < 15 ? createDeck() : [...deck];
+    const p = [d.pop()!, d.pop()!];
+    const dl = [d.pop()!, d.pop()!];
+    setDeck(d);
+    setPlayerHand(p);
+    setDealerHand(dl);
+    setPhase('play');
+    setResult('');
+
+    // Check blackjack
+    if (handValue(p) === 21) {
+      setTimeout(() => {
+        setPhase('result');
+        if (handValue(dl) === 21) {
+          setResult('Push! Beide Blackjack');
+        } else {
+          setResult('BLACKJACK! 🎉');
+          setChips(c => c + Math.floor(bet * 1.5));
+          setRoundsWon(w => w + 1);
+          setStreak(s => s + 1);
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 1500);
+        }
+      }, 500);
+    }
+  }, [deck, createDeck, bet]);
+
+  useEffect(() => {
+    setDeck(createDeck());
+  }, [createDeck]);
+
+  const hit = () => {
+    if (phase !== 'play') return;
+    const d = [...deck];
+    const card = d.pop()!;
+    setDeck(d);
+    const newHand = [...playerHand, card];
+    setPlayerHand(newHand);
+    if (handValue(newHand) > 21) {
+      setPhase('result');
+      setResult('Bust! Je hebt verloren');
+      setChips(c => c - bet);
+      setStreak(0);
+    }
+  };
+
+  const stand = () => {
+    if (phase !== 'play') return;
+    setPhase('dealer');
+
+    // Dealer draws
+    let d = [...deck];
+    const dHand = [...dealerHand];
+
+    const dealerPlay = () => {
+      if (handValue(dHand) < 17) {
+        dHand.push(d.pop()!);
+        setDealerHand([...dHand]);
+        setDeck([...d]);
+        setTimeout(dealerPlay, 500);
+      } else {
+        // Determine winner
+        const pVal = handValue(playerHand);
+        const dVal = handValue(dHand);
+        setPhase('result');
+
+        if (dVal > 21) {
+          setResult('Dealer bust! Gewonnen!');
+          setChips(c => c + bet);
+          setRoundsWon(w => w + 1);
+          setStreak(s => s + 1);
+        } else if (pVal > dVal) {
+          setResult('Gewonnen! 🎉');
+          setChips(c => c + bet);
+          setRoundsWon(w => w + 1);
+          setStreak(s => s + 1);
+          if (streak >= 2) {
+            setShowConfetti(true);
+            setTimeout(() => setShowConfetti(false), 1200);
+          }
+        } else if (pVal < dVal) {
+          setResult('Verloren!');
+          setChips(c => c - bet);
+          setStreak(0);
+        } else {
+          setResult('Push! Gelijkspel');
+        }
+      }
+    };
+    setTimeout(dealerPlay, 500);
+  };
+
+  const doubleDown = () => {
+    if (phase !== 'play' || playerHand.length !== 2 || chips < bet) return;
+    setBet(b => b * 2);
+    const d = [...deck];
+    const card = d.pop()!;
+    setDeck(d);
+    const newHand = [...playerHand, card];
+    setPlayerHand(newHand);
+
+    if (handValue(newHand) > 21) {
+      setPhase('result');
+      setResult('Bust! Verloren');
+      setChips(c => c - bet * 2);
+      setStreak(0);
+    } else {
+      // Auto-stand after double
+      setTimeout(() => stand(), 300);
+    }
+  };
+
+  const newRound = () => {
+    if (chips <= 0) {
+      // Game over — report score
+      onScore(roundsWon * 50 + streak * 25);
+      setChips(100);
+      setRoundsWon(0);
+      setStreak(0);
+    }
+    setBet(Math.min(25, chips));
+    deal();
+  };
+
+  const pVal = handValue(playerHand);
+  const dVal = handValue(dealerHand);
+  const showDealer = phase === 'result' || phase === 'dealer';
+
+  return (
+    <div className="relative flex flex-col h-full">
+      <Confetti active={showConfetti} />
+      <div className="flex items-center justify-between px-3 py-2">
+        <button onClick={onBack} className="text-slate-400 hover:text-white transition-colors p-1">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+        </button>
+        <div className="flex items-center gap-3 text-[11px]">
+          <span className="text-amber-400 font-bold">{chips} <span className="text-[8px]">chips</span></span>
+          {streak >= 2 && <span className="text-emerald-400 animate-pulse">🔥 x{streak}</span>}
+          <span className="text-cyan-400">{roundsWon}W</span>
+        </div>
+      </div>
+
+      {phase === 'bet' ? (
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4">
+          <GameBear size={56} mood="thinking" />
+          <p className="text-white font-bold text-xl">Blackjack</p>
+          <p className="text-slate-400 text-xs text-center">Dichtbij 21, maar ga er niet overheen!</p>
+
+          {/* Bet selector */}
+          <div className="flex items-center gap-3 mt-2">
+            {[10, 25, 50].map(b => (
+              <button
+                key={b}
+                onClick={() => setBet(Math.min(b, chips))}
+                className="h-10 w-14 rounded-xl text-sm font-bold transition-all"
+                style={{
+                  background: bet === b ? 'rgba(251,191,36,0.2)' : 'rgba(255,255,255,0.04)',
+                  color: bet === b ? '#fbbf24' : '#64748b',
+                  boxShadow: bet === b ? '0 0 12px rgba(251,191,36,0.1)' : 'none',
+                }}
+                disabled={b > chips}
+              >
+                {b}
+              </button>
+            ))}
+          </div>
+          <p className="text-slate-600 text-[10px]">Inzet: {bet} chips</p>
+
+          <button onClick={deal} className="mt-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold hover:from-emerald-400 hover:to-teal-400 transition-all shadow-lg shadow-emerald-500/20">
+            Delen!
+          </button>
+        </div>
+      ) : (
+        <div className="flex-1 flex flex-col px-3 pb-2">
+          {/* Dealer area */}
+          <div className="text-center mb-1">
+            <span className="text-[10px] text-slate-500 uppercase tracking-wider">Dealer {showDealer ? `— ${dVal}` : ''}</span>
+          </div>
+          <div className="flex justify-center gap-1.5 mb-3 min-h-[68px]">
+            {dealerHand.map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: -20, rotateY: 180 }}
+                animate={{ opacity: 1, y: 0, rotateY: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.3 }}
+              >
+                <GameCard rank={card.rank} suit={card.suit} faceDown={i === 1 && !showDealer} small />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Table felt */}
+          <div className="flex-1 flex items-center justify-center relative">
+            <div className="absolute inset-0 rounded-xl" style={{ background: 'radial-gradient(ellipse at center, rgba(16,100,60,0.15), transparent)' }} />
+            {/* Bet display */}
+            <div className="absolute top-1 text-[10px] text-amber-400/50">Inzet: {bet}</div>
+
+            {/* Result */}
+            {phase === 'result' && (
+              <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="absolute z-30 text-center"
+              >
+                <p className={`font-black text-lg ${result.includes('Gewonnen') || result.includes('BLACKJACK') ? 'text-emerald-400' : result.includes('Push') ? 'text-amber-400' : 'text-red-400'}`}>
+                  {result}
+                </p>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Player area */}
+          <div className="text-center mb-1">
+            <span className={`text-[10px] uppercase tracking-wider ${pVal > 21 ? 'text-red-400' : pVal === 21 ? 'text-emerald-400 font-bold' : 'text-slate-400'}`}>
+              Jij — {pVal} {pVal === 21 && playerHand.length === 2 ? '★ BJ' : ''}
+            </span>
+          </div>
+          <div className="flex justify-center gap-1.5 mb-2 min-h-[68px]">
+            {playerHand.map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: i * 0.1, type: 'spring', stiffness: 300 }}
+              >
+                <GameCard rank={card.rank} suit={card.suit} small />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex gap-2">
+            {phase === 'play' ? (
+              <>
+                <button onClick={hit}
+                  className="flex-1 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 text-xs font-bold hover:bg-emerald-500/30 active:scale-95 transition-all">
+                  Hit
+                </button>
+                <button onClick={stand}
+                  className="flex-1 h-10 rounded-xl bg-amber-500/20 text-amber-400 text-xs font-bold hover:bg-amber-500/30 active:scale-95 transition-all">
+                  Stand
+                </button>
+                {playerHand.length === 2 && chips >= bet && (
+                  <button onClick={doubleDown}
+                    className="flex-1 h-10 rounded-xl bg-purple-500/20 text-purple-400 text-xs font-bold hover:bg-purple-500/30 active:scale-95 transition-all">
+                    2x
+                  </button>
+                )}
+              </>
+            ) : phase === 'result' ? (
+              <button onClick={newRound}
+                className="flex-1 h-10 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-400 text-xs font-bold hover:from-emerald-500/30 hover:to-teal-500/30 active:scale-95 transition-all">
+                {chips <= 0 ? 'Opnieuw (100 chips)' : 'Volgende ronde'}
+              </button>
+            ) : (
+              <div className="flex-1 h-10 flex items-center justify-center">
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
+                  <Coin size={20} />
+                </motion.div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -1578,8 +2313,9 @@ const GAMES = [
   { id: 'snake' as GameId, name: 'Snake', color: '#10b981', desc: 'Verzamel munten', icon: (s: number) => <Coin size={s} /> },
   { id: 'whack' as GameId, name: 'Whack', color: '#f59e0b', desc: 'Tik de figuurtjes', icon: (s: number) => <Mushroom size={s} color="#f59e0b" /> },
   { id: 'speed' as GameId, name: 'Speed', color: '#ef4444', desc: 'Vang ze allemaal', icon: (s: number) => <Star size={s} color="#ef4444" /> },
-  { id: 'racer' as GameId, name: 'Racer', color: '#ef4444', desc: 'Ontwijken & racen', icon: (s: number) => <Kart size={s} color="#ef4444" /> },
-  { id: 'darts' as GameId, name: 'Darts', color: '#f59e0b', desc: 'Gooi raak!', icon: (s: number) => <Dartboard size={s} /> },
+  { id: 'racer' as GameId, name: 'Kart', color: '#f97316', desc: 'Race met items!', icon: (s: number) => <Kart size={s} color="#f97316" /> },
+  { id: 'darts' as GameId, name: 'Darts', color: '#ec4899', desc: 'Gooi raak!', icon: (s: number) => <Dartboard size={s} /> },
+  { id: 'blackjack' as GameId, name: '21', color: '#0ea5e9', desc: 'Blackjack!', icon: (s: number) => <CardIcon size={s} /> },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -1588,7 +2324,7 @@ const GAMES = [
 export default function MiniGames() {
   const [open, setOpen] = useState(false);
   const [currentGame, setCurrentGame] = useState<GameId>('menu');
-  const [scores, setScores] = useState<HighScores>({ memory: 0, snake: 0, whack: 0, speed: 0, racer: 0, darts: 0 });
+  const [scores, setScores] = useState<HighScores>({ memory: 0, snake: 0, whack: 0, speed: 0, racer: 0, darts: 0, blackjack: 0 });
   const [mounted, setMounted] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
 
@@ -1712,46 +2448,51 @@ export default function MiniGames() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="p-3 grid grid-cols-3 gap-2.5 h-full content-start"
+                    className="p-3 h-full overflow-y-auto"
+                    style={{ scrollbarWidth: 'none' }}
                   >
-                    {GAMES.map((game, i) => (
-                      <motion.button
-                        key={game.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.08 }}
-                        onClick={() => setCurrentGame(game.id)}
-                        className="relative rounded-2xl p-3 flex flex-col items-center gap-1.5 text-center transition-all duration-300 group hover:scale-[1.03] active:scale-95"
-                        style={{ background: `${game.color}12` }}
-                      >
-                        <motion.div
-                          className="mb-1"
-                          whileHover={{ scale: 1.2, rotate: [0, -10, 10, 0] }}
-                          transition={{ duration: 0.4 }}
-                        >
-                          {game.icon(36)}
-                        </motion.div>
-                        <span className="text-white font-semibold text-sm">{game.name}</span>
-                        <span className="text-slate-500 text-[10px]">{game.desc}</span>
-                        {scores[game.id as keyof HighScores] > 0 && (
-                          <span className="text-[10px] font-bold mt-1" style={{ color: game.color }}>
-                            Best: {scores[game.id as keyof HighScores]}
-                          </span>
-                        )}
-                        <div
-                          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                          style={{ boxShadow: `inset 0 0 0 1px ${game.color}30, 0 0 20px ${game.color}10` }}
-                        />
-                      </motion.button>
-                    ))}
+                    {/* Mascot header */}
+                    <div className="flex items-center justify-center gap-3 mb-3 pb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                      <GameBear size={28} mood="playing" />
+                      <div className="text-center">
+                        <p className="text-white/70 text-[10px] font-medium">
+                          {Object.values(scores).reduce((a, b) => a + b, 0)} pts totaal
+                        </p>
+                        <p className="text-slate-600 text-[9px]">7 games beschikbaar</p>
+                      </div>
+                      <GameBear size={28} mood="excited" />
+                    </div>
 
-                    {/* Total score */}
-                    <div className="col-span-3 mt-2 px-4 py-3 rounded-xl bg-white/[0.03] text-center">
-                      <p className="text-slate-600 text-[10px] uppercase tracking-wider mb-1">Totaal highscore</p>
-                      <p className="text-white font-bold text-lg tabular-nums">
-                        {Object.values(scores).reduce((a, b) => a + b, 0)}
-                        <span className="text-slate-500 text-xs font-normal ml-1">pts</span>
-                      </p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {GAMES.map((game, i) => (
+                        <motion.button
+                          key={game.id}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          onClick={() => setCurrentGame(game.id)}
+                          className="relative rounded-xl p-2.5 flex flex-col items-center gap-1 text-center transition-all duration-300 group hover:scale-[1.04] active:scale-95"
+                          style={{ background: `${game.color}10` }}
+                        >
+                          <motion.div
+                            whileHover={{ scale: 1.2, rotate: [0, -8, 8, 0] }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {game.icon(30)}
+                          </motion.div>
+                          <span className="text-white font-semibold text-[11px] leading-tight">{game.name}</span>
+                          <span className="text-slate-500 text-[9px] leading-tight">{game.desc}</span>
+                          {scores[game.id as keyof HighScores] > 0 && (
+                            <span className="text-[9px] font-bold" style={{ color: game.color }}>
+                              {scores[game.id as keyof HighScores]}
+                            </span>
+                          )}
+                          <div
+                            className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                            style={{ boxShadow: `inset 0 0 0 1px ${game.color}25, 0 0 15px ${game.color}08` }}
+                          />
+                        </motion.button>
+                      ))}
                     </div>
                   </motion.div>
                 )}
@@ -1784,6 +2525,11 @@ export default function MiniGames() {
                 {currentGame === 'darts' && (
                   <motion.div key="darts" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="h-full">
                     <DartsGame onBack={goToMenu} onScore={handleScore('darts')} />
+                  </motion.div>
+                )}
+                {currentGame === 'blackjack' && (
+                  <motion.div key="blackjack" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="h-full">
+                    <BlackjackGame onBack={goToMenu} onScore={handleScore('blackjack')} />
                   </motion.div>
                 )}
               </AnimatePresence>
