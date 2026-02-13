@@ -123,7 +123,7 @@ function PlatformCard({ platform, count, index }: {
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-          className="group relative overflow-hidden rounded-3xl cursor-pointer"
+          className="group relative overflow-hidden rounded-2xl cursor-pointer"
         >
           {/* Background */}
           <div
@@ -209,7 +209,7 @@ function PlatformCard({ platform, count, index }: {
 
           {/* Glow on hover */}
           <div
-            className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+            className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
             style={{ boxShadow: `inset 0 0 30px rgba(${platform.glow}, 0.06)` }}
           />
         </motion.div>
@@ -230,7 +230,7 @@ export default function PlatformGrid() {
   }, [dbPlatforms]);
 
   return (
-    <section className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
+    <section className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden border-t border-white/[0.06]">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(99,102,241,0.06),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.04),transparent_50%)]" />
 
@@ -240,7 +240,7 @@ export default function PlatformGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-16 lg:mb-20"
+          className="text-center mb-12 lg:mb-16"
         >
           <div className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6" />
           <h2 className="text-3xl lg:text-[52px] font-semibold text-white tracking-[-0.02em] leading-[1.1] mb-3">

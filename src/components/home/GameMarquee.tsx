@@ -144,9 +144,9 @@ export default function GameMarquee() {
   const row2 = allProducts.slice(half, Math.min(allProducts.length, half + 18));
 
   return (
-    <section className="relative py-20 lg:py-28 bg-[#050810] overflow-hidden">
+    <section className="relative py-20 lg:py-28 bg-[#050810] overflow-hidden border-t border-white/[0.06]">
       <div className="relative">
-        <div className="text-center mb-16 px-4">
+        <div className="text-center mb-12 lg:mb-16 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

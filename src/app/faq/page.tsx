@@ -148,7 +148,7 @@ export default function FaqPage() {
   const activeCategoryLabel = categories.find((c) => c.value === activeCategory)?.label || 'Alles';
 
   return (
-    <div className="pt-20 lg:pt-24">
+    <div className="pt-16 lg:pt-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -167,7 +167,7 @@ export default function FaqPage() {
             <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
               FAQ
             </span>
-            <h1 className="text-3xl lg:text-6xl font-semibold text-white tracking-tight mb-4">
+            <h1 className="text-4xl lg:text-[64px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-4">
               Veelgestelde vragen
             </h1>
             <p className="text-lg text-slate-400 max-w-2xl">

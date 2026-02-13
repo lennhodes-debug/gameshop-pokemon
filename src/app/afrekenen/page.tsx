@@ -161,7 +161,7 @@ export default function AfrekenPage() {
         <div className="relative bg-[#050810] py-14 lg:py-20 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_50%)]" />
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-2">
+            <h1 className="text-4xl lg:text-[64px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-2">
               Af<span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">rekenen</span>
             </h1>
           </div>
@@ -269,7 +269,7 @@ export default function AfrekenPage() {
               </svg>
               Terug naar winkelwagen
             </Link>
-            <h1 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-2">
+            <h1 className="text-4xl lg:text-[64px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-2">
               Af<span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">rekenen</span>
             </h1>
             <p className="text-slate-400">Vul je gegevens in om de bestelling af te ronden</p>

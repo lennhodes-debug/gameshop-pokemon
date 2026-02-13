@@ -149,7 +149,7 @@ export default async function ProductPage({ params }: Props) {
   };
 
   return (
-    <div className="pt-20 lg:pt-24 bg-[#050810]">
+    <div className="pt-16 lg:pt-20 bg-[#050810]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}

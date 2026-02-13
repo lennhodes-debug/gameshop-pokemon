@@ -457,7 +457,7 @@ export default function OverOnsPage() {
   }, [cursorX, cursorY]);
 
   return (
-    <div className="pt-20 lg:pt-24">
+    <div className="pt-16 lg:pt-20">
       <NoiseOverlay />
 
       {/* ── HERO ────────────────────────────────────────── */}
@@ -536,7 +536,7 @@ export default function OverOnsPage() {
           </motion.div>
         </motion.div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent" />
       </div>
 
       {/* ── STATS BAR ───────────────────────────────────── */}
@@ -578,7 +578,7 @@ export default function OverOnsPage() {
       <CursorSpotlight />
 
       {/* ── HET VERHAAL ──────────────────────────────────── */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -616,7 +616,7 @@ export default function OverOnsPage() {
 
       {/* ── ONS PROCES ───────────────────────────────────── */}
       <section className="relative py-24 lg:py-32 overflow-hidden bg-slate-50">
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -679,7 +679,7 @@ export default function OverOnsPage() {
       <section className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_50%)]" />
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
             <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-4">
@@ -780,7 +780,7 @@ export default function OverOnsPage() {
 
       {/* ── BEDRIJFSINFO ─────────────────────────────────── */}
       <section className="bg-slate-50 py-20 lg:py-24">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -854,7 +854,7 @@ export default function OverOnsPage() {
       <section className="relative bg-[#050810] py-32 lg:py-44 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_55%)]" />
 
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}

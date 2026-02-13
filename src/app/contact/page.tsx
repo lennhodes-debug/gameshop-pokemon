@@ -89,7 +89,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-20 lg:pt-24">
+    <div className="pt-16 lg:pt-20">
       {/* Hero */}
       <div className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_60%)]" />
@@ -109,7 +109,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-semibold text-white tracking-tight mb-5"
+            className="text-4xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-5"
           >
             Neem{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">

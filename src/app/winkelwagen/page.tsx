@@ -86,7 +86,7 @@ export default function WinkelwagenPage() {
         </div>
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-2">
+            <h1 className="text-4xl lg:text-[64px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-2">
               Winkel
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">wagen</span>
             </h1>

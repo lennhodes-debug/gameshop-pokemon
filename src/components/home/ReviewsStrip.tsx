@@ -66,7 +66,7 @@ export default function ReviewsStrip() {
       {/* Subtiele achtergrond */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 lg:mb-16 text-center">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,6 @@ export default function ReviewsStrip() {
         </motion.div>
       </div>
 
-      <div className="mb-10" />
 
       {/* Fade edges */}
       <div className="absolute top-0 bottom-0 left-0 w-32 lg:w-48 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />
