@@ -184,27 +184,118 @@ function Heart({ size = 24, color = '#ef4444' }: { size?: number; color?: string
   );
 }
 
+// ─── Iconische gaming figuren ────────────────────────────────
+// Pac-Man achtig figuurtje
+function PacMan({ size = 24, color = '#fbbf24' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <path d="M22 12 A10 10 0 1 1 22 11.99 L12 12 Z" fill={color} transform="rotate(-30 12 12)" />
+      <circle cx="13" cy="7" r="1.5" fill="#2D1B00" />
+    </svg>
+  );
+}
+
+// Pokéball
+function PokeBall({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" fill="#ef4444" />
+      <rect x="2" y="11" width="20" height="2" fill="#1e293b" />
+      <path d="M2 12 A10 10 0 0 1 22 12" fill="#ef4444" />
+      <path d="M2 12 A10 10 0 0 0 22 12" fill="white" />
+      <circle cx="12" cy="12" r="3.5" fill="#1e293b" />
+      <circle cx="12" cy="12" r="2.5" fill="white" />
+      <circle cx="12" cy="12" r="1.2" fill="#1e293b" />
+    </svg>
+  );
+}
+
+// Retro Space Invader
+function Invader({ size = 24, color = '#10b981' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect x="3" y="5" width="2" height="2" fill={color} />
+      <rect x="19" y="5" width="2" height="2" fill={color} />
+      <rect x="5" y="7" width="14" height="2" fill={color} />
+      <rect x="3" y="9" width="18" height="2" fill={color} />
+      <rect x="3" y="11" width="4" height="2" fill={color} />
+      <rect x="9" y="11" width="6" height="2" fill={color} />
+      <rect x="17" y="11" width="4" height="2" fill={color} />
+      <rect x="5" y="13" width="2" height="2" fill={color} />
+      <rect x="9" y="13" width="2" height="2" fill={color} />
+      <rect x="13" y="13" width="2" height="2" fill={color} />
+      <rect x="17" y="13" width="2" height="2" fill={color} />
+      {/* Eyes */}
+      <rect x="7" y="9" width="2" height="2" fill="white" />
+      <rect x="15" y="9" width="2" height="2" fill="white" />
+    </svg>
+  );
+}
+
+// Triforce / power triangle
+function Triforce({ size = 24, color = '#fbbf24' }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <polygon points="12,2 6,12 18,12" fill={color} />
+      <polygon points="6,12 0,22 12,22" fill={color} opacity="0.7" />
+      <polygon points="18,12 12,22 24,22" fill={color} opacity="0.7" />
+    </svg>
+  );
+}
+
+// 1-Up Mushroom (groene variant)
+function OneUp({ size = 24 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <ellipse cx="12" cy="10" rx="10" ry="8" fill="#10b981" />
+      <circle cx="8" cy="8" r="2.5" fill="white" opacity="0.9" />
+      <circle cx="16" cy="7" r="2" fill="white" opacity="0.9" />
+      <circle cx="12" cy="12" r="1.5" fill="white" opacity="0.7" />
+      <rect x="9" y="16" width="6" height="6" rx="1" fill="#F5E6C8" />
+      <circle cx="10" cy="14" r="0.8" fill="#2D1B00" />
+      <circle cx="14" cy="14" r="0.8" fill="#2D1B00" />
+      <path d="M11 15 Q12 16 13 15" stroke="#2D1B00" strokeWidth="0.6" fill="none" />
+    </svg>
+  );
+}
+
 function Kart({ size = 24, color = '#ef4444' }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       {/* Body */}
-      <rect x="6" y="8" width="12" height="10" rx="3" fill={color} />
-      <rect x="7" y="6" width="10" height="6" rx="2" fill={color} opacity="0.7" />
+      <rect x="6" y="9" width="12" height="9" rx="3" fill={color} />
+      <rect x="7" y="7" width="10" height="6" rx="2" fill={color} opacity="0.8" />
       {/* Windshield */}
-      <rect x="8.5" y="6.5" width="7" height="4" rx="1.5" fill="#0ea5e9" opacity="0.6" />
+      <rect x="8.5" y="7.5" width="7" height="3.5" rx="1.5" fill="#0ea5e9" opacity="0.5" />
       {/* Wheels */}
-      <rect x="4" y="10" width="3" height="5" rx="1.5" fill="#1e293b" />
-      <rect x="17" y="10" width="3" height="5" rx="1.5" fill="#1e293b" />
-      <rect x="4.5" y="11" width="2" height="1" rx="0.5" fill="#94a3b8" />
-      <rect x="17.5" y="11" width="2" height="1" rx="0.5" fill="#94a3b8" />
-      {/* Driver head */}
-      <circle cx="12" cy="7" r="2" fill="#fbbf24" />
-      <circle cx="11.3" cy="6.5" r="0.4" fill="#2D1B00" />
-      <circle cx="12.7" cy="6.5" r="0.4" fill="#2D1B00" />
+      <rect x="4" y="11" width="3" height="5" rx="1.5" fill="#1e293b" />
+      <rect x="17" y="11" width="3" height="5" rx="1.5" fill="#1e293b" />
+      <rect x="4.5" y="12" width="2" height="1" rx="0.5" fill="#94a3b8" />
+      <rect x="17.5" y="12" width="2" height="1" rx="0.5" fill="#94a3b8" />
+      {/* Bear driver — ears */}
+      <circle cx="9.5" cy="4" r="1.5" fill="#8B6914" />
+      <circle cx="9.5" cy="4" r="0.8" fill="#D4A76A" />
+      <circle cx="14.5" cy="4" r="1.5" fill="#8B6914" />
+      <circle cx="14.5" cy="4" r="0.8" fill="#D4A76A" />
+      {/* Bear head */}
+      <circle cx="12" cy="5.5" r="3" fill="#C4943D" />
+      <circle cx="12" cy="5.5" r="2.5" fill="#D4A76A" />
+      {/* Bear eyes */}
+      <circle cx="10.8" cy="5" r="0.5" fill="#2D1B00" />
+      <circle cx="13.2" cy="5" r="0.5" fill="#2D1B00" />
+      <circle cx="11" cy="4.8" r="0.15" fill="white" />
+      <circle cx="13.4" cy="4.8" r="0.15" fill="white" />
+      {/* Bear nose */}
+      <circle cx="12" cy="5.8" r="0.4" fill="#2D1B00" />
+      {/* Bear mouth — determined grin */}
+      <path d="M11 6.5 Q12 7.2 13 6.5" stroke="#2D1B00" strokeWidth="0.4" fill="none" />
       {/* Racing stripe */}
-      <rect x="10.5" y="9" width="3" height="8" rx="1" fill="white" opacity="0.3" />
+      <rect x="10.5" y="10" width="3" height="7" rx="1" fill="white" opacity="0.25" />
+      {/* Number circle */}
+      <circle cx="12" cy="13" r="2" fill="white" opacity="0.3" />
+      <text x="12" y="14" textAnchor="middle" fill={color} fontSize="3" fontWeight="bold" opacity="0.6">1</text>
       {/* Exhaust */}
-      <circle cx="12" cy="19" r="1" fill="#94a3b8" opacity="0.5" />
+      <circle cx="12" cy="19" r="1" fill="#94a3b8" opacity="0.4" />
     </svg>
   );
 }
@@ -235,12 +326,12 @@ function Dartboard({ size = 24 }: { size?: number }) {
 const MEMORY_CHARACTERS = [
   { id: 'bear', render: (s: number) => <GameBear size={s} mood="happy" /> },
   { id: 'mushroom', render: (s: number) => <Mushroom size={s} color="#ef4444" /> },
-  { id: 'star', render: (s: number) => <Star size={s} color="#f59e0b" /> },
   { id: 'ghost', render: (s: number) => <Ghost size={s} color="#8b5cf6" /> },
-  { id: 'coin', render: (s: number) => <Coin size={s} color="#f59e0b" /> },
-  { id: 'heart', render: (s: number) => <Heart size={s} color="#ef4444" /> },
-  { id: 'mushroom2', render: (s: number) => <Mushroom size={s} color="#10b981" /> },
-  { id: 'ghost2', render: (s: number) => <Ghost size={s} color="#0ea5e9" /> },
+  { id: 'pacman', render: (s: number) => <PacMan size={s} /> },
+  { id: 'pokeball', render: (s: number) => <PokeBall size={s} /> },
+  { id: 'invader', render: (s: number) => <Invader size={s} color="#10b981" /> },
+  { id: 'triforce', render: (s: number) => <Triforce size={s} /> },
+  { id: 'oneup', render: (s: number) => <OneUp size={s} /> },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -654,13 +745,13 @@ function SnakeGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
 const WHACK_CHARACTERS = [
   (s: number) => <Mushroom size={s} color="#ef4444" />,
   (s: number) => <Ghost size={s} color="#8b5cf6" />,
-  (s: number) => <Star size={s} color="#f59e0b" />,
-  (s: number) => <Mushroom size={s} color="#10b981" />,
-  (s: number) => <Ghost size={s} color="#0ea5e9" />,
+  (s: number) => <PacMan size={s} />,
+  (s: number) => <Invader size={s} color="#10b981" />,
+  (s: number) => <PokeBall size={s} />,
+  (s: number) => <OneUp size={s} />,
+  (s: number) => <Triforce size={s} />,
   (s: number) => <Star size={s} color="#ec4899" />,
-  (s: number) => <Coin size={s} />,
-  (s: number) => <Heart size={s} />,
-  (s: number) => <Mushroom size={s} color="#f97316" />,
+  (s: number) => <GameBear size={s} mood="excited" />,
 ];
 
 function WhackGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
@@ -879,13 +970,15 @@ function WhackGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
 // GAME 4: Speed Click — met targets als characters
 // ═══════════════════════════════════════════════════════════════
 const TARGET_CHARACTERS = [
-  (s: number) => <Mushroom size={s} color="#ef4444" />,
-  (s: number) => <Star size={s} color="#f59e0b" />,
+  (s: number) => <PacMan size={s} />,
+  (s: number) => <Invader size={s} color="#ef4444" />,
+  (s: number) => <PokeBall size={s} />,
   (s: number) => <Ghost size={s} color="#8b5cf6" />,
-  (s: number) => <Heart size={s} color="#ec4899" />,
-  (s: number) => <Coin size={s} />,
-  (s: number) => <Mushroom size={s} color="#10b981" />,
-  (s: number) => <Ghost size={s} color="#0ea5e9" />,
+  (s: number) => <Triforce size={s} />,
+  (s: number) => <OneUp size={s} />,
+  (s: number) => <Mushroom size={s} color="#f97316" />,
+  (s: number) => <GameBear size={s} mood="happy" />,
+  (s: number) => <Invader size={s} color="#0ea5e9" />,
 ];
 
 function SpeedGame({ onBack, onScore }: { onBack: () => void; onScore: (s: number) => void }) {
