@@ -6,11 +6,10 @@ import Logo from './Logo';
 
 const shopLinks = [
   { href: '/shop', label: 'Alle games' },
-  { href: '/shop?platform=Nintendo+DS', label: 'Nintendo DS' },
-  { href: '/shop?platform=Nintendo+3DS', label: 'Nintendo 3DS' },
-  { href: '/shop?platform=Game+Boy+Advance', label: 'Game Boy Advance' },
-  { href: '/shop?platform=Game+Boy+%2F+Color', label: 'Game Boy / Color' },
+  { href: '/nintendo', label: 'Platforms' },
+  { href: '/game-finder', label: 'Game Finder' },
   { href: '/inkoop', label: 'Games verkopen' },
+  { href: '/verlanglijst', label: 'Verlanglijst' },
 ];
 
 const infoLinks = [

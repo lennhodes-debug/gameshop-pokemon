@@ -46,7 +46,7 @@ const faqItems = [
   },
   {
     question: 'Hoe worden bestellingen verzonden?',
-    answer: 'Alle bestellingen worden zorgvuldig verpakt en verzonden via PostNL. De standaard verzendkosten bedragen €3,95. Bij bestellingen boven de €100 is de verzending gratis. Je ontvangt een track-and-trace code zodra je bestelling is verzonden.',
+    answer: 'Alle bestellingen worden zorgvuldig verpakt en verzonden via PostNL. De standaard verzendkosten bedragen €4,95 (brievenbuspakket, 1-3 items). Bij grotere bestellingen gelden aangepaste tarieven. Bij bestellingen boven de €100 is de verzending gratis. Je ontvangt een track-and-trace code zodra je bestelling is verzonden.',
     category: 'verzending',
   },
   {
@@ -86,12 +86,12 @@ const faqItems = [
   },
   {
     question: 'Worden er ook consoles verkocht?',
-    answer: 'Op dit moment zijn wij gespecialiseerd in Pokémon games voor Game Boy Advance, Nintendo DS, Nintendo 3DS en Game Boy Color. Consoles bieden wij momenteel niet aan, maar we raden aan om bij Marktplaats of andere retro-winkels te kijken voor de bijpassende hardware.',
+    answer: 'Wij zijn gespecialiseerd in originele Nintendo games voor meerdere platforms: Game Boy, Game Boy Advance, Nintendo DS, Nintendo 3DS, Wii en Wii U. Consoles bieden wij momenteel niet aan, maar we raden aan om bij Marktplaats of andere retro-winkels te kijken voor de bijpassende hardware.',
     category: 'producten',
   },
   {
-    question: 'Voor welke platforms verkopen jullie Pokémon games?',
-    answer: 'Wij verkopen Pokémon games voor vier platforms: Game Boy Advance (GBA), Nintendo DS, Nintendo 3DS en Game Boy Color. Dit omvat de mainline RPG\'s, Mystery Dungeon, Ranger en andere spin-offs.',
+    question: 'Voor welke platforms verkopen jullie games?',
+    answer: 'Wij verkopen originele Nintendo games voor Game Boy, Game Boy Advance (GBA), Nintendo DS, Nintendo 3DS, Wii en Wii U. Van Pok\u00e9mon en Zelda tot Mario en Animal Crossing \u2014 ons assortiment omvat 140+ titels.',
     category: 'producten',
   },
   {

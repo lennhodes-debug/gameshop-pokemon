@@ -307,8 +307,8 @@ export default function NintendoPage() {
               De Pokemon die wij verkopen
             </h2>
             <p className="text-slate-400 text-sm mt-3 max-w-lg mx-auto">
-              Wij zijn gespecialiseerd in Pokemon games voor Game Boy, GBA, DS en 3DS.
-              Van de originele Red &amp; Blue tot Black 2 &amp; White 2.
+              Wij zijn gespecialiseerd in originele Nintendo games voor Game Boy, GBA, DS, 3DS, Wii en Wii U.
+              Van Pok&eacute;mon en Zelda tot Mario en Animal Crossing.
             </p>
           </motion.div>
 

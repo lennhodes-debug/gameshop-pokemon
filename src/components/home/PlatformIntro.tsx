@@ -83,7 +83,7 @@ export default function PlatformIntro() {
           <div style={{textAlign:'center'}}>
             <h2 style={{fontSize:'clamp(48px,8vw,96px)',fontWeight:900,color:'#fff',lineHeight:1,margin:0}}>Gameshop</h2>
             <h2 style={{fontSize:'clamp(48px,8vw,96px)',fontWeight:900,lineHeight:1,margin:0,background:'linear-gradient(to right,#34d399,#2dd4bf,#22d3ee)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Enter</h2>
-            <p style={{fontSize:16,color:'rgba(255,255,255,0.4)',marginTop:24}}>De Pokémon specialist van Nederland</p>
+            <p style={{fontSize:16,color:'rgba(255,255,255,0.4)',marginTop:24}}>De Nintendo specialist van Nederland</p>
           </div>
         </div>
 

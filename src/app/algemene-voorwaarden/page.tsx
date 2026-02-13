@@ -15,7 +15,7 @@ export default function AlgemeneVoorwaardenPage() {
           <div>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">Artikel 1 - Identiteit</h2>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              Gameshop Enter is een online webshop gespecialiseerd in originele Pokemon games voor Nintendo-platforms. E-mail: gameshopenter@gmail.com. KvK: 93642474.
+              Gameshop Enter is een online webshop gespecialiseerd in originele Nintendo games. E-mail: gameshopenter@gmail.com. KvK: 93642474.
             </p>
           </div>
           <div>
@@ -27,7 +27,7 @@ export default function AlgemeneVoorwaardenPage() {
           <div>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">Artikel 3 - Verzending</h2>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              Alle bestellingen worden verzonden via PostNL. De standaard verzendkosten bedragen 3,95 euro. Bij bestellingen boven 100 euro is de verzending gratis. Gameshop Enter is een uitsluitend online webshop; afhalen is niet mogelijk.
+              Alle bestellingen worden verzonden via PostNL. De standaard verzendkosten bedragen 4,95 euro (brievenbuspakket). Bij bestellingen boven 100 euro is de verzending gratis. Gameshop Enter is een uitsluitend online webshop; afhalen is niet mogelijk.
             </p>
           </div>
           <div>
@@ -39,12 +39,12 @@ export default function AlgemeneVoorwaardenPage() {
           <div>
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">Artikel 5 - Productconditie en authenticiteit</h2>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
-              Alle Pokemon games worden gecontroleerd op authenticiteit en werking voordat ze worden aangeboden. De conditie en compleetheid (CIB of los) worden altijd vermeld bij het product.
+              Alle Nintendo games worden gecontroleerd op authenticiteit en werking voordat ze worden aangeboden. De conditie en compleetheid (CIB of los) worden altijd vermeld bij het product.
             </p>
             <ul className="list-disc pl-6 text-slate-600 dark:text-slate-300 space-y-2">
               <li>Game Boy- en GBA-cartridges bevatten interne batterijen die door ouderdom kunnen leeglopen. Dit wordt waar mogelijk vermeld, maar valt buiten garantie bij tweedehands games.</li>
               <li>Save-bestanden op cartridges worden niet gegarandeerd. Games kunnen bij levering een bestaande save bevatten of gewist zijn.</li>
-              <li>Wij verkopen uitsluitend originele, authentieke Pokemon games. Geen reproducties of namaak.</li>
+              <li>Wij verkopen uitsluitend originele, authentieke Nintendo games. Geen reproducties of namaak.</li>
             </ul>
           </div>
           <p className="text-slate-400 dark:text-slate-500 text-sm">

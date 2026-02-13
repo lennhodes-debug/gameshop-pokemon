@@ -38,7 +38,7 @@ export default function RetourbeleidPage() {
                 De werking van deze batterij bij oudere cartridges valt niet onder het retourrecht, tenzij dit niet vermeld was in de productbeschrijving.
               </li>
               <li>
-                <strong>Authenticiteit:</strong> Al onze Pokemon games zijn gecontroleerd op authenticiteit. Mocht je twijfelen aan de echtheid van een ontvangen game,
+                <strong>Authenticiteit:</strong> Al onze Nintendo games zijn gecontroleerd op authenticiteit. Mocht je twijfelen aan de echtheid van een ontvangen game,
                 neem dan direct contact met ons op — wij lossen dit altijd op.
               </li>
             </ul>

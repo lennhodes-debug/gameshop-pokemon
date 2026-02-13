@@ -4,18 +4,18 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 const reviews = [
-  { name: 'Thomas V.', text: 'Pokemon Violet in perfecte staat ontvangen, compleet met doos. Super snelle levering en precies zoals beschreven!', product: 'Pokemon Violet', date: '12 jan 2025' },
-  { name: 'Lisa M.', text: 'Al 3x Pokemon games besteld bij Gameshop Enter. Altijd betrouwbaar, goed verpakt en originele cartridges.', product: 'Pokemon SoulSilver', date: '28 dec 2024' },
-  { name: 'Kevin D.', text: 'Pokemon Emerald met werkende batterij ontvangen. Savefile was gewist, dus kon meteen een nieuw avontuur starten. Topkwaliteit!', product: 'Pokemon Emerald', date: '15 nov 2024' },
-  { name: 'Emma B.', text: 'HeartGold compleet in doos met alle inserts. Had ik nergens anders zo goedkoop kunnen vinden. Fantastische webshop!', product: 'Pokemon HeartGold', date: '3 feb 2025' },
-  { name: 'Jeroen K.', text: 'Pokemon Red voor mijn Game Boy besteld. Batterij werkt nog en save is intact. Nostalgisch en betrouwbaar!', product: 'Pokemon Red', date: '22 okt 2024' },
-  { name: 'Sophie W.', text: 'Pokemon Platinum CIB ontvangen, alles in nette staat. De beschrijving klopte precies. Zeker een aanrader!', product: 'Pokemon Platinum', date: '9 jan 2025' },
-  { name: 'Nienke R.', text: 'Binnen 2 dagen Pokemon Pearl in huis. Keurig in bubbeltjesfolie verpakt. Save was gewist, helemaal klaar om te spelen!', product: 'Pokemon Pearl', date: '17 dec 2024' },
-  { name: 'Daan L.', text: 'Pokemon Black 2 gevonden die ik nergens anders kon krijgen voor een eerlijke prijs. Compleet met doos en handleiding!', product: 'Pokemon Black 2', date: '5 nov 2024' },
-  { name: 'Fleur H.', text: 'Voor mijn zoon Pokemon Legends Arceus besteld. Hij was door het dolle heen! Game werkt perfect, snelle levering.', product: 'Pokemon Legends Arceus', date: '30 jan 2025' },
-  { name: 'Anouk de V.', text: 'Vraag gesteld over de conditie van Pokemon Diamond en binnen een uur eerlijk antwoord gekregen. Klantenservice is top!', product: 'Pokemon Diamond', date: '14 dec 2024' },
-  { name: 'Rick P.', text: 'Drie DS Pokemon games tegelijk besteld. Allemaal origineel, allemaal werkend. Mijn collectie groeit dankzij Gameshop Enter!', product: 'Pokemon White', date: '8 jan 2025' },
-  { name: 'Mark J.', text: 'Pokemon FireRed in topconditie. Label ziet er nog als nieuw uit. Perfecte toevoeging aan mijn GBA collectie.', product: 'Pokemon FireRed', date: '21 nov 2024' },
+  { name: 'Thomas V.', text: 'Mario Kart DS in perfecte staat ontvangen, compleet met doos. Super snelle levering en precies zoals beschreven!', product: 'Mario Kart DS', date: '12 jan 2025' },
+  { name: 'Lisa M.', text: 'Al 3x games besteld bij Gameshop Enter. Altijd betrouwbaar, goed verpakt en originele cartridges.', product: 'Pok\u00e9mon SoulSilver', date: '28 dec 2024' },
+  { name: 'Kevin D.', text: 'Zelda: Phantom Hourglass CIB ontvangen. Alles in nette staat, precies zoals beschreven. Topkwaliteit!', product: 'Zelda: Phantom Hourglass', date: '15 nov 2024' },
+  { name: 'Emma B.', text: 'HeartGold compleet in doos met alle inserts. Had ik nergens anders zo goedkoop kunnen vinden. Fantastische webshop!', product: 'Pok\u00e9mon HeartGold', date: '3 feb 2025' },
+  { name: 'Jeroen K.', text: 'Super Mario Galaxy 2 voor de Wii besteld. Werkt perfect en keurig verpakt. Nostalgisch en betrouwbaar!', product: 'Super Mario Galaxy 2', date: '22 okt 2024' },
+  { name: 'Sophie W.', text: 'Animal Crossing: New Leaf CIB ontvangen, alles in nette staat. De beschrijving klopte precies. Zeker een aanrader!', product: 'Animal Crossing: New Leaf', date: '9 jan 2025' },
+  { name: 'Nienke R.', text: 'Binnen 2 dagen Professor Layton in huis. Keurig in bubbeltjesfolie verpakt. Helemaal klaar om puzzels op te lossen!', product: 'Professor Layton', date: '17 dec 2024' },
+  { name: 'Daan L.', text: 'Pok\u00e9mon Black 2 gevonden die ik nergens anders kon krijgen voor een eerlijke prijs. Compleet met doos en handleiding!', product: 'Pok\u00e9mon Black 2', date: '5 nov 2024' },
+  { name: 'Fleur H.', text: 'Voor mijn zoon New Super Mario Bros. Wii besteld. Hij was door het dolle heen! Game werkt perfect, snelle levering.', product: 'New Super Mario Bros. Wii', date: '30 jan 2025' },
+  { name: 'Anouk de V.', text: 'Vraag gesteld over de conditie en binnen een uur eerlijk antwoord gekregen. Klantenservice is top!', product: 'Mario Kart 8 (Wii U)', date: '14 dec 2024' },
+  { name: 'Rick P.', text: 'Drie DS games tegelijk besteld. Allemaal origineel, allemaal werkend. Mijn collectie groeit dankzij Gameshop Enter!', product: 'Zelda: Spirit Tracks', date: '8 jan 2025' },
+  { name: 'Mark J.', text: 'Pok\u00e9mon FireRed in topconditie. Label ziet er nog als nieuw uit. Perfecte toevoeging aan mijn GBA collectie.', product: 'Pok\u00e9mon FireRed', date: '21 nov 2024' },
 ];
 
 const starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z';
