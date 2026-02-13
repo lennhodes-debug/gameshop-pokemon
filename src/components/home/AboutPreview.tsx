@@ -55,7 +55,7 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative rounded-2xl p-5 lg:p-6 text-center overflow-hidden border border-white/[0.06] hover:border-white/[0.1] transition-colors duration-300"
+      className="group relative rounded-2xl p-5 lg:p-6 text-center overflow-hidden transition-colors duration-300"
       style={{ background: 'linear-gradient(135deg, rgba(5,8,16,0.9), rgba(10,16,26,0.95))' }}
     >
       <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${stat.hoverGlow}`} />

@@ -73,7 +73,7 @@ function BentoCard({
     >
       <Link href={`/shop/${product.sku}`} className="block h-full">
         <motion.div
-          className="relative h-full rounded-2xl overflow-hidden border border-slate-100/80"
+          className="relative h-full rounded-2xl overflow-hidden"
           style={{
             rotateX,
             rotateY,

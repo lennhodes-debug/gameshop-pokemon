@@ -151,7 +151,7 @@ function PlatformCard({ platform, count, index }: {
 
             {/* Text */}
             <div className={`relative z-10 ${platform.span === 2 ? 'flex-1 pr-4' : 'mb-auto'}`}>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-[10px] font-medium text-white/50 uppercase tracking-[0.15em] mb-4">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] text-[10px] font-medium text-white/50 uppercase tracking-[0.15em] mb-4">
                 <span className="h-1 w-1 rounded-full" style={{ background: `rgba(${platform.glow}, 0.7)` }} />
                 {platform.era}
               </span>
@@ -230,7 +230,7 @@ export default function PlatformGrid() {
   }, [dbPlatforms]);
 
   return (
-    <section className="relative bg-[#050810] py-24 lg:py-36 overflow-hidden border-t border-white/[0.06]">
+    <section className="relative bg-[#050810] py-24 lg:py-36 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(99,102,241,0.06),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.04),transparent_50%)]" />
 

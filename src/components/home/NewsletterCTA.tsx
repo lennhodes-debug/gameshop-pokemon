@@ -59,7 +59,7 @@ export default function NewsletterCTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex h-14 w-14 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 items-center justify-center mb-8">
+          <div className="inline-flex h-14 w-14 rounded-2xl bg-white/10 backdrop-blur-sm items-center justify-center mb-8">
             <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
             </svg>
@@ -75,7 +75,7 @@ export default function NewsletterCTA() {
           <p className="text-white/40 text-sm mb-8 flex items-center justify-center gap-2">
             <span className="flex -space-x-1.5">
               {['E', 'T', 'L', 'K'].map((letter, i) => (
-                <span key={i} className="h-6 w-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-[10px] font-medium text-white/70">
+                <span key={i} className="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-medium text-white/70">
                   {letter}
                 </span>
               ))}
@@ -88,7 +88,7 @@ export default function NewsletterCTA() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
-              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20"
+              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm"
             >
               <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
                 <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -111,7 +111,7 @@ export default function NewsletterCTA() {
                 aria-label="E-mailadres voor nieuwsbrief"
                 required
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-white placeholder:text-white/40 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/15 transition-all disabled:opacity-60"
+                className="flex-1 px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-sm text-white placeholder:text-white/40 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/15 transition-all disabled:opacity-60"
               />
               <button
                 type="submit"

@@ -173,7 +173,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   return (
     <div className="group">
       <div
-        className="relative rounded-2xl overflow-hidden flex flex-col border border-slate-100/80"
+        className="relative rounded-2xl overflow-hidden flex flex-col"
         style={{
           transform: `translateY(${isHovered ? -4 : 0}px)`,
           transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s ease, border-color 0.5s ease',

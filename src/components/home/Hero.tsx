@@ -146,7 +146,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-10"
         >
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.05] backdrop-blur-sm">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <motion.svg
@@ -205,7 +205,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6 + i * 0.06, type: 'spring', stiffness: 200, damping: 20 }}
-              className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-white/25 text-[11px] font-medium"
+              className="px-3 py-1 rounded-full bg-white/[0.05] text-white/25 text-[11px] font-medium"
             >
               {p}
             </motion.span>
@@ -230,7 +230,7 @@ export default function Hero() {
           </Link>
           <Link
             href="/inkoop"
-            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] border border-white/[0.08] text-white/70 font-medium text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
+            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] text-white/70 font-medium text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
           >
             Games verkopen
           </Link>
