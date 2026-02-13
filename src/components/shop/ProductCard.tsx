@@ -236,7 +236,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
             {/* Platform — minimal pill */}
             <div className="absolute top-3 left-3">
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-500 bg-white/90 backdrop-blur-sm border border-slate-200/60">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-white/80 backdrop-blur-sm">
                 {platformLabel}
               </span>
             </div>
@@ -258,7 +258,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 className="p-1.5 rounded-lg backdrop-blur-sm transition-all z-30"
                 style={{
                   background: isWishlisted ? `${accentColor}12` : 'rgba(255,255,255,0.9)',
-                  border: '1px solid rgba(0,0,0,0.04)',
+                  border: 'none',
                   transform: heartBounce ? 'scale(1.3)' : 'scale(1)',
                   transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease',
                 }}
@@ -307,10 +307,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             </div>
           ) : (
             <div className="flex flex-wrap gap-1.5 mb-3">
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-100/70">
                 {product.condition}
               </span>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-100/70">
                 {isCIB ? 'CIB' : product.completeness}
               </span>
             </div>

@@ -64,7 +64,7 @@ export default function FaqPreview() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
             <div className="p-6 lg:p-8">
               <div className="flex items-center justify-between mb-4">
@@ -87,7 +87,7 @@ export default function FaqPreview() {
         >
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl border border-slate-200 text-slate-600 font-medium text-sm hover:border-slate-300 hover:text-slate-900 transition-all group"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-slate-50 text-slate-600 font-medium text-sm hover:bg-slate-100 hover:text-slate-900 transition-all group"
           >
             Bekijk alle vragen
             <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

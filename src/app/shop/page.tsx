@@ -210,7 +210,7 @@ function ShopContent() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Zoeken..."
-                  className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 bg-white/90 text-xs focus:outline-none focus:border-slate-400 transition-colors"
+                  className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 text-xs focus:outline-none focus:bg-white focus:ring-2 focus:ring-slate-400/20 transition-all"
                 />
               </div>
 
@@ -409,7 +409,7 @@ function ShopContent() {
                   value={priceMin}
                   onChange={(e) => setPriceMin(e.target.value)}
                   aria-label="Minimum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-700 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl bg-slate-50 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-slate-400/20 focus:bg-white focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
               <span className="text-slate-300">—</span>
@@ -423,7 +423,7 @@ function ShopContent() {
                   value={priceMax}
                   onChange={(e) => setPriceMax(e.target.value)}
                   aria-label="Maximum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-700 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl bg-slate-50 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-slate-400/20 focus:bg-white focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
@@ -585,7 +585,7 @@ function ShopContent() {
                       <button
                         key={p}
                         onClick={() => { clearFilters(); setPlatform(p); }}
-                        className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-sm text-slate-600 font-medium hover:border-slate-300 hover:text-slate-900 transition-all"
+                        className="px-3 py-1.5 rounded-xl bg-slate-50 text-sm text-slate-600 font-medium hover:bg-slate-100 hover:text-slate-900 transition-all"
                       >
                         {p}
                       </button>

@@ -91,7 +91,7 @@ export default function TrustStrip() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.06 }}
-                className="flex items-center gap-3 p-3 rounded-xl bg-white border border-slate-100"
+                className="flex items-center gap-3 p-3 rounded-xl bg-white shadow-sm"
               >
                 <div className="h-8 w-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600/80 shrink-0">
                   {item.icon}

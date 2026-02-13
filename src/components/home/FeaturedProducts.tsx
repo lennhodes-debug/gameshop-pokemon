@@ -135,9 +135,8 @@ function BentoCard({
             <span
               className="px-2 py-0.5 rounded-md text-[10px] font-medium backdrop-blur-sm transition-all duration-300"
               style={{
-                background: 'rgba(255,255,255,0.9)',
-                color: '#64748b',
-                border: '1px solid rgba(0,0,0,0.06)',
+                background: 'rgba(255,255,255,0.8)',
+                color: '#94a3b8',
               }}
             >
               {PLATFORM_LABELS[product.platform] || product.platform}
@@ -149,10 +148,10 @@ function BentoCard({
             <div className="absolute top-3 right-3 z-20">
               <span
                 className={cn(
-                  'px-2 py-0.5 rounded-md text-[10px] font-medium border',
+                  'px-2 py-0.5 rounded-md text-[10px] font-medium',
                   product.isPremium
-                    ? 'bg-amber-50 text-amber-600 border-amber-100'
-                    : 'bg-blue-50 text-blue-600 border-blue-100',
+                    ? 'bg-amber-50 text-amber-600'
+                    : 'bg-blue-50 text-blue-600',
                 )}
               >
                 {product.isPremium ? 'Premium' : 'Console'}

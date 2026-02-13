@@ -264,7 +264,7 @@ export default function InkoopPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.05] border border-white/[0.08] text-emerald-400 text-xs font-medium uppercase tracking-[0.2em] mb-10"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.06] text-emerald-400 text-xs font-medium uppercase tracking-[0.2em] mb-10"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Snel &amp; eerlijk
@@ -326,7 +326,7 @@ export default function InkoopPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/90 backdrop-blur-xl rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8"
+          className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl shadow-slate-200/50 p-8"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -473,7 +473,7 @@ export default function InkoopPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    className="bg-white rounded-2xl border border-emerald-100 p-10 text-center shadow-lg"
+                    className="bg-white rounded-2xl p-10 text-center shadow-lg"
                   >
                     <motion.div
                       initial={{ scale: 0, rotate: -180 }}
@@ -501,7 +501,7 @@ export default function InkoopPage() {
                     key="form"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="bg-white rounded-2xl border border-slate-100 p-8 lg:p-10 shadow-lg shadow-slate-100/50"
+                    className="bg-white rounded-2xl p-8 lg:p-10 shadow-lg shadow-slate-100/50"
                   >
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid sm:grid-cols-2 gap-4">
@@ -513,7 +513,7 @@ export default function InkoopPage() {
                             required
                             value={form.naam}
                             onChange={(e) => updateField('naam', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:bg-slate-100/80 focus:bg-white"
                             placeholder="Je naam"
                           />
                         </div>
@@ -525,7 +525,7 @@ export default function InkoopPage() {
                             required
                             value={form.email}
                             onChange={(e) => updateField('email', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:bg-slate-100/80 focus:bg-white"
                             placeholder="je@email.nl"
                           />
                         </div>
@@ -541,7 +541,7 @@ export default function InkoopPage() {
                             type="tel"
                             value={form.telefoon}
                             onChange={(e) => updateField('telefoon', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:bg-slate-100/80 focus:bg-white"
                             placeholder="06-12345678"
                           />
                         </div>
@@ -553,7 +553,7 @@ export default function InkoopPage() {
                             id="inkoop-platform"
                             value={form.platform}
                             onChange={(e) => updateField('platform', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white appearance-none bg-no-repeat bg-[right_14px_center] bg-[length:16px_16px] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke-width%3D%222%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M19.5%208.25l-7.5%207.5-7.5-7.5%22%2F%3E%3C%2Fsvg%3E')]"
+                            className="w-full px-4 py-3.5 rounded-xl bg-slate-50 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:bg-slate-100/80 focus:bg-white appearance-none bg-no-repeat bg-[right_14px_center] bg-[length:16px_16px] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke-width%3D%222%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M19.5%208.25l-7.5%207.5-7.5-7.5%22%2F%3E%3C%2Fsvg%3E')]"
                           >
                             <option value="">Kies platform...</option>
                             <option value="Nintendo Switch">Nintendo Switch</option>
@@ -584,13 +584,13 @@ export default function InkoopPage() {
                           value={form.beschrijving}
                           onChange={(e) => updateField('beschrijving', e.target.value)}
                           rows={5}
-                          className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm resize-none hover:bg-slate-100/80 focus:bg-white"
                           placeholder="Beschrijf wat je wilt verkopen (bijv. Pokémon games, SNES cartridges, Game Boy, lege doosjes, consoles). Vermeld de staat en of je de originele doos nog hebt."
                         />
                       </div>
 
                       {/* Photo tip */}
-                      <div className="bg-amber-50/70 rounded-2xl px-5 py-4 border border-amber-100">
+                      <div className="bg-amber-50/70 rounded-2xl px-5 py-4">
                         <div className="flex items-start gap-3">
                           <div className="h-8 w-8 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                             <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -644,7 +644,7 @@ export default function InkoopPage() {
               className="lg:col-span-2 space-y-5"
             >
               {/* Why sell to us */}
-              <div className="bg-white rounded-2xl border border-slate-100 p-7 shadow-sm">
+              <div className="bg-white rounded-2xl p-7 shadow-sm">
                 <h3 className="font-semibold text-slate-900 text-lg mb-5">Waarom bij ons verkopen?</h3>
                 <div className="space-y-5">
                   {[
@@ -681,7 +681,7 @@ export default function InkoopPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm"
+                className="bg-white rounded-2xl p-5 shadow-sm"
               >
                 <div className="flex items-center gap-4">
                   <div className="flex text-amber-400 text-lg tracking-tight">
@@ -701,7 +701,7 @@ export default function InkoopPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
-                className="relative bg-[#050810] rounded-2xl p-7 border border-white/[0.06] overflow-hidden"
+                className="relative bg-[#050810] rounded-2xl p-7 overflow-hidden"
               >
                 <NoiseOverlay opacity={0.04} />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.1),transparent_60%)]" />
@@ -713,7 +713,7 @@ export default function InkoopPage() {
                   </p>
                   <a
                     href="mailto:gameshopenter@gmail.com?subject=Inkoop%20aanvraag"
-                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-sm font-medium hover:bg-emerald-500/25 transition-all duration-300 hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-emerald-500/15 text-emerald-400 text-sm font-medium hover:bg-emerald-500/25 transition-all duration-300 hover:-translate-y-0.5"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
@@ -738,12 +738,12 @@ export default function InkoopPage() {
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [8, 14, 8] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[20%] right-[15%] w-24 h-24 rounded-2xl bg-white/[0.02] border border-white/[0.04] rotate-12"
+          className="absolute top-[20%] right-[15%] w-24 h-24 rounded-2xl bg-white/[0.03] rotate-12"
         />
         <motion.div
           animate={{ y: [0, 12, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute bottom-[25%] left-[10%] w-16 h-16 rounded-2xl bg-emerald-500/[0.03] border border-emerald-500/[0.04] -rotate-6"
+          className="absolute bottom-[25%] left-[10%] w-16 h-16 rounded-2xl bg-emerald-500/[0.04] -rotate-6"
         />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

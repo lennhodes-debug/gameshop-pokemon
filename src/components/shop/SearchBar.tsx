@@ -126,7 +126,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
 
           {!value && (
             <div className="hidden sm:flex items-center gap-1 text-xs text-slate-400">
-              <kbd className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-mono text-[10px]">⌘K</kbd>
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-100 font-mono text-[10px]">⌘K</kbd>
             </div>
           )}
         </div>
@@ -141,7 +141,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/40 overflow-hidden z-50"
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-lg shadow-slate-200/50 overflow-hidden z-50"
             role="listbox"
           >
             {suggestions.map((product, i) => (

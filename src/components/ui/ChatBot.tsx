@@ -990,6 +990,7 @@ export default function ChatBot() {
       timestamp: Date.now(),
     }]);
     setApiHistory([]);
+    setAiMode('streaming');
   }
 
   function handleAddToCart(product: typeof products[number]) {
@@ -1109,7 +1110,7 @@ export default function ChatBot() {
           className="fixed bottom-24 right-5 z-[1001] max-w-[260px] animate-[fadeIn_0.3s_ease,slideUp_0.3s_ease] cursor-pointer"
           onClick={() => { setShowBubble(false); handleOpen(); }}
         >
-          <div className="bg-white rounded-2xl rounded-br-sm shadow-lg border border-slate-200 p-3 relative">
+          <div className="bg-white rounded-2xl rounded-br-sm shadow-lg shadow-slate-200/60 p-3 relative">
             <button
               onClick={(e) => { e.stopPropagation(); setShowBubble(false); }}
               className="absolute -top-2 -right-2 w-5 h-5 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-300 transition-colors text-xs"
@@ -1216,7 +1217,7 @@ export default function ChatBot() {
                   px-3.5 py-2.5 rounded-2xl text-[13.5px] leading-relaxed whitespace-pre-line
                   ${msg.role === 'user'
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-br-sm shadow-sm'
-                    : 'bg-white text-slate-700 shadow-sm border border-slate-100 rounded-bl-sm'
+                    : 'bg-white text-slate-700 shadow-sm rounded-bl-sm'
                   }
                 `}>
                   {msg.role === 'bot' ? renderMarkdown(msg.text) : msg.text}
@@ -1227,7 +1228,7 @@ export default function ChatBot() {
                 {msg.products && msg.products.length > 0 && !msg.isStreaming && (
                   <div className="space-y-1.5 w-full">
                     {msg.products.map(p => (
-                      <div key={p.sku} className="flex items-center gap-2 p-2 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-emerald-200 hover:shadow-md transition-all group">
+                      <div key={p.sku} className="flex items-center gap-2 p-2 bg-white rounded-xl shadow-sm hover:shadow-md transition-all group">
                         <Link href={`/shop/${p.sku}`} className="flex items-center gap-2.5 flex-1 min-w-0">
                           {p.image && (
                             <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-50 flex-shrink-0">
@@ -1288,7 +1289,7 @@ export default function ChatBot() {
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex-shrink-0 flex items-center justify-center overflow-hidden shadow-sm">
                 <Image src="/images/mascot.svg" alt="" width={28} height={28} />
               </div>
-              <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm border border-slate-100">
+              <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm">
                 <div className="flex gap-1.5">
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -1325,7 +1326,7 @@ export default function ChatBot() {
             placeholder="Stel een vraag..."
             disabled={typing}
             rows={1}
-            className="flex-1 px-4 py-2.5 text-sm bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 placeholder:text-slate-400 disabled:opacity-60 resize-none overflow-hidden"
+            className="flex-1 px-4 py-2.5 text-sm bg-slate-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400/20 focus:bg-white placeholder:text-slate-400 disabled:opacity-60 resize-none overflow-hidden transition-colors"
           />
           <button
             type="submit"
