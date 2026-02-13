@@ -7,7 +7,7 @@ import { formatPrice, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getGameTheme
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface ProductDetailProps {
@@ -53,16 +53,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
 
-  const particles = useMemo(() => {
-    return Array.from({ length: 6 }, (_, i) => ({
-      id: i,
-      x: 10 + Math.random() * 80,
-      y: 10 + Math.random() * 80,
-      size: 200 + Math.random() * 300,
-      duration: 12 + Math.random() * 8,
-      delay: Math.random() * 5,
-    }));
-  }, []);
 
   useEffect(() => {
     try {
@@ -94,35 +84,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
   return (
     <div className="relative">
-      {/* Achtergrond glows */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: p.size,
-              height: p.size,
-              background: `radial-gradient(circle, rgba(${glowRgb}, 0.06) 0%, transparent 70%)`,
-              filter: 'blur(40px)',
-            }}
-            animate={{
-              x: [0, 30, -20, 10, 0],
-              y: [0, -20, 15, -10, 0],
-              scale: [1, 1.2, 0.9, 1.1, 1],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: p.delay,
-            }}
-          />
-        ))}
-      </div>
-
       {/* Breadcrumbs */}
       <nav className="relative flex items-center gap-2 text-sm text-slate-500 mb-8">
         {[

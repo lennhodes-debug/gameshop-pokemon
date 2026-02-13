@@ -223,8 +223,8 @@ export default function Header() {
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.href}
-                      initial={{ opacity: 0, x: -20, filter: 'blur(4px)' }}
-                      animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.05 + i * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <Link

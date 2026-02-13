@@ -166,38 +166,7 @@ function ShopContent() {
     <div className="pt-16 lg:pt-20">
       {/* Animated hero header */}
       <div ref={headerRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.1),transparent_50%)]" />
-          {/* Floating grid pattern */}
-          <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
-            }}
-          />
-          {/* Floating orbs */}
-          <motion.div
-            animate={{
-              x: [0, 30, -20, 0],
-              y: [0, -20, 10, 0],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-20 right-[20%] w-64 h-64 rounded-full bg-emerald-500/10 blur-[80px]"
-          />
-          <motion.div
-            animate={{
-              x: [0, -40, 20, 0],
-              y: [0, 30, -15, 0],
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-10 left-[10%] w-48 h-48 rounded-full bg-cyan-500/10 blur-[60px]"
-          />
-        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.12),transparent_50%)]" />
 
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
@@ -433,15 +402,11 @@ function ShopContent() {
                 exit={{ opacity: 0, y: -20 }}
                 className="text-center py-20"
               >
-                <motion.div
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  className="h-20 w-20 mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-6"
-                >
-                  <svg className="h-10 w-10 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div className="h-20 w-20 mx-auto rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center mb-6">
+                  <svg className="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>
-                </motion.div>
+                </div>
                 <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Geen producten gevonden</h3>
                 <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">
                   {debouncedSearch
