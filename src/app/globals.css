@@ -198,6 +198,12 @@ body {
   66% { transform: translate(-60px, -20px) scale(1.1); }
 }
 
+@keyframes gradient-spin {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

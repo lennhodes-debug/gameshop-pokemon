@@ -72,9 +72,15 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
 
   return (
     <div className={cn('relative', className)}>
+      {/* Gradient border glow on focus */}
+      <div className={cn(
+        'absolute -inset-[1px] rounded-[18px] transition-opacity duration-300 pointer-events-none',
+        isFocused ? 'opacity-100' : 'opacity-0'
+      )} style={{ background: 'linear-gradient(135deg, #10b981, #06b6d4, #8b5cf6, #10b981)', backgroundSize: '300% 300%', animation: isFocused ? 'gradient-spin 3s linear infinite' : 'none' }} />
+
       <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-          <svg className={cn("h-5 w-5 transition-colors duration-200", isFocused ? 'text-slate-600' : 'text-slate-400')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className={cn("h-5 w-5 transition-colors duration-300", isFocused ? 'text-emerald-600' : 'text-slate-400')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
@@ -93,10 +99,10 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
           role="combobox"
           placeholder="Zoek op titel, platform of genre..."
           className={cn(
-            'relative w-full pl-12 pr-28 py-4 rounded-2xl border-2 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-200',
+            'relative w-full pl-12 pr-28 py-4 rounded-2xl bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all duration-300',
             isFocused
-              ? 'border-slate-400 shadow-lg shadow-slate-200/50'
-              : 'border-slate-200 shadow-sm hover:border-slate-300'
+              ? 'border-2 border-transparent shadow-xl shadow-emerald-500/[0.08] scale-[1.01]'
+              : 'border-2 border-slate-200 shadow-sm hover:border-slate-300'
           )}
         />
 

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate } from 'framer-motion';
 import Logo from './Logo';
 import CartCounter from './CartCounter';
 import Image from 'next/image';
@@ -22,7 +22,6 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileNavRef = useRef<HTMLElement>(null);
   const { items, getItemCount, getTotal } = useCart();
@@ -30,11 +29,18 @@ export default function Header() {
   const [cartHover, setCartHover] = useState(false);
   const cartHoverTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Progressive scroll-driven header morphing
+  const { scrollY } = useScroll();
+  const headerBlur = useTransform(scrollY, [0, 80], [0, 20]);
+  const headerBg = useTransform(scrollY, [0, 80], [0, 0.7]);
+  const headerBorder = useTransform(scrollY, [0, 80], [0, 0.06]);
+  const headerPy = useTransform(scrollY, [0, 80], [0, -4]);
+
+  const headerShadowOpacity = useTransform(scrollY, [0, 80], [0, 0.15]);
+  const bgStyle = useMotionTemplate`rgba(5,8,16,${headerBg})`;
+  const blurStyle = useMotionTemplate`blur(${headerBlur}px)`;
+  const borderBottomStyle = useMotionTemplate`1px solid rgba(255,255,255,${headerBorder})`;
+  const shadowStyle = useMotionTemplate`0 4px 30px rgba(0,0,0,${headerShadowOpacity})`;
 
   useEffect(() => {
     setMobileOpen(false);
@@ -62,15 +68,17 @@ export default function Header() {
 
   return (
     <>
-      <header
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled
-            ? 'glass border-b border-white/[0.06] shadow-lg'
-            : 'bg-transparent'
-        )}
+      <motion.header
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{
+          backgroundColor: bgStyle,
+          backdropFilter: blurStyle,
+          WebkitBackdropFilter: blurStyle,
+          borderBottom: borderBottomStyle,
+          boxShadow: shadowStyle,
+        }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ marginTop: headerPy, marginBottom: headerPy }}>
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
@@ -200,7 +208,7 @@ export default function Header() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Mobile Nav */}
         <AnimatePresence>
@@ -265,7 +273,7 @@ export default function Header() {
             </>
           )}
         </AnimatePresence>
-      </header>
+      </motion.header>
 
       {/* Mobiele bottom navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200" aria-label="Snelle navigatie">

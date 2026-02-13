@@ -138,13 +138,21 @@ export default function GameCarousel3D() {
   if (total === 0) return null;
 
   return (
-    <section ref={sectionRef} className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
-      {/* Dynamische achtergrond die verandert per actieve game */}
-      <motion.div className="absolute inset-0 transition-colors duration-1000" style={{ opacity: bgOpacity }}>
+    <section ref={sectionRef} className="relative bg-[#050810] py-24 lg:py-36 overflow-hidden">
+      {/* Dynamische achtergrond — projected glow van actieve game */}
+      <motion.div className="absolute inset-0" style={{ opacity: bgOpacity }}>
+        {/* Primaire glow — groot en diffuus */}
         <div
-          className="absolute inset-0 transition-all duration-1000"
+          className="absolute inset-0 transition-all duration-[1.5s] ease-out"
           style={{
-            background: `radial-gradient(ellipse 80% 60% at 50% 40%, rgba(${accentGlow},0.06), transparent 70%)`,
+            background: `radial-gradient(ellipse 90% 70% at 50% 45%, rgba(${accentGlow},0.09), transparent 65%)`,
+          }}
+        />
+        {/* Secundaire glow — scherper, lager */}
+        <div
+          className="absolute inset-0 transition-all duration-[1.5s] ease-out"
+          style={{
+            background: `radial-gradient(ellipse 40% 30% at 50% 70%, rgba(${accentGlow},0.06), transparent 60%)`,
           }}
         />
         <div className="absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-[#050810] to-transparent" />
@@ -162,7 +170,7 @@ export default function GameCarousel3D() {
           <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
             Collectie
           </p>
-          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight leading-[1.1]">
+          <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05]">
             Ontdek onze games
           </h2>
         </motion.div>
@@ -383,34 +391,25 @@ export default function GameCarousel3D() {
           )}
         </AnimatePresence>
 
-        {/* Progress indicator — minimaal */}
-        <div className="flex justify-center items-center gap-1 mt-8">
-          {products.map((_, i) => {
-            const isActive = i === activeIndex;
-            return (
-              <button
-                key={i}
-                className="transition-all duration-400 rounded-full"
-                style={{
-                  width: isActive ? 28 : 5,
-                  height: 5,
-                  background: isActive
-                    ? `linear-gradient(90deg, ${accentColor}, ${activeTheme ? activeTheme.bg[1] : '#14b8a6'})`
-                    : 'rgba(255,255,255,0.08)',
-                }}
-                onClick={() => {
-                  goToIndex(i);
-                  pauseAutoRotation();
-                }}
-                aria-label={`Ga naar game ${i + 1}`}
-              />
-            );
-          })}
+        {/* Progress line — minimaal */}
+        <div className="flex justify-center mt-8">
+          <div className="relative w-40 h-[2px] rounded-full bg-white/[0.06] overflow-hidden">
+            <motion.div
+              className="absolute left-0 top-0 h-full rounded-full"
+              style={{
+                background: `linear-gradient(90deg, ${accentColor}, ${activeTheme ? activeTheme.bg[1] : '#14b8a6'})`,
+              }}
+              animate={{ width: `${((activeIndex + 1) / total) * 100}%` }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            />
+          </div>
         </div>
 
         {/* Teller */}
-        <p className="text-center text-slate-600 text-xs mt-3 tabular-nums">
-          {activeIndex + 1} / {total}
+        <p className="text-center text-slate-600 text-[11px] mt-3 tabular-nums font-medium tracking-wider">
+          <span className="text-white/30">{String(activeIndex + 1).padStart(2, '0')}</span>
+          <span className="text-white/10 mx-1.5">/</span>
+          <span className="text-white/15">{String(total).padStart(2, '0')}</span>
         </p>
       </div>
     </section>

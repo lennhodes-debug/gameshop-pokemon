@@ -73,7 +73,7 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
 
 export default function AboutPreview() {
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden">
+    <section className="relative py-24 lg:py-36 overflow-hidden">
       <div className="absolute inset-0 bg-[#050810]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.04),transparent_60%)]" />
 
@@ -88,8 +88,9 @@ export default function AboutPreview() {
             <p className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-5">
               Over ons
             </p>
-            <h2 className="text-3xl lg:text-[52px] font-semibold text-white leading-[1.1] tracking-[-0.02em] mb-6">
-              Al sinds 2018 de Nintendo specialist
+            <h2 className="text-3xl lg:text-[52px] font-light text-white leading-[1.05] tracking-[-0.03em] mb-6">
+              Al sinds 2018 de{' '}
+              <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">Nintendo specialist</span>
             </h2>
             <p className="text-base text-slate-400 leading-relaxed mb-6">
               Wat begon met het verkopen van games op Marktplaats groeide uit

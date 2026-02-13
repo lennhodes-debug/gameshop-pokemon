@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import Logo from './Logo';
 
 const shopLinks = [
@@ -41,7 +44,13 @@ export default function Footer() {
           <div className="grid grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
 
             {/* Brand */}
-            <div className="col-span-2 lg:col-span-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="col-span-2 lg:col-span-4"
+            >
               <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
                 <Logo className="h-9 w-9 transition-transform duration-500 group-hover:rotate-[8deg]" id="footerNav" />
                 <div className="flex flex-col">
@@ -73,24 +82,36 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
                 </svg>
               </a>
-            </div>
+            </motion.div>
 
             {/* Shop */}
-            <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="lg:col-span-2"
+            >
               <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mb-5">Shop</h3>
               <ul className="space-y-3">
                 {shopLinks.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-slate-500 hover:text-white text-[13px] transition-colors duration-200">
+                    <Link href={link.href} className="relative text-slate-500 hover:text-white text-[13px] transition-colors duration-200 group/link">
                       {link.label}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
 
             {/* Info + Juridisch */}
-            <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="lg:col-span-2"
+            >
               <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mb-5">Info</h3>
               <ul className="space-y-3">
                 {infoLinks.map((link) => (
@@ -111,10 +132,16 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
 
             {/* Contact */}
-            <div className="col-span-2 lg:col-span-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="col-span-2 lg:col-span-4"
+            >
               <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mb-5">Contact</h3>
 
               <a href="mailto:gameshopenter@gmail.com" className="flex items-center gap-3 text-slate-500 hover:text-white text-[13px] transition-colors duration-200 mb-8 group">
@@ -149,7 +176,7 @@ export default function Footer() {
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/40" />
                 KvK: 93642474
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
 

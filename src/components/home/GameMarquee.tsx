@@ -156,7 +156,7 @@ export default function GameMarquee() {
             <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
               Collectie
             </p>
-            <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight">
+            <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05]">
               Alle games
             </h2>
           </motion.div>

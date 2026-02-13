@@ -290,7 +290,7 @@ export default function FeaturedProducts() {
 
   return (
     <section
-      className="relative bg-white py-20 lg:py-28 overflow-hidden"
+      className="relative bg-white py-24 lg:py-36 overflow-hidden"
       onMouseMove={handleSectionMove}
     >
       {/* Cursor spotlight */}
@@ -306,13 +306,13 @@ export default function FeaturedProducts() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex items-end justify-between mb-12 lg:mb-16"
+          className="flex items-end justify-between mb-14 lg:mb-20"
         >
           <div>
             <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.2em] mb-4">
               Uitgelicht
             </p>
-            <h2 className="text-3xl lg:text-[52px] font-semibold text-slate-900 tracking-[-0.02em] leading-[1.1]">
+            <h2 className="text-3xl lg:text-[52px] font-light text-slate-900 tracking-[-0.03em] leading-[1.05]">
               Toppers uit de collectie
             </h2>
             <p className="text-slate-400 mt-3 text-sm max-w-md font-normal">

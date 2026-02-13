@@ -230,7 +230,7 @@ export default function PlatformGrid() {
   }, [dbPlatforms]);
 
   return (
-    <section className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden border-t border-white/[0.06]">
+    <section className="relative bg-[#050810] py-24 lg:py-36 overflow-hidden border-t border-white/[0.06]">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(99,102,241,0.06),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.04),transparent_50%)]" />
 
@@ -243,7 +243,7 @@ export default function PlatformGrid() {
           className="text-center mb-12 lg:mb-16"
         >
           <div className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6" />
-          <h2 className="text-3xl lg:text-[52px] font-semibold text-white tracking-[-0.02em] leading-[1.1] mb-3">
+          <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05] mb-3">
             Shop per platform
           </h2>
           <p className="text-slate-400 max-w-md mx-auto font-normal">
