@@ -103,6 +103,16 @@ body {
 }
 .animate-badge-in { animation: badge-in 0.3s ease-out; }
 
+/* Gradient-x animatie voor rainbow cart badge */
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 2s linear infinite;
+}
+
 /* 404 pagina shake */
 @keyframes notfound-shake {
   0%, 100% { transform: translateX(0) translateY(0); }

@@ -393,8 +393,9 @@ export default function AfrekenPage() {
                     const error = getFieldError(field);
                     return (
                       <div key={field} className={colSpan ? 'sm:col-span-2' : ''}>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <label htmlFor={`checkout-${field}`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
                         <input
+                          id={`checkout-${field}`}
                           type={type || 'text'}
                           required
                           autoComplete={autoComplete}
@@ -427,8 +428,9 @@ export default function AfrekenPage() {
                     const error = getFieldError(field);
                     return (
                       <div key={field} className={colSpan}>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <label htmlFor={`checkout-${field}`} className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
                         <input
+                          id={`checkout-${field}`}
                           type="text"
                           required
                           autoComplete={autoComplete}
@@ -479,8 +481,8 @@ export default function AfrekenPage() {
 
               {/* Notes */}
               <motion.div {...fadeUp} transition={{ delay: 0.4, duration: 0.5 }} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h2 className="font-bold text-slate-900 dark:text-white text-lg mb-4">Opmerkingen</h2>
-                <textarea value={form.opmerkingen} onChange={(e) => updateField('opmerkingen', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 dark:hover:border-slate-500 dark:bg-slate-700 dark:text-white" placeholder="Heb je speciale wensen of opmerkingen? (optioneel)" />
+                <label htmlFor="checkout-opmerkingen" className="font-bold text-slate-900 dark:text-white text-lg mb-4 block">Opmerkingen</label>
+                <textarea id="checkout-opmerkingen" value={form.opmerkingen} onChange={(e) => updateField('opmerkingen', e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 dark:hover:border-slate-500 dark:bg-slate-700 dark:text-white" placeholder="Heb je speciale wensen of opmerkingen? (optioneel)" />
               </motion.div>
             </div>
 

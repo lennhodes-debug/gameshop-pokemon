@@ -267,7 +267,7 @@ export default function Header() {
       </header>
 
       {/* Mobiele bottom navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200" aria-label="Mobiele navigatie">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200" aria-label="Snelle navigatie">
         <div className="flex items-center justify-around px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {[
             { href: '/', label: 'Home', icon: (

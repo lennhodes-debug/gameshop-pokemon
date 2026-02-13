@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'react';
+import { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
@@ -127,7 +127,7 @@ function ShopContent() {
       for (const p of results) {
         skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z0-9]+-/, ''), 10) || 0);
       }
-      results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
+      results.sort((a, b) => (skuNum.get(b.sku) ?? 0) - (skuNum.get(a.sku) ?? 0));
     } else if (sortBy === 'discount-desc') {
       results.sort((a, b) => getSalePercentage(b) - getSalePercentage(a));
     } else {

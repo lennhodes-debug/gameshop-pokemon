@@ -45,11 +45,14 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
     // Focus first focusable element
-    setTimeout(() => {
-      const first = modalRef.current?.querySelector<HTMLElement>('a[href], button:not([disabled])');
-      first?.focus();
+    const focusTimer = setTimeout(() => {
+      if (modalRef.current) {
+        const first = modalRef.current.querySelector<HTMLElement>('a[href], button:not([disabled])');
+        first?.focus();
+      }
     }, 100);
     return () => {
+      clearTimeout(focusTimer);
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
@@ -76,6 +79,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
+            aria-hidden="true"
           />
 
           {/* Modal */}
