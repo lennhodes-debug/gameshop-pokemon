@@ -91,15 +91,15 @@ function CinematicBars({ visible }: { visible: boolean }) {
     <>
       <motion.div
         className="absolute top-0 left-0 right-0 bg-black z-40"
-        initial={{ height: '100%' }}
-        animate={{ height: visible ? '8%' : '100%' }}
+        initial={{ height: '8%' }}
+        animate={{ height: visible ? '8%' : '0%' }}
         exit={{ height: '0%' }}
         transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
       />
       <motion.div
         className="absolute bottom-0 left-0 right-0 bg-black z-40"
-        initial={{ height: '100%' }}
-        animate={{ height: visible ? '8%' : '100%' }}
+        initial={{ height: '8%' }}
+        animate={{ height: visible ? '8%' : '0%' }}
         exit={{ height: '0%' }}
         transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
       />
