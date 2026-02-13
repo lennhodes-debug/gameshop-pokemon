@@ -123,7 +123,7 @@ export default function Hero() {
 
         {/* Titel */}
         <motion.h1
-          className="text-5xl sm:text-6xl lg:text-8xl font-semibold text-white leading-[1.05] tracking-tight mb-8"
+          className="text-6xl sm:text-7xl lg:text-[112px] font-light text-white leading-[0.92] tracking-[-0.03em] mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
@@ -140,7 +140,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-base sm:text-lg text-white/40 leading-relaxed mb-14 max-w-lg mx-auto font-light"
+          className="text-base sm:text-lg text-white/40 leading-relaxed mb-14 max-w-lg mx-auto font-normal"
         >
           De Nintendo specialist van Nederland.
           <br className="hidden sm:block" />
@@ -156,7 +156,7 @@ export default function Hero() {
         >
           <Link
             href="/shop"
-            className="group inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white text-slate-900 font-semibold text-sm shadow-lg shadow-white/10 hover:shadow-white/20 hover:bg-white/95 active:scale-[0.98] transition-all duration-300"
+            className="group inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 hover:bg-white/95 active:scale-[0.98] transition-all duration-300"
           >
             Bekijk de collectie
             <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -165,7 +165,7 @@ export default function Hero() {
           </Link>
           <Link
             href="/inkoop"
-            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] border border-white/[0.08] text-white/70 font-semibold text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
+            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] border border-white/[0.08] text-white/70 font-medium text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
           >
             Games verkopen
           </Link>

@@ -113,8 +113,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               background: displayImage
                 ? `linear-gradient(145deg, ${accent}10 0%, #0f1320 50%, ${accentAlt}08 100%)`
                 : `linear-gradient(135deg, ${accent}, ${accentAlt})`,
-              border: `1px solid ${accent}15`,
-              boxShadow: `0 25px 50px rgba(0,0,0,0.3)`,
+              boxShadow: `0 25px 50px rgba(0,0,0,0.25)`,
             }}
           >
 
@@ -183,7 +182,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
             {/* Platform badge */}
             <div className="absolute top-5 left-5 flex gap-2">
-              <span className="px-3 py-1.5 rounded-xl text-white/90 text-xs font-semibold backdrop-blur-sm"
+              <span className="px-3 py-1.5 rounded-xl text-white/90 text-xs font-medium backdrop-blur-sm"
                 style={{ background: `${accent}35`, border: `1px solid ${accent}50` }}>
                 {product.platform}
               </span>
@@ -220,7 +219,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* Titel */}
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-[40px] font-semibold text-white tracking-[-0.02em] leading-[1.1] mb-2">
             {product.name}
           </h1>
           <div className="h-1 w-16 rounded-full mb-5" style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }} />
@@ -238,14 +237,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Voorraad */}
           <div className="flex items-center gap-2 mb-6">
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-            <span className="text-sm font-semibold text-emerald-400">Op voorraad</span>
+            <span className="text-sm font-medium text-emerald-400">Op voorraad</span>
             <span className="text-xs text-slate-500">— Vandaag besteld, morgen verzonden</span>
           </div>
 
           {/* Variant toggle */}
           {hasCibOption && (
             <div className="mb-5">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Kies variant</p>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-[0.15em] mb-2">Kies variant</p>
               <div className="inline-flex rounded-2xl p-1.5 gap-1"
                 style={{ background: `${accent}08`, border: `1.5px solid ${accent}18` }}>
                 <button
@@ -274,7 +273,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Prijs */}
           <div className="flex flex-wrap items-baseline gap-3 mb-8">
-            <span className="text-4xl sm:text-5xl font-semibold tracking-tight tabular-nums"
+            <span className="text-4xl sm:text-[52px] font-light tracking-[-0.02em] tabular-nums"
               style={{ color: accent }}>
               {formatPrice(displayPrice)}
             </span>
@@ -308,7 +307,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <motion.button
             onClick={handleAdd}
             whileTap={{ scale: 0.98 }}
-            className={`w-full sm:w-auto px-10 py-4 rounded-2xl text-white text-base font-semibold transition-all duration-300 ${
+            className={`w-full sm:w-auto px-10 py-4 rounded-2xl text-white text-base font-medium transition-all duration-300 ${
               added ? 'bg-emerald-500' : ''
             }`}
             style={added ? undefined : {
@@ -352,7 +351,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   </svg>
                 </div>
                 <div>
-                  <span className="font-semibold text-white text-sm block">{item.title}</span>
+                  <span className="font-medium text-white text-sm block">{item.title}</span>
                   <span className="text-slate-500 text-xs">{item.desc}</span>
                 </div>
               </div>
@@ -368,7 +367,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <h2 className="text-2xl font-semibold text-white tracking-tight mb-6">Specificaties</h2>
+        <h2 className="text-2xl font-semibold text-white tracking-[-0.02em] mb-6">Specificaties</h2>
         <div className="rounded-2xl border border-white/[0.06] overflow-hidden">
           {specs.map((spec, i) => (
             <div
@@ -376,7 +375,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               className={`flex items-center justify-between px-6 py-4 hover:bg-white/[0.04] transition-colors duration-200 ${i < specs.length - 1 ? 'border-b border-white/[0.06]' : ''} ${i % 2 === 0 ? 'bg-white/[0.02]' : ''}`}
             >
               <span className="text-sm font-medium text-slate-500">{spec.label}</span>
-              <span className="text-sm font-semibold text-slate-200">{spec.value}</span>
+              <span className="text-sm font-medium text-slate-200">{spec.value}</span>
             </div>
           ))}
         </div>
@@ -392,7 +391,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
           <button
             onClick={handleAdd}
-            className="flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-semibold transition-all"
+            className="flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-medium transition-all"
             style={added ? { background: '#10b981' } : {
               background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
             }}

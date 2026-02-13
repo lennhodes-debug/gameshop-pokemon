@@ -45,7 +45,7 @@ export default function Footer() {
               <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
                 <Logo className="h-9 w-9 transition-transform duration-500 group-hover:rotate-[8deg]" id="footerNav" />
                 <div className="flex flex-col">
-                  <span className="text-white font-semibold text-lg tracking-tight leading-none">Gameshop Enter</span>
+                  <span className="text-white font-semibold text-lg tracking-[-0.02em] leading-none">Gameshop Enter</span>
                   <span className="text-emerald-400/50 text-[10px] font-medium tracking-[0.2em] uppercase mt-0.5">Nintendo specialist</span>
                 </div>
               </Link>
@@ -77,7 +77,7 @@ export default function Footer() {
 
             {/* Shop */}
             <div className="lg:col-span-2">
-              <h3 className="text-[11px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-5">Shop</h3>
+              <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mb-5">Shop</h3>
               <ul className="space-y-3">
                 {shopLinks.map((link) => (
                   <li key={link.href}>
@@ -91,7 +91,7 @@ export default function Footer() {
 
             {/* Info + Juridisch */}
             <div className="lg:col-span-2">
-              <h3 className="text-[11px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-5">Info</h3>
+              <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mb-5">Info</h3>
               <ul className="space-y-3">
                 {infoLinks.map((link) => (
                   <li key={link.href}>
@@ -101,7 +101,7 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-              <h3 className="text-[11px] font-semibold text-white/25 uppercase tracking-[0.15em] mt-8 mb-5">Juridisch</h3>
+              <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mt-8 mb-5">Juridisch</h3>
               <ul className="space-y-3">
                 {legalLinks.map((link) => (
                   <li key={link.href}>
@@ -115,7 +115,7 @@ export default function Footer() {
 
             {/* Contact */}
             <div className="col-span-2 lg:col-span-4">
-              <h3 className="text-[11px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-5">Contact</h3>
+              <h3 className="text-[11px] font-medium text-white/25 uppercase tracking-[0.15em] mb-5">Contact</h3>
 
               <a href="mailto:gameshopenter@gmail.com" className="flex items-center gap-3 text-slate-500 hover:text-white text-[13px] transition-colors duration-200 mb-8 group">
                 <span className="h-9 w-9 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center group-hover:border-emerald-500/20 group-hover:bg-white/[0.05] transition-all duration-300">

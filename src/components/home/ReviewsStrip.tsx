@@ -38,7 +38,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
 
         <footer className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="h-7 w-7 rounded-lg bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/50 text-[10px] font-semibold shrink-0">
+            <div className="h-7 w-7 rounded-lg bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/50 text-[10px] font-medium shrink-0">
               {review.name[0]}
             </div>
             <div>
@@ -73,10 +73,10 @@ export default function ReviewsStrip() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-4">
+          <p className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-4">
             Reviews
           </p>
-          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
+          <h2 className="text-3xl lg:text-[52px] font-semibold text-white tracking-[-0.02em] leading-[1.1] mb-3">
             1.360+ tevreden klanten
           </h2>
           <div className="inline-flex items-center gap-2.5">
@@ -126,7 +126,7 @@ export default function ReviewsStrip() {
             href="https://www.marktplaats.nl/u/gameshop-enter/100074714/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+            className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors"
           >
             1.360+ reviews op Marktplaats
           </a>

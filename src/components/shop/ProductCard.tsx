@@ -179,8 +179,8 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.5s ease',
           background: 'white',
           boxShadow: isHovered
-            ? '0 20px 50px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)'
-            : '0 1px 3px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.03)',
+            ? '0 20px 50px rgba(0,0,0,0.08)'
+            : '0 1px 3px rgba(0,0,0,0.04)',
         }}
         ref={cardRef}
         onMouseEnter={() => setIsHovered(true)}
@@ -228,7 +228,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </>
             ) : (
               <div className={cn("w-full h-full flex items-center justify-center bg-gradient-to-br", colors.from, colors.to)}>
-                <span className="text-white/50 text-sm font-semibold tracking-wider uppercase select-none">
+                <span className="text-white/50 text-sm font-medium tracking-wider uppercase select-none">
                   {platformLabel}
                 </span>
               </div>
@@ -244,7 +244,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             {/* Badges + wishlist */}
             <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
               {isOnSale(product) && (
-                <span className="px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-semibold">
+                <span className="px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-medium">
                   -{getSalePercentage(product)}%
                 </span>
               )}
@@ -291,14 +291,14 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
                 />
                 <button
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleVariantSwitch('los'); }}
-                  className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-semibold transition-colors duration-200 rounded-[10px]"
+                  className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-medium transition-colors duration-200 rounded-[10px]"
                   style={{ color: selectedVariant === 'los' ? '#334155' : '#94a3b8' }}
                 >
                   Los
                 </button>
                 <button
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleVariantSwitch('cib'); }}
-                  className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-semibold transition-colors duration-200 rounded-[10px]"
+                  className="relative z-10 flex-1 py-1.5 text-center text-[11px] font-medium transition-colors duration-200 rounded-[10px]"
                   style={{ color: selectedVariant === 'cib' ? '#334155' : '#94a3b8' }}
                 >
                   Compleet (CIB)
@@ -317,12 +317,12 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           )}
 
           <Link href={`/shop/${product.sku}`}>
-            <h3 className="font-semibold text-slate-800 text-[13px] leading-snug mb-1.5 line-clamp-2 transition-colors duration-500 group-hover:text-slate-900">
+            <h3 className="font-medium text-slate-800 text-[13px] leading-snug mb-1.5 line-clamp-2 transition-colors duration-500 group-hover:text-slate-900">
               <HighlightText text={product.name} query={searchQuery} />
             </h3>
           </Link>
 
-          <div className="flex items-end justify-between pt-3 mt-auto border-t border-slate-100/80">
+          <div className="flex items-end justify-between pt-3 mt-auto">
             <div>
               {hasCibOption ? (
                 <div>
@@ -362,7 +362,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
               className={cn(
-                "h-9 px-4 rounded-xl text-xs font-semibold transition-all duration-300",
+                "h-9 px-4 rounded-xl text-xs font-medium transition-all duration-300",
                 addedToCart && "animate-scale-bounce"
               )}
               style={{

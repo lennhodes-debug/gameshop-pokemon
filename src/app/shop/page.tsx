@@ -190,13 +190,13 @@ function ShopContent() {
               transition={{ delay: 0.2 }}
               className="flex items-center gap-4 mb-8"
             >
-              <span className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em]">
+              <span className="text-emerald-400/60 text-xs font-medium uppercase tracking-[0.2em]">
                 {allProducts.length} producten
               </span>
               <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emerald-400/30 to-transparent" />
             </motion.div>
 
-            <h1 className="text-4xl lg:text-7xl font-semibold text-white tracking-tight mb-5">
+            <h1 className="text-4xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-5">
               Onze{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300">
                 Collectie
@@ -246,7 +246,7 @@ function ShopContent() {
             >
               <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-emerald-700 flex items-center gap-2">
+                  <span className="text-sm font-medium text-emerald-700 flex items-center gap-2">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                     </svg>
@@ -311,7 +311,7 @@ function ShopContent() {
 
           {/* Prijs range filter */}
           <div className="mt-4 flex items-center gap-3">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex-shrink-0">Prijs</span>
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide flex-shrink-0">Prijs</span>
             <div className="flex items-center gap-2">
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
@@ -323,7 +323,7 @@ function ShopContent() {
                   value={priceMin}
                   onChange={(e) => setPriceMin(e.target.value)}
                   aria-label="Minimum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-700 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
               <span className="text-slate-300">—</span>
@@ -337,7 +337,7 @@ function ShopContent() {
                   value={priceMax}
                   onChange={(e) => setPriceMax(e.target.value)}
                   aria-label="Maximum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-700 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
@@ -354,7 +354,7 @@ function ShopContent() {
               className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
             >
               <span className="text-sm text-slate-500 flex-shrink-0 mr-1" role="status" aria-live="polite">
-                <span className="font-semibold text-emerald-600">{filtered.length}</span> resultaten
+                <span className="font-medium text-emerald-600">{filtered.length}</span> resultaten
               </span>
 
               {([
@@ -366,7 +366,7 @@ function ShopContent() {
                 { active: !!completeness, label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', cls: 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100', onClear: () => setCompleteness('') },
                 { active: !!(priceMin || priceMax), label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, cls: 'bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100', onClear: () => { setPriceMin(''); setPriceMax(''); } },
               ] as const).filter((c) => c.active).map((chip, i) => (
-                <button key={i} onClick={chip.onClear} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold transition-colors ${chip.cls}`}>
+                <button key={i} onClick={chip.onClear} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium transition-colors ${chip.cls}`}>
                   {chip.label}
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
@@ -377,7 +377,7 @@ function ShopContent() {
                   <div className="h-4 w-px bg-slate-200" />
                   <button
                     onClick={clearFilters}
-                    className="text-xs text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
+                    className="text-xs text-red-500 hover:text-red-600 font-medium flex items-center gap-1 transition-colors"
                   >
                     Alles wissen
                   </button>
@@ -391,7 +391,7 @@ function ShopContent() {
         {!isSearching && filtered.length > 0 && (
           <div className="mt-6 flex items-center justify-between px-1 py-2">
             <p className="text-xs text-slate-400">
-              <span className="font-semibold text-slate-600">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
+              <span className="font-medium text-slate-600">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
               {totalPages > 1 && (
                 <span className="text-slate-300"> &middot; pagina {page}/{totalPages}</span>
               )}
@@ -452,7 +452,7 @@ function ShopContent() {
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-semibold shadow-lg transition-all mb-10"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-medium shadow-lg transition-all mb-10"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
@@ -462,7 +462,7 @@ function ShopContent() {
 
                 {/* Suggesties per platform */}
                 <div className="max-w-lg mx-auto">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Populaire platforms</p>
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-3">Populaire platforms</p>
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     {platforms.slice(0, 6).map((p) => (
                       <button
@@ -520,7 +520,7 @@ function ShopContent() {
                       )}
                       <button
                         onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className={`h-10 w-10 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                        className={`h-10 w-10 rounded-xl text-sm font-medium transition-all duration-300 ${
                           p === page
                             ? 'bg-slate-900 text-white'
                             : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'

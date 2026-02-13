@@ -161,7 +161,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
                       className="h-full w-full object-contain"
                     />
                   ) : (
-                    <span className="h-full w-full flex items-center justify-center text-[8px] font-semibold text-slate-400">
+                    <span className="h-full w-full flex items-center justify-center text-[8px] font-medium text-slate-400">
                       {PLATFORM_LABELS[product.platform] || product.platform}
                     </span>
                   )}
@@ -203,7 +203,7 @@ export default function SearchBar({ value, onChange, resultCount, className }: S
             exit={{ opacity: 0, y: -5 }}
             className="absolute -bottom-6 left-4 text-xs text-slate-500"
           >
-            <span className="font-semibold text-emerald-600">{resultCount}</span> {resultCount === 1 ? 'resultaat' : 'resultaten'} gevonden
+            <span className="font-medium text-emerald-600">{resultCount}</span> {resultCount === 1 ? 'resultaat' : 'resultaten'} gevonden
           </motion.div>
         )}
       </AnimatePresence>

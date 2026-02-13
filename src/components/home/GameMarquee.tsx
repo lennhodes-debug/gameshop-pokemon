@@ -112,7 +112,7 @@ function MarqueeRow({
               href={`/shop/${product.sku}`}
               className="relative w-40 h-40 sm:w-52 sm:h-52 shrink-0 rounded-2xl overflow-hidden group/card bg-white/[0.04] transition-all duration-500"
               style={{
-                boxShadow: '0 0 0 1px rgba(255,255,255,0.06)',
+                boxShadow: 'none',
               }}
             >
               <Image

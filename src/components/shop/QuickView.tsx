@@ -130,7 +130,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
 
                   {/* Platform badge */}
                   <div className="absolute top-4 left-4">
-                    <span className="px-2.5 py-1 rounded-lg bg-slate-900/70 backdrop-blur-sm text-white text-xs font-semibold">
+                    <span className="px-2.5 py-1 rounded-lg bg-slate-900/70 backdrop-blur-sm text-white text-xs font-medium">
                       {product.platform}
                     </span>
                   </div>
@@ -166,7 +166,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                             {formatPrice(getEffectivePrice(product))}
                           </span>
                           <span className="text-lg text-slate-400 line-through">{formatPrice(product.price)}</span>
-                          <span className="text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
+                          <span className="text-xs font-medium text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
                         </div>
                       ) : (
                         <span className="text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
@@ -174,7 +174,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                         </span>
                       )}
                       {freeShipping && (
-                        <span className="ml-2 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                        <span className="ml-2 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                           Gratis verzending
                         </span>
                       )}
@@ -183,7 +183,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                     <div className="flex gap-3">
                       <button
                         onClick={handleAdd}
-                        className="flex-1 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:bg-slate-800"
+                        className="flex-1 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-medium shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:bg-slate-800"
                       >
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -192,7 +192,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                       </button>
                       <Link
                         href={`/shop/${product.sku}`}
-                        className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+                        className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
                       >
                         Details
                         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

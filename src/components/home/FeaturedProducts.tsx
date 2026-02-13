@@ -78,7 +78,7 @@ function BentoCard({
             rotateX,
             rotateY,
             transformStyle: 'preserve-3d',
-            border: `1px solid ${hovered ? `rgba(${glowRgb},0.2)` : 'rgba(0,0,0,0.05)'}`,
+            border: `1px solid ${hovered ? `rgba(${glowRgb},0.15)` : 'transparent'}`,
             boxShadow: hovered
               ? `0 25px 60px -12px rgba(${glowRgb},0.25), 0 0 40px rgba(${glowRgb},0.06)`
               : '0 2px 16px rgba(0,0,0,0.03)',
@@ -113,7 +113,7 @@ function BentoCard({
               </motion.div>
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-                <span className="text-slate-400 font-semibold text-lg">
+                <span className="text-slate-400 font-medium text-lg">
                   {PLATFORM_LABELS[product.platform] || product.platform}
                 </span>
               </div>
@@ -172,7 +172,7 @@ function BentoCard({
             <div className={cn('p-4', isHero && 'lg:p-6')}>
               <h3
                 className={cn(
-                  'font-semibold leading-tight mb-1.5 line-clamp-2 transition-colors duration-300',
+                  'font-medium leading-tight mb-1.5 line-clamp-2 transition-colors duration-300',
                   isHero ? 'text-base lg:text-xl' : 'text-sm',
                 )}
                 style={{ color: hovered ? accent : '#0f172a' }}
@@ -232,17 +232,17 @@ function BrowseCard({ productCount }: { productCount: number }) {
           </div>
 
           <div className="relative z-10">
-            <p className="text-white/60 text-[10px] font-semibold uppercase tracking-[0.2em] mb-3">
+            <p className="text-white/60 text-[10px] font-medium uppercase tracking-[0.2em] mb-3">
               Collectie
             </p>
-            <h3 className="text-white text-2xl lg:text-3xl font-semibold leading-tight">
+            <h3 className="text-white text-2xl lg:text-3xl font-semibold leading-[1.1]">
               Bekijk alle
               <br />
               {productCount} producten
             </h3>
           </div>
 
-          <div className="relative z-10 flex items-center gap-2 text-white font-semibold text-sm">
+          <div className="relative z-10 flex items-center gap-2 text-white font-medium text-sm">
             Ontdek meer
             <svg
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-2"
@@ -308,19 +308,19 @@ export default function FeaturedProducts() {
           className="flex items-end justify-between mb-12 lg:mb-16"
         >
           <div>
-            <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.3em] mb-4">
+            <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.2em] mb-4">
               Uitgelicht
             </p>
-            <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 tracking-tight">
+            <h2 className="text-3xl lg:text-[52px] font-semibold text-slate-900 tracking-[-0.02em] leading-[1.1]">
               Toppers uit de collectie
             </h2>
-            <p className="text-slate-400 mt-3 text-sm max-w-md">
+            <p className="text-slate-400 mt-3 text-sm max-w-md font-normal">
               Handgeselecteerde games &mdash; elk exemplaar persoonlijk getest
             </p>
           </div>
           <Link
             href="/shop"
-            className="hidden sm:flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-emerald-600 transition-colors group"
+            className="hidden sm:flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-emerald-600 transition-colors group"
           >
             Alles bekijken
             <svg
@@ -371,7 +371,7 @@ export default function FeaturedProducts() {
         >
           <Link
             href="/shop"
-            className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-slate-900 text-white font-semibold text-sm shadow-lg w-full"
+            className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-slate-900 text-white font-medium text-sm shadow-lg w-full"
           >
             Bekijk alle producten
           </Link>

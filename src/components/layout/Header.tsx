@@ -75,8 +75,8 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-3">
               <Logo className="h-9 w-9 lg:h-10 lg:w-10" />
               <div className="flex flex-col">
-                <span className="text-white font-semibold text-lg leading-tight tracking-tight">Gameshop</span>
-                <span className="text-emerald-400 text-[11px] font-semibold tracking-widest uppercase -mt-0.5">Enter</span>
+                <span className="text-white font-semibold text-lg leading-tight tracking-[-0.02em]">Gameshop</span>
+                <span className="text-emerald-400 text-[11px] font-medium tracking-[0.15em] uppercase -mt-0.5">Enter</span>
               </div>
             </Link>
 

@@ -151,7 +151,7 @@ function PlatformCard({ platform, count, index }: {
 
             {/* Text */}
             <div className={`relative z-10 ${platform.span === 2 ? 'flex-1 pr-4' : 'mb-auto'}`}>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-[10px] font-medium text-white/50 uppercase tracking-widest mb-4">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-[10px] font-medium text-white/50 uppercase tracking-[0.15em] mb-4">
                 <span className="h-1 w-1 rounded-full" style={{ background: `rgba(${platform.glow}, 0.7)` }} />
                 {platform.era}
               </span>
@@ -163,10 +163,10 @@ function PlatformCard({ platform, count, index }: {
               <p className="text-sm text-white/30 font-medium mb-4">{platform.year}</p>
 
               <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold" style={{ color: `rgba(${platform.glow}, 0.9)` }}>
+                <span className="text-sm font-medium" style={{ color: `rgba(${platform.glow}, 0.9)` }}>
                   {count} {count === 1 ? 'game' : 'games'}
                 </span>
-                <span className="flex items-center gap-1 text-xs text-white/30 font-medium group-hover:text-white/50 transition-colors duration-500">
+                <span className="flex items-center gap-1 text-xs text-white/30 font-normal group-hover:text-white/50 transition-colors duration-500">
                   Bekijk collectie
                   <svg className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -243,10 +243,10 @@ export default function PlatformGrid() {
           className="text-center mb-16 lg:mb-20"
         >
           <div className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6" />
-          <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-3">
+          <h2 className="text-3xl lg:text-[52px] font-semibold text-white tracking-[-0.02em] leading-[1.1] mb-3">
             Shop per platform
           </h2>
-          <p className="text-slate-400 max-w-md mx-auto">
+          <p className="text-slate-400 max-w-md mx-auto font-normal">
             Zes generaties Nintendo &mdash; van Game Boy tot Wii U.
           </p>
         </motion.div>

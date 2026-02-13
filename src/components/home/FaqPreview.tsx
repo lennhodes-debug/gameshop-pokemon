@@ -47,13 +47,13 @@ export default function FaqPreview() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.3em] mb-4">
+          <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.2em] mb-4">
             FAQ
           </p>
-          <h2 className="text-3xl lg:text-5xl font-semibold text-slate-900 mb-3 tracking-tight">
+          <h2 className="text-3xl lg:text-[52px] font-semibold text-slate-900 mb-3 tracking-[-0.02em] leading-[1.1]">
             Veelgestelde vragen
           </h2>
-          <p className="text-sm text-slate-400 max-w-md mx-auto">
+          <p className="text-sm text-slate-400 max-w-md mx-auto font-normal">
             Heb je een vraag? Wellicht vind je het antwoord hier
           </p>
         </motion.div>
@@ -68,7 +68,7 @@ export default function FaqPreview() {
             <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
             <div className="p-6 lg:p-8">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm font-semibold text-slate-600">Top 5 vragen</span>
+                <span className="text-sm font-medium text-slate-600">Top 5 vragen</span>
                 <Link href="/faq" className="text-xs text-slate-400 hover:text-slate-600 transition-colors">
                   Alle {'>'}20 vragen
                 </Link>
@@ -87,7 +87,7 @@ export default function FaqPreview() {
         >
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:border-slate-300 hover:text-slate-900 transition-all group"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl border border-slate-200 text-slate-600 font-medium text-sm hover:border-slate-300 hover:text-slate-900 transition-all group"
           >
             Bekijk alle vragen
             <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

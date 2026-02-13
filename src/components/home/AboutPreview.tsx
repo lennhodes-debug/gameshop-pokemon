@@ -42,7 +42,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   }, [value, hasAnimated]);
 
   return (
-    <span ref={ref} className="text-3xl lg:text-4xl font-semibold text-white tabular-nums">
+    <span ref={ref} className="text-3xl lg:text-[40px] font-light text-white tabular-nums tracking-tight">
       {count.toLocaleString('nl-NL')}{suffix}
     </span>
   );
@@ -85,10 +85,10 @@ export default function AboutPreview() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-white/25 text-xs font-medium uppercase tracking-[0.3em] mb-5">
+            <p className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-5">
               Over ons
             </p>
-            <h2 className="text-3xl lg:text-5xl font-semibold text-white leading-tight tracking-tight mb-6">
+            <h2 className="text-3xl lg:text-[52px] font-semibold text-white leading-[1.1] tracking-[-0.02em] mb-6">
               Al sinds 2018 de Nintendo specialist
             </h2>
             <p className="text-base text-slate-400 leading-relaxed mb-6">
@@ -103,7 +103,7 @@ export default function AboutPreview() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/over-ons"
-                className="inline-flex items-center h-12 px-6 rounded-xl border border-white/[0.1] text-white font-semibold text-sm hover:bg-white/[0.06] transition-colors duration-200"
+                className="inline-flex items-center h-12 px-6 rounded-xl border border-white/[0.1] text-white font-medium text-sm hover:bg-white/[0.06] transition-colors duration-200"
               >
                 Lees ons verhaal
                 <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -112,7 +112,7 @@ export default function AboutPreview() {
               </Link>
               <Link
                 href="/inkoop"
-                className="inline-flex items-center h-12 px-6 rounded-xl text-emerald-400 font-semibold text-sm hover:text-emerald-300 transition-colors duration-200"
+                className="inline-flex items-center h-12 px-6 rounded-xl text-emerald-400 font-medium text-sm hover:text-emerald-300 transition-colors duration-200"
               >
                 Games verkopen
                 <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
