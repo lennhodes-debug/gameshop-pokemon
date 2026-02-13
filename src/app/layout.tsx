@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -14,11 +14,11 @@ import { cn } from '@/lib/utils';
 
 const BootSequence = dynamic(() => import('@/components/ui/BootSequence'));
 
-const jakarta = localFont({
-  src: '../fonts/plus-jakarta-sans-latin-wght-normal.woff2',
+const inter = Inter({
+  subsets: ['latin'],
   display: 'swap',
-  variable: '--font-jakarta',
-  weight: '300 800',
+  variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 const siteUrl = 'https://gameshopenter.nl';
@@ -98,7 +98,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="nl" className={cn(jakarta.className, "scroll-smooth")}>
+    <html lang="nl" className={cn(inter.className, "scroll-smooth")}>
       <body className="bg-[#f8fafc] text-slate-900 antialiased">
         <script
           type="application/ld+json"
