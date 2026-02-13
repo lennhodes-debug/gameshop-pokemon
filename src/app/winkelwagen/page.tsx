@@ -86,7 +86,7 @@ export default function WinkelwagenPage() {
         </div>
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-2">
+            <h1 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-2">
               Winkel
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">wagen</span>
             </h1>
@@ -108,19 +108,19 @@ export default function WinkelwagenPage() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-24 w-24 mx-auto rounded-3xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-8 shadow-lg"
+              className="h-24 w-24 mx-auto rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-8 shadow-lg"
             >
               <svg className="h-12 w-12 text-slate-300 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
             </motion.div>
-            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-3">Je winkelwagen is leeg</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Je winkelwagen is leeg</h2>
             <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto">Ontdek ons assortiment van originele Nintendo games en consoles</p>
             <Link href="/shop">
               <motion.span
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-shadow"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all"
               >
                 Naar de shop
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -320,7 +320,7 @@ export default function WinkelwagenPage() {
                               key={price * item.quantity}
                               initial={{ scale: 1.1 }}
                               animate={{ scale: 1 }}
-                              className="font-extrabold text-slate-900 dark:text-white"
+                              className="font-bold text-slate-900 dark:text-white"
                             >
                               {formatPrice(price * item.quantity)}
                             </motion.span>
@@ -378,7 +378,7 @@ export default function WinkelwagenPage() {
                   transition={{ delay: 0.4 }}
                   className="mt-10"
                 >
-                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">Misschien ook interessant</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight mb-4">Misschien ook interessant</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {suggestions.map((product) => {
                       const c = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
@@ -411,7 +411,7 @@ export default function WinkelwagenPage() {
                                   {product.platform}
                                 </p>
                                 <div className="flex items-center justify-between mt-1.5">
-                                  <p className="text-sm font-extrabold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+                                  <p className="text-sm font-bold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
                                 </div>
                               </div>
                             </motion.div>
@@ -442,7 +442,7 @@ export default function WinkelwagenPage() {
               className="lg:col-span-1"
             >
               <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-lg">
-                <h3 className="font-extrabold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Overzicht</h3>
+                <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Overzicht</h3>
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
@@ -481,7 +481,7 @@ export default function WinkelwagenPage() {
                             value={couponInput}
                             onChange={(e) => setCouponInput(e.target.value)}
                             placeholder="Kortingscode"
-                            className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none transition-all"
+                            className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400/20 focus:outline-none transition-all"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && couponInput.trim()) {
                                 const result = applyDiscount(couponInput);
@@ -522,12 +522,12 @@ export default function WinkelwagenPage() {
 
                   <div className="border-t border-slate-100 dark:border-slate-700 pt-4 mt-4">
                     <div className="flex justify-between items-baseline">
-                      <span className="font-extrabold text-slate-900 dark:text-white">Totaal</span>
+                      <span className="font-bold text-slate-900 dark:text-white">Totaal</span>
                       <motion.span
                         key={total}
                         initial={{ scale: 1.1 }}
                         animate={{ scale: 1 }}
-                        className="font-extrabold text-slate-900 dark:text-white text-2xl"
+                        className="font-bold text-slate-900 dark:text-white text-2xl"
                       >
                         {formatPrice(total)}
                       </motion.span>
@@ -539,7 +539,7 @@ export default function WinkelwagenPage() {
                   <motion.span
                     whileHover={{ scale: 1.02, y: -1 }}
                     whileTap={{ scale: 0.98 }}
-                    className="block w-full mt-6 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all text-center"
+                    className="block w-full mt-6 px-6 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all text-center"
                   >
                     Afrekenen
                   </motion.span>
@@ -580,10 +580,10 @@ export default function WinkelwagenPage() {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Totaal</p>
-                <p className="text-lg font-extrabold text-slate-900 dark:text-white">{formatPrice(total)}</p>
+                <p className="text-lg font-bold text-slate-900 dark:text-white">{formatPrice(total)}</p>
               </div>
               <Link href="/afrekenen" className="flex-1 max-w-[200px]">
-                <span className="block w-full px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/25 text-center">
+                <span className="block w-full px-5 py-3 rounded-xl bg-slate-900 text-white font-semibold text-sm shadow-lg text-center">
                   Afrekenen
                 </span>
               </Link>

@@ -43,7 +43,7 @@ export default function VerlanglijstPage() {
         </div>
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-2">
+            <h1 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-2">
               Verlang
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-rose-400">lijst</span>
             </h1>
@@ -70,7 +70,7 @@ export default function VerlanglijstPage() {
             <p className="text-slate-500 dark:text-slate-400 mb-6">Klik op het hartje bij een product om het op te slaan.</p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all"
             >
               Naar de shop
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -156,11 +156,11 @@ export default function VerlanglijstPage() {
                           <div className="mt-2 flex items-baseline gap-2">
                             {onSale ? (
                               <>
-                                <span className="text-base font-extrabold text-red-500">{formatPrice(price)}</span>
+                                <span className="text-base font-bold text-red-500">{formatPrice(price)}</span>
                                 <span className="text-xs text-slate-400 line-through">{formatPrice(product.price)}</span>
                               </>
                             ) : (
-                              <span className="text-base font-extrabold text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
+                              <span className="text-base font-bold text-slate-900 dark:text-white">{formatPrice(product.price)}</span>
                             )}
                           </div>
                         </div>

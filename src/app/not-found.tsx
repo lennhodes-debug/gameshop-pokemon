@@ -151,8 +151,8 @@ export default function NotFound() {
           {/* Encounter frame */}
           <div className="relative max-w-lg mx-auto">
             {/* Retro encounter border */}
-            <div className="absolute -inset-6 sm:-inset-8 border border-white/[0.06] rounded-3xl pointer-events-none" />
-            <div className="absolute -inset-6 sm:-inset-8 rounded-3xl pointer-events-none overflow-hidden">
+            <div className="absolute -inset-6 sm:-inset-8 border border-white/[0.06] rounded-2xl pointer-events-none" />
+            <div className="absolute -inset-6 sm:-inset-8 rounded-2xl pointer-events-none overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
             </div>
 
@@ -162,7 +162,7 @@ export default function NotFound() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             >
-              <h1 className="text-[120px] sm:text-[160px] lg:text-[200px] font-extrabold leading-none tracking-tighter">
+              <h1 className="text-[120px] sm:text-[160px] lg:text-[200px] font-bold leading-none tracking-tighter">
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white/20 to-white/[0.03] select-none">
                   404
                 </span>
@@ -184,7 +184,7 @@ export default function NotFound() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-4 tracking-tight flex items-center justify-center gap-3">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight flex items-center justify-center gap-3">
                       <svg className="h-6 w-6 sm:h-7 sm:w-7 text-red-400 flex-shrink-0" viewBox="0 0 200 200" fill="none">
                         <circle cx="100" cy="100" r="90" stroke="currentColor" strokeWidth="8"/>
                         <line x1="10" y1="100" x2="190" y2="100" stroke="currentColor" strokeWidth="8"/>
@@ -208,7 +208,7 @@ export default function NotFound() {
                     key="gameover"
                     initial={{ opacity: 0, scale: 1.2 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-4 tracking-tight"
+                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight"
                   >
                     Game{' '}
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-rose-400">
@@ -237,7 +237,7 @@ export default function NotFound() {
                 onClick={() => setLives(3)}
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-shadow"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
@@ -250,7 +250,7 @@ export default function NotFound() {
                   <motion.span
                     whileHover={{ scale: 1.03, y: -2 }}
                     whileTap={{ scale: 0.97 }}
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-shadow"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />

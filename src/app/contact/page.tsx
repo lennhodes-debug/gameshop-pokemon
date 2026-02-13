@@ -109,7 +109,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-5"
+            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-5"
           >
             Neem{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
@@ -166,7 +166,7 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-6 tracking-tight">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 tracking-tight">
               Wij helpen je graag
             </h2>
             <p className="text-slate-500 leading-relaxed mb-8">
@@ -247,11 +247,11 @@ export default function ContactPage() {
             className="lg:col-span-3"
             id="contactform"
           >
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-md overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-md overflow-hidden">
               <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
 
               <div className="p-6 lg:p-8">
-                <h2 className="text-xl font-extrabold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-6 tracking-tight">Stuur een bericht</h2>
                 {submitted ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -294,7 +294,7 @@ export default function ContactPage() {
                           value={formData.naam}
                           onChange={(e) => setFormData(prev => ({ ...prev, naam: e.target.value }))}
                           onBlur={() => handleBlur('naam')}
-                          className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all ${getError('naam') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-slate-400 focus:ring-slate-400/20'}`}
                           placeholder="Je naam"
                         />
                         {getError('naam') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('naam')}</p>}
@@ -307,7 +307,7 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           onBlur={() => handleBlur('email')}
-                          className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all ${getError('email') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-slate-400 focus:ring-slate-400/20'}`}
                           placeholder="je@email.nl"
                         />
                         {getError('email') && <p className="text-xs text-red-500 mt-1 font-medium">{getError('email')}</p>}
@@ -321,7 +321,7 @@ export default function ContactPage() {
                           value={formData.onderwerp}
                           onChange={(e) => setFormData(prev => ({ ...prev, onderwerp: e.target.value }))}
                           onBlur={() => handleBlur('onderwerp')}
-                          className={`block w-full rounded-xl border bg-white px-4 py-3 pr-10 text-sm text-slate-900 focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                          className={`block w-full rounded-xl border bg-white px-4 py-3 pr-10 text-sm text-slate-900 focus:ring-2 focus:outline-none transition-all appearance-none ${getError('onderwerp') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-slate-400 focus:ring-slate-400/20'}`}
                         >
                           <option value="">Selecteer een onderwerp</option>
                           <option value="Vraag over een bestelling">Vraag over een bestelling</option>
@@ -343,7 +343,7 @@ export default function ContactPage() {
                         value={formData.bericht}
                         onChange={(e) => setFormData(prev => ({ ...prev, bericht: e.target.value }))}
                         onBlur={() => handleBlur('bericht')}
-                        className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-emerald-500 focus:ring-emerald-500/20'}`}
+                        className={`block w-full rounded-xl border bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:outline-none transition-all resize-none ${getError('bericht') ? 'border-red-400 focus:border-red-400 focus:ring-red-400/20' : 'border-slate-200 focus:border-slate-400 focus:ring-slate-400/20'}`}
                         placeholder="Typ je bericht... (minimaal 10 tekens)"
                       />
                       <div className="flex justify-between mt-1">

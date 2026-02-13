@@ -167,7 +167,7 @@ export default function FaqPage() {
             <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
               FAQ
             </span>
-            <h1 className="text-3xl lg:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <h1 className="text-3xl lg:text-6xl font-bold text-white tracking-tight mb-4">
               Veelgestelde vragen
             </h1>
             <p className="text-lg text-slate-400 max-w-2xl">

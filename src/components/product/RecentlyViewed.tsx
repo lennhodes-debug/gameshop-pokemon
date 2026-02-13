@@ -31,7 +31,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6"
+        className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-6"
       >
         Eerder bekeken
       </motion.h2>

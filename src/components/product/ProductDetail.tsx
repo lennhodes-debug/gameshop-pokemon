@@ -108,7 +108,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           <div
-            className="aspect-square rounded-3xl flex items-center justify-center overflow-hidden relative"
+            className="aspect-square rounded-2xl flex items-center justify-center overflow-hidden relative"
             style={{
               background: displayImage
                 ? `linear-gradient(145deg, ${accent}12 0%, #0a0e1a 40%, ${accentAlt}08 100%)`
@@ -118,7 +118,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             }}
           >
             {/* Glow ring */}
-            <div className="absolute inset-0 rounded-3xl pointer-events-none"
+            <div className="absolute inset-0 rounded-2xl pointer-events-none"
               style={{
                 background: `radial-gradient(ellipse at 30% 20%, rgba(${glowRgb}, 0.08) 0%, transparent 50%)`,
               }}
@@ -127,7 +127,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             {displayImage && !imageError ? (
               <>
                 {!imageLoaded && (
-                  <div className="absolute inset-0 bg-slate-900 animate-pulse rounded-3xl" />
+                  <div className="absolute inset-0 bg-slate-900 animate-pulse rounded-2xl" />
                 )}
                 <Image
                   src={showBack && displayBackImage ? displayBackImage : displayImage}
@@ -147,7 +147,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                     <button
                       onClick={() => { setShowBack(false); setImageLoaded(false); }}
-                      className="px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wider border backdrop-blur-sm transition-all"
+                      className="px-3 py-1.5 rounded-xl text-[11px] font-medium uppercase tracking-wider border backdrop-blur-sm transition-all"
                       style={!showBack
                         ? { background: `${accent}30`, borderColor: `${accent}60`, color: 'white' }
                         : { background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: '#94a3b8' }
@@ -157,7 +157,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     </button>
                     <button
                       onClick={() => { setShowBack(true); setImageLoaded(false); }}
-                      className="px-3 py-1.5 rounded-xl text-[11px] font-bold uppercase tracking-wider border backdrop-blur-sm transition-all"
+                      className="px-3 py-1.5 rounded-xl text-[11px] font-medium uppercase tracking-wider border backdrop-blur-sm transition-all"
                       style={showBack
                         ? { background: `${accent}30`, borderColor: `${accent}60`, color: 'white' }
                         : { background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: '#94a3b8' }
@@ -196,7 +196,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </div>
             {product.isPremium && (
               <div className="absolute top-5 right-5">
-                <Badge variant="premium">PREMIUM</Badge>
+                <Badge variant="premium">Premium</Badge>
               </div>
             )}
           </div>
@@ -226,7 +226,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* Titel */}
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-white tracking-tight mb-2">
             {product.name}
           </h1>
           <div className="h-1 w-16 rounded-full mb-5" style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }} />
@@ -280,7 +280,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Prijs */}
           <div className="flex flex-wrap items-baseline gap-3 mb-8">
-            <span className="text-4xl sm:text-5xl font-extrabold tracking-tight tabular-nums"
+            <span className="text-4xl sm:text-5xl font-bold tracking-tight tabular-nums"
               style={{ color: accent }}>
               {formatPrice(displayPrice)}
             </span>
@@ -304,7 +304,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {product.description && (
             <div className="mb-8 rounded-2xl p-6 backdrop-blur-sm"
               style={{ background: `linear-gradient(135deg, ${accent}06, rgba(255,255,255,0.02))`, border: `1px solid ${accent}12` }}>
-              <h2 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: accent }}>Beschrijving</h2>
+              <h2 className="text-sm font-medium uppercase tracking-wider mb-3" style={{ color: accent }}>Beschrijving</h2>
               <p className="text-slate-400 leading-relaxed text-[15px]">
                 {product.description}
               </p>
@@ -375,7 +375,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <h2 className="text-2xl font-extrabold text-white tracking-tight mb-6">Specificaties</h2>
+        <h2 className="text-2xl font-bold text-white tracking-tight mb-6">Specificaties</h2>
         <div className="rounded-2xl border overflow-hidden" style={{ borderColor: `${accent}15` }}>
           {specs.map((spec, i) => (
             <div
@@ -401,7 +401,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           style={{ background: 'rgba(5,8,16,0.92)', borderColor: `${accent}20` }}>
           <div className="min-w-0 flex-1">
             <p className="text-xs text-slate-500 truncate">{product.name}{selectedVariant === 'cib' ? ' (CIB)' : ''}</p>
-            <p className="text-lg font-extrabold" style={{ color: accent }}>{formatPrice(displayPrice)}</p>
+            <p className="text-lg font-bold" style={{ color: accent }}>{formatPrice(displayPrice)}</p>
           </div>
           <button
             onClick={handleAdd}

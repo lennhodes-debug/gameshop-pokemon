@@ -129,7 +129,7 @@ function GenerationCard({ gen, index }: { gen: Generation; index: number }) {
             >
               {gen.gen} — {gen.year}
             </span>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
               {gen.title}
             </h3>
           </div>
@@ -238,7 +238,7 @@ export default function NintendoPage() {
             initial={{ opacity: 0, y: 40, filter: 'blur(15px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight mb-6 leading-[1.1]"
+            className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-[1.1]"
           >
             Nintendo{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-red-400 to-blue-400">
@@ -268,7 +268,7 @@ export default function NintendoPage() {
             animate={introInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-6">
               Nintendo — pionier in gaming
             </h2>
             <div className="space-y-4 text-slate-400 text-[15px] leading-relaxed">
@@ -303,7 +303,7 @@ export default function NintendoPage() {
             <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-emerald-500/50 block mb-4">
               Vijf generaties
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
               De Pokemon die wij verkopen
             </h2>
             <p className="text-slate-400 text-sm mt-3 max-w-lg mx-auto">
@@ -330,7 +330,7 @@ export default function NintendoPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-6"
+            className="text-2xl sm:text-4xl font-bold text-white tracking-tight mb-6"
           >
             Ontdek onze{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
@@ -360,7 +360,7 @@ export default function NintendoPage() {
               <motion.span
                 whileHover={{ scale: 1.03, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-shadow"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition-all"
               >
                 Bekijk alle Pokemon games
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

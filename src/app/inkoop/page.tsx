@@ -270,7 +270,7 @@ export default function InkoopPage() {
             Snel &amp; eerlijk
           </motion.div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white tracking-tight leading-[1.05] mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white tracking-tight leading-[1.05] mb-8">
             <span className="block">
               <CharReveal text="Nintendo games" delay={0.3} stagger={0.025} />
             </span>
@@ -297,7 +297,7 @@ export default function InkoopPage() {
             <Magnetic strength={0.25}>
               <button
                 onClick={scrollToForm}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-base shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold text-base shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Start je aanvraag
                 <motion.svg
@@ -326,7 +326,7 @@ export default function InkoopPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/90 backdrop-blur-xl rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8"
+          className="bg-white/90 backdrop-blur-xl rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -343,7 +343,7 @@ export default function InkoopPage() {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-3xl lg:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
+                <div className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm font-semibold text-slate-800 mb-0.5">{stat.label}</div>
@@ -377,7 +377,7 @@ export default function InkoopPage() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="h-px w-12 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-6 origin-center"
             />
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4">
               <WordReveal text="Zo werkt het" />
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -411,8 +411,8 @@ export default function InkoopPage() {
                     whileHover={{ y: -10, scale: 1.05 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                   >
-                    <div className={`h-32 w-32 mx-auto rounded-3xl bg-gradient-to-br ${step.gradient} p-[2px] shadow-lg group-hover:shadow-2xl transition-shadow duration-500`}>
-                      <div className="h-full w-full rounded-3xl bg-white flex flex-col items-center justify-center gap-3">
+                    <div className={`h-32 w-32 mx-auto rounded-2xl bg-gradient-to-br ${step.gradient} p-[2px] shadow-lg group-hover:shadow-2xl transition-shadow duration-500`}>
+                      <div className="h-full w-full rounded-2xl bg-white flex flex-col items-center justify-center gap-3">
                         <svg className="h-8 w-8 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                         </svg>
@@ -449,7 +449,7 @@ export default function InkoopPage() {
               transition={{ duration: 0.8 }}
               className="h-px w-12 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-6 origin-center"
             />
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4">
               <WordReveal text="Wat wil je verkopen?" />
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -473,7 +473,7 @@ export default function InkoopPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    className="bg-white rounded-3xl border border-emerald-100 p-10 text-center shadow-lg"
+                    className="bg-white rounded-2xl border border-emerald-100 p-10 text-center shadow-lg"
                   >
                     <motion.div
                       initial={{ scale: 0, rotate: -180 }}
@@ -485,7 +485,7 @@ export default function InkoopPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </motion.div>
-                    <h2 className="text-2xl font-extrabold text-slate-900 mb-3">Je e-mail app is geopend!</h2>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-3">Je e-mail app is geopend!</h2>
                     <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto leading-relaxed">
                       Vergeet niet je foto&apos;s als bijlage toe te voegen. We reageren binnen 24 uur met een eerlijk bod.
                     </p>
@@ -501,7 +501,7 @@ export default function InkoopPage() {
                     key="form"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="bg-white rounded-3xl border border-slate-100 p-8 lg:p-10 shadow-lg shadow-slate-100/50"
+                    className="bg-white rounded-2xl border border-slate-100 p-8 lg:p-10 shadow-lg shadow-slate-100/50"
                   >
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid sm:grid-cols-2 gap-4">
@@ -513,7 +513,7 @@ export default function InkoopPage() {
                             required
                             value={form.naam}
                             onChange={(e) => updateField('naam', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
                             placeholder="Je naam"
                           />
                         </div>
@@ -525,7 +525,7 @@ export default function InkoopPage() {
                             required
                             value={form.email}
                             onChange={(e) => updateField('email', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
                             placeholder="je@email.nl"
                           />
                         </div>
@@ -541,7 +541,7 @@ export default function InkoopPage() {
                             type="tel"
                             value={form.telefoon}
                             onChange={(e) => updateField('telefoon', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white"
                             placeholder="06-12345678"
                           />
                         </div>
@@ -553,7 +553,7 @@ export default function InkoopPage() {
                             id="inkoop-platform"
                             value={form.platform}
                             onChange={(e) => updateField('platform', e.target.value)}
-                            className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white appearance-none bg-no-repeat bg-[right_14px_center] bg-[length:16px_16px] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke-width%3D%222%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M19.5%208.25l-7.5%207.5-7.5-7.5%22%2F%3E%3C%2Fsvg%3E')]"
+                            className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm hover:border-slate-300 bg-slate-50/50 focus:bg-white appearance-none bg-no-repeat bg-[right_14px_center] bg-[length:16px_16px] bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20stroke-width%3D%222%22%20stroke%3D%22%2394a3b8%22%3E%3Cpath%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20d%3D%22M19.5%208.25l-7.5%207.5-7.5-7.5%22%2F%3E%3C%2Fsvg%3E')]"
                           >
                             <option value="">Kies platform...</option>
                             <option value="Nintendo Switch">Nintendo Switch</option>
@@ -584,7 +584,7 @@ export default function InkoopPage() {
                           value={form.beschrijving}
                           onChange={(e) => updateField('beschrijving', e.target.value)}
                           rows={5}
-                          className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 bg-slate-50/50 focus:bg-white"
+                          className="w-full px-4 py-3.5 rounded-2xl border border-slate-200 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/20 outline-none transition-all text-sm resize-none hover:border-slate-300 bg-slate-50/50 focus:bg-white"
                           placeholder="Beschrijf wat je wilt verkopen (bijv. Pokémon games, SNES cartridges, Game Boy, lege doosjes, consoles). Vermeld de staat en of je de originele doos nog hebt."
                         />
                       </div>
@@ -609,7 +609,7 @@ export default function InkoopPage() {
                           type="submit"
                           whileHover={{ scale: 1.01, y: -2 }}
                           whileTap={{ scale: 0.98 }}
-                          className="w-full px-6 py-4.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-base shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-shadow flex items-center justify-center gap-2.5"
+                          className="w-full px-6 py-4.5 rounded-2xl bg-slate-900 text-white font-semibold text-base shadow-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2.5"
                         >
                           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
@@ -644,8 +644,8 @@ export default function InkoopPage() {
               className="lg:col-span-2 space-y-5"
             >
               {/* Why sell to us */}
-              <div className="bg-white rounded-3xl border border-slate-100 p-7 shadow-sm">
-                <h3 className="font-extrabold text-slate-900 text-lg mb-5">Waarom bij ons verkopen?</h3>
+              <div className="bg-white rounded-2xl border border-slate-100 p-7 shadow-sm">
+                <h3 className="font-bold text-slate-900 text-lg mb-5">Waarom bij ons verkopen?</h3>
                 <div className="space-y-5">
                   {[
                     { title: 'Eerlijk bod', desc: 'Wij doen je altijd een eerlijk bod op basis van marktwaarde', gradient: 'from-emerald-500 to-teal-500', icon: 'M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z' },
@@ -688,7 +688,7 @@ export default function InkoopPage() {
                     {'★★★★★'.split('').map((s, i) => <span key={i}>{s}</span>)}
                   </div>
                   <div>
-                    <span className="text-lg font-extrabold text-slate-900">5.0</span>
+                    <span className="text-lg font-bold text-slate-900">5.0</span>
                     <span className="text-sm text-slate-500 ml-1.5">op Marktplaats</span>
                     <span className="block text-xs text-slate-400">1360+ reviews</span>
                   </div>
@@ -701,7 +701,7 @@ export default function InkoopPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
-                className="relative bg-[#050810] rounded-3xl p-7 border border-white/[0.06] overflow-hidden"
+                className="relative bg-[#050810] rounded-2xl p-7 border border-white/[0.06] overflow-hidden"
               >
                 <NoiseOverlay opacity={0.04} />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.1),transparent_60%)]" />
@@ -738,7 +738,7 @@ export default function InkoopPage() {
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [8, 14, 8] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[20%] right-[15%] w-24 h-24 rounded-3xl bg-white/[0.02] border border-white/[0.04] rotate-12"
+          className="absolute top-[20%] right-[15%] w-24 h-24 rounded-2xl bg-white/[0.02] border border-white/[0.04] rotate-12"
         />
         <motion.div
           animate={{ y: [0, 12, 0] }}
@@ -753,7 +753,7 @@ export default function InkoopPage() {
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+            <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
               Of liever{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
                 kopen
@@ -766,7 +766,7 @@ export default function InkoopPage() {
             <Magnetic strength={0.25}>
               <a
                 href="/shop"
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-base shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-900 text-white font-semibold text-base shadow-lg hover:bg-slate-800 hover:-translate-y-0.5 transition-all duration-300"
               >
                 Bekijk alle producten
                 <motion.svg

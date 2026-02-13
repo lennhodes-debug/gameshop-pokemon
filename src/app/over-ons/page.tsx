@@ -205,7 +205,7 @@ function StackingCard({ item, index, count, progress }: {
     <div className="h-[30vh] lg:h-[35vh] sticky" style={{ top: `${100 + index * 25}px` }}>
       <motion.div
         style={{ scale, transformOrigin: 'top center' }}
-        className={`relative h-full bg-gradient-to-br ${item.color} rounded-3xl p-6 sm:p-8 lg:p-12 text-white shadow-2xl overflow-hidden`}
+        className={`relative h-full bg-gradient-to-br ${item.color} rounded-2xl p-6 sm:p-8 lg:p-12 text-white shadow-2xl overflow-hidden`}
       >
         <div className="absolute top-2 right-4 lg:right-8 text-[80px] lg:text-[140px] font-black text-white/[0.07] leading-none select-none pointer-events-none">
           {item.year}
@@ -214,7 +214,7 @@ function StackingCard({ item, index, count, progress }: {
           <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold uppercase tracking-widest w-fit mb-3">
             {item.year}
           </span>
-          <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold mb-2 leading-tight">{item.title}</h3>
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 leading-tight">{item.title}</h3>
           <p className="text-white/80 text-sm lg:text-base leading-relaxed max-w-lg">{item.description}</p>
         </div>
       </motion.div>
@@ -241,7 +241,7 @@ function StackingTimeline() {
           className="text-center mb-16"
         >
           <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
+          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-3">
             Mijn reis
           </h2>
           <p className="text-slate-400 max-w-md mx-auto">
@@ -348,7 +348,7 @@ export default function OverOnsPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl lg:text-8xl font-extrabold text-white tracking-tight leading-[1.05] mb-8"
+            className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white tracking-tight leading-[1.05] mb-8"
           >
             Van hobby
             <br />
@@ -397,7 +397,7 @@ export default function OverOnsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/90 backdrop-blur-xl rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8 lg:p-10"
+          className="bg-white/90 backdrop-blur-xl rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8 lg:p-10"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
@@ -414,7 +414,7 @@ export default function OverOnsPage() {
                 transition={{ delay: i * 0.08, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl lg:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
+                <div className="text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 tabular-nums mb-1">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm font-semibold text-slate-800 mb-0.5">{stat.label}</div>
@@ -437,7 +437,7 @@ export default function OverOnsPage() {
           transition={{ duration: 0.6 }}
         >
           <div className="h-px w-16 bg-gradient-to-r from-emerald-500 to-teal-500 mb-8" />
-          <h2 className="text-4xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-12 leading-[1.1]">
+          <h2 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight mb-12 leading-[1.1]">
             Hoi, ik ben{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">Lenn</span>.
           </h2>
@@ -492,7 +492,7 @@ export default function OverOnsPage() {
             className="text-center mb-20"
           >
             <div className="h-px w-12 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-4">
               Van inkoop tot levering
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -520,8 +520,8 @@ export default function OverOnsPage() {
                   transition={{ delay: 0.15 + i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   className="text-center"
                 >
-                  <div className={`h-28 w-28 mx-auto rounded-3xl bg-gradient-to-br ${step.gradient} p-[2px] shadow-lg`}>
-                    <div className="h-full w-full rounded-3xl bg-white flex flex-col items-center justify-center gap-2">
+                  <div className={`h-28 w-28 mx-auto rounded-2xl bg-gradient-to-br ${step.gradient} p-[2px] shadow-lg`}>
+                    <div className="h-full w-full rounded-2xl bg-white flex flex-col items-center justify-center gap-2">
                       <svg className="h-7 w-7 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                       </svg>
@@ -550,7 +550,7 @@ export default function OverOnsPage() {
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-4">
               Waarom Gameshop Enter
             </h2>
             <p className="text-slate-400 max-w-md mx-auto">
@@ -596,7 +596,7 @@ export default function OverOnsPage() {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <div className="h-px w-12 bg-gradient-to-r from-amber-400 to-orange-400 mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-3">
+            <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 tracking-tight mb-3">
               Wat klanten zeggen
             </h2>
             <p className="text-slate-500 max-w-md mx-auto">
@@ -728,7 +728,7 @@ export default function OverOnsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+            <h2 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
               Klaar om te{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
                 shoppen
