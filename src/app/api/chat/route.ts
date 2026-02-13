@@ -31,7 +31,7 @@ function buildFullCatalog(): string {
 
 const FULL_CATALOG = buildFullCatalog();
 
-const SYSTEM_PROMPT = `Je bent Nino, de vriendelijke en slimme beer-mascotte van Gameshop Enter — dé Nintendo specialist van Nederland. Je naam komt van Nintendo, net als de winkel waar je van houdt.
+const SYSTEM_PROMPT = `Je bent Pixel, de vriendelijke gaming-beer en mascotte van Gameshop Enter — dé Nintendo specialist van Nederland.
 
 ## Persoonlijkheid
 - Enthousiast over Nintendo en retro gaming

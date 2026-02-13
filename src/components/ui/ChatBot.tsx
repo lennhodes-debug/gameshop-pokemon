@@ -80,7 +80,7 @@ function fallbackResponse(input: string): { text: string; products?: typeof prod
   // Begroetingen
   if (/^(hoi|hi|hey|hallo|hello|goedemorgen|goedemiddag|goedenavond|yo|dag|moin|heey|hee|wazzup|sup)\b/.test(q))
     return {
-      text: 'Hoi! Ik ben Nino, de beer-mascotte van Gameshop Enter! Ik help je graag met al je vragen over onze Nintendo games, verzending, retour en meer. Wat kan ik voor je doen?',
+      text: 'Hoi! Ik ben Pixel, de gaming-beer van Gameshop Enter! Ik help je graag met al je vragen over onze Nintendo games, verzending, retour en meer. Wat kan ik voor je doen?',
       quickReplies: ['Welke games hebben jullie?', 'Wat zijn de verzendkosten?', 'Vertel over jullie winkel'],
     };
 
@@ -303,8 +303,8 @@ function fallbackResponse(input: string): { text: string; products?: typeof prod
     return { text: '100% betrouwbaar:\n\n- 5.0 uit 1.360+ reviews\n- 3.000+ tevreden klanten\n- Veilige betaling\n- 14 dagen retourrecht\n- KvK geregistreerd', links: [{ label: 'Over ons', href: '/over-ons' }] };
 
   // Wie is Beertje
-  if (/wie ben (je|jij)|nino|beertje|mascotte|bot|robot|ai/.test(q))
-    return { text: 'Ik ben Nino, de beer-mascotte van Gameshop Enter! Mijn naam komt van Nintendo — net als alles in onze winkel. Ik ken ons hele assortiment en help je graag!' };
+  if (/wie ben (je|jij)|pixel|nino|beertje|mascotte|bot|robot|ai/.test(q))
+    return { text: 'Ik ben Pixel, de gaming-beer van Gameshop Enter! Mijn naam komt van Nintendo — net als alles in onze winkel. Ik ken ons hele assortiment en help je graag!' };
 
   // Easter eggs
   if (/grap|mop|grappig/.test(q))
@@ -468,7 +468,7 @@ export default function ChatBot() {
       setHasOpened(true);
       setMessages([{
         id: 'welcome', role: 'bot',
-        text: 'Hoi! Ik ben Nino, de beer-assistent van Gameshop Enter! Stel me gerust een vraag over onze Nintendo games, verzending, retour, inkoop en meer!',
+        text: 'Hoi! Ik ben Pixel, de gaming-beer van Gameshop Enter! Stel me gerust een vraag over onze Nintendo games, verzending, retour, inkoop en meer!',
         quickReplies: INITIAL_QUICK_REPLIES,
       }]);
     }
@@ -586,7 +586,7 @@ export default function ChatBot() {
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           ) : (
-            <Image src="/images/mascot.svg" alt="Chat met Nino" width={48} height={48} className="rounded-full" />
+            <Image src="/images/mascot.svg" alt="Chat met Pixel" width={48} height={48} className="rounded-full" />
           )}
           {!open && !hasOpened && (
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse border-2 border-white" />
@@ -607,10 +607,10 @@ export default function ChatBot() {
         {/* Header */}
         <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3 flex items-center gap-3 flex-shrink-0">
           <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center overflow-hidden flex-shrink-0">
-            <Image src="/images/mascot.svg" alt="Nino" width={36} height={36} />
+            <Image src="/images/mascot.svg" alt="Pixel" width={36} height={36} />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white font-bold text-sm">Nino</p>
+            <p className="text-white font-bold text-sm">Pixel</p>
             <p className="text-emerald-100 text-xs flex items-center gap-1.5">
               {typing ? (
                 <><span className="w-1.5 h-1.5 rounded-full bg-amber-300 inline-block animate-pulse" /> {thinkingPhrase}</>
