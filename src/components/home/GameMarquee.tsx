@@ -167,17 +167,14 @@ export default function GameMarquee() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Collectie
-            </span>
+            <p className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em] mb-5">
+              Assortiment
+            </p>
             <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
               Al onze{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
-                games
-              </span>
+              <span className="gradient-text">games</span>
             </h2>
-            <p className="text-sm lg:text-base text-slate-400 max-w-md mx-auto">
+            <p className="text-xs text-slate-600 max-w-sm mx-auto">
               Scroll sneller om de collectie te versnellen
             </p>
           </motion.div>

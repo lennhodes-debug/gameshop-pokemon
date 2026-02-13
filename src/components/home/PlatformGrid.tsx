@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { useMemo, useRef, useState, useEffect } from 'react';
 import { getAllPlatforms, getAllProducts } from '@/lib/products';
 import { PLATFORM_LABELS } from '@/lib/utils';
 
@@ -16,15 +16,44 @@ const PLATFORM_IMAGES: Record<string, string> = {
   'Wii U': '/images/nintendo/wiiu-console.svg',
 };
 
-// Levendige hex kleuren per platform
-const PLATFORM_HEX: Record<string, { primary: string; secondary: string; glow: string }> = {
-  'Nintendo DS':      { primary: '#6366f1', secondary: '#818cf8', glow: '99,102,241' },
-  'Nintendo 3DS':     { primary: '#0ea5e9', secondary: '#38bdf8', glow: '14,165,233' },
-  'Game Boy Advance': { primary: '#3b82f6', secondary: '#60a5fa', glow: '59,130,246' },
-  'Game Boy / Color': { primary: '#22c55e', secondary: '#4ade80', glow: '34,197,94' },
-  'Wii':              { primary: '#06b6d4', secondary: '#22d3ee', glow: '6,182,212' },
-  'Wii U':            { primary: '#2563eb', secondary: '#3b82f6', glow: '37,99,235' },
+const PLATFORM_ACCENT: Record<string, { color: string; glow: string }> = {
+  'Nintendo DS':      { color: '#818cf8', glow: '129,140,248' },
+  'Nintendo 3DS':     { color: '#38bdf8', glow: '56,189,248' },
+  'Game Boy Advance': { color: '#60a5fa', glow: '96,165,250' },
+  'Game Boy / Color': { color: '#4ade80', glow: '74,222,128' },
+  'Wii':              { color: '#22d3ee', glow: '34,211,238' },
+  'Wii U':            { color: '#3b82f6', glow: '59,130,246' },
 };
+
+function AnimatedCount({ value }: { value: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started) {
+        setStarted(true);
+        const start = performance.now();
+        const duration = 900;
+        const animate = (now: number) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setCount(Math.floor(value * eased));
+          if (p < 1) requestAnimationFrame(animate);
+          else setCount(value);
+        };
+        requestAnimationFrame(animate);
+      }
+    }, { threshold: 0.3 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value, started]);
+
+  return <span ref={ref} className="tabular-nums">{count}</span>;
+}
 
 function PlatformCard({ platform, index, coverImages }: {
   platform: { name: string; count: number };
@@ -32,107 +61,102 @@ function PlatformCard({ platform, index, coverImages }: {
   coverImages: string[];
 }) {
   const label = PLATFORM_LABELS[platform.name] || platform.name;
-  const hex = PLATFORM_HEX[platform.name] || { primary: '#10b981', secondary: '#34d399', glow: '16,185,129' };
+  const accent = PLATFORM_ACCENT[platform.name] || { color: '#34d399', glow: '52,211,153' };
   const consoleImage = PLATFORM_IMAGES[platform.name];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
     >
-      <Link href={`/shop?platform=${encodeURIComponent(platform.name)}`} aria-label={`Shop ${platform.name} — ${platform.count} producten`}>
+      <Link href={`/shop?platform=${encodeURIComponent(platform.name)}`} aria-label={`Shop ${platform.name}`}>
         <div
-          className="group relative overflow-hidden rounded-3xl h-72 lg:h-80 flex flex-col justify-end p-6 cursor-pointer transition-all duration-500"
+          className="group relative overflow-hidden rounded-2xl h-56 lg:h-64 flex flex-col justify-end p-5 lg:p-6 cursor-pointer transition-all duration-500 border border-white/[0.06] hover:border-white/[0.12]"
           style={{
-            background: `linear-gradient(160deg, ${hex.primary}, ${hex.secondary}20 60%, ${hex.primary}dd)`,
+            background: 'linear-gradient(150deg, rgba(15,23,42,0.95), rgba(5,8,16,0.98))',
           }}
         >
-          {/* Gradient overlay voor leesbaarheid */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-
-          {/* Subtiel raster patroon */}
+          {/* Top accent lijn */}
           <div
-            className="absolute inset-0 opacity-[0.06]"
+            className="absolute top-0 left-0 right-0 h-px opacity-40 group-hover:opacity-80 transition-opacity duration-500"
             style={{
-              backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)`,
-              backgroundSize: '20px 20px',
+              background: `linear-gradient(90deg, transparent 10%, ${accent.color}, transparent 90%)`,
             }}
           />
 
-          {/* Game covers achtergrond — kleurrijke collage */}
-          <div className="absolute top-3 right-3 flex gap-1.5 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+          {/* Hover glow */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+            style={{
+              background: `radial-gradient(ellipse at 30% 90%, rgba(${accent.glow},0.08), transparent 60%)`,
+            }}
+          />
+
+          {/* Console watermark */}
+          {consoleImage && (
+            <div className="absolute top-1/2 right-4 lg:right-6 -translate-y-1/2 opacity-[0.05] group-hover:opacity-[0.09] transition-opacity duration-700 pointer-events-none">
+              <Image
+                src={consoleImage}
+                alt=""
+                width={180}
+                height={120}
+                className="w-28 lg:w-36 h-auto object-contain"
+                loading="lazy"
+              />
+            </div>
+          )}
+
+          {/* Game covers — gestackt */}
+          <div className="absolute top-3 right-3 lg:top-4 lg:right-4 flex -space-x-2.5 opacity-25 group-hover:opacity-45 transition-opacity duration-500">
             {coverImages.slice(0, 3).map((img, i) => (
               <div
                 key={i}
-                className="w-14 h-14 lg:w-16 lg:h-16 rounded-xl overflow-hidden border-2 border-white/20 shadow-lg transition-transform duration-500"
-                style={{
-                  transform: `rotate(${-6 + i * 6}deg) translateY(${i * 4}px)`,
-                }}
+                className="w-9 h-9 lg:w-11 lg:h-11 rounded-lg overflow-hidden border border-white/10"
+                style={{ zIndex: 3 - i }}
               >
                 <Image
                   src={img}
                   alt=""
-                  width={64}
-                  height={64}
-                  className="object-contain w-full h-full p-0.5 group-hover:scale-110 transition-transform duration-500"
+                  width={44}
+                  height={44}
+                  className="object-contain w-full h-full p-0.5"
                   loading="lazy"
                 />
               </div>
             ))}
           </div>
 
-          {/* Console afbeelding */}
-          {consoleImage && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-15 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none">
-              <Image
-                src={consoleImage}
-                alt=""
-                width={300}
-                height={200}
-                className="w-48 h-auto object-contain group-hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
-            </div>
-          )}
-
-          {/* Hover glow */}
-          <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-            style={{
-              background: `radial-gradient(circle at 50% 80%, rgba(${hex.glow},0.25), transparent 60%)`,
-            }}
-          />
-
           {/* Content */}
           <div className="relative z-10">
-            <div
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider mb-3 backdrop-blur-sm"
-              style={{
-                background: `rgba(255,255,255,0.15)`,
-                color: 'white',
-              }}
-            >
+            <div className="flex items-center gap-2 mb-2.5">
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ background: hex.secondary }}
+                style={{ background: accent.color }}
               />
-              {platform.count} games
+              <span
+                className="text-[11px] font-bold uppercase tracking-wider"
+                style={{ color: accent.color }}
+              >
+                <AnimatedCount value={platform.count} /> games
+              </span>
             </div>
-            <h3 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight mb-1 drop-shadow-lg">
+
+            <h3 className="text-xl lg:text-2xl font-bold text-white tracking-tight mb-1">
               {label}
             </h3>
-            <p className="text-white/60 text-sm font-medium">
-              {platform.name}
-            </p>
 
-            {/* Arrow indicator */}
-            <div className="mt-3 flex items-center gap-1.5 text-white/50 group-hover:text-white group-hover:gap-2.5 transition-all duration-300">
-              <span className="text-xs font-semibold">Bekijk collectie</span>
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
+            <div className="flex items-center justify-between">
+              <p className="text-white/25 text-xs font-medium">
+                {platform.name}
+              </p>
+              <div className="flex items-center gap-1 text-white/20 group-hover:text-white/50 group-hover:gap-2 transition-all duration-300">
+                <span className="text-[11px] font-semibold">Ontdek</span>
+                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -145,7 +169,6 @@ export default function PlatformGrid() {
   const platforms = useMemo(() => getAllPlatforms(), []);
   const allProducts = useMemo(() => getAllProducts(), []);
 
-  // Per platform: pak 3 willekeurige game covers
   const platformCovers = useMemo(() => {
     const map: Record<string, string[]> = {};
     for (const p of platforms) {
@@ -159,35 +182,31 @@ export default function PlatformGrid() {
   }, [platforms, allProducts]);
 
   return (
-    <section className="relative bg-[#f8fafc] py-20 lg:py-28 overflow-hidden">
+    <section className="relative bg-[#070c18] py-20 lg:py-28 overflow-hidden">
+      {/* Subtiele top glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.04),transparent_50%)]" />
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-14 lg:mb-18"
+          className="text-center mb-14"
         >
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-wider mb-4">
-            <span className="flex gap-0.5">
-              {['#ef4444', '#f59e0b', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899'].map((c, i) => (
-                <span key={i} className="h-1.5 w-1.5 rounded-full" style={{ background: c }} />
-              ))}
-            </span>
+          <p className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em] mb-5">
             {platforms.length} Platforms
-          </span>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
+          </p>
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
             Shop per{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-              platform
-            </span>
+            <span className="gradient-text">platform</span>
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-            Van klassieke Game Boy tot Wii U — ontdek jouw favoriete Nintendo console
+          <p className="text-slate-500 max-w-md mx-auto text-sm">
+            Van klassieke Game Boy tot Wii U — ontdek jouw favoriete console
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {platforms.map((platform, index) => (
             <PlatformCard
               key={platform.name}

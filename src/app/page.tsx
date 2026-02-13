@@ -5,8 +5,8 @@ import FeaturedProducts from '@/components/home/FeaturedProducts';
 
 const ParallaxSection = dynamic(() => import('@/components/home/ParallaxSection'));
 const GameCarousel3D = dynamic(() => import('@/components/home/GameCarousel3D'));
-const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
+const GameMarquee = dynamic(() => import('@/components/home/GameMarquee'));
 const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
 const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
 const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
@@ -17,19 +17,17 @@ export default function HomePage() {
     <>
       <Hero />
       <TrustStrip />
-      <ParallaxSection speed={0.2}>
+      <ParallaxSection speed={0.15}>
         <FeaturedProducts />
       </ParallaxSection>
       <GameCarousel3D />
-      <ParallaxSection speed={0.25}>
-        <PlatformGrid />
-      </ParallaxSection>
+      <PlatformGrid />
       <GameMarquee />
-      <ParallaxSection speed={0.2}>
+      <ParallaxSection speed={0.15}>
         <AboutPreview />
       </ParallaxSection>
       <ReviewsStrip />
-      <ParallaxSection speed={0.15}>
+      <ParallaxSection speed={0.1}>
         <FaqPreview />
       </ParallaxSection>
       <NewsletterCTA />

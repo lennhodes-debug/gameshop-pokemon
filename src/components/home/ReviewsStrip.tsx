@@ -22,39 +22,30 @@ const starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95
 
 function ReviewCard({ review }: { review: typeof reviews[0] }) {
   return (
-    <div className="flex-shrink-0 w-[320px]">
-      <blockquote className="relative rounded-2xl bg-white/[0.04] border border-white/[0.08] p-5 h-full hover:border-emerald-500/20 hover:bg-white/[0.06] transition-all duration-300 overflow-hidden">
-        {/* Top accent lijn */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
-
-        {/* Quote mark */}
-        <div className="absolute top-3 right-4 text-4xl text-white/[0.06] font-serif select-none" aria-hidden="true">
-          &ldquo;
-        </div>
-
+    <div className="flex-shrink-0 w-[300px]">
+      <blockquote className="relative rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 h-full transition-colors duration-300 overflow-hidden">
         <div className="flex gap-0.5 mb-3">
           {[...Array(5)].map((_, i) => (
-            <svg key={i} className="h-3.5 w-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg key={i} className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
               <path d={starPath} />
             </svg>
           ))}
         </div>
 
-        <p className="text-white/70 text-sm leading-relaxed line-clamp-3 mb-4">
+        <p className="text-white/60 text-[13px] leading-relaxed line-clamp-3 mb-4">
           &ldquo;{review.text}&rdquo;
         </p>
 
-        <footer>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-[11px] font-bold shrink-0">
-                {review.name[0]}
-              </div>
-              <cite className="text-white/50 text-xs font-medium not-italic">{review.name}</cite>
+        <footer className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-6 rounded-full bg-white/[0.08] flex items-center justify-center text-white/60 text-[10px] font-bold shrink-0">
+              {review.name[0]}
             </div>
-            <span className="text-emerald-400/40 text-xs font-medium">{review.product}</span>
+            <div>
+              <cite className="text-white/40 text-[11px] font-medium not-italic block">{review.name}</cite>
+              <span className="text-white/20 text-[10px]">{review.product}</span>
+            </div>
           </div>
-          <time className="block text-white/25 text-[11px] mt-1.5">{review.date}</time>
         </footer>
       </blockquote>
     </div>
@@ -82,26 +73,24 @@ export default function ReviewsStrip() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="inline-flex items-center gap-3 mb-4">
+          <div className="inline-flex items-center gap-2.5 mb-5">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <svg key={i} className="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <svg key={i} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                   <path d={starPath} />
                 </svg>
               ))}
             </div>
-            <span className="text-white font-bold text-lg">5.0</span>
-            <span className="text-slate-400 text-sm">op Marktplaats</span>
+            <span className="text-white/60 text-sm font-medium">5.0 op Marktplaats</span>
           </div>
           <h2 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-2">
             1.360+ tevreden klanten
           </h2>
-          <p className="text-slate-400">Lees wat onze klanten zeggen</p>
+          <p className="text-slate-500 text-sm">Wat onze klanten zeggen</p>
         </motion.div>
       </div>
 
-      {/* Separator */}
-      <div className="max-w-xs mx-auto h-[1px] bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent mb-10" />
+      <div className="mb-10" />
 
       {/* Fade edges */}
       <div className="absolute top-0 bottom-0 left-0 w-32 lg:w-48 bg-gradient-to-r from-[#050810] via-[#050810]/80 to-transparent z-10 pointer-events-none" />

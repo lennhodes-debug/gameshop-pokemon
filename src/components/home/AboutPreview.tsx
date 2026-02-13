@@ -92,16 +92,14 @@ export default function AboutPreview() {
               Al sinds 2018 de{' '}
               <span className="gradient-text">Nintendo specialist</span>
             </h2>
-            <p className="text-lg text-slate-400 leading-relaxed mb-6">
+            <p className="text-base text-slate-400 leading-relaxed mb-6">
               Wat begon met het verkopen van games op Marktplaats groeide uit
               tot Gameshop Enter: d&eacute; Nintendo specialist van Nederland. Alle
               games zijn 100% origineel en persoonlijk getest.
             </p>
-            <p className="text-slate-400 leading-relaxed mb-8">
-              Met meer dan 3.000 tevreden klanten, 1.360+ reviews en een perfecte 5.0 score op
+            <p className="text-sm text-slate-500 leading-relaxed mb-8">
+              Met meer dan 3.000 tevreden klanten en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
-              Van klassieke Game Boy en DS titels tot 3DS releases
-              — bij ons vind je het allemaal.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link

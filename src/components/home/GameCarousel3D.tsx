@@ -159,17 +159,17 @@ export default function GameCarousel3D() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-emerald-400/80 text-xs font-semibold uppercase tracking-[0.25em] mb-5">
+          <p className="text-emerald-400/60 text-xs font-semibold uppercase tracking-[0.25em] mb-5">
             Collectie
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
             Ontdek onze{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
+            <span className="gradient-text">
               games
             </span>
           </h2>
-          <p className="text-slate-500 mt-4 max-w-sm mx-auto text-sm">
-            Klik, sleep of gebruik pijltjestoetsen om te navigeren
+          <p className="text-slate-600 mt-4 max-w-sm mx-auto text-xs">
+            Sleep of gebruik pijltjestoetsen
           </p>
         </motion.div>
       </div>

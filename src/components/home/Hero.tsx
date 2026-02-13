@@ -81,11 +81,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8"
+          className="mb-10"
         >
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.06] border border-white/[0.08] backdrop-blur-sm">
-            <span className="text-white/60 text-xs font-medium">Nintendo specialist</span>
-            <span className="text-white/20">|</span>
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06]">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <svg
@@ -98,8 +96,7 @@ export default function Hero() {
                 </svg>
               ))}
             </div>
-            <span className="text-emerald-400 text-xs font-bold">5.0</span>
-            <span className="text-white/30 text-xs">1360+ reviews</span>
+            <span className="text-white/40 text-xs font-medium">5.0 uit 1.360+ reviews</span>
           </div>
         </motion.div>
 
@@ -122,11 +119,11 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-lg sm:text-xl text-white/50 leading-relaxed mb-12 max-w-xl mx-auto"
+          className="text-base sm:text-lg text-white/40 leading-relaxed mb-14 max-w-lg mx-auto font-light"
         >
-          De Nintendo specialist van Nederland — retro & modern.
+          De Nintendo specialist van Nederland.
           <br className="hidden sm:block" />
-          Originele games, persoonlijk getest en met liefde verpakt.
+          Originele games, persoonlijk getest.
         </motion.p>
 
         {/* CTA knoppen */}
