@@ -295,7 +295,7 @@ function HoloCard({
         </div>
 
         {/* Card glow */}
-        <div className="absolute -inset-4 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10 blur-xl bg-gradient-to-b from-emerald-500/10 to-cyan-500/10" />
+        <div className="absolute -inset-4 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10 blur-xl bg-gradient-to-b from-emerald-500/10 to-cyan-500/10" />
       </motion.div>
     </motion.div>
   );
@@ -781,14 +781,35 @@ export default function GameFinderPage() {
     setExitingSide(null);
   }, []);
 
-  // Floating intro images
-  const introImages = useMemo(
-    () =>
-      allProducts
-        .filter((p) => p.image && !p.isConsole)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 12),
-    [allProducts],
+  // Gaming SVG icons for intro decoration
+  const gamingIcons = useMemo(
+    () => [
+      // Game Boy silhouette
+      <svg key="gb" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="4" width="28" height="40" rx="4" /><rect x="14" y="8" width="20" height="14" rx="2" /><circle cx="20" cy="30" r="2.5" /><circle cx="28" cy="30" r="2.5" /><line x1="21" y1="36" x2="27" y2="36" /><line x1="21" y1="38" x2="27" y2="38" /></svg>,
+      // Game controller
+      <svg key="ctrl" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M8 20c0-4.4 3.6-8 8-8h16c4.4 0 8 3.6 8 8v4c0 6-4 12-8 12h-2l-2-4h-8l-2 4h-2c-4 0-8-6-8-12v-4z" /><line x1="16" y1="19" x2="16" y2="25" /><line x1="13" y1="22" x2="19" y2="22" /><circle cx="30" cy="20" r="1.5" /><circle cx="34" cy="24" r="1.5" /></svg>,
+      // Cartridge
+      <svg key="cart" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="6" width="28" height="36" rx="3" /><rect x="14" y="10" width="20" height="12" rx="2" /><rect x="16" y="34" width="4" height="6" rx="1" /><rect x="22" y="34" width="4" height="6" rx="1" /><rect x="28" y="34" width="4" height="6" rx="1" /></svg>,
+      // D-pad
+      <svg key="dpad" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 8h8v12h12v8H28v12h-8V28H8v-8h12V8z" rx="2" /></svg>,
+      // Star / power-up
+      <svg key="star" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M24 4l5.5 11.2 12.4 1.8-9 8.8 2.1 12.3L24 32.4 12.9 38l2.1-12.3-9-8.8 12.4-1.8z" /></svg>,
+      // Heart / life
+      <svg key="heart" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M24 42s-16-9.2-16-21c0-5.5 4.5-10 10-10 3.3 0 6 1.6 6 1.6s2.7-1.6 6-1.6c5.5 0 10 4.5 10 10 0 11.8-16 21-16 21z" /></svg>,
+      // Pokeball shape
+      <svg key="poke" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="24" r="18" /><line x1="6" y1="24" x2="42" y2="24" /><circle cx="24" cy="24" r="5" /><circle cx="24" cy="24" r="2" /></svg>,
+      // Handheld DS
+      <svg key="ds" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="2" width="28" height="20" rx="3" /><rect x="13" y="5" width="22" height="14" rx="2" /><rect x="10" y="26" width="28" height="20" rx="3" /><rect x="13" y="29" width="22" height="14" rx="2" /><line x1="10" y1="24" x2="38" y2="24" /></svg>,
+      // Trophy
+      <svg key="trophy" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M16 6h16v16c0 4.4-3.6 8-8 8s-8-3.6-8-8V6z" /><path d="M16 10h-4c-2.2 0-4 1.8-4 4v2c0 2.2 1.8 4 4 4h4" /><path d="M32 10h4c2.2 0 4 1.8 4 4v2c0 2.2-1.8 4-4 4h-4" /><line x1="24" y1="30" x2="24" y2="36" /><path d="M16 42h16v-2c0-2.2-1.8-4-4-4h-8c-2.2 0-4 1.8-4 4v2z" /></svg>,
+      // Lightning bolt
+      <svg key="bolt" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M28 4L12 28h12L20 44l16-24H24z" /></svg>,
+      // Pixel mushroom (1-up)
+      <svg key="mush" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M10 24c0-7.7 6.3-14 14-14s14 6.3 14 14H10z" /><rect x="18" y="24" width="12" height="14" rx="2" /><circle cx="18" cy="17" r="3" /><circle cx="30" cy="17" r="3" /><circle cx="24" cy="14" r="2" /></svg>,
+      // Shield / power
+      <svg key="shield" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round"><path d="M24 4L8 12v12c0 10 6.8 19.3 16 22 9.2-2.7 16-12 16-22V12L24 4z" /><path d="M20 22l4 4 8-8" /></svg>,
+    ],
+    [],
   );
 
   const progress = ((round + (exitingSide ? 1 : 0)) / TOTAL_ROUNDS) * 100;
@@ -819,41 +840,38 @@ export default function GameFinderPage() {
             <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#080c18] to-[#050810]" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
 
-            {/* Floating game covers in background */}
+            {/* Floating gaming icons in background */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {introImages.map((p, i) => {
-                const col = i % 4;
-                const row = Math.floor(i / 4);
+              {gamingIcons.map((icon, i) => {
+                const positions = [
+                  { left: '6%', top: '12%' }, { right: '8%', top: '8%' },
+                  { left: '3%', top: '50%' }, { right: '5%', top: '45%' },
+                  { left: '12%', bottom: '20%' }, { right: '12%', bottom: '15%' },
+                  { left: '25%', top: '6%' }, { right: '25%', top: '15%' },
+                  { left: '18%', bottom: '10%' }, { right: '20%', bottom: '25%' },
+                  { left: '35%', bottom: '5%' }, { right: '35%', top: '5%' },
+                ];
+                const pos = positions[i] || positions[0];
+                const sizes = [36, 28, 32, 24, 30, 26, 34, 28, 32, 24, 26, 30];
+                const size = sizes[i] || 28;
                 return (
                   <motion.div
-                    key={p.sku}
-                    className="absolute w-14 h-14 lg:w-20 lg:h-20"
-                    style={{
-                      left: `${10 + col * 25 + (Math.random() - 0.5) * 10}%`,
-                      top: `${10 + row * 30 + (Math.random() - 0.5) * 15}%`,
-                    }}
+                    key={i}
+                    className="absolute text-white/[0.04]"
+                    style={{ ...pos, width: size, height: size }}
                     animate={{
-                      y: [0, -20 + Math.random() * 10, 0],
-                      opacity: introStep >= 1 ? [0.04, 0.1, 0.04] : 0,
-                      rotate: [0, 2, -2, 0],
+                      y: [0, -12 - (i % 3) * 4, 0],
+                      opacity: introStep >= 1 ? [0.03, 0.08, 0.03] : 0,
+                      rotate: [0, 5 - i * 2, -(5 - i * 2), 0],
                     }}
                     transition={{
-                      duration: 8 + i * 1.5,
+                      duration: 10 + i * 2,
                       repeat: Infinity,
                       ease: 'easeInOut',
-                      delay: i * 0.3,
+                      delay: i * 0.5,
                     }}
                   >
-                    {p.image && (
-                      <Image
-                        src={p.image}
-                        alt=""
-                        fill
-                        sizes="80px"
-                        className="object-contain"
-                        aria-hidden
-                      />
-                    )}
+                    {icon}
                   </motion.div>
                 );
               })}
