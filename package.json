@@ -12,14 +12,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mollie/api-client": "^4.4.0",
+    "@netlify/blobs": "^10.6.0",
     "@studio-freight/lenis": "^1.0.42",
     "framer-motion": "^12.33.0",
     "next": "^15.5.12",
+    "nodemailer": "^8.0.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@types/node": "^25.2.1",
+    "@types/nodemailer": "^7.0.9",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.24",

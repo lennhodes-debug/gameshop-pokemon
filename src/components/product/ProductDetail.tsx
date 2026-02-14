@@ -1,13 +1,47 @@
 'use client';
 
+import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, AnimatePresence, useInView } from 'framer-motion';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product, getEffectivePrice } from '@/lib/products';
+import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { useToast } from '@/components/ui/Toast';
-import { useState, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
+import { useStock } from '@/hooks/useStock';
+
+const Product3DBox = lazy(() => import('./Product3DBox'));
+
+function AnimatedPrice({ price }: { price: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [displayPrice, setDisplayPrice] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let frameId: number;
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayPrice(eased * price);
+      if (progress < 1) frameId = requestAnimationFrame(tick);
+    }
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [isInView, price]);
+
+  return (
+    <span ref={ref} className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight tabular-nums">
+      {formatPrice(displayPrice)}
+    </span>
+  );
+}
 
 interface ProductDetailProps {
   product: Product;
@@ -15,13 +49,18 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItem } = useCart();
+  const { toggleItem, isInWishlist, getShareUrl } = useWishlist();
   const { addToast } = useToast();
+  const { stock, loading: stockLoading } = useStock(product.sku);
+  const inStock = stock > 0;
+  const wishlisted = isInWishlist(product.sku);
   const [added, setAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [viewMode, setViewMode] = useState<'flat' | '3d'>('flat');
   const [showBack, setShowBack] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
 
+  // Lightbox: escape toets + body scroll lock
   useEffect(() => {
     if (!lightboxOpen) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -34,18 +73,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       document.body.style.overflow = '';
     };
   }, [lightboxOpen]);
-
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
   const isCIB = product.completeness.toLowerCase().includes('compleet');
   const effectivePrice = getEffectivePrice(product);
   const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
+  const onSale = isOnSale(product);
 
-  const hasCibOption = !!product.cibPrice;
-  const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : effectivePrice;
-  const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
-  const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
-
+  // Track eerder bekeken producten
   useEffect(() => {
     try {
       const key = 'gameshop-recent';
@@ -55,11 +90,49 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     } catch { /* ignore */ }
   }, [product.sku]);
 
+  const imageRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [15, -15]), { stiffness: 250, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-15, 15]), { stiffness: 250, damping: 20 });
+  const [imageHovered, setImageHovered] = useState(false);
+  const [flyData, setFlyData] = useState<{ from: DOMRect; to: DOMRect; image: string } | null>(null);
+
+  // Spotlight effect
+  const spotlightX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const spotlightY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
+  const spotlightBg = useMotionTemplate`
+    radial-gradient(400px circle at ${spotlightX}% ${spotlightY}%,
+      rgba(16,185,129,0.18) 0%,
+      transparent 60%)
+  `;
+
+  const handleImageMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!imageRef.current) return;
+    const rect = imageRef.current.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  }, [mouseX, mouseY]);
+
+  const handleImageMouseLeave = useCallback(() => {
+    setImageHovered(false);
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  }, [mouseX, mouseY]);
+
   const handleAdd = () => {
-    addItem(product, selectedVariant === 'cib' ? 'cib' : undefined);
+    addItem(product);
     setAdded(true);
-    addToast(`${product.name}${selectedVariant === 'cib' ? ' (CIB)' : ''} toegevoegd aan winkelwagen`, 'success', undefined, displayImage || undefined);
+    addToast(`${product.name} toegevoegd aan winkelwagen`, 'success', undefined, product.image || undefined);
     setTimeout(() => setAdded(false), 2000);
+
+    const imgEl = imageRef.current?.querySelector('img');
+    const cartEl = document.querySelector('[aria-label="Winkelwagen"]');
+    if (imgEl && cartEl && product.image) {
+      const from = imgEl.getBoundingClientRect();
+      const to = cartEl.getBoundingClientRect();
+      setFlyData({ from, to, image: product.image });
+    }
   };
 
   const specs = [
@@ -75,7 +148,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   return (
     <div>
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8">
+      <motion.nav
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8"
+      >
         {[
           { href: '/', label: 'Home' },
           { href: '/shop', label: 'Shop' },
@@ -83,42 +161,113 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         ].map((crumb) => (
           <span key={crumb.href} className="contents">
             <Link href={crumb.href} className="hover:text-emerald-600 transition-colors">{crumb.label}</Link>
-            <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            <svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
           </span>
         ))}
-        <span className="text-slate-700 font-medium truncate max-w-[200px]">{product.name}</span>
-      </nav>
+        <span className="text-slate-700 dark:text-slate-200 font-medium truncate max-w-[200px]">{product.name}</span>
+      </motion.nav>
 
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-        {/* Afbeelding */}
-        <div className="relative group">
-          <div className={`aspect-square rounded-2xl ${displayImage ? 'bg-slate-50 border border-slate-200' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
-            {displayImage ? (
+        {/* Image section — flat view or 3D box */}
+        <div className="relative">
+          {/* View mode toggle */}
+          <div className="absolute top-3 right-3 z-30 flex gap-1.5">
+            <button
+              onClick={() => setViewMode('flat')}
+              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
+                viewMode === 'flat'
+                  ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
+                  : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+              }`}
+            >
+              2D
+            </button>
+            <button
+              onClick={() => setViewMode('3d')}
+              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
+                viewMode === '3d'
+                  ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
+                  : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+              }`}
+            >
+              3D
+            </button>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {viewMode === '3d' ? (
+              <motion.div
+                key="3d"
+                initial={{ opacity: 0, rotateY: -20 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 20 }}
+                transition={{ duration: 0.4 }}
+                className="min-h-[560px] rounded-3xl bg-[#0a0e1a] flex items-center justify-center overflow-hidden"
+              >
+                <Suspense fallback={<div className="animate-pulse text-slate-400">Laden...</div>}>
+                  <Product3DBox product={product} />
+                </Suspense>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="flat"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4 }}
+              >
+        <motion.div
+          ref={imageRef}
+          onMouseMove={handleImageMouseMove}
+          onMouseEnter={() => setImageHovered(true)}
+          onMouseLeave={handleImageMouseLeave}
+          style={{
+            rotateX: imageHovered ? rotateX : 0,
+            rotateY: imageHovered ? rotateY : 0,
+            transformStyle: 'preserve-3d',
+          }}
+          className="relative group perspective-1000"
+        >
+          <div className={`aspect-square rounded-3xl ${product.image ? 'bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50`}>
+            {product.image ? (
               <>
                 {!imageLoaded && (
-                  <div className="absolute inset-0 bg-slate-100 animate-pulse" />
+                  <div className="absolute inset-0 rounded-3xl bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-200/50 dark:via-slate-700/50 to-transparent animate-shimmer" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-slate-300 dark:text-slate-600 text-4xl font-black animate-pulse">{platformLabel}</span>
+                    </div>
+                  </div>
                 )}
-                <Image
-                  src={showBack && displayBackImage ? displayBackImage : displayImage}
-                  alt={`${product.name} - ${product.platform} ${showBack ? 'achterkant' : 'cover art'}`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className={cn(
-                    "object-contain p-10 transition-opacity duration-500",
-                    imageLoaded ? 'opacity-100' : 'opacity-0'
-                  )}
-                  priority
-                  onLoad={() => setImageLoaded(true)}
-                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={showBack ? 'back' : 'front'}
+                    initial={{ opacity: 0, rotateY: showBack ? 90 : -90 }}
+                    animate={{ opacity: 1, rotateY: 0 }}
+                    exit={{ opacity: 0, rotateY: showBack ? -90 : 90 }}
+                    transition={{ duration: 0.35 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={showBack && product.backImage ? product.backImage : product.image!}
+                      alt={`${product.name} - ${product.platform} ${showBack ? 'achterkant' : 'cover art'}`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className={`object-contain p-10 transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'} group-hover:scale-105`}
+                      priority
+                      onLoad={() => setImageLoaded(true)}
+                    />
+                  </motion.div>
+                </AnimatePresence>
                 {/* Voor/Achter toggle */}
-                {displayBackImage && (
+                {product.backImage && (
                   <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                     <button
                       onClick={() => setShowBack(false)}
                       className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all ${
                         !showBack
-                          ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
-                          : 'bg-white/80 border-slate-200 text-slate-400'
+                          ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400'
                       }`}
                     >
                       Voor
@@ -127,18 +276,29 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       onClick={() => setShowBack(true)}
                       className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all ${
                         showBack
-                          ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
-                          : 'bg-white/80 border-slate-200 text-slate-400'
+                          ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400'
                       }`}
                     >
                       Achter
                     </button>
                   </div>
                 )}
-                {/* Zoom knop */}
+                {/* Spotlight overlay */}
+                {imageHovered && (
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none rounded-3xl"
+                    style={{ background: spotlightBg }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  />
+                )}
+                {/* Shimmer sweep */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 dark:via-white/20 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-all duration-1000 ease-in-out" />
+                {/* Zoom button */}
                 <button
                   onClick={() => setLightboxOpen(true)}
-                  className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-white/80 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-emerald-500 transition-all opacity-0 group-hover:opacity-100 z-20"
+                  className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-500 hover:text-emerald-500 hover:border-emerald-300 transition-all opacity-0 group-hover:opacity-100 z-20"
                   aria-label="Afbeelding vergroten"
                 >
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -147,226 +307,547 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 </button>
               </>
             ) : (
-              <span className="text-white/30 text-[120px] font-black select-none">
-                {platformLabel}
-              </span>
+              <>
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+                <div
+                  className="absolute inset-0 opacity-[0.12]"
+                  style={{
+                    backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
+                    backgroundSize: '16px 16px',
+                  }}
+                />
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+                  className="absolute inset-8 border border-white/[0.06] rounded-full"
+                />
+                <span className="text-white/30 text-[120px] font-black select-none relative z-10">
+                  {platformLabel}
+                </span>
+              </>
             )}
 
             {/* Badges */}
             <div className="absolute top-5 left-5 flex gap-2">
-              <span className={`px-3 py-1.5 rounded-xl ${product.image ? 'bg-slate-900/70' : 'bg-black/20'} text-white text-xs font-semibold`}>
+              <motion.span
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className={`px-3 py-1.5 rounded-xl ${product.image ? 'bg-slate-900/70' : 'bg-black/20'} backdrop-blur-sm text-white text-xs font-semibold`}
+              >
                 {product.platform}
-              </span>
+              </motion.span>
             </div>
             <div className="absolute top-5 right-5 flex flex-col gap-2 items-end">
-              {product.isPremium && <Badge variant="premium">PREMIUM</Badge>}
-              {product.isConsole && <Badge variant="console">CONSOLE</Badge>}
+              {product.isPremium && (
+                <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
+                  <Badge variant="premium">PREMIUM</Badge>
+                </motion.div>
+              )}
+              {product.isConsole && (
+                <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
+                  <Badge variant="console">CONSOLE</Badge>
+                </motion.div>
+              )}
             </div>
           </div>
+        </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Info */}
-        <div className="flex flex-col">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] as const }}
+          className="flex flex-col"
+        >
           {/* Badges */}
-          <div className="flex flex-wrap gap-2 mb-4">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="flex flex-wrap gap-2 mb-4"
+          >
             <Badge variant="condition">{product.condition}</Badge>
             <Badge variant="completeness">{isCIB ? 'Compleet in doos (CIB)' : product.completeness}</Badge>
-          </div>
+          </motion.div>
 
-          {/* Titel */}
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3"
+          >
             {product.name}
-          </h1>
+          </motion.h1>
 
           {/* Meta info */}
-          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mb-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 }}
+            className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mb-4"
+          >
             <span className="flex items-center gap-1.5">
               <span className={`h-2 w-2 rounded-full bg-gradient-to-r ${colors.from} ${colors.to}`} />
               {product.platform}
             </span>
-            <span className="h-1 w-1 rounded-full bg-slate-300" />
+            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" />
             <span>{product.genre}</span>
-            <span className="h-1 w-1 rounded-full bg-slate-300" />
+            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" />
             <span className="font-mono text-xs text-slate-400">{product.sku}</span>
-          </div>
+          </motion.div>
 
-          {/* Op voorraad */}
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-            <span className="text-sm font-semibold text-emerald-600">Op voorraad</span>
-            <span className="text-xs text-slate-400">— Vandaag besteld, morgen verzonden</span>
-          </div>
+          {/* Voorraad indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.38 }}
+            className="flex items-center gap-2 mb-6"
+          >
+            {inStock ? (
+              <>
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                </span>
+                <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">Op voorraad</span>
+                <span className="text-xs text-slate-400 dark:text-slate-500">— Vandaag besteld, morgen verzonden</span>
+              </>
+            ) : (
+              <>
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
+                </span>
+                <span className="text-sm font-semibold text-red-500">Uitverkocht</span>
+              </>
+            )}
+          </motion.div>
 
-          {/* CIB/Los variant toggle */}
-          {hasCibOption && (
-            <div className="flex items-center gap-2 mb-4">
-              <div className="inline-flex rounded-xl bg-slate-100 p-1">
-                <button
-                  onClick={() => setSelectedVariant('los')}
-                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                    selectedVariant === 'los'
-                      ? 'bg-white text-slate-900 shadow-sm'
-                      : 'text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  Los
-                </button>
-                <button
-                  onClick={() => setSelectedVariant('cib')}
-                  className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                    selectedVariant === 'cib'
-                      ? 'bg-white text-slate-900 shadow-sm'
-                      : 'text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  Met doos (CIB)
-                </button>
-              </div>
-            </div>
+          {/* Urgentie-indicator */}
+          {inStock && stock <= 3 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.39 }}
+              className="flex items-center gap-2 -mt-4 mb-6"
+            >
+              <svg className="h-3.5 w-3.5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+              <span className="text-xs font-medium text-amber-600 dark:text-amber-400">
+                {stock === 1
+                  ? (product.isConsole ? 'Zeldzaam — slechts 1 beschikbaar' : 'Slechts 1 op voorraad')
+                  : `Nog maar ${stock} op voorraad`}
+              </span>
+            </motion.div>
           )}
 
-          {/* Prijs */}
-          <div className="flex flex-wrap items-baseline gap-3 mb-8">
-            <span className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight tabular-nums">
-              {formatPrice(displayPrice)}
-            </span>
-            {hasCibOption && selectedVariant === 'cib' && (
-              <span className="text-lg text-slate-400 line-through">
-                {formatPrice(effectivePrice)}
-              </span>
+          {/* Price block */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-wrap items-baseline gap-3 mb-8"
+          >
+            {onSale ? (
+              <>
+                <span className="text-3xl sm:text-5xl font-extrabold text-red-500 tracking-tight tabular-nums">
+                  {formatPrice(effectivePrice)}
+                </span>
+                <span className="text-xl text-slate-400 line-through">
+                  {formatPrice(product.price)}
+                </span>
+                <span className="inline-flex items-center gap-1 text-sm text-red-500 font-bold bg-red-50 dark:bg-red-900/30 px-2.5 py-1 rounded-lg">
+                  -{getSalePercentage(product)}%
+                </span>
+              </>
+            ) : (
+              <AnimatedPrice price={product.price} />
             )}
-            {displayPrice >= FREE_SHIPPING_THRESHOLD && (
-              <span className="inline-flex items-center gap-1 text-sm text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
+            {freeShipping && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6, type: 'spring' }}
+                className="inline-flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 rounded-lg"
+              >
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                 </svg>
                 Gratis verzending
-              </span>
+              </motion.span>
             )}
-          </div>
+          </motion.div>
 
-          {/* Beschrijving */}
+          {/* Description */}
           {product.description && (
-            <div className="mb-8 rounded-2xl bg-slate-50 border border-slate-100 p-6">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-3">Beschrijving</h2>
-              <p className="text-slate-600 leading-relaxed text-base">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.45 }}
+              className="mb-8 rounded-2xl bg-slate-50/80 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 p-6"
+            >
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wide mb-3 flex items-center gap-2">
+                <svg className="h-4 w-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                Beschrijving
+              </h2>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base">
                 {product.description}
               </p>
-            </div>
+            </motion.div>
           )}
 
-          {/* In winkelwagen knop */}
-          <div className="flex gap-3">
-            <button
+          {/* Add to cart + wishlist buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-wrap gap-3"
+          >
+            <motion.button
               onClick={handleAdd}
-              className={`w-full sm:w-auto px-8 py-4 rounded-2xl text-white text-base font-bold transition-all duration-300 ${
-                added
-                  ? 'bg-emerald-500'
-                  : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30'
+              disabled={!inStock}
+              whileHover={inStock ? { scale: 1.02, y: -2 } : {}}
+              whileTap={inStock ? { scale: 0.98 } : {}}
+              className={`relative w-full sm:w-auto sm:flex-none px-8 py-4 rounded-2xl text-white text-base font-bold overflow-hidden transition-all duration-300 ${
+                !inStock
+                  ? 'bg-slate-300 dark:bg-slate-600 cursor-not-allowed shadow-none'
+                  : added
+                  ? 'bg-emerald-500 shadow-xl shadow-emerald-500/30'
+                  : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 animate-cta-attention'
               }`}
             >
-              {added ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  Toegevoegd aan winkelwagen
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                  </svg>
-                  In winkelwagen
-                </span>
-              )}
-            </button>
-          </div>
+              <AnimatePresence mode="wait">
+                {added ? (
+                  <motion.span
+                    key="added"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    className="relative flex items-center justify-center gap-2"
+                  >
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    Toegevoegd aan winkelwagen
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="add"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="relative flex items-center justify-center gap-2"
+                  >
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                    </svg>
+                    In winkelwagen
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
 
-          {/* Voordelen */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Wishlist heart button */}
+            <motion.button
+              onClick={() => {
+                toggleItem(product.sku);
+                addToast(
+                  wishlisted ? `${product.name} verwijderd van verlanglijst` : `${product.name} toegevoegd aan verlanglijst`,
+                  wishlisted ? 'info' : 'success'
+                );
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={wishlisted ? 'Verwijder van verlanglijst' : 'Voeg toe aan verlanglijst'}
+              className={`h-[56px] w-[56px] rounded-2xl border flex items-center justify-center transition-all duration-300 ${
+                wishlisted
+                  ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-500'
+                  : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400 hover:text-red-500 hover:border-red-200 dark:hover:border-red-800'
+              }`}
+            >
+              <svg className="h-6 w-6" viewBox="0 0 24 24" fill={wishlisted ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+              </svg>
+            </motion.button>
+
+            {/* Kopieer link */}
+            <motion.button
+              onClick={() => {
+                const url = `${window.location.origin}/shop/${product.sku}`;
+                navigator.clipboard.writeText(url);
+                addToast('Productlink gekopieerd!', 'success');
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Kopieer productlink"
+              className="h-[56px] w-[56px] rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-emerald-500 hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-300"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-2.07a4.5 4.5 0 00-1.242-7.244l-4.5-4.5a4.5 4.5 0 00-6.364 6.364L5.25 9.432" />
+              </svg>
+            </motion.button>
+
+            {/* WhatsApp delen */}
+            <motion.button
+              onClick={() => {
+                const url = `${window.location.origin}/shop/${product.sku}`;
+                const text = `Bekijk ${product.name} (${product.platform}) bij Gameshop Enter — ${formatPrice(product.price)}`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Deel via WhatsApp"
+              className="h-[56px] w-[56px] rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-green-500 hover:border-green-200 dark:hover:border-green-800 transition-all duration-300"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </motion.button>
+          </motion.div>
+
+          {/* Order info cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3"
+          >
             {[
-              { title: 'Verzending via PostNL', desc: freeShipping ? 'Gratis verzending' : 'Standaard: \u20AC3,95' },
-              { title: 'Veilig betalen', desc: 'iDEAL, creditcard, PayPal' },
-              { title: '14 dagen retour', desc: 'Niet goed? Geld terug.' },
-              { title: '100% origineel', desc: 'Persoonlijk getest op werking' },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:bg-white transition-colors"
-              >
-                <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
+              {
+                icon: (
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                   </svg>
+                ),
+                title: 'Verzending via PostNL',
+                desc: freeShipping ? 'Gratis verzending' : 'Standaard: \u20AC3,95',
+              },
+              {
+                icon: (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                  </svg>
+                ),
+                title: 'Veilig betalen',
+                desc: 'iDEAL, creditcard, PayPal',
+              },
+              {
+                icon: (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                ),
+                title: '14 dagen retour',
+                desc: 'Niet goed? Geld terug.',
+              },
+              {
+                icon: (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
+                  </svg>
+                ),
+                title: '100% origineel',
+                desc: 'Persoonlijk getest op werking',
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.65 + i * 0.05 }}
+                className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
+              >
+                <div className="h-10 w-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                  {item.icon}
                 </div>
                 <div>
-                  <span className="font-bold text-slate-900 text-sm block">{item.title}</span>
-                  <span className="text-slate-500 text-xs">{item.desc}</span>
+                  <span className="font-bold text-slate-900 dark:text-white text-sm block">{item.title}</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">{item.desc}</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Specificaties */}
-      <div className="mt-16">
-        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-6">Specificaties</h2>
-        <div className="rounded-2xl border border-slate-200 overflow-hidden">
+      {/* Product Specifications */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="mt-16"
+      >
+        <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">Specificaties</h2>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           {specs.map((spec, i) => (
-            <div
+            <motion.div
               key={spec.label}
-              className={`flex items-center justify-between px-6 py-4 ${i % 2 === 0 ? 'bg-slate-50' : 'bg-white'} ${i < specs.length - 1 ? 'border-b border-slate-100' : ''}`}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.05 * i, duration: 0.3 }}
+              className={`flex items-center justify-between px-6 py-4 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 transition-colors ${i % 2 === 0 ? 'bg-slate-50/50 dark:bg-slate-800/50' : 'bg-white dark:bg-slate-900'} ${i < specs.length - 1 ? 'border-b border-slate-100 dark:border-slate-700' : ''}`}
             >
-              <span className="text-sm font-medium text-slate-500">{spec.label}</span>
-              <span className="text-sm font-semibold text-slate-900">{spec.value}</span>
-            </div>
+              <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{spec.label}</span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">{spec.value}</span>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-        <div className="bg-white/95 backdrop-blur-sm border-t border-slate-200 px-4 py-3 flex items-center justify-between gap-3">
+      {/* Sticky mobile CTA bar — boven bottom nav */}
+      <div className="fixed bottom-[60px] left-0 right-0 z-40 lg:hidden">
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          transition={{ delay: 0.8, type: 'spring', stiffness: 300, damping: 30 }}
+          className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-700 px-4 py-3 flex items-center justify-between gap-3"
+        >
           <div className="min-w-0 flex-1">
-            <p className="text-xs text-slate-500 truncate">{product.name}{selectedVariant === 'cib' ? ' (CIB)' : ''}</p>
-            <p className="text-lg font-extrabold text-slate-900">{formatPrice(displayPrice)}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{product.name}</p>
+            <div className="flex items-baseline gap-2">
+              <p className={cn("text-lg font-extrabold", onSale ? "text-red-500" : "text-slate-900 dark:text-white")}>{formatPrice(effectivePrice)}</p>
+              {onSale && <p className="text-xs text-slate-400 line-through">{formatPrice(product.price)}</p>}
+            </div>
           </div>
-          <button
+          <motion.button
             onClick={handleAdd}
-            className={`flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-bold transition-all ${
-              added ? 'bg-emerald-500' : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+            disabled={!inStock}
+            whileTap={inStock ? { scale: 0.95 } : {}}
+            className={`flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-bold transition-all duration-300 ${
+              !inStock
+                ? 'bg-slate-300 dark:bg-slate-600 cursor-not-allowed'
+                : added
+                ? 'bg-emerald-500'
+                : 'bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/25'
             }`}
           >
-            {added ? 'Toegevoegd!' : 'In winkelwagen'}
-          </button>
-        </div>
+            {!inStock ? 'Uitverkocht' : added ? 'Toegevoegd!' : 'In winkelwagen'}
+          </motion.button>
+        </motion.div>
       </div>
 
-      {/* Lightbox */}
-      {lightboxOpen && displayImage && (
-        <div
-          className="fixed inset-0 z-[300] bg-black/90 flex items-center justify-center cursor-zoom-out"
+      {flyData && typeof document !== 'undefined' && createPortal(
+        <>
+          {/* Afterimage trail */}
+          {[0.5, 0.3, 0.15].map((alpha, i) => (
+            <motion.div
+              key={`trail-${i}`}
+              className="fixed z-[199] pointer-events-none rounded-xl overflow-hidden"
+              initial={{
+                left: flyData.from.left,
+                top: flyData.from.top,
+                width: flyData.from.width,
+                height: flyData.from.height,
+                opacity: alpha,
+              }}
+              animate={{
+                left: [
+                  flyData.from.left,
+                  (flyData.from.left + flyData.to.left) / 2 - 30 + i * 15,
+                  flyData.to.left + flyData.to.width / 2 - 16,
+                ],
+                top: [
+                  flyData.from.top,
+                  Math.min(flyData.from.top, flyData.to.top) - 80 - i * 10,
+                  flyData.to.top + flyData.to.height / 2 - 16,
+                ],
+                width: 32,
+                height: 32,
+                opacity: 0,
+              }}
+              transition={{ duration: 0.7, delay: i * 0.04, ease: [0.32, 0, 0.67, 0] }}
+            >
+              <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white/80 rounded-xl" />
+            </motion.div>
+          ))}
+          {/* Main — 3D spiral */}
+          <motion.div
+            className="fixed z-[200] pointer-events-none rounded-xl overflow-hidden shadow-2xl shadow-emerald-500/30"
+            initial={{
+              left: flyData.from.left,
+              top: flyData.from.top,
+              width: flyData.from.width,
+              height: flyData.from.height,
+              opacity: 1,
+              rotateY: 0,
+              scale: 1,
+            }}
+            animate={{
+              left: [
+                flyData.from.left,
+                (flyData.from.left + flyData.to.left) / 2 - 40,
+                flyData.to.left + flyData.to.width / 2 - 16,
+              ],
+              top: [
+                flyData.from.top,
+                Math.min(flyData.from.top, flyData.to.top) - 100,
+                flyData.to.top + flyData.to.height / 2 - 16,
+              ],
+              width: [flyData.from.width, flyData.from.width * 0.5, 32],
+              height: [flyData.from.height, flyData.from.height * 0.5, 32],
+              opacity: [1, 1, 0],
+              rotateY: [0, 360, 720],
+              scale: [1, 0.6, 0.3],
+            }}
+            transition={{ duration: 0.7, ease: [0.32, 0, 0.67, 0] }}
+            onAnimationComplete={() => setFlyData(null)}
+            style={{ transformPerspective: 600 }}
+          >
+            <img src={flyData.image} alt="" className="w-full h-full object-contain bg-white" />
+          </motion.div>
+        </>,
+        document.body
+      )}
+
+      {/* Lightbox zoom overlay */}
+      {lightboxOpen && product.image && typeof document !== 'undefined' && createPortal(
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[300] bg-black/90 backdrop-blur-sm flex items-center justify-center cursor-zoom-out"
           onClick={() => setLightboxOpen(false)}
         >
           <button
             onClick={() => setLightboxOpen(false)}
-            className="absolute top-6 right-6 h-12 w-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+            className="absolute top-6 right-6 h-12 w-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
             aria-label="Sluiten"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <div className="relative max-w-[90vw] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="relative max-w-[90vw] max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
-              src={displayImage!}
+              src={product.image}
               alt={`${product.name} - ${product.platform}`}
               className="max-w-full max-h-[85vh] object-contain rounded-2xl"
             />
-          </div>
-        </div>
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-2xl px-6 py-4">
+              <p className="text-white font-bold text-lg">{product.name}</p>
+              <p className="text-white/70 text-sm">{product.platform}</p>
+            </div>
+          </motion.div>
+          <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 text-xs">
+            Druk op <kbd className="px-1.5 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] font-mono">Esc</kbd> om te sluiten
+          </p>
+        </motion.div>,
+        document.body
       )}
     </div>
   );

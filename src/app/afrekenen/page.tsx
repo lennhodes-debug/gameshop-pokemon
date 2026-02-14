@@ -135,14 +135,43 @@ export default function AfrekenPage() {
 
     setIsProcessing(true);
 
-    // Simulate Mollie payment processing (in production, this calls backend API -> Mollie)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const orderItems = items.map(item => ({
+        name: item.product.name,
+        sku: item.product.sku,
+        quantity: item.quantity,
+        price: item.product.salePrice && item.product.salePrice > 0 && item.product.salePrice < item.product.price
+          ? item.product.salePrice
+          : item.product.price,
+        weight: item.product.weight,
+      }));
 
-    setSubmitted(true);
-    setIsProcessing(false);
-    setConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-    clearCart();
-    addToast('Bestelling succesvol geplaatst!', 'success');
+      const res = await fetch('/api/mollie/create-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: orderItems,
+          customer: form,
+          subtotal,
+          shipping,
+          discount: discountAmount,
+          total: total - discountAmount,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.checkoutUrl) {
+        throw new Error(data.error || 'Betaling aanmaken mislukt');
+      }
+
+      // Redirect naar Mollie betaalpagina
+      window.location.href = data.checkoutUrl;
+    } catch (error: unknown) {
+      setIsProcessing(false);
+      const message = error instanceof Error ? error.message : 'Er ging iets mis';
+      addToast(message, 'error');
+    }
   };
 
   if (items.length === 0 && !submitted) {
