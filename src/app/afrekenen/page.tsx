@@ -198,14 +198,48 @@ export default function AfrekenPage() {
 
     setIsProcessing(true);
 
+    // Generate order number
+    const orderNumber = `GE-${Date.now().toString(36).toUpperCase()}`;
+
     // Simulate Mollie payment processing (in production, this calls backend API -> Mollie)
     await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Send order confirmation email
+    try {
+      const emailData = {
+        customerEmail: form.email,
+        customerName: `${form.voornaam} ${form.achternaam}`,
+        orderNumber,
+        items: items.map((item) => ({
+          name: item.product.name,
+          quantity: item.quantity,
+          price:
+            item.variant === 'cib' && item.product.cibPrice
+              ? item.product.cibPrice
+              : item.product.price,
+        })),
+        subtotal: rawSubtotal,
+        shipping,
+        discount: discountAmount,
+        total,
+        discountCode: discount?.code,
+      };
+
+      await fetch('/api/email/order-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(emailData),
+      });
+    } catch (error) {
+      console.error('Email error:', error);
+      // Don't fail checkout if email fails
+    }
 
     setSubmitted(true);
     setIsProcessing(false);
     setConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
     clearCart();
-    addToast('Bestelling succesvol geplaatst!', 'success');
+    addToast('Bestelling succesvol geplaatst! Check je email voor bevestiging.', 'success');
   };
 
   if (items.length === 0 && !submitted) {
