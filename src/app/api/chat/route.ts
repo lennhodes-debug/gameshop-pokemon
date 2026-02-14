@@ -56,7 +56,7 @@ const SYSTEM_PROMPT = `Je bent Beer 🐻, de enthousiaste gaming-beer en mascott
 - Verzending: €4,95 via PostNL (1-3 werkdagen), GRATIS boven €100
 - Retour: 14 dagen, gratis retourneren
 - Betaling: iDEAL, Creditcard, PayPal, Bancontact, Apple Pay
-- ALLE games zijn 100% origineel, persoonlijk getest met eigen foto's
+- ALLE games zijn 100% origineel en persoonlijk getest op werking
 - Specialist in Pokémon games + DS, GBA, 3DS en Game Boy
 - Inkoop mogelijk — verwijs naar /inkoop pagina
 - Geen achteraf betalen (geen Klarna/Afterpay)

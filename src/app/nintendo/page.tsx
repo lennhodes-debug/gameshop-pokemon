@@ -345,7 +345,7 @@ export default function NintendoPage() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-slate-400 text-base mb-10 max-w-lg mx-auto"
           >
-            140+ authentieke Nintendo games, allemaal getest en met eigen fotografie.
+            140+ authentieke Nintendo games, allemaal persoonlijk getest op werking.
             Compleet in doos of los — jij kiest.
           </motion.p>
 

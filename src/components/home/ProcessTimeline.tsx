@@ -221,13 +221,13 @@ const STEPS = [
   },
   {
     number: '03',
-    title: 'Fotograferen',
-    subtitle: 'Eigen productfoto\'s',
-    description: 'Elke game wordt individueel gefotografeerd. Wat je ziet is wat je krijgt — geen stockfoto\'s, altijd het echte product.',
+    title: 'Catalogiseren',
+    subtitle: 'Uitgebreide productpagina\'s',
+    description: 'Elke game krijgt een gedetailleerde productpagina met conditie-beschrijving, platforminfo en eerlijke prijzen.',
     accent: '#a855f7',
     stats: [
-      { value: '141+', label: 'Productfoto\'s' },
-      { value: '0', label: 'Stockfoto\'s' },
+      { value: '141+', label: 'Producten' },
+      { value: '6', label: 'Platforms' },
     ],
   },
   {
@@ -441,7 +441,7 @@ export default function ProcessTimeline() {
               </svg>
             </motion.div>
             <span className="text-emerald-300/80 text-sm lg:text-base font-medium">
-              100% origineel &middot; Persoonlijk getest &middot; Eigen foto&apos;s
+              100% origineel &middot; Persoonlijk getest &middot; Gratis vanaf &euro;100
             </span>
           </div>
         </motion.div>

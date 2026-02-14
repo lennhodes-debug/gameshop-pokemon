@@ -200,7 +200,7 @@ function fallbackResponse(input: string): FallbackResult {
     const counts: Record<string, number> = {};
     products.forEach(p => { counts[p.platform] = (counts[p.platform] || 0) + 1; });
     return {
-      text: `We hebben **${products.length} originele Nintendo games**! 🎮\n\n${Object.entries(counts).map(([k, v]) => `• **${k}**: ${v} games`).join('\n')}\n\nElke game is persoonlijk getest met eigen foto's.`,
+      text: `We hebben **${products.length} originele Nintendo games**! 🎮\n\n${Object.entries(counts).map(([k, v]) => `• **${k}**: ${v} games`).join('\n')}\n\nElke game is persoonlijk getest op werking.`,
       links: [{ label: 'Bekijk alle games', href: '/shop' }],
       quickReplies: ['Welke Pokémon games?', 'Wat is de duurste game?', 'Goedkoopste games?'],
     };
@@ -329,7 +329,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Originaliteit ──
   if (/origineel|nep|fake|echt|authentiek|namaak|reproductie|repro|bootleg|counterfeit/.test(q))
     return {
-      text: '✅ **100% Origineel — onze belofte!**\n\n• Persoonlijk gecontroleerd op echtheid\n• Getest op echte Nintendo hardware\n• NOOIT reproducties of bootlegs\n• Eigen foto\'s: wat je ziet is wat je krijgt\n• **5.0 uit 1.360+ reviews**\n\nTip: wees voorzichtig met Pokémon games op Marktplaats — er zijn veel fakes in omloop. Bij ons weet je zeker dat het echt is!',
+      text: '✅ **100% Origineel — onze belofte!**\n\n• Persoonlijk gecontroleerd op echtheid\n• Getest op echte Nintendo hardware\n• NOOIT reproducties of bootlegs\n• Eerlijke conditie-beschrijving bij elk product\n• **5.0 uit 1.360+ reviews**\n\nTip: wees voorzichtig met Pokémon games op Marktplaats — er zijn veel fakes in omloop. Bij ons weet je zeker dat het echt is!',
       quickReplies: ['Hoe controleren jullie dat?', 'Zijn alle games getest?'],
     };
 
@@ -340,7 +340,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Conditie ──
   if (/conditie|staat|kwaliteit|gebruikt|nieuw|cib|compleet|los|cartridge|doos|manual|handleiding|boxed|mint|sealed/.test(q))
     return {
-      text: '📋 **Condities uitgelegd:**\n\n• **"Zo goed als nieuw"** — nauwelijks sporen van gebruik\n• **"Gebruikt"** — normaal gebruik, 100% werkend\n• **"Nieuw"** — ongeopend/sealed\n\n📦 **Compleetheid:**\n• **CIB** = Compleet in Doos (game + doos + handleiding)\n• **Losse cartridge** = alleen het spelletje\n\nBij elke game staan eigen foto\'s zodat je precies ziet wat je krijgt!',
+      text: '📋 **Condities uitgelegd:**\n\n• **"Zo goed als nieuw"** — nauwelijks sporen van gebruik\n• **"Gebruikt"** — normaal gebruik, 100% werkend\n• **"Nieuw"** — ongeopend/sealed\n\n📦 **Compleetheid:**\n• **CIB** = Compleet in Doos (game + doos + handleiding)\n• **Losse cartridge** = alleen het spelletje\n\nBij elke game staat een eerlijke conditie-beschrijving zodat je precies weet wat je krijgt!',
       quickReplies: ['CIB games bekijken', 'Goedkoopste games?'],
     };
 

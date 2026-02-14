@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     siteName: 'Gameshop Enter',
     title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Nintendo specialist van Nederland. Originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest met eigen foto\'s. 3000+ tevreden klanten, 5.0 score.',
+      'Dé Nintendo specialist van Nederland. Originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
     images: [
       {
         url: '/images/og-image.svg',
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest met eigen foto\'s.',
+      'Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest.',
     images: ['/images/og-image.svg'],
   },
   robots: {
