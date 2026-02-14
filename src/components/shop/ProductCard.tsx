@@ -167,10 +167,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             transform: `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
             transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
             background: `linear-gradient(135deg, ${typeInfo.bg[0]}18 0%, ${typeInfo.bg[1]}30 100%)`,
-            border: `1.5px solid ${typeInfo.bg[0]}40`,
+            border: `1px solid ${typeInfo.bg[0]}25`,
             boxShadow: isHovered
-              ? `0 0 30px rgba(${typeInfo.glow}, 0.35), 0 8px 32px rgba(0,0,0,0.2)`
-              : `0 0 12px rgba(${typeInfo.glow}, 0.15), 0 4px 16px rgba(0,0,0,0.1)`,
+              ? `0 0 25px rgba(${typeInfo.glow}, 0.3), 0 8px 24px rgba(0,0,0,0.08)`
+              : `0 0 8px rgba(${typeInfo.glow}, 0.1), 0 2px 8px rgba(0,0,0,0.04)`,
           }}
         >
           {/* Type deeltjes */}
@@ -181,7 +181,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
-            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/10">
+            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
               {displayImage && !imageError ? (
                 <>
                   {!imageLoaded && (
@@ -234,14 +234,14 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           {/* Gradient scheiding */}
           <div
             className="h-px"
-            style={{ background: `linear-gradient(90deg, transparent, ${typeInfo.bg[0]}60, transparent)` }}
+            style={{ background: `linear-gradient(90deg, transparent, ${typeInfo.bg[0]}20, transparent)` }}
           />
 
           {/* Content */}
           <div className="p-4 flex flex-col flex-1" style={{ background: `linear-gradient(180deg, ${typeInfo.bg[1]}10 0%, ${typeInfo.bg[1]}20 100%)` }}>
             {/* CIB / Los toggle */}
             {hasCibOption && (
-              <div className="flex rounded-lg overflow-hidden mb-2.5 border" style={{ borderColor: `${typeInfo.bg[0]}40` }}>
+              <div className="flex rounded-lg overflow-hidden mb-2.5 border" style={{ borderColor: `${typeInfo.bg[0]}20` }}>
                 <button
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedVariant('los'); setImageLoaded(false); }}
                   className={cn(
@@ -271,10 +271,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
             <div className="flex flex-wrap gap-1.5 mb-2.5">
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border"
-                style={{ color: typeInfo.bg[0], borderColor: `${typeInfo.bg[0]}40`, background: `${typeInfo.bg[0]}10` }}>
+                style={{ color: typeInfo.bg[0], borderColor: `${typeInfo.bg[0]}20`, background: `${typeInfo.bg[0]}10` }}>
                 {product.condition}
               </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100/80 text-slate-600">
                 {(hasCibOption && selectedVariant === 'cib') ? 'CIB' : isCIB ? 'CIB' : product.completeness}
               </span>
             </div>
@@ -292,7 +292,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
               </p>
             )}
 
-            <div className="flex items-center justify-between pt-3 mt-auto border-t" style={{ borderColor: `${typeInfo.bg[0]}15` }}>
+            <div className="flex items-center justify-between pt-3 mt-auto border-t" style={{ borderColor: `${typeInfo.bg[0]}0a` }}>
               <div>
                 {hasCibOption && selectedVariant === 'cib' ? (
                   <div className="flex items-baseline gap-2">
@@ -354,7 +354,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   // === STANDAARD CARD (consoles, accessoires) ===
   return (
     <div className="group">
-      <div className="relative bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-300 flex flex-col">
+      <div className="relative bg-white rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col">
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
           <div className={`relative h-52 ${product.image && !imageError ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
@@ -402,8 +402,8 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </div>
         </Link>
 
-        {/* Scheidingslijn */}
-        <div className="h-px bg-slate-100/50" />
+        {/* Subtiele scheiding */}
+        <div className="h-px bg-slate-50" />
 
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
@@ -432,7 +432,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
             <span className="text-[10px] font-semibold text-emerald-600">Getest &amp; werkend</span>
           </div>
 
-          <div className="pt-3 mt-auto border-t border-slate-100">
+          <div className="pt-3 mt-auto border-t border-slate-50">
             <div className="flex items-center justify-between mb-2.5">
               <div>
                 {isOnSale(product) ? (
