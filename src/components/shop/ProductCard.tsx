@@ -419,50 +419,65 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
           </Link>
 
           {product.description && (
-            <p className="text-xs text-slate-400 line-clamp-1 mb-3">
+            <p className="text-xs text-slate-400 line-clamp-1 mb-2">
               {product.description}
             </p>
           )}
 
-          <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-100">
-            <div>
-              {isOnSale(product) ? (
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xl font-extrabold text-red-500 tracking-tight">
-                    {formatPrice(getEffectivePrice(product))}
-                  </span>
-                  <span className="text-sm text-slate-400 line-through">
+          {/* Trust signal */}
+          <div className="flex items-center gap-1.5 mb-3">
+            <svg className="h-3 w-3 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+            </svg>
+            <span className="text-[10px] font-semibold text-emerald-600">Getest &amp; werkend</span>
+          </div>
+
+          <div className="pt-3 mt-auto border-t border-slate-100">
+            <div className="flex items-center justify-between mb-2.5">
+              <div>
+                {isOnSale(product) ? (
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-extrabold text-red-500 tracking-tight">
+                      {formatPrice(getEffectivePrice(product))}
+                    </span>
+                    <span className="text-xs text-slate-400 line-through">
+                      {formatPrice(product.price)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-lg font-extrabold text-slate-900 tracking-tight">
                     {formatPrice(product.price)}
                   </span>
-                </div>
-              ) : (
-                <span className="text-xl font-extrabold text-slate-900 tracking-tight">
-                  {formatPrice(product.price)}
-                </span>
-              )}
+                )}
+              </div>
               {getEffectivePrice(product) >= FREE_SHIPPING_THRESHOLD && (
-                <span className="block text-[10px] text-emerald-600 font-semibold mt-0.5">Gratis verzending</span>
+                <span className="text-[10px] text-emerald-600 font-semibold">Gratis verzending</span>
               )}
             </div>
             <button
               onClick={handleAddToCart}
               aria-label={`${product.name} toevoegen aan winkelwagen`}
               className={cn(
-                "h-9 px-4 rounded-lg text-white text-xs font-bold transition-all duration-300",
+                "w-full h-10 rounded-lg text-white text-xs font-bold transition-all duration-300 flex items-center justify-center gap-1.5",
                 addedToCart
                   ? "bg-emerald-500"
                   : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-md hover:shadow-emerald-500/25"
               )}
             >
               {addedToCart ? (
-                <span className="flex items-center gap-1">
+                <>
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
-                  Toegevoegd
-                </span>
+                  Toegevoegd!
+                </>
               ) : (
-                '+ Winkelmand'
+                <>
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.773 2.34-1.872l1.293-5.67a1.125 1.125 0 00-1.093-1.397H6.982l-.54-2.023a1.08 1.08 0 00-1.044-.814H2.25" />
+                  </svg>
+                  In winkelmand
+                </>
               )}
             </button>
           </div>
