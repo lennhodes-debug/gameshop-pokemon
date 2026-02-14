@@ -31,7 +31,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-2xl lg:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight mb-6"
+        className="text-2xl lg:text-3xl font-semibold text-slate-900 tracking-tight mb-6"
       >
         Eerder bekeken
       </motion.h2>
@@ -49,7 +49,7 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
               className="flex-shrink-0 snap-start"
             >
               <Link href={`/shop/${product.sku}`} className="group block w-[160px]">
-                <div className={`relative aspect-square rounded-xl overflow-hidden ${product.image ? 'bg-white dark:bg-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} mb-2`}>
+                <div className={`relative aspect-square rounded-xl overflow-hidden ${product.image ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} mb-2`}>
                   {product.image ? (
                     <Image
                       src={product.image}
@@ -67,10 +67,10 @@ export default function RecentlyViewed({ currentSku }: { currentSku: string }) {
                     {product.platform}
                   </span>
                 </div>
-                <h3 className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                <h3 className="text-xs font-semibold text-slate-700 line-clamp-2 group-hover:text-emerald-600 transition-colors">
                   {product.name}
                 </h3>
-                <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                <span className="text-xs font-semibold text-slate-900">
                   {formatPrice(product.price)}
                 </span>
               </Link>

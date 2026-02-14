@@ -74,7 +74,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[100] bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -94,7 +94,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
               role="dialog"
               aria-modal="true"
               aria-label={product ? `${product.name} snelle weergave` : ''}
-              className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-[90vh] overflow-y-auto"
               initial={{ scale: 0.9, y: 40 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 40, opacity: 0 }}
@@ -104,7 +104,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-10 h-9 w-9 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                className="absolute top-4 right-4 z-10 h-9 w-9 rounded-full bg-white/80 backdrop-blur border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 transition-colors"
                 aria-label="Sluiten"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -114,7 +114,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
 
               <div className="flex flex-col sm:flex-row">
                 {/* Image */}
-                <div className={`relative sm:w-1/2 aspect-square sm:aspect-auto sm:min-h-[320px] ${product.image ? 'bg-white dark:bg-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center`}>
+                <div className={`relative sm:w-1/2 aspect-square sm:aspect-auto sm:min-h-[320px] ${product.image ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center`}>
                   {product.image ? (
                     <Image
                       src={product.image}
@@ -144,16 +144,16 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                     {product.isPremium && <Badge variant="premium">Premium</Badge>}
                   </div>
 
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white tracking-tight mb-2">
+                  <h2 className="text-xl font-semibold text-slate-900 tracking-tight mb-2">
                     {product.name}
                   </h2>
 
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
+                  <p className="text-sm text-slate-500 mb-1">
                     {product.platform} &middot; {product.genre}
                   </p>
 
                   {product.description && (
-                    <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-3 mb-4">
+                    <p className="text-sm text-slate-600 line-clamp-3 mb-4">
                       {product.description}
                     </p>
                   )}
@@ -166,15 +166,15 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                             {formatPrice(getEffectivePrice(product))}
                           </span>
                           <span className="text-lg text-slate-400 line-through">{formatPrice(product.price)}</span>
-                          <span className="text-xs font-medium text-red-500 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
+                          <span className="text-xs font-medium text-red-500 bg-red-50 px-1.5 py-0.5 rounded-md">-{getSalePercentage(product)}%</span>
                         </div>
                       ) : (
-                        <span className="text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+                        <span className="text-3xl font-semibold text-slate-900 tracking-tight">
                           {formatPrice(product.price)}
                         </span>
                       )}
                       {freeShipping && (
-                        <span className="ml-2 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                        <span className="ml-2 text-xs text-emerald-600 font-medium">
                           Gratis verzending
                         </span>
                       )}
@@ -192,7 +192,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
                       </button>
                       <Link
                         href={`/shop/${product.sku}`}
-                        className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-2"
+                        className="px-6 py-3 rounded-xl bg-slate-100 border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-200 transition-colors flex items-center gap-2"
                       >
                         Details
                         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

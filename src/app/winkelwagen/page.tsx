@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCart, getCartItemPrice, getCartItemImage } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, getShippingCost, getGameTheme } from '@/lib/utils';
-import { getAllProducts, Product } from '@/lib/products';
+import { getAllProducts, getProductBySku, Product } from '@/lib/products';
 import { CartItem } from '@/lib/cart';
 
 function itemKey(item: CartItem): string {
@@ -34,8 +34,7 @@ export default function WinkelwagenPage() {
     try {
       const stored: string[] = JSON.parse(localStorage.getItem('gameshop-recent') || '[]');
       if (stored.length === 0) return;
-      const all = getAllProducts();
-      const found = stored.slice(0, 6).map(sku => all.find(p => p.sku === sku)).filter((p): p is Product => !!p);
+      const found = stored.slice(0, 6).map(sku => getProductBySku(sku)).filter((p): p is Product => !!p);
       setRecentlyViewed(found);
     } catch { /* ignore */ }
   }, [items.length]);
@@ -108,14 +107,14 @@ export default function WinkelwagenPage() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="h-24 w-24 mx-auto rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-8 shadow-lg"
+              className="h-24 w-24 mx-auto rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center mb-8 shadow-lg"
             >
-              <svg className="h-12 w-12 text-slate-300 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+              <svg className="h-12 w-12 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
             </motion.div>
-            <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-3">Je winkelwagen is leeg</h2>
-            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto">Ontdek ons assortiment van originele Nintendo games en consoles</p>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-3">Je winkelwagen is leeg</h2>
+            <p className="text-slate-500 mb-8 max-w-sm mx-auto">Ontdek ons assortiment van originele Nintendo games en consoles</p>
             <Link href="/shop">
               <motion.span
                 whileHover={{ scale: 1.03, y: -2 }}
@@ -137,7 +136,7 @@ export default function WinkelwagenPage() {
                 transition={{ delay: 0.3 }}
                 className="mt-16 text-left max-w-2xl mx-auto"
               >
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 text-center">
+                <h3 className="text-lg font-semibold text-slate-900 mb-4 text-center">
                   {recentlyViewed.length > 0 ? 'Eerder bekeken' : 'Populaire games'}
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -145,7 +144,7 @@ export default function WinkelwagenPage() {
                     const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
                     return (
                       <Link key={product.sku} href={`/shop/${product.sku}`} className="group">
-                        <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-white dark:bg-slate-800' : `bg-gradient-to-br ${colors.from} ${colors.to}`}`}>
+                        <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`}`}>
                           {product.image ? (
                             <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
                           ) : (
@@ -154,8 +153,8 @@ export default function WinkelwagenPage() {
                             </div>
                           )}
                         </div>
-                        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{product.name}</p>
-                        <p className="text-xs font-semibold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+                        <p className="text-xs font-semibold text-slate-700 line-clamp-2 group-hover:text-emerald-600 transition-colors">{product.name}</p>
+                        <p className="text-xs font-semibold text-slate-900">{formatPrice(product.price)}</p>
                       </Link>
                     );
                   })}
@@ -173,20 +172,20 @@ export default function WinkelwagenPage() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-2xl p-4 mb-4"
+                  className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 mb-4"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                    <span className="text-sm font-medium text-emerald-700 flex items-center gap-2">
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                       </svg>
                       Gratis verzending
                     </span>
-                    <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                    <span className="text-xs text-emerald-600 font-medium">
                       Nog {formatPrice(remainingForFreeShipping)}
                     </span>
                   </div>
-                  <div className="h-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden">
+                  <div className="h-2 bg-emerald-100 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${freeShippingProgress}%` }}
@@ -201,14 +200,14 @@ export default function WinkelwagenPage() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-2xl p-4 mb-4 flex items-center gap-3"
+                  className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 mb-4 flex items-center gap-3"
                 >
                   <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
                     <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </div>
-                  <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">Gratis verzending! Je bestelling wordt gratis verzonden via PostNL.</span>
+                  <span className="text-sm font-medium text-emerald-700">Gratis verzending! Je bestelling wordt gratis verzonden via PostNL.</span>
                 </motion.div>
               )}
 
@@ -219,7 +218,7 @@ export default function WinkelwagenPage() {
                 transition={{ delay: 0.1 }}
                 className="mb-4"
               >
-                <Link href="/shop" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors group">
+                <Link href="/shop" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors group">
                   <svg className="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                   </svg>
@@ -244,12 +243,12 @@ export default function WinkelwagenPage() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -40, scale: 0.95, filter: 'blur(4px)', height: 0, marginBottom: 0, padding: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="bg-white dark:bg-slate-800 rounded-2xl p-4 flex gap-4 shadow-sm hover:shadow-md transition-all duration-300"
+                      className="bg-white rounded-2xl p-4 flex gap-4 shadow-sm hover:shadow-md transition-all duration-300"
                       style={{ borderLeft: `2px solid ${itemAccent}` }}
                     >
                       {/* Product image */}
                       <Link href={`/shop/${item.product.sku}`} className="flex-shrink-0">
-                        <div className={`w-24 h-24 rounded-xl ${img ? 'bg-white dark:bg-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
+                        <div className={`w-24 h-24 rounded-xl ${img ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden relative`}>
                           {img ? (
                             <Image
                               src={img}
@@ -265,14 +264,14 @@ export default function WinkelwagenPage() {
                       </Link>
 
                       <div className="flex-1 min-w-0">
-                        <Link href={`/shop/${item.product.sku}`} className="font-semibold text-slate-900 dark:text-white text-sm transition-colors line-clamp-1" style={{ color: itemAccent }}>
+                        <Link href={`/shop/${item.product.sku}`} className="font-semibold text-slate-900 text-sm transition-colors line-clamp-1" style={{ color: itemAccent }}>
                           {item.product.name}
                         </Link>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1.5">
+                        <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5">
                           <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${colors.from} ${colors.to}`} />
                           {item.product.platform} &middot; {item.variant === 'cib' ? 'Compleet in doos' : item.product.condition}
                           {item.variant === 'cib' && (
-                            <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[10px] font-medium">CIB</span>
+                            <span className="ml-1 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 text-[10px] font-medium">CIB</span>
                           )}
                         </p>
 
@@ -282,7 +281,7 @@ export default function WinkelwagenPage() {
                               whileTap={{ scale: 0.85 }}
                               onClick={() => updateQuantity(key, item.quantity - 1)}
                               aria-label={`Aantal ${item.product.name} verminderen`}
-                              className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all text-sm font-medium"
+                              className="h-8 w-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-all text-sm font-medium"
                             >
                               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" d="M5 12h14" /></svg>
                             </motion.button>
@@ -300,7 +299,7 @@ export default function WinkelwagenPage() {
                               onClick={() => updateQuantity(key, item.quantity + 1)}
                               disabled={item.quantity >= 10}
                               aria-label={`Aantal ${item.product.name} verhogen`}
-                              className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                              className="h-8 w-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" d="M12 5v14m-7-7h14" /></svg>
                             </motion.button>
@@ -308,7 +307,7 @@ export default function WinkelwagenPage() {
                               whileTap={{ scale: 0.9 }}
                               onClick={() => removeItem(key)}
                               aria-label={`${item.product.name} verwijderen uit winkelwagen`}
-                              className="ml-2 p-1.5 rounded-lg text-slate-400 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
+                              className="ml-2 p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all"
                             >
                               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -320,7 +319,7 @@ export default function WinkelwagenPage() {
                               key={price * item.quantity}
                               initial={{ scale: 1.1 }}
                               animate={{ scale: 1 }}
-                              className="font-semibold text-slate-900 dark:text-white"
+                              className="font-semibold text-slate-900"
                             >
                               {formatPrice(price * item.quantity)}
                             </motion.span>
@@ -339,9 +338,9 @@ export default function WinkelwagenPage() {
                       initial={{ opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -5 }}
-                      className="flex items-center gap-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl p-3"
+                      className="flex items-center gap-3 bg-red-50 border border-red-100 rounded-xl p-3"
                     >
-                      <span className="text-sm text-red-600 dark:text-red-400 font-medium">Winkelwagen legen?</span>
+                      <span className="text-sm text-red-600 font-medium">Winkelwagen legen?</span>
                       <button
                         onClick={() => { clearCart(); setShowClearConfirm(false); }}
                         className="px-3 py-1.5 rounded-lg bg-red-500 text-white text-xs font-medium hover:bg-red-600 transition-colors"
@@ -350,7 +349,7 @@ export default function WinkelwagenPage() {
                       </button>
                       <button
                         onClick={() => setShowClearConfirm(false)}
-                        className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium hover:bg-slate-200 transition-colors"
                       >
                         Annuleren
                       </button>
@@ -359,7 +358,7 @@ export default function WinkelwagenPage() {
                     <motion.button
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setShowClearConfirm(true)}
-                      className="text-sm text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors font-medium flex items-center gap-1.5"
+                      className="text-sm text-slate-400 hover:text-red-500 transition-colors font-medium flex items-center gap-1.5"
                     >
                       <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -378,7 +377,7 @@ export default function WinkelwagenPage() {
                   transition={{ delay: 0.4 }}
                   className="mt-10"
                 >
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight mb-4">Misschien ook interessant</h3>
+                  <h3 className="text-lg font-semibold text-slate-900 tracking-tight mb-4">Misschien ook interessant</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {suggestions.map((product) => {
                       const c = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
@@ -387,9 +386,9 @@ export default function WinkelwagenPage() {
                           <Link href={`/shop/${product.sku}`}>
                             <motion.div
                               whileHover={{ scale: 1.03, y: -2 }}
-                              className="bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 overflow-hidden hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600 transition-all duration-300"
+                              className="bg-white rounded-xl border border-slate-100 overflow-hidden hover:shadow-md hover:border-slate-200 transition-all duration-300"
                             >
-                              <div className={`aspect-square relative ${product.image ? 'bg-slate-50 dark:bg-slate-700' : `bg-gradient-to-br ${c.from} ${c.to}`}`}>
+                              <div className={`aspect-square relative ${product.image ? 'bg-slate-50' : `bg-gradient-to-br ${c.from} ${c.to}`}`}>
                                 {product.image ? (
                                   <Image
                                     src={product.image}
@@ -405,13 +404,13 @@ export default function WinkelwagenPage() {
                                 )}
                               </div>
                               <div className="p-3">
-                                <p className="text-xs font-semibold text-slate-900 dark:text-white line-clamp-1">{product.name}</p>
-                                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1">
+                                <p className="text-xs font-semibold text-slate-900 line-clamp-1">{product.name}</p>
+                                <p className="text-[10px] text-slate-500 mt-0.5 flex items-center gap-1">
                                   <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${c.from} ${c.to}`} />
                                   {product.platform}
                                 </p>
                                 <div className="flex items-center justify-between mt-1.5">
-                                  <p className="text-sm font-semibold text-slate-900 dark:text-white">{formatPrice(product.price)}</p>
+                                  <p className="text-sm font-semibold text-slate-900">{formatPrice(product.price)}</p>
                                 </div>
                               </div>
                             </motion.div>
@@ -419,7 +418,7 @@ export default function WinkelwagenPage() {
                           <motion.button
                             whileTap={{ scale: 0.9 }}
                             onClick={() => { addItem(product); addToast(`${product.name} toegevoegd`, 'success', undefined, product.image || undefined); }}
-                            className="w-full mt-1.5 px-3 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-medium hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors flex items-center justify-center gap-1.5"
+                            className="w-full mt-1.5 px-3 py-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium hover:bg-emerald-100 transition-colors flex items-center justify-center gap-1.5"
                           >
                             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -441,27 +440,27 @@ export default function WinkelwagenPage() {
               transition={{ delay: 0.2 }}
               className="lg:col-span-1"
             >
-              <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 sticky top-28 shadow-lg">
-                <h3 className="font-semibold text-slate-900 dark:text-white text-lg mb-6 tracking-tight">Overzicht</h3>
+              <div className="bg-white rounded-2xl border border-slate-100 p-6 sticky top-28 shadow-lg">
+                <h3 className="font-semibold text-slate-900 text-lg mb-6 tracking-tight">Overzicht</h3>
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Subtotaal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">{formatPrice(rawSubtotal)}</span>
+                    <span className="text-slate-500">Subtotaal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
+                    <span className="font-semibold text-slate-900">{formatPrice(rawSubtotal)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Verzendkosten</span>
-                    <span className={`font-semibold ${shipping === 0 ? 'text-emerald-600' : 'text-slate-900 dark:text-white'}`}>
+                    <span className="text-slate-500">Verzendkosten</span>
+                    <span className={`font-semibold ${shipping === 0 ? 'text-emerald-600' : 'text-slate-900'}`}>
                       {shipping === 0 ? 'Gratis' : formatPrice(shipping)}
                     </span>
                   </div>
 
                   {/* Kortingscode */}
-                  <div className="pt-3 border-t border-slate-100 dark:border-slate-700">
+                  <div className="pt-3 border-t border-slate-100">
                     {discountCode ? (
-                      <div className="flex items-center justify-between bg-emerald-50 dark:bg-emerald-900/20 rounded-xl px-3 py-2">
+                      <div className="flex items-center justify-between bg-emerald-50 rounded-xl px-3 py-2">
                         <div>
-                          <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400 block">{discountCode}</span>
+                          <span className="text-xs font-medium text-emerald-600 block">{discountCode}</span>
                           <span className="text-[10px] text-emerald-500">{discountDescription}</span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -481,7 +480,7 @@ export default function WinkelwagenPage() {
                             value={couponInput}
                             onChange={(e) => setCouponInput(e.target.value)}
                             placeholder="Kortingscode"
-                            className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400/20 focus:outline-none transition-all"
+                            className="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400/20 focus:outline-none transition-all"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' && couponInput.trim()) {
                                 const result = applyDiscount(couponInput);
@@ -520,14 +519,14 @@ export default function WinkelwagenPage() {
                     )}
                   </div>
 
-                  <div className="border-t border-slate-100 dark:border-slate-700 pt-4 mt-4">
+                  <div className="border-t border-slate-100 pt-4 mt-4">
                     <div className="flex justify-between items-baseline">
-                      <span className="font-semibold text-slate-900 dark:text-white">Totaal</span>
+                      <span className="font-semibold text-slate-900">Totaal</span>
                       <motion.span
                         key={total}
                         initial={{ scale: 1.1 }}
                         animate={{ scale: 1 }}
-                        className="font-semibold text-slate-900 dark:text-white text-2xl"
+                        className="font-semibold text-slate-900 text-2xl"
                       >
                         {formatPrice(total)}
                       </motion.span>
@@ -548,7 +547,7 @@ export default function WinkelwagenPage() {
                 {/* Payment methods */}
                 <div className="mt-5 flex items-center justify-center gap-2">
                   {['iDEAL'].map((m) => (
-                    <span key={m} className="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-700 border border-slate-100 dark:border-slate-600 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                    <span key={m} className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-100 text-[10px] text-slate-500 font-medium">
                       {m}
                     </span>
                   ))}
@@ -562,7 +561,7 @@ export default function WinkelwagenPage() {
                       'Verzending via PostNL binnen 1-3 werkdagen',
                       '14 dagen bedenktijd',
                     ].map((text, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs text-slate-500 dark:text-slate-400">
+                      <div key={i} className="flex items-start gap-2 text-xs text-slate-500">
                         <svg className="h-3.5 w-3.5 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
@@ -576,11 +575,11 @@ export default function WinkelwagenPage() {
           </div>
 
           {/* Mobiele sticky afrekenen balk */}
-          <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-30 lg:hidden bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border-t border-slate-200 dark:border-slate-700 px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)]">
+          <div className="fixed bottom-[calc(3.5rem+env(safe-area-inset-bottom))] left-0 right-0 z-30 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200 px-4 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.12)]">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Totaal</p>
-                <p className="text-lg font-semibold text-slate-900 dark:text-white">{formatPrice(total)}</p>
+                <p className="text-[10px] text-slate-500 font-medium">Totaal</p>
+                <p className="text-lg font-semibold text-slate-900">{formatPrice(total)}</p>
               </div>
               <Link href="/afrekenen" className="flex-1 max-w-[200px]">
                 <span className="block w-full px-5 py-3 rounded-xl bg-slate-900 text-white font-medium text-sm shadow-lg text-center">
