@@ -11,6 +11,7 @@ import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
 import ProductGrid from '@/components/shop/ProductGrid';
 import QuickView from '@/components/shop/QuickView';
+import GameShowcase from '@/components/shop/GameShowcase';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -293,6 +294,9 @@ function ShopContent() {
       <div ref={headerRef} className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.06),transparent_50%)]" />
+
+        {/* Scrolling game covers achtergrond */}
+        <GameShowcase />
 
         {/* Subtle grid */}
         <div className="absolute inset-0 opacity-[0.015]" style={{

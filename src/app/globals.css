@@ -67,6 +67,18 @@ body {
 .animate-marquee-slow { animation: marquee 60s linear infinite; }
 .animate-marquee-reverse-slow { animation: marquee-reverse 60s linear infinite; }
 
+/* Shop hero showcase marquee */
+@keyframes marquee-showcase {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-showcase-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.animate-marquee-showcase { animation: marquee-showcase linear infinite; }
+.animate-marquee-showcase-reverse { animation: marquee-showcase-reverse linear infinite; }
+
 /* Focus & accessibility */
 :focus-visible {
   outline: 2px solid rgba(16, 185, 129, 0.6);
