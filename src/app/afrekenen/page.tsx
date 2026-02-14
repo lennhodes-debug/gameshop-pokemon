@@ -201,8 +201,44 @@ export default function AfrekenPage() {
     // Generate order number
     const orderNumber = `GE-${Date.now().toString(36).toUpperCase()}`;
 
-    // Simulate Mollie payment processing (in production, this calls backend API -> Mollie)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Create Mollie payment
+    try {
+      const paymentResponse = await fetch('/api/mollie/create-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderNumber,
+          amount: total.toFixed(2),
+          customerName: `${form.voornaam} ${form.achternaam}`,
+          customerEmail: form.email,
+          returnUrl: `${typeof window !== 'undefined' ? window.location.origin : ''}/afrekenen?success=true&orderId=${orderNumber}`,
+          description: `Bestelling ${orderNumber}`,
+        }),
+      });
+
+      const paymentData = await paymentResponse.json();
+
+      if (!paymentData.success) {
+        throw new Error(paymentData.error || 'Fout bij betaling');
+      }
+
+      // If fallback (no Mollie API key), skip redirect and continue
+      if (!paymentData.fallback && paymentData.payment?.checkoutUrl) {
+        // Redirect to Mollie checkout
+        window.location.href = paymentData.payment.checkoutUrl;
+        return;
+      }
+
+      // For fallback or successful payment, continue with order storage
+    } catch (error) {
+      console.error('Payment error:', error);
+      addToast(
+        `Betalingsfout: ${error instanceof Error ? error.message : 'Onbekende fout'}`,
+        'error',
+      );
+      setIsProcessing(false);
+      return;
+    }
 
     // Sla bestelling op
     try {
