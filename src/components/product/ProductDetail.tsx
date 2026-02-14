@@ -420,15 +420,18 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </svg>
           </button>
           <motion.div
-            className="relative max-w-[90vw] max-h-[90vh]"
+            className="relative w-[90vw] h-[85vh]"
             onClick={(e) => e.stopPropagation()}
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
           >
-            <img
+            <Image
               src={displayImage!}
               alt={`${product.name} - ${product.platform}`}
-              className="max-w-full max-h-[85vh] object-contain rounded-2xl"
+              fill
+              sizes="90vw"
+              className="object-contain rounded-2xl"
+              priority
             />
           </motion.div>
         </motion.div>

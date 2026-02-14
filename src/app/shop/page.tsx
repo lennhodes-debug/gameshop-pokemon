@@ -145,8 +145,8 @@ function ShopContent() {
     if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
     if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
 
-    if (priceMin) results = results.filter((p) => p.price >= Number(priceMin));
-    if (priceMax) results = results.filter((p) => p.price <= Number(priceMax));
+    if (priceMin && !isNaN(Number(priceMin))) results = results.filter((p) => p.price >= Number(priceMin));
+    if (priceMax && !isNaN(Number(priceMax))) results = results.filter((p) => p.price <= Number(priceMax));
 
     if (sortBy === 'newest') {
       const skuNum = new Map<string, number>();
