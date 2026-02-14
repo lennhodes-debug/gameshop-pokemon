@@ -316,7 +316,7 @@ export default function ContactPage() {
                           <option value="Vraag over een bestelling">Vraag over een bestelling</option>
                           <option value="Vraag over een product">Vraag over een product</option>
                           <option value="Retourzending">Retourzending</option>
-                          <option value="Advies over een Pok&eacute;mon game">Advies over een Pok&eacute;mon game</option>
+                          <option value="Advies over een game">Advies over een game</option>
                           <option value="Overig">Overig</option>
                         </select>
                         <svg className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>

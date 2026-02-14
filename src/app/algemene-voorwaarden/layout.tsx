@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Algemene Voorwaarden',
-  description: 'De algemene voorwaarden van Gameshop Enter. Lees de voorwaarden voor bestellingen, verzending, betaling en retournering van Pokémon games.',
+  description: 'De algemene voorwaarden van Gameshop Enter. Lees de voorwaarden voor bestellingen, verzending, betaling en retournering van Nintendo games.',
   alternates: { canonical: 'https://gameshopenter.nl/algemene-voorwaarden' },
   openGraph: {
     title: 'Algemene Voorwaarden - Gameshop Enter',

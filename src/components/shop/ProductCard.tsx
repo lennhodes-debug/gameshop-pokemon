@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getGameTheme } from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { useToast } from '@/components/ui/Toast';
 
 interface ProductCardProps {
@@ -79,55 +80,33 @@ function flyToCartAnimation(cardEl: HTMLElement, imageSrc: string | null | undef
   setTimeout(() => flyEl.remove(), 800);
 }
 
-function getWishlist(): string[] {
-  try {
-    const data = localStorage.getItem('gameshop-wishlist');
-    return data ? JSON.parse(data) : [];
-  } catch { return []; }
-}
-
-function toggleWishlistItem(sku: string): boolean {
-  const list = getWishlist();
-  const idx = list.indexOf(sku);
-  if (idx >= 0) {
-    list.splice(idx, 1);
-    localStorage.setItem('gameshop-wishlist', JSON.stringify(list));
-    return false;
-  }
-  list.push(sku);
-  localStorage.setItem('gameshop-wishlist', JSON.stringify(list));
-  return true;
-}
-
 const ProductCard = React.memo(function ProductCard({ product, onQuickView, searchQuery }: ProductCardProps) {
   const { addItem } = useCart();
+  const { toggleItem, isInWishlist } = useWishlist();
   const { addToast } = useToast();
   const [addedToCart, setAddedToCart] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [heartBounce, setHeartBounce] = useState(false);
   const [imageTransition, setImageTransition] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setIsWishlisted(getWishlist().includes(product.sku));
-  }, [product.sku]);
+  const isWishlisted = isInWishlist(product.sku);
 
   const handleToggleWishlist = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const newState = toggleWishlistItem(product.sku);
-    setIsWishlisted(newState);
+    const wasWishlisted = isInWishlist(product.sku);
+    toggleItem(product.sku);
     setHeartBounce(true);
     setTimeout(() => setHeartBounce(false), 400);
     addToast(
-      newState ? `${product.name} op verlanglijst gezet` : `${product.name} van verlanglijst verwijderd`,
-      newState ? 'success' : 'info'
+      !wasWishlisted ? `${product.name} op verlanglijst gezet` : `${product.name} van verlanglijst verwijderd`,
+      !wasWishlisted ? 'success' : 'info'
     );
-  }, [product.sku, product.name, addToast]);
+  }, [product.sku, product.name, addToast, toggleItem, isInWishlist]);
 
   const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
   const platformLabel = PLATFORM_LABELS[product.platform] || product.platform;
@@ -136,8 +115,6 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   const typeInfo = getGameTheme(product.sku, product.genre);
 
   const accentColor = typeInfo ? typeInfo.bg[0] : '#10b981';
-  const accentGlow = typeInfo ? typeInfo.glow : '16,185,129';
-  const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
 
   // Afbeelding en prijs op basis van geselecteerde variant
   const displayImage = (hasCibOption && selectedVariant === 'cib') ? (product.cibImage || product.image) : product.image;
