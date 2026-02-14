@@ -171,6 +171,182 @@ function Ghost({ size = 24, color = '#8b5cf6' }: { size?: number; color?: string
   );
 }
 
+// ─── Iconic Gaming Characters (SVG art) ─────────────────────
+function PlumberChar({ size = 32 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      {/* Red cap */}
+      <ellipse cx="16" cy="10" rx="12" ry="5" fill="#dc2626" />
+      <rect x="4" y="8" width="24" height="4" rx="2" fill="#dc2626" />
+      <ellipse cx="16" cy="8" rx="9" ry="3.5" fill="#ef4444" />
+      {/* Cap emblem */}
+      <circle cx="16" cy="8.5" r="3" fill="white" />
+      <text x="16" y="10.5" textAnchor="middle" fill="#dc2626" fontSize="5" fontWeight="bold">M</text>
+      {/* Face */}
+      <ellipse cx="16" cy="17" rx="9" ry="8" fill="#fde68a" />
+      <ellipse cx="16" cy="18" rx="7" ry="6.5" fill="#fbbf24" opacity="0.3" />
+      {/* Eyes */}
+      <ellipse cx="13" cy="15" rx="2.2" ry="2.8" fill="white" />
+      <ellipse cx="19" cy="15" rx="2.2" ry="2.8" fill="white" />
+      <circle cx="13.5" cy="15.5" r="1.3" fill="#1e3a5f" />
+      <circle cx="19.5" cy="15.5" r="1.3" fill="#1e3a5f" />
+      <circle cx="14" cy="14.8" r="0.5" fill="white" />
+      <circle cx="20" cy="14.8" r="0.5" fill="white" />
+      {/* Big nose */}
+      <ellipse cx="16" cy="17.5" rx="3" ry="2.2" fill="#f59e0b" />
+      <ellipse cx="15" cy="17" rx="1" ry="0.8" fill="white" opacity="0.3" />
+      {/* Mustache */}
+      <path d="M10 19.5 Q13 21 16 19.5 Q19 21 22 19.5" stroke="#8B4513" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+      <path d="M10 19.5 Q11 18 13 18.5" stroke="#8B4513" strokeWidth="1" fill="none" />
+      <path d="M22 19.5 Q21 18 19 18.5" stroke="#8B4513" strokeWidth="1" fill="none" />
+      {/* Smile */}
+      <path d="M13.5 21.5 Q16 23.5 18.5 21.5" stroke="#92400e" strokeWidth="1" strokeLinecap="round" fill="none" />
+      {/* Ears */}
+      <circle cx="7" cy="16" r="2" fill="#fde68a" />
+      <circle cx="25" cy="16" r="2" fill="#fde68a" />
+    </svg>
+  );
+}
+
+function ElectricMouse({ size = 32 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      {/* Body */}
+      <ellipse cx="16" cy="19" rx="10" ry="9" fill="#fbbf24" />
+      <ellipse cx="16" cy="18" rx="8" ry="7" fill="#fde68a" opacity="0.4" />
+      {/* Ears - tall pointy */}
+      <path d="M9 14 L5 2 L13 10 Z" fill="#fbbf24" />
+      <path d="M23 14 L27 2 L19 10 Z" fill="#fbbf24" />
+      {/* Ear tips black */}
+      <path d="M5 2 L7 6 L9 5 Z" fill="#1e293b" />
+      <path d="M27 2 L25 6 L23 5 Z" fill="#1e293b" />
+      {/* Eyes */}
+      <circle cx="12.5" cy="16" r="2.5" fill="#1e293b" />
+      <circle cx="19.5" cy="16" r="2.5" fill="#1e293b" />
+      <circle cx="13.2" cy="15.2" r="1" fill="white" />
+      <circle cx="20.2" cy="15.2" r="1" fill="white" />
+      <circle cx="12" cy="16.5" r="0.4" fill="white" />
+      <circle cx="19" cy="16.5" r="0.4" fill="white" />
+      {/* Red cheeks */}
+      <circle cx="9" cy="19" r="2.5" fill="#ef4444" opacity="0.5" />
+      <circle cx="23" cy="19" r="2.5" fill="#ef4444" opacity="0.5" />
+      {/* Nose */}
+      <ellipse cx="16" cy="18" rx="1" ry="0.7" fill="#1e293b" />
+      {/* Mouth */}
+      <path d="M14 20 Q16 21.5 18 20" stroke="#92400e" strokeWidth="0.8" strokeLinecap="round" fill="none" />
+      {/* Lightning bolt tail */}
+      <path d="M26 18 L29 12 L27 15 L30 9 L26 16 L28 13 Z" fill="#f59e0b" stroke="#d97706" strokeWidth="0.5" />
+    </svg>
+  );
+}
+
+function ElfHero({ size = 32 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      {/* Green hat */}
+      <path d="M8 14 L16 2 L24 14 Z" fill="#16a34a" />
+      <path d="M10 13 L16 4 L22 13 Z" fill="#22c55e" opacity="0.5" />
+      {/* Hat brim */}
+      <ellipse cx="16" cy="14" rx="11" ry="3" fill="#16a34a" />
+      {/* Face */}
+      <ellipse cx="16" cy="20" rx="8" ry="7" fill="#fde68a" />
+      {/* Pointy ears */}
+      <path d="M6 18 L2 15 L8 19 Z" fill="#fde68a" />
+      <path d="M26 18 L30 15 L24 19 Z" fill="#fde68a" />
+      <path d="M3 15.5 L6 17" stroke="#f59e0b" strokeWidth="0.5" opacity="0.5" />
+      <path d="M29 15.5 L26 17" stroke="#f59e0b" strokeWidth="0.5" opacity="0.5" />
+      {/* Eyes - heroic */}
+      <ellipse cx="13" cy="19" rx="2" ry="2.5" fill="white" />
+      <ellipse cx="19" cy="19" rx="2" ry="2.5" fill="white" />
+      <circle cx="13.3" cy="19.3" r="1.3" fill="#2563eb" />
+      <circle cx="19.3" cy="19.3" r="1.3" fill="#2563eb" />
+      <circle cx="13.7" cy="18.7" r="0.5" fill="white" />
+      <circle cx="19.7" cy="18.7" r="0.5" fill="white" />
+      {/* Eyebrows - determined */}
+      <path d="M11 16.5 L14.5 17" stroke="#92400e" strokeWidth="1" strokeLinecap="round" />
+      <path d="M21 16.5 L17.5 17" stroke="#92400e" strokeWidth="1" strokeLinecap="round" />
+      {/* Nose */}
+      <ellipse cx="16" cy="21" rx="1.2" ry="0.9" fill="#f59e0b" opacity="0.5" />
+      {/* Smile */}
+      <path d="M13.5 23 Q16 25 18.5 23" stroke="#92400e" strokeWidth="0.8" strokeLinecap="round" fill="none" />
+      {/* Little sword on back */}
+      <rect x="24" y="5" width="1.5" height="10" rx="0.5" fill="#94a3b8" />
+      <rect x="22.5" y="14" width="4.5" height="2" rx="0.8" fill="#d97706" />
+      <polygon points="24.75,5 23.5,2 26,2" fill="#94a3b8" />
+    </svg>
+  );
+}
+
+function PinkPuff({ size = 32 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      {/* Body - perfect circle */}
+      <circle cx="16" cy="16" r="12" fill="#f9a8d4" />
+      <circle cx="16" cy="15" r="10" fill="#fbcfe8" opacity="0.4" />
+      {/* Shine */}
+      <ellipse cx="11" cy="11" rx="3" ry="4" fill="white" opacity="0.25" transform="rotate(-20 11 11)" />
+      {/* Big eyes */}
+      <ellipse cx="12" cy="14" rx="3.5" ry="4" fill="#1e3a5f" />
+      <ellipse cx="20" cy="14" rx="3.5" ry="4" fill="#1e3a5f" />
+      <ellipse cx="12.8" cy="13" rx="1.5" ry="2" fill="#3b82f6" />
+      <ellipse cx="20.8" cy="13" rx="1.5" ry="2" fill="#3b82f6" />
+      <circle cx="13.2" cy="12.5" r="0.8" fill="white" />
+      <circle cx="21.2" cy="12.5" r="0.8" fill="white" />
+      <circle cx="11.5" cy="14.5" r="0.4" fill="white" />
+      <circle cx="19.5" cy="14.5" r="0.4" fill="white" />
+      {/* Blush */}
+      <ellipse cx="8.5" cy="17" rx="2.2" ry="1.3" fill="#f472b6" opacity="0.4" />
+      <ellipse cx="23.5" cy="17" rx="2.2" ry="1.3" fill="#f472b6" opacity="0.4" />
+      {/* Mouth */}
+      <ellipse cx="16" cy="19" rx="2.5" ry="1.8" fill="#be185d" opacity="0.6" />
+      <ellipse cx="16" cy="18.5" rx="1.5" ry="0.6" fill="#fda4af" opacity="0.4" />
+      {/* Feet */}
+      <ellipse cx="12" cy="27" rx="3" ry="2" fill="#ef4444" />
+      <ellipse cx="20" cy="27" rx="3" ry="2" fill="#ef4444" />
+      <ellipse cx="11" cy="26.5" rx="1" ry="0.6" fill="white" opacity="0.3" />
+      <ellipse cx="19" cy="26.5" rx="1" ry="0.6" fill="white" opacity="0.3" />
+      {/* Arms (tiny) */}
+      <ellipse cx="5" cy="18" rx="2.5" ry="2" fill="#f9a8d4" transform="rotate(-15 5 18)" />
+      <ellipse cx="27" cy="18" rx="2.5" ry="2" fill="#f9a8d4" transform="rotate(15 27 18)" />
+    </svg>
+  );
+}
+
+function SpaceHunter({ size = 32 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      {/* Helmet */}
+      <path d="M6 16 C6 8 10 3 16 3 C22 3 26 8 26 16 L24 18 L8 18 Z" fill="#f97316" />
+      <path d="M8 15 C8 9 11 5 16 5 C21 5 24 9 24 15 L22 17 L10 17 Z" fill="#fb923c" opacity="0.5" />
+      {/* Visor */}
+      <path d="M9 13 C9 9 12 7 16 7 C20 7 23 9 23 13 L22 15 L10 15 Z" fill="#10b981" opacity="0.8" />
+      <path d="M11 12 C11 10 13 8 16 8 C19 8 21 10 21 12" stroke="rgba(255,255,255,0.3)" strokeWidth="0.8" fill="none" />
+      {/* Visor shine */}
+      <ellipse cx="13" cy="11" rx="2" ry="1.5" fill="white" opacity="0.2" />
+      {/* Armor body */}
+      <rect x="8" y="18" width="16" height="10" rx="3" fill="#f97316" />
+      <rect x="10" y="19" width="12" height="8" rx="2" fill="#fb923c" opacity="0.3" />
+      {/* Chest light */}
+      <circle cx="16" cy="22" r="1.5" fill="#22d3ee" />
+      <circle cx="16" cy="22" r="1" fill="white" opacity="0.5" />
+      {/* Arm cannon */}
+      <rect x="2" y="19" width="7" height="5" rx="2.5" fill="#f97316" />
+      <circle cx="2.5" cy="21.5" r="2" fill="#22d3ee" opacity="0.4" />
+      <rect x="1" y="20" width="2" height="3" rx="1" fill="#10b981" />
+      {/* Other arm */}
+      <rect x="23" y="19" width="5" height="4" rx="2" fill="#f97316" />
+      {/* Shoulder pads */}
+      <ellipse cx="8" cy="18.5" rx="3" ry="2" fill="#ea580c" />
+      <ellipse cx="24" cy="18.5" rx="3" ry="2" fill="#ea580c" />
+      {/* Helmet crest */}
+      <path d="M14 4 L16 1 L18 4" fill="#22d3ee" />
+    </svg>
+  );
+}
+
+// Character array for random use
+const GAMING_CHARS = [PlumberChar, ElectricMouse, ElfHero, PinkPuff, SpaceHunter] as const;
+
 // ─── Dartboard icon ─────────────────────────────────────────
 function Dartboard({ size = 24 }: { size?: number }) {
   return (
@@ -247,10 +423,10 @@ function GameCard({ rank, suit, faceDown = false, small = false }: { rank: strin
     );
   }
 
-  const faceChar = rank === 'J' ? <Mushroom size={small ? 20 : 26} color="#ef4444" /> :
-                   rank === 'Q' ? <Star size={small ? 20 : 26} color="#f59e0b" /> :
-                   rank === 'K' ? <Ghost size={small ? 20 : 26} color="#8b5cf6" /> :
-                   rank === 'A' ? <GameBear size={small ? 20 : 26} mood="excited" /> : null;
+  const faceChar = rank === 'J' ? <ElfHero size={small ? 22 : 28} /> :
+                   rank === 'Q' ? <ElectricMouse size={small ? 22 : 28} /> :
+                   rank === 'K' ? <PlumberChar size={small ? 22 : 28} /> :
+                   rank === 'A' ? <SpaceHunter size={small ? 22 : 28} /> : null;
 
   return (
     <div className="rounded-lg overflow-hidden relative" style={{
@@ -460,8 +636,9 @@ function DartsGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
 
       {gameOver ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4">
-          <motion.div animate={{ rotate: [0, -10, 10, 0], scale: [1, 1.1, 1] }} transition={{ duration: 0.8 }}>
-            <GameBear size={64} mood={totalScore >= 150 ? 'excited' : totalScore >= 80 ? 'happy' : 'thinking'} />
+          <motion.div animate={{ rotate: [0, -10, 10, 0], scale: [1, 1.1, 1] }} transition={{ duration: 0.8 }}
+            className="flex items-center gap-2">
+            {totalScore >= 150 ? <ElfHero size={52} /> : totalScore >= 80 ? <ElectricMouse size={52} /> : <PinkPuff size={52} />}
           </motion.div>
           <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-white font-black text-xl">
             {totalScore >= 150 ? pick(D_BULL) : totalScore >= 80 ? 'Goed gespeeld! 🎯' : pick(D_MISS)}
@@ -792,8 +969,13 @@ function BlackjackGame({ onBack, onScore }: { onBack: () => void; onScore: (s: n
       <div className="relative flex-1 flex flex-col">
         {phase === 'bet' ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4">
+            {/* Floating gaming characters */}
+            <div className="absolute top-6 left-3 opacity-[0.06]"><ElectricMouse size={28} /></div>
+            <div className="absolute top-16 right-4 opacity-[0.06]"><ElfHero size={24} /></div>
+            <div className="absolute bottom-32 left-5 opacity-[0.05]"><PinkPuff size={22} /></div>
+            <div className="absolute bottom-24 right-3 opacity-[0.06]"><SpaceHunter size={26} /></div>
             <motion.div animate={{ rotate: [0, -3, 3, 0] }} transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}>
-              <GameBear size={56} mood="thinking" />
+              <PlumberChar size={56} />
             </motion.div>
             <p className="text-white font-black text-xl">Blackjack</p>
             <p className="text-slate-400 text-xs text-center">Kom zo dicht bij 21 als je kan!</p>
@@ -1093,7 +1275,7 @@ function BowlingGame({ onBack, onScore }: { onBack: () => void; onScore: (s: num
       {gameOver ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4">
           <motion.div animate={{ rotate: [0, -8, 8, 0], scale: [1, 1.1, 1] }} transition={{ duration: 0.7 }}>
-            <GameBear size={64} mood={score >= 350 ? 'excited' : score >= 200 ? 'happy' : 'thinking'} />
+            {score >= 350 ? <PlumberChar size={60} /> : score >= 200 ? <SpaceHunter size={56} /> : <PinkPuff size={56} />}
           </motion.div>
           <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-white font-black text-xl">
             {score >= 400 ? pick(B_STRIKE) : score >= 250 ? 'Goed gespeeld! 🎳' : score >= 150 ? 'Niet slecht!' : 'Oefenen maar! 💪'}
@@ -1160,6 +1342,12 @@ function BowlingGame({ onBack, onScore }: { onBack: () => void; onScore: (s: num
 
             {/* Foul line */}
             <div className="absolute" style={{ left: '13%', right: '13%', top: '80%', height: '2px', background: 'rgba(239,68,68,0.2)' }} />
+
+            {/* Spectator characters in gutters */}
+            <div className="absolute left-[2%] top-[45%] opacity-[0.12]"><ElectricMouse size={18} /></div>
+            <div className="absolute right-[2%] top-[35%] opacity-[0.12]"><PinkPuff size={16} /></div>
+            <div className="absolute left-[1%] top-[65%] opacity-[0.1]"><ElfHero size={16} /></div>
+            <div className="absolute right-[1%] top-[55%] opacity-[0.1]"><PlumberChar size={18} /></div>
 
             {/* Pins */}
             {pins.map(pin => (
@@ -1406,6 +1594,10 @@ export default function MiniGames() {
                           {/* Hover border */}
                           <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                             style={{ boxShadow: `inset 0 0 0 1px ${game.color}20` }} />
+                          {/* Floating character decoration */}
+                          <div className="absolute right-12 top-1/2 -translate-y-1/2 opacity-[0.07] group-hover:opacity-[0.15] transition-opacity pointer-events-none">
+                            {i === 0 ? <PlumberChar size={48} /> : i === 1 ? <ElfHero size={48} /> : <PinkPuff size={48} />}
+                          </div>
 
                           {/* Icon */}
                           <motion.div whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }} transition={{ duration: 0.3 }}
@@ -1435,8 +1627,15 @@ export default function MiniGames() {
                       ))}
                     </div>
 
-                    {/* Footer */}
-                    <div className="mt-4 text-center">
+                    {/* Character parade */}
+                    <div className="mt-4 flex justify-center gap-3 opacity-[0.15]">
+                      {GAMING_CHARS.map((Char, i) => (
+                        <motion.div key={i} animate={{ y: [0, -3, 0] }} transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.25 }}>
+                          <Char size={20} />
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="mt-2 text-center">
                       <p className="text-slate-600 text-[10px]">3 games beschikbaar</p>
                     </div>
                   </motion.div>
