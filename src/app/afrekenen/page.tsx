@@ -35,16 +35,8 @@ const fadeUp = {
 };
 
 export default function AfrekenPage() {
-  const {
-    items,
-    getSubtotal,
-    clearCart,
-    discountCode,
-    discountAmount,
-    discountDescription,
-    applyDiscount,
-    removeDiscount,
-  } = useCart();
+  const { items, getSubtotal, clearCart, discount, discountAmount, applyDiscount, removeDiscount } =
+    useCart();
   const [couponInput, setCouponInput] = useState('');
   const [couponMessage, setCouponMessage] = useState<{ text: string; success: boolean } | null>(
     null,
@@ -800,13 +792,15 @@ export default function AfrekenPage() {
                   </div>
 
                   {/* Kortingscode */}
-                  {discountCode ? (
+                  {discount ? (
                     <div className="flex items-center justify-between bg-emerald-50 rounded-xl px-3 py-2">
                       <div>
                         <span className="text-xs font-medium text-emerald-600 block">
-                          {discountCode}
+                          {discount.code}
                         </span>
-                        <span className="text-[10px] text-emerald-500">{discountDescription}</span>
+                        <span className="text-[10px] text-emerald-500">
+                          {discount.percentage}% korting
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-semibold text-emerald-600">
@@ -842,10 +836,10 @@ export default function AfrekenPage() {
                           onChange={(e) => setCouponInput(e.target.value)}
                           placeholder="Kortingscode"
                           className="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400/20 focus:outline-none transition-all"
-                          onKeyDown={(e) => {
+                          onKeyDown={async (e) => {
                             if (e.key === 'Enter' && couponInput.trim()) {
                               e.preventDefault();
-                              const result = applyDiscount(couponInput);
+                              const result = await applyDiscount(couponInput);
                               setCouponMessage({ text: result.message, success: result.success });
                               if (result.success) setCouponInput('');
                               setTimeout(() => setCouponMessage(null), 4000);
@@ -854,9 +848,9 @@ export default function AfrekenPage() {
                         />
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={async () => {
                             if (!couponInput.trim()) return;
-                            const result = applyDiscount(couponInput);
+                            const result = await applyDiscount(couponInput);
                             setCouponMessage({ text: result.message, success: result.success });
                             if (result.success) setCouponInput('');
                             setTimeout(() => setCouponMessage(null), 4000);

@@ -9,6 +9,7 @@ export default function NewsletterCTA() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [discountCode, setDiscountCode] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,16 +17,25 @@ export default function NewsletterCTA() {
     setIsSubmitting(true);
     setError('');
     try {
-      const response = await fetch('/__forms.html', {
+      // Generate discount code via API
+      const response = await fetch('/api/newsletter', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 'form-name': 'newsletter', email }).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       });
-      if (response.ok) {
+
+      const data = (await response.json()) as {
+        success?: boolean;
+        code?: string;
+        message?: string;
+      };
+
+      if (data.success && data.code) {
+        setDiscountCode(data.code);
         setSubmitted(true);
         setEmail('');
       } else {
-        setError('Er ging iets mis. Probeer het opnieuw.');
+        setError(data.message || 'Er ging iets mis. Probeer het opnieuw.');
       }
     } catch {
       setError('Geen verbinding. Controleer je internet en probeer het opnieuw.');
@@ -67,8 +77,18 @@ export default function NewsletterCTA() {
             transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
             className="inline-flex h-14 w-14 rounded-2xl bg-white/10 backdrop-blur-sm items-center justify-center mb-8"
           >
-            <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            <svg
+              className="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+              />
             </svg>
           </motion.div>
 
@@ -88,7 +108,8 @@ export default function NewsletterCTA() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-lg text-white/75 mb-4 max-w-lg mx-auto"
           >
-            Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
+            Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame
+            aanwinsten en krijg early access bij nieuwe drops
           </motion.p>
 
           <motion.p
@@ -105,7 +126,12 @@ export default function NewsletterCTA() {
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.45 + i * 0.06 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 15,
+                    delay: 0.45 + i * 0.06,
+                  }}
                   className="h-6 w-6 rounded-full bg-white/[0.12] flex items-center justify-center text-[10px] font-medium text-white/70"
                 >
                   {letter}
@@ -120,17 +146,43 @@ export default function NewsletterCTA() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
-              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm"
+              className="max-w-sm mx-auto"
             >
-              <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
+              <div className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm w-full">
+                <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <svg
+                    className="h-5 w-5 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+                <div className="text-left min-w-0">
+                  <span className="text-white font-medium block">Je staat op de lijst!</span>
+                  <span className="text-white/60 text-sm">
+                    Je ontvangt als eerste updates over nieuwe aanwinsten.
+                  </span>
+                </div>
               </div>
-              <div className="text-left">
-                <span className="text-white font-medium block">Je staat op de lijst!</span>
-                <span className="text-white/60 text-sm">Je ontvangt als eerste updates over nieuwe aanwinsten.</span>
-              </div>
+              {discountCode && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mt-4 bg-emerald-500/20 border border-emerald-400/40 rounded-2xl p-4 backdrop-blur-sm text-center"
+                >
+                  <span className="text-white/75 text-xs block mb-1">Je kortingscode:</span>
+                  <span className="text-white font-bold text-lg tracking-widest block font-mono">
+                    {discountCode}
+                  </span>
+                  <span className="text-emerald-200 text-xs block mt-1">
+                    10% korting op je eerste bestelling
+                  </span>
+                </motion.div>
+              )}
             </motion.div>
           ) : (
             <motion.form
