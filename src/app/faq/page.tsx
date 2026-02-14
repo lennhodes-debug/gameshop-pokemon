@@ -6,11 +6,11 @@ import Link from 'next/link';
 import Accordion from '@/components/ui/Accordion';
 
 const categories = [
-  { value: '', label: 'Alles' },
-  { value: 'producten', label: 'Producten' },
-  { value: 'verzending', label: 'Verzending' },
-  { value: 'betaling', label: 'Betaling & Retour' },
-  { value: 'inkoop', label: 'Inkoop' },
+  { value: '', label: 'Alles', icon: <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg> },
+  { value: 'producten', label: 'Producten', icon: <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.39 48.39 0 01-4.163-.3c.186 1.613.466 3.2.836 4.748a48.354 48.354 0 009.57 0c.37-1.548.65-3.135.836-4.748a48.39 48.39 0 01-4.163.3.64.64 0 01-.657-.643v0z" /></svg> },
+  { value: 'verzending', label: 'Verzending', icon: <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg> },
+  { value: 'betaling', label: 'Betaling & Retour', icon: <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg> },
+  { value: 'inkoop', label: 'Inkoop', icon: <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg> },
 ];
 
 const faqItems = [
@@ -145,7 +145,13 @@ export default function FaqPage() {
     return items;
   }, [search, activeCategory]);
 
-  const activeCategoryLabel = categories.find((c) => c.value === activeCategory)?.label || 'Alles';
+  const categoryCount = useMemo(() => {
+    const counts: Record<string, number> = { '': faqItems.length };
+    for (const item of faqItems) {
+      counts[item.category] = (counts[item.category] || 0) + 1;
+    }
+    return counts;
+  }, []);
 
   return (
     <div className="pt-16 lg:pt-20">
@@ -155,67 +161,81 @@ export default function FaqPage() {
       />
 
       {/* Hero */}
-      <div className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.08),transparent_70%)]" />
+      <section className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.06),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.04),transparent_60%)]" />
+
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }}
+        />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-white/[0.06] border border-white/[0.08] text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
-              FAQ
-            </span>
-            <h1 className="text-4xl lg:text-[64px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-4">
-              Veelgestelde vragen
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.05 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] backdrop-blur-sm mb-6"
+            >
+              <svg className="h-3.5 w-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+              </svg>
+              <span className="text-white/50 text-xs font-medium">{faqItems.length} veelgestelde vragen</span>
+            </motion.div>
+
+            <h1 className="text-4xl lg:text-[72px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-5">
+              <motion.span
+                className="block"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Veelgestelde
+              </motion.span>
+              <motion.span
+                className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
+                vragen
+              </motion.span>
             </h1>
-            <p className="text-lg text-slate-400 max-w-2xl">
-              Antwoorden op de meest gestelde vragen over onze producten en service
-            </p>
+            <motion.p
+              initial={{ opacity: 0, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, filter: 'blur(0px)' }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="text-lg text-white/40 max-w-xl"
+            >
+              Antwoorden op de meest gestelde vragen over onze producten, verzending en service
+            </motion.p>
           </motion.div>
         </div>
-      </div>
+
+        {/* Gradient transitie */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#f8fafc] to-transparent pointer-events-none" />
+      </section>
 
       {/* Content */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        {/* Categorie filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05, duration: 0.5 }}
-          className="mb-4"
-        >
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setActiveCategory(cat.value)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
-                  activeCategory === cat.value
-                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
-                    : 'bg-white border border-slate-200 text-slate-600 hover:border-emerald-300'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-          <p className="mt-2.5 text-xs text-slate-500 pl-1">
-            <span className="font-semibold text-emerald-600">{filteredItems.length}</span>{' '}
-            {filteredItems.length === 1 ? 'vraag' : 'vragen'} in {activeCategoryLabel.toLowerCase()}
-          </p>
-        </motion.div>
-
         {/* Zoekbalk */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+          transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="mb-6"
         >
           <div className="relative">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
             <input
@@ -223,7 +243,7 @@ export default function FaqPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Zoek in veelgestelde vragen..."
-              className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all"
+              className="w-full pl-11 pr-10 py-4 rounded-2xl border border-slate-200/80 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 outline-none transition-all shadow-sm"
             />
             <AnimatePresence>
               {search && (
@@ -232,7 +252,7 @@ export default function FaqPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   onClick={() => setSearch('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition-all"
                 >
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -241,41 +261,102 @@ export default function FaqPage() {
               )}
             </AnimatePresence>
           </div>
-          {search && (
-            <p className="mt-2 text-xs text-slate-500 pl-1">
-              <span className="font-semibold text-emerald-600">{filteredItems.length}</span>{' '}
-              {filteredItems.length === 1 ? 'resultaat' : 'resultaten'} gevonden
-            </p>
-          )}
         </motion.div>
+
+        {/* Categorie filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8"
+        >
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setActiveCategory(cat.value)}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
+                  activeCategory === cat.value
+                    ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/15'
+                    : 'bg-white border border-slate-200/80 text-slate-500 hover:border-slate-300 hover:text-slate-700 shadow-sm'
+                }`}
+              >
+                {cat.icon}
+                {cat.label}
+                <span className={`ml-0.5 text-[10px] ${activeCategory === cat.value ? 'text-white/50' : 'text-slate-300'}`}>
+                  {categoryCount[cat.value] || 0}
+                </span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Resultaat indicator */}
+        <AnimatePresence mode="wait">
+          {(search || activeCategory) && (
+            <motion.div
+              key={`${search}-${activeCategory}`}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mb-4 overflow-hidden"
+            >
+              <div className="flex items-center justify-between px-1">
+                <p className="text-xs text-slate-400">
+                  <span className="font-semibold text-slate-600">{filteredItems.length}</span>{' '}
+                  {filteredItems.length === 1 ? 'resultaat' : 'resultaten'}
+                  {search && <> voor &ldquo;<span className="text-slate-600">{search}</span>&rdquo;</>}
+                </p>
+                {(search || activeCategory) && (
+                  <button
+                    onClick={() => { setSearch(''); setActiveCategory(''); }}
+                    className="text-xs text-slate-400 hover:text-emerald-600 transition-colors"
+                  >
+                    Wis filters
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* FAQ lijst */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 lg:p-8"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          {filteredItems.length > 0 ? (
-            <Accordion items={filteredItems} />
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-slate-500 text-sm mb-2">
-                {search ? (
-                  <>Geen vragen gevonden voor &ldquo;{search}&rdquo;</>
-                ) : (
-                  <>Geen vragen in deze categorie</>
-                )}
-              </p>
-              <button
-                onClick={() => { setSearch(''); setActiveCategory(''); }}
-                className="text-sm text-emerald-600 font-semibold hover:text-emerald-700 transition-colors"
-              >
-                Filters wissen
-              </button>
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+            <div className="p-5 lg:p-7">
+              {filteredItems.length > 0 ? (
+                <Accordion items={filteredItems} />
+              ) : (
+                <div className="text-center py-16">
+                  <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center mx-auto mb-4">
+                    <svg className="h-5 w-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                  </div>
+                  <p className="text-slate-500 text-sm mb-1">
+                    {search ? (
+                      <>Geen vragen gevonden voor &ldquo;{search}&rdquo;</>
+                    ) : (
+                      <>Geen vragen in deze categorie</>
+                    )}
+                  </p>
+                  <p className="text-slate-400 text-xs mb-4">Probeer een andere zoekterm of categorie</p>
+                  <button
+                    onClick={() => { setSearch(''); setActiveCategory(''); }}
+                    className="text-sm text-emerald-600 font-medium hover:text-emerald-700 transition-colors"
+                  >
+                    Alle vragen tonen
+                  </button>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </motion.div>
 
         {/* CTA */}
@@ -284,31 +365,62 @@ export default function FaqPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-12 bg-gradient-to-br from-[#0a1628] to-[#0d1f3c] rounded-2xl p-8 text-center border border-white/[0.06]"
+          className="mt-14"
         >
-          <h3 className="text-xl font-semibold text-white mb-2">Staat je vraag er niet bij?</h3>
-          <p className="text-slate-400 mb-6 max-w-md mx-auto">
-            Neem gerust contact met ons op. Wij reageren binnen 24 uur.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="mailto:gameshopenter@gmail.com"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold shadow-lg shadow-emerald-500/25 hover:shadow-xl transition-shadow"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-              </svg>
-              E-mail sturen
-            </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white text-sm font-semibold hover:bg-white/[0.1] transition-all"
-            >
-              Contactformulier
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
+          <div className="relative rounded-2xl overflow-hidden">
+            {/* Achtergrond */}
+            <div className="absolute inset-0 bg-[#050810]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.08),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.06),transparent_60%)]" />
+            <div
+              className="absolute inset-0 opacity-[0.02]"
+              style={{
+                backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
+                backgroundSize: '24px 24px',
+              }}
+            />
+
+            <div className="relative p-8 lg:p-10 text-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                className="inline-flex h-12 w-12 rounded-2xl bg-white/[0.06] items-center justify-center mb-5"
+              >
+                <svg className="h-5 w-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                </svg>
+              </motion.div>
+
+              <h3 className="text-xl lg:text-2xl font-light text-white tracking-[-0.02em] mb-2">
+                Staat je vraag er niet bij?
+              </h3>
+              <p className="text-white/40 text-sm mb-8 max-w-md mx-auto">
+                Neem gerust contact met ons op. Wij reageren binnen 24 uur.
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href="mailto:gameshopenter@gmail.com"
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-white text-slate-900 text-sm font-medium shadow-lg shadow-white/10 hover:shadow-white/20 hover:bg-white/95 transition-all duration-300"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                  E-mail sturen
+                </a>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-white/[0.08] text-white/80 text-sm font-medium hover:bg-white/[0.12] hover:text-white transition-all duration-300 backdrop-blur-sm"
+                >
+                  Contactformulier
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
