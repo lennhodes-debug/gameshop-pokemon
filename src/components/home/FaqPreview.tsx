@@ -50,13 +50,13 @@ export default function FaqPreview() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-12"
         >
-          <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.2em] mb-4">
+          <p className="text-slate-400/80 text-xs font-medium uppercase tracking-[0.2em] mb-4">
             FAQ
           </p>
           <h2 className="text-3xl lg:text-[52px] font-light text-slate-900 mb-3 tracking-[-0.03em] leading-[1.05]">
             Veelgestelde vragen
           </h2>
-          <p className="text-sm text-slate-400 max-w-md mx-auto font-normal">
+          <p className="text-sm text-slate-400/70 max-w-md mx-auto font-normal">
             Heb je een vraag? Wellicht vind je het antwoord hier
           </p>
         </motion.div>
@@ -68,11 +68,11 @@ export default function FaqPreview() {
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
         >
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+            <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
             <div className="p-6 lg:p-8">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm font-medium text-slate-600">Top 5 vragen</span>
-                <Link href="/faq" className="text-xs text-slate-400 hover:text-slate-600 transition-colors">
+                <Link href="/faq" className="text-xs text-slate-400 hover:text-emerald-600 transition-colors">
                   Alle {'>'}20 vragen
                 </Link>
               </div>
@@ -90,7 +90,7 @@ export default function FaqPreview() {
         >
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-slate-50 text-slate-600 font-medium text-sm hover:bg-slate-100 hover:text-slate-900 hover:shadow-sm transition-all duration-300 group"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-slate-50 text-slate-600 font-medium text-sm hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-sm transition-all duration-300 group"
           >
             Bekijk alle vragen
             <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

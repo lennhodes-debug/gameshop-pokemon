@@ -5,7 +5,6 @@ import TrustStrip from '@/components/home/TrustStrip';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
-const GameCarousel3D = dynamic(() => import('@/components/home/GameCarousel3D'));
 const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
 const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
 const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
@@ -19,7 +18,6 @@ export default function HomePage() {
       <TrustStrip />
       <FeaturedProducts />
       <PlatformGrid />
-      <GameCarousel3D />
       <ReviewsStrip />
       <AboutPreview />
       <FaqPreview />

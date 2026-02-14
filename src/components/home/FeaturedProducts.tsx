@@ -233,7 +233,7 @@ function BrowseCard({ productCount }: { productCount: number }) {
       transition={{ type: 'spring', stiffness: 80, damping: 15, delay: 0.5 }}
     >
       <Link href="/shop" className="block h-full">
-        <div className="relative h-full min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-6 flex flex-col justify-between group hover:shadow-xl hover:shadow-black/10 transition-all duration-500">
+        <div className="relative h-full min-h-[240px] sm:min-h-[260px] lg:min-h-[280px] rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-6 flex flex-col justify-between group hover:shadow-xl hover:shadow-emerald-500/15 transition-all duration-500">
           {/* Noise texture */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
             <svg width="100%" height="100%">
@@ -285,7 +285,7 @@ export default function FeaturedProducts() {
   // Section-level cursor spotlight
   const sMx = useMotionValue(0);
   const sMy = useMotionValue(0);
-  const sectionSpotlight = useMotionTemplate`radial-gradient(800px circle at ${sMx}px ${sMy}px, rgba(16,185,129,0.03), transparent 70%)`;
+  const sectionSpotlight = useMotionTemplate`radial-gradient(800px circle at ${sMx}px ${sMy}px, rgba(16,185,129,0.025), transparent 70%)`;
 
   const handleSectionMove = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
@@ -351,7 +351,7 @@ export default function FeaturedProducts() {
           >
             <Link
               href="/shop"
-              className="hidden sm:flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-emerald-600 transition-colors group"
+              className="hidden sm:flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-emerald-500 transition-colors group"
             >
               Alles bekijken
               <svg
@@ -403,7 +403,7 @@ export default function FeaturedProducts() {
         >
           <Link
             href="/shop"
-            className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-slate-900 text-white font-medium text-sm shadow-lg w-full"
+            className="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium text-sm shadow-lg shadow-emerald-500/20 w-full"
           >
             Bekijk alle producten
           </Link>

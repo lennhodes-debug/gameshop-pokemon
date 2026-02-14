@@ -231,7 +231,7 @@ export default function PlatformGrid() {
 
   return (
     <section className="relative bg-[#050810] py-28 lg:py-40 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(99,102,241,0.06),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_center,rgba(16,185,129,0.05),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.04),transparent_50%)]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -247,12 +247,12 @@ export default function PlatformGrid() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6 origin-center"
+            className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mx-auto mb-6 origin-center"
           />
           <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05] mb-3">
             Shop per platform
           </h2>
-          <p className="text-slate-400 max-w-md mx-auto font-normal">
+          <p className="text-white/40 max-w-md mx-auto font-normal">
             Zes generaties Nintendo &mdash; van Game Boy tot Wii U.
           </p>
         </motion.div>

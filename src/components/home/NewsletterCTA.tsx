@@ -37,9 +37,9 @@ export default function NewsletterCTA() {
   return (
     <section className="relative py-28 lg:py-40 overflow-hidden">
       {/* Multi-layered gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.3),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.25),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.12),transparent_50%)]" />
 
       {/* Dot grid pattern */}
       <div
@@ -86,7 +86,7 @@ export default function NewsletterCTA() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-lg text-white/70 mb-4 max-w-lg mx-auto"
+            className="text-lg text-white/75 mb-4 max-w-lg mx-auto"
           >
             Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
           </motion.p>
@@ -96,7 +96,7 @@ export default function NewsletterCTA() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-white/40 text-sm mb-8 flex items-center justify-center gap-2"
+            className="text-white/50 text-sm mb-8 flex items-center justify-center gap-2"
           >
             <span className="flex -space-x-1.5">
               {['E', 'T', 'L', 'K'].map((letter, i) => (
@@ -106,7 +106,7 @@ export default function NewsletterCTA() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.45 + i * 0.06 }}
-                  className="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-medium text-white/70"
+                  className="h-6 w-6 rounded-full bg-white/[0.12] flex items-center justify-center text-[10px] font-medium text-white/70"
                 >
                   {letter}
                 </motion.span>
@@ -151,7 +151,7 @@ export default function NewsletterCTA() {
                 aria-label="E-mailadres voor nieuwsbrief"
                 required
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-sm text-white placeholder:text-white/40 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/15 transition-all disabled:opacity-60"
+                className="flex-1 px-6 py-4 rounded-2xl bg-white/[0.08] backdrop-blur-sm text-white placeholder:text-white/35 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/25 focus:bg-white/[0.12] transition-all disabled:opacity-60"
               />
               <button
                 type="submit"
@@ -182,7 +182,7 @@ export default function NewsletterCTA() {
             </motion.p>
           )}
 
-          <p className="text-white/30 text-xs mt-6">
+          <p className="text-white/35 text-xs mt-6">
             Geen spam, alleen relevante updates. Je kunt je altijd afmelden.
           </p>
         </motion.div>

@@ -48,7 +48,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#050810] via-[#0a1628] to-[#050810]" />
 
         <motion.div
-          className="absolute w-[600px] h-[600px] rounded-full opacity-[0.15] blur-[120px] pointer-events-none"
+          className="absolute w-[600px] h-[600px] rounded-full opacity-[0.18] blur-[120px] pointer-events-none"
           style={{
             left: orb1X,
             top: orb1Y,
@@ -56,7 +56,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full opacity-[0.12] blur-[100px] pointer-events-none"
+          className="absolute w-[500px] h-[500px] rounded-full opacity-[0.14] blur-[100px] pointer-events-none"
           style={{
             left: orb2X,
             top: orb2Y,
@@ -64,7 +64,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className="absolute w-[700px] h-[700px] rounded-full opacity-[0.08] blur-[140px] pointer-events-none"
+          className="absolute w-[700px] h-[700px] rounded-full opacity-[0.10] blur-[140px] pointer-events-none"
           style={{
             left: orb3X,
             top: orb3Y,
@@ -117,7 +117,7 @@ export default function Hero() {
                 </motion.svg>
               ))}
             </div>
-            <span className="text-white/40 text-xs font-medium">5.0 uit 1.360+ reviews</span>
+            <span className="text-white/50 text-xs font-medium">5.0 uit 1.360+ reviews</span>
           </div>
         </motion.div>
 
@@ -132,7 +132,7 @@ export default function Hero() {
             Gameshop
           </motion.span>
           <motion.span
-            className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300"
+            className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -146,7 +146,7 @@ export default function Hero() {
           initial={{ opacity: 0, filter: 'blur(4px)' }}
           animate={{ opacity: 1, filter: 'blur(0px)' }}
           transition={{ duration: 0.7, delay: 0.45 }}
-          className="text-base sm:text-lg text-white/35 leading-relaxed mb-14 max-w-md mx-auto font-normal"
+          className="text-base sm:text-lg text-white/45 leading-relaxed mb-14 max-w-md mx-auto font-normal"
         >
           De Nintendo specialist van Nederland.
           <br className="hidden sm:block" />
@@ -177,7 +177,7 @@ export default function Hero() {
           >
             <Link
               href="/inkoop"
-              className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] text-white/70 font-medium text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
+              className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.08] text-white/80 font-medium text-sm hover:bg-white/[0.12] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
             >
               Games verkopen
             </Link>

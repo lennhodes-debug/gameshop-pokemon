@@ -72,7 +72,7 @@ export default function TrustStrip() {
                   />
                 )}
                 <div className="flex items-center gap-3.5 group cursor-default">
-                  <div className="h-9 w-9 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600/80 transition-all duration-300 group-hover:bg-emerald-100/80 group-hover:text-emerald-600 group-hover:scale-110">
+                  <div className="h-9 w-9 rounded-xl bg-emerald-50/80 flex items-center justify-center text-emerald-600/70 transition-all duration-300 group-hover:bg-emerald-100 group-hover:text-emerald-600 group-hover:scale-110">
                     {item.icon}
                   </div>
                   <div>
@@ -99,7 +99,7 @@ export default function TrustStrip() {
                 transition={{ type: 'spring', stiffness: 120, damping: 18, delay: index * 0.08 }}
                 className="flex items-center gap-3 p-3 rounded-xl bg-white shadow-sm"
               >
-                <div className="h-8 w-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600/80 shrink-0">
+                <div className="h-8 w-8 rounded-lg bg-emerald-50/80 flex items-center justify-center text-emerald-600/70 shrink-0">
                   {item.icon}
                 </div>
                 <div className="min-w-0">
@@ -118,7 +118,7 @@ export default function TrustStrip() {
 
       {/* Scheidingslijn */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-200/70 to-transparent" />
       </div>
     </section>
   );

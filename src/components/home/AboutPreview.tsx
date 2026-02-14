@@ -106,7 +106,7 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
       <div className="relative z-10">
         <div className={`${stat.accent} mb-3 flex justify-center transition-transform duration-300 group-hover:scale-110`}>{stat.icon}</div>
         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-        <div className="text-xs text-slate-400 uppercase tracking-wider font-medium mt-2">
+        <div className="text-xs text-white/40 uppercase tracking-wider font-medium mt-2">
           {stat.label}
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function AboutPreview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-5"
+              className="text-white/30 text-xs font-medium uppercase tracking-[0.2em] mb-5"
             >
               Over ons
             </motion.p>
@@ -141,14 +141,14 @@ export default function AboutPreview() {
               className="text-3xl lg:text-[52px] font-light text-white leading-[1.05] tracking-[-0.03em] mb-6"
             >
               Al sinds 2018 de{' '}
-              <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">Nintendo specialist</span>
+              <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-300">Nintendo specialist</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-base text-slate-400 leading-relaxed mb-6"
+              className="text-base text-white/50 leading-relaxed mb-6"
             >
               Wat begon met het verkopen van games op Marktplaats groeide uit
               tot Gameshop Enter: d&eacute; Nintendo specialist van Nederland. Alle
@@ -159,7 +159,7 @@ export default function AboutPreview() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-sm text-slate-500 leading-relaxed mb-10"
+              className="text-sm text-white/35 leading-relaxed mb-10"
             >
               Met meer dan 3.000 tevreden klanten en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
@@ -167,7 +167,7 @@ export default function AboutPreview() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/over-ons"
-                className="inline-flex items-center h-12 px-6 rounded-xl border border-white/[0.1] text-white font-medium text-sm hover:bg-white/[0.06] transition-colors duration-200"
+                className="inline-flex items-center h-12 px-6 rounded-xl border border-white/[0.12] text-white/90 font-medium text-sm hover:bg-white/[0.06] hover:border-white/[0.18] transition-all duration-300"
               >
                 Lees ons verhaal
                 <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -176,7 +176,7 @@ export default function AboutPreview() {
               </Link>
               <Link
                 href="/inkoop"
-                className="inline-flex items-center h-12 px-6 rounded-xl text-emerald-400 font-medium text-sm hover:text-emerald-300 transition-colors duration-200"
+                className="inline-flex items-center h-12 px-6 rounded-xl text-emerald-400/80 font-medium text-sm hover:text-emerald-300 transition-colors duration-300"
               >
                 Games verkopen
                 <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -229,7 +229,7 @@ export default function AboutPreview() {
                   {item.icon}
                 </div>
                 <h3 className="text-white font-medium text-sm mb-1.5">{item.title}</h3>
-                <p className="text-slate-500 text-xs leading-relaxed">{item.description}</p>
+                <p className="text-white/30 text-xs leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>

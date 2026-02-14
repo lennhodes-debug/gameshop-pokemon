@@ -32,7 +32,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
           ))}
         </div>
 
-        <p className="text-white/65 text-[13px] leading-relaxed line-clamp-3 mb-4 transition-colors duration-300 group-hover:text-white/80">
+        <p className="text-white/55 text-[13px] leading-relaxed line-clamp-3 mb-4 transition-colors duration-300 group-hover:text-white/75">
           &ldquo;{review.text}&rdquo;
         </p>
 
@@ -42,8 +42,8 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
               {review.name[0]}
             </div>
             <div>
-              <cite className="text-white/50 text-[11px] font-medium not-italic block">{review.name}</cite>
-              <span className="text-white/25 text-[10px]">{review.product}</span>
+              <cite className="text-white/45 text-[11px] font-medium not-italic block">{review.name}</cite>
+              <span className="text-white/20 text-[10px]">{review.product}</span>
             </div>
           </div>
         </footer>
@@ -73,7 +73,7 @@ export default function ReviewsStrip() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-4">
+          <p className="text-white/30 text-xs font-medium uppercase tracking-[0.2em] mb-4">
             Reviews
           </p>
           <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05] mb-3">
@@ -101,7 +101,7 @@ export default function ReviewsStrip() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="text-white/40 text-sm font-medium"
+              className="text-white/50 text-sm font-medium"
             >
               5.0 op Marktplaats
             </motion.span>
@@ -136,7 +136,7 @@ export default function ReviewsStrip() {
 
       {/* Marktplaats link */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 text-center">
-        <p className="text-slate-500 text-sm">
+        <p className="text-white/30 text-sm">
           Bekijk al onze{' '}
           <a
             href="https://www.marktplaats.nl/u/gameshop-enter/100074714/"
