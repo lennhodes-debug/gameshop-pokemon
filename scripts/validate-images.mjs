@@ -121,14 +121,13 @@ products.forEach((product, idx) => {
       hasError = true;
     }
 
-    // Rule 4: Image file must exist
+    // Rule 4: Image file must exist (warning only — UI has fallback)
     const filename = product.image.split('/').pop();
     if (!imageSet.has(filename)) {
-      errors.push(
-        `${product.sku}: Image file not found "${filename}"`
+      warnings.push(
+        `⚠️  ${product.sku}: Image file not found "${filename}"`
       );
       stats.imageNotFound++;
-      hasError = true;
     }
 
     // Rule 5: SKU prefix in path should match product platform

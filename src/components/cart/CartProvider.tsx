@@ -19,6 +19,7 @@ const DISCOUNT_CODES: Record<string, DiscountCode> = {};
   { k: 'UkVUUk81', type: 'fixed' as const, value: 5, minOrder: 30, description: '€5 korting bij bestelling vanaf €30' },
   { k: 'TklOVEVORE8xNQ==', type: 'percentage' as const, value: 15, minOrder: 75, description: '15% korting bij bestelling vanaf €75' },
   { k: 'R0FNRVNIT1AyMA==', type: 'percentage' as const, value: 20, minOrder: 100, description: '20% korting bij bestelling vanaf €100' },
+  { k: 'QlJJRUYxMA==', type: 'percentage' as const, value: 10, description: '10% nieuwsbriefkorting' },
 ].forEach(({ k, ...rest }) => {
   try { DISCOUNT_CODES[_d(k).trim()] = rest; } catch { /* ignore */ }
 });

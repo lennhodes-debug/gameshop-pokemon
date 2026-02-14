@@ -10,10 +10,9 @@ import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { useToast } from '@/components/ui/Toast';
-import { useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useStock } from '@/hooks/useStock';
 
-const Product3DBox = lazy(() => import('./Product3DBox'));
 
 function AnimatedPrice({ price }: { price: number }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -56,7 +55,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const wishlisted = isInWishlist(product.sku);
   const [added, setAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [viewMode, setViewMode] = useState<'flat' | '3d'>('flat');
   const [showBack, setShowBack] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -170,52 +168,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
         {/* Image section — flat view or 3D box */}
         <div className="relative">
-          {/* View mode toggle */}
-          <div className="absolute top-3 right-3 z-30 flex gap-1.5">
-            <button
-              onClick={() => setViewMode('flat')}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
-                viewMode === 'flat'
-                  ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
-                  : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-              }`}
-            >
-              2D
-            </button>
-            <button
-              onClick={() => setViewMode('3d')}
-              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 ${
-                viewMode === '3d'
-                  ? 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400'
-                  : 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-              }`}
-            >
-              3D
-            </button>
-          </div>
-
-          <AnimatePresence mode="wait">
-            {viewMode === '3d' ? (
-              <motion.div
-                key="3d"
-                initial={{ opacity: 0, rotateY: -20 }}
-                animate={{ opacity: 1, rotateY: 0 }}
-                exit={{ opacity: 0, rotateY: 20 }}
-                transition={{ duration: 0.4 }}
-                className="min-h-[560px] rounded-3xl bg-[#0a0e1a] flex items-center justify-center overflow-hidden"
-              >
-                <Suspense fallback={<div className="animate-pulse text-slate-400">Laden...</div>}>
-                  <Product3DBox product={product} />
-                </Suspense>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="flat"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-              >
+          <div>
         <motion.div
           ref={imageRef}
           onMouseMove={handleImageMouseMove}
@@ -352,9 +305,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </div>
           </div>
         </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          </div>
         </div>
 
         {/* Info */}

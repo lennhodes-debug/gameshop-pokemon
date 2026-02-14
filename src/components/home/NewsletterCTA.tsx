@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 export default function NewsletterCTA() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState('');
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -20,11 +21,30 @@ export default function NewsletterCTA() {
     e.preventDefault();
     if (!email) return;
     setIsSubmitting(true);
-    // Simulatie: in productie wordt dit een API call naar een e-mail service
-    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        setMessage(data.alreadySubscribed
+          ? 'Je bent al aangemeld! Je kortingscode is BRIEF10.'
+          : 'Check je inbox voor je 10% kortingscode!'
+        );
+        setEmail('');
+      } else {
+        setMessage(data.error || 'Er ging iets mis, probeer het opnieuw.');
+      }
+    } catch {
+      setMessage('Er ging iets mis, probeer het opnieuw.');
+    }
+
     setIsSubmitting(false);
-    setSubmitted(true);
-    setEmail('');
   };
 
   return (
@@ -75,6 +95,18 @@ export default function NewsletterCTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
+          {/* Badge */}
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', bounce: 0.4, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 mb-6"
+          >
+            <span className="text-yellow-300 text-sm">&#9733;</span>
+            <span className="text-white/90 text-sm font-semibold">10% korting bij aanmelding</span>
+          </motion.div>
+
           {/* Icon */}
           <motion.div
             initial={{ scale: 0 }}
@@ -89,10 +121,13 @@ export default function NewsletterCTA() {
           </motion.div>
 
           <h2 className="text-3xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
-            Mis geen enkele aanwinst
+            Word lid van onze nieuwsbrief
           </h2>
-          <p className="text-lg text-white/70 mb-10 max-w-lg mx-auto">
-            Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
+          <p className="text-lg text-white/70 mb-4 max-w-lg mx-auto">
+            Ontvang als eerste updates over nieuwe aanwinsten, exclusieve deals en zeldzame vondsten
+          </p>
+          <p className="text-white/90 font-bold text-lg mb-10">
+            en krijg direct <span className="text-yellow-300 text-xl">10% korting</span> op je eerste bestelling!
           </p>
 
           {submitted ? (
@@ -100,26 +135,37 @@ export default function NewsletterCTA() {
               initial={{ opacity: 0, scale: 0.8, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="inline-flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20"
+              className="inline-flex flex-col items-center gap-4"
             >
+              <div className="flex items-center gap-3 px-8 py-5 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20">
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 15, delay: 0.2 }}
+                  className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0"
+                >
+                  <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                  className="text-left"
+                >
+                  <span className="text-white font-bold block">Je staat op de lijst!</span>
+                  <span className="text-white/60 text-sm">{message}</span>
+                </motion.div>
+              </div>
               <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 15, delay: 0.2 }}
-                className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15"
               >
-                <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="text-left"
-              >
-                <span className="text-white font-bold block">Je staat op de lijst!</span>
-                <span className="text-white/60 text-sm">Je ontvangt als eerste updates over nieuwe aanwinsten.</span>
+                <p className="text-white/60 text-xs mb-1">Je kortingscode:</p>
+                <p className="text-white font-mono font-bold text-lg tracking-widest">BRIEF10</p>
               </motion.div>
             </motion.div>
           ) : (
@@ -148,9 +194,24 @@ export default function NewsletterCTA() {
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-4 w-4 border-2 border-emerald-600 border-t-transparent rounded-full" />
                     Aanmelden...
                   </>
-                ) : 'Aanmelden'}
+                ) : (
+                  <>
+                    Aanmelden
+                    <span className="text-emerald-500 text-xs font-semibold ml-1">(+10%)</span>
+                  </>
+                )}
               </motion.button>
             </form>
+          )}
+
+          {message && !submitted && (
+            <motion.p
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-red-200 text-sm mt-4 font-medium"
+            >
+              {message}
+            </motion.p>
           )}
 
           <p className="text-white/40 text-xs mt-6">
