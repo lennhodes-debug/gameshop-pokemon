@@ -6,6 +6,7 @@ import FeaturedProducts from '@/components/home/FeaturedProducts';
 
 const PlatformGrid = dynamic(() => import('@/components/home/PlatformGrid'));
 const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
+const ProcessTimeline = dynamic(() => import('@/components/home/ProcessTimeline'));
 const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
 const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
 const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
@@ -19,6 +20,7 @@ export default function HomePage() {
       <FeaturedProducts />
       <PlatformGrid />
       <ReviewsStrip />
+      <ProcessTimeline />
       <AboutPreview />
       <FaqPreview />
       <NewsletterCTA />
