@@ -53,6 +53,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
 
+  // Gesimuleerde bekijkers op basis van SKU
+  const viewerCount = useMemo(() => {
+    let hash = 0;
+    for (let i = 0; i < product.sku.length; i++) hash = ((hash << 5) - hash + product.sku.charCodeAt(i)) | 0;
+    const base = Math.abs(hash) % 8;
+    return product.isPremium ? base + 5 : base + 2;
+  }, [product.sku, product.isPremium]);
+
   const particles = useMemo(() => {
     return Array.from({ length: 6 }, (_, i) => ({
       id: i,
@@ -280,11 +288,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="font-mono text-xs text-slate-500">{product.sku}</span>
           </div>
 
-          {/* Voorraad */}
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 8px rgba(52,211,153,0.5)' }} />
-            <span className="text-sm font-semibold text-emerald-400">Op voorraad</span>
-            <span className="text-xs text-slate-500">— Vandaag besteld, morgen verzonden</span>
+          {/* Voorraad + bekijkers */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-6">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 8px rgba(52,211,153,0.5)' }} />
+              <span className="text-sm font-semibold text-emerald-400">Op voorraad</span>
+              <span className="text-xs text-slate-500">— Vandaag besteld, morgen verzonden</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
+              <span className="text-xs text-slate-400">
+                <span className="font-bold text-orange-400">{viewerCount}</span> mensen bekijken dit nu
+              </span>
+            </div>
           </div>
 
           {/* Variant toggle */}

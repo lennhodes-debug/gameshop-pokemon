@@ -11,6 +11,7 @@ const AboutPreview = dynamic(() => import('@/components/home/AboutPreview'));
 const ReviewsStrip = dynamic(() => import('@/components/home/ReviewsStrip'));
 const FaqPreview = dynamic(() => import('@/components/home/FaqPreview'));
 const NewsletterCTA = dynamic(() => import('@/components/home/NewsletterCTA'));
+const RecentlyViewedHome = dynamic(() => import('@/components/product/RecentlyViewed'));
 
 export default function HomePage() {
   return (
@@ -32,6 +33,9 @@ export default function HomePage() {
       <ParallaxSection speed={0.15}>
         <FaqPreview />
       </ParallaxSection>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <RecentlyViewedHome currentSku="" />
+      </section>
       <NewsletterCTA />
     </>
   );
