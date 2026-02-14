@@ -167,7 +167,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         {/* Image stage — generous padding, premium backdrop */}
         <Link href={`/shop/${product.sku}`}>
           <div
-            className="relative h-56 flex items-center justify-center overflow-hidden"
+            className="relative aspect-square flex items-center justify-center overflow-hidden"
             style={{
               background: '#fafbfc',
             }}

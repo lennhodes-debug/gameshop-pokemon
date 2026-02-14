@@ -197,7 +197,7 @@ export default function RootLayout({
           <WishlistProvider>
             <ToastProvider>
               <Header />
-              <main id="main-content" className="min-h-screen">
+              <main id="main-content" className="min-h-screen pb-16 lg:pb-0">
                 <ErrorBoundary>
                   {children}
                 </ErrorBoundary>
