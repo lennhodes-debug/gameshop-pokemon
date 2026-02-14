@@ -3,12 +3,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product, getEffectivePrice } from '@/lib/products';
-import { formatPrice, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD, cn, getGameTheme } from '@/lib/utils';
+import {
+  formatPrice,
+  PLATFORM_LABELS,
+  FREE_SHIPPING_THRESHOLD,
+  cn,
+  getGameTheme,
+} from '@/lib/utils';
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useScrollLock } from '@/hooks/useScrollLock';
 
 interface ProductDetailProps {
   product: Product;
@@ -24,16 +31,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<'los' | 'cib'>('los');
 
+  useScrollLock(lightboxOpen);
+
   useEffect(() => {
     if (!lightboxOpen) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setLightboxOpen(false);
     };
     document.addEventListener('keydown', handleKey);
-    document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', handleKey);
-      document.body.style.overflow = '';
     };
   }, [lightboxOpen]);
 
@@ -43,16 +50,22 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const freeShipping = effectivePrice >= FREE_SHIPPING_THRESHOLD;
 
   const hasCibOption = !!product.cibPrice;
-  const displayPrice = (hasCibOption && selectedVariant === 'cib') ? product.cibPrice! : effectivePrice;
-  const displayImage = (hasCibOption && selectedVariant === 'cib' && product.cibImage) ? product.cibImage : product.image;
-  const displayBackImage = (hasCibOption && selectedVariant === 'cib' && product.cibBackImage) ? product.cibBackImage : product.backImage;
+  const displayPrice =
+    hasCibOption && selectedVariant === 'cib' ? product.cibPrice! : effectivePrice;
+  const displayImage =
+    hasCibOption && selectedVariant === 'cib' && product.cibImage
+      ? product.cibImage
+      : product.image;
+  const displayBackImage =
+    hasCibOption && selectedVariant === 'cib' && product.cibBackImage
+      ? product.cibBackImage
+      : product.backImage;
 
   // Accent kleur: per game uniek, standaard emerald
   const typeInfo = getGameTheme(product.sku, product.genre);
   const accent = typeInfo ? typeInfo.bg[0] : '#10b981';
   const accentAlt = typeInfo ? typeInfo.bg[1] : '#14b8a6';
   const glowRgb = typeInfo ? typeInfo.glow : '16,185,129';
-
 
   useEffect(() => {
     try {
@@ -61,15 +74,22 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       const stored: string[] = Array.isArray(raw)
         ? raw.filter((s): s is string => typeof s === 'string' && s.length > 0)
         : [];
-      const updated = [product.sku, ...stored.filter(s => s !== product.sku)].slice(0, 12);
+      const updated = [product.sku, ...stored.filter((s) => s !== product.sku)].slice(0, 12);
       localStorage.setItem(key, JSON.stringify(updated));
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }, [product.sku]);
 
   const handleAdd = () => {
     addItem(product, selectedVariant === 'cib' ? 'cib' : undefined);
     setAdded(true);
-    addToast(`${product.name}${selectedVariant === 'cib' ? ' (CIB)' : ''} toegevoegd aan winkelwagen`, 'success', undefined, displayImage || undefined);
+    addToast(
+      `${product.name}${selectedVariant === 'cib' ? ' (CIB)' : ''} toegevoegd aan winkelwagen`,
+      'success',
+      undefined,
+      displayImage || undefined,
+    );
     setTimeout(() => setAdded(false), 2000);
   };
 
@@ -77,7 +97,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     { label: 'Platform', value: product.platform },
     { label: 'Genre', value: product.genre },
     { label: 'Conditie', value: product.condition },
-    { label: 'Compleetheid', value: (hasCibOption && selectedVariant === 'cib') ? 'Compleet in doos (CIB)' : isCIB ? 'Compleet in doos (CIB)' : product.completeness },
+    {
+      label: 'Compleetheid',
+      value:
+        hasCibOption && selectedVariant === 'cib'
+          ? 'Compleet in doos (CIB)'
+          : isCIB
+            ? 'Compleet in doos (CIB)'
+            : product.completeness,
+    },
     { label: 'SKU', value: product.sku },
     { label: 'Gewicht', value: `${product.weight} kg` },
   ];
@@ -89,11 +117,24 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         {[
           { href: '/', label: 'Home' },
           { href: '/shop', label: 'Shop' },
-          { href: `/shop?platform=${encodeURIComponent(product.platform)}`, label: product.platform },
+          {
+            href: `/shop?platform=${encodeURIComponent(product.platform)}`,
+            label: product.platform,
+          },
         ].map((crumb) => (
           <span key={crumb.href} className="contents">
-            <Link href={crumb.href} className="hover:text-white transition-colors">{crumb.label}</Link>
-            <svg className="h-3.5 w-3.5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            <Link href={crumb.href} className="hover:text-white transition-colors">
+              {crumb.label}
+            </Link>
+            <svg
+              className="h-3.5 w-3.5 text-slate-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
           </span>
         ))}
         <span className="text-slate-300 font-medium truncate max-w-[200px]">{product.name}</span>
@@ -116,7 +157,6 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               boxShadow: `0 25px 50px rgba(0,0,0,0.25)`,
             }}
           >
-
             {displayImage && !imageError ? (
               <>
                 {!imageLoaded && (
@@ -128,8 +168,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className={cn(
-                    "object-contain p-6 lg:p-8 transition-all duration-700",
-                    imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                    'object-contain p-6 lg:p-8 transition-all duration-700',
+                    imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
                   )}
                   priority
                   onLoad={() => setImageLoaded(true)}
@@ -139,21 +179,45 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 {displayBackImage && (
                   <div className="absolute bottom-4 left-4 flex gap-1.5 z-20">
                     <button
-                      onClick={() => { setShowBack(false); setImageLoaded(false); }}
+                      onClick={() => {
+                        setShowBack(false);
+                        setImageLoaded(false);
+                      }}
                       className="px-3 py-1.5 rounded-xl text-[11px] font-medium uppercase tracking-wider border backdrop-blur-sm transition-all"
-                      style={!showBack
-                        ? { background: `${accent}30`, borderColor: `${accent}60`, color: 'white' }
-                        : { background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: '#94a3b8' }
+                      style={
+                        !showBack
+                          ? {
+                              background: `${accent}30`,
+                              borderColor: `${accent}60`,
+                              color: 'white',
+                            }
+                          : {
+                              background: 'rgba(255,255,255,0.06)',
+                              borderColor: 'rgba(255,255,255,0.1)',
+                              color: '#94a3b8',
+                            }
                       }
                     >
                       Voor
                     </button>
                     <button
-                      onClick={() => { setShowBack(true); setImageLoaded(false); }}
+                      onClick={() => {
+                        setShowBack(true);
+                        setImageLoaded(false);
+                      }}
                       className="px-3 py-1.5 rounded-xl text-[11px] font-medium uppercase tracking-wider border backdrop-blur-sm transition-all"
-                      style={showBack
-                        ? { background: `${accent}30`, borderColor: `${accent}60`, color: 'white' }
-                        : { background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)', color: '#94a3b8' }
+                      style={
+                        showBack
+                          ? {
+                              background: `${accent}30`,
+                              borderColor: `${accent}60`,
+                              color: 'white',
+                            }
+                          : {
+                              background: 'rgba(255,255,255,0.06)',
+                              borderColor: 'rgba(255,255,255,0.1)',
+                              color: '#94a3b8',
+                            }
                       }
                     >
                       Achter
@@ -166,24 +230,48 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 z-20"
                   aria-label="Afbeelding vergroten"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
+                    />
                   </svg>
                 </button>
               </>
             ) : (
               <div className="flex flex-col items-center justify-center gap-3">
-                <svg className="h-20 w-20 text-white/10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.491 48.491 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.959.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z" />
+                <svg
+                  className="h-20 w-20 text-white/10"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.491 48.491 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.959.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z"
+                  />
                 </svg>
-                <span className="text-white/10 text-3xl font-black select-none">{platformLabel}</span>
+                <span className="text-white/10 text-3xl font-black select-none">
+                  {platformLabel}
+                </span>
               </div>
             )}
 
             {/* Platform badge */}
             <div className="absolute top-5 left-5 flex gap-2">
-              <span className="px-3 py-1.5 rounded-xl text-white/90 text-xs font-medium backdrop-blur-sm"
-                style={{ background: `${accent}35`, border: `1px solid ${accent}50` }}>
+              <span
+                className="px-3 py-1.5 rounded-xl text-white/90 text-xs font-medium backdrop-blur-sm"
+                style={{ background: `${accent}35`, border: `1px solid ${accent}50` }}
+              >
                 {product.platform}
               </span>
             </div>
@@ -207,9 +295,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-white/[0.06] text-slate-300 border border-white/[0.08]">
               {product.condition}
             </span>
-            <span className="px-3 py-1 rounded-lg text-xs font-semibold"
-              style={{ background: `${accent}15`, color: accent, border: `1px solid ${accent}30` }}>
-              {(hasCibOption && selectedVariant === 'cib') ? 'Compleet in doos (CIB)' : isCIB ? 'CIB' : product.completeness}
+            <span
+              className="px-3 py-1 rounded-lg text-xs font-semibold"
+              style={{ background: `${accent}15`, color: accent, border: `1px solid ${accent}30` }}
+            >
+              {hasCibOption && selectedVariant === 'cib'
+                ? 'Compleet in doos (CIB)'
+                : isCIB
+                  ? 'CIB'
+                  : product.completeness}
             </span>
             {product.genre && (
               <span className="px-3 py-1 rounded-lg text-xs font-semibold bg-white/[0.04] text-slate-400 border border-white/[0.06]">
@@ -222,7 +316,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <h1 className="text-2xl sm:text-3xl lg:text-[40px] font-semibold text-white tracking-[-0.02em] leading-[1.1] mb-2">
             {product.name}
           </h1>
-          <div className="h-1 w-16 rounded-full mb-5" style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }} />
+          <div
+            className="h-1 w-16 rounded-full mb-5"
+            style={{ background: `linear-gradient(90deg, ${accent}, ${accentAlt})` }}
+          />
 
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400 mb-5">
@@ -244,25 +341,45 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Variant toggle */}
           {hasCibOption && (
             <div className="mb-5">
-              <p className="text-xs font-medium text-slate-500 uppercase tracking-[0.15em] mb-2">Kies variant</p>
-              <div className="inline-flex rounded-2xl p-1.5 gap-1"
-                style={{ background: `${accent}08`, border: `1.5px solid ${accent}18` }}>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-[0.15em] mb-2">
+                Kies variant
+              </p>
+              <div
+                className="inline-flex rounded-2xl p-1.5 gap-1"
+                style={{ background: `${accent}08`, border: `1.5px solid ${accent}18` }}
+              >
                 <button
-                  onClick={() => { setSelectedVariant('los'); setImageLoaded(false); }}
+                  onClick={() => {
+                    setSelectedVariant('los');
+                    setImageLoaded(false);
+                  }}
                   className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
-                  style={selectedVariant === 'los'
-                    ? { background: `linear-gradient(135deg, ${accent}, ${accentAlt})`, color: 'white', boxShadow: `0 4px 15px ${accent}40` }
-                    : { color: '#94a3b8' }
+                  style={
+                    selectedVariant === 'los'
+                      ? {
+                          background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
+                          color: 'white',
+                          boxShadow: `0 4px 15px ${accent}40`,
+                        }
+                      : { color: '#94a3b8' }
                   }
                 >
                   Losse cartridge
                 </button>
                 <button
-                  onClick={() => { setSelectedVariant('cib'); setImageLoaded(false); }}
+                  onClick={() => {
+                    setSelectedVariant('cib');
+                    setImageLoaded(false);
+                  }}
                   className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300"
-                  style={selectedVariant === 'cib'
-                    ? { background: `linear-gradient(135deg, ${accent}, ${accentAlt})`, color: 'white', boxShadow: `0 4px 15px ${accent}40` }
-                    : { color: '#94a3b8' }
+                  style={
+                    selectedVariant === 'cib'
+                      ? {
+                          background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
+                          color: 'white',
+                          boxShadow: `0 4px 15px ${accent}40`,
+                        }
+                      : { color: '#94a3b8' }
                   }
                 >
                   Met doos (CIB)
@@ -273,8 +390,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Prijs */}
           <div className="flex flex-wrap items-baseline gap-3 mb-8">
-            <span className="text-4xl sm:text-[52px] font-light tracking-[-0.02em] tabular-nums"
-              style={{ color: accent }}>
+            <span
+              className="text-4xl sm:text-[52px] font-light tracking-[-0.02em] tabular-nums"
+              style={{ color: accent }}
+            >
               {formatPrice(displayPrice)}
             </span>
             {hasCibOption && selectedVariant === 'cib' && (
@@ -283,10 +402,26 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </span>
             )}
             {displayPrice >= FREE_SHIPPING_THRESHOLD && (
-              <span className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-xl"
-                style={{ color: '#34d399', background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.2)' }}>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+              <span
+                className="inline-flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-xl"
+                style={{
+                  color: '#34d399',
+                  background: 'rgba(52,211,153,0.1)',
+                  border: '1px solid rgba(52,211,153,0.2)',
+                }}
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+                  />
                 </svg>
                 Gratis verzending
               </span>
@@ -296,10 +431,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Beschrijving */}
           {product.description && (
             <div className="mb-8 rounded-2xl p-6 bg-white/[0.03] border border-white/[0.06]">
-              <h2 className="text-sm font-medium uppercase tracking-wider mb-3 text-slate-400">Beschrijving</h2>
-              <p className="text-slate-400 leading-relaxed text-[15px]">
-                {product.description}
-              </p>
+              <h2 className="text-sm font-medium uppercase tracking-wider mb-3 text-slate-400">
+                Beschrijving
+              </h2>
+              <p className="text-slate-400 leading-relaxed text-[15px]">{product.description}</p>
             </div>
           )}
 
@@ -310,22 +445,42 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             className={`w-full sm:w-auto px-10 py-4 rounded-2xl text-white text-base font-medium transition-all duration-300 ${
               added ? 'bg-emerald-500' : ''
             }`}
-            style={added ? undefined : {
-              background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
-              boxShadow: `0 4px 16px rgba(${glowRgb}, 0.25)`,
-            }}
+            style={
+              added
+                ? undefined
+                : {
+                    background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
+                    boxShadow: `0 4px 16px rgba(${glowRgb}, 0.25)`,
+                  }
+            }
           >
             {added ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
                 Toegevoegd!
               </span>
             ) : (
               <span className="flex items-center justify-center gap-2">
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                  />
                 </svg>
                 In winkelwagen
               </span>
@@ -335,18 +490,42 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Voordelen */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
-              { icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12', title: 'PostNL verzending', desc: freeShipping ? 'Gratis verzending' : 'Vanaf \u20AC4,95 via PostNL' },
-              { icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z', title: 'Veilig betalen', desc: 'Direct via iDEAL' },
-              { icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182', title: '14 dagen retour', desc: 'Niet goed? Geld terug.' },
-              { icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: '100% origineel', desc: 'Persoonlijk getest' },
+              {
+                icon: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12',
+                title: 'PostNL verzending',
+                desc: freeShipping ? 'Gratis verzending' : 'Vanaf \u20AC4,95 via PostNL',
+              },
+              {
+                icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z',
+                title: 'Veilig betalen',
+                desc: 'Direct via iDEAL',
+              },
+              {
+                icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182',
+                title: '14 dagen retour',
+                desc: 'Niet goed? Geld terug.',
+              },
+              {
+                icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+                title: '100% origineel',
+                desc: 'Persoonlijk getest',
+              },
             ].map((item) => (
               <div
                 key={item.title}
                 className="flex items-start gap-3 p-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.1] hover:bg-white/[0.04] transition-all duration-300"
               >
-                <div className="h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: `${accent}12`, color: accent }}>
-                  <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div
+                  className="h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: `${accent}12`, color: accent }}
+                >
+                  <svg
+                    className="h-4.5 w-4.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
                 </div>
@@ -382,19 +561,33 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       </motion.div>
 
       {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        <div className="backdrop-blur-md border-t border-white/[0.08] px-4 py-3 flex items-center justify-between gap-3"
-          style={{ background: 'rgba(5,8,16,0.92)' }}>
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40 lg:hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        <div
+          className="backdrop-blur-md border-t border-white/[0.08] px-4 py-3 flex items-center justify-between gap-3"
+          style={{ background: 'rgba(5,8,16,0.92)' }}
+        >
           <div className="min-w-0 flex-1">
-            <p className="text-xs text-slate-500 truncate">{product.name}{selectedVariant === 'cib' ? ' (CIB)' : ''}</p>
-            <p className="text-lg font-semibold" style={{ color: accent }}>{formatPrice(displayPrice)}</p>
+            <p className="text-xs text-slate-500 truncate">
+              {product.name}
+              {selectedVariant === 'cib' ? ' (CIB)' : ''}
+            </p>
+            <p className="text-lg font-semibold" style={{ color: accent }}>
+              {formatPrice(displayPrice)}
+            </p>
           </div>
           <button
             onClick={handleAdd}
             className="flex-shrink-0 px-6 py-3 rounded-xl text-white text-sm font-medium transition-all"
-            style={added ? { background: '#10b981' } : {
-              background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
-            }}
+            style={
+              added
+                ? { background: '#10b981' }
+                : {
+                    background: `linear-gradient(135deg, ${accent}, ${accentAlt})`,
+                  }
+            }
           >
             {added ? 'Toegevoegd!' : 'In winkelwagen'}
           </button>
@@ -415,7 +608,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             className="absolute top-6 right-6 h-12 w-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
             aria-label="Sluiten"
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>

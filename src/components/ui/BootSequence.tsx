@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollLock } from '@/hooks/useScrollLock';
 
 const STORAGE_KEY = 'gameshop-boot-seen';
 const SEQUENCE_DURATION = 3200;
@@ -10,32 +11,29 @@ export default function BootSequence() {
   const [show, setShow] = useState(false);
   const [phase, setPhase] = useState(0);
 
+  useScrollLock(show);
+
   useEffect(() => {
-    // Alleen tonen als nog niet gezien + geen reduced motion
     const seen = localStorage.getItem(STORAGE_KEY);
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!seen && !prefersReduced) {
       setShow(true);
-      document.body.style.overflow = 'hidden';
 
-      // Fase timings
-      const t1 = setTimeout(() => setPhase(1), 200);   // CRT power on
-      const t2 = setTimeout(() => setPhase(2), 700);   // Logo drops
-      const t3 = setTimeout(() => setPhase(3), 1500);  // "ENTER" appears
-      const t4 = setTimeout(() => setPhase(4), 2200);  // Flash
+      const t1 = setTimeout(() => setPhase(1), 200);
+      const t2 = setTimeout(() => setPhase(2), 700);
+      const t3 = setTimeout(() => setPhase(3), 1500);
+      const t4 = setTimeout(() => setPhase(4), 2200);
       const t5 = setTimeout(() => {
-        setPhase(5); // Fade out
+        setPhase(5);
         localStorage.setItem(STORAGE_KEY, '1');
       }, 2600);
       const t6 = setTimeout(() => {
         setShow(false);
-        document.body.style.overflow = '';
       }, SEQUENCE_DURATION);
 
       return () => {
         [t1, t2, t3, t4, t5, t6].forEach(clearTimeout);
-        document.body.style.overflow = '';
       };
     }
   }, []);
@@ -43,7 +41,6 @@ export default function BootSequence() {
   const skip = useCallback(() => {
     localStorage.setItem(STORAGE_KEY, '1');
     setShow(false);
-    document.body.style.overflow = '';
   }, []);
 
   return (
@@ -61,7 +58,8 @@ export default function BootSequence() {
           <div
             className="absolute inset-0 pointer-events-none opacity-[0.04]"
             style={{
-              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)',
+              backgroundImage:
+                'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)',
               backgroundSize: '100% 2px',
             }}
           />
@@ -74,7 +72,8 @@ export default function BootSequence() {
             }}
             transition={{ duration: 0.6 }}
             style={{
-              background: 'radial-gradient(ellipse at center, rgba(16,185,129,0.06), transparent 70%)',
+              background:
+                'radial-gradient(ellipse at center, rgba(16,185,129,0.06), transparent 70%)',
             }}
           />
 
@@ -90,9 +89,7 @@ export default function BootSequence() {
                   : { height: 0, opacity: 0 }
             }
             transition={
-              phase === 1
-                ? { duration: 0.15, ease: 'easeOut' }
-                : { duration: 0.3, ease: 'easeIn' }
+              phase === 1 ? { duration: 0.15, ease: 'easeOut' } : { duration: 0.3, ease: 'easeIn' }
             }
           />
 
@@ -101,11 +98,7 @@ export default function BootSequence() {
             {/* GAMESHOP text — drops down like Nintendo logo */}
             <motion.div
               initial={{ y: -60, opacity: 0 }}
-              animate={
-                phase >= 2
-                  ? { y: 0, opacity: 1 }
-                  : { y: -60, opacity: 0 }
-              }
+              animate={phase >= 2 ? { y: 0, opacity: 1 } : { y: -60, opacity: 0 }}
               transition={{
                 type: 'spring',
                 stiffness: 200,
@@ -127,11 +120,7 @@ export default function BootSequence() {
             {/* ENTER text — fades in below */}
             <motion.div
               initial={{ opacity: 0, y: 4 }}
-              animate={
-                phase >= 3
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 4 }
-              }
+              animate={phase >= 3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 }}
               transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <span
@@ -169,7 +158,8 @@ export default function BootSequence() {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%)',
+              background:
+                'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%)',
             }}
           />
 

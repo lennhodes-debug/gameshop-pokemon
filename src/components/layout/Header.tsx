@@ -9,6 +9,7 @@ import CartCounter from './CartCounter';
 import Image from 'next/image';
 import { cn, formatPrice, PLATFORM_COLORS, PLATFORM_LABELS } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
+import { useScrollLock } from '@/hooks/useScrollLock';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -46,10 +47,15 @@ export default function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const isActive = useCallback((href: string) => {
-    if (href === '/') return pathname === '/';
-    return pathname === href || pathname.startsWith(href + '/');
-  }, [pathname]);
+  const isActive = useCallback(
+    (href: string) => {
+      if (href === '/') return pathname === '/';
+      return pathname === href || pathname.startsWith(href + '/');
+    },
+    [pathname],
+  );
+
+  useScrollLock(mobileOpen);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -57,12 +63,10 @@ export default function Header() {
       if (e.key === 'Escape') setMobileOpen(false);
     };
     document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden';
     const firstLink = mobileNavRef.current?.querySelector('a');
     firstLink?.focus();
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
     };
   }, [mobileOpen]);
 
@@ -78,14 +82,21 @@ export default function Header() {
           boxShadow: shadowStyle,
         }}
       >
-        <motion.div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ marginTop: headerPy, marginBottom: headerPy }}>
+        <motion.div
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+          style={{ marginTop: headerPy, marginBottom: headerPy }}
+        >
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
               <Logo className="h-9 w-9 lg:h-10 lg:w-10" />
               <div className="flex flex-col">
-                <span className="text-white font-semibold text-lg leading-tight tracking-[-0.02em]">Gameshop</span>
-                <span className="text-emerald-400 text-[11px] font-medium tracking-[0.15em] uppercase -mt-0.5">Enter</span>
+                <span className="text-white font-semibold text-lg leading-tight tracking-[-0.02em]">
+                  Gameshop
+                </span>
+                <span className="text-emerald-400 text-[11px] font-medium tracking-[0.15em] uppercase -mt-0.5">
+                  Enter
+                </span>
               </div>
             </Link>
 
@@ -97,7 +108,7 @@ export default function Header() {
                   href={link.href}
                   className={cn(
                     'relative px-4 py-2 text-sm font-medium transition-colors duration-200',
-                    isActive(link.href) ? 'text-white' : 'text-slate-400 hover:text-white'
+                    isActive(link.href) ? 'text-white' : 'text-slate-400 hover:text-white',
                   )}
                 >
                   {link.label}
@@ -117,8 +128,18 @@ export default function Header() {
               {/* Zoeken */}
               <Link href="/shop" className="hidden lg:flex">
                 <div className="flex items-center gap-2 px-4 py-2 min-w-[160px] rounded-xl bg-white/[0.06] border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.1] transition-all cursor-pointer">
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  <svg
+                    className="h-3.5 w-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
                   </svg>
                   <span className="text-xs font-medium">Zoeken</span>
                 </div>
@@ -127,13 +148,31 @@ export default function Header() {
               {/* Cart */}
               <div
                 className="relative"
-                onMouseEnter={() => { clearTimeout(cartHoverTimeout.current); setCartHover(true); }}
-                onMouseLeave={() => { cartHoverTimeout.current = setTimeout(() => setCartHover(false), 200); }}
+                onMouseEnter={() => {
+                  clearTimeout(cartHoverTimeout.current);
+                  setCartHover(true);
+                }}
+                onMouseLeave={() => {
+                  cartHoverTimeout.current = setTimeout(() => setCartHover(false), 200);
+                }}
               >
                 <Link href="/winkelwagen" aria-label="Winkelwagen">
-                  <div id="cart-icon-target" className="relative p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  <div
+                    id="cart-icon-target"
+                    className="relative p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                  >
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={1.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                      />
                     </svg>
                     <CartCounter />
                   </div>
@@ -154,19 +193,36 @@ export default function Header() {
                       </p>
                       <div className="space-y-2 max-h-60 overflow-y-auto">
                         {items.slice(0, 5).map((item) => {
-                          const colors = PLATFORM_COLORS[item.product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
+                          const colors = PLATFORM_COLORS[item.product.platform] || {
+                            from: 'from-slate-500',
+                            to: 'to-slate-700',
+                          };
                           return (
                             <div key={item.product.sku} className="flex items-center gap-3">
-                              <div className={`w-10 h-10 rounded-lg flex-shrink-0 overflow-hidden ${item.product.image ? 'bg-white/10 border border-white/[0.08]' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center`}>
+                              <div
+                                className={`w-10 h-10 rounded-lg flex-shrink-0 overflow-hidden ${item.product.image ? 'bg-white/10 border border-white/[0.08]' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center`}
+                              >
                                 {item.product.image ? (
-                                  <Image src={item.product.image} alt={item.product.name} width={40} height={40} className="object-contain p-0.5" />
+                                  <Image
+                                    src={item.product.image}
+                                    alt={item.product.name}
+                                    width={40}
+                                    height={40}
+                                    className="object-contain p-0.5"
+                                  />
                                 ) : (
-                                  <span className="text-white/20 text-[7px] font-semibold">{PLATFORM_LABELS[item.product.platform]}</span>
+                                  <span className="text-white/20 text-[7px] font-semibold">
+                                    {PLATFORM_LABELS[item.product.platform]}
+                                  </span>
                                 )}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <p className="text-xs font-semibold text-white truncate">{item.product.name}</p>
-                                <p className="text-[10px] text-slate-400">{item.quantity}x {formatPrice(item.product.price)}</p>
+                                <p className="text-xs font-semibold text-white truncate">
+                                  {item.product.name}
+                                </p>
+                                <p className="text-[10px] text-slate-400">
+                                  {item.quantity}x {formatPrice(item.product.price)}
+                                </p>
                               </div>
                             </div>
                           );
@@ -174,14 +230,22 @@ export default function Header() {
                       </div>
                       <div className="mt-3 pt-3 border-t border-white/[0.06]">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-semibold text-white">{formatPrice(getTotal())}</span>
+                          <span className="text-sm font-semibold text-white">
+                            {formatPrice(getTotal())}
+                          </span>
                           <span className="text-[10px] text-slate-400">excl. verzending</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Link href="/winkelwagen" className="flex-1 px-3 py-2 rounded-lg border border-white/[0.1] text-white text-xs font-semibold text-center hover:bg-white/[0.06] transition-colors">
+                          <Link
+                            href="/winkelwagen"
+                            className="flex-1 px-3 py-2 rounded-lg border border-white/[0.1] text-white text-xs font-semibold text-center hover:bg-white/[0.06] transition-colors"
+                          >
                             Bekijken
                           </Link>
-                          <Link href="/afrekenen" className="flex-1 px-3 py-2 rounded-lg bg-white text-slate-900 text-xs font-semibold text-center">
+                          <Link
+                            href="/afrekenen"
+                            className="flex-1 px-3 py-2 rounded-lg bg-white text-slate-900 text-xs font-semibold text-center"
+                          >
                             Afrekenen
                           </Link>
                         </div>
@@ -198,11 +262,21 @@ export default function Header() {
                 aria-expanded={mobileOpen}
                 className="lg:hidden p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
                   {mobileOpen ? (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"
+                    />
                   )}
                 </svg>
               </button>
@@ -228,19 +302,29 @@ export default function Header() {
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="lg:hidden overflow-hidden glass border-t border-white/[0.06]"
               >
-                <nav ref={mobileNavRef} className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1" aria-label="Mobiele navigatie">
+                <nav
+                  ref={mobileNavRef}
+                  className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1"
+                  aria-label="Mobiele navigatie"
+                >
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.href}
                       initial={{ opacity: 0, x: -12 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 + i * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{
+                        delay: 0.05 + i * 0.06,
+                        duration: 0.35,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                     >
                       <Link
                         href={link.href}
                         className={cn(
                           'block px-4 py-3 rounded-xl text-sm font-medium transition-all',
-                          isActive(link.href) ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                          isActive(link.href)
+                            ? 'text-emerald-400 bg-emerald-500/10'
+                            : 'text-slate-300 hover:text-white hover:bg-white/5',
                         )}
                       >
                         {link.label}
@@ -252,12 +336,24 @@ export default function Header() {
                       href="/winkelwagen"
                       className={cn(
                         'flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all',
-                        pathname === '/winkelwagen' ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
+                        pathname === '/winkelwagen'
+                          ? 'text-emerald-400 bg-emerald-500/10'
+                          : 'text-slate-300 hover:text-white hover:bg-white/5',
                       )}
                     >
                       <span className="flex items-center gap-2">
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={1.5}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                          />
                         </svg>
                         Winkelwagen
                       </span>
@@ -276,38 +372,99 @@ export default function Header() {
       </motion.header>
 
       {/* Mobiele bottom navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200" aria-label="Snelle navigatie">
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200"
+        aria-label="Snelle navigatie"
+      >
         <div className="flex items-center justify-around px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {[
-            { href: '/', label: 'Home', icon: (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-              </svg>
-            )},
-            { href: '/shop', label: 'Shop', icon: (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" />
-              </svg>
-            )},
-            { href: '/game-finder', label: 'Finder', icon: (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-              </svg>
-            )},
-            { href: '/winkelwagen', label: 'Wagen', badge: itemCount, icon: (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-              </svg>
-            )},
+            {
+              href: '/',
+              label: 'Home',
+              icon: (
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  />
+                </svg>
+              ),
+            },
+            {
+              href: '/shop',
+              label: 'Shop',
+              icon: (
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z"
+                  />
+                </svg>
+              ),
+            },
+            {
+              href: '/game-finder',
+              label: 'Finder',
+              icon: (
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+                  />
+                </svg>
+              ),
+            },
+            {
+              href: '/winkelwagen',
+              label: 'Wagen',
+              badge: itemCount,
+              icon: (
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                  />
+                </svg>
+              ),
+            },
           ].map((item) => {
-            const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href.split('?')[0]);
+            const active =
+              item.href === '/' ? pathname === '/' : pathname.startsWith(item.href.split('?')[0]);
             return (
               <Link
                 key={item.label}
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors relative',
-                  active ? 'text-emerald-500' : 'text-slate-400'
+                  active ? 'text-emerald-500' : 'text-slate-400',
                 )}
               >
                 <span className="relative">
