@@ -13,7 +13,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "typecheck": "tsc --noEmit",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "prepare": "husky"
   },
   "dependencies": {
     "@netlify/plugin-nextjs": "^5.15.8",
@@ -24,6 +25,7 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
     "@next/bundle-analyzer": "^16.1.6",
     "@types/node": "^25.2.1",
     "@types/react": "^19.2.13",
@@ -31,9 +33,20 @@
     "autoprefixer": "^10.4.24",
     "eslint-config-next": "^16.1.6",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "next lint --fix --file"
+    ],
+    "*.{css,json,md}": [
+      "prettier --write"
+    ]
   }
 }
