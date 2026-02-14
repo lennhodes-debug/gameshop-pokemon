@@ -173,6 +173,23 @@ function ShopContent() {
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
+  // Keyboard paginatie: pijltjes links/rechts
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+      if (totalPages <= 1) return;
+      if (e.key === 'ArrowLeft' && page > 1) {
+        setPage((p) => Math.max(1, p - 1));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (e.key === 'ArrowRight' && page < totalPages) {
+        setPage((p) => Math.min(totalPages, p + 1));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [page, totalPages]);
+
   const activeFilterCount = [platform, genre, condition, category, completeness, priceMin, priceMax].filter(Boolean).length;
 
   const clearFilters = () => {
@@ -223,6 +240,29 @@ function ShopContent() {
               <span className="text-[11px] text-slate-400 hidden sm:block tabular-nums">
                 <span className="font-medium text-slate-600">{filtered.length}</span> items
               </span>
+
+              {/* Gratis verzending mini-indicator */}
+              {cartCount > 0 && cartTotal < FREE_SHIPPING_THRESHOLD && (
+                <div className="hidden md:flex items-center gap-2 ml-2">
+                  <div className="h-1 w-16 bg-slate-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                      style={{ width: `${freeShippingProgress}%` }}
+                    />
+                  </div>
+                  <span className="text-[10px] text-slate-400 tabular-nums whitespace-nowrap">
+                    Nog {formatPrice(remainingForFreeShipping)} voor gratis
+                  </span>
+                </div>
+              )}
+              {cartTotal >= FREE_SHIPPING_THRESHOLD && (
+                <span className="hidden md:inline-flex items-center gap-1 text-[10px] text-emerald-600 font-medium ml-2">
+                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  Gratis verzending
+                </span>
+              )}
 
               <div className="flex items-center gap-0.5 bg-slate-100 rounded-lg p-0.5 ml-auto">
                 <button
@@ -291,7 +331,7 @@ function ShopContent() {
               Originele Nintendo games — persoonlijk getest, met eigen productfoto&apos;s
             </p>
 
-            <div className="flex items-center gap-6 text-white/20 text-xs">
+            <div className="flex items-center gap-6 text-white/20 text-xs mb-8">
               <span className="flex items-center gap-1.5">
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
@@ -311,6 +351,31 @@ function ShopContent() {
                 Gratis vanaf &euro;100
               </span>
             </div>
+
+            {/* Platform quick-links */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex flex-wrap gap-2"
+            >
+              {platforms.slice(0, 8).map((p) => {
+                const isActive = platform === p;
+                return (
+                  <button
+                    key={p}
+                    onClick={() => { setPlatform(isActive ? '' : p); window.scrollTo({ top: 500, behavior: 'smooth' }); }}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                      isActive
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                        : 'bg-white/[0.04] text-white/40 border border-white/[0.06] hover:bg-white/[0.08] hover:text-white/60 hover:border-white/[0.12]'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                );
+              })}
+            </motion.div>
           </motion.div>
         </motion.div>
 
@@ -516,7 +581,11 @@ function ShopContent() {
         )}
 
         {/* Products — met cursor spotlight */}
-        <div className="relative mt-4" onMouseMove={handleGridMouseMove}>
+        <div className="relative mt-6" onMouseMove={handleGridMouseMove}>
+          {/* Subtiele scheidingslijn */}
+          {filtered.length > 0 && !isSearching && (
+            <div className="absolute -top-3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200/50 to-transparent" />
+          )}
           {/* Cursor spotlight overlay */}
           <motion.div
             className="absolute inset-0 pointer-events-none z-10 rounded-3xl"
@@ -554,42 +623,62 @@ function ShopContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="text-center py-24"
+                className="text-center py-20 lg:py-28"
               >
-                <div className="h-16 w-16 mx-auto rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
-                  <svg className="h-7 w-7 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                  </svg>
+                {/* Geanimeerde illustratie */}
+                <div className="relative mx-auto w-24 h-24 mb-8">
+                  <motion.div
+                    className="absolute inset-0 rounded-3xl bg-gradient-to-br from-emerald-100 to-cyan-100"
+                    animate={{ rotate: [0, 6, -6, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  <div className="relative h-full w-full rounded-3xl bg-white shadow-sm flex items-center justify-center">
+                    <motion.div
+                      animate={{ y: [0, -6, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <svg className="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                      </svg>
+                    </motion.div>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">Geen producten gevonden</h3>
-                <p className="text-slate-400 text-sm mb-8 max-w-xs mx-auto">
-                  {debouncedSearch
-                    ? `Geen resultaten voor \u201C${debouncedSearch}\u201D`
-                    : 'Pas je filters aan om producten te vinden.'}
-                </p>
-                <button
-                  onClick={clearFilters}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white font-medium shadow-lg transition-all mb-10"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
-                  </svg>
-                  Filters wissen
-                </button>
 
-                {/* Suggesties per platform */}
-                <div className="max-w-lg mx-auto">
-                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-3">Populaire platforms</p>
-                  <div className="flex flex-wrap items-center justify-center gap-2">
-                    {platforms.slice(0, 6).map((p) => (
-                      <button
-                        key={p}
-                        onClick={() => { clearFilters(); setPlatform(p); }}
-                        className="px-3 py-1.5 rounded-xl bg-slate-50 text-sm text-slate-600 font-medium hover:bg-slate-100 hover:text-slate-900 transition-all"
-                      >
-                        {p}
-                      </button>
-                    ))}
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">Geen producten gevonden</h3>
+                <p className="text-slate-400 text-sm mb-8 max-w-sm mx-auto leading-relaxed">
+                  {debouncedSearch
+                    ? <>Geen resultaten voor &ldquo;<span className="font-medium text-slate-600">{debouncedSearch}</span>&rdquo;. Probeer een andere zoekterm.</>
+                    : 'Pas je filters aan of bekijk een specifiek platform.'}
+                </p>
+
+                <div className="flex flex-col items-center gap-6">
+                  <button
+                    onClick={clearFilters}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-medium shadow-lg hover:bg-slate-800 transition-all"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+                    </svg>
+                    Opnieuw beginnen
+                  </button>
+
+                  <div className="w-full max-w-md">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="h-px flex-1 bg-slate-100" />
+                      <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">of kies een platform</span>
+                      <div className="h-px flex-1 bg-slate-100" />
+                    </div>
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {platforms.slice(0, 8).map((p) => (
+                        <button
+                          key={p}
+                          onClick={() => { clearFilters(); setPlatform(p); }}
+                          className="px-4 py-2 rounded-xl bg-white border border-slate-100 text-sm text-slate-600 font-medium hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 transition-all shadow-sm"
+                        >
+                          {p}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -661,9 +750,14 @@ function ShopContent() {
               </button>
             </div>
 
-            <p className="text-[11px] text-slate-300 tabular-nums">
-              Pagina {page} van {totalPages}
-            </p>
+            <div className="flex items-center gap-3 text-[11px] text-slate-300 tabular-nums">
+              <span>Pagina {page} van {totalPages}</span>
+              <span className="hidden sm:flex items-center gap-1.5 text-slate-300/60">
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-[9px] font-mono text-slate-400">&larr;</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-[9px] font-mono text-slate-400">&rarr;</kbd>
+                <span className="text-[10px]">navigeer</span>
+              </span>
+            </div>
           </motion.div>
         )}
       </div>
