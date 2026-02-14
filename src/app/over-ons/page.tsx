@@ -683,6 +683,10 @@ export default function OverOnsPage() {
 
       {/* ── ONS PROCES ───────────────────────────────────── */}
       <section className="relative py-24 lg:py-36 overflow-hidden bg-slate-50">
+        {/* Subtiele achtergrond decoratie */}
+        <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-emerald-200/20 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-20 left-10 w-56 h-56 rounded-full bg-cyan-200/15 blur-[80px] pointer-events-none" />
+
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -709,16 +713,16 @@ export default function OverOnsPage() {
                 transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="group relative"
               >
-                <div className="relative bg-white rounded-2xl p-6 lg:p-8 hover:shadow-lg transition-all duration-500">
+                <div className="relative bg-white rounded-2xl p-6 lg:p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-500">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${step.gradient} flex items-center justify-center text-white shadow-lg flex-shrink-0`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${step.gradient} flex items-center justify-center text-white shadow-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-500`}>
                         <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                         </svg>
                       </div>
-                      <span className="text-[11px] font-medium text-slate-300 uppercase tracking-[0.15em]">{step.num}</span>
+                      <span className="text-3xl font-black text-slate-100 select-none">{step.num}</span>
                     </div>
                     <h3 className="font-semibold text-slate-900 text-base mb-2">{step.title}</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
@@ -834,8 +838,8 @@ export default function OverOnsPage() {
           </motion.div>
 
           {/* Fade edges */}
-          <div className="absolute top-0 bottom-0 left-0 w-24 lg:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-24 lg:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 left-0 w-20 lg:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-20 lg:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
           {/* Marquee row 1 */}
           <div className="flex gap-5 mb-5 animate-marquee" style={{ width: 'max-content' }}>
@@ -852,6 +856,47 @@ export default function OverOnsPage() {
               { name: 'Emma L.', text: 'Binnen 24 uur geleverd, game werkt perfect. Echt een aanrader voor iedereen die originele games zoekt.', product: 'Pokémon Platinum' },
               { name: 'Daan W.', text: 'Mijn zoon was dolblij. Alles keurig verpakt en precies zoals beschreven. Dankjewel Lenn!', product: 'Pokémon White' },
               { name: 'Lisa M.', text: 'Al meerdere keren besteld, altijd perfect. De foto\'s kloppen precies met wat je ontvangt.', product: 'Pokémon SoulSilver' },
+            ].map((review, i) => (
+              <div key={i} className="flex-shrink-0 w-[340px] bg-white rounded-2xl p-6 shadow-sm">
+                <div className="flex gap-0.5 mb-3">
+                  {[...Array(5)].map((_, s) => (
+                    <svg key={s} className="h-3.5 w-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-slate-600 text-sm leading-relaxed mb-4">&ldquo;{review.text}&rdquo;</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium text-slate-900 text-sm">{review.name}</div>
+                    <div className="text-[11px] text-slate-400">{review.product}</div>
+                  </div>
+                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600">
+                    <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-[9px] font-medium uppercase tracking-wider">Geverifieerd</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Marquee row 2 (reverse) */}
+          <div className="flex gap-5 animate-marquee-reverse" style={{ width: 'max-content' }}>
+            {[
+              { name: 'Jasper H.', text: 'Fantastische service! Game was compleet in doos met handleiding. Precies zoals de foto\'s lieten zien.', product: 'Pokémon Black 2' },
+              { name: 'Nina R.', text: 'Ik zoek altijd naar originele games en bij Gameshop Enter weet ik zeker dat het klopt. Aanrader!', product: 'Mario & Luigi' },
+              { name: 'Bram J.', text: 'Razendsnelle levering en heel netjes verpakt. Mijn DS game werkt als een zonnetje. Top!', product: 'Zelda Spirit Tracks' },
+              { name: 'Sophie V.', text: 'Lenn denkt echt mee. Had een vraag over een game en kreeg binnen een uur uitgebreid antwoord.', product: 'Animal Crossing' },
+              { name: 'Rick P.', text: 'Na jarenlang zoeken eindelijk een betrouwbare plek voor retro Nintendo. Wordt vaste klant!', product: 'Pokémon Diamond' },
+              { name: 'Fleur D.', text: 'Cadeautje voor mijn broer, perfect aangekomen. De verpakking was echt met zorg gedaan.', product: 'New Super Mario Bros' },
+              { name: 'Jasper H.', text: 'Fantastische service! Game was compleet in doos met handleiding. Precies zoals de foto\'s lieten zien.', product: 'Pokémon Black 2' },
+              { name: 'Nina R.', text: 'Ik zoek altijd naar originele games en bij Gameshop Enter weet ik zeker dat het klopt. Aanrader!', product: 'Mario & Luigi' },
+              { name: 'Bram J.', text: 'Razendsnelle levering en heel netjes verpakt. Mijn DS game werkt als een zonnetje. Top!', product: 'Zelda Spirit Tracks' },
+              { name: 'Sophie V.', text: 'Lenn denkt echt mee. Had een vraag over een game en kreeg binnen een uur uitgebreid antwoord.', product: 'Animal Crossing' },
+              { name: 'Rick P.', text: 'Na jarenlang zoeken eindelijk een betrouwbare plek voor retro Nintendo. Wordt vaste klant!', product: 'Pokémon Diamond' },
+              { name: 'Fleur D.', text: 'Cadeautje voor mijn broer, perfect aangekomen. De verpakking was echt met zorg gedaan.', product: 'New Super Mario Bros' },
             ].map((review, i) => (
               <div key={i} className="flex-shrink-0 w-[340px] bg-white rounded-2xl p-6 shadow-sm">
                 <div className="flex gap-0.5 mb-3">
@@ -896,69 +941,137 @@ export default function OverOnsPage() {
       </section>
 
       {/* ── BEDRIJFSINFO ─────────────────────────────────── */}
-      <section className="bg-slate-50 py-20 lg:py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(16,185,129,0.05),transparent_60%)]" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="h-px w-12 bg-gradient-to-r from-slate-300 to-slate-400 mb-8" />
-            <h2 className="text-2xl font-semibold text-slate-900 mb-8">Bedrijfsgegevens</h2>
+            <div className="h-px w-12 bg-gradient-to-r from-emerald-400 to-cyan-400 mb-8" />
+            <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight mb-4">Bedrijfsgegevens</h2>
+            <p className="text-slate-400 max-w-md mb-12">De feiten op een rij &mdash; transparant en eerlijk, zoals alles wat we doen.</p>
 
-            <div className="grid sm:grid-cols-2 gap-x-12 gap-y-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                ['Bedrijfsnaam', 'Gameshop Enter'],
-                ['Eigenaar', 'Lenn Hodes'],
-                ['KvK-nummer', '93642474'],
-                ['Actief sinds', '2018'],
-                ['Specialisatie', 'Originele Nintendo games'],
-                ['Platforms', 'DS, GBA, 3DS, Game Boy'],
-                ['Betaalmethode', 'iDEAL'],
-              ].map(([label, value]) => (
-                <div key={label}>
-                  <dt className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">{label}</dt>
-                  <dd className="text-slate-900 font-medium">{value}</dd>
-                </div>
+                { label: 'Bedrijfsnaam', value: 'Gameshop Enter', icon: 'M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016A3.001 3.001 0 0020.25 9.35m-16.5 0c0-1.08.286-2.09.79-2.967L6.25 3h11.5l1.71 3.382A5.99 5.99 0 0120.25 9.35' },
+                { label: 'Eigenaar', value: 'Lenn Hodes', icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z' },
+                { label: 'KvK-nummer', value: '93642474', icon: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z' },
+                { label: 'Actief sinds', value: '2018', icon: 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5' },
+                { label: 'Specialisatie', value: 'Originele Nintendo games', icon: 'M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.491 48.491 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 01-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 00.657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 01-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 005.427-.63 48.05 48.05 0 00.582-4.717.532.532 0 00-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 00.658-.663 48.422 48.422 0 00-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 01-.61-.58v0z' },
+                { label: 'Platforms', value: 'DS, GBA, 3DS, Game Boy', icon: 'M5.25 7.5A2.25 2.25 0 017.5 5.25h9a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25h-9a2.25 2.25 0 01-2.25-2.25v-9z' },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06, duration: 0.5 }}
+                  className="group"
+                >
+                  <div className="relative bg-white/[0.03] rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-500 h-full">
+                    <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center text-emerald-400 mb-4">
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                      </svg>
+                    </div>
+                    <dt className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">{item.label}</dt>
+                    <dd className="text-white font-semibold text-lg">{item.value}</dd>
+                  </div>
+                </motion.div>
               ))}
-              <div>
-                <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">E-mail</dt>
-                <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">gameshopenter@gmail.com</a></dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Verkoop</dt>
-                <dd className="text-slate-900 font-medium">Uitsluitend online</dd>
-              </div>
+
+              {/* E-mail card met accent */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.36, duration: 0.5 }}
+                className="group"
+              >
+                <div className="relative bg-white/[0.03] rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-500 h-full">
+                  <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center text-emerald-400 mb-4">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                  </div>
+                  <dt className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">E-mail</dt>
+                  <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-400 hover:text-emerald-300 font-semibold text-lg transition-colors">gameshopenter@gmail.com</a></dd>
+                </div>
+              </motion.div>
+
+              {/* Verkoop card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.42, duration: 0.5 }}
+                className="group"
+              >
+                <div className="relative bg-white/[0.03] rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-500 h-full">
+                  <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center text-emerald-400 mb-4">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+                    </svg>
+                  </div>
+                  <dt className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Betaalmethode</dt>
+                  <dd className="text-white font-semibold text-lg">iDEAL</dd>
+                </div>
+              </motion.div>
+
+              {/* Verzending card — accentkaart */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.48, duration: 0.5 }}
+                className="group"
+              >
+                <div className="relative bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 rounded-2xl p-6 hover:from-emerald-500/15 hover:to-cyan-500/15 transition-all duration-500 h-full">
+                  <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-white mb-4 shadow-lg">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75h-2.25A2.25 2.25 0 0016.5 15v.75" />
+                    </svg>
+                  </div>
+                  <dt className="text-xs font-medium text-emerald-400/70 uppercase tracking-wider mb-1">Verzending</dt>
+                  <dd className="text-white font-semibold text-lg">PostNL &mdash; volgende werkdag</dd>
+                  <p className="text-sm text-slate-400 mt-1">Gratis boven &euro;100</p>
+                </div>
+              </motion.div>
             </div>
 
-            <div className="mt-10 pt-8">
-              <h3 className="text-lg font-semibold text-slate-900 mb-6">Onze condities</h3>
+            {/* Condities */}
+            <div className="mt-12 pt-10 border-t border-white/[0.06]">
+              <h3 className="text-xl font-semibold text-white mb-6">Onze condities</h3>
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="h-8 w-8 rounded-xl bg-emerald-50 flex items-center justify-center">
-                      <svg className="h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <div className="rounded-2xl bg-white/[0.03] p-6 hover:bg-white/[0.05] transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="h-9 w-9 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
+                      <svg className="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
                       </svg>
                     </span>
-                    <h4 className="font-semibold text-slate-900">Zo goed als nieuw</h4>
+                    <h4 className="font-semibold text-white">Zo goed als nieuw</h4>
                   </div>
-                  <p className="text-sm text-slate-500 leading-relaxed">
+                  <p className="text-sm text-slate-400 leading-relaxed">
                     Bijna nieuw &mdash; minimale tot geen gebruikssporen. Het product ziet er vrijwel ongebruikt uit en functioneert perfect.
                   </p>
                 </div>
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="h-8 w-8 rounded-xl bg-blue-50 flex items-center justify-center">
-                      <svg className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <div className="rounded-2xl bg-white/[0.03] p-6 hover:bg-white/[0.05] transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                      <svg className="h-4 w-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     </span>
-                    <h4 className="font-semibold text-slate-900">Gebruikt</h4>
+                    <h4 className="font-semibold text-white">Gebruikt</h4>
                   </div>
-                  <p className="text-sm text-slate-500 leading-relaxed">
-                    2de hands &mdash; normale gebruikssporen aanwezig. Het product is volledig getest op werking en functioneert naar behoren.
+                  <p className="text-sm text-slate-400 leading-relaxed">
+                    Tweedehands &mdash; normale gebruikssporen aanwezig. Het product is volledig getest op werking en functioneert naar behoren.
                   </p>
                 </div>
               </div>
@@ -973,6 +1086,23 @@ export default function OverOnsPage() {
 
         {/* Decorative dot grid */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+
+        {/* Floating decoratieve orbs */}
+        <motion.div
+          className="absolute top-[15%] left-[8%] w-3 h-3 rounded-full bg-emerald-400/30"
+          animate={{ y: [-20, 20, -20], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute top-[35%] right-[12%] w-2 h-2 rounded-full bg-cyan-400/25"
+          animate={{ y: [15, -15, 15], opacity: [0.2, 0.5, 0.2] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
+        <motion.div
+          className="absolute bottom-[25%] left-[20%] w-2.5 h-2.5 rounded-full bg-teal-400/20"
+          animate={{ y: [-10, 25, -10], opacity: [0.25, 0.45, 0.25] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
