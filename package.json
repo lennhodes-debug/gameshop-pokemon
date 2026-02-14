@@ -22,6 +22,7 @@
     "framer-motion": "^12.33.0",
     "next": "^15.5.12",
     "nodemailer": "^8.0.1",
+    "postnl_shipping_client": "github:trackq/postnl-shipping-client",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "sharp": "^0.34.5"
