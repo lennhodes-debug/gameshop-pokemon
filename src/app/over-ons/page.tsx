@@ -27,13 +27,12 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
   return <span ref={ref}>{count.toLocaleString('nl-NL')}{suffix}</span>;
 }
 
-// 3D tilt card met gradient border
 function TiltCard({ children, className = '', gradient }: { children: React.ReactNode; className?: string; gradient: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [8, -8]), { stiffness: 300, damping: 20 });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), { stiffness: 300, damping: 20 });
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [6, -6]), { stiffness: 300, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-6, 6]), { stiffness: 300, damping: 20 });
   const glowX = useSpring(useTransform(mouseX, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const glowY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), { stiffness: 200, damping: 25 });
   const glowBg = useMotionTemplate`radial-gradient(300px circle at ${glowX}% ${glowY}%, rgba(16,185,129,0.08), transparent 70%)`;
@@ -64,13 +63,11 @@ function TiltCard({ children, className = '', gradient }: { children: React.Reac
           rotateY: hovered ? rotateY : 0,
           transformStyle: 'preserve-3d',
         }}
-        whileHover={{ y: -8, transition: { duration: 0.3 } }}
+        whileHover={{ y: -6, transition: { duration: 0.3 } }}
         className={`relative group ${className}`}
       >
-        {/* Animated gradient border */}
         <div className={`absolute -inset-px rounded-2xl bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-[1px]`} />
-        <div className="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
-          {/* Glow overlay */}
+        <div className="relative bg-white rounded-2xl border border-slate-100 overflow-hidden">
           {hovered && (
             <motion.div
               className="absolute inset-0 z-10 pointer-events-none"
@@ -230,6 +227,73 @@ const stats = [
   { value: 7, suffix: '+', label: 'Jaar ervaring' },
 ];
 
+const reviews = [
+  {
+    name: 'Mark V.',
+    text: 'Super snelle levering en de game was precies zoals beschreven. Top service!',
+    rating: 5,
+    platform: 'Marktplaats',
+    game: 'Pokemon HeartGold',
+  },
+  {
+    name: 'Sophie K.',
+    text: 'Eindelijk een betrouwbare webshop voor retro Nintendo games. Alles netjes getest en verpakt. Aanrader!',
+    rating: 5,
+    platform: 'Marktplaats',
+    game: 'Super Mario 64',
+  },
+  {
+    name: 'Thomas B.',
+    text: 'Geweldige communicatie, snelle verzending en de game werkt perfect. Zeker vaker bestellen hier!',
+    rating: 5,
+    platform: 'Marktplaats',
+    game: 'Zelda: Ocarina of Time',
+  },
+  {
+    name: 'Lisa M.',
+    text: 'Mijn zoon was super blij met zijn Pokemon-spel. Goed verpakt en snel geleverd. Dankjewel!',
+    rating: 5,
+    platform: 'Marktplaats',
+    game: 'Pokemon Platinum',
+  },
+];
+
+const processSteps = [
+  {
+    step: '01',
+    title: 'Zorgvuldig inkopen & testen',
+    description: 'Elk product wordt persoonlijk ingekocht en gecontroleerd op originaliteit. Daarna test ik elke game op werking - alleen producten die 100% functioneren gaan in de verkoop.',
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+      </svg>
+    ),
+    gradient: 'from-emerald-500 to-teal-500',
+  },
+  {
+    step: '02',
+    title: 'Professioneel verpakken',
+    description: 'Elke bestelling wordt met zorg verpakt in stevig verpakkingsmateriaal. Games krijgen extra bescherming zodat ze in perfecte staat aankomen.',
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+      </svg>
+    ),
+    gradient: 'from-cyan-500 to-blue-500',
+  },
+  {
+    step: '03',
+    title: 'Snelle verzending via PostNL',
+    description: 'Bestellingen worden dezelfde of volgende werkdag verzonden met PostNL. Track & trace zodat je precies weet wanneer je pakket aankomt.',
+    icon: (
+      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+      </svg>
+    ),
+    gradient: 'from-amber-500 to-orange-500',
+  },
+];
+
 export default function OverOnsPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLElement>(null);
@@ -251,8 +315,7 @@ export default function OverOnsPage() {
     target: missionRef,
     offset: ['start end', 'end start'],
   });
-  const missionScale = useTransform(missionProgress, [0, 0.5, 1], [0.92, 1, 0.92]);
-  const missionRotate = useTransform(missionProgress, [0, 0.5, 1], [-1, 0, 1]);
+  const missionScale = useTransform(missionProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
 
   const handleHeroMove = useCallback((e: React.MouseEvent) => {
     if (!heroRef.current) return;
@@ -265,10 +328,10 @@ export default function OverOnsPage() {
     <div className="pt-20 lg:pt-24">
       {/* Breadcrumbs */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0" aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+        <ol className="flex items-center gap-2 text-sm text-slate-500">
           <li><Link href="/" className="hover:text-emerald-600 transition-colors">Home</Link></li>
-          <li><svg className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></li>
-          <li className="text-slate-700 dark:text-slate-200 font-medium">Over ons</li>
+          <li><svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></li>
+          <li className="text-slate-700 font-medium">Over ons</li>
         </ol>
       </nav>
 
@@ -278,11 +341,9 @@ export default function OverOnsPage() {
         onMouseMove={handleHeroMove}
         className="relative bg-[#050810] py-28 lg:py-40 overflow-hidden"
       >
-        {/* Animated gradient mesh */}
         <motion.div className="absolute inset-0 pointer-events-none" style={{ background: heroGlow }} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.08),transparent_50%)]" />
 
-        {/* Grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -291,7 +352,6 @@ export default function OverOnsPage() {
           }}
         />
 
-        {/* Floating geometric shapes */}
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
@@ -311,20 +371,14 @@ export default function OverOnsPage() {
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
           className="absolute bottom-[20%] right-[6%] w-14 h-14 rounded-full bg-emerald-500/[0.03] border border-emerald-500/[0.05]"
         />
-        <motion.div
-          animate={{ rotate: [-5, 5, -5], scale: [1, 1.05, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[60%] left-[15%] w-8 h-8 rounded-lg bg-cyan-500/[0.03] border border-cyan-500/[0.05]"
-        />
 
-        {/* Particle field */}
-        {[...Array(12)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-px h-px rounded-full bg-emerald-400"
-            style={{ top: `${10 + (i * 7) % 80}%`, left: `${5 + (i * 11) % 90}%` }}
+            style={{ top: `${10 + (i * 9) % 80}%`, left: `${5 + (i * 13) % 90}%` }}
             animate={{ opacity: [0, 0.5, 0], scale: [0, 1.5, 0] }}
-            transition={{ duration: 3 + i * 0.4, repeat: Infinity, delay: i * 0.5, ease: 'easeInOut' }}
+            transition={{ duration: 3 + i * 0.5, repeat: Infinity, delay: i * 0.6, ease: 'easeInOut' }}
           />
         ))}
 
@@ -372,12 +426,11 @@ export default function OverOnsPage() {
           </motion.div>
         </div>
 
-        {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
       </div>
 
-      {/* === STATS BAR with glowing cards === */}
-      <section className="relative bg-white dark:bg-slate-800 border-b border-slate-100 dark:border-slate-700">
+      {/* === STATS BAR === */}
+      <section className="relative bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-4">
             {stats.map((stat, i) => (
@@ -394,17 +447,16 @@ export default function OverOnsPage() {
                   <div className="text-2xl lg:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-teal-500 tabular-nums">
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                   </div>
-                  {/* Glow under number */}
                   <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-emerald-500/20 group-hover:bg-emerald-500/40 group-hover:w-12 transition-all duration-300" />
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium">{stat.label}</div>
+                <div className="text-xs text-slate-500 mt-2 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* === PERSONAL INTRO with reveal === */}
+      {/* === PERSONAL INTRO === */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <motion.div
           initial={{ opacity: 0 }}
@@ -417,7 +469,7 @@ export default function OverOnsPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3"
+            className="text-3xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-3"
           >
             Hoi, ik ben Lenn
           </motion.h2>
@@ -428,10 +480,10 @@ export default function OverOnsPage() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="h-[3px] w-20 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mb-8 origin-left"
           />
-          <div className="space-y-5 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+          <div className="space-y-5 text-lg text-slate-600 leading-relaxed">
             {[
               'Mijn naam is Lenn Hodes, oprichter van Gameshop Enter. In 2018, toen ik 14 was, begon ik met het verkopen van verzamelkaarten op Marktplaats. Het was mijn eerste stap in het ondernemerschap - en het begin van een reis met pieken en dalen.',
-              <>Na de kaarten waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed: ik werd meerdere keren opgelicht. Het waren harde lessen, maar ze hebben me gevormd tot de ondernemer die ik nu ben. Ik leerde het belang van <strong className="text-slate-900 dark:text-white font-bold">vertrouwen</strong>, <strong className="text-slate-900 dark:text-white font-bold">kwaliteitscontrole</strong> en <strong className="text-slate-900 dark:text-white font-bold">eerlijk zakendoen</strong>.</>,
+              <>Na de kaarten waagde ik me aan iPhones en PlayStation 5 consoles. Dat liep niet goed: ik werd meerdere keren opgelicht. Het waren harde lessen, maar ze hebben me gevormd tot de ondernemer die ik nu ben. Ik leerde het belang van <strong className="text-slate-900 font-bold">vertrouwen</strong>, <strong className="text-slate-900 font-bold">kwaliteitscontrole</strong> en <strong className="text-slate-900 font-bold">eerlijk zakendoen</strong>.</>,
               'Uiteindelijk keerde ik terug naar mijn echte passie: Nintendo. Ik begon met Pokemon-games en groeide van daaruit naar de volledige Nintendo-sector. Van klassieke NES- en Super Nintendo-titels tot de nieuwste Nintendo Switch-games, en van Game Boy tot GameCube-consoles. Elk product test ik persoonlijk op werking en verpak ik zorgvuldig.',
               'Naast Gameshop Enter studeer ik Ondernemerschap en Retailmanagement aan het Saxion in Enschede. Wat ik leer, pas ik direct toe in de praktijk. Die combinatie maakt mij niet alleen een betere ondernemer, maar ook een betere partner voor mijn klanten.',
             ].map((text, i) => (
@@ -449,11 +501,63 @@ export default function OverOnsPage() {
         </motion.div>
       </section>
 
-      {/* === TIMELINE with SVG icons === */}
+      {/* === HOE WIJ WERKEN (Process) === */}
+      <section className="bg-slate-50 py-16 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-4">
+              Werkwijze
+            </span>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Van inkoop tot aan je deur
+            </h2>
+            <p className="text-slate-500 mt-3 max-w-lg mx-auto">
+              Elk product doorloopt een zorgvuldig proces voordat het bij jou wordt bezorgd.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="relative bg-white rounded-2xl border border-slate-100 p-8 h-full group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  {/* Step number */}
+                  <div className="absolute top-6 right-6 text-5xl font-extrabold text-slate-100 select-none leading-none">
+                    {step.step}
+                  </div>
+
+                  <div className={`h-14 w-14 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center text-white mb-6 shadow-lg`}>
+                    {step.icon}
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">{step.title}</h3>
+                  <p className="text-slate-500 leading-relaxed text-sm">{step.description}</p>
+
+                  {/* Connecting line on desktop */}
+                  {i < processSteps.length - 1 && (
+                    <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-px bg-slate-200" />
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* === TIMELINE === */}
       <section ref={timelineRef} className="relative bg-[#050810] py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06),transparent_70%)]" />
 
-        {/* Floating particles */}
         {[
           { t: '15%', l: '10%', d: 4 },
           { t: '30%', l: '85%', d: 5 },
@@ -461,8 +565,6 @@ export default function OverOnsPage() {
           { t: '70%', l: '90%', d: 4.5 },
           { t: '85%', l: '15%', d: 5.5 },
           { t: '40%', l: '50%', d: 6 },
-          { t: '60%', l: '20%', d: 4.2 },
-          { t: '20%', l: '70%', d: 5.3 },
         ].map((p, i) => (
           <motion.div
             key={i}
@@ -492,7 +594,6 @@ export default function OverOnsPage() {
           </motion.div>
 
           <div className="relative">
-            {/* Animated vertical line */}
             <div className="absolute left-6 lg:left-1/2 top-0 bottom-0 w-px bg-white/[0.06] lg:-translate-x-px" />
             <motion.div
               className="absolute left-6 lg:left-1/2 top-0 w-px bg-gradient-to-b from-emerald-400 via-teal-400 to-cyan-400 lg:-translate-x-px origin-top"
@@ -515,7 +616,6 @@ export default function OverOnsPage() {
                   className={`relative flex items-start gap-8 lg:gap-0 ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
                   style={{ transformPerspective: 800 }}
                 >
-                  {/* Dot with SVG icon */}
                   <div className="absolute left-6 lg:left-1/2 -translate-x-1/2 z-10">
                     <motion.div
                       whileInView={{ scale: [0, 1.3, 1] }}
@@ -527,7 +627,6 @@ export default function OverOnsPage() {
                     </motion.div>
                   </div>
 
-                  {/* Content */}
                   <div className={`flex-1 ml-20 lg:ml-0 ${i % 2 === 0 ? 'lg:pr-20 lg:text-right' : 'lg:pl-20'}`}>
                     <motion.div
                       whileHover={{ y: -4, scale: 1.01 }}
@@ -541,7 +640,6 @@ export default function OverOnsPage() {
                     </motion.div>
                   </div>
 
-                  {/* Spacer for other side */}
                   <div className="hidden lg:block flex-1" />
                 </motion.div>
               ))}
@@ -552,15 +650,14 @@ export default function OverOnsPage() {
 
       {/* === CINEMATIC MISSION === */}
       <section ref={missionRef} className="relative py-24 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/30 to-white dark:from-slate-900 dark:via-emerald-950/30 dark:to-slate-900" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-emerald-50/30 to-white" />
 
-        {/* Decorative quote marks */}
         <div className="absolute top-[15%] left-[8%] text-[200px] font-serif text-emerald-500/[0.04] select-none leading-none">&ldquo;</div>
         <div className="absolute bottom-[15%] right-[8%] text-[200px] font-serif text-emerald-500/[0.04] select-none leading-none">&rdquo;</div>
 
         <motion.div
           className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
-          style={{ scale: missionScale, rotate: missionRotate }}
+          style={{ scale: missionScale }}
         >
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -585,7 +682,7 @@ export default function OverOnsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6"
+              className="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-widest mb-6"
             >
               Missie
             </motion.span>
@@ -594,7 +691,7 @@ export default function OverOnsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-2xl lg:text-4xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight mb-6 max-w-3xl mx-auto"
+              className="text-2xl lg:text-4xl font-bold text-slate-900 leading-snug tracking-tight mb-6 max-w-3xl mx-auto"
             >
               &ldquo;Ik geloof dat retro gaming meer is dan nostalgie. Het is een manier om tijdloze klassiekers te bewaren en te delen met de volgende generatie gamers.&rdquo;
             </motion.blockquote>
@@ -603,7 +700,7 @@ export default function OverOnsPage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6 }}
-              className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto"
+              className="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto"
             >
               Mijn missie is om elke Nintendo-liefhebber toegang te geven tot originele, geteste producten tegen eerlijke prijzen, met de persoonlijke service die je verdient.
             </motion.p>
@@ -627,8 +724,8 @@ export default function OverOnsPage() {
         </motion.div>
       </section>
 
-      {/* === VALUES with 3D tilt cards === */}
-      <section className="bg-slate-50 dark:bg-slate-900 py-16 lg:py-24">
+      {/* === VALUES === */}
+      <section className="bg-slate-50 py-16 lg:py-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -636,10 +733,10 @@ export default function OverOnsPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-widest mb-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-slate-200/60 text-slate-600 text-xs font-semibold uppercase tracking-widest mb-4">
               Kernwaarden
             </span>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
               Waar wij voor staan
             </h2>
           </motion.div>
@@ -658,13 +755,177 @@ export default function OverOnsPage() {
                     <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center text-white mb-5 shadow-lg`}>
                       {value.icon}
                     </div>
-                    <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-2">{value.title}</h3>
-                    <p className="text-slate-500 dark:text-slate-400 leading-relaxed">{value.description}</p>
+                    <h3 className="font-bold text-slate-900 text-lg mb-2">{value.title}</h3>
+                    <p className="text-slate-500 leading-relaxed">{value.description}</p>
                   </div>
                 </TiltCard>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* === KLANTREVIEWS (Social Proof) === */}
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-14"
+          >
+            <span className="inline-block px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-xs font-semibold uppercase tracking-widest mb-4">
+              Reviews
+            </span>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Wat klanten zeggen
+            </h2>
+            <p className="text-slate-500 mt-3 max-w-lg mx-auto">
+              Meer dan 1360 reviews met een perfecte 5.0 score op Marktplaats
+            </p>
+          </motion.div>
+
+          {/* Review Highlight Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex justify-center mb-10"
+          >
+            <div className="inline-flex items-center gap-4 px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/60">
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <div className="h-6 w-px bg-amber-200" />
+              <span className="text-sm font-bold text-amber-800">5.0 / 5.0</span>
+              <span className="text-sm text-amber-600">op Marktplaats</span>
+            </div>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {reviews.map((review, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="group"
+              >
+                <div className="bg-white rounded-2xl border border-slate-100 p-6 h-full hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                  {/* Stars */}
+                  <div className="flex gap-0.5 mb-3">
+                    {[...Array(review.rating)].map((_, j) => (
+                      <svg key={j} className="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-4">
+                    &ldquo;{review.text}&rdquo;
+                  </p>
+
+                  {/* Author */}
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">{review.name}</p>
+                      <p className="text-xs text-slate-400">{review.game}</p>
+                    </div>
+                    <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">{review.platform}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* === TRUST PARTNERS === */}
+      <section className="bg-slate-50 py-12 border-y border-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-6">Vertrouwd door</p>
+            <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-14">
+              {/* iDEAL */}
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#CC0066" strokeWidth="1.5" />
+                    <path d="M8 12h8M12 8v8" stroke="#CC0066" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium text-slate-500">iDEAL</span>
+              </motion.div>
+
+              {/* Mollie */}
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="6" width="18" height="12" rx="2" stroke="#0A0A0A" strokeWidth="1.5" />
+                    <path d="M3 10h18" stroke="#0A0A0A" strokeWidth="1.5" />
+                    <rect x="6" y="14" width="4" height="1.5" rx="0.75" fill="#0A0A0A" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium text-slate-500">Mollie</span>
+              </motion.div>
+
+              {/* PostNL */}
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                    <path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" stroke="#FF6600" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium text-slate-500">PostNL</span>
+              </motion.div>
+
+              {/* SSL */}
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+                  <svg className="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium text-slate-500">SSL beveiligd</span>
+              </motion.div>
+
+              {/* KvK */}
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+                  <svg className="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                  </svg>
+                </div>
+                <span className="text-xs font-medium text-slate-500">KvK geregistreerd</span>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -675,9 +936,9 @@ export default function OverOnsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg transition-shadow duration-500 p-8 lg:p-12"
+          className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-lg transition-shadow duration-500 p-8 lg:p-12"
         >
-          <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-8">Bedrijfsgegevens</h2>
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mb-8">Bedrijfsgegevens</h2>
           <div className="grid sm:grid-cols-2 gap-x-12 gap-y-5">
             {[
               ['Bedrijfsnaam', 'Gameshop Enter'],
@@ -694,26 +955,26 @@ export default function OverOnsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05, duration: 0.4 }}
               >
-                <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">{label}</dt>
-                <dd className="text-slate-900 dark:text-white font-medium">{value}</dd>
+                <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">{label}</dt>
+                <dd className="text-slate-900 font-medium">{value}</dd>
               </motion.div>
             ))}
             <div>
-              <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">E-mail</dt>
-              <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors">gameshopenter@gmail.com</a></dd>
+              <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">E-mail</dt>
+              <dd><a href="mailto:gameshopenter@gmail.com" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">gameshopenter@gmail.com</a></dd>
             </div>
             <div>
-              <dt className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Webshop</dt>
-              <dd className="text-slate-900 dark:text-white font-medium">Uitsluitend online — geen afhalen</dd>
+              <dt className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Webshop</dt>
+              <dd className="text-slate-900 font-medium">Uitsluitend online — geen afhalen</dd>
             </div>
           </div>
 
-          <div className="mt-10 p-5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-500/30 rounded-2xl">
+          <div className="mt-10 p-5 bg-amber-50 border border-amber-200/60 rounded-2xl">
             <div className="flex items-start gap-3">
-              <svg className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <svg className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
               </svg>
-              <p className="text-sm text-amber-800 dark:text-amber-200 font-medium">
+              <p className="text-sm text-amber-800 font-medium">
                 Gameshop Enter is een uitsluitend online webshop. Afhalen is niet mogelijk. Alle bestellingen worden verzonden via PostNL.
               </p>
             </div>
@@ -721,11 +982,10 @@ export default function OverOnsPage() {
         </motion.div>
       </section>
 
-      {/* === EPIC CTA === */}
+      {/* === EPIC CTA met nieuwsbrief === */}
       <section className="relative bg-[#050810] py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.1),transparent_60%)]" />
 
-        {/* Floating shapes */}
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [12, 18, 12] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
@@ -748,16 +1008,23 @@ export default function OverOnsPage() {
               Klaar om te shoppen?
             </h2>
             <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto">
-              Ontdek ons complete assortiment van meer dan 846 originele Nintendo producten
+              Ontdek ons complete assortiment van meer dan 846 originele Nintendo producten. Schrijf je in voor de nieuwsbrief en ontvang 10% korting op je eerste bestelling.
             </p>
-            <Link href="/shop">
-              <Button size="lg">
-                Bekijk alle producten
-                <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/shop">
+                <Button size="lg">
+                  Bekijk alle producten
+                  <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <button className="px-8 py-4 text-base font-semibold rounded-xl border-2 border-white/10 text-white hover:bg-white/5 hover:border-white/20 transition-all duration-300">
+                  Neem contact op
+                </button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
