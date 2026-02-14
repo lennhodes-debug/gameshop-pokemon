@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const STORAGE_KEY = 'gameshop-boot-seen';
-const SEQUENCE_DURATION = 3200;
+const SEQUENCE_DURATION = 1800;
 
 export default function BootSequence() {
   const [show, setShow] = useState(false);
@@ -20,14 +20,14 @@ export default function BootSequence() {
       document.body.style.overflow = 'hidden';
 
       // Fase timings
-      const t1 = setTimeout(() => setPhase(1), 200);   // CRT power on
-      const t2 = setTimeout(() => setPhase(2), 700);   // Logo drops
-      const t3 = setTimeout(() => setPhase(3), 1500);  // "ENTER" appears
-      const t4 = setTimeout(() => setPhase(4), 2200);  // Flash
+      const t1 = setTimeout(() => setPhase(1), 100);   // CRT power on
+      const t2 = setTimeout(() => setPhase(2), 350);   // Logo drops
+      const t3 = setTimeout(() => setPhase(3), 800);   // "ENTER" appears
+      const t4 = setTimeout(() => setPhase(4), 1200);  // Flash
       const t5 = setTimeout(() => {
         setPhase(5); // Fade out
         localStorage.setItem(STORAGE_KEY, '1');
-      }, 2600);
+      }, 1400);
       const t6 = setTimeout(() => {
         setShow(false);
         document.body.style.overflow = '';
