@@ -37,6 +37,15 @@ function ShopContent() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [recentlyViewed, setRecentlyViewed] = useState<Product[]>([]);
 
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Track scroll position for back-to-top button
+  useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 600);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const { getTotal, getItemCount } = useCart();
   const cartTotal = getTotal();
   const cartCount = getItemCount();
@@ -178,38 +187,18 @@ function ShopContent() {
 
   return (
     <div className="pt-16 lg:pt-20">
-      {/* Animated hero header */}
-      <div ref={headerRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
-        {/* Animated background elements */}
+      {/* Compact hero header */}
+      <div ref={headerRef} className="relative bg-[#050810] py-8 lg:py-12 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.1),transparent_50%)]" />
-          {/* Floating grid pattern */}
-          <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
-            }}
-          />
-          {/* Floating orbs */}
           <motion.div
             animate={{
               x: [0, 30, -20, 0],
               y: [0, -20, 10, 0],
             }}
             transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-20 right-[20%] w-64 h-64 rounded-full bg-emerald-500/10 blur-[80px]"
-          />
-          <motion.div
-            animate={{
-              x: [0, -40, 20, 0],
-              y: [0, 30, -15, 0],
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-10 left-[10%] w-48 h-48 rounded-full bg-cyan-500/10 blur-[60px]"
+            className="absolute top-10 right-[20%] w-48 h-48 rounded-full bg-emerald-500/10 blur-[80px]"
           />
         </div>
 
@@ -218,29 +207,26 @@ function ShopContent() {
           className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+            className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3"
           >
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-4"
-            >
+            <div>
+              <h1 className="text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                Onze{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
+                  Collectie
+                </span>
+              </h1>
+              <p className="text-slate-400 text-sm mt-1">
+                Originele Nintendo games en consoles
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold self-start sm:self-auto">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {allProducts.length} producten beschikbaar
-            </motion.span>
-
-            <h1 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight mb-3">
-              Onze{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
-                Collectie
-              </span>
-            </h1>
-            <p className="text-slate-400 text-lg max-w-xl">
-              Ontdek ons volledige assortiment van originele Nintendo games en consoles
-            </p>
+              {allProducts.length} producten
+            </span>
           </motion.div>
         </motion.div>
       </div>
@@ -397,8 +383,30 @@ function ShopContent() {
           )}
         </AnimatePresence>
 
+        {/* Results header */}
+        {!isSearching && filtered.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-8 flex items-center justify-between mb-4"
+          >
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span>{' '}
+              {filtered.length === 1 ? 'product' : 'producten'}
+              {debouncedSearch && (
+                <> voor <span className="font-semibold text-emerald-600 dark:text-emerald-400">&ldquo;{debouncedSearch}&rdquo;</span></>
+              )}
+            </p>
+            {totalPages > 1 && (
+              <p className="text-xs text-slate-400 dark:text-slate-500">
+                {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
+              </p>
+            )}
+          </motion.div>
+        )}
+
         {/* Products */}
-        <div id="shop-grid" className="mt-8 scroll-mt-24">
+        <div id="shop-grid" className="scroll-mt-24">
           <AnimatePresence mode="wait">
             {isSearching ? (
               <motion.div
@@ -407,7 +415,7 @@ function ShopContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+                className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
               >
                 {Array.from({ length: 8 }).map((_, i) => (
                   <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
@@ -559,34 +567,66 @@ function ShopContent() {
           viewport={{ once: true }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12"
         >
-          <div className="flex items-center gap-3 mb-5">
-            <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h3 className="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight">Eerder bekeken</h3>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                <svg className="h-4 w-4 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-white tracking-tight">Eerder bekeken</h3>
+            </div>
+            <span className="text-xs text-slate-400 dark:text-slate-500">{recentlyViewed.length} items</span>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-            {recentlyViewed.map((product) => {
+          <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scrollbar-hide">
+            {recentlyViewed.map((product, i) => {
               const colors = PLATFORM_COLORS[product.platform] || { from: 'from-slate-500', to: 'to-slate-700' };
               return (
-                <Link key={product.sku} href={`/shop/${product.sku}`} className="group">
-                  <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} transition-all duration-300 group-hover:border-emerald-200 dark:group-hover:border-emerald-800 group-hover:shadow-md`}>
-                    {product.image ? (
-                      <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-white/20 text-sm font-bold">
-                        {PLATFORM_LABELS[product.platform] || product.platform}
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{product.name}</p>
-                  <p className="text-xs font-bold text-slate-900 dark:text-white">{formatPrice(getEffectivePrice(product))}</p>
-                </Link>
+                <motion.div
+                  key={product.sku}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="flex-shrink-0 w-[140px] sm:w-[160px] snap-start"
+                >
+                  <Link href={`/shop/${product.sku}`} className="group block">
+                    <div className={`aspect-square rounded-xl overflow-hidden mb-2 ${product.image ? 'bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700' : `bg-gradient-to-br ${colors.from} ${colors.to}`} transition-all duration-300 group-hover:border-emerald-300 dark:group-hover:border-emerald-700 group-hover:shadow-lg group-hover:scale-[1.03]`}>
+                      {product.image ? (
+                        <Image src={product.image} alt={product.name} width={200} height={200} className="w-full h-full object-contain p-3 group-hover:scale-110 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white/20 text-sm font-bold">
+                          {PLATFORM_LABELS[product.platform] || product.platform}
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{product.name}</p>
+                    <p className="text-xs font-bold text-slate-900 dark:text-white">{formatPrice(getEffectivePrice(product))}</p>
+                  </Link>
+                </motion.div>
               );
             })}
           </div>
         </motion.div>
       )}
+
+      {/* Scroll to top */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Scroll naar boven"
+            className="fixed bottom-6 right-6 z-40 h-12 w-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 transition-shadow flex items-center justify-center"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Quick View Modal */}
       <QuickView product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
@@ -598,12 +638,11 @@ export default function ShopPage() {
   return (
     <Suspense fallback={
       <div className="pt-16 lg:pt-20">
-        <div className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+        <div className="relative bg-[#050810] py-8 lg:py-12 overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%)]" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="h-4 w-32 rounded bg-white/10 animate-pulse mb-4" />
-            <div className="h-12 w-64 rounded bg-white/10 animate-pulse mb-3" />
-            <div className="h-6 w-96 rounded bg-white/5 animate-pulse" />
+            <div className="h-9 w-48 rounded bg-white/10 animate-pulse mb-2" />
+            <div className="h-4 w-64 rounded bg-white/5 animate-pulse" />
           </div>
         </div>
       </div>
