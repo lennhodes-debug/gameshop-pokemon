@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
+import { discountValidateSchema } from '@/lib/validation';
 
 const DISCOUNT_STORE = 'gameshop-discounts';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const code = body.code?.trim().toUpperCase();
+    const parsed = discountValidateSchema.safeParse(body);
 
-    if (!code) {
+    if (!parsed.success) {
       return NextResponse.json({ valid: false, message: 'Geen code opgegeven' });
     }
+
+    const code = parsed.data.code;
 
     const store = getStore(DISCOUNT_STORE);
 

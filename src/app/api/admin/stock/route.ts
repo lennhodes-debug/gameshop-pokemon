@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
+import { stockUpdateSchema, stockBulkSchema } from '@/lib/validation';
 
 const STORE_NAME = 'gameshop-stock';
 
@@ -30,11 +31,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { sku, stock, action } = body;
+    const parsed = stockUpdateSchema.safeParse(body);
 
-    if (!sku) {
+    if (!parsed.success) {
       return NextResponse.json({ error: 'SKU is verplicht' }, { status: 400 });
     }
+
+    const { sku, stock, action } = parsed.data;
 
     const store = getStore(STORE_NAME);
     let stockData: Record<string, number> = {};
@@ -74,11 +77,13 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { stockUpdates } = body;
+    const parsed = stockBulkSchema.safeParse(body);
 
-    if (!stockUpdates || typeof stockUpdates !== 'object') {
+    if (!parsed.success) {
       return NextResponse.json({ error: 'stockUpdates object is verplicht' }, { status: 400 });
     }
+
+    const { stockUpdates } = parsed.data;
 
     const store = getStore(STORE_NAME);
     let stockData: Record<string, number> = {};

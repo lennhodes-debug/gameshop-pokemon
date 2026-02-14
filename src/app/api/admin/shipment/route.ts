@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createShipment } from '@/lib/postnl';
 import { sendTrackTrace } from '@/lib/email';
+import { createShipmentSchema } from '@/lib/validation';
 
 function isAuthorized(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization');
@@ -17,11 +18,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { orderNumber, customer, items } = body;
+    const parsed = createShipmentSchema.safeParse(body);
 
-    if (!orderNumber || !customer) {
-      return NextResponse.json({ error: 'orderNumber en customer zijn verplicht' }, { status: 400 });
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'orderNumber en customer zijn verplicht', details: parsed.error.flatten().fieldErrors }, { status: 400 });
     }
+
+    const { orderNumber, customer, items } = parsed.data;
 
     // Bereken totaal gewicht (gram)
     const totalWeight = items?.reduce(
@@ -52,8 +55,8 @@ export async function POST(request: NextRequest) {
         customerName: `${customer.voornaam} ${customer.achternaam}`,
         trackingCode: shipment.trackingCode,
         trackingUrl: shipment.trackingUrl,
-        items: items?.map((item: { name: string; quantity: number; price: number }) => ({
-          name: item.name,
+        items: items?.map((item) => ({
+          name: item.name || 'Product',
           quantity: item.quantity,
           price: item.price,
         })) || [],

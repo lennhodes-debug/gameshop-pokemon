@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createMollieClient, { PaymentMethod, Locale } from '@mollie/api-client';
+import { createPaymentSchema } from '@/lib/validation';
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.MOLLIE_API_KEY;
@@ -9,11 +10,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { items, customer, shipping, discount, discountCode, total } = body;
+    const parsed = createPaymentSchema.safeParse(body);
 
-    if (!items?.length || !customer?.email || !total) {
-      return NextResponse.json({ error: 'Ongeldige bestelling' }, { status: 400 });
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Ongeldige bestelling', details: parsed.error.flatten().fieldErrors }, { status: 400 });
     }
+
+    const { items, customer, shipping, discount, discountCode, total } = parsed.data;
 
     const mollieClient = createMollieClient({ apiKey });
 
@@ -26,7 +29,7 @@ export async function POST(request: NextRequest) {
       description: `Gameshop Enter — ${orderNumber}`,
       redirectUrl: `${baseUrl}/afrekenen/status?order=${orderNumber}`,
       webhookUrl: `${baseUrl}/api/mollie/webhook`,
-      method: mapPaymentMethod(customer.betaalmethode),
+      method: customer.betaalmethode ? mapPaymentMethod(customer.betaalmethode) : undefined,
       locale: Locale.nl_NL,
       metadata: {
         orderNumber,

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
+import { discountRedeemSchema } from '@/lib/validation';
 
 const DISCOUNT_STORE = 'gameshop-discounts';
 
@@ -7,11 +8,13 @@ const DISCOUNT_STORE = 'gameshop-discounts';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const code = body.code?.trim().toUpperCase();
+    const parsed = discountRedeemSchema.safeParse(body);
 
-    if (!code) {
+    if (!parsed.success) {
       return NextResponse.json({ success: false });
     }
+
+    const { code, orderNumber } = parsed.data;
 
     const store = getStore(DISCOUNT_STORE);
 
@@ -32,7 +35,7 @@ export async function POST(request: NextRequest) {
     // Markeer als gebruikt
     codes[code].used = true;
     codes[code].usedAt = new Date().toISOString();
-    codes[code].orderNumber = body.orderNumber || '';
+    codes[code].orderNumber = orderNumber || '';
 
     await store.setJSON('newsletter-codes', codes);
 

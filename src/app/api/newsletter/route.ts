@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
 import { sendNewsletterWelcome } from '@/lib/email';
+import { newsletterSchema } from '@/lib/validation';
 
 const STORE_NAME = 'gameshop-newsletter';
 const DISCOUNT_STORE = 'gameshop-discounts';
@@ -17,11 +18,13 @@ function generateCode(): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const email = body.email?.trim().toLowerCase();
+    const parsed = newsletterSchema.safeParse(body);
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!parsed.success) {
       return NextResponse.json({ error: 'Ongeldig e-mailadres' }, { status: 400 });
     }
+
+    const email = parsed.data.email.trim().toLowerCase();
 
     const store = getStore(STORE_NAME);
     const discountStore = getStore(DISCOUNT_STORE);
