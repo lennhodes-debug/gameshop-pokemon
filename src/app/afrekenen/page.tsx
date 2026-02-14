@@ -204,6 +204,42 @@ export default function AfrekenPage() {
     // Simulate Mollie payment processing (in production, this calls backend API -> Mollie)
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    // Sla bestelling op
+    try {
+      await fetch('/api/orders/store', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderNumber,
+          customerName: `${form.voornaam} ${form.achternaam}`,
+          customerEmail: form.email,
+          items: items.map((item) => ({
+            name: item.product.name,
+            quantity: item.quantity,
+            price:
+              item.variant === 'cib' && item.product.cibPrice
+                ? item.product.cibPrice
+                : item.product.price,
+          })),
+          subtotal: rawSubtotal,
+          shipping,
+          discount: discountAmount,
+          total,
+          discountCode: discount?.code,
+          voornaam: form.voornaam,
+          achternaam: form.achternaam,
+          straat: form.straat,
+          huisnummer: form.huisnummer,
+          postcode: form.postcode,
+          plaats: form.plaats,
+          opmerkingen: form.opmerkingen,
+          betaalmethode: form.betaalmethode,
+        }),
+      });
+    } catch (error) {
+      console.error('Order storage error:', error);
+    }
+
     // Send order confirmation email
     try {
       const emailData = {
