@@ -56,17 +56,23 @@ export default function TrustStrip() {
             {trustItems.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
+                transition={{ type: 'spring', stiffness: 120, damping: 18, delay: index * 0.1 }}
                 className="flex items-center"
               >
                 {index > 0 && (
-                  <div className="h-8 w-px bg-slate-200/60 mx-8" />
+                  <motion.div
+                    initial={{ scaleY: 0 }}
+                    whileInView={{ scaleY: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
+                    className="h-8 w-px bg-slate-200/60 mx-8 origin-top"
+                  />
                 )}
                 <div className="flex items-center gap-3.5 group cursor-default">
-                  <div className="h-9 w-9 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600/80 transition-colors duration-300 group-hover:bg-emerald-100/80 group-hover:text-emerald-600">
+                  <div className="h-9 w-9 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600/80 transition-all duration-300 group-hover:bg-emerald-100/80 group-hover:text-emerald-600 group-hover:scale-110">
                     {item.icon}
                   </div>
                   <div>
@@ -87,10 +93,10 @@ export default function TrustStrip() {
             {trustItems.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.06 }}
+                transition={{ type: 'spring', stiffness: 120, damping: 18, delay: index * 0.08 }}
                 className="flex items-center gap-3 p-3 rounded-xl bg-white shadow-sm"
               >
                 <div className="h-8 w-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600/80 shrink-0">

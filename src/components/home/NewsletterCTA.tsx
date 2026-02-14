@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 export default function NewsletterCTA() {
   const [email, setEmail] = useState('');
@@ -54,34 +55,65 @@ export default function NewsletterCTA() {
 
       <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.4 }}
         >
-          <div className="inline-flex h-14 w-14 rounded-2xl bg-white/10 backdrop-blur-sm items-center justify-center mb-8">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.1 }}
+            className="inline-flex h-14 w-14 rounded-2xl bg-white/10 backdrop-blur-sm items-center justify-center mb-8"
+          >
             <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
             </svg>
-          </div>
+          </motion.div>
 
-          <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05] mb-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05] mb-4"
+          >
             Mis geen enkele aanwinst
-          </h2>
-          <p className="text-lg text-white/70 mb-4 max-w-lg mx-auto">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-lg text-white/70 mb-4 max-w-lg mx-auto"
+          >
             Ontvang exclusieve kortingscodes, word als eerste ge&iuml;nformeerd over zeldzame aanwinsten en krijg early access bij nieuwe drops
-          </p>
+          </motion.p>
 
-          <p className="text-white/40 text-sm mb-8 flex items-center justify-center gap-2">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-white/40 text-sm mb-8 flex items-center justify-center gap-2"
+          >
             <span className="flex -space-x-1.5">
               {['E', 'T', 'L', 'K'].map((letter, i) => (
-                <span key={i} className="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-medium text-white/70">
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.45 + i * 0.06 }}
+                  className="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-medium text-white/70"
+                >
                   {letter}
-                </span>
+                </motion.span>
               ))}
             </span>
             <span>500+ gamers ontvangen al updates</span>
-          </p>
+          </motion.p>
 
           {submitted ? (
             <motion.div
@@ -101,7 +133,15 @@ export default function NewsletterCTA() {
               </div>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} name="newsletter" className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+            <motion.form
+              onSubmit={handleSubmit}
+              name="newsletter"
+              className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
               <input type="hidden" name="form-name" value="newsletter" />
               <input
                 type="email"
@@ -129,7 +169,7 @@ export default function NewsletterCTA() {
                   'Aanmelden'
                 )}
               </button>
-            </form>
+            </motion.form>
           )}
 
           {error && (

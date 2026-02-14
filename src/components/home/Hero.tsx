@@ -96,9 +96,9 @@ export default function Hero() {
       >
         {/* Trust badge */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.7, delay: 0.05 }}
           className="mb-10"
         >
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.05] backdrop-blur-sm">
@@ -121,25 +121,31 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Titel */}
-        <motion.h1
-          className="text-6xl sm:text-7xl lg:text-[112px] font-light text-white leading-[0.92] tracking-[-0.03em] mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        >
-          Gameshop
-          <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300">
+        {/* Titel — gestaffelde reveal per woord */}
+        <h1 className="text-6xl sm:text-7xl lg:text-[112px] font-light text-white leading-[0.92] tracking-[-0.03em] mb-8">
+          <motion.span
+            className="block overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Gameshop
+          </motion.span>
+          <motion.span
+            className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          >
             Enter
-          </span>
-        </motion.h1>
+          </motion.span>
+        </h1>
 
         {/* Subtitel */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          initial={{ opacity: 0, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 0.7, delay: 0.45 }}
           className="text-base sm:text-lg text-white/35 leading-relaxed mb-14 max-w-md mx-auto font-normal"
         >
           De Nintendo specialist van Nederland.
@@ -147,29 +153,36 @@ export default function Hero() {
           Originele games, persoonlijk getest.
         </motion.p>
 
-        {/* CTA knoppen */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-        >
-          <Link
-            href="/shop"
-            className="group inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 hover:bg-white/95 active:scale-[0.98] transition-all duration-300"
+        {/* CTA knoppen — gestaffeld per knop */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            Bekijk de collectie
-            <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
-          <Link
-            href="/inkoop"
-            className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] text-white/70 font-medium text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
+            <Link
+              href="/shop"
+              className="group inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/20 hover:bg-white/95 active:scale-[0.98] transition-all duration-300"
+            >
+              Bekijk de collectie
+              <svg className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
           >
-            Games verkopen
-          </Link>
-        </motion.div>
+            <Link
+              href="/inkoop"
+              className="inline-flex items-center justify-center h-14 px-8 rounded-2xl bg-white/[0.06] text-white/70 font-medium text-sm hover:bg-white/[0.1] hover:text-white active:scale-[0.98] transition-all duration-300 backdrop-blur-sm"
+            >
+              Games verkopen
+            </Link>
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* Scroll indicator */}
@@ -178,10 +191,10 @@ export default function Hero() {
         style={{ opacity: scrollOpacity }}
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          animate={{ y: [0, 6, 0], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <svg className="h-5 w-5 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
           </svg>
         </motion.div>

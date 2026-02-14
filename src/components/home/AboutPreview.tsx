@@ -94,17 +94,17 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 24, scale: 0.94 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative rounded-2xl p-5 lg:p-6 text-center overflow-hidden transition-colors duration-300"
+      transition={{ type: 'spring', stiffness: 100, damping: 18, delay: index * 0.12 }}
+      className="group relative rounded-2xl p-5 lg:p-6 text-center overflow-hidden transition-all duration-500 hover:scale-[1.03]"
       style={{ background: 'linear-gradient(135deg, rgba(5,8,16,0.9), rgba(10,16,26,0.95))' }}
     >
       <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${stat.hoverGlow}`} />
 
       <div className="relative z-10">
-        <div className={`${stat.accent} mb-3 flex justify-center`}>{stat.icon}</div>
+        <div className={`${stat.accent} mb-3 flex justify-center transition-transform duration-300 group-hover:scale-110`}>{stat.icon}</div>
         <AnimatedCounter value={stat.value} suffix={stat.suffix} />
         <div className="text-xs text-slate-400 uppercase tracking-wider font-medium mt-2">
           {stat.label}
@@ -123,28 +123,47 @@ export default function AboutPreview() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Brand story + stats */}
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center mb-24 lg:mb-32">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <p className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-5">
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="text-white/25 text-xs font-medium uppercase tracking-[0.2em] mb-5"
+            >
               Over ons
-            </p>
-            <h2 className="text-3xl lg:text-[52px] font-light text-white leading-[1.05] tracking-[-0.03em] mb-6">
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+              className="text-3xl lg:text-[52px] font-light text-white leading-[1.05] tracking-[-0.03em] mb-6"
+            >
               Al sinds 2018 de{' '}
               <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">Nintendo specialist</span>
-            </h2>
-            <p className="text-base text-slate-400 leading-relaxed mb-6">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-base text-slate-400 leading-relaxed mb-6"
+            >
               Wat begon met het verkopen van games op Marktplaats groeide uit
               tot Gameshop Enter: d&eacute; Nintendo specialist van Nederland. Alle
               games zijn 100% origineel en persoonlijk getest.
-            </p>
-            <p className="text-sm text-slate-500 leading-relaxed mb-10">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-sm text-slate-500 leading-relaxed mb-10"
+            >
               Met meer dan 3.000 tevreden klanten en een perfecte 5.0 score op
               Marktplaats staan wij garant voor kwaliteit en betrouwbaarheid.
-            </p>
+            </motion.p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/over-ons"
@@ -165,7 +184,7 @@ export default function AboutPreview() {
                 </svg>
               </Link>
             </div>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             {STATS.map((stat, index) => (
@@ -187,17 +206,24 @@ export default function AboutPreview() {
             {USP_ITEMS.map((item, index) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                transition={{ type: 'spring', stiffness: 120, damping: 18, delay: index * 0.1 }}
                 className="group text-center"
               >
                 <div
-                  className="h-12 w-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-all duration-300"
+                  className="h-12 w-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:scale-110"
                   style={{
                     background: `rgba(${item.glow},0.08)`,
                     color: `rgba(${item.glow},0.8)`,
+                    boxShadow: `0 0 0 rgba(${item.glow},0)`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `0 0 20px rgba(${item.glow},0.15)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = `0 0 0 rgba(${item.glow},0)`;
                   }}
                 >
                   {item.icon}

@@ -110,10 +110,10 @@ function PlatformCard({ platform, count, index }: {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 32, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className={platform.span === 2 ? 'lg:col-span-2' : ''}
       style={{ perspective: 1000 }}
     >
@@ -187,7 +187,7 @@ function PlatformCard({ platform, count, index }: {
                   alt={`${platform.label} console`}
                   width={400}
                   height={400}
-                  className="relative object-contain transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-105 drop-shadow-2xl"
+                  className="relative object-contain transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.08] group-hover:-translate-y-1 drop-shadow-2xl"
                   style={{
                     maxHeight: platform.span === 2 ? '220px' : '180px',
                     width: 'auto',
@@ -242,7 +242,13 @@ export default function PlatformGrid() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-12 lg:mb-16"
         >
-          <div className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6" />
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="h-px w-12 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto mb-6 origin-center"
+          />
           <h2 className="text-3xl lg:text-[52px] font-light text-white tracking-[-0.03em] leading-[1.05] mb-3">
             Shop per platform
           </h2>

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const reviews = [
@@ -23,22 +23,22 @@ const starPath = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95
 function ReviewCard({ review }: { review: typeof reviews[0] }) {
   return (
     <div className="flex-shrink-0 w-[300px]">
-      <blockquote className="relative rounded-2xl p-5 h-full transition-colors duration-300 overflow-hidden" style={{ background: 'rgba(255,255,255,0.04)' }}>
+      <blockquote className="group relative rounded-2xl p-5 h-full transition-all duration-500 overflow-hidden hover:bg-white/[0.07]" style={{ background: 'rgba(255,255,255,0.04)' }}>
         <div className="flex gap-0.5 mb-3">
           {[...Array(5)].map((_, i) => (
-            <svg key={i} className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg key={i} className="h-3 w-3 text-amber-400 transition-transform duration-300 group-hover:scale-110" style={{ transitionDelay: `${i * 30}ms` }} fill="currentColor" viewBox="0 0 20 20">
               <path d={starPath} />
             </svg>
           ))}
         </div>
 
-        <p className="text-white/65 text-[13px] leading-relaxed line-clamp-3 mb-4">
+        <p className="text-white/65 text-[13px] leading-relaxed line-clamp-3 mb-4 transition-colors duration-300 group-hover:text-white/80">
           &ldquo;{review.text}&rdquo;
         </p>
 
         <footer className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="h-7 w-7 rounded-lg bg-white/[0.06] flex items-center justify-center text-white/50 text-[10px] font-medium shrink-0">
+            <div className="h-7 w-7 rounded-lg bg-white/[0.06] flex items-center justify-center text-white/50 text-[10px] font-medium shrink-0 transition-all duration-300 group-hover:bg-emerald-500/10 group-hover:text-emerald-400/80">
               {review.name[0]}
             </div>
             <div>
@@ -58,8 +58,8 @@ export default function ReviewsStrip() {
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
-  const x1 = useTransform(scrollYProgress, [0, 1], ['0%', '-10%']);
-  const x2 = useTransform(scrollYProgress, [0, 1], ['-10%', '0%']);
+  const x1 = useTransform(scrollYProgress, [0, 1], ['0%', '-15%']);
+  const x2 = useTransform(scrollYProgress, [0, 1], ['-15%', '0%']);
 
   return (
     <section ref={sectionRef} className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
@@ -82,12 +82,29 @@ export default function ReviewsStrip() {
           <div className="inline-flex items-center gap-2.5">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <svg key={i} className="h-3.5 w-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <motion.svg
+                  key={i}
+                  className="h-3.5 w-3.5 text-amber-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + i * 0.08, type: 'spring', stiffness: 300, damping: 15 }}
+                >
                   <path d={starPath} />
-                </svg>
+                </motion.svg>
               ))}
             </div>
-            <span className="text-white/40 text-sm font-medium">5.0 op Marktplaats</span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.7 }}
+              className="text-white/40 text-sm font-medium"
+            >
+              5.0 op Marktplaats
+            </motion.span>
           </div>
         </motion.div>
       </div>

@@ -44,10 +44,10 @@ export default function FaqPreview() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-12"
         >
           <p className="text-slate-400 text-xs font-medium uppercase tracking-[0.2em] mb-4">
@@ -62,10 +62,10 @@ export default function FaqPreview() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 28, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
         >
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
@@ -82,15 +82,15 @@ export default function FaqPreview() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mt-8"
         >
           <Link
             href="/faq"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-slate-50 text-slate-600 font-medium text-sm hover:bg-slate-100 hover:text-slate-900 transition-all group"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-slate-50 text-slate-600 font-medium text-sm hover:bg-slate-100 hover:text-slate-900 hover:shadow-sm transition-all duration-300 group"
           >
             Bekijk alle vragen
             <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
