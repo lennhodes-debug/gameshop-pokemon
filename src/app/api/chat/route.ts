@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createAnthropic } from '@ai-sdk/anthropic';
+import { streamText } from 'ai';
 import productsData from '@/data/products.json';
 
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
@@ -39,6 +41,13 @@ const SYSTEM_PROMPT = `Je bent Beer 🐻, de enthousiaste gaming-beer en mascott
 - Je bent een EXPERT in Pokémon en retro Nintendo — deel je kennis met passie
 - Je hebt humor: maak af en toe een gaming-gerelateerde grap of woordspeling
 - Je bent eerlijk: als we iets niet hebben, zeg dat — stel altijd alternatieven voor
+
+## Denkproces
+- Denk stap voor stap na bij complexe vragen
+- Analyseer EERST de vraag: wat wil de klant precies weten?
+- Zoek dan in de catalogus naar relevante producten
+- Formuleer een persoonlijk, behulpzaam antwoord
+- Bij vergelijkingsvragen: geef eerlijke voor- en nadelen van elke optie
 
 ## Conversatiestijl
 - Begin NIET elk antwoord met dezelfde openingszin — varieer!
@@ -134,57 +143,19 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Streaming response
+    const anthropic = createAnthropic({ apiKey: ANTHROPIC_KEY });
+
+    // Streaming response via Vercel AI SDK
     if (wantStream) {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': ANTHROPIC_KEY,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 1024,
-          system: SYSTEM_PROMPT,
-          messages: messages.slice(-16),
-          stream: true,
-        }),
+      const result = streamText({
+        model: anthropic('claude-haiku-4-5-20251001'),
+        system: SYSTEM_PROMPT,
+        messages: messages.slice(-16),
+        maxOutputTokens: 1024,
+        temperature: 0.7,
       });
 
-      if (!response.ok || !response.body) {
-        const err = await response.text();
-        console.error('Anthropic API stream error:', response.status, err);
-        return NextResponse.json({ error: 'AI service niet beschikbaar' }, { status: 502 });
-      }
-
-      // Forward SSE stream
-      const reader = response.body.getReader();
-
-      const stream = new ReadableStream({
-        async start(controller) {
-          try {
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) {
-                controller.close();
-                break;
-              }
-              controller.enqueue(value);
-            }
-          } catch {
-            controller.close();
-          }
-        },
-      });
-
-      return new Response(stream, {
-        headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          Connection: 'keep-alive',
-        },
-      });
+      return result.toTextStreamResponse();
     }
 
     // Non-streaming response (fallback)

@@ -827,7 +827,7 @@ function parseResponse(text: string): Omit<Message, 'id' | 'role'> {
   };
 }
 
-// ─── SSE Stream Parser ──────────────────────────────────────
+// ─── Text Stream Parser (Vercel AI SDK toTextStreamResponse) ─
 async function streamResponse(
   messages: ApiMessage[],
   onChunk: (text: string) => void,
@@ -843,29 +843,14 @@ async function streamResponse(
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let fullText = '';
-  let buffer = '';
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
 
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split('\n');
-    buffer = lines.pop() || '';
-
-    for (const line of lines) {
-      if (!line.startsWith('data: ')) continue;
-      const data = line.slice(6).trim();
-      if (data === '[DONE]') continue;
-
-      try {
-        const parsed = JSON.parse(data);
-        if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-          fullText += parsed.delta.text;
-          onChunk(fullText);
-        }
-      } catch { /* skip unparseable lines */ }
-    }
+    const chunk = decoder.decode(value, { stream: true });
+    fullText += chunk;
+    onChunk(fullText);
   }
 
   return fullText;

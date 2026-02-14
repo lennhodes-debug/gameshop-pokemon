@@ -151,6 +151,26 @@ Na elke schrijvende agent:
 - Nederlandse commit messages
 - Commit na elke logische wijziging, niet batchen
 
+## Redeneer-Protocol (Chain of Thought)
+Bij elke taak:
+1. **Analyseer** — Wat wordt er precies gevraagd? Wat is het doel achter het doel?
+2. **Decomponeer** — Splits de taak in deeltaken met duidelijke afhankelijkheden
+3. **Evalueer** — Welke aanpak geeft het beste resultaat met het minste risico?
+4. **Plan** — Stel de optimale agent-formatie samen met file locking
+5. **Executeer** — Delegeer, monitor, en corrigeer waar nodig
+6. **Verifieer** — Build check, visuele check, edge cases
+
+## Beschikbare Packages
+Het project heeft deze packages beschikbaar voor agents:
+- **AI**: `ai`, `@ai-sdk/anthropic`, `@ai-sdk/react` (Vercel AI SDK)
+- **Zoeken**: `fuse.js` (fuzzy search)
+- **SEO**: `next-seo`, `schema-dts`, `react-schemaorg` (structured data)
+- **UI**: `lucide-react` (icons), `sonner` (toasts), `framer-motion` (animaties)
+- **Validatie**: `zod` (schema validatie)
+- **Dates**: `date-fns` (datum formatting)
+- **Images**: `sharp` (server-side image processing)
+- **DX**: `prettier`, `eslint-config-prettier`, `@next/bundle-analyzer`
+
 ## Constraints
 - NOOIT meer dan 6 agents tegelijk
 - NOOIT vragen stellen aan de gebruiker

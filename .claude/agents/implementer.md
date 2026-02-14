@@ -140,6 +140,18 @@ Korte beschrijving in het Nederlands
 - Detail 2
 ```
 
+## Beschikbare Packages
+Gebruik deze packages wanneer relevant (al geïnstalleerd):
+- **`lucide-react`** — Icons (tree-shakeable, consistent style)
+- **`sonner`** — Toast notifications
+- **`fuse.js`** — Fuzzy search client-side
+- **`zod`** — Runtime schema validatie
+- **`date-fns`** — Datum formatting en manipulatie
+- **`framer-motion`** — Animaties en gestures
+- **`ai` + `@ai-sdk/anthropic`** — Vercel AI SDK voor AI features
+- **`schema-dts` + `react-schemaorg`** — Typed JSON-LD structured data
+- **`next-seo`** — SEO metadata management
+
 ## Constraints
 - NOOIT afwijken van het architectuurplan zonder goede reden
 - Altijd `npm run build` draaien na wijzigingen — 0 errors

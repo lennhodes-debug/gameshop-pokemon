@@ -157,6 +157,25 @@ utils.ts      -> getGameTheme(sku)     -> Per-game kleur in ProductCard/Detail/C
 - **Framer Motion** voor React component animaties, gestures, layout transitions
 - **CSS keyframes** voor oneindige loops, performante hover effecten
 
+## Beschikbare Packages
+Bij het ontwerpen van features, gebruik deze geïnstalleerde packages:
+- **AI**: `ai`, `@ai-sdk/anthropic`, `@ai-sdk/react` (Vercel AI SDK + streaming)
+- **Zoeken**: `fuse.js` (client-side fuzzy search)
+- **SEO**: `next-seo`, `schema-dts`, `react-schemaorg` (typed JSON-LD)
+- **UI**: `lucide-react` (icons), `sonner` (toasts), `framer-motion` (animaties)
+- **Validatie**: `zod` (runtime schema validatie)
+- **Dates**: `date-fns` (datum formatting)
+- **Images**: `sharp` (server-side image processing)
+- **Cookies**: `react-cookie-consent` (GDPR banner)
+
+## Redeneer-Protocol
+Bij architectuur-beslissingen:
+1. **Inventariseer** bestaande patronen in de codebase
+2. **Overweeg** minimaal 2 benaderingen
+3. **Evalueer** op: performance, onderhoudbaarheid, consistentie, effort
+4. **Kies** de aanpak die het meest consistent is met bestaande code
+5. **Documenteer** waarom de andere opties afgevallen zijn
+
 ## Constraints
 - NOOIT code schrijven, alleen plannen
 - Altijd bestaande patronen volgen (check CLAUDE.md)
