@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createMollieClient from '@mollie/api-client';
+import { getStore } from '@netlify/blobs';
 import { sendOrderConfirmation, sendOrderNotificationToOwner } from '@/lib/email';
 
 interface PaymentMetadata {
@@ -11,6 +12,18 @@ interface PaymentMetadata {
   items?: string;
   shipping?: string;
   discount?: string;
+  discountCode?: string;
+}
+
+interface StoredOrder {
+  orderNumber: string;
+  customerName: string;
+  customerEmail: string;
+  total: number;
+  items: { name: string; sku: string; qty: number; price: number }[];
+  address: string;
+  status: string;
+  paidAt: string;
   discountCode?: string;
 }
 
@@ -43,6 +56,37 @@ export async function POST(request: NextRequest) {
         items = metadata?.items ? JSON.parse(metadata.items) : [];
       } catch { /* ignore */ }
 
+      const total = parseFloat(payment.amount.value);
+      const paidAt = payment.paidAt || new Date().toISOString();
+
+      // Order opslaan in Netlify Blobs voor dashboard
+      try {
+        const orderStore = getStore('gameshop-orders');
+        let orders: StoredOrder[] = [];
+        try {
+          const existing = await orderStore.get('orders', { type: 'json' });
+          if (Array.isArray(existing)) orders = existing as StoredOrder[];
+        } catch { /* eerste order */ }
+
+        // Dubbele orders voorkomen
+        if (!orders.some(o => o.orderNumber === orderNumber)) {
+          orders.push({
+            orderNumber,
+            customerName,
+            customerEmail,
+            total,
+            items,
+            address,
+            status: 'paid',
+            paidAt: typeof paidAt === 'string' ? paidAt : new Date().toISOString(),
+            discountCode: metadata?.discountCode || undefined,
+          });
+          await orderStore.setJSON('orders', orders);
+        }
+      } catch (e) {
+        console.warn('Kon order niet opslaan:', e);
+      }
+
       // E-mail naar klant: bevestiging
       if (customerEmail) {
         await sendOrderConfirmation({
@@ -50,7 +94,7 @@ export async function POST(request: NextRequest) {
           orderNumber,
           customerName,
           items: items.map(i => ({ name: i.name, quantity: i.qty, price: i.price * i.qty })),
-          total: parseFloat(payment.amount.value),
+          total,
           address,
         });
       }
@@ -75,7 +119,7 @@ export async function POST(request: NextRequest) {
         orderNumber,
         customerName,
         customerEmail,
-        total: parseFloat(payment.amount.value),
+        total,
         address,
         opmerkingen: metadata?.opmerkingen || '',
         items: items.map(i => ({ name: i.name, sku: i.sku, quantity: i.qty, price: i.price * i.qty })),

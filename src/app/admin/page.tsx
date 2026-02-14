@@ -3,6 +3,86 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { getAllProducts, Product } from '@/lib/products';
 
+interface DashboardStats {
+  totalRevenue: number;
+  totalOrders: number;
+  todayRevenue: number;
+  todayOrders: number;
+  weekRevenue: number;
+  weekOrders: number;
+  monthRevenue: number;
+  monthOrders: number;
+  subscribers: number;
+  outOfStock: number;
+  lowStock: number;
+  usedDiscounts: number;
+  totalDiscounts: number;
+}
+
+interface DashboardOrder {
+  orderNumber: string;
+  customerName: string;
+  customerEmail: string;
+  total: number;
+  items: { name: string; sku: string; qty: number; price: number }[];
+  address: string;
+  status: string;
+  paidAt: string;
+  discountCode?: string;
+}
+
+interface TopProduct {
+  name: string;
+  sku: string;
+  qty: number;
+  revenue: number;
+}
+
+interface LowStockItem {
+  sku: string;
+  stock: number;
+}
+
+function StatCard({ label, value, sub, color }: { label: string; value: string; sub?: string; color: string }) {
+  const gradients: Record<string, string> = {
+    green: 'from-emerald-500 to-teal-500',
+    blue: 'from-blue-500 to-indigo-500',
+    orange: 'from-orange-500 to-amber-500',
+    purple: 'from-purple-500 to-violet-500',
+  };
+  return (
+    <div className={`bg-gradient-to-br ${gradients[color] || gradients.green} rounded-2xl p-4 text-white`}>
+      <p className="text-xs font-semibold text-white/70 uppercase tracking-wider">{label}</p>
+      <p className="text-2xl font-extrabold mt-1">{value}</p>
+      {sub && <p className="text-xs text-white/60 mt-1">{sub}</p>}
+    </div>
+  );
+}
+
+function MiniStat({ label, value, icon }: { label: string; value: string | number; icon: string }) {
+  return (
+    <div className="bg-white rounded-xl border border-slate-100 p-3 flex items-center gap-3">
+      <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center text-lg flex-shrink-0">{icon}</div>
+      <div>
+        <p className="text-lg font-extrabold text-slate-900">{value}</p>
+        <p className="text-xs text-slate-500">{label}</p>
+      </div>
+    </div>
+  );
+}
+
+function formatEuro(amount: number) {
+  return new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' }).format(amount);
+}
+
+function formatDate(dateStr: string) {
+  try {
+    return new Date(dateStr).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return dateStr;
+  }
+}
+
 export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
@@ -11,7 +91,15 @@ export default function AdminPage() {
   const [search, setSearch] = useState('');
   const [platform, setPlatform] = useState('');
   const [loading, setLoading] = useState<string | null>(null);
-  const [tab, setTab] = useState<'voorraad' | 'verzending'>('voorraad');
+  const [tab, setTab] = useState<'dashboard' | 'voorraad' | 'verzending'>('dashboard');
+
+  // Dashboard state
+  const [dashStats, setDashStats] = useState<DashboardStats | null>(null);
+  const [dashOrders, setDashOrders] = useState<DashboardOrder[]>([]);
+  const [dashTopProducts, setDashTopProducts] = useState<TopProduct[]>([]);
+  const [dashLowStock, setDashLowStock] = useState<LowStockItem[]>([]);
+  const [dashLoading, setDashLoading] = useState(false);
+  const [dashError, setDashError] = useState('');
 
   // Verzending state
   const [orderNumber, setOrderNumber] = useState('');
@@ -25,19 +113,41 @@ export default function AdminPage() {
     if (saved) setAuthenticated(true);
   }, []);
 
+  const getAuth = useCallback(() => localStorage.getItem('admin-auth') || password, [password]);
+
   const fetchStock = useCallback(async () => {
     try {
       const res = await fetch('/api/admin/stock');
       const data = await res.json();
       setStock(data);
-    } catch {
-      // Fallback: alles op 1
-    }
+    } catch { /* */ }
   }, []);
 
+  const fetchDashboard = useCallback(async () => {
+    setDashLoading(true);
+    setDashError('');
+    try {
+      const res = await fetch('/api/admin/dashboard', {
+        headers: { 'Authorization': `Bearer ${getAuth()}` },
+      });
+      if (!res.ok) throw new Error('Dashboard laden mislukt');
+      const data = await res.json();
+      setDashStats(data.stats);
+      setDashOrders(data.recentOrders || []);
+      setDashTopProducts(data.topProducts || []);
+      setDashLowStock(data.lowStockProducts || []);
+    } catch (err: unknown) {
+      setDashError(err instanceof Error ? err.message : 'Fout bij laden');
+    }
+    setDashLoading(false);
+  }, [getAuth]);
+
   useEffect(() => {
-    if (authenticated) fetchStock();
-  }, [authenticated, fetchStock]);
+    if (authenticated) {
+      fetchStock();
+      fetchDashboard();
+    }
+  }, [authenticated, fetchStock, fetchDashboard]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,13 +157,12 @@ export default function AdminPage() {
 
   const updateStock = async (sku: string, action: 'increment' | 'decrement') => {
     setLoading(sku);
-    const auth = localStorage.getItem('admin-auth') || password;
     try {
       const res = await fetch('/api/admin/stock', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${auth}`,
+          'Authorization': `Bearer ${getAuth()}`,
         },
         body: JSON.stringify({ sku, action }),
       });
@@ -61,9 +170,7 @@ export default function AdminPage() {
       if (res.ok) {
         setStock(prev => ({ ...prev, [sku]: data.stock }));
       }
-    } catch {
-      // Stilte
-    }
+    } catch { /* */ }
     setLoading(null);
   };
 
@@ -73,13 +180,12 @@ export default function AdminPage() {
     setShipError('');
     setShipResult(null);
 
-    const auth = localStorage.getItem('admin-auth') || password;
     try {
       const res = await fetch('/api/admin/shipment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${auth}`,
+          'Authorization': `Bearer ${getAuth()}`,
         },
         body: JSON.stringify({
           orderNumber,
@@ -140,34 +246,192 @@ export default function AdminPage() {
       <div className="bg-[#050810] py-8 px-4">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-2xl font-extrabold text-white mb-1">Admin Dashboard</h1>
-          <p className="text-slate-400 text-sm">Voorraad beheren & verzendingen</p>
+          <p className="text-slate-400 text-sm">Statistieken, voorraad & verzendingen</p>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="sticky top-16 lg:top-20 z-10 bg-white border-b border-slate-200 px-4">
-        <div className="max-w-3xl mx-auto flex gap-1">
-          {[
+        <div className="max-w-3xl mx-auto flex gap-1 overflow-x-auto">
+          {([
+            { id: 'dashboard' as const, label: 'Dashboard' },
             { id: 'voorraad' as const, label: 'Voorraad', count: products.length },
             { id: 'verzending' as const, label: 'Verzending' },
-          ].map(t => (
+          ]).map(t => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
+              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
                 tab === t.id
                   ? 'border-emerald-500 text-emerald-600'
                   : 'border-transparent text-slate-500 hover:text-slate-700'
               }`}
             >
               {t.label}
-              {t.count && <span className="ml-1.5 text-xs text-slate-400">({t.count})</span>}
+              {'count' in t && t.count && <span className="ml-1.5 text-xs text-slate-400">({t.count})</span>}
             </button>
           ))}
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-6">
+
+        {/* ============ DASHBOARD TAB ============ */}
+        {tab === 'dashboard' && (
+          <div className="space-y-6">
+            {dashLoading && (
+              <div className="flex items-center justify-center py-12">
+                <div className="h-8 w-8 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+
+            {dashError && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-700">
+                {dashError}
+                <button onClick={fetchDashboard} className="ml-3 underline font-medium">Opnieuw proberen</button>
+              </div>
+            )}
+
+            {dashStats && !dashLoading && (
+              <>
+                {/* Omzet KPIs */}
+                <div>
+                  <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Omzet & Bestellingen</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    <StatCard
+                      label="Vandaag"
+                      value={formatEuro(dashStats.todayRevenue)}
+                      sub={`${dashStats.todayOrders} bestelling${dashStats.todayOrders !== 1 ? 'en' : ''}`}
+                      color="green"
+                    />
+                    <StatCard
+                      label="Deze week"
+                      value={formatEuro(dashStats.weekRevenue)}
+                      sub={`${dashStats.weekOrders} bestelling${dashStats.weekOrders !== 1 ? 'en' : ''}`}
+                      color="blue"
+                    />
+                    <StatCard
+                      label="Deze maand"
+                      value={formatEuro(dashStats.monthRevenue)}
+                      sub={`${dashStats.monthOrders} bestelling${dashStats.monthOrders !== 1 ? 'en' : ''}`}
+                      color="orange"
+                    />
+                    <StatCard
+                      label="Totaal"
+                      value={formatEuro(dashStats.totalRevenue)}
+                      sub={`${dashStats.totalOrders} bestelling${dashStats.totalOrders !== 1 ? 'en' : ''}`}
+                      color="purple"
+                    />
+                  </div>
+                </div>
+
+                {/* Quick stats */}
+                <div>
+                  <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Snelle overzichten</h2>
+                  <div className="grid grid-cols-2 gap-3">
+                    <MiniStat icon="&#x2709;" label="Nieuwsbrief abonnees" value={dashStats.subscribers} />
+                    <MiniStat icon="&#x1F3F7;" label="Kortingscodes gebruikt" value={`${dashStats.usedDiscounts}/${dashStats.totalDiscounts}`} />
+                    <MiniStat icon="&#x274C;" label="Uitverkocht" value={dashStats.outOfStock} />
+                    <MiniStat icon="&#x26A0;" label="Bijna op" value={dashStats.lowStock} />
+                  </div>
+                </div>
+
+                {/* Recente bestellingen */}
+                {dashOrders.length > 0 && (
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Recente Bestellingen</h2>
+                    <div className="bg-white rounded-2xl border border-slate-100 divide-y divide-slate-100 overflow-hidden">
+                      {dashOrders.slice(0, 10).map(order => (
+                        <div key={order.orderNumber} className="p-4">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-mono text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">{order.orderNumber}</span>
+                                <span className="text-xs text-slate-400">{formatDate(order.paidAt)}</span>
+                              </div>
+                              <p className="text-sm font-semibold text-slate-900 mt-1">{order.customerName}</p>
+                              <p className="text-xs text-slate-500 truncate">{order.items.map(i => `${i.qty}x ${i.name}`).join(', ') || 'Geen items'}</p>
+                              {order.discountCode && (
+                                <span className="inline-block text-xs text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md mt-1">Code: {order.discountCode}</span>
+                              )}
+                            </div>
+                            <span className="text-sm font-extrabold text-slate-900 flex-shrink-0">{formatEuro(order.total)}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Top producten */}
+                {dashTopProducts.length > 0 && (
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Top Producten</h2>
+                    <div className="bg-white rounded-2xl border border-slate-100 divide-y divide-slate-100 overflow-hidden">
+                      {dashTopProducts.map((p, i) => (
+                        <div key={p.sku} className="p-3 flex items-center gap-3">
+                          <div className={`h-8 w-8 rounded-lg flex items-center justify-center text-xs font-extrabold flex-shrink-0 ${
+                            i === 0 ? 'bg-yellow-100 text-yellow-700' :
+                            i === 1 ? 'bg-slate-200 text-slate-600' :
+                            i === 2 ? 'bg-orange-100 text-orange-700' :
+                            'bg-slate-50 text-slate-400'
+                          }`}>
+                            #{i + 1}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-slate-900 truncate">{p.name}</p>
+                            <p className="text-xs text-slate-500">{p.sku}</p>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <p className="text-sm font-bold text-slate-900">{p.qty}x</p>
+                            <p className="text-xs text-emerald-600">{formatEuro(p.revenue)}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Lage voorraad alert */}
+                {dashLowStock.length > 0 && (
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Lage Voorraad</h2>
+                    <div className="bg-white rounded-2xl border border-orange-200 divide-y divide-orange-100 overflow-hidden">
+                      {dashLowStock.map(item => (
+                        <div key={item.sku} className="p-3 flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-semibold text-slate-900">{item.sku}</p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className={`text-sm font-bold ${item.stock === 0 ? 'text-red-500' : 'text-orange-500'}`}>
+                              {item.stock === 0 ? 'Uitverkocht' : `${item.stock} over`}
+                            </span>
+                            <button
+                              onClick={() => { setTab('voorraad'); setSearch(item.sku); }}
+                              className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg hover:bg-emerald-100 transition-colors"
+                            >
+                              Aanvullen
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Ververs knop */}
+                <button
+                  onClick={fetchDashboard}
+                  className="w-full py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:bg-slate-50 transition-colors"
+                >
+                  Dashboard verversen
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* ============ VOORRAAD TAB ============ */}
         {tab === 'voorraad' && (
           <>
             {/* Zoek + filter */}
@@ -239,6 +503,7 @@ export default function AdminPage() {
           </>
         )}
 
+        {/* ============ VERZENDING TAB ============ */}
         {tab === 'verzending' && (
           <div className="space-y-6">
             <form onSubmit={handleShipment} className="bg-white rounded-2xl border border-slate-100 p-6 space-y-4">
