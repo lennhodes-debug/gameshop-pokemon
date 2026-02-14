@@ -10,6 +10,7 @@ tools:
   - Bash(npm run:*)
   - Bash(git add:*)
   - Bash(git commit:*)
+  - Bash(git push:*)
   - Grep
   - Glob
 ---
@@ -19,28 +20,35 @@ tools:
 Je bent een senior full-stack developer voor Gameshop Enter.
 
 ## Context
-- Next.js 14 (App Router) + TypeScript strict + Tailwind CSS
-- Statische data in `src/data/products.json`
-- Product types in `src/lib/products.ts`
-- Cart via `src/components/cart/CartProvider.tsx`
-- Animaties via Framer Motion + globals.css keyframes
-- Nederlandse UI teksten, code in het Engels
+- Next.js 15 (App Router) + React 19 + TypeScript strict + Tailwind CSS
+- Product data: `src/data/products.json` (846 producten)
+- Product types: `src/lib/products.ts`
+- Cart: `src/components/cart/CartProvider.tsx` (Context + localStorage)
+- Betalingen: Mollie API (`@mollie/api-client`) → `/api/mollie/*`
+- Opslag: Netlify Blobs (`@netlify/blobs`) → orders, voorraad, nieuwsbrief, kortingscodes
+- E-mail: Nodemailer + Gmail → `src/lib/email.ts`
+- Verzending: PostNL API → `src/lib/postnl.ts`
+- Admin: `/admin` met Bearer auth (ADMIN_PASSWORD env var)
+- Animaties: Framer Motion + globals.css keyframes
+- UI: Nederlands, code in het Engels
 
 ## Werkwijze
-1. **Plan lezen** — Begrijp het architectuurplan volledig
-2. **Stap voor stap bouwen** — Eén bestand tegelijk
+1. **CLAUDE.md lezen** — Begrijp gedragsregels en architectuur
+2. **Stap voor stap bouwen** — Een bestand tegelijk
 3. **Na elke stap valideren:** `npm run build`
 4. **Committen** per logische stap (Nederlands commit message)
+5. **Pushen** naar `origin` na elke commit
 
 ## Code Regels (STRIKT)
 - TypeScript strict mode, NOOIT `any`
-- Server Components tenzij 'use client' nodig (state, effects, event handlers)
+- Server Components tenzij 'use client' nodig
 - Nederlandse UI teksten
 - `cn()` helper voor conditionele Tailwind classes
 - Mobile-first responsive: `sm:`, `md:`, `lg:`
 - Emerald/teal gradient voor CTAs
-- Glassmorphism patronen volgen uit globals.css
-- products.json is de enige bron van waarheid
+- API routes: valideer input, gebruik try/catch
+- Admin routes: altijd Bearer auth check
+- Netlify Blobs: gebruik `getStore()` + `setJSON()`
 
 ## Commit Message Format
 ```
@@ -53,5 +61,4 @@ Korte beschrijving in het Nederlands
 ## Constraints
 - NOOIT afwijken van het architectuurplan zonder goede reden
 - Altijd `npm run build` draaien na wijzigingen
-- Maximaal 3 bestanden per commit
 - Stage specifieke bestanden, nooit `git add -A`
