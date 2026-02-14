@@ -181,7 +181,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
 
           {/* Product afbeelding */}
           <Link href={`/shop/${product.sku}`}>
-            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/5">
+            <div className="relative h-56 flex items-center justify-center overflow-hidden bg-white/10">
               {displayImage && !imageError ? (
                 <>
                   {!imageLoaded && (
@@ -354,10 +354,10 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
   // === STANDAARD CARD (consoles, accessoires) ===
   return (
     <div className="group">
-      <div className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col">
+      <div className="relative bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-300 flex flex-col">
         {/* Product afbeelding */}
         <Link href={`/shop/${product.sku}`}>
-          <div className={`relative h-52 ${product.image && !imageError ? 'bg-slate-50' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
+          <div className={`relative h-52 ${product.image && !imageError ? 'bg-white' : `bg-gradient-to-br ${colors.from} ${colors.to}`} flex items-center justify-center overflow-hidden`}>
             {product.image && !imageError ? (
               <>
                 {!imageLoaded && (
@@ -403,7 +403,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView, sear
         </Link>
 
         {/* Scheidingslijn */}
-        <div className="h-px bg-slate-100" />
+        <div className="h-px bg-slate-100/50" />
 
         {/* Content */}
         <div className="p-4 flex flex-col flex-1">
