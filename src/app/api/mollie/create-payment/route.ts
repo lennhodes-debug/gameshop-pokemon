@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { items, customer, shipping, discount, total } = body;
+    const { items, customer, shipping, discount, discountCode, total } = body;
 
     if (!items?.length || !customer?.email || !total) {
       return NextResponse.json({ error: 'Ongeldige bestelling' }, { status: 400 });
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
         }))),
         shipping: String(shipping || 0),
         discount: String(discount || 0),
+        discountCode: discountCode || '',
       },
     });
 

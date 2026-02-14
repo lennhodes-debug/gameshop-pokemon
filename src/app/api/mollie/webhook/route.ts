@@ -11,6 +11,7 @@ interface PaymentMetadata {
   items?: string;
   shipping?: string;
   discount?: string;
+  discountCode?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -52,6 +53,21 @@ export async function POST(request: NextRequest) {
           total: parseFloat(payment.amount.value),
           address,
         });
+      }
+
+      // Kortingscode als gebruikt markeren (nieuwsbriefcodes)
+      const usedDiscountCode = metadata?.discountCode;
+      if (usedDiscountCode && usedDiscountCode.startsWith('GE-')) {
+        try {
+          const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://gameshopenter.nl';
+          await fetch(`${baseUrl}/api/discount/redeem`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: usedDiscountCode, orderNumber }),
+          });
+        } catch {
+          console.warn('Kon kortingscode niet als gebruikt markeren:', usedDiscountCode);
+        }
       }
 
       // E-mail naar shop eigenaar: nieuw order

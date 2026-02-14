@@ -466,9 +466,9 @@ export default function WinkelwagenPage() {
                             onChange={(e) => setCouponInput(e.target.value)}
                             placeholder="Kortingscode"
                             className="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 focus:outline-none transition-all"
-                            onKeyDown={(e) => {
+                            onKeyDown={async (e) => {
                               if (e.key === 'Enter' && couponInput.trim()) {
-                                const result = applyDiscount(couponInput);
+                                const result = await applyDiscount(couponInput);
                                 setCouponMessage({ text: result.message, success: result.success });
                                 if (result.success) setCouponInput('');
                                 setTimeout(() => setCouponMessage(null), 4000);
@@ -476,9 +476,9 @@ export default function WinkelwagenPage() {
                             }}
                           />
                           <button
-                            onClick={() => {
+                            onClick={async () => {
                               if (!couponInput.trim()) return;
-                              const result = applyDiscount(couponInput);
+                              const result = await applyDiscount(couponInput);
                               setCouponMessage({ text: result.message, success: result.success });
                               if (result.success) setCouponInput('');
                               setTimeout(() => setCouponMessage(null), 4000);

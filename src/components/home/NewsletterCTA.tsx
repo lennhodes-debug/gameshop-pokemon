@@ -7,6 +7,7 @@ export default function NewsletterCTA() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState('');
+  const [userCode, setUserCode] = useState('');
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -32,9 +33,10 @@ export default function NewsletterCTA() {
 
       if (data.success) {
         setSubmitted(true);
+        if (data.discountCode) setUserCode(data.discountCode);
         setMessage(data.alreadySubscribed
-          ? 'Je bent al aangemeld! Je kortingscode is BRIEF10.'
-          : 'Check je inbox voor je 10% kortingscode!'
+          ? 'Je bent al aangemeld! Check je inbox voor je kortingscode.'
+          : 'Check je inbox voor je persoonlijke 10% kortingscode!'
         );
         setEmail('');
       } else {
@@ -158,15 +160,17 @@ export default function NewsletterCTA() {
                   <span className="text-white/60 text-sm">{message}</span>
                 </motion.div>
               </div>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15"
-              >
-                <p className="text-white/60 text-xs mb-1">Je kortingscode:</p>
-                <p className="text-white font-mono font-bold text-lg tracking-widest">BRIEF10</p>
-              </motion.div>
+              {userCode && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="px-6 py-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15"
+                >
+                  <p className="text-white/60 text-xs mb-1">Je persoonlijke kortingscode:</p>
+                  <p className="text-white font-mono font-bold text-lg tracking-widest">{userCode}</p>
+                </motion.div>
+              )}
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">

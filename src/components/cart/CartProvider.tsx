@@ -11,17 +11,16 @@ interface DiscountCode {
   description: string;
 }
 
-// Kortingscodes geobfusceerd — niet direct leesbaar in broncode
+// Statische kortingscodes geobfusceerd — niet direct leesbaar in broncode
 const _d = (s: string) => atob(s);
-const DISCOUNT_CODES: Record<string, DiscountCode> = {};
+const STATIC_CODES: Record<string, DiscountCode> = {};
 [
   { k: 'V0VMS09NMTA=', type: 'percentage' as const, value: 10, description: '10% korting' },
   { k: 'UkVUUk81', type: 'fixed' as const, value: 5, minOrder: 30, description: '€5 korting bij bestelling vanaf €30' },
   { k: 'TklOVEVORE8xNQ==', type: 'percentage' as const, value: 15, minOrder: 75, description: '15% korting bij bestelling vanaf €75' },
   { k: 'R0FNRVNIT1AyMA==', type: 'percentage' as const, value: 20, minOrder: 100, description: '20% korting bij bestelling vanaf €100' },
-  { k: 'QlJJRUYxMA==', type: 'percentage' as const, value: 10, description: '10% nieuwsbriefkorting' },
 ].forEach(({ k, ...rest }) => {
-  try { DISCOUNT_CODES[_d(k).trim()] = rest; } catch { /* ignore */ }
+  try { STATIC_CODES[_d(k).trim()] = rest; } catch { /* ignore */ }
 });
 
 function cartKey(item: CartItem): string {
@@ -53,7 +52,7 @@ interface CartContextType {
   discountCode: string | null;
   discountAmount: number;
   discountDescription: string | null;
-  applyDiscount: (code: string) => { success: boolean; message: string };
+  applyDiscount: (code: string) => Promise<{ success: boolean; message: string }>;
   removeDiscount: () => void;
 }
 
@@ -65,6 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [mounted, setMounted] = useState(false);
   const [discountCode, setDiscountCode] = useState<string | null>(null);
+  const [dynamicDiscount, setDynamicDiscount] = useState<DiscountCode | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -79,9 +79,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const storedDiscount = localStorage.getItem('gameshop-discount');
     if (storedDiscount) {
       try {
-        const code = JSON.parse(storedDiscount);
-        if (typeof code === 'string' && DISCOUNT_CODES[code.toUpperCase()]) {
-          setDiscountCode(code.toUpperCase());
+        const saved = JSON.parse(storedDiscount);
+        if (typeof saved === 'string') {
+          // Statische code
+          if (STATIC_CODES[saved.toUpperCase()]) {
+            setDiscountCode(saved.toUpperCase());
+          }
+        } else if (saved && typeof saved === 'object' && saved.code) {
+          // Dynamische nieuwsbriefcode
+          setDiscountCode(saved.code);
+          setDynamicDiscount(saved.discount);
         }
       } catch {
         // ignore
@@ -103,7 +110,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (mounted) {
       try {
         if (discountCode) {
-          localStorage.setItem('gameshop-discount', JSON.stringify(discountCode));
+          if (dynamicDiscount) {
+            localStorage.setItem('gameshop-discount', JSON.stringify({ code: discountCode, discount: dynamicDiscount }));
+          } else {
+            localStorage.setItem('gameshop-discount', JSON.stringify(discountCode));
+          }
         } else {
           localStorage.removeItem('gameshop-discount');
         }
@@ -111,7 +122,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         // ignore
       }
     }
-  }, [discountCode, mounted]);
+  }, [discountCode, dynamicDiscount, mounted]);
 
   const addItem = useCallback((product: Product, variant?: 'cib') => {
     setItems((prev) => {
@@ -150,28 +161,33 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const clearCart = useCallback(() => {
     setItems([]);
     setDiscountCode(null);
+    setDynamicDiscount(null);
   }, []);
 
   const getSubtotal = useCallback(() => {
     return items.reduce((sum, item) => sum + getCartItemPrice(item) * item.quantity, 0);
   }, [items]);
 
+  // Haal de actieve discount op: statisch of dynamisch
+  const activeDiscount = useMemo((): DiscountCode | null => {
+    if (!discountCode) return null;
+    if (dynamicDiscount) return dynamicDiscount;
+    return STATIC_CODES[discountCode] || null;
+  }, [discountCode, dynamicDiscount]);
+
   const discountAmount = useMemo(() => {
-    if (!discountCode) return 0;
-    const code = DISCOUNT_CODES[discountCode];
-    if (!code) return 0;
+    if (!activeDiscount) return 0;
     const subtotal = getSubtotal();
-    if (code.minOrder && subtotal < code.minOrder) return 0;
-    if (code.type === 'percentage') {
-      return Math.round(subtotal * (code.value / 100) * 100) / 100;
+    if (activeDiscount.minOrder && subtotal < activeDiscount.minOrder) return 0;
+    if (activeDiscount.type === 'percentage') {
+      return Math.round(subtotal * (activeDiscount.value / 100) * 100) / 100;
     }
-    return Math.min(code.value, subtotal);
-  }, [discountCode, getSubtotal]);
+    return Math.min(activeDiscount.value, subtotal);
+  }, [activeDiscount, getSubtotal]);
 
   const discountDescription = useMemo(() => {
-    if (!discountCode) return null;
-    return DISCOUNT_CODES[discountCode]?.description || null;
-  }, [discountCode]);
+    return activeDiscount?.description || null;
+  }, [activeDiscount]);
 
   const getTotal = useCallback(() => {
     return Math.max(0, getSubtotal() - discountAmount);
@@ -181,22 +197,49 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return items.reduce((sum, item) => sum + item.quantity, 0);
   }, [items]);
 
-  const applyDiscount = useCallback((code: string): { success: boolean; message: string } => {
+  const applyDiscount = useCallback(async (code: string): Promise<{ success: boolean; message: string }> => {
     const normalized = code.trim().toUpperCase();
-    const discount = DISCOUNT_CODES[normalized];
-    if (!discount) {
-      return { success: false, message: 'Ongeldige kortingscode' };
+
+    // 1. Check statische codes (client-side, instant)
+    const staticDiscount = STATIC_CODES[normalized];
+    if (staticDiscount) {
+      const subtotal = getSubtotal();
+      if (staticDiscount.minOrder && subtotal < staticDiscount.minOrder) {
+        return { success: false, message: `Minimale bestelling van €${staticDiscount.minOrder} vereist` };
+      }
+      setDiscountCode(normalized);
+      setDynamicDiscount(null);
+      return { success: true, message: `${staticDiscount.description} toegepast!` };
     }
-    const subtotal = getSubtotal();
-    if (discount.minOrder && subtotal < discount.minOrder) {
-      return { success: false, message: `Minimale bestelling van €${discount.minOrder} vereist` };
+
+    // 2. Check dynamische nieuwsbriefcodes (server-side)
+    try {
+      const res = await fetch('/api/discount/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: normalized }),
+      });
+      const data = await res.json();
+
+      if (data.valid) {
+        setDiscountCode(normalized);
+        setDynamicDiscount({
+          type: data.type,
+          value: data.value,
+          description: data.description,
+        });
+        return { success: true, message: data.message };
+      }
+
+      return { success: false, message: data.message || 'Ongeldige kortingscode' };
+    } catch {
+      return { success: false, message: 'Kon code niet valideren, probeer het opnieuw' };
     }
-    setDiscountCode(normalized);
-    return { success: true, message: `${discount.description} toegepast!` };
   }, [getSubtotal]);
 
   const removeDiscount = useCallback(() => {
     setDiscountCode(null);
+    setDynamicDiscount(null);
   }, []);
 
   const contextValue = useMemo(

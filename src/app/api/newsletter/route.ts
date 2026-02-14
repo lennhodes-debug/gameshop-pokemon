@@ -3,7 +3,16 @@ import { getStore } from '@netlify/blobs';
 import { sendNewsletterWelcome } from '@/lib/email';
 
 const STORE_NAME = 'gameshop-newsletter';
-const DISCOUNT_CODE = 'BRIEF10';
+const DISCOUNT_STORE = 'gameshop-discounts';
+
+function generateCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = 'GE-';
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,37 +24,65 @@ export async function POST(request: NextRequest) {
     }
 
     const store = getStore(STORE_NAME);
+    const discountStore = getStore(DISCOUNT_STORE);
 
     // Bestaande abonnees ophalen
-    let subscribers: string[] = [];
+    let subscribers: Record<string, string> = {};
     try {
       const existing = await store.get('subscribers', { type: 'json' });
-      if (Array.isArray(existing)) {
-        subscribers = existing;
+      if (existing && typeof existing === 'object' && !Array.isArray(existing)) {
+        subscribers = existing as Record<string, string>;
+      } else if (Array.isArray(existing)) {
+        // Migreer oud formaat (array) naar nieuw formaat (object met codes)
+        for (const e of existing) {
+          subscribers[e] = '';
+        }
       }
     } catch {
       // Eerste keer
     }
 
     // Check of al aangemeld
-    if (subscribers.includes(email)) {
+    if (subscribers[email]) {
       return NextResponse.json({
         success: true,
-        message: 'Je bent al aangemeld voor de nieuwsbrief!',
+        message: 'Je bent al aangemeld! Check je inbox voor je kortingscode.',
         alreadySubscribed: true,
       });
     }
 
-    // Toevoegen
-    subscribers.push(email);
+    // Unieke code genereren
+    const discountCode = generateCode();
+
+    // Code opslaan in discount store
+    let codes: Record<string, { email: string; used: boolean; createdAt: string }> = {};
+    try {
+      const existing = await discountStore.get('newsletter-codes', { type: 'json' });
+      if (existing && typeof existing === 'object') {
+        codes = existing as typeof codes;
+      }
+    } catch {
+      // Eerste keer
+    }
+
+    codes[discountCode] = {
+      email,
+      used: false,
+      createdAt: new Date().toISOString(),
+    };
+    await discountStore.setJSON('newsletter-codes', codes);
+
+    // Abonnee opslaan met code
+    subscribers[email] = discountCode;
     await store.setJSON('subscribers', subscribers);
 
-    // Welkomstmail sturen met kortingscode
-    await sendNewsletterWelcome({ to: email, discountCode: DISCOUNT_CODE });
+    // Welkomstmail sturen met unieke kortingscode
+    await sendNewsletterWelcome({ to: email, discountCode });
 
     return NextResponse.json({
       success: true,
-      message: 'Je bent aangemeld! Check je inbox voor je 10% kortingscode.',
+      discountCode,
+      message: 'Je bent aangemeld! Check je inbox voor je persoonlijke kortingscode.',
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Aanmelding mislukt';
