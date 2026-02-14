@@ -62,7 +62,7 @@ export default function ReviewsStrip() {
   const x2 = useTransform(scrollYProgress, [0, 1], ['-10%', '0%']);
 
   return (
-    <section ref={sectionRef} className="relative bg-[#050810] py-20 lg:py-28 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-[#050810] py-28 lg:py-36 overflow-hidden">
       {/* Subtiele achtergrond */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.04),transparent_60%)]" />
 

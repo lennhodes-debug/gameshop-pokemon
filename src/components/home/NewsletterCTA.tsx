@@ -34,7 +34,7 @@ export default function NewsletterCTA() {
   };
 
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden">
+    <section className="relative py-28 lg:py-40 overflow-hidden">
       {/* Multi-layered gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-800 to-teal-900" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(16,185,129,0.3),transparent_50%)]" />

@@ -38,7 +38,10 @@ const fadeUp = {
 
 export default function FaqPreview() {
   return (
-    <section className="relative bg-[#f8fafc] py-20 lg:py-28">
+    <section className="relative bg-[#f8fafc] py-24 lg:py-36">
+      {/* Gradient transitie vanuit donkere sectie */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#050810] to-transparent pointer-events-none" />
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

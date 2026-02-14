@@ -1,46 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { useRef, useCallback } from 'react';
-
-/* Floating game covers scattered behind the hero text — gives depth */
-const FLOATING_COVERS = [
-  { src: '/images/nintendo/zelda-botw.webp', size: 120, x: '8%', y: '15%', delay: 0, rotate: -12, drift: 15 },
-  { src: '/images/nintendo/pokemon-rb.webp', size: 100, x: '85%', y: '20%', delay: 0.3, rotate: 8, drift: -12 },
-  { src: '/images/nintendo/zelda-oot.webp', size: 90, x: '75%', y: '70%', delay: 0.6, rotate: -6, drift: 18 },
-  { src: '/images/nintendo/smb-nes.webp', size: 80, x: '12%', y: '72%', delay: 0.15, rotate: 10, drift: -14 },
-  { src: '/images/nintendo/wii-sports.webp', size: 70, x: '90%', y: '48%', delay: 0.45, rotate: -4, drift: 10 },
-  { src: '/images/nintendo/tetris-gb.webp', size: 65, x: '5%', y: '45%', delay: 0.7, rotate: 14, drift: -16 },
-];
-
-function FloatingCover({ src, size, x, y, delay, rotate, drift }: typeof FLOATING_COVERS[0]) {
-  return (
-    <motion.div
-      className="absolute pointer-events-none select-none"
-      style={{ left: x, top: y, width: size, height: size }}
-      initial={{ opacity: 0, scale: 0.6, rotate: rotate - 10 }}
-      animate={{ opacity: 1, scale: 1, rotate }}
-      transition={{ duration: 1.2, delay: 0.8 + delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <motion.div
-        animate={{ y: [0, drift, 0] }}
-        transition={{ duration: 8 + delay * 4, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <Image
-          src={src}
-          alt=""
-          width={size}
-          height={size}
-          className="rounded-xl object-contain opacity-[0.07] blur-[0.5px]"
-          loading="eager"
-          aria-hidden
-        />
-      </motion.div>
-    </motion.div>
-  );
-}
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null);
@@ -128,15 +90,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Floating game covers — scattered behind text for depth */}
-      <div className="absolute inset-0 hidden lg:block">
-        {FLOATING_COVERS.map((cover, i) => (
-          <FloatingCover key={i} {...cover} />
-        ))}
-      </div>
-
       <motion.div
-        className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-44 text-center z-10"
+        className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-36 lg:py-52 text-center z-10"
         style={{ y: contentY }}
       >
         {/* Trust badge */}
@@ -185,38 +140,18 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-base sm:text-lg text-white/40 leading-relaxed mb-6 max-w-lg mx-auto font-normal"
+          className="text-base sm:text-lg text-white/35 leading-relaxed mb-14 max-w-md mx-auto font-normal"
         >
           De Nintendo specialist van Nederland.
           <br className="hidden sm:block" />
           Originele games, persoonlijk getest.
         </motion.p>
 
-        {/* Platform tags */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-2 mb-12"
-        >
-          {['Game Boy', 'GBA', 'DS', '3DS', 'Wii', 'Wii U'].map((p, i) => (
-            <motion.span
-              key={p}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 + i * 0.06, type: 'spring', stiffness: 200, damping: 20 }}
-              className="px-3 py-1 rounded-full bg-white/[0.05] text-white/25 text-[11px] font-medium"
-            >
-              {p}
-            </motion.span>
-          ))}
-        </motion.div>
-
         {/* CTA knoppen */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Link

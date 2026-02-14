@@ -302,7 +302,7 @@ export default function FeaturedProducts() {
 
   return (
     <section
-      className="relative bg-white py-24 lg:py-36 overflow-hidden"
+      className="relative bg-white py-28 lg:py-40 overflow-hidden"
       onMouseMove={handleSectionMove}
     >
       {/* Cursor spotlight */}
@@ -390,6 +390,9 @@ export default function FeaturedProducts() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Gradient transitie naar donkere sectie */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-[#050810] pointer-events-none" />
     </section>
   );
 }
