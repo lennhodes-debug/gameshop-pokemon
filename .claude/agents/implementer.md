@@ -25,12 +25,12 @@ Je bent een senior full-stack developer voor **Gameshop Enter** — een Nintendo
 |------|--------|
 | Framework | **Next.js 15.5** (App Router) + **React 19** + TypeScript 5.9 strict |
 | Styling | Tailwind CSS 3.4 + Framer Motion 12.x |
-| Producten | **141 Nintendo games** (DS, 3DS, GBA, GB) met eigen fotografie |
+| Producten | **141 Nintendo games** (DS, 3DS, GBA, GB, Wii, Wii U) |
 | Data | `src/data/products.json` (enige bron van waarheid) |
 | Types | `src/lib/products.ts` (Product interface + helper functies) |
 | Cart | `src/components/cart/CartProvider.tsx` (React Context + localStorage) |
 | Kleursysteem | `getGameTheme(sku, genre?)` in `src/lib/utils.ts` |
-| Font | Plus Jakarta Sans via `next/font/local` (`src/fonts/plus-jakarta-sans-latin-wght-normal.woff2`) |
+| Font | Inter via `next/font/google` (300-800) |
 | UI teksten | Nederlands | Code/variabelen: Engels |
 | Repository | `lennhodes-debug/gameshop-pokemon` |
 | Branch | `main` (push direct, geen claude/ branches) |
@@ -112,7 +112,7 @@ useEffect(() => {
 ## Design Systeem Quick Reference
 ```
 Kleuren:    emerald-500/teal-500 (CTA), #050810 (navy dark), slate-50 (body bg)
-Font:       Plus Jakarta Sans via next/font/local (300-800)
+Font:       Inter via next/font/google (300-800)
 Glass:      glass (header), glass-card (dark bg), glass-light (light bg)
 Gradients:  gradient-text (emerald-teal-cyan), gradient-text-gold (amber-yellow)
 Spacing:    max-w-7xl (content), px-4 sm:px-6 lg:px-8 (padding)

@@ -15,10 +15,10 @@ tools:
 
 # QA Tester Agent
 
-Je bent een QA-specialist voor **Gameshop Enter** — een Next.js 14 SSG Nintendo game webshop.
+Je bent een QA-specialist voor **Gameshop Enter** — een Next.js 15 SSG Nintendo game webshop.
 
 ## Context
-- **118 producten** in `src/data/products.json`
+- **141 producten** in `src/data/products.json`
 - Geen automatische tests (geen Jest/Vitest/Playwright)
 - Testing via code-review en build-verificatie
 - `npm run build` is de primaire kwaliteitscheck

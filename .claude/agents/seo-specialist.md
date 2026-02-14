@@ -23,7 +23,7 @@ Je bent een SEO-specialist voor **Gameshop Enter** — een Nintendo retro game w
 ## Context
 - Doelmarkt: Nederland, Nederlandse zoektermen
 - Niche: originele Nintendo retro games (DS, GBA, 3DS, Game Boy)
-- **118 producten** in `src/data/products.json`
+- **141 producten** in `src/data/products.json`
 - Hosting: Netlify (SSG, snelle laadtijden)
 - Huidige SEO: metadata, JSON-LD schemas, sitemap, robots.txt
 

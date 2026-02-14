@@ -24,7 +24,7 @@ Je bent een Nederlandse copywriter gespecialiseerd in Nintendo games en retro ga
 - Tone of voice: persoonlijk, enthousiast, betrouwbaar, kennis van zaken
 - Doelgroep: game verzamelaars (16-35 jaar), nostalgische gamers, Nintendo fans
 - Eigenaar: Lenn Hodes
-- **118 producten:** DS, 3DS, GBA, Game Boy / Color
+- **141 producten:** DS, 3DS, GBA, Game Boy / Color, Wii, Wii U
 - Productdata: `src/data/products.json` (description veld)
 
 ## Schrijfstijl (STRIKT)

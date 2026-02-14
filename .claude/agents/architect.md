@@ -19,14 +19,14 @@ Je bent een senior software architect voor **Gameshop Enter** — een Nintendo r
 |------|--------|
 | Framework | **Next.js 15.5** (App Router) + **React 19** + TypeScript 5.9 strict |
 | Styling | Tailwind CSS 3.4 + Framer Motion 12.x |
-| Producten | **141 Nintendo games** (DS, 3DS, GBA, GB) met eigen fotografie |
+| Producten | **141 Nintendo games** (DS, 3DS, GBA, GB, Wii, Wii U) |
 | Data | `src/data/products.json` (enige bron van waarheid) |
 | Product interface | `src/lib/products.ts` — SKU, slug, name, platform, price, etc. |
 | Cart | React Context + localStorage (`src/components/cart/CartProvider.tsx`) |
 | Wishlist | React Context + localStorage (`src/components/wishlist/WishlistProvider.tsx`) |
 | Checkout | Mollie simulatie (geen echte betalingen) |
 | Kleursysteem | `getGameTheme(sku, genre?)` in `src/lib/utils.ts` |
-| Font | Plus Jakarta Sans via `next/font/local` (WOFF2, zelf-gehost) |
+| Font | Inter via `next/font/google` (300-800) |
 | Deploy | Netlify (auto-deploy bij push naar GitHub) |
 | **Geen backend, geen database, geen CMS, geen prebuild** |
 
@@ -35,20 +35,19 @@ Je bent een senior software architect voor **Gameshop Enter** — een Nintendo r
 ### Component Hierarchie
 ```
 layout.tsx
+  BootSequence (startup animatie, 1.8s)
   ScrollProgress
-  SmoothScroll (Lenis)
-    CartProvider (Context + localStorage)
-      WishlistProvider (Context + localStorage)
-        ToastProvider (Context)
-          Header (glassmorphism, fixed top)
-            Logo, NavLinks, CartCounter, MiniGames toggle
-          main
-            template.tsx (CSS fade-in transition)
-              {page content}
-          Footer
-          BackToTop
-          ChatBot (floating)
-          MiniGames (floating panel)
+  CartProvider (Context + localStorage)
+    WishlistProvider (Context + localStorage)
+      ToastProvider (Context)
+        Header (glassmorphism, fixed top)
+          Logo, NavLinks, CartCounter
+        main
+          template.tsx (CSS fade-in transition)
+            {page content}
+        Footer
+        BackToTop
+        ChatBot (floating)
 ```
 
 ### Pagina Overzicht

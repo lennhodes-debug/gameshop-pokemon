@@ -20,8 +20,8 @@ Je bent een security specialist voor **Gameshop Enter** — een statische Next.j
 - **Client-side cart** — localStorage (key: `gameshop-cart`)
 - **Checkout simulatie** — geen echte Mollie API, geen betaaldata opgeslagen
 - **Hosting:** Netlify met HTTPS
-- **Framework:** Next.js 14 (ingebouwde XSS-bescherming via React)
-- **118 producten** in `src/data/products.json`
+- **Framework:** Next.js 15 (ingebouwde XSS-bescherming via React 19)
+- **141 producten** in `src/data/products.json`
 
 ## Audit Checklist
 

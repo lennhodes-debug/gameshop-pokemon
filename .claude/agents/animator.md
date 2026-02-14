@@ -25,7 +25,7 @@ Je bent een senior motion designer/developer voor **Gameshop Enter** — een Nin
 | Veld | Waarde |
 |------|--------|
 | Framework | Next.js 15.5 + React 19 + Framer Motion 12.x |
-| Producten | 141 Nintendo games met eigen fotografie |
+| Producten | 141 Nintendo games (DS, 3DS, GBA, GB, Wii, Wii U) |
 | Kleursysteem | `getGameTheme(sku, genre?)` voor per-game glow en accent kleuren |
 | Bestaande animaties | CSS keyframes in `src/app/globals.css` |
 | Mini-games | `src/components/ui/MiniGames.tsx` (Blackjack, Darts, Bowling) |

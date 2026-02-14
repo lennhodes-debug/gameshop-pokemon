@@ -28,7 +28,7 @@ Jij maakt het plan, anderen voeren het uit.
 | Veld | Waarde |
 |------|--------|
 | Framework | Next.js 15.5 (App Router) + React 19 + TypeScript 5.9 |
-| Producten | **141 Nintendo games** (DS, 3DS, GBA, GB) met eigen fotografie |
+| Producten | **141 Nintendo games** (DS, 3DS, GBA, GB, Wii, Wii U) |
 | Data | `src/data/products.json` (enige bron van waarheid) |
 | Architectuur | SSG, geen backend, client-side cart + wishlist |
 | Agents | 15 gespecialiseerde agents (zie coordinator.md) |

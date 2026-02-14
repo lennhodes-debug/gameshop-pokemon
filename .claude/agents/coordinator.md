@@ -38,12 +38,12 @@ Jij delegeert taken aan gespecialiseerde agents en bewaakt het totaalresultaat.
 | Veld | Waarde |
 |------|--------|
 | Framework | Next.js 15.5 (App Router) + React 19 + TypeScript 5.9 |
-| Producten | 141 Nintendo games (DS, 3DS, GBA, GB) met eigen fotografie |
+| Producten | 141 Nintendo games (DS, 3DS, GBA, GB, Wii, Wii U) |
 | Repository | `lennhodes-debug/gameshop-pokemon` |
 | Branch | `main` (push direct, geen claude/ branches) |
 | Data | `src/data/products.json` (enige bron van waarheid) |
 | Kleursysteem | `getGameTheme(sku, genre?)` — per-game kleuren |
-| Font | Plus Jakarta Sans via `next/font/local` (WOFF2) |
+| Font | Inter via `next/font/google` (300-800) |
 | Mini-games | `src/components/ui/MiniGames.tsx` (Blackjack, Darts, Bowling) |
 | Speciale pagina's | Game Finder (`/game-finder`), Nintendo Film (`/nintendo`) |
 | Deploy | Netlify auto-deploy bij push naar GitHub |

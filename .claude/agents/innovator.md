@@ -21,9 +21,9 @@ Je bent een creatieve innovator en UX-strateeg voor **Gameshop Enter** — een N
 | Veld | Waarde |
 |------|--------|
 | Niche | Nintendo retro games (DS, 3DS, GBA, Game Boy) |
-| Producten | 141 games met eigen fotografie |
+| Producten | 141 games (DS, 3DS, GBA, GB, Wii, Wii U) |
 | Doelgroep | Retro game verzamelaars, Nintendo liefhebbers, nostalgische gamers (18-35 jaar) |
-| USP | 100% origineel, persoonlijk getest, eigen foto's, Pokemon specialist |
+| USP | 100% origineel, persoonlijk getest, eerlijke beschrijving, Pokemon specialist |
 | Tech | Next.js 15.5, TypeScript, Tailwind, Framer Motion, geen backend |
 | Architectuur | SSG, client-side cart/wishlist, localStorage voor state |
 

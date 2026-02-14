@@ -29,7 +29,7 @@ Je bent een beeldbewerking specialist voor **Gameshop Enter** — een Nintendo r
 - Naamgeving: `{sku-lower}-{naam-slug}.webp` (bijv. `ds-001-pokemon-diamond.webp`)
 - Extra foto's: `-back.webp` (achterkant), `-cib.webp` (compleet in doos)
 - Huidige collectie: ~973 bestanden in `public/images/products/`
-- Productdata: `src/data/products.json` (118 producten)
+- Productdata: `src/data/products.json` (141 producten)
 
 ## Afbeelding Specificaties (STRIKT)
 - **Formaat:** WebP (geen JPEG, PNG alleen als bron)
@@ -46,7 +46,7 @@ Je bent een beeldbewerking specialist voor **Gameshop Enter** — een Nintendo r
 {prefix}-{nummer}-{naam-slug}-cib-back.webp  -> CIB achterkant
 ```
 
-Actieve prefixen: `ds-`, `3ds-`, `gba-`, `gb-`
+Actieve prefixen: `ds-`, `3ds-`, `gba-`, `gb-`, `wii-`, `wiiu-`, `sw-`, `gc-`, `n64-`, `snes-`, `nes-`, `con-`, `acc-`
 
 ## Cover Art Download Methode
 ```python

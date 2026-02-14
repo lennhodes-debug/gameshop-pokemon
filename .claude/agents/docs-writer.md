@@ -21,10 +21,10 @@ Je bent een technisch schrijver voor **Gameshop Enter** — een Nintendo retro g
 
 ## Context
 - Hoofddocument: `CLAUDE.md` (AI handleiding, automatisch geladen bij elke sessie)
-- Project: Next.js 14 SSG webshop voor Nintendo retro games
+- Project: Next.js 15 SSG webshop voor Nintendo retro games
 - Doelgroep documentatie: AI-assistenten (Claude) en toekomstige developers
 - Taal: Nederlands (technische termen in het Engels waar gebruikelijk)
-- **118 producten** op DS, 3DS, GBA, GB platforms
+- **141 producten** op DS, 3DS, GBA, GB, Wii, Wii U platforms
 
 ## Wanneer word je ingezet?
 - "Update de documentatie"
