@@ -35,8 +35,8 @@ function MarqueeRow({
             key={`${img.alt}-${i}`}
             className={`${h} flex-shrink-0 rounded-xl sm:rounded-2xl overflow-hidden relative group/card`}
             style={{
-              background: `linear-gradient(135deg, ${img.accent}18, ${img.accent}08)`,
-              border: `1px solid ${img.accent}15`,
+              background: `linear-gradient(135deg, ${img.accent}30, ${img.accent}15)`,
+              border: `1px solid ${img.accent}25`,
             }}
           >
             <Image
@@ -85,7 +85,7 @@ export default function GameShowcase() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
       {/* Vertical centering with two rows */}
-      <div className="absolute inset-0 flex flex-col justify-center gap-3 sm:gap-4 opacity-[0.12]">
+      <div className="absolute inset-0 flex flex-col justify-center gap-3 sm:gap-4 opacity-[0.35]">
         <MarqueeRow images={row1} direction="left" speed={50} size="md" />
         <MarqueeRow images={row2} direction="right" speed={60} size="sm" />
       </div>
