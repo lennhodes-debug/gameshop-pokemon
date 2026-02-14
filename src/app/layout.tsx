@@ -9,6 +9,7 @@ import { CartProvider } from '@/components/cart/CartProvider';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import ScrollProgress from '@/components/layout/ScrollProgress';
+import AnnouncementBar from '@/components/layout/AnnouncementBar';
 import SocialProofToast from '@/components/ui/SocialProofToast';
 import ExitIntentModal from '@/components/ui/ExitIntentModal';
 import { cn } from '@/lib/utils';
@@ -188,6 +189,7 @@ export default function RootLayout({
           }}
         />
         <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
+        <AnnouncementBar />
         <ScrollProgress />
         <CartProvider>
           <WishlistProvider>

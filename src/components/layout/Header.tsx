@@ -23,11 +23,20 @@ export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [announcementVisible, setAnnouncementVisible] = useState(false);
   const mobileNavRef = useRef<HTMLElement>(null);
   const { items, getItemCount, getTotal } = useCart();
   const itemCount = getItemCount();
   const [cartHover, setCartHover] = useState(false);
   const cartHoverTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    const isDismissed = sessionStorage.getItem('announcement-dismissed') === 'true';
+    setAnnouncementVisible(!isDismissed);
+    const handleDismissed = () => setAnnouncementVisible(false);
+    window.addEventListener('announcement-dismissed', handleDismissed);
+    return () => window.removeEventListener('announcement-dismissed', handleDismissed);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -63,7 +72,8 @@ export default function Header() {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          'fixed left-0 right-0 z-50 transition-all duration-300',
+          announcementVisible ? 'top-9' : 'top-0',
           scrolled
             ? 'glass border-b border-white/[0.06] shadow-lg'
             : 'bg-transparent'
