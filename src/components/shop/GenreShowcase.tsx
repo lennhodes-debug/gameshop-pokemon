@@ -57,15 +57,15 @@ export default function GenreShowcase({ onGenreSelect, selectedGenre }: GenreSho
 
   const itemVariants = {
     hidden: { opacity: 0, scale: 0.9 },
-    visible: {
+    visible: (index: number) => ({
       opacity: 1,
       scale: 1,
       transition: {
         duration: 0.4,
-        ease: [0.25, 0.1, 0.25, 1],
+        delay: index * 0.04,
       },
-    },
-  };
+    }),
+  } as any;
 
   return (
     <motion.div
@@ -87,10 +87,13 @@ export default function GenreShowcase({ onGenreSelect, selectedGenre }: GenreSho
         className="flex flex-wrap gap-2"
         variants={containerVariants}
       >
-        {genreStats.map((genre) => (
+        {genreStats.map((genre, index) => (
           <motion.button
             key={genre.name}
             variants={itemVariants}
+            custom={index}
+            initial="hidden"
+            animate="visible"
             onClick={() => onGenreSelect(genre.name === selectedGenre ? '' : genre.name)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

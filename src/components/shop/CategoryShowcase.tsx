@@ -3,6 +3,24 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { getAllProducts, getAllPlatforms } from '@/lib/products';
+import { PLATFORM_COLORS } from '@/lib/utils';
+
+const PLATFORM_EMOJIS: Record<string, string> = {
+  'Nintendo Switch': '🎮',
+  'Nintendo 3DS': '📱',
+  'Nintendo DS': '👾',
+  'Game Boy Advance': '🟫',
+  'Game Boy': '⬛',
+  'Game Boy Color': '🎨',
+  'GameCube': '🕹️',
+  'Nintendo 64': '🔴',
+  'Super Nintendo': '🟪',
+  'Nintendo Entertainment System': '🎯',
+  'Wii': '⚪',
+  'Wii U': '🖥️',
+  'Console Accessories': '🔌',
+  'Game Boy (alle)': '🎮',
+};
 
 interface CategoryShowcaseProps {
   onPlatformSelect: (platform: string) => void;
@@ -18,14 +36,16 @@ export default function CategoryShowcase({ onPlatformSelect, selectedPlatform }:
       const products = allProducts.filter((p) => p.platform === platform.name || (platform.name === 'Game Boy (alle)' && p.platform.startsWith('Game Boy')));
       const consoles = products.filter((p) => p.isConsole).length;
       const games = products.filter((p) => !p.isConsole).length;
+      const colorData = PLATFORM_COLORS[platform.name] || { from: 'from-emerald-500', to: 'to-teal-500' };
+      const colorHex = '#10b981'; // Default emerald color
 
       return {
         name: platform.name,
-        color: platform.color,
+        color: colorHex,
         totalCount: products.length,
         consoleCount: consoles,
         gameCount: games,
-        emoji: platform.emoji,
+        emoji: PLATFORM_EMOJIS[platform.name] || '🎮',
       };
     }).sort((a, b) => b.totalCount - a.totalCount);
   }, []);
@@ -43,15 +63,15 @@ export default function CategoryShowcase({ onPlatformSelect, selectedPlatform }:
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
+    visible: (index: number) => ({
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.4,
-        ease: [0.16, 1, 0.3, 1],
+        delay: index * 0.05,
       },
-    },
-  };
+    }),
+  } as any;
 
   return (
     <motion.div
@@ -70,10 +90,13 @@ export default function CategoryShowcase({ onPlatformSelect, selectedPlatform }:
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-        {platformStats.map((platform) => (
+        {platformStats.map((platform, index) => (
           <motion.button
             key={platform.name}
             variants={itemVariants}
+            custom={index}
+            initial="hidden"
+            animate="visible"
             onClick={() => onPlatformSelect(platform.name === selectedPlatform ? '' : platform.name)}
             className={`group relative p-4 rounded-2xl border-2 transition-all duration-300 overflow-hidden ${
               platform.name === selectedPlatform
