@@ -21,6 +21,7 @@ import SortAndView from '@/components/shop/SortAndView';
 import FeaturedProducts from '@/components/shop/FeaturedProducts';
 import ScrollToTop from '@/components/shop/ScrollToTop';
 import ViewToggle from '@/components/shop/ViewToggle';
+import BreadcrumbNav from '@/components/shop/BreadcrumbNav';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -245,6 +246,16 @@ function ShopContent() {
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        {/* Breadcrumb Navigation */}
+        <BreadcrumbNav
+          items={[
+            { label: 'Shop', href: '/shop' },
+            ...(platform ? [{ label: platform, href: `/shop?platform=${encodeURIComponent(platform)}` }] : []),
+            ...(genre ? [{ label: genre, href: `/shop?genre=${encodeURIComponent(genre)}`, isActive: true }] : []),
+            ...(category && !platform && !genre ? [{ label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : 'Aanbiedingen', href: `/shop?category=${category}`, isActive: true }] : []),
+          ]}
+        />
+
         {/* Urgentie banner */}
         {new Date().getHours() < 17 && (
           <motion.div
