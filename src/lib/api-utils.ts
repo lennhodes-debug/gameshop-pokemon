@@ -245,3 +245,54 @@ export function getRequestStats(): {
 
   return stats;
 }
+
+/**
+ * Validation helpers
+ */
+export function isValidEmail(email: string): boolean {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+export function isValidDutchPostcode(postcode: string): boolean {
+  const regex = /^\d{4}\s?[A-Z]{2}$/i;
+  return regex.test(postcode);
+}
+
+export function isValidSKU(sku: string): boolean {
+  const regex = /^[A-Z0-9\-]+$/;
+  return regex.test(sku);
+}
+
+/**
+ * Generate helpers
+ */
+export function generateOrderNumber(): string {
+  return `GE-${Date.now().toString(36).toUpperCase()}`;
+}
+
+export function generateDiscountCode(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = 'GE-';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
+/**
+ * Mollie helpers
+ */
+export function formatMolliePrice(price: number): string {
+  return price.toFixed(2);
+}
+
+/**
+ * Sanitize helpers
+ */
+export function sanitizeInput(input: string): string {
+  return input
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .trim()
+    .substring(0, 1000); // Max 1000 chars
+}
