@@ -49,9 +49,34 @@ export default function OrderDetailPage({ params }: PageProps) {
       try {
         const resolvedParams = await params;
         setId(resolvedParams.id);
+
+        // Fetch order from API
+        const token = localStorage.getItem('admin-token');
+        const response = await fetch('/api/orders/list', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          setError('Niet geautoriseerd');
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+        const foundOrder = data.orders?.find((o: Order) => o.orderNumber === resolvedParams.id);
+
+        if (!foundOrder) {
+          setError('Bestelling niet gevonden');
+          setLoading(false);
+          return;
+        }
+
+        setOrder(foundOrder);
         setLoading(false);
       } catch (err) {
-        setError('Bestelling niet gevonden');
+        setError('Fout bij laden bestelling');
         setLoading(false);
       }
     };
