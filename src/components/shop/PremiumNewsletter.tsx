@@ -149,7 +149,7 @@ export default function PremiumNewsletter({
               className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-slate-200 dark:border-slate-700"
             >
               {[
-                { icon: '✉️', text: 'Exclusieve aanbiedingen' },
+                { icon: '◎', text: 'Exclusieve aanbiedingen' },
                 { icon: '🆕', text: 'Nieuwe arrivals eerst' },
                 { icon: '💝', text: '10% korting code' },
               ].map((feature, index) => (

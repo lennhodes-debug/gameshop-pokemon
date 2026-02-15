@@ -116,7 +116,7 @@ export default function PremiumSocialProof() {
             Vertrouwd door gaming enthusiasten
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8">
-            {['🏆 Beste Keuze', '✅ Geverifieerd', '🔒 Veilig', '📦 Track & Trace'].map(
+            {['▲ Beste Keuze', '✓ Geverifieerd', '◆ Veilig', '◻ Track & Trace'].map(
               (badge, index) => (
                 <motion.div
                   key={index}

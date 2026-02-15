@@ -9,21 +9,22 @@ interface GenreShowcaseProps {
   selectedGenre?: string;
 }
 
-const GENRE_EMOJIS: Record<string, string> = {
-  'Action': '⚔️',
-  'RPG': '🗡️',
-  'Adventure': '🗺️',
-  'Puzzle': '🧩',
-  'Strategy': '♟️',
-  'Sports': '⚽',
-  'Racing': '🏎️',
-  'Shooter': '🎯',
-  'Fighting': '👊',
-  'Platformer': '🪜',
-  'Simulation': '🎮',
-  'Party': '🎉',
-  'Music': '🎵',
-  'Educational': '📚',
+// Genre indicators (symbols without emojis)
+const GENRE_SYMBOLS: Record<string, string> = {
+  'Action': '⚡',
+  'RPG': '◆',
+  'Adventure': '▲',
+  'Puzzle': '□',
+  'Strategy': '◆',
+  'Sports': '●',
+  'Racing': '▶',
+  'Shooter': '◀',
+  'Fighting': '■',
+  'Platformer': '▌',
+  'Simulation': '⊙',
+  'Party': '◯',
+  'Music': '♪',
+  'Educational': '❚',
 };
 
 export default function GenreShowcase({ onGenreSelect, selectedGenre }: GenreShowcaseProps) {
@@ -37,7 +38,7 @@ export default function GenreShowcase({ onGenreSelect, selectedGenre }: GenreSho
         return {
           name: genre,
           count: products.length,
-          emoji: GENRE_EMOJIS[genre] || '🎮',
+          symbol: GENRE_SYMBOLS[genre] || '◯',
         };
       })
       .filter((g) => g.count > 0)
@@ -112,7 +113,7 @@ export default function GenreShowcase({ onGenreSelect, selectedGenre }: GenreSho
             />
 
             <span className="relative z-10 flex items-center gap-1.5">
-              <span className="text-base">{genre.emoji}</span>
+              <span className="text-base font-bold">{genre.symbol}</span>
               <span>{genre.name}</span>
               <motion.span
                 initial={{ opacity: 0, scale: 0 }}

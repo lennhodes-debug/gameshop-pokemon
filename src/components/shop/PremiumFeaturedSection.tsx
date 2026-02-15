@@ -96,7 +96,7 @@ export default function PremiumFeaturedSection({ onQuickView }: PremiumFeaturedS
           className="space-y-2"
         >
           <h2 className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 dark:from-emerald-400 dark:via-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
-            ✨ Premium Selectie
+            Premium Selectie
           </h2>
           <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg font-medium">
             Onze meest exclusieve en gewilde Nintendo games en consoles
@@ -217,7 +217,7 @@ export default function PremiumFeaturedSection({ onQuickView }: PremiumFeaturedS
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.3 + index * 0.08 }}
                           >
-                            ⭐ Premium
+                            Premium
                           </motion.div>
                         )}
 
@@ -232,7 +232,7 @@ export default function PremiumFeaturedSection({ onQuickView }: PremiumFeaturedS
                           animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
                         >
-                          👁️ Quick View
+                          Quick View
                         </motion.button>
                       </div>
 

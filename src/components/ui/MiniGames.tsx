@@ -73,21 +73,21 @@ function Confetti({ active, intensity = 'normal' }: { active: boolean; intensity
 // ─── Fun teksten ────────────────────────────────────────────
 function pick(arr: readonly string[]) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-const BJ_WIN = ['Ka-ching! 💰', 'Gewonnen! 🎉', 'De dealer huilt! 😭', 'Easy money! 😎', 'Jij bent de baas! 👑'] as const;
-const BJ_LOSE = ['Oeps... 💸', 'Net niet! 🤏', 'De bank wint weer 🏦', 'Morgen beter! 🤞', 'Auw! 🤕'] as const;
-const BJ_PUSH = ['Gelijkspel! 🤝', 'Remise!', 'Onbeslist... 😐'] as const;
-const BJ_21 = ['BLACKJACK! 🃏✨', '21! PERFECT! 🎉', 'BLACKJACK! 👑'] as const;
-const BJ_BUST = ['BUST! 💥', 'Te veel! 💀', 'Over de 21! 💥'] as const;
-const BJ_DBUST = ['Dealer bust! 🎉', 'Dealer kapot! 💪', 'Dealer over 21! 🥳'] as const;
+const BJ_WIN = ['Ka-ching! ◎', 'Gewonnen! ▲', 'De dealer huilt! ◯', 'Easy money! ◆', 'Jij bent de baas! ★'] as const;
+const BJ_LOSE = ['Oeps... ◈', 'Net niet! ◉', 'De bank wint weer ◻', 'Morgen beter! ◇', 'Auw! ◲'] as const;
+const BJ_PUSH = ['Gelijkspel! ◀', 'Remise!', 'Onbeslist... ◯'] as const;
+const BJ_21 = ['BLACKJACK! C✓', '21! PERFECT! ▲', 'BLACKJACK! ★'] as const;
+const BJ_BUST = ['BUST! ⚡', 'Te veel! ◻', 'Over de 21! ⚡'] as const;
+const BJ_DBUST = ['Dealer bust! ▲', 'Dealer kapot! ◆', 'Dealer over 21! ▲'] as const;
 
-const D_BULL = ['BULLSEYE! 🎯🔥', 'Recht in de roos! 🎯', 'Legendarisch! 🏆'] as const;
-const D_GOOD = ['Mooi schot! ✨', 'Netjes! 👌', 'Lekker! 🎯'] as const;
-const D_OK = ['Gaat! 👍', 'Niet slecht!', 'Kan slechter!'] as const;
-const D_MISS = ['Mis! 😅', 'De muur! 😂', 'Was dat een worp? 🤔'] as const;
+const D_BULL = ['BULLSEYE! ★⚡', 'Recht in de roos! ★', 'Legendarisch! ▲'] as const;
+const D_GOOD = ['Mooi schot! ◊', 'Netjes! ✓', 'Lekker! ★'] as const;
+const D_OK = ['Gaat! ✓', 'Niet slecht!', 'Kan slechter!'] as const;
+const D_MISS = ['Mis! ◯', 'De muur! ◯', 'Was dat een worp? ◇'] as const;
 
-const B_STRIKE = ['STRIKE! 🎳💥', 'ALLE TIEN! 💥', 'Perfecte worp! 🔥'] as const;
-const B_GOOD = ['Goeie worp! 💪', 'Lekker bezig! 🎳', 'Mooi! ✨'] as const;
-const B_GUTTER = ['Gutter ball... 😬', 'De goot! 😅', 'Oeps, ernaast! 🤭'] as const;
+const B_STRIKE = ['STRIKE! ◯⚡', 'ALLE TIEN! ⚡', 'Perfecte worp! ⚡'] as const;
+const B_GOOD = ['Goeie worp! ◆', 'Lekker bezig! ◯', 'Mooi! ◊'] as const;
+const B_GUTTER = ['Gutter ball... ◯', 'De goot! ◯', 'Oeps, ernaast! ◯'] as const;
 
 // ─── SVG Characters ─────────────────────────────────────────
 function GameBear({ size = 40, mood = 'happy' }: { size?: number; mood?: 'happy' | 'sad' | 'excited' | 'thinking' | 'playing' }) {
@@ -641,7 +641,7 @@ function DartsGame({ onBack, onScore }: { onBack: () => void; onScore: (s: numbe
             {totalScore >= 150 ? <ElfHero size={52} /> : totalScore >= 80 ? <ElectricMouse size={52} /> : <PinkPuff size={52} />}
           </motion.div>
           <motion.p initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-white font-black text-xl">
-            {totalScore >= 150 ? pick(D_BULL) : totalScore >= 80 ? 'Goed gespeeld! 🎯' : pick(D_MISS)}
+            {totalScore >= 150 ? pick(D_BULL) : totalScore >= 80 ? 'Goed gespeeld! ★' : pick(D_MISS)}
           </motion.p>
           <div className="flex gap-2">
             {darts.map((d, i) => (

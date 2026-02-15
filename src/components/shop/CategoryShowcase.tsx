@@ -5,21 +5,22 @@ import { motion } from 'framer-motion';
 import { getAllProducts, getAllPlatforms } from '@/lib/products';
 import { PLATFORM_COLORS } from '@/lib/utils';
 
-const PLATFORM_EMOJIS: Record<string, string> = {
-  'Nintendo Switch': '🎮',
-  'Nintendo 3DS': '📱',
-  'Nintendo DS': '👾',
-  'Game Boy Advance': '🟫',
-  'Game Boy': '⬛',
-  'Game Boy Color': '🎨',
-  'GameCube': '🕹️',
-  'Nintendo 64': '🔴',
-  'Super Nintendo': '🟪',
-  'Nintendo Entertainment System': '🎯',
-  'Wii': '⚪',
-  'Wii U': '🖥️',
-  'Console Accessories': '🔌',
-  'Game Boy (alle)': '🎮',
+// Platform icon indicators (visual replacements for emojis)
+const PLATFORM_ICONS: Record<string, string> = {
+  'Nintendo Switch': '▲',
+  'Nintendo 3DS': '□',
+  'Nintendo DS': '◇',
+  'Game Boy Advance': '◆',
+  'Game Boy': '◯',
+  'Game Boy Color': '◎',
+  'GameCube': '●',
+  'Nintendo 64': '■',
+  'Super Nintendo': '▼',
+  'Nintendo Entertainment System': '◀',
+  'Wii': '▶',
+  'Wii U': '⬚',
+  'Console Accessories': '⚙',
+  'Game Boy (alle)': '◯',
 };
 
 interface CategoryShowcaseProps {
@@ -45,7 +46,7 @@ export default function CategoryShowcase({ onPlatformSelect, selectedPlatform }:
         totalCount: products.length,
         consoleCount: consoles,
         gameCount: games,
-        emoji: PLATFORM_EMOJIS[platform.name] || '🎮',
+        icon: PLATFORM_ICONS[platform.name] || '◯',
       };
     }).sort((a, b) => b.totalCount - a.totalCount);
   }, []);
@@ -123,15 +124,16 @@ export default function CategoryShowcase({ onPlatformSelect, selectedPlatform }:
             />
 
             <div className="relative z-10">
-              {/* Platform emoji/icon */}
+              {/* Platform icon indicator */}
               <div
-                className="h-10 w-10 rounded-lg flex items-center justify-center text-lg mb-2.5 font-bold"
+                className="h-10 w-10 rounded-lg flex items-center justify-center text-lg mb-2.5 font-bold text-slate-900 dark:text-white transition-colors"
                 style={{
                   background: `${platform.color}20`,
                   border: `1.5px solid ${platform.color}40`,
+                  color: platform.color,
                 }}
               >
-                {platform.emoji}
+                {platform.icon}
               </div>
 
               {/* Platform name */}

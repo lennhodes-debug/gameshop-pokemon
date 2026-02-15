@@ -13,10 +13,10 @@ interface SortAndViewProps {
 const SORT_OPTIONS = [
   { value: 'name-asc', label: 'Naam (A-Z)', icon: '↑' },
   { value: 'name-desc', label: 'Naam (Z-A)', icon: '↓' },
-  { value: 'price-asc', label: 'Prijs laag→hoog', icon: '💰' },
-  { value: 'price-desc', label: 'Prijs hoog→laag', icon: '💎' },
-  { value: 'newest', label: 'Nieuwst', icon: '✨' },
-  { value: 'discount-desc', label: 'Beste deals', icon: '🔥' },
+  { value: 'price-asc', label: 'Prijs laag→hoog', icon: '◆' },
+  { value: 'price-desc', label: 'Prijs hoog→laag', icon: '■' },
+  { value: 'newest', label: 'Nieuwst', icon: '◯' },
+  { value: 'discount-desc', label: 'Beste deals', icon: '⭐' },
 ];
 
 export default function SortAndView({ sortBy, onSortChange, viewMode = 'grid', onViewModeChange, resultCount }: SortAndViewProps) {

@@ -51,7 +51,7 @@ export default function FeaturedProducts({ onQuickView }: FeaturedProductsProps)
       {/* Section header */}
       <div className="mb-6">
         <h2 className="text-lg font-extrabold text-slate-900 dark:text-white mb-4">
-          {activeTab === 'deals' ? '🔥 Hete Deals' : '✨ Nieuwste Toevoegingen'}
+          {activeTab === 'deals' ? 'Hete Deals' : 'Nieuwste Toevoegingen'}
         </h2>
 
         {/* Tab selector */}
@@ -67,7 +67,7 @@ export default function FeaturedProducts({ onQuickView }: FeaturedProductsProps)
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              🔥 Deals ({deals.length})
+              Deals ({deals.length})
               {activeTab === 'deals' && (
                 <motion.div
                   layoutId="featured-tab"
@@ -89,7 +89,7 @@ export default function FeaturedProducts({ onQuickView }: FeaturedProductsProps)
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              ✨ Nieuw ({newest.length})
+              Nieuw ({newest.length})
               {activeTab === 'new' && (
                 <motion.div
                   layoutId="featured-tab"

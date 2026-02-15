@@ -178,13 +178,13 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Hoe gaat het / small talk ──
   if (/hoe gaat het|hoe is het|hoe gaat ie|alles goed|gaat het|hoe ben je|how are you/.test(q))
-    return { text: 'Met mij gaat het altijd goed — ik speel de hele dag games! 🎮 Hoe kan ik je helpen vandaag?', quickReplies: ['Ik zoek een game', 'Vertel over jullie winkel'] };
+    return { text: 'Met mij gaat het altijd goed — ik speel de hele dag games! ▮ Hoe kan ik je helpen vandaag?', quickReplies: ['Ik zoek een game', 'Vertel over jullie winkel'] };
 
   if (/wie ben (je|jij)|wat ben (je|jij)|vertel over jezelf|what are you/.test(q))
-    return { text: 'Ik ben Beer! 🐻 De gaming-beer en assistent van Gameshop Enter. Ik ken ons hele assortiment van Nintendo games en help je graag met al je vragen — van productadvies tot verzending!' };
+    return { text: 'Ik ben Beer! B De gaming-beer en assistent van Gameshop Enter. Ik ken ons hele assortiment van Nintendo games en help je graag met al je vragen — van productadvies tot verzending!' };
 
   if (/\bbeer\b|pixel|nino|beertje|mascotte/.test(q))
-    return { text: 'Dat ben ik! 🐻 Beer, de gaming-beer van Gameshop Enter. Altijd klaar om je te helpen met Nintendo games! Hoe kan ik je helpen?', quickReplies: ['Laat me jullie games zien', 'Hoe bestel ik?'] };
+    return { text: 'Dat ben ik! B Beer, de gaming-beer van Gameshop Enter. Altijd klaar om je te helpen met Nintendo games! Hoe kan ik je helpen?', quickReplies: ['Laat me jullie games zien', 'Hoe bestel ik?'] };
 
   if (/^(ja|yes|yep|jep|okay|ok|oke|oké|sure|zeker|absoluut|natuurlijk)$/.test(q))
     return { text: 'Top! Wat wil je weten? Ik kan je helpen met games zoeken, verzending, betaling, inkoop en meer.', quickReplies: ['Games zoeken', 'Verzendkosten', 'Hoe bestellen?'] };
@@ -193,14 +193,14 @@ function fallbackResponse(input: string): FallbackResult {
     return { text: 'Geen probleem! Mocht je later toch een vraag hebben, ik ben er altijd. 😊' };
 
   if (/^(help|hulp)$/.test(q))
-    return { text: 'Ik kan je helpen met:\n\n🎮 Games zoeken en advies\n📦 Verzending en levertijden\n💳 Betaalmethoden\n↩️ Retourneren\n💰 Games verkopen (inkoop)\n❓ Veelgestelde vragen\n\nWaar heb je hulp bij nodig?', quickReplies: ['Games zoeken', 'Verzendkosten', 'Retourneren', 'Games verkopen'] };
+    return { text: 'Ik kan je helpen met:\n\n▮ Games zoeken en advies\n◻ Verzending en levertijden\n◯ Betaalmethoden\n↻ Retourneren\n◎ Games verkopen (inkoop)\n? Veelgestelde vragen\n\nWaar heb je hulp bij nodig?', quickReplies: ['Games zoeken', 'Verzendkosten', 'Retourneren', 'Games verkopen'] };
 
   // ── Assortiment ──
   if (/welke (games|spellen)|wat (heb|hebben|verkop) jullie|assortiment|collectie|aanbod|hoeveel (games|spellen)|wat voor games|jullie games|shop bekijken|laat.*zien/.test(q)) {
     const counts: Record<string, number> = {};
     products.forEach(p => { counts[p.platform] = (counts[p.platform] || 0) + 1; });
     return {
-      text: `We hebben **${products.length} originele Nintendo games**! 🎮\n\n${Object.entries(counts).map(([k, v]) => `• **${k}**: ${v} games`).join('\n')}\n\nElke game is persoonlijk getest op werking.`,
+      text: `We hebben **${products.length} originele Nintendo games**! ▮\n\n${Object.entries(counts).map(([k, v]) => `• **${k}**: ${v} games`).join('\n')}\n\nElke game is persoonlijk getest op werking.`,
       links: [{ label: 'Bekijk alle games', href: '/shop' }],
       quickReplies: ['Welke Pokémon games?', 'Wat is de duurste game?', 'Goedkoopste games?'],
     };
@@ -221,7 +221,7 @@ function fallbackResponse(input: string): FallbackResult {
   }
   if (/game\s*boy(?!\s*advance)|\bgb\b|\bgbc\b|game\s*boy\s*color/.test(q)) {
     const found = products.filter(p => p.platform.toLowerCase().includes('game boy') && !p.platform.toLowerCase().includes('advance'));
-    return { text: `We hebben **${found.length} Game Boy games**! 🎮 De ultieme retro ervaring — waar het allemaal begon.`, products: found.slice(0, 6), links: [{ label: 'Alle Game Boy games', href: '/shop?q=game+boy' }] };
+    return { text: `We hebben **${found.length} Game Boy games**! ▮ De ultieme retro ervaring — waar het allemaal begon.`, products: found.slice(0, 6), links: [{ label: 'Alle Game Boy games', href: '/shop?q=game+boy' }] };
   }
   if (/switch|nintendo switch/.test(q))
     return { text: 'We zijn gespecialiseerd in **retro Nintendo games** — denk aan DS, GBA, 3DS en Game Boy. Switch games hebben we momenteel niet, maar onze retro collectie is top! 🕹️', links: [{ label: 'Bekijk onze shop', href: '/shop' }], quickReplies: ['Welke games hebben jullie?', 'Welke Pokémon games?'] };
@@ -232,7 +232,7 @@ function fallbackResponse(input: string): FallbackResult {
   if (/pok[eé]mon|pikachu|charizard|mewtwo|eevee/.test(q)) {
     const pokemonGames = products.filter(p => p.name.toLowerCase().includes('pok'));
     if (/welke.*beste|beste.*pokemon|welke.*aanraden|welke.*beginnen/.test(q))
-      return { text: `Als Pokémon expert raad ik deze toppers aan:\n\n🏆 **Pokémon HeartGold/SoulSilver** — de beste remakes ooit gemaakt. Twee regio's, 493 Pokémon, en je Pokémon loopt achter je aan!\n⭐ **Pokémon Emerald** — de ultieme GBA ervaring met de Battle Frontier\n💎 **Pokémon Platinum** — het beste van Gen 4 met extra content\n\nHier zijn onze Pokémon games:`, products: pokemonGames.slice(0, 6), links: [{ label: 'Alle Pokémon games', href: '/shop?q=pokemon' }] };
+      return { text: `Als Pokémon expert raad ik deze toppers aan:\n\n▲ **Pokémon HeartGold/SoulSilver** — de beste remakes ooit gemaakt. Twee regio's, 493 Pokémon, en je Pokémon loopt achter je aan!\n★ **Pokémon Emerald** — de ultieme GBA ervaring met de Battle Frontier\n◊ **Pokémon Platinum** — het beste van Gen 4 met extra content\n\nHier zijn onze Pokémon games:`, products: pokemonGames.slice(0, 6), links: [{ label: 'Alle Pokémon games', href: '/shop?q=pokemon' }] };
     return {
       text: `Pokémon fan? Dan ben je hier aan het juiste adres! 🎉 We hebben **${pokemonGames.length} Pokémon games** — van klassieke Game Boy titels tot DS en GBA. Alles 100% origineel en persoonlijk getest op echtheid.`,
       products: pokemonGames.slice(0, 6),
@@ -274,13 +274,13 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Verzending ──
   if (/verzend|bezorg|lever|shipping|postnl|pakket|track|trace|wanneer (heb|krijg)|levertijd|hoe lang duurt|wanneer komt|delivery/.test(q))
     return {
-      text: '📦 **Verzending bij Gameshop Enter:**\n\n• €4,95 via PostNL\n• **GRATIS** boven €100\n• Levertijd: 1-3 werkdagen\n• Met track & trace\n• Zorgvuldig verpakt met bubbeltjeswrap\n\nVandaag besteld = meestal morgen of overmorgen in huis!',
+      text: '◻ **Verzending bij Gameshop Enter:**\n\n• €4,95 via PostNL\n• **GRATIS** boven €100\n• Levertijd: 1-3 werkdagen\n• Met track & trace\n• Zorgvuldig verpakt met bubbeltjeswrap\n\nVandaag besteld = meestal morgen of overmorgen in huis!',
       quickReplies: ['Verzenden jullie naar België?', 'Hoe werkt retourneren?', 'Gratis verzending?'],
     };
 
   // ── Gratis verzending ──
   if (/gratis verzend|free shipping|verzending gratis/.test(q))
-    return { text: 'Ja! **Gratis verzending** bij bestellingen boven €100. Onder €100 betaal je €4,95 voor PostNL met track & trace. Combineer een paar games en je zit er zo! 📦', quickReplies: ['Premium games bekijken', 'Alle games'] };
+    return { text: 'Ja! **Gratis verzending** bij bestellingen boven €100. Onder €100 betaal je €4,95 voor PostNL met track & trace. Combineer een paar games en je zit er zo! ◻', quickReplies: ['Premium games bekijken', 'Alle games'] };
 
   // ── België / internationaal ──
   if (/belgi[ëe]|internationaal|buitenland|europa|duitsland|france|frankrijk/.test(q))
@@ -289,7 +289,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Betaling ──
   if (/betal|ideal|creditcard|paypal|afrekenen|bancontact|apple\s*pay|pin|contant|how to pay/.test(q))
     return {
-      text: '💳 **Betaalmethoden:**\n\n• **iDEAL** (alle banken)\n• **Creditcard** (Visa, Mastercard)\n• **PayPal**\n• **Bancontact**\n• **Apple Pay**\n\nAlles veilig en versleuteld via Mollie!',
+      text: '◯ **Betaalmethoden:**\n\n• **iDEAL** (alle banken)\n• **Creditcard** (Visa, Mastercard)\n• **PayPal**\n• **Bancontact**\n• **Apple Pay**\n\nAlles veilig en versleuteld via Mollie!',
       links: [{ label: 'Winkelwagen', href: '/winkelwagen' }],
       quickReplies: ['Kan ik achteraf betalen?', 'Is betalen veilig?'],
     };
@@ -301,7 +301,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Retour / garantie ──
   if (/retour|terugstu|ruil|terug|garantie|defect|kapot|werkt niet|stuk|broken|return/.test(q))
     return {
-      text: '↩️ **Retourbeleid:**\n\n• **14 dagen** bedenktijd\n• **Gratis** retourneren\n• Defect? We lossen het op of sturen vervanging\n• Alle games zijn getest vóór verzending\n• Geld terug binnen 3-5 werkdagen\n\nWe staan altijd achter onze producten!',
+      text: '↻ **Retourbeleid:**\n\n• **14 dagen** bedenktijd\n• **Gratis** retourneren\n• Defect? We lossen het op of sturen vervanging\n• Alle games zijn getest vóór verzending\n• Geld terug binnen 3-5 werkdagen\n\nWe staan altijd achter onze producten!',
       links: [{ label: 'Retourbeleid', href: '/retourbeleid' }, { label: 'Contact', href: '/contact' }],
       quickReplies: ['Hoe stuur ik iets terug?', 'Game werkt niet'],
     };
@@ -317,7 +317,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Inkoop / verkopen ──
   if (/verkop|inkoop|inruil|trade|sell|opkop|wil.*(verkopen|kwijt)|games.*kwijt|overkoop/.test(q))
     return {
-      text: '💰 **Games verkopen? Wij kopen Nintendo games op!**\n\n1. Check inkoopprijzen op de inkoop pagina\n2. Neem contact op met je aanbod\n3. Stuur de games op (wij betalen verzending)\n4. Direct betaling na controle\n\nWe kopen DS, GBA, 3DS en Game Boy games! Pokémon games brengen het meeste op.',
+      text: '◎ **Games verkopen? Wij kopen Nintendo games op!**\n\n1. Check inkoopprijzen op de inkoop pagina\n2. Neem contact op met je aanbod\n3. Stuur de games op (wij betalen verzending)\n4. Direct betaling na controle\n\nWe kopen DS, GBA, 3DS en Game Boy games! Pokémon games brengen het meeste op.',
       links: [{ label: 'Inkoopprijzen bekijken', href: '/inkoop' }, { label: 'Contact', href: '/contact' }],
       quickReplies: ['Hoeveel krijg ik voor Pokémon?', 'Welke games kopen jullie?'],
     };
@@ -329,7 +329,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Originaliteit ──
   if (/origineel|nep|fake|echt|authentiek|namaak|reproductie|repro|bootleg|counterfeit/.test(q))
     return {
-      text: '✅ **100% Origineel — onze belofte!**\n\n• Persoonlijk gecontroleerd op echtheid\n• Getest op echte Nintendo hardware\n• NOOIT reproducties of bootlegs\n• Eerlijke conditie-beschrijving bij elk product\n• **5.0 uit 1.360+ reviews**\n\nTip: wees voorzichtig met Pokémon games op Marktplaats — er zijn veel fakes in omloop. Bij ons weet je zeker dat het echt is!',
+      text: '✓ **100% Origineel — onze belofte!**\n\n• Persoonlijk gecontroleerd op echtheid\n• Getest op echte Nintendo hardware\n• NOOIT reproducties of bootlegs\n• Eerlijke conditie-beschrijving bij elk product\n• **5.0 uit 1.360+ reviews**\n\nTip: wees voorzichtig met Pokémon games op Marktplaats — er zijn veel fakes in omloop. Bij ons weet je zeker dat het echt is!',
       quickReplies: ['Hoe controleren jullie dat?', 'Zijn alle games getest?'],
     };
 
@@ -340,7 +340,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Conditie ──
   if (/conditie|staat|kwaliteit|gebruikt|nieuw|cib|compleet|los|cartridge|doos|manual|handleiding|boxed|mint|sealed/.test(q))
     return {
-      text: '📋 **Condities uitgelegd:**\n\n• **"Zo goed als nieuw"** — nauwelijks sporen van gebruik\n• **"Gebruikt"** — normaal gebruik, 100% werkend\n• **"Nieuw"** — ongeopend/sealed\n\n📦 **Compleetheid:**\n• **CIB** = Compleet in Doos (game + doos + handleiding)\n• **Losse cartridge** = alleen het spelletje\n\nBij elke game staat een eerlijke conditie-beschrijving zodat je precies weet wat je krijgt!',
+      text: '📋 **Condities uitgelegd:**\n\n• **"Zo goed als nieuw"** — nauwelijks sporen van gebruik\n• **"Gebruikt"** — normaal gebruik, 100% werkend\n• **"Nieuw"** — ongeopend/sealed\n\n◻ **Compleetheid:**\n• **CIB** = Compleet in Doos (game + doos + handleiding)\n• **Losse cartridge** = alleen het spelletje\n\nBij elke game staat een eerlijke conditie-beschrijving zodat je precies weet wat je krijgt!',
       quickReplies: ['CIB games bekijken', 'Goedkoopste games?'],
     };
 
@@ -367,7 +367,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Reviews ──
   if (/review|beoordel|sterren|rating|ervaring|feedback|trustpilot/.test(q))
-    return { text: '⭐ **5.0 gemiddelde score uit 1.360+ reviews!**\n\nKlanten waarderen vooral:\n• Kwaliteit van de games\n• Snelle verzending\n• Goede communicatie\n• Betrouwbaarheid\n\nWe zijn trots op elke review!', links: [{ label: 'Over ons', href: '/over-ons' }] };
+    return { text: '★ **5.0 gemiddelde score uit 1.360+ reviews!**\n\nKlanten waarderen vooral:\n• Kwaliteit van de games\n• Snelle verzending\n• Goede communicatie\n• Betrouwbaarheid\n\nWe zijn trots op elke review!', links: [{ label: 'Over ons', href: '/over-ons' }] };
 
   // ── Prijs / Budget ──
   if (/prijs|kost|duur|goedkoop|budget|onder\s*€?\s*\d|tot\s*€?\s*\d|vanaf|hoeveel kost|wat kost|price/.test(q)) {
@@ -389,7 +389,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Goedkoopst ──
   if (/goedkoopst|laagste prijs|cheapest|voordeligst/.test(q)) {
     const sorted = [...products].sort((a, b) => a.price - b.price);
-    return { text: '💰 Onze voordeligste games — perfect om je collectie te starten:', products: sorted.slice(0, 6), quickReplies: ['Premium games?', 'Alle games bekijken'] };
+    return { text: '◎ Onze voordeligste games — perfect om je collectie te starten:', products: sorted.slice(0, 6), quickReplies: ['Premium games?', 'Alle games bekijken'] };
   }
 
   // ── Duurste / Premium ──
@@ -405,7 +405,7 @@ function fallbackResponse(input: string): FallbackResult {
     return {
       text: isGift
         ? '🎁 **Op zoek naar een cadeau?** Pokémon games zijn altijd een schot in de roos!\n\nTips:\n• **CIB (compleet in doos)** ziet er extra mooi uit als cadeau\n• **HeartGold/SoulSilver** zijn de meest gewilde Pokémon games\n• Voor een kleiner budget: losse cartridges zijn net zo leuk om te spelen!\n\nOnze populairste games:'
-        : '🔥 Dit zijn onze **populairste en meest gewilde games**:',
+        : '⚡ Dit zijn onze **populairste en meest gewilde games**:',
       products: popular,
       quickReplies: isGift ? ['Goedkope opties?', 'CIB games (met doos)?'] : ['Budget opties?', 'Pokémon games?'],
     };
@@ -414,7 +414,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Nieuwste / net binnen / new ──
   if (/nieuwste|net binnen|nieuwe voorraad|just arrived|new arrivals|laatst toegevoegd/.test(q)) {
     const recent = products.slice(-6).reverse();
-    return { text: '✨ Onze meest recent toegevoegde games:', products: recent, links: [{ label: 'Shop', href: '/shop' }] };
+    return { text: '◆ Onze meest recent toegevoegde games:', products: recent, links: [{ label: 'Shop', href: '/shop' }] };
   }
 
   // ── Waarom duur ──
@@ -435,7 +435,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Openingstijden / fysieke winkel ──
   if (/openingstijd|fysieke winkel|locatie|adres|bezoek|langs\s*komen|ophalen|afhalen|pickup|winkel.*adres/.test(q))
-    return { text: 'Gameshop Enter is een **online-only webshop** — geen fysieke winkel. Maar geen zorgen, we leveren in heel Nederland! Games zijn binnen 1-3 werkdagen thuis via PostNL. 📦', quickReplies: ['Hoe bestellen?', 'Verzendkosten?'] };
+    return { text: 'Gameshop Enter is een **online-only webshop** — geen fysieke winkel. Maar geen zorgen, we leveren in heel Nederland! Games zijn binnen 1-3 werkdagen thuis via PostNL. ◻', quickReplies: ['Hoe bestellen?', 'Verzendkosten?'] };
 
   // ── Hoe bestellen ──
   if (/hoe.*(bestel|koop|order)|bestel.*(proces|stappen)|how.*order|stappen/.test(q))
@@ -455,7 +455,7 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Genre zoeken ──
   if (/rpg|role.?playing/.test(q)) {
     const found = products.filter(p => p.genre.toLowerCase() === 'rpg');
-    return { text: found.length > 0 ? `We hebben **${found.length} RPG games**! Pokémon is technisch gezien ook een RPG — de beste RPG franchise ooit. 🎮` : 'Geen RPG games op voorraad momenteel.', products: found.length > 0 ? found.slice(0, 6) : undefined, links: [{ label: 'Shop', href: '/shop' }] };
+    return { text: found.length > 0 ? `We hebben **${found.length} RPG games**! Pokémon is technisch gezien ook een RPG — de beste RPG franchise ooit. ▮` : 'Geen RPG games op voorraad momenteel.', products: found.length > 0 ? found.slice(0, 6) : undefined, links: [{ label: 'Shop', href: '/shop' }] };
   }
   if (/platform(er|spel)|jump|side.?scroll/.test(q)) {
     const found = products.filter(p => p.genre.toLowerCase() === 'platformer');
@@ -467,7 +467,7 @@ function fallbackResponse(input: string): FallbackResult {
   }
   if (/race|racing|kart/.test(q)) {
     const found = products.filter(p => p.genre.toLowerCase() === 'race');
-    return { text: found.length > 0 ? '🏎️ Onze race games:' : 'Geen race games op voorraad momenteel.', products: found.length > 0 ? found.slice(0, 6) : undefined };
+    return { text: found.length > 0 ? '▶ Onze race games:' : 'Geen race games op voorraad momenteel.', products: found.length > 0 ? found.slice(0, 6) : undefined };
   }
   if (/puzzel|puzzle|brain/.test(q)) {
     const found = products.filter(p => p.genre.toLowerCase() === 'puzzel');
@@ -488,11 +488,11 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Kinderen / leeftijd ──
   if (/kind(eren)?|jong|family|gezin|zoon|dochter|kleinkind|kid|child|for kids|peuter|tiener|teen/.test(q))
-    return { text: '**Pokémon games zijn perfect voor alle leeftijden!** 🎮 Makkelijk te leren, moeilijk om neer te leggen. Ze leren kinderen strategisch denken, lezen en doorzetten.\n\nOnze aanraders voor jonge gamers:', products: searchProducts('pokemon'), quickReplies: ['Goedkoopste opties?', 'CIB als cadeau?'] };
+    return { text: '**Pokémon games zijn perfect voor alle leeftijden!** ▮ Makkelijk te leren, moeilijk om neer te leggen. Ze leren kinderen strategisch denken, lezen en doorzetten.\n\nOnze aanraders voor jonge gamers:', products: searchProducts('pokemon'), quickReplies: ['Goedkoopste opties?', 'CIB als cadeau?'] };
 
   // ── Korting ──
   if (/korting|coupon|code|actie|aanbieding|sale|deal|discount|voucher|kortingscode/.test(q))
-    return { text: 'Geen actieve kortingscodes op dit moment, maar wel:\n\n✅ **Gratis verzending** boven €100\n✅ Scherpe marktconforme prijzen\n✅ Volg **@gameshopenter** op Instagram voor acties!', quickReplies: ['Goedkoopste games?', 'Premium games?'] };
+    return { text: 'Geen actieve kortingscodes op dit moment, maar wel:\n\n✓ **Gratis verzending** boven €100\n✓ Scherpe marktconforme prijzen\n✓ Volg **@gameshopenter** op Instagram voor acties!', quickReplies: ['Goedkoopste games?', 'Premium games?'] };
 
   // ── Cadeaubon ──
   if (/cadeaubon|gift.?card|tegoedbon|waardebon/.test(q))
@@ -511,7 +511,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Waarom bij ons kopen ──
   if (/waarom.*kopen|waarom.*jullie|why.*buy|voordeel|reden/.test(q))
-    return { text: '**Waarom Gameshop Enter?** 🏆\n\n• 100% originele Nintendo games\n• Persoonlijk getest & gefotografeerd\n• 5.0 score uit 1.360+ reviews\n• Snelle verzending (1-3 werkdagen)\n• 14 dagen gratis retourneren\n• Specialist in Pokémon & retro Nintendo\n• Nederlandse klantenservice' };
+    return { text: '**Waarom Gameshop Enter?** ▲\n\n• 100% originele Nintendo games\n• Persoonlijk getest & gefotografeerd\n• 5.0 score uit 1.360+ reviews\n• Snelle verzending (1-3 werkdagen)\n• 14 dagen gratis retourneren\n• Specialist in Pokémon & retro Nintendo\n• Nederlandse klantenservice' };
 
   // ── Compatibiliteit ──
   if (/werkt.*op|compatib|past.*in|speelbaar.*op|kan ik.*spelen.*op/.test(q))
@@ -527,7 +527,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Meerdere bestellen / bulk ──
   if (/meerdere|bulk|groothandel|wholesale|veel.*tegelijk|groot.*bestelling/.test(q))
-    return { text: 'Meerdere games bestellen? Dat kan gewoon! Alles in je winkelwagen, afrekenen, klaar. Bij bestellingen boven €100 is verzending **gratis**! 📦', links: [{ label: 'Shop', href: '/shop' }], quickReplies: ['Premium games?', 'Verzendkosten?'] };
+    return { text: 'Meerdere games bestellen? Dat kan gewoon! Alles in je winkelwagen, afrekenen, klaar. Bij bestellingen boven €100 is verzending **gratis**! ◻', links: [{ label: 'Shop', href: '/shop' }], quickReplies: ['Premium games?', 'Verzendkosten?'] };
 
   // ── Cadeauverpakking ──
   if (/cadeau\s*verpak|gift\s*wrap|inpak|mooi ingepakt|als cadeau verpak/.test(q))
@@ -535,7 +535,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Pre-order ──
   if (/pre.?order|reserv|voorbestell|voorbest|binnenkort|upcoming|nieuwe releases/.test(q))
-    return { text: 'We verkopen **retro Nintendo games** — alles wat je in de shop ziet is direct leverbaar! Geen pre-orders nodig. Nieuwe aanwinsten worden regelmatig toegevoegd. ✨', links: [{ label: 'Shop', href: '/shop' }], quickReplies: ['Nieuwste games?', 'Welke platforms?'] };
+    return { text: 'We verkopen **retro Nintendo games** — alles wat je in de shop ziet is direct leverbaar! Geen pre-orders nodig. Nieuwe aanwinsten worden regelmatig toegevoegd. ◆', links: [{ label: 'Shop', href: '/shop' }], quickReplies: ['Nieuwste games?', 'Welke platforms?'] };
 
   // ── Accessoires ──
   if (/accessoire|controller|oplader|charger|hoesje|case|bescherm|screen\s*protector|stylus|adapter|kabel/.test(q)) {
@@ -559,11 +559,11 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Multiplayer ──
   if (/multiplayer|samen.*spelen|co.?op|local.*play|2.*spelers|twee.*spelers|met.*vriend/.test(q))
-    return { text: 'Veel Nintendo games zijn perfect om **samen te spelen**! 🎮\n\n• Pokémon: ruilen en battlen via link cable\n• Mario Kart: local multiplayer races\n• Veel DS games hebben wireless multiplayer\n\nZoek je iets specifieks om samen te spelen?', quickReplies: ['Pokémon games', 'Party games?', 'Alle games'] };
+    return { text: 'Veel Nintendo games zijn perfect om **samen te spelen**! ▮\n\n• Pokémon: ruilen en battlen via link cable\n• Mario Kart: local multiplayer races\n• Veel DS games hebben wireless multiplayer\n\nZoek je iets specifieks om samen te spelen?', quickReplies: ['Pokémon games', 'Party games?', 'Alle games'] };
 
   // ── Beginners ──
   if (/makkelijk|moeilijk|beginner|starter|eerste.*game|beginnen.*met|noob|nieuweling|instap/.test(q))
-    return { text: 'Voor beginners zijn **Pokémon games** ideaal — makkelijk te leren maar met veel diepgang! 🌟\n\nAanraders om mee te starten:\n• **Pokémon FireRed/LeafGreen** (GBA) — de klassieker in modern jasje\n• **Pokémon HeartGold/SoulSilver** (DS) — de beste introductie\n• **Pokémon Platinum** (DS) — rijk aan content\n\nWelk platform heb je?', quickReplies: ['Pokémon games', 'Welke platforms?', 'Goedkoopste games?'] };
+    return { text: 'Voor beginners zijn **Pokémon games** ideaal — makkelijk te leren maar met veel diepgang! ★\n\nAanraders om mee te starten:\n• **Pokémon FireRed/LeafGreen** (GBA) — de klassieker in modern jasje\n• **Pokémon HeartGold/SoulSilver** (DS) — de beste introductie\n• **Pokémon Platinum** (DS) — rijk aan content\n\nWelk platform heb je?', quickReplies: ['Pokémon games', 'Welke platforms?', 'Goedkoopste games?'] };
 
   // ── Speeltijd ──
   if (/hoeveel uur|speeltijd|hoe lang.*spelen|gameplay.*uur|speelduur|content/.test(q))
@@ -571,7 +571,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Verzamelen ──
   if (/verzamel|collectie|collect|compleet.*set|alle.*pokemon|set.*compleet|collector/.test(q))
-    return { text: '🏆 **Een Nintendo collectie opbouwen?** Tips:\n\n• Begin met je favoriete franchise\n• **CIB games** zijn het meest waardevol voor collectors\n• Pokémon stijgt het hardst in waarde\n• Koop nu — retro games worden alleen maar duurder!\n• Bewaar games koel en droog\n\nOnze premium games:', products: [...products].sort((a, b) => b.price - a.price).slice(0, 4), quickReplies: ['CIB games?', 'Premium games?'] };
+    return { text: '▲ **Een Nintendo collectie opbouwen?** Tips:\n\n• Begin met je favoriete franchise\n• **CIB games** zijn het meest waardevol voor collectors\n• Pokémon stijgt het hardst in waarde\n• Koop nu — retro games worden alleen maar duurder!\n• Bewaar games koel en droog\n\nOnze premium games:', products: [...products].sort((a, b) => b.price - a.price).slice(0, 4), quickReplies: ['CIB games?', 'Premium games?'] };
 
   // ── Investering ──
   if (/investering|investeren|waarde.*stijg|meer.*waard|stijgen.*prijs|geld.*verdienen.*games/.test(q))
@@ -579,7 +579,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Tweedehands veilig? ──
   if (/tweedehands.*veilig|gebruikt.*goed|kwaliteit.*gebruikt|werken.*gebruikte|houdbaar/.test(q))
-    return { text: 'Absoluut! **Nintendo cartridges zijn ongelooflijk duurzaam** — ze gaan letterlijk tientallen jaren mee. Alle games worden door ons:\n\n✅ Visueel geïnspecteerd\n✅ Getest op originele hardware\n✅ Gefotografeerd (wat je ziet = wat je krijgt)\n✅ Gecontroleerd op save-functie\n\n5.0 uit 1.360+ reviews bewijst het!', quickReplies: ['Hoe controleren jullie?', 'Reviews bekijken'] };
+    return { text: 'Absoluut! **Nintendo cartridges zijn ongelooflijk duurzaam** — ze gaan letterlijk tientallen jaren mee. Alle games worden door ons:\n\n✓ Visueel geïnspecteerd\n✓ Getest op originele hardware\n✓ Gefotografeerd (wat je ziet = wat je krijgt)\n✓ Gecontroleerd op save-functie\n\n5.0 uit 1.360+ reviews bewijst het!', quickReplies: ['Hoe controleren jullie?', 'Reviews bekijken'] };
 
   // ── Versies / PAL ──
   if (/verschil.*tussen|welke versie|welke.*beter|vergelijk|pal.*ntsc|europese.*versie|japanese/.test(q))
@@ -595,7 +595,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Verpakking ──
   if (/verpak|hoe.*verstuur|hoe.*verzend|bubbel|bubble|bescherm.*verzen|stevig/.test(q))
-    return { text: 'We verpakken alles met zorg! 📦\n\n• Bubbeltjeswrap rondom de game\n• Stevige verzenddoos\n• Fragile sticker\n• PostNL met track & trace\n\nJe game komt veilig aan!', quickReplies: ['Verzendkosten?', 'Levertijden?'] };
+    return { text: 'We verpakken alles met zorg! ◻\n\n• Bubbeltjeswrap rondom de game\n• Stevige verzenddoos\n• Fragile sticker\n• PostNL met track & trace\n\nJe game komt veilig aan!', quickReplies: ['Verzendkosten?', 'Levertijden?'] };
 
   // ── Factuur ──
   if (/factuur|invoice|bon|bewijs|betaalbewijs|bevestig.*email|order.*bevestig/.test(q))
@@ -616,27 +616,27 @@ function fallbackResponse(input: string): FallbackResult {
   // ── Recent toegevoegd ──
   if (/wat is er nieuw|nieuwe.*toevoeg|recent.*toevoeg|update|nieuwe.*stock|vers.*binnen/.test(q)) {
     const recent = products.slice(-6).reverse();
-    return { text: '✨ Dit zijn onze meest recent toegevoegde games:', products: recent, links: [{ label: 'Alle games', href: '/shop' }], quickReplies: ['Populairste games?', 'Pokémon games?'] };
+    return { text: '◆ Dit zijn onze meest recent toegevoegde games:', products: recent, links: [{ label: 'Alle games', href: '/shop' }], quickReplies: ['Populairste games?', 'Pokémon games?'] };
   }
 
   // ── Advies ──
   if (/welke.*kopen|wat.*aanrad|advies|raad.*aan|suggestie|recommend|welke.*kiezen|help.*kiezen|kan.*niet.*kiezen/.test(q))
-    return { text: 'Ik help je graag kiezen! Om je **het beste advies** te geven:\n\n🎮 Welk platform heb je? (DS, GBA, 3DS, Game Boy)\n💰 Wat is je budget?\n🎯 Welk genre? (RPG, avontuur, platformer, etc.)\n\nOf als je het niet weet — **Pokémon is altijd een goede keuze!**', quickReplies: ['Pokémon games', 'Goedkoopste games', 'RPG games'] };
+    return { text: 'Ik help je graag kiezen! Om je **het beste advies** te geven:\n\n▮ Welk platform heb je? (DS, GBA, 3DS, Game Boy)\n◎ Wat is je budget?\n🎯 Welk genre? (RPG, avontuur, platformer, etc.)\n\nOf als je het niet weet — **Pokémon is altijd een goede keuze!**', quickReplies: ['Pokémon games', 'Goedkoopste games', 'RPG games'] };
 
   // ── Emulator / ROM ──
   if (/emulator|rom|download|illegaal|piraat|piracy|gratis.*game|free.*game|torrent/.test(q))
-    return { text: 'Wij verkopen alleen **100% originele fysieke games** — de echte retro ervaring! 🎮 Het spelen op originele hardware is onverslaanbaar. Bovendien steun je zo de gaming community en behoud je de waarde van je collectie.', quickReplies: ['Waarom origineel?', 'Alle games bekijken'] };
+    return { text: 'Wij verkopen alleen **100% originele fysieke games** — de echte retro ervaring! ▮ Het spelen op originele hardware is onverslaanbaar. Bovendien steun je zo de gaming community en behoud je de waarde van je collectie.', quickReplies: ['Waarom origineel?', 'Alle games bekijken'] };
 
   // ── Top games ──
   if (/top\s*\d|beste.*game|favoriete|favoriet|all.?time|goat|greatest|ranking|ranglijst/.test(q)) {
     const topGames = [...products].sort((a, b) => b.price - a.price).slice(0, 6);
-    return { text: '🏆 Onze **meest gewilde games** (op basis van populariteit en waarde):', products: topGames, quickReplies: ['Pokémon games?', 'Goedkoopste games?'] };
+    return { text: '▲ Onze **meest gewilde games** (op basis van populariteit en waarde):', products: topGames, quickReplies: ['Pokémon games?', 'Goedkoopste games?'] };
   }
 
   // ── Pokémon generaties ──
   if (/gen\s*[1-9]|generatie\s*[1-9]|generation\s*[1-9]|kanto|johto|hoenn|sinnoh|unova|kalos|alola|galar/.test(q)) {
     const pokemonGames = products.filter(p => p.name.toLowerCase().includes('pok'));
-    return { text: 'Alle Pokémon generaties zijn legendarisch! 🌟 Hier zijn onze Pokémon games — van Gen 1 tot de nieuwste:', products: pokemonGames.slice(0, 6), links: [{ label: 'Alle Pokémon', href: '/shop?q=pokemon' }], quickReplies: ['Welke is de beste?', 'Duurste Pokémon?'] };
+    return { text: 'Alle Pokémon generaties zijn legendarisch! ★ Hier zijn onze Pokémon games — van Gen 1 tot de nieuwste:', products: pokemonGames.slice(0, 6), links: [{ label: 'Alle Pokémon', href: '/shop?q=pokemon' }], quickReplies: ['Welke is de beste?', 'Duurste Pokémon?'] };
   }
 
   // ── Specifieke Pokémon games ──
@@ -649,19 +649,19 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Off-topic: weer / tijd / random ──
   if (/weer|temperatuur|regen|zon|klimaat|weather|forecast/.test(q))
-    return { text: 'Het weer? Daar ben ik de verkeerde beer voor! 🐻☀️ Maar regen of zonneschijn — het is altijd gametijd. Kan ik je helpen met onze games?', quickReplies: ['Games zoeken', 'Populairste games'] };
+    return { text: 'Het weer? Daar ben ik de verkeerde beer voor! B☀️ Maar regen of zonneschijn — het is altijd gametijd. Kan ik je helpen met onze games?', quickReplies: ['Games zoeken', 'Populairste games'] };
 
   if (/hoe laat|tijd|klok|what time|datum|date|vandaag/.test(q))
     return { text: 'De tijd vliegt als je games speelt! ⏰ Maar ik ben een gaming-beer, geen klok. Wél kan ik je helpen met Nintendo games!', quickReplies: ['Games zoeken', 'Hoe bestellen?'] };
 
   if (/eten|drinken|restaurant|pizza|koffie|bier|friet|snack|honger|dorst|food|hungry/.test(q))
-    return { text: 'Haha, ik ben een gaming-beer, geen food-beer! 🐻🍕 Maar na een goede game session is pizza altijd goed. Kan ik je helpen met Nintendo games?', quickReplies: ['Games zoeken', 'Populairste games'] };
+    return { text: 'Haha, ik ben een gaming-beer, geen food-beer! B🍕 Maar na een goede game session is pizza altijd goed. Kan ik je helpen met Nintendo games?', quickReplies: ['Games zoeken', 'Populairste games'] };
 
   if (/school|huiswerk|homework|wiskunde|math|geschied|history|aardrijks|biologie|science|compiler|programm|python|java\b|html|css|code|coding|rekenen|tafel/.test(q))
-    return { text: 'Daar ben ik niet de juiste beer voor! 🐻📚 Ik ben gespecialiseerd in Nintendo games. Stel me gerust een vraag over onze games, verzending of de winkel!', quickReplies: ['Welke games hebben jullie?', 'Hoe bestellen?', 'Over de winkel'] };
+    return { text: 'Daar ben ik niet de juiste beer voor! B📚 Ik ben gespecialiseerd in Nintendo games. Stel me gerust een vraag over onze games, verzending of de winkel!', quickReplies: ['Welke games hebben jullie?', 'Hoe bestellen?', 'Over de winkel'] };
 
   if (/ajax|feyenoord|psv|voetbal.*wed|formule\s*1|f1|olymp|tennis|hockey|wielren/.test(q))
-    return { text: 'Ik ben meer van de virtuele sport — Mario Kart en Pokémon battles! 🏎️🎮 Kan ik je helpen met onze Nintendo games?', quickReplies: ['Race games?', 'Sport games?', 'Alle games'] };
+    return { text: 'Ik ben meer van de virtuele sport — Mario Kart en Pokémon battles! ▶▮ Kan ik je helpen met onze Nintendo games?', quickReplies: ['Race games?', 'Sport games?', 'Alle games'] };
 
   if (/film|movie|serie|netflix|disney|anime|manga|cartoon|television|tv\b/.test(q))
     return { text: 'Ik ken alle Pokémon afleveringen, maar voor film/serie-advies moet je ergens anders zijn! 😄 Wél kan ik je helpen met de beste Nintendo games.', quickReplies: ['Pokémon games', 'Populairste games'] };
@@ -670,20 +670,20 @@ function fallbackResponse(input: string): FallbackResult {
     return { text: 'De beste muziek? Dat zijn Nintendo soundtracks! 🎵 Zelda, Pokémon, Mario... onverslaanbaar. Kan ik je helpen met games?', quickReplies: ['Games zoeken', 'Populairste games'] };
 
   if (/hond|kat|dier|huisdier|puppy|kitten|hamster|konijn|vis|aquarium|pet/.test(q))
-    return { text: 'Ik ben de enige beer die je nodig hebt! 🐻 En als je van dieren houdt — Pokémon is basically het beste huisdieren-spel ooit. 😄', quickReplies: ['Pokémon games', 'Games zoeken'] };
+    return { text: 'Ik ben de enige beer die je nodig hebt! B En als je van dieren houdt — Pokémon is basically het beste huisdieren-spel ooit. 😄', quickReplies: ['Pokémon games', 'Games zoeken'] };
 
   if (/vriendin|vriend|relatie|date|liefde|eenzaam|verdrietig|blij|gelukkig|boos|moe|ziek|pijn/.test(q))
-    return { text: 'Ik hoop dat alles goed met je gaat! 🐻 Games zijn de beste therapie. Kan ik je helpen iets te vinden?', quickReplies: ['Cadeau-tips', 'Populairste games', 'Goedkoopste games'] };
+    return { text: 'Ik hoop dat alles goed met je gaat! B Games zijn de beste therapie. Kan ik je helpen iets te vinden?', quickReplies: ['Cadeau-tips', 'Populairste games', 'Goedkoopste games'] };
 
   if (/hoe oud.*ben|hoe oud.*je|leeftijd|birthday|verjaardag.*beer|wanneer.*geboren/.test(q))
-    return { text: 'Ik ben tijdloos, net als de beste Nintendo games! 🐻🎮 Sommige van onze games zijn 20+ jaar oud en spelen nog steeds fantastisch. Kan ik je ergens mee helpen?' };
+    return { text: 'Ik ben tijdloos, net als de beste Nintendo games! B▮ Sommige van onze games zijn 20+ jaar oud en spelen nog steeds fantastisch. Kan ik je ergens mee helpen?' };
 
   if (/zin.*leven|meaning.*life|42|waarom.*bestaan|filosofi|doel|purpose/.test(q))
-    return { text: 'De zin van het leven? Games spelen natuurlijk! 🎮 En Pokémon vangen. Allemaal. Wat zoek je?', quickReplies: ['Games zoeken', 'Populairste games'] };
+    return { text: 'De zin van het leven? Games spelen natuurlijk! ▮ En Pokémon vangen. Allemaal. Wat zoek je?', quickReplies: ['Games zoeken', 'Populairste games'] };
 
   // ── Schelden ──
   if (/kut|shit|fuck|godver|damn|wtf|lul|eikel|sukkel|idioot|stom|klote|kanker|tering|tyfus|pest/.test(q))
-    return { text: 'Hey, rustig aan! 🐻 Ik ben maar een vriendelijke gaming-beer. Kan ik je ergens mee helpen? Ik doe m\'n best!', quickReplies: ['Games zoeken', 'Contact opnemen'] };
+    return { text: 'Hey, rustig aan! B Ik ben maar een vriendelijke gaming-beer. Kan ik je ergens mee helpen? Ik doe m\'n best!', quickReplies: ['Games zoeken', 'Contact opnemen'] };
 
   // ── Herinnering ──
   if (/herinner|onthoud|weet je nog|remember|eerder.*gezegd|vorige.*vraag/.test(q))
@@ -710,13 +710,13 @@ function fallbackResponse(input: string): FallbackResult {
     return { text: `${jokes[Math.floor(Math.random() * jokes.length)]}\n\n...Maar even serieus, kan ik je helpen met games zoeken?`, quickReplies: ['Laat maar, zoek een game', 'Nog een grap!'] };
   }
   if (/konami|up up down|cheat|↑↑↓↓/.test(q))
-    return { text: '⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️🅱️🅰️ ...Helaas geen extra levens, maar wél de beste Nintendo games! 🎮' };
+    return { text: '⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️BA ...Helaas geen extra levens, maar wél de beste Nintendo games! ▮' };
   if (/geheim|secret|hidden|easter egg|verborgen/.test(q))
-    return { text: 'Je hebt een geheime boodschap gevonden! 🥚✨ ...Nee grapje. Maar onze games zitten wél vol met geheimen. Wil je een game zoeken?', quickReplies: ['Populairste games', 'Pokémon games'] };
+    return { text: 'Je hebt een geheime boodschap gevonden! ○◆ ...Nee grapje. Maar onze games zitten wél vol met geheimen. Wil je een game zoeken?', quickReplies: ['Populairste games', 'Pokémon games'] };
 
   // ── Bot / AI vragen ──
   if (/\b(bot|robot|ai|artificial|kunstmatige|machine|chatgpt|gpt|claude)\b/.test(q))
-    return { text: 'Ik ben Beer! 🐻 De slimme assistent van Gameshop Enter. Ik ken ons hele assortiment en help je graag. Wat wil je weten?', quickReplies: ['Games zoeken', 'Over de winkel', 'Hoe bestellen?'] };
+    return { text: 'Ik ben Beer! B De slimme assistent van Gameshop Enter. Ik ken ons hele assortiment en help je graag. Wat wil je weten?', quickReplies: ['Games zoeken', 'Over de winkel', 'Hoe bestellen?'] };
 
   // ── Complimenten ──
   if (/goed bezig|goede winkel|goede service|love it|geweldig|fantastisch|amazing|awesome|lekker bezig|cool|nice|mooi|gaaf/.test(q))
@@ -768,7 +768,7 @@ function fallbackResponse(input: string): FallbackResult {
 
   // ── Ultimate fallback ──
   return {
-    text: 'Hmm, daar weet ik niet direct een antwoord op. 🐻 Ik ben Beer, de gaming-beer van Gameshop Enter! Ik kan je het beste helpen met:\n\n🎮 Games zoeken en advies\n📦 Verzending en betaling\n↩️ Retourneren\n💰 Games verkopen\n❓ Winkel informatie\n\nStel gerust een andere vraag!',
+    text: 'Hmm, daar weet ik niet direct een antwoord op. B Ik ben Beer, de gaming-beer van Gameshop Enter! Ik kan je het beste helpen met:\n\n▮ Games zoeken en advies\n◻ Verzending en betaling\n↻ Retourneren\n◎ Games verkopen\n? Winkel informatie\n\nStel gerust een andere vraag!',
     links: [{ label: 'Shop bekijken', href: '/shop' }, { label: 'Contact', href: '/contact' }, { label: 'FAQ', href: '/faq' }],
     quickReplies: ['Welke games hebben jullie?', 'Hoe bestellen?', 'Over de winkel'],
   };
@@ -970,7 +970,7 @@ export default function ChatBot() {
   function handleNewChat() {
     setMessages([{
       id: 'welcome-' + Date.now(), role: 'bot',
-      text: `Nieuw gesprek! 🎮 ${getTimeGreeting()}, waarmee kan ik je helpen?`,
+      text: `Nieuw gesprek! ▮ ${getTimeGreeting()}, waarmee kan ik je helpen?`,
       quickReplies: INITIAL_QUICK_REPLIES,
       timestamp: Date.now(),
     }]);

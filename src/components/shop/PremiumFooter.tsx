@@ -145,9 +145,9 @@ export default function PremiumFooter() {
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-4">
             {[
-              { icon: '🔒', text: 'Veilig' },
-              { icon: '✅', text: 'Geverifieerd' },
-              { icon: '🚀', text: 'Snel' },
+              { icon: '◆', text: 'Veilig' },
+              { icon: '✓', text: 'Geverifieerd' },
+              { icon: '▶', text: 'Snel' },
             ].map((badge, idx) => (
               <motion.div
                 key={idx}
