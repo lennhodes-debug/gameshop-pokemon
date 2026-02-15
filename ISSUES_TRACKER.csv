@@ -1,13 +1,20 @@
-ID,Category,Priority,Title,File Location,Impact,Estimated Hours,Status,Owner
-1,Credentials/Backend,🔴 CRITICAL BLOCKER,MOLLIE_API_KEY ontbreekt,"src/app/api/mollie/create-payment/route.ts, src/app/afrekenen/page.tsx",Klanten kunnen niet betalen (fallback mode),N/A (User action),Pending,User
-2,Credentials/Backend,🔴 CRITICAL BLOCKER,PostNL Credentials ontbreken (3x),src/app/api/admin/shipment/route.ts,Echte verzendlabels niet gegenereerd,N/A (User action),Pending,User
-3,Credentials/Backend,🔴 CRITICAL BLOCKER,GMAIL_EMAIL & GMAIL_PASSWORD ontbreken,src/lib/email.ts,Klanten krijgen geen order bevestiging,N/A (User action),Pending,User
-4,Credentials/Backend,🔴 CRITICAL BLOCKER,ADMIN_API_KEY niet ingesteld,"src/app/api/orders/list/route.ts, src/app/api/admin/shipment/route.ts",Admin panel niet bereikbaar,N/A (User action),Pending,User
-5,Backend,🟡 HIGH PRIORITY,Admin Order Detail Page — Data Not Loaded,src/app/admin/bestellingen/[id]/page.tsx,Can't view order details,2,Pending,Other Chat
-6,Backend,🟡 HIGH PRIORITY,Missing Error Boundaries,src/app/afrekenen/page.tsx,Failed payments → no recovery,2,Pending,Other Chat
-7,Backend,🟡 HIGH PRIORITY,Missing Null Checks (SSR Hydration),"src/app/shop/[sku]/page.tsx, src/app/afrekenen/page.tsx",Hydration warnings/crashes,3,Pending,Other Chat
-8,Backend,🟡 HIGH PRIORITY,Postcode Validation Incomplete,src/app/afrekenen/page.tsx,Valid orders rejected,2,Pending,Other Chat
-9,Frontend,🟡 HIGH PRIORITY,Mobile Responsiveness Issues,"/admin/*, checkout form",Mobile users can't complete orders,4,Pending,Other Chat
-10,Analytics,🟠 MEDIUM,Missing Analytics Setup,src/app/layout.tsx,Can't track conversions,2,Pending,Other Chat
-11,Monitoring,🟠 MEDIUM,Missing Error Logging,Various API routes,Can't debug production issues,2,Pending,Other Chat
-12,Performance,🟠 MEDIUM,Bundle Size & Performance Not Optimized,"Product images, Heavy components",Slower page loads,3,Pending,Other Chat
+ID,Category,Priority,Title,Description,File Location,Impact,Estimated Hours,Status,Owner,Notes
+1,Credentials,🔴 CRITICAL,MOLLIE_API_KEY ontbreekt,Checkout werkt maar payment redirect naar fallback,src/app/api/mollie/create-payment/route.ts,Klanten kunnen niet betalen,N/A,Pending,User,User moet API Key ophalen van Mollie dashboard
+2,Credentials,🔴 CRITICAL,PostNL Credentials (3x),Shipping labels gaan naar fallback tracking codes,src/app/api/admin/shipment/route.ts,Echte verzendlabels niet gegenereerd,N/A,Pending,User,User moet: API Key + Customer Code + Customer Number
+3,Credentials,🔴 CRITICAL,Gmail Email/Password ontbreekt,Order confirmation emails gaan niet uit,src/lib/email.ts,Klanten krijgen geen order bevestiging,N/A,Pending,User,User moet Gmail app password (niet account password!)
+4,Credentials,🔴 CRITICAL,ADMIN_API_KEY niet ingesteld,Admin panels vereisen Bearer token,src/app/api/orders/list/route.ts src/app/api/admin/shipment/route.ts,Admin panel niet bereikbaar,N/A,Pending,User,Genereer sterke key: openssl rand -base64 32
+5,Backend Bug,🟡 HIGH,Order Detail Page Data Not Loaded,Page toont altijd "Bestelling niet gevonden",src/app/admin/bestellingen/[id]/page.tsx,Kan order details niet zien,2,Pending,Other Chat,Awaits params maar fetcht order data niet van API
+6,Backend Bug,🟡 HIGH,Missing Error Boundaries,Payment errors crash checkout,src/app/afrekenen/page.tsx,Failed payments geen recovery,2,Pending,Other Chat,Add try/catch + user-friendly error messages
+7,Backend Bug,🟡 HIGH,SSR Null Checks,Hydration mismatches in SSR context,src/app/shop/[sku]/page.tsx src/app/afrekenen/page.tsx,Hydration warnings + crashes,3,Pending,Other Chat,Guard all window/document calls with typeof window !== 'undefined'
+8,Validation,🟡 HIGH,Postcode Validation Incomplete,Some valid Dutch postcodes rejected,src/app/afrekenen/page.tsx,Valid orders rejected,2,Pending,Other Chat,Current regex too strict
+9,Mobile,🟡 HIGH,Mobile Responsiveness,Admin panels + checkout overflow,/admin/* pages src/app/afrekenen/page.tsx,Mobile users can't complete orders,4,Pending,Other Chat,Test: iPhone SE iPhone 12 iPad Galaxy S10
+13,Design,🎨 DESIGN,Product Photos Quality,Inconsistent angles lighting backgrounds,public/images/products/,Unprofessional appearance,40-160,Pending,Other Chat,2-4 weeks re-photography OR 40h editing
+14,Design,🎨 DESIGN,Color System Audit,Inconsistent brand color usage,tailwind.config.ts + components,Unprofessional brand feel,3,Pending,Other Chat,Create brand color guide + audit components
+15,Design,🎨 DESIGN,Typography Style Guide,No heading hierarchy line-height standard,src/app/globals.css,Readability issues,2,Pending,Other Chat,Define font scale: 12 14 16 18 24 32 48px
+16,Design,🎨 DESIGN,Layout & Spacing Consistency,Padding margins max-width varies,All components,Uneven appearance,3,Pending,Other Chat,Define spacing scale 4 8 12 16 24 32 48px
+17,Design,🎨 DESIGN,Missing UI Components,No loading skeletons empty states error states,src/components/,Poor user feedback,4,Pending,Other Chat,Create: LoadingSkeleton.tsx ErrorState.tsx EmptyState.tsx
+18,Design,🎨 DESIGN,Mobile UX Issues,No hamburger menu cramped grids,Header.tsx + shop/page.tsx,Bad mobile UX,4,Pending,Other Chat,Mobile-first: 1col 2col 3+ cols responsive
+19,Accessibility,🎨 DESIGN,WCAG Compliance,Missing alt text bad contrast no focus states,src/components/ + src/app/,Legal + UX issues,3,Pending,Other Chat,Add alt text connect labels check contrast
+10,Performance,🟠 MEDIUM,Analytics Setup,No Google Analytics conversion tracking,src/app/layout.tsx,Can't track conversions,2,Pending,Other Chat,Add GA4 script
+11,Performance,🟠 MEDIUM,Error Logging Missing,API errors only console.log,src/app/api/*,Can't debug production issues,2,Pending,Other Chat,Add Sentry integration
+12,Performance,🟠 MEDIUM,Bundle Optimization,No lazy loading code splitting,src/components/ + public/,Slower page loads,3,Pending,Other Chat,Add loading=lazy to images dynamic imports
