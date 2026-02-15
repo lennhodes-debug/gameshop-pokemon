@@ -31,6 +31,7 @@ import PremiumTestimonials from '@/components/shop/PremiumTestimonials';
 import PremiumSocialProof from '@/components/shop/PremiumSocialProof';
 import PremiumNewsletter from '@/components/shop/PremiumNewsletter';
 import PremiumFeaturedSection from '@/components/shop/PremiumFeaturedSection';
+import PremiumFooter from '@/components/shop/PremiumFooter';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -562,6 +563,9 @@ function ShopContent() {
 
       {/* Scroll to Top Button */}
       <ScrollToTop />
+
+      {/* Premium Footer */}
+      <PremiumFooter />
     </div>
   );
 }
