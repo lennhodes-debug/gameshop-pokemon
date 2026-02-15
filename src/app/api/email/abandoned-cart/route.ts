@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { emailService, type AbandonedCartData } from '@/lib/email-service';
+import { createApiResponse, createErrorResponse } from '@/lib/api-utils';
 
 // Request validation schema
 const CartItemSchema = z.object({
@@ -39,16 +40,13 @@ export async function POST(request: NextRequest) {
     const result = await emailService.sendAbandonedCartEmail(emailData);
 
     if (!result.success) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: result.error || 'Abandoned cart email send failed',
-        },
-        { status: 500 }
+      return createErrorResponse(
+        result.error || 'Abandoned cart email send failed',
+        500
       );
     }
 
-    return NextResponse.json(
+    return createApiResponse(
       {
         success: true,
         messageId: result.messageId,
@@ -56,13 +54,8 @@ export async function POST(request: NextRequest) {
         reminderType: validatedData.reminderType,
         timestamp: new Date().toISOString(),
       },
-      {
-        status: 200,
-        headers: {
-          'Cache-Control': 'no-store, max-age=0',
-          'Content-Type': 'application/json',
-        },
-      }
+      200,
+      'NONE'
     );
   } catch (error) {
     const errorMessage = error instanceof z.ZodError
@@ -71,19 +64,13 @@ export async function POST(request: NextRequest) {
       ? error.message
       : 'Unknown error';
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status: 400 }
-    );
+    return createErrorResponse(errorMessage, 400);
   }
 }
 
 // Add caching headers for GET requests (informational only)
 export async function GET() {
-  return NextResponse.json(
+  return createApiResponse(
     {
       endpoint: '/api/email/abandoned-cart',
       method: 'POST',
@@ -98,12 +85,7 @@ export async function GET() {
         reminderType: 'string (first|second|third)',
       },
     },
-    {
-      status: 200,
-      headers: {
-        'Cache-Control': 'public, max-age=3600',
-        'Content-Type': 'application/json',
-      },
-    }
+    200,
+    'MEDIUM'
   );
 }

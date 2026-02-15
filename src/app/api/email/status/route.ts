@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { emailService } from '@/lib/email-service';
+import { createApiResponse, createErrorResponse } from '@/lib/api-utils';
 
 export async function GET(request: NextRequest) {
   try {
@@ -7,12 +8,9 @@ export async function GET(request: NextRequest) {
     const messageId = request.nextUrl.searchParams.get('messageId');
 
     if (!messageId) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'messageId query parameter is required',
-        },
-        { status: 400 }
+      return createErrorResponse(
+        'messageId query parameter is required',
+        400
       );
     }
 
@@ -20,16 +18,13 @@ export async function GET(request: NextRequest) {
     const status = emailService.getEmailStatus(messageId);
 
     if (!status) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Email not found',
-        },
-        { status: 404 }
+      return createErrorResponse(
+        'Email not found',
+        404
       );
     }
 
-    return NextResponse.json(
+    return createApiResponse(
       {
         success: true,
         messageId: status.messageId,
@@ -37,26 +32,15 @@ export async function GET(request: NextRequest) {
         timestamp: status.timestamp,
         error: status.error || null,
       },
-      {
-        status: 200,
-        headers: {
-          'Cache-Control': 'public, max-age=60',
-          'Content-Type': 'application/json',
-        },
-      }
+      200,
+      'SHORT'
     );
   } catch (error) {
     const errorMessage = error instanceof Error
       ? error.message
       : 'Unknown error';
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status: 500 }
-    );
+    return createErrorResponse(errorMessage, 500);
   }
 }
 
@@ -68,59 +52,40 @@ export async function POST(request: NextRequest) {
 
     if (action === 'all') {
       const statuses = emailService.getAllEmailStatuses();
-      return NextResponse.json(
+      return createApiResponse(
         {
           success: true,
           count: statuses.length,
           statuses,
         },
-        {
-          status: 200,
-          headers: {
-            'Cache-Control': 'public, max-age=30',
-            'Content-Type': 'application/json',
-          },
-        }
+        200,
+        'SHORT'
       );
     }
 
     if (action === 'cleanup') {
       const hoursOld = (body as any).hoursOld || 24;
       const cleaned = emailService.clearOldEmails(hoursOld);
-      return NextResponse.json(
+      return createApiResponse(
         {
           success: true,
           cleaned,
           message: `Cleaned up ${cleaned} emails older than ${hoursOld} hours`,
         },
-        {
-          status: 200,
-          headers: {
-            'Cache-Control': 'no-store, max-age=0',
-            'Content-Type': 'application/json',
-          },
-        }
+        200,
+        'NONE'
       );
     }
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: `Unknown action: ${action}`,
-      },
-      { status: 400 }
+    return createErrorResponse(
+      `Unknown action: ${action}`,
+      400
     );
   } catch (error) {
     const errorMessage = error instanceof Error
       ? error.message
       : 'Unknown error';
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: errorMessage,
-      },
-      { status: 500 }
-    );
+    return createErrorResponse(errorMessage, 500);
   }
 }
