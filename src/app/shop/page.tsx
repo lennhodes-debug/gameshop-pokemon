@@ -17,6 +17,7 @@ import EmptyState from '@/components/shop/EmptyState';
 import Pagination from '@/components/shop/Pagination';
 import CategoryShowcase from '@/components/shop/CategoryShowcase';
 import SortAndView from '@/components/shop/SortAndView';
+import FeaturedProducts from '@/components/shop/FeaturedProducts';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -380,6 +381,18 @@ function ShopContent() {
             selectedPlatform={platform}
           />
         </motion.div>
+
+        {/* Featured Products - Only show when no active filters/search */}
+        {!debouncedSearch && !platform && !genre && !condition && !category && !completeness && !priceMin && !priceMax && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-8"
+          >
+            <FeaturedProducts onQuickView={setQuickViewProduct} />
+          </motion.div>
+        )}
 
         {/* Premium Filter Summary */}
         <AnimatePresence>
