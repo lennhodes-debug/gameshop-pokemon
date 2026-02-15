@@ -14,8 +14,8 @@
     "weight": 0.25,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-ds-001-nintendo-ds-console.webp",
-    "backImage": "/images/products/con-ds-001-nintendo-ds-console-back.webp"
+    "image": null,
+    "backImage": null
   },
   {
     "sku": "CON-3DS-001",
@@ -32,8 +32,8 @@
     "weight": 0.28,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-3ds-001-nintendo-3ds-console.webp",
-    "backImage": "/images/products/con-3ds-001-nintendo-3ds-console-back.webp"
+    "image": null,
+    "backImage": null
   },
   {
     "sku": "CON-WIIU-001",
@@ -50,8 +50,8 @@
     "weight": 1.5,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-wiiu-001-wii-u-console.webp",
-    "backImage": "/images/products/con-wiiu-001-wii-u-console-back.webp"
+    "image": null,
+    "backImage": null
   },
   {
     "sku": "CON-WII-001",
@@ -68,8 +68,8 @@
     "weight": 1.2,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-wii-001-nintendo-wii-console.webp",
-    "backImage": "/images/products/con-wii-001-nintendo-wii-console-back.webp"
+    "image": null,
+    "backImage": null
   },
   {
     "sku": "CON-GBA-001",
@@ -86,8 +86,8 @@
     "weight": 0.2,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-gba-001-game-boy-advance-console.webp",
-    "backImage": "/images/products/con-gba-001-game-boy-advance-console-back.webp"
+    "image": null,
+    "backImage": null
   },
   {
     "sku": "CON-GBC-001",
@@ -104,8 +104,8 @@
     "weight": 0.18,
     "isConsole": true,
     "isPremium": false,
-    "image": "/images/products/con-gbc-001-game-boy-color-console.webp",
-    "backImage": "/images/products/con-gbc-001-game-boy-color-console-back.webp"
+    "image": null,
+    "backImage": null
   },
   {
     "sku": "GBA-001",
