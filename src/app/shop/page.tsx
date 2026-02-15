@@ -19,6 +19,7 @@ import CategoryShowcase from '@/components/shop/CategoryShowcase';
 import GenreShowcase from '@/components/shop/GenreShowcase';
 import SortAndView from '@/components/shop/SortAndView';
 import FeaturedProducts from '@/components/shop/FeaturedProducts';
+import ScrollToTop from '@/components/shop/ScrollToTop';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -576,6 +577,9 @@ function ShopContent() {
 
       {/* Quick View Modal */}
       <QuickView product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </div>
   );
 }
