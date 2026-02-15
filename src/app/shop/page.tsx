@@ -20,6 +20,7 @@ import GenreShowcase from '@/components/shop/GenreShowcase';
 import SortAndView from '@/components/shop/SortAndView';
 import FeaturedProducts from '@/components/shop/FeaturedProducts';
 import ScrollToTop from '@/components/shop/ScrollToTop';
+import ViewToggle from '@/components/shop/ViewToggle';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -43,6 +44,7 @@ function ShopContent() {
   const [priceMax, setPriceMax] = useState(searchParams.get('priceMax') || '');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const { getTotal, getItemCount } = useCart();
   const { items: wishlistItems } = useWishlist();
@@ -439,19 +441,20 @@ function ShopContent() {
           )}
         </AnimatePresence>
 
-        {/* Enhanced Results Section with Sort */}
+        {/* Enhanced Results Section with Sort and View Toggle */}
         {!isSearching && filtered.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="mt-6"
+            className="mt-6 flex items-center justify-between gap-4 flex-wrap"
           >
             <SortAndView
               sortBy={sortBy}
               onSortChange={setSortBy}
               resultCount={filtered.length}
             />
+            <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
           </motion.div>
         )}
 
@@ -556,7 +559,7 @@ function ShopContent() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
               >
-                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} searchQuery={debouncedSearch || undefined} />
+                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} searchQuery={debouncedSearch || undefined} viewMode={viewMode} />
               </motion.div>
             )}
           </AnimatePresence>
