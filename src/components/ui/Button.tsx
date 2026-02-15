@@ -101,7 +101,7 @@ export default function Button({
       whileTap={!disabled && !loading ? { scale: 0.98 } : {}}
       whileHover={!disabled && !loading ? { y: -2 } : {}}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-      {...props}
+      {...(props as any)}
     >
       {loading ? (
         <>
