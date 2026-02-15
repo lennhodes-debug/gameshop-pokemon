@@ -191,9 +191,11 @@ export default function AfrekenPage() {
     if (hasErrors) {
       // Scroll naar eerste veld met fout
       setTimeout(() => {
-        const firstError = document.querySelector('.text-red-500');
-        if (firstError) {
-          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (typeof document !== 'undefined') {
+          const firstError = document.querySelector('.text-red-500');
+          if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
         }
       }, 50);
       addToast('Vul alle verplichte velden correct in', 'error');
@@ -229,8 +231,10 @@ export default function AfrekenPage() {
       // If fallback (no Mollie API key), skip redirect and continue
       if (!paymentData.fallback && paymentData.payment?.checkoutUrl) {
         // Redirect to Mollie checkout
-        window.location.href = paymentData.payment.checkoutUrl;
-        return;
+        if (typeof window !== 'undefined') {
+          window.location.href = paymentData.payment.checkoutUrl;
+          return;
+        }
       }
 
       // For fallback or successful payment, continue with order storage
@@ -313,7 +317,9 @@ export default function AfrekenPage() {
 
     setSubmitted(true);
     setIsProcessing(false);
-    setConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+    if (typeof window !== 'undefined') {
+      setConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+    }
     clearCart();
     addToast('Bestelling succesvol geplaatst! Check je email voor bevestiging.', 'success');
   };
