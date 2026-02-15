@@ -27,6 +27,9 @@ import PremiumProductCard from '@/components/shop/PremiumProductCard';
 import OptimizedProductGrid from '@/components/shop/OptimizedProductGrid';
 import PremiumFilters from '@/components/shop/PremiumFilters';
 import PlatformShowcase from '@/components/shop/PlatformShowcase';
+import PremiumTestimonials from '@/components/shop/PremiumTestimonials';
+import PremiumSocialProof from '@/components/shop/PremiumSocialProof';
+import PremiumNewsletter from '@/components/shop/PremiumNewsletter';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -536,6 +539,15 @@ function ShopContent() {
           />
         )}
       </div>
+
+      {/* Premium Social Proof Section */}
+      <PremiumSocialProof />
+
+      {/* Premium Testimonials Section */}
+      <PremiumTestimonials />
+
+      {/* Premium Newsletter Section */}
+      <PremiumNewsletter />
 
       {/* Quick View Modal */}
       <QuickView product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
