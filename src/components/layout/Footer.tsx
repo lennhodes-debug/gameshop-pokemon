@@ -29,7 +29,7 @@ const paymentMethods = ['iDEAL', 'Creditcard', 'PayPal', 'Bancontact', 'Apple Pa
 
 export default function Footer() {
   return (
-    <footer className="relative bg-navy-900 overflow-hidden" role="contentinfo">
+    <footer className="relative bg-navy-900 dark:bg-[#0d1117] overflow-hidden" role="contentinfo">
       {/* Aurora background effect */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-emerald-500/5 blur-[100px]" />

@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 import CartCounter from './CartCounter';
+import ThemeSwitcher from '@/components/ui/ThemeSwitcher';
 import Image from 'next/image';
 import { cn, formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import { useCart } from '@/components/cart/CartProvider';
@@ -70,7 +71,7 @@ export default function Header() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           scrolled
-            ? 'glass border-b border-white/[0.06] shadow-lg'
+            ? 'glass border-b border-white/[0.06] dark:border-white/[0.1] shadow-lg dark:shadow-2xl'
             : 'bg-transparent'
         )}
       >
@@ -110,6 +111,11 @@ export default function Header() {
 
             {/* Right actions */}
             <div className="flex items-center gap-1.5">
+              {/* Theme switcher */}
+              <div className="hidden md:block">
+                <ThemeSwitcher />
+              </div>
+
               {/* Zoeken */}
               <Link href="/shop" className="hidden lg:flex">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.06] border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.1] transition-all cursor-pointer">
@@ -316,7 +322,7 @@ export default function Header() {
       </header>
 
       {/* Mobiele bottom navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 backdrop-blur-sm border-t border-slate-200" aria-label="Mobiele navigatie">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-t border-slate-200 dark:border-slate-800" aria-label="Mobiele navigatie">
         <div className="flex items-center justify-around px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
           {[
             { href: '/', label: 'Home', icon: (

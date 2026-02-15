@@ -8,6 +8,7 @@ import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD,
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
+import { ProductCardSkeleton } from '@/components/ui/LoadingSkeleton';
 
 interface ProductCardProps {
   product: Product;

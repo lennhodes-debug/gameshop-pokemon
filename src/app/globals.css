@@ -2,11 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   font-family: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  @apply bg-slate-50 dark:bg-[#0d1117] text-slate-900 dark:text-slate-100;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
@@ -16,15 +26,34 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0e1a; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-track:dark { background: #0d1117; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981, #0d9488); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399, #14b8a6); }
+
+html.dark ::-webkit-scrollbar-track { background: #0a0e1a; }
+html.dark ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981, #0d9488); }
+html.dark ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399, #14b8a6); }
 
 @layer utilities {
   .glass {
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .dark .glass {
     background-color: rgba(5, 8, 16, 0.7);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .dark .glass-card {
+    background-color: rgba(255, 255, 255, 0.03);
   }
 
   .gradient-text {
@@ -233,6 +262,38 @@ body {
   50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.1); }
 }
 .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+/* Dark mode pulse/shimmer animation */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.dark .animate-pulse {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Dark mode link colors */
+.dark a {
+  @apply text-emerald-400 hover:text-emerald-300 transition-colors;
+}
+
+.dark button {
+  @apply transition-colors;
+}
+
+/* Dark mode form inputs */
+.dark input,
+.dark textarea,
+.dark select {
+  @apply bg-slate-900 border-slate-700 text-slate-100;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  @apply border-emerald-500 ring-emerald-500/20;
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

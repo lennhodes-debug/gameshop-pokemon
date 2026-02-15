@@ -8,6 +8,7 @@ import { ToastProvider } from '@/components/ui/Toast';
 import { CartProvider } from '@/components/cart/CartProvider';
 import { WishlistProvider } from '@/components/wishlist/WishlistProvider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import ThemeProvider from '@/components/providers/ThemeProvider';
 
 const siteUrl = 'https://gameshopenter.nl';
 
@@ -92,7 +93,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="nl" className={`scroll-smooth ${jakarta.variable}`}>
-      <body className="bg-[#f8fafc] text-slate-900 antialiased">
+      <body className="bg-slate-50 dark:bg-[#0d1117] text-slate-900 dark:text-slate-100 antialiased">
+        <ThemeProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -181,20 +183,21 @@ export default function RootLayout({
           }}
         />
         <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
-        <CartProvider>
-          <WishlistProvider>
-            <ToastProvider>
-              <Header />
-              <main id="main-content" className="min-h-screen">
-                <ErrorBoundary>
-                  {children}
-                </ErrorBoundary>
-              </main>
-              <Footer />
-              <BackToTop />
-            </ToastProvider>
-          </WishlistProvider>
-        </CartProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <ToastProvider>
+                <Header />
+                <main id="main-content" className="min-h-screen">
+                  <ErrorBoundary>
+                    {children}
+                  </ErrorBoundary>
+                </main>
+                <Footer />
+                <BackToTop />
+              </ToastProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

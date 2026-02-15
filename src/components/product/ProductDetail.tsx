@@ -7,6 +7,7 @@ import { formatPrice, PLATFORM_COLORS, PLATFORM_LABELS, FREE_SHIPPING_THRESHOLD,
 import Badge from '@/components/ui/Badge';
 import { useCart } from '@/components/cart/CartProvider';
 import { useToast } from '@/components/ui/Toast';
+import { ProductDetailSkeleton } from '@/components/ui/LoadingSkeleton';
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
