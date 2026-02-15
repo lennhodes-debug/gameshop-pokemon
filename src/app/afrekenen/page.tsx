@@ -159,6 +159,43 @@ export default function AfrekenPage() {
     // Simulate Mollie payment processing (in production, this calls backend API -> Mollie)
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    // Send order confirmation email
+    try {
+      const orderData = {
+        orderNumber,
+        customerName: `${form.voornaam} ${form.achternaam}`,
+        customerEmail: form.email,
+        items: items.map((item) => ({
+          name: item.product.name,
+          quantity: item.quantity,
+          price: getCartItemPrice(item),
+        })),
+        subtotal,
+        shipping,
+        total,
+        shippingAddress: {
+          street: form.straat,
+          number: form.huisnummer,
+          postcode: form.postcode,
+          city: form.plaats,
+        },
+        paymentMethod: form.betaalmethode || 'iDEAL',
+      };
+
+      const response = await fetch('/api/email/order-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        console.error('Email send error:', await response.text());
+      }
+    } catch (error) {
+      console.error('Failed to send order confirmation email:', error);
+      // Don't fail the order if email fails - it's not critical
+    }
+
     setSubmitted(true);
     setIsProcessing(false);
     setConfetti({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
