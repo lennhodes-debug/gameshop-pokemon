@@ -27,7 +27,7 @@
 | Eigenaar | Lenn Hodes |
 | Contact | gameshopenter@gmail.com |
 | Hosting | Netlify (auto-deploy vanuit `main` branch) |
-| Status | Live productie — 141 Nintendo games |
+| Status | Live productie — 141 Nintendo games + 6 consoles (147 totaal) |
 
 ---
 
@@ -125,13 +125,19 @@ gameshop-pokemon/
 │   │   │   ├── Logo.tsx               # SVG logo
 │   │   │   └── ScrollProgress.tsx     # Scroll progress bar
 │   │   │
-│   │   ├── shop/                      # Shop (6 componenten)
+│   │   ├── shop/                      # Shop (12+ componenten)
 │   │   │   ├── ProductCard.tsx        # Per-game thema, holographic hover
 │   │   │   ├── ProductGrid.tsx        # Responsive grid
 │   │   │   ├── SearchBar.tsx          # Zoekbalk
 │   │   │   ├── Filters.tsx            # Filter dropdowns
 │   │   │   ├── GameShowcase.tsx       # Scrollende game covers in shop hero
-│   │   │   └── QuickView.tsx          # Modal product preview
+│   │   │   ├── QuickView.tsx          # Modal product preview
+│   │   │   ├── PlatformShowcase.tsx   # 6 Nintendo platforms showcase (dynamic)
+│   │   │   ├── EnhancedShopHeader.tsx # Animatie hero header
+│   │   │   ├── PremiumProductCard.tsx # Premium product cards
+│   │   │   ├── OptimizedProductGrid.tsx # Staggered grid animations
+│   │   │   ├── PremiumFilters.tsx     # Collapsible filters
+│   │   │   └── CollectionStats.tsx    # Stats showcase
 │   │   │
 │   │   ├── product/                   # Product (3 componenten)
 │   │   │   ├── ProductDetail.tsx      # CIB toggle, lightbox
@@ -225,7 +231,7 @@ interface Product {
 
 ### Helper Functies (products.ts)
 ```typescript
-getAllProducts()          // Alle 141 producten
+getAllProducts()          // Alle 147 producten (141 games + 6 consoles)
 getProductBySku(sku)     // Product op SKU (Map lookup, O(1))
 getProductsByPlatform()  // Filter op platform
 getFeaturedProducts()    // 8 uitgelichte (4 premium + 2 consoles + 2 populair)
@@ -235,6 +241,17 @@ getAllPlatforms()         // Platforms met counts (gecached)
 getAllGenres()            // Unieke genres (gecached)
 getAllConditions()        // Unieke condities (gecached)
 isOnSale() / getSalePercentage() / getEffectivePrice() // Sale logica
+```
+
+### Console Producten (6 totaal)
+```typescript
+// Nieuwe producten met isConsole: true
+CON-DS-001    // Nintendo DS (2004) - 48 games
+CON-3DS-001   // Nintendo 3DS (2011) - 46 games
+CON-WIIU-001  // Wii U (2012) - 22 games
+CON-WII-001   // Nintendo Wii (2006) - 11 games
+CON-GBA-001   // Game Boy Advance (2001) - 8 games
+CON-GBC-001   // Game Boy Color (1998) - 6 games
 ```
 
 ---
@@ -324,8 +341,8 @@ holo-sweep                             → Holographic glans op ProductCards
 | Route | Type | Beschrijving |
 |---|---|---|
 | `/` | Server | Homepage |
-| `/shop` | Client | Shop met filters |
-| `/shop/[sku]` | Server (SSG) | Product detail (141 pagina's) |
+| `/shop` | Client | Shop met filters + PlatformShowcase |
+| `/shop/[sku]` | Server (SSG) | Product detail (147 pagina's: 141 games + 6 consoles) |
 | `/winkelwagen` | Client | Winkelwagen |
 | `/verlanglijst` | Client | Wishlist |
 | `/afrekenen` | Client | Checkout |
@@ -422,16 +439,17 @@ holo-sweep                             → Holographic glans op ProductCards
 
 ```
 BESTANDEN:
-  Producten:     src/data/products.json (141 producten)
+  Producten:     src/data/products.json (147: 141 games + 6 consoles)
   Types:         src/lib/products.ts
   Cart:          src/components/cart/CartProvider.tsx
   Wishlist:      src/components/wishlist/WishlistProvider.tsx
   Utils:         src/lib/utils.ts (getGameTheme, SHIPPING, PLATFORM_COLORS)
   Styles:        src/app/globals.css
   Layout:        src/app/layout.tsx
-  Shop:          src/app/shop/page.tsx
+  Shop:          src/app/shop/page.tsx (+ PlatformShowcase)
   ProductCard:   src/components/shop/ProductCard.tsx
   ProductDetail: src/components/product/ProductDetail.tsx
+  PlatformShowcase: src/components/shop/PlatformShowcase.tsx (dynamic consoles)
   Header:        src/components/layout/Header.tsx
   Footer:        src/components/layout/Footer.tsx
 
