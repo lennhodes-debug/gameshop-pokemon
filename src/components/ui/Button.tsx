@@ -14,7 +14,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.98]',
+          'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 active:scale-[0.98] focus-visible:outline-emerald-500 focus-visible:outline-offset-2',
           variant === 'primary' &&
             'bg-gradient-to-r from-emerald-500 to-teal-500 text-white btn-glow hover:-translate-y-0.5',
           variant === 'secondary' &&

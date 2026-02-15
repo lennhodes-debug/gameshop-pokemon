@@ -391,20 +391,24 @@ export default function AfrekenPage() {
                     { field: 'email' as const, label: 'E-mailadres', placeholder: 'jan@voorbeeld.nl', colSpan: true, type: 'email', autoComplete: 'email' },
                   ]).map(({ field, label, placeholder, colSpan, type, autoComplete }) => {
                     const error = getFieldError(field);
+                    const errorId = `${field}-error`;
                     return (
                       <div key={field} className={colSpan ? 'sm:col-span-2' : ''}>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <label htmlFor={field} className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
                         <input
+                          id={field}
                           type={type || 'text'}
                           required
                           autoComplete={autoComplete}
                           value={form[field]}
                           onChange={(e) => updateField(field, e.target.value)}
                           onBlur={() => handleBlur(field)}
+                          aria-invalid={error ? 'true' : 'false'}
+                          aria-describedby={error ? errorId : undefined}
                           className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
                           placeholder={placeholder}
                         />
-                        {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
+                        {error && <p id={errorId} className="text-xs text-red-500 mt-1 font-medium" role="alert">{error}</p>}
                       </div>
                     );
                   })}
@@ -425,20 +429,24 @@ export default function AfrekenPage() {
                     { field: 'plaats' as const, label: 'Plaats', placeholder: 'Amsterdam', colSpan: 'sm:col-span-2', autoComplete: 'address-level2' },
                   ]).map(({ field, label, placeholder, colSpan, autoComplete }) => {
                     const error = getFieldError(field);
+                    const errorId = `${field}-error`;
                     return (
                       <div key={field} className={colSpan}>
-                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
+                        <label htmlFor={field} className="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">{label} *</label>
                         <input
+                          id={field}
                           type="text"
                           required
                           autoComplete={autoComplete}
                           value={form[field]}
                           onChange={(e) => updateField(field, e.target.value)}
                           onBlur={() => handleBlur(field)}
+                          aria-invalid={error ? 'true' : 'false'}
+                          aria-describedby={error ? errorId : undefined}
                           className={`w-full px-4 py-3 rounded-xl border outline-none transition-all text-sm shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] ${error ? 'border-red-400 focus:border-red-400 focus:ring-2 focus:ring-red-400/20' : 'border-slate-200 dark:border-slate-600 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20 hover:border-slate-300 dark:hover:border-slate-500'} dark:bg-slate-700 dark:text-white`}
                           placeholder={placeholder}
                         />
-                        {error && <p className="text-xs text-red-500 mt-1 font-medium">{error}</p>}
+                        {error && <p id={errorId} className="text-xs text-red-500 mt-1 font-medium" role="alert">{error}</p>}
                       </div>
                     );
                   })}
