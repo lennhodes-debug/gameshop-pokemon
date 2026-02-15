@@ -16,6 +16,7 @@ import FilterSummary from '@/components/shop/FilterSummary';
 import EmptyState from '@/components/shop/EmptyState';
 import Pagination from '@/components/shop/Pagination';
 import CategoryShowcase from '@/components/shop/CategoryShowcase';
+import GenreShowcase from '@/components/shop/GenreShowcase';
 import SortAndView from '@/components/shop/SortAndView';
 import FeaturedProducts from '@/components/shop/FeaturedProducts';
 import { Product } from '@/lib/products';
@@ -379,6 +380,19 @@ function ShopContent() {
           <CategoryShowcase
             onPlatformSelect={setPlatform}
             selectedPlatform={platform}
+          />
+        </motion.div>
+
+        {/* Genre Showcase - Browse by genre */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="mt-8"
+        >
+          <GenreShowcase
+            onGenreSelect={setGenre}
+            selectedGenre={genre}
           />
         </motion.div>
 
