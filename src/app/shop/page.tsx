@@ -3,30 +3,18 @@
 import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useMotionTemplate,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  getAllProducts,
-  getAllPlatforms,
-  getAllGenres,
-  getAllConditions,
-  isOnSale,
-  getSalePercentage,
-  getEffectivePrice,
-} from '@/lib/products';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { getAllProducts, getAllPlatforms, getAllGenres, getAllConditions, isOnSale, getSalePercentage, getEffectivePrice } from '@/lib/products';
 import { useCart } from '@/components/cart/CartProvider';
+import { useWishlist } from '@/components/wishlist/WishlistProvider';
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils';
 import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
 import ProductGrid from '@/components/shop/ProductGrid';
 import QuickView from '@/components/shop/QuickView';
-import GameShowcase from '@/components/shop/GameShowcase';
+import FilterSummary from '@/components/shop/FilterSummary';
+import EmptyState from '@/components/shop/EmptyState';
+import Pagination from '@/components/shop/Pagination';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -50,25 +38,9 @@ function ShopContent() {
   const [priceMax, setPriceMax] = useState(searchParams.get('priceMax') || '');
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showStickyBar, setShowStickyBar] = useState(false);
-  const searchBarRef = useRef<HTMLDivElement>(null);
-
-  // Cursor spotlight op grid
-  const spotX = useMotionValue(0);
-  const spotY = useMotionValue(0);
-  const spotBg = useMotionTemplate`radial-gradient(600px circle at ${spotX}px ${spotY}px, rgba(16,185,129,0.04), transparent 70%)`;
-
-  const handleGridMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      spotX.set(e.clientX - rect.left);
-      spotY.set(e.clientY - rect.top);
-    },
-    [spotX, spotY],
-  );
 
   const { getTotal, getItemCount } = useCart();
+  const { items: wishlistItems } = useWishlist();
   const cartTotal = getTotal();
   const cartCount = getItemCount();
   const freeShippingProgress = Math.min((cartTotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
@@ -82,7 +54,7 @@ function ShopContent() {
       setIsSearching(false);
     }, 300);
     return () => clearTimeout(timer);
-  }, [search, debouncedSearch]);
+  }, [search]);
 
   // Sync filters naar URL
   useEffect(() => {
@@ -99,20 +71,7 @@ function ShopContent() {
     if (page > 1) params.set('page', String(page));
     const qs = params.toString();
     router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
-  }, [
-    debouncedSearch,
-    platform,
-    genre,
-    condition,
-    category,
-    completeness,
-    priceMin,
-    priceMax,
-    sortBy,
-    page,
-    router,
-    pathname,
-  ]);
+  }, [debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy, page, router, pathname]);
 
   const allProducts = useMemo(() => getAllProducts(), []);
   const platforms = useMemo(() => getAllPlatforms().map((p) => p.name), []);
@@ -128,41 +87,15 @@ function ShopContent() {
   const headerY = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  // Sticky toolbar: toon als searchbar uit beeld scrolt
-  useEffect(() => {
-    const el = searchBarRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowStickyBar(!entry.isIntersecting),
-      { threshold: 0, rootMargin: '-80px 0px 0px 0px' },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   useEffect(() => {
     setPage(1);
-  }, [
-    debouncedSearch,
-    platform,
-    genre,
-    condition,
-    category,
-    completeness,
-    priceMin,
-    priceMax,
-    sortBy,
-  ]);
+  }, [debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy]);
 
   const filtered = useMemo(() => {
     let results = [...allProducts];
 
     if (debouncedSearch) {
-      const normalize = (s: string) =>
-        s
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '');
+      const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const q = normalize(debouncedSearch);
       results = results.filter(
         (p) =>
@@ -170,7 +103,7 @@ function ShopContent() {
           normalize(p.platform).includes(q) ||
           normalize(p.genre).includes(q) ||
           normalize(p.description).includes(q) ||
-          p.sku.toLowerCase().includes(q),
+          p.sku.toLowerCase().includes(q)
       );
     }
 
@@ -188,89 +121,38 @@ function ShopContent() {
     if (category === 'consoles') results = results.filter((p) => p.isConsole);
     if (category === 'sale') results = results.filter((p) => isOnSale(p));
 
-    if (completeness === 'cib')
-      results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
-    if (completeness === 'los')
-      results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
+    if (completeness === 'cib') results = results.filter((p) => p.completeness.toLowerCase().includes('compleet'));
+    if (completeness === 'los') results = results.filter((p) => p.completeness.toLowerCase().includes('los'));
 
-    if (priceMin && !isNaN(Number(priceMin)))
-      results = results.filter((p) => p.price >= Number(priceMin));
-    if (priceMax && !isNaN(Number(priceMax)))
-      results = results.filter((p) => p.price <= Number(priceMax));
+    if (priceMin) results = results.filter((p) => p.price >= Number(priceMin));
+    if (priceMax) results = results.filter((p) => p.price <= Number(priceMax));
 
     if (sortBy === 'newest') {
       const skuNum = new Map<string, number>();
       for (const p of results) {
         skuNum.set(p.sku, parseInt(p.sku.replace(/^[A-Za-z0-9]+-/, ''), 10) || 0);
       }
-      results.sort((a, b) => (skuNum.get(b.sku) ?? 0) - (skuNum.get(a.sku) ?? 0));
+      results.sort((a, b) => skuNum.get(b.sku)! - skuNum.get(a.sku)!);
     } else if (sortBy === 'discount-desc') {
       results.sort((a, b) => getSalePercentage(b) - getSalePercentage(a));
     } else {
       results.sort((a, b) => {
         switch (sortBy) {
-          case 'price-asc':
-            return getEffectivePrice(a) - getEffectivePrice(b);
-          case 'price-desc':
-            return getEffectivePrice(b) - getEffectivePrice(a);
-          case 'name-desc':
-            return b.name.localeCompare(a.name);
-          default:
-            return a.name.localeCompare(b.name);
+          case 'price-asc': return getEffectivePrice(a) - getEffectivePrice(b);
+          case 'price-desc': return getEffectivePrice(b) - getEffectivePrice(a);
+          case 'name-desc': return b.name.localeCompare(a.name);
+          default: return a.name.localeCompare(b.name);
         }
       });
     }
 
     return results;
-  }, [
-    allProducts,
-    debouncedSearch,
-    platform,
-    genre,
-    condition,
-    category,
-    completeness,
-    priceMin,
-    priceMax,
-    sortBy,
-  ]);
+  }, [allProducts, debouncedSearch, platform, genre, condition, category, completeness, priceMin, priceMax, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedProducts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
-  // Keyboard paginatie: pijltjes links/rechts
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (
-        e.target instanceof HTMLInputElement ||
-        e.target instanceof HTMLTextAreaElement ||
-        e.target instanceof HTMLSelectElement
-      )
-        return;
-      if (totalPages <= 1) return;
-      if (e.key === 'ArrowLeft' && page > 1) {
-        setPage((p) => Math.max(1, p - 1));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (e.key === 'ArrowRight' && page < totalPages) {
-        setPage((p) => Math.min(totalPages, p + 1));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [page, totalPages]);
-
-  const activeFilterCount = [
-    platform,
-    genre,
-    condition,
-    category,
-    completeness,
-    priceMin,
-    priceMax,
-  ].filter(Boolean).length;
+  const activeFilterCount = [platform, genre, condition, category, completeness, priceMin, priceMax].filter(Boolean).length;
 
   const clearFilters = () => {
     setSearch('');
@@ -287,141 +169,40 @@ function ShopContent() {
 
   return (
     <div className="pt-16 lg:pt-20">
-      {/* Sticky compact toolbar — verschijnt bij scrollen */}
-      <AnimatePresence>
-        {showStickyBar && (
+      {/* Animated hero header */}
+      <div ref={headerRef} className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(6,182,212,0.1),transparent_50%)]" />
+          {/* Floating grid pattern */}
           <motion.div
-            initial={{ y: -60, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -60, opacity: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed top-16 lg:top-20 left-0 right-0 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-100/80"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-3">
-              <div className="relative flex-1 max-w-sm">
-                <svg
-                  className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Zoeken..."
-                  className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 text-xs focus:outline-none focus:bg-white focus:ring-2 focus:ring-slate-400/20 transition-all"
-                />
-              </div>
-
-              {activeFilterCount > 0 && (
-                <span className="px-2 py-1 rounded-md bg-slate-900 text-white text-[10px] font-medium">
-                  {activeFilterCount} filter{activeFilterCount > 1 ? 's' : ''}
-                </span>
-              )}
-
-              <span className="text-[11px] text-slate-400 hidden sm:block tabular-nums">
-                <span className="font-medium text-slate-600">{filtered.length}</span> items
-              </span>
-
-              {/* Gratis verzending mini-indicator */}
-              {cartCount > 0 && cartTotal < FREE_SHIPPING_THRESHOLD && (
-                <div className="hidden md:flex items-center gap-2 ml-2">
-                  <div className="h-1 w-16 bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-                      style={{ width: `${freeShippingProgress}%` }}
-                    />
-                  </div>
-                  <span className="text-[10px] text-slate-400 tabular-nums whitespace-nowrap">
-                    Nog {formatPrice(remainingForFreeShipping)} voor gratis
-                  </span>
-                </div>
-              )}
-              {cartTotal >= FREE_SHIPPING_THRESHOLD && (
-                <span className="hidden md:inline-flex items-center gap-1 text-[10px] text-emerald-600 font-medium ml-2">
-                  <svg
-                    className="h-3 w-3"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  Gratis verzending
-                </span>
-              )}
-
-              <div className="flex items-center gap-0.5 bg-slate-100 rounded-lg p-0.5 ml-auto">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  aria-label="Grid weergave"
-                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'grid' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
-                >
-                  <svg
-                    className="h-3.5 w-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  aria-label="Lijst weergave"
-                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'list' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
-                >
-                  <svg
-                    className="h-3.5 w-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Cinematic hero header */}
-      <div ref={headerRef} className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(8,145,178,0.06),transparent_50%)]" />
-
-        {/* Scrolling game covers achtergrond */}
-        <GameShowcase />
-
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-            backgroundSize: '80px 80px',
-          }}
-        />
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+          {/* Floating orbs */}
+          <motion.div
+            animate={{
+              x: [0, 30, -20, 0],
+              y: [0, -20, 10, 0],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-20 right-[20%] w-64 h-64 rounded-full bg-emerald-500/10 blur-[80px]"
+          />
+          <motion.div
+            animate={{
+              x: [0, -40, 20, 0],
+              y: [0, 30, -15, 0],
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute bottom-10 left-[10%] w-48 h-48 rounded-full bg-cyan-500/10 blur-[60px]"
+          />
+        </div>
 
         <motion.div
           style={{ y: headerY, opacity: headerOpacity }}
@@ -432,117 +213,50 @@ function ShopContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
           >
-            <motion.div
+            <motion.span
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex items-center gap-4 mb-8"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-4"
             >
-              <span className="text-emerald-400/60 text-xs font-medium uppercase tracking-[0.2em]">
-                {allProducts.length} producten
-              </span>
-              <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emerald-400/30 to-transparent" />
-            </motion.div>
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {allProducts.length} producten beschikbaar
+            </motion.span>
 
-            <h1 className="text-4xl lg:text-[80px] font-light text-white tracking-[-0.03em] leading-[0.95] mb-5">
+            <h1 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight mb-3">
               Onze{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-emerald-300">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
                 Collectie
               </span>
             </h1>
-            <p className="text-white/30 text-base lg:text-lg font-light max-w-lg mb-6">
-              Originele Nintendo games — persoonlijk getest, eerlijk beschreven
+            <p className="text-slate-400 text-lg max-w-xl">
+              Ontdek ons assortiment van originele Pokémon games — met eigen foto's
             </p>
-
-            <div className="flex items-center gap-6 text-white/20 text-xs mb-8">
-              <span className="flex items-center gap-1.5">
-                <svg
-                  className="h-3.5 w-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"
-                  />
-                </svg>
-                Getest op werking
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg
-                  className="h-3.5 w-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
-                  />
-                </svg>
-                100% origineel
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg
-                  className="h-3.5 w-3.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-                  />
-                </svg>
-                Gratis vanaf &euro;100
-              </span>
-            </div>
-
-            {/* Platform quick-links */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex flex-wrap gap-2"
-            >
-              {platforms.slice(0, 8).map((p) => {
-                const isActive = platform === p;
-                return (
-                  <button
-                    key={p}
-                    onClick={() => {
-                      setPlatform(isActive ? '' : p);
-                      if (typeof window !== 'undefined') {
-                        window.scrollTo({ top: 500, behavior: 'smooth' });
-                      }
-                    }}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
-                      isActive
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-white/[0.04] text-white/40 border border-white/[0.06] hover:bg-white/[0.08] hover:text-white/60 hover:border-white/[0.12]'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                );
-              })}
-            </motion.div>
           </motion.div>
         </motion.div>
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f8fafc] to-transparent" />
       </div>
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        {/* Urgentie banner */}
+        {new Date().getHours() < 17 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-100 dark:border-emerald-800"
+          >
+            <div className="h-8 w-8 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+              <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Bestel voor 17:00, morgen in huis</p>
+              <p className="text-xs text-emerald-600/70 dark:text-emerald-500/70">Verzending via PostNL, altijd met track & trace</p>
+            </div>
+          </motion.div>
+        )}
+
         {/* Gratis verzending progressiebalk */}
         <AnimatePresence>
           {cartCount > 0 && cartTotal < FREE_SHIPPING_THRESHOLD && (
@@ -552,37 +266,24 @@ function ShopContent() {
               exit={{ opacity: 0, height: 0 }}
               className="mb-6 overflow-hidden"
             >
-              <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-2xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-emerald-700 flex items-center gap-2">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
-                      />
+                  <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                     </svg>
                     Nog {formatPrice(remainingForFreeShipping)} voor gratis verzending
                   </span>
-                  <Link
-                    href="/winkelwagen"
-                    className="text-xs text-emerald-600 font-medium hover:underline"
-                  >
+                  <Link href="/winkelwagen" className="text-xs text-emerald-600 dark:text-emerald-400 font-medium hover:underline">
                     Bekijk wagen
                   </Link>
                 </div>
-                <div className="h-2 bg-emerald-100 rounded-full overflow-hidden">
+                <div className="h-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${freeShippingProgress}%` }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-                    className="h-full bg-emerald-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full"
                   />
                 </div>
               </div>
@@ -592,7 +293,6 @@ function ShopContent() {
 
         {/* Search */}
         <motion.div
-          ref={searchBarRef}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -633,14 +333,10 @@ function ShopContent() {
 
           {/* Prijs range filter */}
           <div className="mt-4 flex items-center gap-3">
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide flex-shrink-0">
-              Prijs
-            </span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide flex-shrink-0">Prijs</span>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">
-                  &euro;
-                </span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
                 <input
                   type="number"
                   min="0"
@@ -649,14 +345,12 @@ function ShopContent() {
                   value={priceMin}
                   onChange={(e) => setPriceMin(e.target.value)}
                   aria-label="Minimum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl bg-slate-50 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-slate-400/20 focus:bg-white focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
-              <span className="text-slate-300">—</span>
+              <span className="text-slate-300 dark:text-slate-600">—</span>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">
-                  &euro;
-                </span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">&euro;</span>
                 <input
                   type="number"
                   min="0"
@@ -665,205 +359,62 @@ function ShopContent() {
                   value={priceMax}
                   onChange={(e) => setPriceMax(e.target.value)}
                   aria-label="Maximum prijs"
-                  className="w-24 pl-7 pr-2 py-2 rounded-xl bg-slate-50 text-xs font-medium text-slate-700 focus:ring-2 focus:ring-slate-400/20 focus:bg-white focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-24 pl-7 pr-2 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Active filters strip met chips */}
+        {/* Premium Filter Summary */}
         <AnimatePresence>
           {(activeFilterCount > 0 || debouncedSearch) && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
-            >
-              <span
-                className="text-sm text-slate-500 flex-shrink-0 mr-1"
-                role="status"
-                aria-live="polite"
-              >
-                <span className="font-medium text-emerald-600">{filtered.length}</span> resultaten
-              </span>
-
-              {(
-                [
-                  {
-                    active: !!debouncedSearch,
-                    label: `\u201C${debouncedSearch}\u201D`,
-                    cls: 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100',
-                    onClear: () => setSearch(''),
-                  },
-                  {
-                    active: !!platform,
-                    label: platform,
-                    cls: 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100',
-                    onClear: () => setPlatform(''),
-                  },
-                  {
-                    active: !!genre,
-                    label: genre,
-                    cls: 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100',
-                    onClear: () => setGenre(''),
-                  },
-                  {
-                    active: !!condition,
-                    label: condition,
-                    cls: 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100',
-                    onClear: () => setCondition(''),
-                  },
-                  {
-                    active: !!category,
-                    label:
-                      category === 'games'
-                        ? 'Games'
-                        : category === 'consoles'
-                          ? 'Consoles'
-                          : category === 'sale'
-                            ? 'Aanbiedingen'
-                            : category,
-                    cls: 'bg-cyan-50 border-cyan-200 text-cyan-700 hover:bg-cyan-100',
-                    onClear: () => setCategory(''),
-                  },
-                  {
-                    active: !!completeness,
-                    label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los',
-                    cls: 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100',
-                    onClear: () => setCompleteness(''),
-                  },
-                  {
-                    active: !!(priceMin || priceMax),
-                    label:
-                      priceMin && priceMax
-                        ? `€${priceMin} – €${priceMax}`
-                        : priceMin
-                          ? `Vanaf €${priceMin}`
-                          : `Tot €${priceMax}`,
-                    cls: 'bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100',
-                    onClear: () => {
-                      setPriceMin('');
-                      setPriceMax('');
-                    },
-                  },
-                ] as const
-              )
-                .filter((c) => c.active)
-                .map((chip, i) => (
-                  <button
-                    key={i}
-                    onClick={chip.onClear}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium transition-colors ${chip.cls}`}
-                  >
-                    {chip.label}
-                    <svg
-                      className="h-3 w-3"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                ))}
-
-              {activeFilterCount > 1 && (
-                <>
-                  <div className="h-4 w-px bg-slate-200" />
-                  <button
-                    onClick={clearFilters}
-                    className="text-xs text-red-500 hover:text-red-600 font-medium flex items-center gap-1 transition-colors"
-                  >
-                    Alles wissen
-                  </button>
-                </>
-              )}
-            </motion.div>
+            <FilterSummary
+              filters={[
+                ...(debouncedSearch ? [{ label: `"${debouncedSearch}"`, value: debouncedSearch, type: 'search' as const }] : []),
+                ...(platform ? [{ label: platform, value: platform, type: 'platform' as const }] : []),
+                ...(genre ? [{ label: genre, value: genre, type: 'genre' as const }] : []),
+                ...(condition ? [{ label: condition, value: condition, type: 'condition' as const }] : []),
+                ...(category ? [{ label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : category === 'sale' ? 'Aanbiedingen' : category, value: category, type: 'category' as const }] : []),
+                ...(completeness ? [{ label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', value: completeness, type: 'completeness' as const }] : []),
+                ...((priceMin || priceMax) ? [{ label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, value: `${priceMin}-${priceMax}`, type: 'price' as const }] : []),
+              ]}
+              onRemoveFilter={(type, value) => {
+                switch (type) {
+                  case 'search': setSearch(''); break;
+                  case 'platform': setPlatform(''); break;
+                  case 'genre': setGenre(''); break;
+                  case 'condition': setCondition(''); break;
+                  case 'category': setCategory(''); break;
+                  case 'completeness': setCompleteness(''); break;
+                  case 'price': setPriceMin(''); setPriceMax(''); break;
+                }
+              }}
+              onClearAll={clearFilters}
+              resultCount={filtered.length}
+            />
           )}
         </AnimatePresence>
 
-        {/* Resultaten info balk + view toggle */}
+        {/* Resultaten info balk */}
         {!isSearching && filtered.length > 0 && (
-          <div className="mt-6 flex items-center justify-between px-1 py-2">
-            <p className="text-xs text-slate-400">
-              <span className="font-medium text-slate-600">{filtered.length}</span>{' '}
-              {filtered.length === 1 ? 'product' : 'producten'}
+          <div className="mt-6 flex items-center justify-between">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
               {totalPages > 1 && (
-                <span className="text-slate-300">
-                  {' '}
-                  &middot; pagina {page}/{totalPages}
-                </span>
+                <span className="text-slate-400 dark:text-slate-500"> &middot; pagina {page} van {totalPages}</span>
               )}
             </p>
-
-            <div className="flex items-center gap-3">
-              {filtered.length > ITEMS_PER_PAGE && (
-                <p className="text-[11px] text-slate-300 hidden sm:block tabular-nums">
-                  {(page - 1) * ITEMS_PER_PAGE + 1}–
-                  {Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
-                </p>
-              )}
-
-              {/* View mode toggle */}
-              <div className="flex items-center gap-0.5 bg-slate-100 rounded-lg p-0.5">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  aria-label="Grid weergave"
-                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'grid' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
-                >
-                  <svg
-                    className="h-3.5 w-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  aria-label="Lijst weergave"
-                  className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'list' ? 'bg-white shadow-sm text-slate-700' : 'text-slate-400 hover:text-slate-600'}`}
-                >
-                  <svg
-                    className="h-3.5 w-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+            {filtered.length > ITEMS_PER_PAGE && (
+              <p className="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">
+                {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
+              </p>
+            )}
           </div>
         )}
 
-        {/* Products — met cursor spotlight */}
-        <div className="relative mt-6" onMouseMove={handleGridMouseMove}>
-          {/* Subtiele scheidingslijn */}
-          {filtered.length > 0 && !isSearching && (
-            <div className="absolute -top-3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-200/50 to-transparent" />
-          )}
-          {/* Cursor spotlight overlay */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none z-10 rounded-3xl"
-            style={{ background: spotBg }}
-          />
-
+        {/* Products */}
+        <div className="mt-4">
           <AnimatePresence mode="wait">
             {isSearching ? (
               <motion.div
@@ -872,23 +423,15 @@ function ShopContent() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
               >
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="rounded-2xl overflow-hidden"
-                    style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
-                  >
-                    <div className="h-56 bg-gradient-to-b from-slate-50 to-slate-100/50 animate-pulse" />
-                    <div className="p-4 bg-white space-y-2.5">
-                      <div className="h-2.5 w-16 rounded-full bg-slate-100 animate-pulse" />
-                      <div className="h-3 w-3/4 rounded-full bg-slate-100 animate-pulse" />
-                      <div className="h-2.5 w-1/2 rounded-full bg-slate-50 animate-pulse" />
-                      <div className="flex items-center justify-between pt-3">
-                        <div className="h-5 w-16 rounded-full bg-slate-100 animate-pulse" />
-                        <div className="h-9 w-24 rounded-xl bg-slate-100 animate-pulse" />
-                      </div>
+                  <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+                    <div className="aspect-square bg-slate-100 dark:bg-slate-700 animate-pulse" />
+                    <div className="p-4 space-y-2">
+                      <div className="h-3 w-3/4 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
+                      <div className="h-3 w-1/2 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
+                      <div className="h-5 w-1/3 rounded bg-slate-100 dark:bg-slate-700 animate-pulse mt-3" />
                     </div>
                   </div>
                 ))}
@@ -899,95 +442,61 @@ function ShopContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="text-center py-20 lg:py-28"
+                className="text-center py-20"
               >
-                {/* Geanimeerde illustratie */}
-                <div className="relative mx-auto w-24 h-24 mb-8">
-                  <motion.div
-                    className="absolute inset-0 rounded-3xl bg-gradient-to-br from-emerald-100 to-cyan-100"
-                    animate={{ rotate: [0, 6, -6, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  />
-                  <div className="relative h-full w-full rounded-3xl bg-white shadow-sm flex items-center justify-center">
-                    <motion.div
-                      animate={{ y: [0, -6, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                      <svg
-                        className="h-10 w-10 text-slate-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.5}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                        />
-                      </svg>
-                    </motion.div>
-                  </div>
-                </div>
-
-                <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                  Geen producten gevonden
-                </h3>
-                <p className="text-slate-400 text-sm mb-8 max-w-sm mx-auto leading-relaxed">
-                  {debouncedSearch ? (
-                    <>
-                      Geen resultaten voor &ldquo;
-                      <span className="font-medium text-slate-600">{debouncedSearch}</span>&rdquo;.
-                      Probeer een andere zoekterm.
-                    </>
-                  ) : (
-                    'Pas je filters aan of bekijk een specifiek platform.'
-                  )}
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  className="h-20 w-20 mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mb-6"
+                >
+                  <svg className="h-10 w-10 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  </svg>
+                </motion.div>
+                <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Geen producten gevonden</h3>
+                <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-sm mx-auto">
+                  {debouncedSearch
+                    ? `Geen resultaten voor "${debouncedSearch}". Probeer een andere zoekterm.`
+                    : 'Pas je filters aan om producten te vinden.'}
                 </p>
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/35 transition-all mb-10"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+                  </svg>
+                  Filters wissen
+                </button>
 
-                <div className="flex flex-col items-center gap-6">
-                  <button
-                    onClick={clearFilters}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white text-sm font-medium shadow-lg hover:bg-slate-800 transition-all"
-                  >
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
+                {/* Verlanglijst suggestie */}
+                {wishlistItems.length > 0 && (
+                  <div className="mb-8">
+                    <Link
+                      href="/verlanglijst"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-red-200 dark:border-red-800/50 text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"
-                      />
-                    </svg>
-                    Opnieuw beginnen
-                  </button>
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                      </svg>
+                      Bekijk je verlanglijst ({wishlistItems.length})
+                    </Link>
+                  </div>
+                )}
 
-                  <div className="w-full max-w-md">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="h-px flex-1 bg-slate-100" />
-                      <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
-                        of kies een platform
-                      </span>
-                      <div className="h-px flex-1 bg-slate-100" />
-                    </div>
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      {platforms.slice(0, 8).map((p) => (
-                        <button
-                          key={p}
-                          onClick={() => {
-                            clearFilters();
-                            setPlatform(p);
-                          }}
-                          className="px-4 py-2 rounded-xl bg-white border border-slate-100 text-sm text-slate-600 font-medium hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 transition-all shadow-sm"
-                        >
-                          {p}
-                        </button>
-                      ))}
-                    </div>
+                {/* Suggesties per platform */}
+                <div className="max-w-lg mx-auto">
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Populaire platforms</p>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {platforms.slice(0, 6).map((p) => (
+                      <button
+                        key={p}
+                        onClick={() => { clearFilters(); setPlatform(p); }}
+                        className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 font-medium hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                      >
+                        {p}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </motion.div>
@@ -999,121 +508,22 @@ function ShopContent() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
               >
-                <ProductGrid
-                  products={paginatedProducts}
-                  onQuickView={setQuickViewProduct}
-                  searchQuery={debouncedSearch || undefined}
-                  viewMode={viewMode}
-                />
+                <ProductGrid products={paginatedProducts} onQuickView={setQuickViewProduct} searchQuery={debouncedSearch || undefined} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Pagination */}
+        {/* Premium Pagination */}
         {totalPages > 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mt-16 flex flex-col items-center gap-5"
-          >
-            <div className="flex items-center gap-1.5">
-              <button
-                onClick={() => {
-                  setPage(Math.max(1, page - 1));
-                  if (typeof window !== 'undefined') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                }}
-                disabled={page === 1}
-                aria-label="Vorige pagina"
-                className="h-10 w-10 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 disabled:opacity-20 disabled:cursor-not-allowed transition-all flex items-center justify-center"
-              >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                  />
-                </svg>
-              </button>
-
-              <div className="flex items-center gap-0.5">
-                {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 2)
-                  .map((p, idx, arr) => (
-                    <span key={p} className="flex items-center">
-                      {idx > 0 && arr[idx - 1] !== p - 1 && (
-                        <span className="px-1 text-slate-300 text-xs">...</span>
-                      )}
-                      <button
-                        onClick={() => {
-                          setPage(p);
-                          if (typeof window !== 'undefined') {
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }
-                        }}
-                        className={`h-10 w-10 rounded-xl text-sm font-medium transition-all duration-300 ${
-                          p === page
-                            ? 'bg-slate-900 text-white'
-                            : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'
-                        }`}
-                      >
-                        {p}
-                      </button>
-                    </span>
-                  ))}
-              </div>
-
-              <button
-                onClick={() => {
-                  setPage(Math.min(totalPages, page + 1));
-                  if (typeof window !== 'undefined') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                }}
-                disabled={page === totalPages}
-                aria-label="Volgende pagina"
-                className="h-10 w-10 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 disabled:opacity-20 disabled:cursor-not-allowed transition-all flex items-center justify-center"
-              >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div className="flex items-center gap-3 text-[11px] text-slate-300 tabular-nums">
-              <span>
-                Pagina {page} van {totalPages}
-              </span>
-              <span className="hidden sm:flex items-center gap-1.5 text-slate-300/60">
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-[9px] font-mono text-slate-400">
-                  &larr;
-                </kbd>
-                <kbd className="px-1.5 py-0.5 rounded bg-slate-100 text-[9px] font-mono text-slate-400">
-                  &rarr;
-                </kbd>
-                <span className="text-[10px]">navigeer</span>
-              </span>
-            </div>
-          </motion.div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(newPage) => {
+              setPage(newPage);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
         )}
       </div>
 
@@ -1125,20 +535,18 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="pt-16 lg:pt-20">
-          <div className="relative bg-[#050810] py-20 lg:py-32 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.08),transparent_50%)]" />
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="h-3 w-24 rounded-full bg-white/5 animate-pulse mb-8" />
-              <div className="h-12 w-72 rounded-lg bg-white/5 animate-pulse mb-5" />
-              <div className="h-4 w-96 rounded-full bg-white/[0.03] animate-pulse" />
-            </div>
+    <Suspense fallback={
+      <div className="pt-16 lg:pt-20">
+        <div className="relative bg-[#050810] py-16 lg:py-24 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_50%)]" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="h-4 w-32 rounded bg-white/10 animate-pulse mb-4" />
+            <div className="h-12 w-64 rounded bg-white/10 animate-pulse mb-3" />
+            <div className="h-6 w-96 rounded bg-white/5 animate-pulse" />
           </div>
         </div>
-      }
-    >
+      </div>
+    }>
       <ShopContent />
     </Suspense>
   );
