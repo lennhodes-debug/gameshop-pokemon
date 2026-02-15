@@ -30,6 +30,7 @@ import PlatformShowcase from '@/components/shop/PlatformShowcase';
 import PremiumTestimonials from '@/components/shop/PremiumTestimonials';
 import PremiumSocialProof from '@/components/shop/PremiumSocialProof';
 import PremiumNewsletter from '@/components/shop/PremiumNewsletter';
+import PremiumFeaturedSection from '@/components/shop/PremiumFeaturedSection';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -194,6 +195,13 @@ function ShopContent() {
 
       {/* Platform Showcase */}
       <PlatformShowcase />
+
+      {/* Premium Featured Products Section */}
+      <div className="bg-gradient-to-b from-transparent via-slate-50/30 to-transparent dark:from-transparent dark:via-slate-900/20 dark:to-transparent py-8 lg:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <PremiumFeaturedSection onQuickView={setQuickViewProduct} />
+        </div>
+      </div>
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
