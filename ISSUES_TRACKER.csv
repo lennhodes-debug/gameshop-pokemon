@@ -1,0 +1,13 @@
+ID,Category,Priority,Title,File Location,Impact,Estimated Hours,Status,Owner
+1,Credentials/Backend,🔴 CRITICAL BLOCKER,MOLLIE_API_KEY ontbreekt,"src/app/api/mollie/create-payment/route.ts, src/app/afrekenen/page.tsx",Klanten kunnen niet betalen (fallback mode),N/A (User action),Pending,User
+2,Credentials/Backend,🔴 CRITICAL BLOCKER,PostNL Credentials ontbreken (3x),src/app/api/admin/shipment/route.ts,Echte verzendlabels niet gegenereerd,N/A (User action),Pending,User
+3,Credentials/Backend,🔴 CRITICAL BLOCKER,GMAIL_EMAIL & GMAIL_PASSWORD ontbreken,src/lib/email.ts,Klanten krijgen geen order bevestiging,N/A (User action),Pending,User
+4,Credentials/Backend,🔴 CRITICAL BLOCKER,ADMIN_API_KEY niet ingesteld,"src/app/api/orders/list/route.ts, src/app/api/admin/shipment/route.ts",Admin panel niet bereikbaar,N/A (User action),Pending,User
+5,Backend,🟡 HIGH PRIORITY,Admin Order Detail Page — Data Not Loaded,src/app/admin/bestellingen/[id]/page.tsx,Can't view order details,2,Pending,Other Chat
+6,Backend,🟡 HIGH PRIORITY,Missing Error Boundaries,src/app/afrekenen/page.tsx,Failed payments → no recovery,2,Pending,Other Chat
+7,Backend,🟡 HIGH PRIORITY,Missing Null Checks (SSR Hydration),"src/app/shop/[sku]/page.tsx, src/app/afrekenen/page.tsx",Hydration warnings/crashes,3,Pending,Other Chat
+8,Backend,🟡 HIGH PRIORITY,Postcode Validation Incomplete,src/app/afrekenen/page.tsx,Valid orders rejected,2,Pending,Other Chat
+9,Frontend,🟡 HIGH PRIORITY,Mobile Responsiveness Issues,"/admin/*, checkout form",Mobile users can't complete orders,4,Pending,Other Chat
+10,Analytics,🟠 MEDIUM,Missing Analytics Setup,src/app/layout.tsx,Can't track conversions,2,Pending,Other Chat
+11,Monitoring,🟠 MEDIUM,Missing Error Logging,Various API routes,Can't debug production issues,2,Pending,Other Chat
+12,Performance,🟠 MEDIUM,Bundle Size & Performance Not Optimized,"Product images, Heavy components",Slower page loads,3,Pending,Other Chat

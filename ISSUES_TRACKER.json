@@ -1,0 +1,312 @@
+{
+  "project": "Gameshop Enter",
+  "status": "Ready for implementation",
+  "totalIssues": 12,
+  "analysisDate": "2026-02-15",
+  "repository": "lennhodes-debug/gameshop-pokemon",
+  "productCount": 141,
+  "buildStatus": "✅ 172 pages, 0 TypeScript errors",
+  "approachPhilosophy": "QUALITY FIRST — NO TIME PRESSURE, NO CUTTING CORNERS",
+  "issues": [
+    {
+      "id": 1,
+      "category": "Credentials/Backend",
+      "priority": "🔴 CRITICAL BLOCKER",
+      "title": "MOLLIE_API_KEY ontbreekt",
+      "description": "Checkout werkt, maar payment redirect gaat naar fallback mode in plaats van echte Mollie betaling",
+      "impact": "BLOCKING: Klanten kunnen niet betalen",
+      "affectedFiles": ["src/app/api/mollie/create-payment/route.ts", "src/app/afrekenen/page.tsx"],
+      "acceptanceCriteria": [
+        "MOLLIE_API_KEY is ingesteld in Netlify environment",
+        "Checkout roept echte Mollie API aan",
+        "Payment redirect naar Mollie checkout (niet fallback)"
+      ],
+      "requiresUserAction": true,
+      "userActionRequired": "Ophalen API Key van https://www.mollie.com/dashboard en zetten in Netlify env vars",
+      "estimatedHours": "N/A (User action)",
+      "owner": "User",
+      "status": "Pending"
+    },
+    {
+      "id": 2,
+      "category": "Credentials/Backend",
+      "priority": "🔴 CRITICAL BLOCKER",
+      "title": "PostNL Credentials ontbreken (3x)",
+      "description": "Shipping labels worden gegenereerd als fallback tracking codes in plaats van echte PostNL barcodes",
+      "impact": "BLOCKING: Echte verzendlabels niet gegenereerd, admin kan labels niet creëren",
+      "affectedFiles": ["src/app/api/admin/shipment/route.ts"],
+      "acceptanceCriteria": [
+        "POSTNL_API_KEY is ingesteld",
+        "POSTNL_CUSTOMER_CODE is ingesteld",
+        "POSTNL_CUSTOMER_NUMBER is ingesteld",
+        "Shipping label creation roept echte PostNL API aan",
+        "Barcodes worden gegenereerd via PostNL"
+      ],
+      "requiresUserAction": true,
+      "userActionRequired": "3 credentials ophalen van PostNL account en zetten in Netlify",
+      "estimatedHours": "N/A (User action)",
+      "owner": "User",
+      "status": "Pending"
+    },
+    {
+      "id": 3,
+      "category": "Credentials/Backend",
+      "priority": "🔴 CRITICAL BLOCKER",
+      "title": "GMAIL_EMAIL & GMAIL_PASSWORD ontbreken",
+      "description": "Order confirmation emails en shipping notifications gaan niet uit",
+      "impact": "BLOCKING: Klanten krijgen geen order bevestigingen, geen tracking updates",
+      "affectedFiles": ["src/lib/email.ts"],
+      "acceptanceCriteria": [
+        "GMAIL_EMAIL is ingesteld (gameshopenter@gmail.com)",
+        "GMAIL_PASSWORD is ingesteld (App password, niet account password!)",
+        "Order confirmation emails worden verzonden na checkout",
+        "Shipping notification emails verzonden na shipment"
+      ],
+      "requiresUserAction": true,
+      "userActionRequired": "Gmail app password genereren en beide vars in Netlify zetten",
+      "estimatedHours": "N/A (User action)",
+      "owner": "User",
+      "status": "Pending",
+      "notes": "IMPORTANT: Must use Gmail App Password, NOT account password!"
+    },
+    {
+      "id": 4,
+      "category": "Credentials/Backend",
+      "priority": "🔴 CRITICAL BLOCKER",
+      "title": "ADMIN_API_KEY niet ingesteld",
+      "description": "Admin panels vereisen Bearer token authentication maar key is niet ingesteld",
+      "impact": "BLOCKING: Admin panel (/admin/*) niet bereikbaar, geen order management",
+      "affectedFiles": ["src/app/api/orders/list/route.ts", "src/app/api/admin/shipment/route.ts"],
+      "acceptanceCriteria": [
+        "ADMIN_API_KEY is ingesteld in Netlify env",
+        "Admin endpoints valideren Bearer token correct",
+        "Admin kan inloggen met correct token"
+      ],
+      "requiresUserAction": true,
+      "userActionRequired": "Generate sterke random key (openssl rand -base64 32) en zetten in Netlify",
+      "estimatedHours": "N/A (User action)",
+      "owner": "User",
+      "status": "Pending",
+      "minimumKeyLength": 32
+    },
+    {
+      "id": 5,
+      "category": "Backend",
+      "priority": "🟡 HIGH PRIORITY BUG",
+      "title": "Admin Order Detail Page — Data Not Loaded",
+      "description": "Page toont altijd 'Bestelling niet gevonden' error omdat order data niet van API wordt fetcht",
+      "impact": "HIGH: Admin kan order details niet zien, geen order management mogelijk",
+      "affectedFiles": ["src/app/admin/bestellingen/[id]/page.tsx"],
+      "rootCause": "Component awaits params maar laadt order data niet van /api/orders/list",
+      "testPlan": [
+        "Maak test order via checkout",
+        "Open /admin/bestellingen/<orderNumber>",
+        "Verify order details worden getoond (niet 'niet gevonden')",
+        "Test pagination en filtering"
+      ],
+      "estimatedHours": 2,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 6,
+      "category": "Backend",
+      "priority": "🟡 HIGH PRIORITY BUG",
+      "title": "Missing Error Boundaries",
+      "description": "Payment errors not caught, checkout crashes on Mollie API failure",
+      "impact": "HIGH: Failed payments → geen recovery, bad user experience",
+      "affectedFiles": ["src/app/afrekenen/page.tsx"],
+      "rootCause": "No try/catch around payment API call",
+      "testPlan": [
+        "Invalidate MOLLIE_API_KEY to trigger error",
+        "Attempt checkout",
+        "Verify user sees friendly error message (not crash)",
+        "Test retry mechanism"
+      ],
+      "estimatedHours": 2,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 7,
+      "category": "Backend",
+      "priority": "🟡 HIGH PRIORITY BUG",
+      "title": "Missing Null Checks (SSR Hydration)",
+      "description": "Window/document calls without typeof window checks cause hydration mismatches",
+      "impact": "HIGH: Hydration warnings, potential crashes in SSR",
+      "affectedFiles": ["src/app/shop/[sku]/page.tsx", "src/app/afrekenen/page.tsx"],
+      "rootCause": "Direct window/document usage without SSR guard",
+      "testPlan": [
+        "Run `npm run build` (should be 0 warnings)",
+        "Test on slow 3G in DevTools",
+        "Check server logs for hydration mismatches",
+        "Verify no console errors on page load"
+      ],
+      "estimatedHours": 3,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 8,
+      "category": "Backend",
+      "priority": "🟡 HIGH PRIORITY BUG",
+      "title": "Postcode Validation Incomplete",
+      "description": "Current regex rejects some valid Dutch postcodes",
+      "impact": "HIGH: Valid orders rejected, bad customer experience",
+      "affectedFiles": ["src/app/afrekenen/page.tsx"],
+      "currentRegex": "/^[0-9]{4}\\s?[a-zA-Z]{2}$/",
+      "shouldAccept": ["1234 AB", "1234AB", "1234a AB"],
+      "testPlan": [
+        "Test postcode: 1234 AB (space)",
+        "Test postcode: 1234AB (no space)",
+        "Test postcode: 1234a AB (lowercase digit+letter)",
+        "Test postcode: 1234 ab (all lowercase)",
+        "Test invalid: ABCD 12, 12 ABCD"
+      ],
+      "estimatedHours": 2,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 9,
+      "category": "Frontend",
+      "priority": "🟡 HIGH PRIORITY BUG",
+      "title": "Mobile Responsiveness Issues",
+      "description": "Admin panels and checkout form not tested/optimized for mobile",
+      "impact": "HIGH: Mobile users (40% traffic) can't complete orders",
+      "affectedFiles": ["/admin/*", "src/app/afrekenen/page.tsx", "src/app/shop/page.tsx"],
+      "testPlan": [
+        "Test on iPhone SE (375px viewport)",
+        "Test on iPhone 12 (390px viewport)",
+        "Test on iPad (768px viewport)",
+        "Test on Galaxy S10 (360px viewport)",
+        "Check: no overflow, min 44px touch targets, readable text"
+      ],
+      "estimatedHours": 4,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 10,
+      "category": "Analytics",
+      "priority": "🟠 MEDIUM PRIORITY",
+      "title": "Missing Analytics Setup",
+      "description": "No Google Analytics, no conversion tracking",
+      "impact": "MEDIUM: Can't track conversions, business metrics",
+      "affectedFiles": ["src/app/layout.tsx"],
+      "testPlan": ["Complete test order", "Check GA dashboard for conversion", "Verify revenue tracking"],
+      "estimatedHours": 2,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 11,
+      "category": "Monitoring",
+      "priority": "🟠 MEDIUM PRIORITY",
+      "title": "Missing Error Logging / Monitoring",
+      "description": "API errors console.log only, no centralized tracking",
+      "impact": "MEDIUM: Can't debug production issues",
+      "affectedFiles": ["Various API routes"],
+      "testPlan": ["Trigger test error in API", "Check Sentry dashboard", "Verify error details logged"],
+      "estimatedHours": 2,
+      "owner": "Other Chat",
+      "status": "Pending"
+    },
+    {
+      "id": 12,
+      "category": "Performance",
+      "priority": "🟠 MEDIUM PRIORITY",
+      "title": "Bundle Size & Performance Not Optimized",
+      "description": "No image lazy loading, no code splitting, bundle analysis missing",
+      "impact": "MEDIUM: Slower page loads, worse Core Web Vitals",
+      "affectedFiles": ["Product images", "Heavy components"],
+      "testPlan": [
+        "Run Lighthouse audit (target: 90+ scores)",
+        "Check bundle size with `npm run build`",
+        "Verify images lazy-load",
+        "Test on slow 3G connection"
+      ],
+      "estimatedHours": 3,
+      "owner": "Other Chat",
+      "status": "Pending"
+    }
+  ],
+  "implementationPhases": {
+    "phase1": {
+      "name": "Critical Fixes (User Credentials)",
+      "duration": "1-2 hours (user dependent)",
+      "tasks": [
+        "#1: Set MOLLIE_API_KEY",
+        "#2: Set PostNL credentials (3x)",
+        "#3: Set Gmail credentials",
+        "#4: Set ADMIN_API_KEY"
+      ],
+      "blocking": true,
+      "notes": "MUST be completed before testing is possible"
+    },
+    "phase2": {
+      "name": "Bug Fixes",
+      "duration": "3-4 days",
+      "tasks": [
+        "#5: Fix order detail page data loading",
+        "#6: Add error boundaries to checkout",
+        "#7: Fix SSR null checks",
+        "#8: Improve postcode validation",
+        "#9: Test & fix mobile responsiveness"
+      ],
+      "blocking": true,
+      "notes": "Must complete before Phase 3"
+    },
+    "phase3": {
+      "name": "Performance & Analytics",
+      "duration": "2-3 days",
+      "tasks": [
+        "#10: Add Google Analytics",
+        "#11: Add error monitoring (Sentry)",
+        "#12: Optimize bundle & performance"
+      ],
+      "blocking": false,
+      "notes": "Can be done in parallel with Phase 2"
+    }
+  },
+  "workingFeatures": [
+    "✅ Shop (filters, search, pagination) — 141 products",
+    "✅ Product detail pages (SSG, Schema.org)",
+    "✅ Cart (localStorage, context)",
+    "✅ Checkout form (validation, localStorage)",
+    "✅ Mollie API skeleton (fallback working)",
+    "✅ PostNL API skeleton (fallback working)",
+    "✅ Email templates (ready for credentials)",
+    "✅ Order storage (Netlify Blobs)",
+    "✅ Admin panels (auth template ready)",
+    "✅ Build (TypeScript strict, no errors, 172 pages)"
+  ],
+  "credentialChecklistForUser": {
+    "MOLLIE_API_KEY": "From https://www.mollie.com/dashboard",
+    "POSTNL_API_KEY": "From https://developer.postnl.nl/",
+    "POSTNL_CUSTOMER_CODE": "From PostNL account",
+    "POSTNL_CUSTOMER_NUMBER": "From PostNL account",
+    "ADMIN_API_KEY": "Generate: openssl rand -base64 32",
+    "GMAIL_EMAIL": "gameshopenter@gmail.com",
+    "GMAIL_PASSWORD": "Gmail App Password (NOT account password!)"
+  },
+  "qualityPhilosophy": {
+    "principle": "QUALITY FIRST — NO TIME PRESSURE, NO CUTTING CORNERS",
+    "details": [
+      "Each issue gets PROPER time (no rushing)",
+      "No cutting corners (proper architecture, not hacky fixes)",
+      "Comprehensive testing per feature",
+      "Code review + refactor if needed",
+      "Documentation for complex changes",
+      "Performance optimization included",
+      "Accessibility audit per fix",
+      "Mobile testing on actual devices"
+    ]
+  },
+  "nextSteps": [
+    "User sets credentials in Netlify (Phase 1)",
+    "Other chat implements Phase 2 bug fixes",
+    "Other chat implements Phase 3 optimizations",
+    "Deploy to production"
+  ]
+}
