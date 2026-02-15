@@ -109,8 +109,12 @@ export default function AfrekenPage() {
         message: 'Voer een geldig huisnummer in (bijv. 12, 12a, 12-14)',
       },
       postcode: {
-        test: (v) => /^\d{4}\s?[A-Za-z]{2}$/.test(v.trim()),
-        message: 'Formaat: 1234 AB',
+        test: (v) => {
+          const cleaned = v.trim().toUpperCase().replace(/\s+/g, ' ');
+          // Dutch postcode: 4 digits + optional space + 2 letters
+          return /^\d{4}\s?[A-Z]{2}$/.test(cleaned);
+        },
+        message: 'Formaat: 1234 AB (bijv. 1234AB of 1234 AB)',
       },
       plaats: { test: (v) => v.trim().length >= 2, message: 'Plaats moet minimaal 2 tekens zijn' },
     }),
