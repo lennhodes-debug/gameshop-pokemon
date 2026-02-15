@@ -26,6 +26,7 @@ import EnhancedShopHeader from '@/components/shop/EnhancedShopHeader';
 import PremiumProductCard from '@/components/shop/PremiumProductCard';
 import OptimizedProductGrid from '@/components/shop/OptimizedProductGrid';
 import PremiumFilters from '@/components/shop/PremiumFilters';
+import PlatformShowcase from '@/components/shop/PlatformShowcase';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -187,6 +188,9 @@ function ShopContent() {
         subtitle="Ontdek ons assortiment van originele Pokémon games — met professionele foto's"
         productCount={allProducts.length}
       />
+
+      {/* Platform Showcase */}
+      <PlatformShowcase />
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">

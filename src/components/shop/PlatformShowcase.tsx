@@ -29,7 +29,7 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     color: 'from-blue-600 to-cyan-500',
     tag: 'DUAL SCREEN',
     emoji: '🎮',
-    image: '/images/consoles/ds-console.webp',
+    image: '/images/consoles/ds.webp',
   },
   'Nintendo 3DS': {
     name: 'Nintendo 3DS',
@@ -38,7 +38,7 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     color: 'from-purple-600 to-pink-500',
     tag: 'STEREOSCOPIC 3D',
     emoji: '📱',
-    image: '/images/consoles/3ds-console.webp',
+    image: '/images/consoles/3ds.webp',
   },
   'Wii U': {
     name: 'Wii U',
@@ -47,7 +47,7 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     color: 'from-cyan-600 to-blue-500',
     tag: 'SECOND SCREEN',
     emoji: '📺',
-    image: '/images/consoles/wiiu-console.webp',
+    image: '/images/consoles/wiiu.webp',
   },
   'Nintendo Wii': {
     name: 'Nintendo Wii',
@@ -56,7 +56,7 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     color: 'from-emerald-600 to-teal-500',
     tag: 'MOTION CONTROL',
     emoji: '⚪',
-    image: '/images/consoles/wii-console.webp',
+    image: '/images/consoles/wii.webp',
   },
   'Game Boy Advance': {
     name: 'Game Boy Advance',
@@ -65,7 +65,7 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     color: 'from-amber-600 to-orange-500',
     tag: '32-BIT HANDHELD',
     emoji: '📟',
-    image: '/images/consoles/gba-console.webp',
+    image: '/images/consoles/gba.webp',
   },
   'Game Boy Color': {
     name: 'Game Boy Color',
@@ -74,7 +74,7 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     color: 'from-rose-600 to-pink-500',
     tag: 'KLEUR HANDHELD',
     emoji: '🎯',
-    image: '/images/consoles/gbc-console.webp',
+    image: '/images/consoles/gbc.webp',
   },
 };
 
