@@ -15,6 +15,8 @@ import QuickView from '@/components/shop/QuickView';
 import FilterSummary from '@/components/shop/FilterSummary';
 import EmptyState from '@/components/shop/EmptyState';
 import Pagination from '@/components/shop/Pagination';
+import CategoryShowcase from '@/components/shop/CategoryShowcase';
+import SortAndView from '@/components/shop/SortAndView';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -366,6 +368,19 @@ function ShopContent() {
           </div>
         </motion.div>
 
+        {/* Category/Platform Showcase - Premium section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8"
+        >
+          <CategoryShowcase
+            onPlatformSelect={setPlatform}
+            selectedPlatform={platform}
+          />
+        </motion.div>
+
         {/* Premium Filter Summary */}
         <AnimatePresence>
           {(activeFilterCount > 0 || debouncedSearch) && (
@@ -396,25 +411,24 @@ function ShopContent() {
           )}
         </AnimatePresence>
 
-        {/* Resultaten info balk */}
+        {/* Enhanced Results Section with Sort */}
         {!isSearching && filtered.length > 0 && (
-          <div className="mt-6 flex items-center justify-between">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              <span className="font-bold text-slate-900 dark:text-white">{filtered.length}</span> {filtered.length === 1 ? 'product' : 'producten'}
-              {totalPages > 1 && (
-                <span className="text-slate-400 dark:text-slate-500"> &middot; pagina {page} van {totalPages}</span>
-              )}
-            </p>
-            {filtered.length > ITEMS_PER_PAGE && (
-              <p className="text-xs text-slate-400 dark:text-slate-500 hidden sm:block">
-                {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} van {filtered.length}
-              </p>
-            )}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mt-6"
+          >
+            <SortAndView
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              resultCount={filtered.length}
+            />
+          </motion.div>
         )}
 
         {/* Products */}
-        <div className="mt-4">
+        <div className="mt-8">
           <AnimatePresence mode="wait">
             {isSearching ? (
               <motion.div
@@ -426,14 +440,20 @@ function ShopContent() {
                 className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
               >
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
-                    <div className="aspect-square bg-slate-100 dark:bg-slate-700 animate-pulse" />
-                    <div className="p-4 space-y-2">
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                    className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden"
+                  >
+                    <div className="aspect-square bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 animate-pulse" />
+                    <div className="p-4 space-y-3">
                       <div className="h-3 w-3/4 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
                       <div className="h-3 w-1/2 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
-                      <div className="h-5 w-1/3 rounded bg-slate-100 dark:bg-slate-700 animate-pulse mt-3" />
+                      <div className="h-5 w-1/3 rounded bg-slate-100 dark:bg-slate-700 animate-pulse" />
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </motion.div>
             ) : filtered.length === 0 ? (
