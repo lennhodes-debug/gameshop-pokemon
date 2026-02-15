@@ -12,6 +12,9 @@ import SearchBar from '@/components/shop/SearchBar';
 import Filters from '@/components/shop/Filters';
 import ProductGrid from '@/components/shop/ProductGrid';
 import QuickView from '@/components/shop/QuickView';
+import FilterSummary from '@/components/shop/FilterSummary';
+import EmptyState from '@/components/shop/EmptyState';
+import Pagination from '@/components/shop/Pagination';
 import { Product } from '@/lib/products';
 
 const ITEMS_PER_PAGE = 48;
@@ -363,46 +366,33 @@ function ShopContent() {
           </div>
         </motion.div>
 
-        {/* Active filters strip met chips */}
+        {/* Premium Filter Summary */}
         <AnimatePresence>
           {(activeFilterCount > 0 || debouncedSearch) && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-4 flex flex-wrap items-center gap-2 overflow-hidden"
-            >
-              <span className="text-sm text-slate-500 dark:text-slate-400 flex-shrink-0 mr-1" role="status" aria-live="polite">
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{filtered.length}</span> resultaten
-              </span>
-
-              {([
-                { active: !!debouncedSearch, label: `\u201C${debouncedSearch}\u201D`, cls: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30', onClear: () => setSearch('') },
-                { active: !!platform, label: platform, cls: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30', onClear: () => setPlatform('') },
-                { active: !!genre, label: genre, cls: 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30', onClear: () => setGenre('') },
-                { active: !!condition, label: condition, cls: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30', onClear: () => setCondition('') },
-                { active: !!category, label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : category === 'sale' ? 'Aanbiedingen' : category, cls: 'bg-cyan-50 dark:bg-cyan-900/20 border-cyan-200 dark:border-cyan-800 text-cyan-700 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-900/30', onClear: () => setCategory('') },
-                { active: !!completeness, label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', cls: 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/30', onClear: () => setCompleteness('') },
-                { active: !!(priceMin || priceMax), label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, cls: 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/30', onClear: () => { setPriceMin(''); setPriceMax(''); } },
-              ] as const).filter((c) => c.active).map((chip, i) => (
-                <button key={i} onClick={chip.onClear} className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold transition-colors ${chip.cls}`}>
-                  {chip.label}
-                  <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-              ))}
-
-              {activeFilterCount > 1 && (
-                <>
-                  <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
-                  <button
-                    onClick={clearFilters}
-                    className="text-xs text-red-500 hover:text-red-600 font-semibold flex items-center gap-1 transition-colors"
-                  >
-                    Alles wissen
-                  </button>
-                </>
-              )}
-            </motion.div>
+            <FilterSummary
+              filters={[
+                ...(debouncedSearch ? [{ label: `"${debouncedSearch}"`, value: debouncedSearch, type: 'search' as const }] : []),
+                ...(platform ? [{ label: platform, value: platform, type: 'platform' as const }] : []),
+                ...(genre ? [{ label: genre, value: genre, type: 'genre' as const }] : []),
+                ...(condition ? [{ label: condition, value: condition, type: 'condition' as const }] : []),
+                ...(category ? [{ label: category === 'games' ? 'Games' : category === 'consoles' ? 'Consoles' : category === 'sale' ? 'Aanbiedingen' : category, value: category, type: 'category' as const }] : []),
+                ...(completeness ? [{ label: completeness === 'cib' ? 'Compleet (CIB)' : 'Los', value: completeness, type: 'completeness' as const }] : []),
+                ...((priceMin || priceMax) ? [{ label: priceMin && priceMax ? `€${priceMin} – €${priceMax}` : priceMin ? `Vanaf €${priceMin}` : `Tot €${priceMax}`, value: `${priceMin}-${priceMax}`, type: 'price' as const }] : []),
+              ]}
+              onRemoveFilter={(type, value) => {
+                switch (type) {
+                  case 'search': setSearch(''); break;
+                  case 'platform': setPlatform(''); break;
+                  case 'genre': setGenre(''); break;
+                  case 'condition': setCondition(''); break;
+                  case 'category': setCategory(''); break;
+                  case 'completeness': setCompleteness(''); break;
+                  case 'price': setPriceMin(''); setPriceMax(''); break;
+                }
+              }}
+              onClearAll={clearFilters}
+              resultCount={filtered.length}
+            />
           )}
         </AnimatePresence>
 
@@ -524,71 +514,16 @@ function ShopContent() {
           </AnimatePresence>
         </div>
 
-        {/* Pagination */}
+        {/* Premium Pagination */}
         {totalPages > 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mt-14 flex flex-col items-center gap-4"
-          >
-            {/* Page info */}
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Pagina <span className="font-semibold text-slate-700 dark:text-slate-200">{page}</span> van <span className="font-semibold text-slate-700 dark:text-slate-200">{totalPages}</span>
-            </p>
-
-            <div className="flex items-center gap-2">
-              <motion.button
-                onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                disabled={page === 1}
-                aria-label="Vorige pagina"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </motion.button>
-
-              <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1)
-                  .filter((p) => p === 1 || p === totalPages || Math.abs(p - page) <= 2)
-                  .map((p, idx, arr) => (
-                    <span key={p} className="flex items-center">
-                      {idx > 0 && arr[idx - 1] !== p - 1 && (
-                        <span className="px-0.5 sm:px-1.5 text-slate-300 dark:text-slate-600 text-sm">...</span>
-                      )}
-                      <motion.button
-                        onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className={`h-9 w-9 sm:h-10 sm:w-10 rounded-xl text-sm font-bold transition-all duration-300 ${
-                          p === page
-                            ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25'
-                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-                        }`}
-                      >
-                        {p}
-                      </motion.button>
-                    </span>
-                  ))}
-              </div>
-
-              <motion.button
-                onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                disabled={page === totalPages}
-                aria-label="Volgende pagina"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-5 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </motion.button>
-            </div>
-          </motion.div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(newPage) => {
+              setPage(newPage);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
         )}
       </div>
 
