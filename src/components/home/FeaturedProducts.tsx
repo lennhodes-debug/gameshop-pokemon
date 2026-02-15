@@ -103,9 +103,7 @@ function BentoCard({
                   alt={product.name}
                   fill
                   sizes={
-                    isHero
-                      ? '(max-width: 640px) 100vw, 50vw'
-                      : '(max-width: 640px) 80vw, 25vw'
+                    isHero ? '(max-width: 640px) 100vw, 50vw' : '(max-width: 640px) 80vw, 25vw'
                   }
                   className={cn(
                     'object-contain transition-transform duration-700 ease-out',
@@ -129,9 +127,12 @@ function BentoCard({
             )}
 
             {/* Soft vignette edges to eliminate harsh image borders */}
-            <div className="absolute inset-0 pointer-events-none" style={{
-              boxShadow: 'inset 0 0 30px rgba(250,251,252,0.6)',
-            }} />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                boxShadow: 'inset 0 0 30px rgba(250,251,252,0.6)',
+              }}
+            />
 
             {/* Themed radial glow on hover */}
             <div
@@ -162,9 +163,7 @@ function BentoCard({
               <span
                 className={cn(
                   'px-2 py-0.5 rounded-md text-[10px] font-medium',
-                  product.isPremium
-                    ? 'bg-amber-50 text-amber-600'
-                    : 'bg-blue-50 text-blue-600',
+                  product.isPremium ? 'bg-amber-50 text-amber-600' : 'bg-blue-50 text-blue-600',
                 )}
               >
                 {product.isPremium ? 'Premium' : 'Console'}
@@ -207,9 +206,7 @@ function BentoCard({
                     'font-medium transition-all duration-300',
                     isHero ? 'text-xs' : 'text-[10px]',
                     'text-slate-400',
-                    hovered
-                      ? 'opacity-100 translate-x-0'
-                      : 'opacity-0 translate-x-2',
+                    hovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2',
                   )}
                 >
                   {product.condition}
@@ -302,7 +299,7 @@ export default function FeaturedProducts() {
 
   return (
     <section
-      className="relative bg-white py-28 lg:py-40 overflow-hidden"
+      className="relative bg-white py-16 sm:py-24 md:py-32 lg:py-40 overflow-hidden"
       onMouseMove={handleSectionMove}
     >
       {/* Cursor spotlight */}
@@ -311,16 +308,16 @@ export default function FeaturedProducts() {
         style={{ background: sectionSpotlight }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-8">
         {/* Header — gestaffelde elementen */}
-        <div className="flex items-end justify-between mb-14 lg:mb-20">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-8 mb-10 sm:mb-14 md:mb-16 lg:mb-20">
+          <div className="flex-1">
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="text-slate-400 text-xs font-medium uppercase tracking-[0.2em] mb-4"
+              className="text-slate-400 text-[11px] sm:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] mb-3 sm:mb-4"
             >
               Uitgelicht
             </motion.p>
@@ -329,7 +326,7 @@ export default function FeaturedProducts() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="text-3xl lg:text-[52px] font-light text-slate-900 tracking-[-0.03em] leading-[1.05]"
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-[52px] font-light text-slate-900 tracking-[-0.02em] md:tracking-[-0.03em] leading-[1.1]"
             >
               Toppers uit de collectie
             </motion.h2>
@@ -338,7 +335,7 @@ export default function FeaturedProducts() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-slate-400 mt-3 text-sm max-w-md font-normal"
+              className="text-slate-400 mt-3 text-xs sm:text-sm max-w-md font-normal"
             >
               Handgeselecteerde games &mdash; elk exemplaar persoonlijk getest
             </motion.p>
@@ -361,11 +358,7 @@ export default function FeaturedProducts() {
                 stroke="currentColor"
                 strokeWidth={2}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </Link>
           </motion.div>
@@ -373,7 +366,7 @@ export default function FeaturedProducts() {
 
         {/* ── Mobile: horizontal snap-scroll carousel ── */}
         <div
-          className="flex gap-4 sm:hidden overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-4"
+          className="flex gap-3 sm:hidden overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2"
           style={{ scrollbarWidth: 'none' }}
         >
           {products.map((p, i) => (
@@ -385,9 +378,7 @@ export default function FeaturedProducts() {
 
         {/* ── Desktop: Bento grid (hero 2×2 + 3 cards + CTA) ── */}
         <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-          {heroProduct && (
-            <BentoCard product={heroProduct} index={0} isHero />
-          )}
+          {heroProduct && <BentoCard product={heroProduct} index={0} isHero />}
           {sideProducts.map((p, i) => (
             <BentoCard key={p.sku} product={p} index={i + 1} />
           ))}
