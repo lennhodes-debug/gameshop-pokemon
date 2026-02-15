@@ -209,6 +209,13 @@ export default function AfrekenPage() {
 
     // Create Mollie payment
     try {
+      const origin =
+        typeof window !== 'undefined'
+          ? window.location.origin
+          : process.env.VERCEL_URL
+            ? `https://${process.env.VERCEL_URL}`
+            : 'https://gameshopenter.nl';
+
       const paymentResponse = await fetch('/api/mollie/create-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -217,7 +224,7 @@ export default function AfrekenPage() {
           amount: total.toFixed(2),
           customerName: `${form.voornaam} ${form.achternaam}`,
           customerEmail: form.email,
-          returnUrl: `${typeof window !== 'undefined' ? window.location.origin : ''}/afrekenen?success=true&orderId=${orderNumber}`,
+          returnUrl: `${origin}/afrekenen?success=true&orderId=${orderNumber}`,
           description: `Bestelling ${orderNumber}`,
         }),
       });
