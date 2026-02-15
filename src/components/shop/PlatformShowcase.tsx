@@ -12,7 +12,6 @@ interface Platform {
   description: string;
   color: string;
   tag: string;
-  emoji: string;
   image?: string;
 }
 
@@ -28,7 +27,6 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     description: 'Dual Screen Revolution',
     color: 'from-blue-600 to-cyan-500',
     tag: 'DUAL SCREEN',
-    emoji: '🎮',
     image: '/images/consoles/ds.webp',
   },
   'Nintendo 3DS': {
@@ -37,7 +35,6 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     description: 'Stereoscopic 3D',
     color: 'from-purple-600 to-pink-500',
     tag: 'STEREOSCOPIC 3D',
-    emoji: '📱',
     image: '/images/consoles/3ds.webp',
   },
   'Wii U': {
@@ -46,7 +43,6 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     description: 'Second Screen Gaming',
     color: 'from-cyan-600 to-blue-500',
     tag: 'SECOND SCREEN',
-    emoji: '📺',
     image: '/images/consoles/wiiu.webp',
   },
   'Nintendo Wii': {
@@ -55,7 +51,6 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     description: 'Motion Control Magic',
     color: 'from-emerald-600 to-teal-500',
     tag: 'MOTION CONTROL',
-    emoji: '⚪',
     image: '/images/consoles/wii.webp',
   },
   'Game Boy Advance': {
@@ -64,7 +59,6 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     description: '32-Bit Handheld',
     color: 'from-amber-600 to-orange-500',
     tag: '32-BIT HANDHELD',
-    emoji: '📟',
     image: '/images/consoles/gba.webp',
   },
   'Game Boy Color': {
@@ -73,7 +67,6 @@ const PLATFORM_CONFIG: Record<string, Omit<Platform, 'gameCount' | 'id'>> = {
     description: 'Kleur Handheld',
     color: 'from-rose-600 to-pink-500',
     tag: 'KLEUR HANDHELD',
-    emoji: '🎯',
     image: '/images/consoles/gbc.webp',
   },
 };
@@ -135,7 +128,6 @@ function getDefaultPlatforms(): Platform[] {
       description: 'Dual Screen Revolution',
       color: 'from-blue-600 to-cyan-500',
       tag: 'DUAL SCREEN',
-      emoji: '🎮',
     },
     {
       id: '3ds',
@@ -145,7 +137,6 @@ function getDefaultPlatforms(): Platform[] {
       description: 'Stereoscopic 3D',
       color: 'from-purple-600 to-pink-500',
       tag: 'STEREOSCOPIC 3D',
-      emoji: '📱',
     },
     {
       id: 'wiiu',
@@ -155,7 +146,6 @@ function getDefaultPlatforms(): Platform[] {
       description: 'Second Screen Gaming',
       color: 'from-cyan-600 to-blue-500',
       tag: 'SECOND SCREEN',
-      emoji: '📺',
     },
     {
       id: 'wii',
@@ -165,7 +155,6 @@ function getDefaultPlatforms(): Platform[] {
       description: 'Motion Control Magic',
       color: 'from-emerald-600 to-teal-500',
       tag: 'MOTION CONTROL',
-      emoji: '⚪',
     },
     {
       id: 'gba',
@@ -175,7 +164,6 @@ function getDefaultPlatforms(): Platform[] {
       description: '32-Bit Handheld',
       color: 'from-amber-600 to-orange-500',
       tag: '32-BIT HANDHELD',
-      emoji: '📟',
     },
     {
       id: 'gbc',
@@ -185,7 +173,6 @@ function getDefaultPlatforms(): Platform[] {
       description: 'Kleur Handheld',
       color: 'from-rose-600 to-pink-500',
       tag: 'KLEUR HANDHELD',
-      emoji: '🎯',
     },
   ];
 }
@@ -373,12 +360,6 @@ function PlatformCardLarge({ platform }: PlatformCardLargeProps) {
               <p className="text-emerald-400 font-bold text-xl mb-2">{platform.gameCount} games</p>
               <p className="text-slate-300 text-sm font-medium">{platform.description}</p>
             </div>
-            <motion.div
-              whileHover={{ x: 8, scale: 1.1 }}
-              className="text-4xl opacity-60 group-hover:opacity-100 transition-opacity"
-            >
-              {platform.emoji}
-            </motion.div>
           </motion.div>
         </div>
 
@@ -453,12 +434,6 @@ function PlatformCardMedium({ platform }: PlatformCardMediumProps) {
               <p className="text-emerald-400 font-bold text-lg">{platform.gameCount}</p>
               <p className="text-slate-400 text-xs">games</p>
             </div>
-            <motion.div
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              className="text-3xl"
-            >
-              {platform.emoji}
-            </motion.div>
           </motion.div>
         </div>
 
