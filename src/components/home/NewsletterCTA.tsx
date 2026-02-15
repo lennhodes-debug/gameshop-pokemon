@@ -24,16 +24,17 @@ export default function NewsletterCTA() {
     setIsSubmitting(true);
     setError('');
     try {
-      const response = await fetch('/__forms.html', {
+      const response = await fetch('/api/newsletter', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 'form-name': 'newsletter', email }).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       });
       if (response.ok) {
         setSubmitted(true);
         setEmail('');
       } else {
-        setError('Er ging iets mis. Probeer het opnieuw.');
+        const error = await response.json();
+        setError(error.error || 'Er ging iets mis. Probeer het opnieuw.');
       }
     } catch {
       setError('Geen verbinding. Controleer je internet en probeer het opnieuw.');
@@ -154,8 +155,7 @@ export default function NewsletterCTA() {
               </motion.div>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} name="newsletter" className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-              <input type="hidden" name="form-name" value="newsletter" />
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
               <div className="flex-1 relative">
                 <input
                   type="email"
