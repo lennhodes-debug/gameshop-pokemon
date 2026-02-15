@@ -100,7 +100,6 @@ function buildPlatformsFromProducts(): Platform[] {
           description: 'Nintendo Platform',
           color: 'from-slate-600 to-slate-500',
           tag: 'PLATFORM',
-          emoji: '🎮',
         };
       }
       return {
