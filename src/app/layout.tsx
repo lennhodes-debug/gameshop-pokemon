@@ -14,8 +14,6 @@ import { cn } from '@/lib/utils';
 
 const BootSequence = dynamic(() => import('@/components/ui/BootSequence'));
 const ChatBot = dynamic(() => import('@/components/ui/ChatBot'));
-const CookieConsent = dynamic(() => import('@/components/ui/CookieConsent'));
-
 
 const inter = Inter({
   subsets: ['latin'],
@@ -62,7 +60,7 @@ export const metadata: Metadata = {
     siteName: 'Gameshop Enter',
     title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Nintendo specialist van Nederland. Originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest. 3000+ tevreden klanten, 5.0 score.',
+      "Dé Nintendo specialist van Nederland. Originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest met eigen foto's. 3000+ tevreden klanten, 5.0 score.",
     images: [
       {
         url: '/images/og-image.svg',
@@ -76,7 +74,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Gameshop Enter - Dé Nintendo Games Specialist van Nederland',
     description:
-      'Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest.',
+      "Dé Nintendo specialist van Nederland. Originele Nintendo games, persoonlijk getest met eigen foto's.",
     images: ['/images/og-image.svg'],
   },
   robots: {
@@ -95,13 +93,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nl" className={cn(inter.className, "scroll-smooth")}>
+    <html lang="nl" className={cn(inter.className, 'scroll-smooth')}>
       <body className="bg-[#f8fafc] text-slate-900 antialiased">
         <script
           type="application/ld+json"
@@ -111,7 +105,8 @@ export default function RootLayout({
               '@type': 'Store',
               '@id': 'https://gameshopenter.nl/#store',
               name: 'Gameshop Enter',
-              description: 'Dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest.',
+              description:
+                'Dé Nintendo games specialist van Nederland. 100% originele Nintendo games voor DS, 3DS, GBA, Game Boy, Wii en Wii U, persoonlijk getest.',
               url: 'https://gameshopenter.nl',
               logo: {
                 '@type': 'ImageObject',
@@ -139,9 +134,7 @@ export default function RootLayout({
                 '@type': 'Country',
                 name: 'NL',
               },
-              sameAs: [
-                'https://www.instagram.com/gameshopenter/',
-              ],
+              sameAs: ['https://www.instagram.com/gameshopenter/'],
               hasOfferCatalog: {
                 '@type': 'OfferCatalog',
                 name: 'Nintendo Games',
@@ -176,8 +169,18 @@ export default function RootLayout({
                 },
                 deliveryTime: {
                   '@type': 'ShippingDeliveryTime',
-                  handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
-                  transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 3, unitCode: 'DAY' },
+                  handlingTime: {
+                    '@type': 'QuantitativeValue',
+                    minValue: 1,
+                    maxValue: 2,
+                    unitCode: 'DAY',
+                  },
+                  transitTime: {
+                    '@type': 'QuantitativeValue',
+                    minValue: 1,
+                    maxValue: 3,
+                    unitCode: 'DAY',
+                  },
                 },
               },
               potentialAction: {
@@ -191,25 +194,44 @@ export default function RootLayout({
             }),
           }}
         />
-        <a href="#main-content" className="skip-to-main">Ga naar inhoud</a>
+        <a href="#main-content" className="skip-to-main">
+          Ga naar inhoud
+        </a>
         <BootSequence />
         <ScrollProgress />
-        <CartProvider>
-          <WishlistProvider>
-            <ToastProvider>
-              <Header />
-              <main id="main-content" className="min-h-screen pb-16 lg:pb-0">
-                <ErrorBoundary>
-                  {children}
-                </ErrorBoundary>
-              </main>
-              <Footer />
-              <BackToTop />
-              <ChatBot />
-              <CookieConsent />
-            </ToastProvider>
-          </WishlistProvider>
-        </CartProvider>
+        <ErrorBoundary
+          fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              <p className="text-slate-500">
+                Winkelwagen kon niet geladen worden. Ververs de pagina.
+              </p>
+            </div>
+          }
+        >
+          <CartProvider>
+            <ErrorBoundary
+              fallback={
+                <div className="min-h-screen flex items-center justify-center">
+                  <p className="text-slate-500">
+                    Verlanglijst kon niet geladen worden. Ververs de pagina.
+                  </p>
+                </div>
+              }
+            >
+              <WishlistProvider>
+                <ToastProvider>
+                  <Header />
+                  <main id="main-content" className="min-h-screen pb-16 lg:pb-0">
+                    <ErrorBoundary>{children}</ErrorBoundary>
+                  </main>
+                  <Footer />
+                  <BackToTop />
+                  <ChatBot />
+                </ToastProvider>
+              </WishlistProvider>
+            </ErrorBoundary>
+          </CartProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

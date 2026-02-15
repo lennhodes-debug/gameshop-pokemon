@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
+} from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllProducts, Product, getEffectivePrice } from '@/lib/products';
@@ -18,6 +25,7 @@ interface QuizAnswer {
   playStyle: 'solo' | 'samen' | null;
   platforms: string[];
   franchises: string[];
+  budget: 'budget' | 'mid' | 'premium' | 'any' | null;
 }
 
 // ─── QUIZ CONFIG ────────────────────────────────────────────
@@ -69,12 +77,28 @@ const QUESTIONS: QuizQuestion[] = [
         glow: '245,158,11',
       },
       {
+        id: 'Actie',
+        label: 'Actie & Vecht',
+        sub: 'Snelle reflexen, combos',
+        image: '/images/quiz/adventure.webp',
+        gradient: ['#EF4444', '#B91C1C'],
+        glow: '239,68,68',
+      },
+      {
         id: 'Party',
         label: 'Party & Sport',
         sub: 'Samen spelen, competitie',
         image: '/images/quiz/party.webp',
         gradient: ['#A855F7', '#7E22CE'],
         glow: '168,85,247',
+      },
+      {
+        id: 'Puzzel',
+        label: 'Puzzel & Strategie',
+        sub: 'Nadenken, plannen, logica',
+        image: '/images/quiz/solo.webp',
+        gradient: ['#06B6D4', '#0891B2'],
+        glow: '6,182,212',
       },
     ],
   },
@@ -138,6 +162,22 @@ const QUESTIONS: QuizQuestion[] = [
         gradient: ['#0EA5E9', '#0284C7'],
         glow: '14,165,233',
       },
+      {
+        id: 'Wii',
+        label: 'Wii',
+        sub: 'Bewegingsbesturing',
+        image: '/images/platforms/wii.webp',
+        gradient: ['#F0F0F0', '#CCCCCC'],
+        glow: '200,200,200',
+      },
+      {
+        id: 'Wii U',
+        label: 'Wii U',
+        sub: 'GamePad & TV',
+        image: '/images/platforms/wiiu.webp',
+        gradient: ['#0EA5E9', '#1D4ED8'],
+        glow: '14,165,233',
+      },
     ],
   },
   {
@@ -179,74 +219,154 @@ const QUESTIONS: QuizQuestion[] = [
       },
     ],
   },
+  {
+    title: 'Wat is je budget?',
+    subtitle: 'We zoeken de beste match in jouw prijsklasse',
+    multi: false,
+    options: [
+      {
+        id: 'budget',
+        label: 'Tot \u20AC25',
+        sub: 'Betaalbare klassiekers',
+        image: '/images/quiz/adventure.webp',
+        gradient: ['#10B981', '#059669'],
+        glow: '16,185,129',
+      },
+      {
+        id: 'mid',
+        label: '\u20AC25 \u2013 \u20AC60',
+        sub: 'De sweet spot',
+        image: '/images/quiz/rpg.webp',
+        gradient: ['#F59E0B', '#D97706'],
+        glow: '245,158,11',
+      },
+      {
+        id: 'premium',
+        label: '\u20AC60+',
+        sub: 'Premium & collector\u2019s items',
+        image: '/images/quiz/zelda.webp',
+        gradient: ['#8B5CF6', '#6D28D9'],
+        glow: '139,92,246',
+      },
+      {
+        id: 'any',
+        label: 'Maakt niet uit',
+        sub: 'Laat alles maar zien',
+        image: '/images/quiz/surprise.webp',
+        gradient: ['#64748B', '#475569'],
+        glow: '100,116,139',
+      },
+    ],
+  },
 ];
 
 // ─── FRANCHISE KEYWORDS ─────────────────────────────────────
 
 const FRANCHISE_KEYWORDS: Record<string, string[]> = {
-  pokemon: ['pok\u00E9mon', 'pokemon', 'pikachu'],
-  mario: ['mario', 'luigi', 'peach', 'toad', 'yoshi', 'wario', 'donkey kong'],
-  zelda: ['zelda', 'link'],
+  pokemon: ['pokémon', 'pokemon', 'pikachu', 'mystery dungeon'],
+  mario: ['mario', 'luigi', 'peach', 'toad', 'yoshi', 'wario', 'donkey kong', 'kart'],
+  zelda: ['zelda', 'link', 'hyrule'],
 };
 
 // ─── MATCH CALCULATOR ───────────────────────────────────────
 
+// Simpele hash voor deterministische variatie per product
+function hashCode(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
 function calculateMatches(answers: QuizAnswer, products: Product[]): Product[] {
-  const pool = products.filter(p => !!p.image && !p.isConsole);
+  const pool = products.filter((p) => !!p.image && !p.isConsole);
 
   return pool
-    .map(p => {
+    .map((p) => {
       let score = 0;
       const name = p.name.toLowerCase();
+      const price = getEffectivePrice(p);
 
+      // Genre matching
       if (answers.genres.length > 0) {
         if (answers.genres.includes(p.genre)) score += 15;
-        if (answers.genres.includes('Party') && ['Vecht', 'Sport', 'Race', 'Party'].includes(p.genre)) score += 10;
+        if (
+          answers.genres.includes('Party') &&
+          ['Vecht', 'Sport', 'Race', 'Party'].includes(p.genre)
+        )
+          score += 10;
+        if (answers.genres.includes('Actie') && ['Actie', 'Vecht', 'Shooter'].includes(p.genre))
+          score += 10;
+        if (
+          answers.genres.includes('Puzzel') &&
+          ['Puzzel', 'Strategie', 'Simulatie'].includes(p.genre)
+        )
+          score += 10;
       }
 
+      // Play style matching
       if (answers.playStyle === 'solo') {
-        if (['RPG', 'Avontuur', 'Platformer', 'Strategie', 'Simulatie', 'Puzzel'].includes(p.genre)) score += 8;
+        if (['RPG', 'Avontuur', 'Platformer', 'Strategie', 'Simulatie', 'Puzzel'].includes(p.genre))
+          score += 8;
       } else if (answers.playStyle === 'samen') {
         if (['Party', 'Sport', 'Vecht', 'Race'].includes(p.genre)) score += 12;
       }
 
+      // Platform matching
       if (answers.platforms.length > 0) {
         if (answers.platforms.includes(p.platform)) score += 10;
       }
 
+      // Franchise matching
       if (answers.franchises.length > 0) {
-        if (answers.franchises.includes('surprise')) score += Math.random() * 6;
+        if (answers.franchises.includes('surprise')) {
+          score += hashCode(p.sku) % 7;
+        }
         for (const fId of answers.franchises) {
           const keywords = FRANCHISE_KEYWORDS[fId];
-          if (keywords && keywords.some(kw => name.includes(kw))) score += 14;
+          if (keywords && keywords.some((kw) => name.includes(kw))) score += 14;
         }
       }
 
+      // Budget matching
+      if (answers.budget && answers.budget !== 'any') {
+        if (answers.budget === 'budget' && price <= 25) score += 10;
+        else if (answers.budget === 'mid' && price > 25 && price <= 60) score += 10;
+        else if (answers.budget === 'premium' && price > 60) score += 10;
+        // Kleine penalty als buiten budget
+        if (answers.budget === 'budget' && price > 40) score -= 5;
+        if (answers.budget === 'premium' && price < 40) score -= 3;
+      }
+
+      // Bonuspunten
       if (p.image) score += 2;
       if (p.isPremium) score += 1;
-      score += Math.random() * 3;
+      // Deterministische variatie op basis van SKU
+      score += hashCode(p.sku) % 4;
 
       return { product: p, score };
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, 12)
-    .map(s => s.product);
+    .map((s) => s.product);
 }
 
 // ─── SELECTION BURST ────────────────────────────────────────
 
 function SelectionBurst({ color, active }: { color: string; active: boolean }) {
   const particles = useMemo(
-    () => Array.from({ length: 8 }, (_, i) => {
-      const angle = (i / 8) * Math.PI * 2;
-      return {
-        id: i,
-        x: Math.cos(angle) * (50 + Math.random() * 30),
-        y: Math.sin(angle) * (50 + Math.random() * 30),
-        size: 3 + Math.random() * 3,
-        delay: Math.random() * 0.1,
-      };
-    }),
+    () =>
+      Array.from({ length: 8 }, (_, i) => {
+        const angle = (i / 8) * Math.PI * 2;
+        return {
+          id: i,
+          x: Math.cos(angle) * (50 + Math.random() * 30),
+          y: Math.sin(angle) * (50 + Math.random() * 30),
+          size: 3 + Math.random() * 3,
+          delay: Math.random() * 0.1,
+        };
+      }),
     [],
   );
 
@@ -254,7 +374,7 @@ function SelectionBurst({ color, active }: { color: string; active: boolean }) {
 
   return (
     <div className="absolute inset-0 pointer-events-none z-20 flex items-center justify-center">
-      {particles.map(p => (
+      {particles.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full"
@@ -272,25 +392,26 @@ function SelectionBurst({ color, active }: { color: string; active: boolean }) {
 
 function ConfettiExplosion() {
   const particles = useMemo(
-    () => Array.from({ length: 36 }, (_, i) => ({
-      id: i,
-      x: (Math.random() - 0.5) * 600,
-      y: -(Math.random() * 400 + 80),
-      rotation: Math.random() * 720 - 360,
-      scale: Math.random() * 0.5 + 0.5,
-      color: ['#10b981', '#06b6d4', '#8b5cf6', '#f59e0b', '#ec4899'][
-        Math.floor(Math.random() * 5)
-      ],
-      delay: Math.random() * 0.4,
-      w: Math.random() > 0.5 ? 7 : 4,
-      h: Math.random() > 0.5 ? 4 : 10,
-    })),
+    () =>
+      Array.from({ length: 36 }, (_, i) => ({
+        id: i,
+        x: (Math.random() - 0.5) * 600,
+        y: -(Math.random() * 400 + 80),
+        rotation: Math.random() * 720 - 360,
+        scale: Math.random() * 0.5 + 0.5,
+        color: ['#10b981', '#06b6d4', '#8b5cf6', '#f59e0b', '#ec4899'][
+          Math.floor(Math.random() * 5)
+        ],
+        delay: Math.random() * 0.4,
+        w: Math.random() > 0.5 ? 7 : 4,
+        h: Math.random() > 0.5 ? 4 : 10,
+      })),
     [],
   );
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
-      {particles.map(p => (
+      {particles.map((p) => (
         <motion.div
           key={p.id}
           className="absolute left-1/2 top-1/3 rounded-sm"
@@ -330,13 +451,16 @@ function OptionCard({
   const spotY = useSpring(useTransform(mouseY, [0, 1], [0, 100]), cfg);
   const spotlight = useMotionTemplate`radial-gradient(300px circle at ${spotX}% ${spotY}%, rgba(${option.glow},0.12), transparent 70%)`;
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const el = cardRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width);
-    mouseY.set((e.clientY - rect.top) / rect.height);
-  }, [mouseX, mouseY]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      const el = cardRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      mouseX.set((e.clientX - rect.left) / rect.width);
+      mouseY.set((e.clientY - rect.top) / rect.height);
+    },
+    [mouseX, mouseY],
+  );
 
   const handleMouseLeave = useCallback(() => {
     mouseX.set(0.5);
@@ -414,7 +538,10 @@ function OptionCard({
             >
               {option.label}
             </h3>
-            <p className="text-[13px] text-white/50" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}>
+            <p
+              className="text-[13px] text-white/50"
+              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
+            >
               {option.sub}
             </p>
           </div>
@@ -433,7 +560,13 @@ function OptionCard({
                 boxShadow: `0 4px 12px rgba(${option.glow}, 0.35)`,
               }}
             >
-              <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <svg
+                className="h-3.5 w-3.5 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             </div>
@@ -445,10 +578,7 @@ function OptionCard({
           )}
 
           {/* Selection burst */}
-          <SelectionBurst
-            color={`rgba(${option.glow}, 0.7)`}
-            active={justSelected && selected}
-          />
+          <SelectionBurst color={`rgba(${option.glow}, 0.7)`} active={justSelected && selected} />
         </div>
       </motion.button>
     </motion.div>
@@ -470,11 +600,12 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
               className="h-1 rounded-full"
               animate={{
                 width: i <= current ? 24 : 8,
-                backgroundColor: i < current
-                  ? 'rgb(16, 185, 129)'
-                  : i === current
-                    ? 'rgb(255, 255, 255)'
-                    : 'rgba(255, 255, 255, 0.08)',
+                backgroundColor:
+                  i < current
+                    ? 'rgb(16, 185, 129)'
+                    : i === current
+                      ? 'rgb(255, 255, 255)'
+                      : 'rgba(255, 255, 255, 0.08)',
               }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             />
@@ -487,13 +618,7 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
 
 // ─── RESULT SCREEN ──────────────────────────────────────────
 
-function ResultScreen({
-  results,
-  onRestart,
-}: {
-  results: Product[];
-  onRestart: () => void;
-}) {
+function ResultScreen({ results, onRestart }: { results: Product[]; onRestart: () => void }) {
   const { addItem } = useCart();
   const { addToast } = useToast();
   const [showConfetti, setShowConfetti] = useState(true);
@@ -615,8 +740,18 @@ function ResultScreen({
               onClick={() => handleAdd(topPick)}
               className="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-2xl bg-white text-slate-900 text-sm font-medium shadow-lg shadow-white/10 hover:shadow-white/20 active:scale-[0.97] transition-all duration-300"
             >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                />
               </svg>
               In winkelwagen
             </button>
@@ -625,8 +760,18 @@ function ResultScreen({
               className="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-2xl bg-white/[0.06] border border-white/[0.06] text-white/70 text-sm font-medium hover:bg-white/[0.1] hover:text-white active:scale-[0.97] transition-all duration-300"
             >
               Bekijk product
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              <svg
+                className="h-3.5 w-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
               </svg>
             </Link>
           </motion.div>
@@ -650,11 +795,9 @@ function ResultScreen({
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.2 + i * 0.06 }}
+                  className="group relative flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.05] hover:border-white/[0.08] transition-all duration-300"
                 >
-                  <Link
-                    href={`/shop/${p.sku}`}
-                    className="group flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.05] hover:border-white/[0.08] transition-all duration-300"
-                  >
+                  <Link href={`/shop/${p.sku}`} className="flex flex-col items-center w-full">
                     <div className="relative h-24 w-24 sm:h-28 sm:w-28 mb-3 group-hover:scale-105 transition-transform duration-500">
                       {p.image && (
                         <Image
@@ -673,11 +816,33 @@ function ResultScreen({
                       <p className="text-sm font-medium text-white/70 group-hover:text-white transition-colors mb-1 line-clamp-2">
                         {p.name}
                       </p>
-                      <p className="text-xs font-medium text-emerald-400/80 tabular-nums">
+                      <p className="text-xs font-medium text-emerald-400/80 tabular-nums mb-3">
                         {formatPrice(getEffectivePrice(p))}
                       </p>
                     </div>
                   </Link>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAdd(p);
+                    }}
+                    className="w-full h-8 rounded-lg bg-white/[0.06] border border-white/[0.06] text-white/50 text-xs font-medium hover:bg-white/[0.12] hover:text-white active:scale-[0.97] transition-all duration-200 flex items-center justify-center gap-1.5"
+                  >
+                    <svg
+                      className="h-3 w-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 4.5v15m7.5-7.5h-15"
+                      />
+                    </svg>
+                    Toevoegen
+                  </button>
                 </motion.div>
               ))}
             </div>
@@ -695,8 +860,18 @@ function ResultScreen({
             onClick={onRestart}
             className="text-sm text-white/25 hover:text-white/50 transition-colors inline-flex items-center gap-2"
           >
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"
+              />
             </svg>
             Opnieuw
           </button>
@@ -705,8 +880,18 @@ function ResultScreen({
             className="text-sm text-white/25 hover:text-white/50 transition-colors inline-flex items-center gap-2"
           >
             Alle games
-            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            <svg
+              className="h-3 w-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              />
             </svg>
           </Link>
         </motion.div>
@@ -729,35 +914,17 @@ export default function GameFinderPage() {
   const currentSelection = selections[questionIndex];
   const totalQuestions = QUESTIONS.length;
 
-  const toggleOption = useCallback((optionId: string) => {
-    setSelections(prev => {
-      const updated = [...prev];
-      const current = [...updated[questionIndex]];
-      const q = QUESTIONS[questionIndex];
-
-      if (q.multi) {
-        const idx = current.indexOf(optionId);
-        if (idx >= 0) current.splice(idx, 1);
-        else current.push(optionId);
-      } else {
-        if (current[0] === optionId) current.length = 0;
-        else { current.length = 0; current.push(optionId); }
-      }
-      updated[questionIndex] = current;
-      return updated;
-    });
-  }, [questionIndex]);
-
   const handleNext = useCallback(() => {
     setDirection(1);
     if (questionIndex < totalQuestions - 1) {
-      setQuestionIndex(i => i + 1);
+      setQuestionIndex((i) => i + 1);
     } else {
       const answers: QuizAnswer = {
         genres: selections[0],
         playStyle: (selections[1][0] as 'solo' | 'samen') || null,
         platforms: selections[2],
         franchises: selections[3],
+        budget: (selections[4]?.[0] as QuizAnswer['budget']) || null,
       };
       const matched = calculateMatches(answers, allProducts);
       setResults(matched);
@@ -765,9 +932,45 @@ export default function GameFinderPage() {
     }
   }, [questionIndex, totalQuestions, selections, allProducts]);
 
+  const toggleOption = useCallback(
+    (optionId: string) => {
+      const q = QUESTIONS[questionIndex];
+      let willAutoAdvance = false;
+
+      setSelections((prev) => {
+        const updated = [...prev];
+        const current = [...updated[questionIndex]];
+
+        if (q.multi) {
+          const idx = current.indexOf(optionId);
+          if (idx >= 0) current.splice(idx, 1);
+          else current.push(optionId);
+        } else {
+          if (current[0] === optionId) {
+            current.length = 0;
+          } else {
+            current.length = 0;
+            current.push(optionId);
+            willAutoAdvance = true;
+          }
+        }
+        updated[questionIndex] = current;
+        return updated;
+      });
+
+      // Auto-advance na 400ms bij single-select
+      if (!q.multi && willAutoAdvance) {
+        setTimeout(() => {
+          handleNext();
+        }, 400);
+      }
+    },
+    [questionIndex, handleNext],
+  );
+
   const handleBack = useCallback(() => {
     setDirection(-1);
-    if (questionIndex > 0) setQuestionIndex(i => i - 1);
+    if (questionIndex > 0) setQuestionIndex((i) => i - 1);
   }, [questionIndex]);
 
   const handleStart = useCallback(() => setPhase('quiz'), []);
@@ -824,14 +1027,12 @@ export default function GameFinderPage() {
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-[11px] font-medium text-white/35 uppercase tracking-[0.2em]">
-                  4 vragen &bull; Jouw smaak
+                  5 vragen &bull; Jouw smaak
                 </span>
               </motion.div>
 
               {/* Title with staggered letter reveal */}
-              <motion.h1
-                className="text-5xl lg:text-[76px] font-light text-white tracking-[-0.03em] leading-[0.92] mb-6"
-              >
+              <motion.h1 className="text-5xl lg:text-[76px] font-light text-white tracking-[-0.03em] leading-[0.92] mb-6">
                 {'Game'.split('').map((char, i) => (
                   <motion.span
                     key={`a${i}`}
@@ -864,7 +1065,7 @@ export default function GameFinderPage() {
                 transition={{ delay: 0.8, duration: 0.5 }}
                 className="text-base text-white/35 max-w-sm mx-auto mb-3"
               >
-                Beantwoord 4 snelle vragen over jouw speelstijl en voorkeuren.
+                Beantwoord 5 snelle vragen over jouw speelstijl en voorkeuren.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0 }}
@@ -886,8 +1087,18 @@ export default function GameFinderPage() {
                 className="group inline-flex items-center justify-center h-13 px-10 rounded-2xl bg-white text-slate-900 font-medium text-sm shadow-lg shadow-white/10 hover:shadow-white/15 transition-all duration-300"
               >
                 Start de quiz
-                <svg className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                <svg
+                  className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform duration-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  />
                 </svg>
               </motion.button>
             </div>
@@ -908,7 +1119,9 @@ export default function GameFinderPage() {
             {/* Subtle ambient glow per question */}
             <div
               className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[140px] opacity-[0.04] transition-colors duration-1000"
-              style={{ backgroundColor: `rgb(${currentQuestion.options[0]?.glow || '16,185,129'})` }}
+              style={{
+                backgroundColor: `rgb(${currentQuestion.options[0]?.glow || '16,185,129'})`,
+              }}
             />
 
             <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
@@ -933,13 +1146,19 @@ export default function GameFinderPage() {
                 <h2 className="text-2xl lg:text-4xl font-semibold text-white tracking-tight mb-2">
                   {currentQuestion.title}
                 </h2>
-                <p className="text-sm text-white/25">
-                  {currentQuestion.subtitle}
-                </p>
+                <p className="text-sm text-white/25">{currentQuestion.subtitle}</p>
               </motion.div>
 
               {/* Options grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-10">
+              <div
+                className={`grid gap-3 sm:gap-4 mb-10 ${
+                  currentQuestion.options.length <= 2
+                    ? 'grid-cols-1 sm:grid-cols-2'
+                    : currentQuestion.options.length <= 4
+                      ? 'grid-cols-1 sm:grid-cols-2'
+                      : 'grid-cols-2 sm:grid-cols-3'
+                }`}
+              >
                 {currentQuestion.options.map((option, i) => (
                   <OptionCard
                     key={option.id}
@@ -967,8 +1186,18 @@ export default function GameFinderPage() {
                       : 'text-white/25 hover:text-white/50 hover:-translate-x-0.5'
                   }`}
                 >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                    />
                   </svg>
                   Vorige
                 </button>
@@ -985,8 +1214,18 @@ export default function GameFinderPage() {
                   }`}
                 >
                   {questionIndex < totalQuestions - 1 ? 'Volgende' : 'Bekijk resultaten'}
-                  <svg className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  <svg
+                    className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                    />
                   </svg>
                 </motion.button>
               </motion.div>
